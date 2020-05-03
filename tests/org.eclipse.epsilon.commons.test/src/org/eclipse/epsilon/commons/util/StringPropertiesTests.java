@@ -9,11 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.commons.util;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-
+import static org.junit.Assert.assertEquals;
 import java.util.Map.Entry;
-
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.junit.Test;
 
@@ -27,11 +24,11 @@ public class StringPropertiesTests {
 				"size=3"  + System.lineSeparator() +
 				"use=false";
 		StringProperties sp = new StringProperties(parameter);
-		assertThat(sp.getProperty("name"), is("libnames"));
-		assertThat(sp.getProperty("type"), is("String"));
-		assertThat(sp.getProperty("value"), is("Congress,University,City,Cafe,House"));
-		assertThat(sp.getIntegerProperty("size", 0), is(3));
-		assertThat(sp.getBooleanProperty("use", true), is(false));
+		assertEquals(sp.getProperty("name"), ("libnames"));
+		assertEquals(sp.getProperty("type"), ("String"));
+		assertEquals(sp.getProperty("value"), ("Congress,University,City,Cafe,House"));
+		assertEquals(sp.getIntegerProperty("size", 0), (3));
+		assertEquals(sp.getBooleanProperty("use", true), (false));
 	}
 	
 	@Test
@@ -39,9 +36,9 @@ public class StringPropertiesTests {
 		StringProperties sp = new StringProperties();
 		sp.put("valuedKey", "libnames");
 		sp.put("emptyKey", "");
-		assertThat("StringProperties has property valuedKey.", sp.hasProperty("valuedKey"), is(true));
-		assertThat("StringProperties does not have property emptyKey.", sp.hasProperty("emptyKey"), is(false));
-		assertThat("StringProperties does not have unknown property.", sp.hasProperty("unkown"), is(false));
+		assertEquals("StringProperties has property valuedKey.", sp.hasProperty("valuedKey"), (true));
+		assertEquals("StringProperties does not have property emptyKey.", sp.hasProperty("emptyKey"), (false));
+		assertEquals("StringProperties does not have unknown property.", sp.hasProperty("unkown"), (false));
 	}
 	
 	@Test
@@ -54,8 +51,8 @@ public class StringPropertiesTests {
 		StringProperties sp = new StringProperties(parameter);
 		StringProperties spClone = sp.clone();
 		for(Entry<Object, Object> e : sp.entrySet()) {
-			assertThat("Clone has key", spClone.hasProperty((String) e.getKey()), is(true));
-			assertThat("Clone matches va;lue", spClone.getProperty((String) e.getKey()), is(e.getValue()));
+			assertEquals("Clone has key", spClone.hasProperty((String) e.getKey()), (true));
+			assertEquals("Clone matches va;lue", spClone.getProperty((String) e.getKey()), (e.getValue()));
 		}
 	}
 	
@@ -65,27 +62,25 @@ public class StringPropertiesTests {
 		sp.put("trueKey", "true");
 		sp.put("falseKey", "false");
 		sp.put("notBooleanKey", "notBoolean");
-		assertThat("True key is true.", sp.getBooleanProperty("trueKey", false), is(true));
-		assertThat("False key is false.", sp.getBooleanProperty("falseKey", false), is(false));
-		assertThat("Not boolean key defaults true", sp.getBooleanProperty("notBooleanKey", true), is(true));
-		assertThat("Not boolean key defaults false", sp.getBooleanProperty("notBooleanKey", false), is(false));
+		assertEquals("True key is true.", sp.getBooleanProperty("trueKey", false), (true));
+		assertEquals("False key is false.", sp.getBooleanProperty("falseKey", false), (false));
+		assertEquals("Not boolean key defaults true", sp.getBooleanProperty("notBooleanKey", true), (true));
+		assertEquals("Not boolean key defaults false", sp.getBooleanProperty("notBooleanKey", false), (false));
 	}
 	
 	@Test
 	public void testGetIntegerProprety() {
 		StringProperties sp = new StringProperties();
 		sp.put("integerKey", "3");
-		assertThat("Integer key value is 3", sp.getIntegerProperty("integerKey", -1), is(3));
-		assertThat("Integer key value is default(-1)", sp.getIntegerProperty("missingKey", -1), is(-1));
+		assertEquals("Integer key value is 3", sp.getIntegerProperty("integerKey", -1), (3));
+		assertEquals("Integer key value is default(-1)", sp.getIntegerProperty("missingKey", -1), (-1));
 	}
 	
 	@Test
 	public void testGetStringDefaultProperty() {
 		StringProperties sp = new StringProperties();
 		sp.put("someProperty", "someValue");
-		assertThat(sp.getProperty("someProperty"), is("someValue"));
-		assertThat(sp.getProperty("notPresent", "defaultValue"), is("defaultValue"));
+		assertEquals(sp.getProperty("someProperty"), ("someValue"));
+		assertEquals(sp.getProperty("notPresent", "defaultValue"), ("defaultValue"));
 	}
-	
-	
 }

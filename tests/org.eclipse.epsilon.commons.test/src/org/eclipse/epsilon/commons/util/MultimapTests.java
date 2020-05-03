@@ -9,13 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.commons.util;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,15 +40,15 @@ public class MultimapTests {
 		
 		@Test
 		public void shouldHaveNoValuesForAKey() throws Exception {
-			assertThat(multimap.get("students"), hasSize(0));
+			assertEquals(0, multimap.get("students").size());
 		}
 		
 		@Test
 		public void shouldRecallPutValues() throws Exception {
 			multimap.put("students", "Louis");
 			
-			assertThat(multimap.get("students"), contains("Louis"));
-			assertThat(multimap.get("students"), hasSize(1));
+			assertTrue(multimap.get("students").contains("Louis"));
+			assertEquals(1, multimap.get("students").size());
 		}
 		
 		@Test
@@ -61,8 +56,8 @@ public class MultimapTests {
 			multimap.put("students", "Louis");
 			multimap.put("students", "James");
 			
-			assertThat(multimap.get("students"), contains("Louis", "James"));
-			assertThat(multimap.get("students"), hasSize(2));
+			assertTrue(multimap.get("students").containsAll(Arrays.asList("Louis", "James")));
+			assertEquals(2, multimap.get("students").size());
 		}
 		
 		@Test
@@ -70,8 +65,8 @@ public class MultimapTests {
 			multimap.put("students", "Louis");
 			multimap.put("lecturers", "Dimitris");
 			
-			assertThat(multimap.get("students"), contains("Louis"));
-			assertThat(multimap.get("students"), hasSize(1));
+			assertTrue(multimap.get("students").contains("Louis"));
+			assertEquals(1, multimap.get("students").size());
 		}
 		
 		@Test
@@ -84,8 +79,8 @@ public class MultimapTests {
 				// We want this!
 			}
 			
-			assertThat(multimap.get("students"), contains("Louis"));
-			assertThat(multimap.get("students"), not(hasItem("James")));
+			assertTrue(multimap.get("students").contains("Louis"));
+			assertFalse(multimap.get("students").contains("James"));
 		}
 		
 		@Test
@@ -93,7 +88,7 @@ public class MultimapTests {
 			multimap.put("students", "Louis");
 			assertTrue(multimap.putIfPresent("students", "James"));
 			
-			assertThat(multimap.get("students"), contains("Louis", "James"));
+			assertTrue(multimap.get("students").containsAll(Arrays.asList("Louis", "James")));
 		}
 		
 		@Test
@@ -103,8 +98,8 @@ public class MultimapTests {
 			
 			assertTrue(multimap.putIfPresent("students", "James"));
 			
-			assertThat(multimap.get("students"), contains("James"));
-			assertThat(multimap.get("students"), hasSize(1));
+			assertTrue(multimap.get("students").contains("James"));
+			assertEquals(1, multimap.get("students").size());
 		}
 		
 		@Test
@@ -125,18 +120,18 @@ public class MultimapTests {
 		@Test
 		public void shouldPutValuesInCollection() {
 			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
-			assertThat(multimap.get("students"), contains("Louis", "James", "Frank"));
-			assertThat(multimap.get("students"), hasSize(3));
+			assertTrue(multimap.get("students").containsAll(Arrays.asList("Louis", "James", "Frank")));
+			assertEquals(3, multimap.get("students").size());
 			
 			multimap.putAll("students", Collections.singleton("Betty"));
-			assertThat(multimap.get("students"), hasSize(4));
+			assertEquals(4, multimap.get("students").size());
 		}
 		
 		@Test
 		public void shouldPutAllWithoutOverwriteIfPresent() {
 			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
 			assertTrue(multimap.putAllIfPresent("students", Arrays.asList("Betty", "Ioannis")));
-			assertThat(multimap.get("students"), hasSize(5));
+			assertEquals(5, multimap.get("students").size());
 		}
 		
 		@Test
@@ -145,7 +140,7 @@ public class MultimapTests {
 			assertTrue(multimap.get("students").isEmpty());
 			
 			assertTrue(multimap.putAll("students", Arrays.asList("Louis", "James", "Frank")));
-			assertThat(multimap.get("students"), hasSize(3));
+			assertEquals(3, multimap.get("students").size());
 		}
 	}
 	
@@ -162,8 +157,8 @@ public class MultimapTests {
 			multimap.putAll("students", new ArrayList<>(Arrays.asList("Louis", "James", "Frank")));
 			multimap.remove("students", "James");
 			
-			assertThat(multimap.get("students"), contains("Louis", "Frank"));
-			assertThat(multimap.get("students"), hasSize(2));
+			assertTrue(multimap.get("students").containsAll(Arrays.asList("Louis", "Frank")));
+			assertEquals(2, multimap.get("students").size());
 		}
 		
 		@Test
@@ -171,15 +166,15 @@ public class MultimapTests {
 			multimap.putAll("students", Collections.unmodifiableCollection(Arrays.asList("Louis", "James", "Frank")));
 			multimap.remove("students", "James");
 			
-			assertThat(multimap.get("students"), contains("Louis", "Frank"));
-			assertThat(multimap.get("students"), hasSize(2));
+			assertTrue(multimap.get("students").containsAll(Arrays.asList("Louis", "Frank")));
+			assertEquals(2, multimap.get("students").size());
 		}
 		
 		@Test
 		public void shouldDoNothingWhenAKeyHasNoValue() throws Exception {
 			multimap.remove("students", "Anyone");
 			
-			assertThat(multimap.get("students"), hasSize(0));
+			assertEquals(0, multimap.get("students").size());
 		}
 		
 		@Test
@@ -188,7 +183,7 @@ public class MultimapTests {
 			assertTrue(multimap.removeAll("students", Arrays.asList("Louis", "James", "Frank")));
 			
 			assertTrue(multimap.hasKey("students"));
-			assertThat(multimap.get("students"), hasSize(0));
+			assertEquals(0, multimap.get("students").size());
 			
 			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
 			assertTrue(multimap.removeAll("students"));
@@ -228,8 +223,8 @@ public class MultimapTests {
 			
 			multimap.clear();
 			
-			assertThat(multimap.get("students"),  hasSize(0));
-			assertThat(multimap.get("lecturers"), hasSize(0));
+			assertEquals(0, multimap.get("students").size());
+			assertEquals(0, multimap.get("lecturers").size());
 		}
 	}
 	
@@ -289,8 +284,8 @@ public class MultimapTests {
 			multimap.putAll("students", Arrays.asList("Louis", "Nikos"));
 			multimap.replaceValues("students", Arrays.asList("James", "Frank"));
 			
-			assertThat(multimap.get("students"), contains("James", "Frank"));
-			assertTrue(multimap.get("students").size() == 2);
+			assertTrue(multimap.get("students").containsAll(Arrays.asList("James", "Frank")));
+			assertEquals(2, multimap.get("students").size());
 			
 			multimap.put("students", Arrays.asList("Louis", "Nikos"));
 			assertTrue(multimap.get("students").size() == 2);
@@ -301,14 +296,14 @@ public class MultimapTests {
 			multimap.putAll("students", new ArrayList<String>());
 			multimap.putAll("students", Arrays.asList("James", "Frank"));
 			
-			assertThat(multimap.get("students"), contains("James", "Frank"));
+			assertTrue(multimap.get("students").containsAll(Arrays.asList("James", "Frank")));
 		}
 		
 		@Test
 		public void shouldReplaceExistingValuesWhenKeyHasNotBeenUsedYet() throws Exception {
 			multimap.putAll("students", Arrays.asList("James", "Frank"));
 			
-			assertThat(multimap.get("students"), contains("James", "Frank"));
+			assertTrue(multimap.get("students").containsAll(Arrays.asList("James", "Frank")));
 		}
 	}
 }
