@@ -121,15 +121,15 @@
               <version>1.6.0-SNAPSHOT</version>
             </artifact>
           </target>
-          <dependency-resolution>
+          <!--dependency-resolution>
             <extraRequirements>
               <requirement>
                 <type>eclipse-plugin</type>
-                <id>org.hamcrest.core</id>
+                <id></id>
                 <versionRange>0.0.0</versionRange>
               </requirement>
             </extraRequirements>
-          </dependency-resolution>
+          </dependency-resolution-->
           <environments>
             <environment>
               <os>linux</os>
