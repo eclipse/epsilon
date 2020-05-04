@@ -14,7 +14,7 @@
         <include>org.apache.poi_3.10.1*.jar</include>
         <include>org.apache.poi.ooxml_3.10.1*.jar</include>
         <include>org.apache.poi.ooxml.schemas_3.10.1*.jar</include>
-        <include>org.apache.xmlbeans_2.6.0*.jar</include>
+        <include>org.apache.xmlbeans*.jar</include>
       </includes>
     </fileSet>
   </fileSets>
