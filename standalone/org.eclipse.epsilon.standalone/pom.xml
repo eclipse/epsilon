@@ -43,7 +43,7 @@
               <includeArtifactIds><!-- Match MANIFEST.MF -->
                 org.antlr.runtime,
                 org.apache.ant,
-                <!--org.apache.commons.cli_1.4,-->
+                <!--org.apache.commons.cli,-->
                 org.apache.commons.collections,
                 org.apache.commons.csv,
                 org.apache.commons.lang3,

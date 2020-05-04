@@ -503,13 +503,9 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 		if (defaultModel != null) {
 			modelRepository.addModel(defaultModel);
 		}
-		for (IModel model : renamedModels) {
-			modelRepository.addModel(model);
-		}
+		modelRepository.addModels(renamedModels);
 		if (bindings.getExclusiveMode() == ExclusiveMode.INCLUDE_OTHERS) {
-			for (IModel model : otherModels) {
-				modelRepository.addModel(model);
-			}
+			modelRepository.addModels(otherModels);
 		}
 	}
 
@@ -519,8 +515,7 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 		return results;
 	}
 
-	private ArrayList<Operation> collectOperationsAnnotatedWith(String annotationName,
-			ArrayList<Operation> results) {
+	private ArrayList<Operation> collectOperationsAnnotatedWith(String annotationName, ArrayList<Operation> results) {
 		for (Operation operation : getOperations()) {
 			if (isAnnotatedAs(operation, annotationName)){
 				results.add(operation);
