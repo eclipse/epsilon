@@ -29,7 +29,19 @@ public class HutnTestWithFamiliesMetaModel {
 		"models/org/eclipse/epsilon/hutn/test/models/" +
 		"FamiliesConfig.model";
 	
-	public static final String BANK_ACCOUNTS_MODEL_URI = Families.getBankAccountsModelUri().toString();
+	public static final String BANK_ACCOUNTS_MODEL_URI;
+	
+	static {
+		String bankURI = null;
+		try {
+			bankURI = Families.getBankAccountsModelUri().toString();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		BANK_ACCOUNTS_MODEL_URI = bankURI;
+	}
 	
 	@BeforeClass
 	public static void registerMetaModels() throws Exception {

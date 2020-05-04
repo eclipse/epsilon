@@ -14,23 +14,23 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.models;
 
 
 import java.io.File;
-
+import java.io.IOException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.epsilon.hutn.test.models.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 
 public abstract class FlockAcceptanceTestModels {
 
 	private FlockAcceptanceTestModels() {}
 	
-	public static File getDoesModelFile() {
-		return FileUtil.getFile("Does.model", FlockAcceptanceTestModels.class);
+	public static File getDoesModelFile() throws IOException {
+		return FileUtil.getFileURL("Does.model", FlockAcceptanceTestModels.class);
 	}
 	
-	public static URI getDoesModelUri() {
+	public static URI getDoesModelUri() throws IOException {
 		return URI.createFileURI(getDoesModelFile().getAbsolutePath());
 	}
 
-	public static File getBloggsModelFile() {
-		return FileUtil.getFile("Bloggs.model", FlockAcceptanceTestModels.class);
+	public static File getBloggsModelFile() throws IOException {
+		return FileUtil.getFileURL("Bloggs.model", FlockAcceptanceTestModels.class);
 	}
 }

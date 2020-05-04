@@ -37,15 +37,15 @@ public class TestEglFileGeneratingTemplate {
 	
 	@BeforeClass
 	public static void setUpOnce() throws IOException {
-		PROGRAM   = org.eclipse.epsilon.common.util.FileUtil.getFile("Generate.egl",  TestEglFileGeneratingTemplate.class);
-		OUTPUT1   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output1.txt",   TestEglFileGeneratingTemplate.class);
-		OUTPUT2   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output2.txt",   TestEglFileGeneratingTemplate.class);
-		OUTPUT3   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output3.txt",   TestEglFileGeneratingTemplate.class);
-		OUTPUT4   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output4.txt",   TestEglFileGeneratingTemplate.class);
-		OUTPUT5   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output5.txt",   TestEglFileGeneratingTemplate.class);
-		OUTPUT6   = org.eclipse.epsilon.common.util.FileUtil.getFile("Output6.txt",   TestEglFileGeneratingTemplate.class);
-		EXISTING  = org.eclipse.epsilon.common.util.FileUtil.getFile("Existing.txt",  TestEglFileGeneratingTemplate.class);
-		GENERATED = org.eclipse.epsilon.common.util.FileUtil.getFile("Generated.txt", TestEglFileGeneratingTemplate.class);
+		PROGRAM   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Generate", ".egl");
+		OUTPUT1   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Output1", ".txt");
+		OUTPUT2   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Output2", ".txt");
+		OUTPUT3   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Output3", ".txt");
+		OUTPUT4   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Output4", ".txt");
+		OUTPUT5   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Output5", ".txt");
+		OUTPUT6   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Output6", ".txt");
+		EXISTING  = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Existing", ".txt");
+		GENERATED = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Generated", ".txt");
 		
 		if (!EXISTING.exists()) EXISTING.createNewFile();
 	}
@@ -71,7 +71,6 @@ public class TestEglFileGeneratingTemplate {
 		testNumber++;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testStore() throws Exception {
 		String expected = "Hello world!" + testNumber;
@@ -80,12 +79,11 @@ public class TestEglFileGeneratingTemplate {
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
 		
 		template.process();
-		template.store(OUTPUT1.getName());
+		template.generate(OUTPUT1.getName(), true, false);
 		
 		assertEquals(expected, FileUtil.read(OUTPUT1));
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreAbsolute() throws Exception {
 		String expected = "Hello world!" + testNumber;
@@ -94,12 +92,11 @@ public class TestEglFileGeneratingTemplate {
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
 		
 		template.process();
-		template.store(OUTPUT1.getAbsolutePath());
+		template.generate(OUTPUT1.getAbsolutePath(), true, false);
 		
 		assertEquals(expected, FileUtil.read(OUTPUT1));
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreWithOverwrite() throws Exception {
 		String expected = "Hello world!" + testNumber;
@@ -107,26 +104,24 @@ public class TestEglFileGeneratingTemplate {
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
 		
 		template.process();
-		template.store(OUTPUT2.getName(), true);
+		template.generate(OUTPUT2.getName(), true, false);
 		
 		assertEquals(expected, FileUtil.read(OUTPUT2));
 	}
 	
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreWithoutProcess() throws Exception {
 		String expected = "Hello world!" + testNumber;
 		FileUtil.write(PROGRAM, "[% out.print('" + expected + "'); %]");
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
 		
-		template.store(OUTPUT3.getName());
+		template.generate(OUTPUT3.getName(), true, false);
 		
 		assertEquals(expected, FileUtil.read(OUTPUT3));
 	}
 	
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreOverExisting() throws Exception {
 		String contents = "Hello world!" + testNumber;
@@ -134,12 +129,11 @@ public class TestEglFileGeneratingTemplate {
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
 		
 		template.process();
-		template.store(EXISTING.getName());
+		template.generate(EXISTING.getName(), false, false);
 		
 		assertEquals("", FileUtil.read(EXISTING));
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testStoreOverExistingWithOverwrite() throws Exception {
 		String expected = "Hello world!" + testNumber;
@@ -147,7 +141,7 @@ public class TestEglFileGeneratingTemplate {
 		template = new EglFileGeneratingTemplate(UriUtil.fileToUri(PROGRAM), new MockContext(), UriUtil.fileToUri(PROGRAM.getParentFile()));
 		
 		template.process();
-		template.store(EXISTING.getName(), true);
+		template.generate(EXISTING.getName(), true, false);
 		
 		assertEquals(expected, FileUtil.read(EXISTING));
 	}

@@ -68,7 +68,7 @@ public class TestFileUtil {
 	@Test
 	public void testRead() throws IOException {
 		final String expected = "Hello" + FileUtil.NEWLINE + "world!";
-		final String actual   = FileUtil.read(org.eclipse.epsilon.common.util.FileUtil.getFile("Read.txt", TestFileUtil.class));
+		final String actual   = FileUtil.read(org.eclipse.epsilon.common.util.FileUtil.getFileStandalone("Read.txt", TestFileUtil.class));
 		
 		assertEquals(expected, actual);
 	}
@@ -76,7 +76,7 @@ public class TestFileUtil {
 	@Test
 	public void testReadTrailing() throws IOException {
 		final String expected = "Hello" + FileUtil.NEWLINE + "world!" + FileUtil.NEWLINE;
-		final String actual   = FileUtil.read(org.eclipse.epsilon.common.util.FileUtil.getFile("ReadTrailing.txt", TestFileUtil.class));
+		final String actual   = FileUtil.read(org.eclipse.epsilon.common.util.FileUtil.getFileStandalone("ReadTrailing.txt", TestFileUtil.class));
 		
 		assertEquals(expected, actual);
 	}

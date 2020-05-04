@@ -15,7 +15,6 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.copying;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory.AccessMode;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.flock.engine.test.acceptance.models.FlockAcceptanceTestModels;
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
@@ -33,7 +32,7 @@ public class CopyValueFromAnotherModel extends FlockAcceptanceTest {
 		migrated.setVariable("sally", "Person.all.first");
 	}
 
-	private static EmfModel loadModelWithACrossReference() throws EolModelLoadingException {
+	private static EmfModel loadModelWithACrossReference() throws Exception {
 		final EmfModel model = EmfModelFactory.getInstance().loadEmfModel("Original", FlockAcceptanceTestModels.getDoesModelFile(), "families", AccessMode.READ_ONLY);
 		model.setExpand(false);
 		model.load();

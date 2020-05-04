@@ -23,8 +23,8 @@ public class EtlCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 	}
 
 	@Override
-	protected File getProgram() {
-		return FileUtil.getFile(("System.etl"), EtlCanAccessBuiltinsTests.class);
+	protected File getProgram() throws Exception {
+		return FileUtil.getFileStandalone(("System.etl"), EtlCanAccessBuiltinsTests.class);
 	}
 
 	@Override

@@ -33,25 +33,15 @@ public class TestEglTemplate {
 	private EglTemplate template;
 	private int testNumber = 0;
 	
-	
-	private static File SIMPLE;
-	private static File ABSENT;
-	
-	private static File POPULATE;
-	private static File EXISTING;
-	private static File MERGE;
-
+	private static File SIMPLE, ABSENT, POPULATE, EXISTING, MERGE;
 	
 	@BeforeClass
-	public static void setUpOnce() {
-		SIMPLE   = org.eclipse.epsilon.common.util.FileUtil.getFile("Simple.egl", TestEglTemplate.class);
-		ABSENT   = org.eclipse.epsilon.common.util.FileUtil.getFile("Absent.egl", TestEglTemplate.class);
-		
-		POPULATE = org.eclipse.epsilon.common.util.FileUtil.getFile("Populate.egl", TestEglTemplate.class);
-		
-		MERGE    = org.eclipse.epsilon.common.util.FileUtil.getFile("Merge.egl", TestEglTemplate.class);
-		EXISTING = org.eclipse.epsilon.common.util.FileUtil.getFile("Existing.txt", TestEglTemplate.class);
-		
+	public static void setUpOnce() throws Exception {
+		SIMPLE   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Simple", ".egl");
+		ABSENT   = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Absent", ".egl");
+		POPULATE = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Populate", ".egl");
+		MERGE    = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Merge", ".egl");
+		EXISTING = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Existing", ".txt");
 		if (ABSENT.exists()) ABSENT.delete();
 	}
 	

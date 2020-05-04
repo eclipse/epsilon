@@ -108,17 +108,17 @@ public class EolAcceptanceTestUtil extends EpsilonTestUtil {
 			Class<C> clazz,
 			List<String[]> testInputs,
 			Collection<Supplier<? extends M>> moduleGetters,
-			Function<String[], Integer> idCalculator) {
+			Function<String[], Integer> idCalculator,
+			Class<?> inputResourceOwner) throws Exception {
 
 		if (idCalculator == null) idCalculator = EolAcceptanceTestUtil::getScenarioID;
 		
 		List<C> scenarios = new ArrayList<>(moduleGetters.size()*(testInputs.size()+2));
 		
 		for (String[] testInput : testInputs) {
-			Path eolScript = Paths.get(testInput[0]);
-			
-			Path modelFile = Paths.get(testInput[1]);
-			Path metamodelFile = Paths.get(testInput[2]);
+			Path eolScript = Paths.get(FileUtil.getFileStandalone(testInput[0], inputResourceOwner).toURI());
+			Path modelFile = Paths.get(FileUtil.getFileStandalone(testInput[1], inputResourceOwner).toURI());
+			Path metamodelFile = Paths.get(FileUtil.getFileStandalone(testInput[2], inputResourceOwner).toURI());
 			
 			for (Supplier<? extends M> moduleGetter : moduleGetters) {
 				scenarios.add(((EolRunConfiguration.Builder<C, ?>) EolRunConfiguration.Builder(clazz))

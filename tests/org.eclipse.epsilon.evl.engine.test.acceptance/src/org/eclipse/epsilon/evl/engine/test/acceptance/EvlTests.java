@@ -34,7 +34,6 @@ import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -49,24 +48,6 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public class EvlTests {
-	
-	private static IModel TEST_MODEL, OPTIMISED_MODEL;
-	
-	static {
-		try {
-			TEST_MODEL = setUpModel("test.xml");
-			OPTIMISED_MODEL = setUpModel("optimised.xml");
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		TEST_MODEL.load();
-		OPTIMISED_MODEL.load();
-	}
 	
 	@Parameter
 	public Supplier<? extends IEvlModule> moduleGetter;
@@ -88,7 +69,7 @@ public class EvlTests {
 	
 	private static IModel setUpModel(String modelName) throws Exception {
 		PlainXmlModel model = new PlainXmlModel();
-		model.setFile(new File(EvlAcceptanceTestUtil.modelsRoot+modelName));
+		model.setFile(FileUtil.getFileStandalone(EvlAcceptanceTestUtil.modelsRoot+modelName, EvlAcceptanceTestUtil.class));
 		model.setName(FileUtil.removeExtension(model.getFile().getName()));
 		model.setCachingEnabled(false);
 		model.load();
@@ -96,14 +77,14 @@ public class EvlTests {
 	}
 	
 	public static IModel getTestModel(boolean optimised) throws Exception {
-		return optimised ? OPTIMISED_MODEL : TEST_MODEL;
+		return setUpModel(optimised ? "optimised.xml" : "test.xml");
 	}
 	
-	public static File getTestScript(IEvlModule module) {
+	public static File getTestScript(IEvlModule module) throws Exception {
 		return getTestScript("test", module);
 	}
 	
-	private static File getTestScript(String scriptName, IEvlModule module) {
+	private static File getTestScript(String scriptName, IEvlModule module) throws Exception {
 		if ("test".equals(scriptName)) {
 			FrameStack frameStack = module.getContext().getFrameStack();
 			frameStack.putGlobal(
@@ -111,7 +92,7 @@ public class EvlTests {
 				Variable.createReadOnlyVariable("blackboard", new HashMap<>())
 			);
 		}
-		return new File(EvlAcceptanceTestUtil.scriptsRoot+scriptName+".evl");
+		return FileUtil.getFileStandalone(EvlAcceptanceTestUtil.scriptsRoot+scriptName + ".evl", EvlAcceptanceTestUtil.class);
 	}
 	
 	public static void loadEVL(IEvlModule module, boolean optimised) throws Exception {

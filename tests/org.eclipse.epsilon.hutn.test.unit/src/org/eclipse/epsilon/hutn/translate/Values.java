@@ -13,7 +13,6 @@
  */
 package org.eclipse.epsilon.hutn.translate;
 
-import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
@@ -22,7 +21,7 @@ import org.junit.Test;
 public class Values extends HutnTranslatorTest {
 		
 	private void attributeTest(Node attributeNode,
-	                           Object expectedValue) throws HutnTranslationException {
+	                           Object expectedValue) throws Exception {
 		
 		final Node classNode = createClass("Family", "The Smiths");
 		classNode.getChildren().add(attributeNode);
@@ -46,42 +45,42 @@ public class Values extends HutnTranslatorTest {
 	}
 	
 	@Test
-	public void valueShouldBeNull() throws HutnTranslationException {
+	public void valueShouldBeNull() throws Exception {
 		attributeTest(createNullAttribute("null"), null);
 	}
 	
 	@Test
-	public void typeShouldBeStringSlot() throws HutnTranslationException {
+	public void typeShouldBeStringSlot() throws Exception {
 		attributeTest(createAttribute("name", "The Smiths"), "The Smiths");
 	}
 	
 	@Test
-	public void typeShouldBeIntegerSlot() throws HutnTranslationException {
+	public void typeShouldBeIntegerSlot() throws Exception {
 		attributeTest(createAttribute("numberOfChildren", 2), 2);
 	}
 	
 	@Test
-	public void typeShouldBeBooleanSlotWhenTrue() throws HutnTranslationException {
+	public void typeShouldBeBooleanSlotWhenTrue() throws Exception {
 		attributeTest(createAttribute("migrant", true), true);
 	}
 	
 	@Test
-	public void typeShouldBeBooleanSlotWhenFalse() throws HutnTranslationException {
+	public void typeShouldBeBooleanSlotWhenFalse() throws Exception {
 		attributeTest(createAttribute("nuclear", false), false);
 	}
 	
 	@Test
-	public void typeShouldBeBooleanSlotWhenPositiveAdjective() throws HutnTranslationException {
+	public void typeShouldBeBooleanSlotWhenPositiveAdjective() throws Exception {
 		attributeTest(createAdjective("nuclear"), true);
 	}
 	
 	@Test
-	public void typeShouldBeBooleanSlotWhenExplicitPositiveAdjective() throws HutnTranslationException {
+	public void typeShouldBeBooleanSlotWhenExplicitPositiveAdjective() throws Exception {
 		attributeTest(createAdjective("#nuclear"), true);
 	}
 	
 	@Test
-	public void typeShouldBeBooleanSlotWhenNegativeAdjective() throws HutnTranslationException {
+	public void typeShouldBeBooleanSlotWhenNegativeAdjective() throws Exception {
 		attributeTest(createAdjective("~nuclear"), false);
 	}
 }

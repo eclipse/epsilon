@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.etl.engine.test.acceptance;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,7 +29,6 @@ public abstract class EtlTest {
 	
 	protected EmfModel loadModel(String name, String modelFile, String metamodelUri, boolean read, boolean store) throws Exception {
 		EmfModel model = new EmfModel();
-		model.setConcurrent(true);
 		model.setCachingEnabled(false);
 		model.setName(name);
 		model.setModelFile(getFullPath(modelFile));
@@ -39,12 +39,26 @@ public abstract class EtlTest {
 		return model;
 	}
 	
-	protected void testForEquivalence(Resource expected, Resource actual) throws Exception {
-		ResourceComparator.compare(expected, actual);
-		String dirty = expected.getURI().toFileString(),
-			clean = dirty.replace("/bin/", "/src/").replace("\\bin\\", "\\src\\");
-		actual.delete(null);
-		Path target = Files.copy(Paths.get(clean), Paths.get(dirty), StandardCopyOption.REPLACE_EXISTING);
+	/**
+	 * 
+	 * @param expected
+	 * @param actual
+	 * @param cleanRes
+	 * @throws Exception
+	 * @since 1.6
+	 */
+	protected void testForEquivalence(Resource expected, EmfModel actual, Resource cleanRes) throws Exception {
+		try {
+			ResourceComparator.compare(expected, actual.getResource());
+		}
+		catch (AssertionError er) {
+			// For debugging purposes
+			throw er;
+		}
+		String dirty = expected.getURI().toFileString();
+		String cleanStr = cleanRes.getURI().toFileString();
+		actual.getResource().delete(null);
+		Path target = Files.copy(Paths.get(cleanStr), Paths.get(dirty), StandardCopyOption.REPLACE_EXISTING);
 		assert target.toFile().exists();
 	}
 	
@@ -60,16 +74,15 @@ public abstract class EtlTest {
 		return r;
 	}
 	
-	protected String getFullPath(String path) {
+	protected String getFullPath(String path) throws IOException {
 		return getFullPath(path, getClass());
 	}
 	
-	protected static String getFullPath(String path, Class<?> currentClass) {
-		return FileUtil.getFile(path, currentClass).getAbsolutePath();
+	protected static final String getFullPath(String path, Class<?> currentClass) throws IOException {
+		return FileUtil.getFileStandalone(path, currentClass).getAbsolutePath();
 	}
 	
-	protected static void registerMetamodel(String path, Class<?> currentClass) throws Exception {
+	protected static final void registerMetamodel(String path, Class<?> currentClass) throws Exception {
 		EmfUtil.register(URI.createFileURI(getFullPath(path, currentClass)), EPackage.Registry.INSTANCE);
 	}
-	
 }

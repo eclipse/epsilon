@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.egl.test.models;
 
 import java.io.File;
-
+import java.io.IOException;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
@@ -25,9 +25,13 @@ public enum Model {
 	
 	private Model(String modelName, String modelFileName, String metaModelFileName) {
 		this.modelName = modelName;
-
-		modelFile     = FileUtil.getFile(modelFileName,     Model.class);
-		metaModelFile = FileUtil.getFile(metaModelFileName, Model.class);
+		try {
+			modelFile     = FileUtil.getFileStandalone(modelFileName,     Model.class);
+			metaModelFile = FileUtil.getFileStandalone(metaModelFileName, Model.class);
+		}
+		catch (IOException iox) {
+			throw new RuntimeException(iox);
+		}
 	}
 	
 	public EmfModel loadEmfModel() throws EolModelLoadingException {

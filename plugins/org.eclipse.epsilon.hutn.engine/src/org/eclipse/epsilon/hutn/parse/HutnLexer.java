@@ -41,9 +41,6 @@ package org.eclipse.epsilon.hutn.parse;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 public class HutnLexer extends Lexer {
     public static final int CLS_LVL_ATTRIBUTE=8;
@@ -84,7 +81,8 @@ public class HutnLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g"; }
+    @Override
+	public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g"; }
 
     // $ANTLR start TRUE
     public final void mTRUE() throws RecognitionException {
@@ -992,7 +990,8 @@ public class HutnLexer extends Lexer {
     }
     // $ANTLR end DIGIT
 
-    public void mTokens() throws RecognitionException {
+    @Override
+	public void mTokens() throws RecognitionException {
         // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g:1:8: ( TRUE | FALSE | NULL | T__27 | T__28 | COMMA | LBRACKET | RBRACKET | ASSIGNMENT | NAME | TEXTUAL_VALUE | NUMERIC_VALUE | ADJECTIVE_PREFIX | WS | ML_COMMENT | SL_COMMENT )
         int alt15=16;
         alt15 = dfa15.predict(input);
@@ -1201,7 +1200,8 @@ public class HutnLexer extends Lexer {
             this.special = DFA15_special;
             this.transition = DFA15_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "1:1: Tokens : ( TRUE | FALSE | NULL | T__27 | T__28 | COMMA | LBRACKET | RBRACKET | ASSIGNMENT | NAME | TEXTUAL_VALUE | NUMERIC_VALUE | ADJECTIVE_PREFIX | WS | ML_COMMENT | SL_COMMENT );";
         }
     }

@@ -10,15 +10,12 @@
 package org.eclipse.epsilon.egl.config;
 
 import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.common.util.FileUtil;
@@ -55,31 +52,31 @@ public class TestXMLConfigFileReader {
 	private static String valid;
 	
 	@BeforeClass
-	public static void setUpOnce() throws UnsupportedEncodingException {
-		invalidPath      = FileUtil.getPath("In*alid.xml", TestXMLConfigFileReader.class);
-		nonExistentPath  = FileUtil.getPath("Absent.xml", TestXMLConfigFileReader.class);
+	public static void setUpOnce() throws Exception {
+		invalidPath      = "In*alid.xml";
+		nonExistentPath  = "Absent.xml";
 		
-		empty          = FileUtil.getPath("Empty.xml", TestXMLConfigFileReader.class);
-		incorrectRoot  = FileUtil.getPath("IncorrectRoot.xml", TestXMLConfigFileReader.class);
+		empty          = FileUtil.getFileStandalone("Empty.xml", TestXMLConfigFileReader.class).getPath();
+		incorrectRoot  = FileUtil.getFileStandalone("IncorrectRoot.xml", TestXMLConfigFileReader.class).getPath();
 		
-		contentTypesContainingCDATA      = FileUtil.getPath("ContentTypesContainingCDATA.xml", TestXMLConfigFileReader.class);
-		contentTypesContainingWrongChild = FileUtil.getPath("ContentTypesContainingWrongChild.xml", TestXMLConfigFileReader.class);
-		contentTypesExtraAttributes      = FileUtil.getPath("ContentTypesExtraAttributes.xml", TestXMLConfigFileReader.class);
-		emptyContentTypes                = FileUtil.getPath("EmptyContentTypes.xml", TestXMLConfigFileReader.class);
+		contentTypesContainingCDATA      = FileUtil.getFileStandalone("ContentTypesContainingCDATA.xml", TestXMLConfigFileReader.class).getPath();
+		contentTypesContainingWrongChild = FileUtil.getFileStandalone("ContentTypesContainingWrongChild.xml", TestXMLConfigFileReader.class).getPath();
+		contentTypesExtraAttributes      = FileUtil.getFileStandalone("ContentTypesExtraAttributes.xml", TestXMLConfigFileReader.class).getPath();
+		emptyContentTypes                = FileUtil.getFileStandalone("EmptyContentTypes.xml", TestXMLConfigFileReader.class).getPath();
 		
-		contentTypeContainingCDATA      = FileUtil.getPath("ContentTypeContainingCDATA.xml", TestXMLConfigFileReader.class);
-		contentTypeContainingWrongChild = FileUtil.getPath("ContentTypeContainingWrongChild.xml", TestXMLConfigFileReader.class);
-		contentTypeExtraAttributes      = FileUtil.getPath("ContentTypeExtraAttributes.xml", TestXMLConfigFileReader.class);
-		emptyContentType                = FileUtil.getPath("EmptyContentType.xml", TestXMLConfigFileReader.class);
-		unnamedContentType              = FileUtil.getPath("UnnamedContentType.xml", TestXMLConfigFileReader.class);
+		contentTypeContainingCDATA      = FileUtil.getFileStandalone("ContentTypeContainingCDATA.xml", TestXMLConfigFileReader.class).getPath();
+		contentTypeContainingWrongChild = FileUtil.getFileStandalone("ContentTypeContainingWrongChild.xml", TestXMLConfigFileReader.class).getPath();
+		contentTypeExtraAttributes      = FileUtil.getFileStandalone("ContentTypeExtraAttributes.xml", TestXMLConfigFileReader.class).getPath();
+		emptyContentType                = FileUtil.getFileStandalone("EmptyContentType.xml", TestXMLConfigFileReader.class).getPath();
+		unnamedContentType              = FileUtil.getFileStandalone("UnnamedContentType.xml", TestXMLConfigFileReader.class).getPath();
 		
-		commentStyleContainingCDATA = FileUtil.getPath("CommentStyleContainingCDATA.xml", TestXMLConfigFileReader.class);
-		commentStyleEmptyEndsWith   = FileUtil.getPath("CommentStyleEmptyEndsWith.xml", TestXMLConfigFileReader.class);
-		commentStyleEmptyStartsWith = FileUtil.getPath("CommentStyleEmptyStartsWith.xml", TestXMLConfigFileReader.class);
-		commentStyleExtraAttributes = FileUtil.getPath("CommentStyleExtraAttributes.xml", TestXMLConfigFileReader.class);
-		emptyCommentStyle           = FileUtil.getPath("EmptyCommentStyle.xml", TestXMLConfigFileReader.class);
+		commentStyleContainingCDATA = FileUtil.getFileStandalone("CommentStyleContainingCDATA.xml", TestXMLConfigFileReader.class).getPath();
+		commentStyleEmptyEndsWith   = FileUtil.getFileStandalone("CommentStyleEmptyEndsWith.xml", TestXMLConfigFileReader.class).getPath();
+		commentStyleEmptyStartsWith = FileUtil.getFileStandalone("CommentStyleEmptyStartsWith.xml", TestXMLConfigFileReader.class).getPath();
+		commentStyleExtraAttributes = FileUtil.getFileStandalone("CommentStyleExtraAttributes.xml", TestXMLConfigFileReader.class).getPath();
+		emptyCommentStyle           = FileUtil.getFileStandalone("EmptyCommentStyle.xml", TestXMLConfigFileReader.class).getPath();
 		
-		valid = FileUtil.getPath("Valid.xml", TestXMLConfigFileReader.class);
+		valid = FileUtil.getFileStandalone("Valid.xml", TestXMLConfigFileReader.class).getPath();
 	}
 	
 	private Map<String, CompositePartitioner> read(String path) throws FileNotFoundException, PersistenceException {

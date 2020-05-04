@@ -10,18 +10,21 @@
 package org.eclipse.epsilon.hutn.translate;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.hutn.exceptions.HutnConfigFileNotFoundException;
+import org.eclipse.epsilon.hutn.exceptions.HutnException;
 import org.eclipse.epsilon.hutn.exceptions.HutnMetaModelRegistrationException;
 import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
@@ -92,9 +95,14 @@ public class HutnTranslator {
 		final EmfModel configModel = new EmfModel();
 		
 		if (details.getConfigFileDetail() == null || details.getConfigFileDetail().getText() == null) {
-			configModel.setModelFileUri(HutnConfigMetamodel.getDefaultConfigModelUri());
-			
-		} else {
+			try {
+				configModel.setModelFileUri(HutnConfigMetamodel.getDefaultConfigModelUri());
+			}
+			catch (IOException ex) {
+				throw new HutnConfigFileNotFoundException(ex);
+			}
+		}
+		else {
 			final String configFilePath = details.getConfigFileDetail().getText();
 			
 			File configFile = new File(configFilePath);
@@ -117,7 +125,7 @@ public class HutnTranslator {
 		return configModel;
 	}
 	
-	public List<ParseProblem> validateConfigModel(Ast ast) throws HutnValidationException, HutnConfigFileNotFoundException {		
+	public List<ParseProblem> validateConfigModel(Ast ast) throws HutnException {		
 		final List<ParseProblem> problems = new LinkedList<>();
 		
 		final MetaModelDetail details = determineMetaModelDetails(ast);
@@ -132,7 +140,8 @@ public class HutnTranslator {
 				
 				problems.add(problem);
 				
-			} else {
+			}
+			else {
 				final HutnConfigFileValidator validator = new HutnConfigFileValidator(details.getConfigFileDetail().getLine(),
 				                                                                      details.getConfigFileDetail().getColumn());
 				
@@ -166,7 +175,7 @@ public class HutnTranslator {
 			
 			final IEtlModule transformer = EpsilonUtil.initialiseEtlModule(astModel, intermediateModel, configModel);
 			
-			transformer.parse(HutnTranslator.class.getResource("AntlrAst2Intermediate.etl").toURI());
+			transformer.parse(FileUtil.getFileStandalone("AntlrAst2Intermediate.etl", HutnTranslator.class));
 			transformer.execute();
 			
 			return spec;

@@ -17,7 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstFactory;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
@@ -39,7 +38,7 @@ public abstract class HutnTranslatorTest {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
 	} 
 	
-	protected static ModelWithEolAssertions translatorTest(Ast ast) throws HutnTranslationException {
+	protected static ModelWithEolAssertions translatorTest(Ast ast) throws Exception {
 		final Spec spec = new HutnTranslator().createIntermediateModel(ast, null);
 		
 		final AbstractEmfModel specModel = new InMemoryEmfModel(EmfUtil.createResource(spec));

@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.emc.graphml.tests;
 
 import static org.junit.Assert.assertEquals;
-
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.graphml.GraphmlImporter;
 import org.eclipse.epsilon.emc.muddle.Muddle;
 import org.eclipse.epsilon.emc.muddle.MuddleModel;
@@ -20,7 +20,7 @@ public class MuddleTests {
 	
 	protected MuddleModel loadMuddleModel(String filename) throws Exception {
 		GraphmlImporter importer = new GraphmlImporter();
-		String fileUri = GraphmlTestSuite.class.getResource("models/" + filename).toURI().toString();
+		String fileUri = FileUtil.getFileStandalone("models/" + filename, GraphmlTestSuite.class).toURI().toString();
 		Muddle muddle = importer.importGraph(fileUri);
 		MuddleModel model = new MuddleModel();
 		model.setMuddle(muddle);

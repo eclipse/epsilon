@@ -13,19 +13,19 @@
 package org.eclipse.epsilon.hutn.test.models;
 
 import java.io.File;
-
+import java.io.IOException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.epsilon.hutn.test.models.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 
 public abstract class BankAccounts {
 
 	private BankAccounts() {}
 	
-	public static File getMetaModelFile() {
-		return FileUtil.getFile("BankAccounts.ecore", BankAccounts.class);
+	public static File getMetaModelFile() throws IOException {
+		return FileUtil.getFileURL("BankAccounts.ecore", BankAccounts.class);
 	}
 	
-	public static URI getMetaModelUri() {
+	public static URI getMetaModelUri() throws IOException {
 		return URI.createFileURI(getMetaModelFile().getAbsolutePath());
 	}
 }

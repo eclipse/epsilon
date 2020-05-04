@@ -36,9 +36,10 @@ public class EclModuleEquivalenceTests extends EolEquivalenceTests<EclRunConfigu
 
 	/**
 	 * @return A collection of pre-configured run configurations, each with their own IEclModule.
+	 * @throws Exception 
 	 */
 	@Parameters//(name = "0")	Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<? extends EclRunConfiguration> configurations() {
+	public static Iterable<? extends EclRunConfiguration> configurations() throws Exception {
 		return getScenarios(modules());
 	}
 	

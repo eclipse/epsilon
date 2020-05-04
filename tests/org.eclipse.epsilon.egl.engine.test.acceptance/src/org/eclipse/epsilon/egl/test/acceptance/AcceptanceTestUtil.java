@@ -43,10 +43,8 @@ public class AcceptanceTestUtil {
 	
 	public static void test(Object program, String expected, Model... models) throws Exception {
 		final String actual = run(program, models);
-		
 		assertEquals(StringUtil.normalizeNewlines(expected), StringUtil.normalizeNewlines(actual));
 	}
-	
 	
 	public static String run(Object program, Model... models) throws Exception {
 		return run(new EglFileGeneratingTemplateFactory(), program, models);
@@ -60,26 +58,18 @@ public class AcceptanceTestUtil {
 	
 	public static String run(EglTemplateFactory factory, Object program, Model... modelSpecs) throws Exception {
 		final IModel[] models = new IModel[modelSpecs.length];
-		
 		for (int i = 0; i < modelSpecs.length; i++) {
 			models[i] = modelSpecs[i].loadEmfModel();
 		}
-	
 		return run(factory, program, models);
 	}
 	
 	@SuppressWarnings("restriction")
 	private static void setup(EglTemplateFactory factory, Object program, IModel... models) throws Exception {
-		for (IModel model : models) {
-			factory.getContext().getModelRepository().addModel(model);
-		}
-
+		factory.getContext().getModelRepository().addModels(models);
 		current = loadTemplate(factory, program);
 		context = current.getModule().getContext();
-		
-		for (ParseProblem problem : current.getParseProblems()) {
-			System.err.println(problem);
-		}
+		current.getParseProblems().forEach(System.err::println);
 	}
 	
 	public static String run(EglTemplateFactory factory, Object program, IModel... models) throws Exception {

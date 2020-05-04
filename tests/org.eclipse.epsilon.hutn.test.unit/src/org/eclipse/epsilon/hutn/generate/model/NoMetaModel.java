@@ -15,13 +15,12 @@ package org.eclipse.epsilon.hutn.generate.model;
 
 import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createSpec;
 
-import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.junit.Test;
 
 public class NoMetaModel extends HutnModelGeneratorTest {
 
 	@Test(expected=IllegalArgumentException.class)
-	public void modelShouldHaveNoFamilies() throws HutnGenerationException {
+	public void modelShouldHaveNoFamilies() throws Exception {
 		modelGeneratorTest(createSpec());
 	}
 }

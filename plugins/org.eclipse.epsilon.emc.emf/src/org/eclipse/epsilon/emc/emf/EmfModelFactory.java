@@ -107,7 +107,7 @@ public final class EmfModelFactory {
 		emfModel.setModelFile(model.getAbsolutePath());		
 		return emfModel;
 	}
-		
+
 	public enum AccessMode {
 		READ_ONLY (true, false),
 		WRITE_ONLY(false, true),

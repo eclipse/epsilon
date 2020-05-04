@@ -21,12 +21,10 @@ public class TemplateTests extends FlexmiTests {
 	@Test
 	public void testModelWithTemplate() throws Exception {
 		FlexmiResource resource = loadResource("templates/model-with-template.flexmi");
-		
 		assertEquals(0, resource.getWarnings().size());
 		assertEquals(3, resource.getTemplates().size());
 		assertEquals("t1", resource.getTemplates().get(0).getName());
 		assertEquals("p", resource.getTemplates().get(0).getParameters().get(0).getName());
-		
 	}
 	
 	@Test
@@ -75,7 +73,6 @@ public class TemplateTests extends FlexmiTests {
 	public void testTemplateInstantiation() throws Exception {
 		assertEval("EPackage.all.first().eClassifiers.at(0).name", "C1", "templates/model-with-template.flexmi");
 		assertEval("EPackage.all.second().eClassifiers.at(0).name", "C2", "templates/model-with-template.flexmi");
-		
 	}
 	
 	@Test
@@ -107,6 +104,5 @@ public class TemplateTests extends FlexmiTests {
 	public void testModelWithEolTemplateImportingEOL() throws Exception {
 		assertEval("EPackage.all.first().eClassifiers.at(0).name", "C1", "templates/model-with-eol-template-importing-eol.flexmi");
 		assertEval("EPackage.all.second().eClassifiers.at(0).name", "C2", "templates/model-with-eol-template-importing-eol.flexmi");
-
 	}
 }

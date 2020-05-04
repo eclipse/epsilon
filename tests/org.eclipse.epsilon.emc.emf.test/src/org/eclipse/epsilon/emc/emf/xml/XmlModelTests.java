@@ -10,47 +10,42 @@
 package org.eclipse.epsilon.emc.emf.xml;
 
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class XmlModelTests {
 	
-	private String SCHEMA_FILE_PATH = "";
-	
-	private String MODEL_PATH = "model/Example.graphml";
+	static String SCHEMA_FILE_PATH, MODEL_PATH;
 	
 	public XmlModelTests() throws Exception {
 	}
 	
-	@Before
-	public void setup() throws Exception {
-		SCHEMA_FILE_PATH = new File(XmlModelTests.class.getResource("graphml/ygraphml.xsd").toURI()).getAbsolutePath();
-		MODEL_PATH = new File(XmlModelTests.class.getResource("graphml/Example.graphml").toURI()).getAbsolutePath();
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		Class<?> relClass = XmlModelTests.class;
+		// Load dependencies
+		FileUtil.getFileStandalone("graphml/ygraphml.xsd", relClass);
+		FileUtil.getFileStandalone("graphml/yfeatures.xsd", relClass);
+		FileUtil.getFileStandalone("graphml/ygraphics.xsd", relClass);
+		FileUtil.getFileStandalone("graphml/yprocessors.xsd", relClass);
+		FileUtil.getFileStandalone("graphml/xlink.xsd", relClass);
+		FileUtil.getFileStandalone("graphml/graphml-structure.xsd", relClass);
+		SCHEMA_FILE_PATH = FileUtil.getFileStandalone("graphml/ygraphml.xsd", relClass).getAbsolutePath();
+		MODEL_PATH = FileUtil.getFileStandalone("graphml/Example.graphml", relClass).getAbsolutePath();
 	}
-	
-//	@Test
-//	public void testRelativePath() throws Exception {
-//		
-//		XmlModel model = createXmlModel(MODEL_PATH, SCHEMA_FILE_PATH);
-//		Resource resource = model.getResource();
-//		resource.getContents().add(createRootElement(resource));
-//		assertTrue(model.store());
-//	}
 	
 	@Test
 	public void testAbsolutePath() throws Exception {
-		
 		String absolutePath = new File(MODEL_PATH).getAbsolutePath();
 		if (OperatingSystem.isWindows()) {
 			absolutePath = "file:///"+absolutePath;
@@ -64,7 +59,6 @@ public class XmlModelTests {
 
 	@Test
 	public void testFileURI() throws Exception {
-		
 		String absolutePath = new File(MODEL_PATH).getAbsolutePath();
 		XmlModel model = createXmlModel(URI.createFileURI(absolutePath).toString(), SCHEMA_FILE_PATH);
 		Resource resource = model.getResource();

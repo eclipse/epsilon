@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.test.acceptance.output.lineNumbers;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 
 import java.io.File;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.junit.Test;
@@ -46,8 +45,10 @@ public class CurrentLineNumber {
 	}
 	
 	
-	private static File getParentTemplate() {
-		return FileUtil.getFile("Parent.egl",  CurrentLineNumber.class);
+	private static File getParentTemplate() throws Exception {
+		// Load imported file
+		FileUtil.getFileStandalone("Child.egl",  CurrentLineNumber.class);
+		return FileUtil.getFileStandalone("Parent.egl",  CurrentLineNumber.class);
 	}
 
 }

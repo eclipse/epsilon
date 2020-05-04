@@ -4,12 +4,6 @@ package org.eclipse.epsilon.hutn.parse.spec;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
 import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
@@ -81,20 +75,25 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return HutnSpecParser.tokenNames; }
-    public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g"; }
+    @Override
+	public String[] getTokenNames() { return HutnSpecParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g"; }
 
 
     public static class preamble_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start preamble
@@ -207,7 +206,8 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
 
     public static class metamodel_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start metamodel
@@ -320,7 +320,8 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
 
     public static class feature_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start feature

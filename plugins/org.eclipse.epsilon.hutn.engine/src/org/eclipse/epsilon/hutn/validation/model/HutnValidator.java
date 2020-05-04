@@ -11,7 +11,6 @@ package org.eclipse.epsilon.hutn.validation.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
@@ -28,8 +27,8 @@ import org.eclipse.epsilon.hutn.validation.AbstractValidator;
 
 public class HutnValidator extends AbstractValidator {
 
-	public HutnValidator() {
-		super(new HutnFixer(), HutnValidator.class.getResource("ValidateIntermediateModel.evl"));
+	public HutnValidator() throws HutnValidationException {
+		super(new HutnFixer(), "ValidateIntermediateModel.evl");
 	}
 	
 	private static Resource resourceFor(Spec hutn) {

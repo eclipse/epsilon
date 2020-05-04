@@ -25,7 +25,6 @@ import org.eclipse.epsilon.common.parse.EpsilonParseProblemManager;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.parse.HutnLexer;
 import org.eclipse.epsilon.hutn.parse.HutnParser;
 import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;
@@ -34,7 +33,7 @@ import org.eclipse.epsilon.hutn.translate.HutnTranslator;
 
 public class IntermediateModelGenerator {
 
-	public static IModel generate(String spec) throws HutnTranslationException {
+	public static IModel generate(String spec) throws Exception {
 		try {
 			final HutnLexer  lexer  = new HutnLexer(new ANTLRReaderStream(new StringReader(spec)));
 			final HutnParser parser = new HutnParser(new CommonTokenStream(lexer));
@@ -61,7 +60,7 @@ public class IntermediateModelGenerator {
 		return null;
 	}
 	
-	public static void main(String[] args) throws HutnTranslationException {
+	public static void main(String[] args) throws Exception {
 		generate("@Spec {"                                                                             +
                 "	MetaModel \"FamiliesMetaModel\" {"                                                +
                 "		nsUri = \"families\""                                                         +

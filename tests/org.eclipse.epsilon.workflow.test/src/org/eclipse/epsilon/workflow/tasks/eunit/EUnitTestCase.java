@@ -13,18 +13,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
-
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.CallTarget;
 import org.apache.tools.ant.taskdefs.Delete;
@@ -55,7 +52,7 @@ import org.xml.sax.SAXParseException;
  *
  * @author Antonio Garcia-Dominguez
  */
-public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHandler {
+public abstract class EUnitTestCase extends WorkflowTestCase implements ErrorHandler {
 
 	protected static final File BASE_DIR = new File("../org.eclipse.epsilon.workflow.test/resources/eunit/");
 	protected static final File ANT_BUILD_FILE = new File(BASE_DIR, "eunit.xml");
@@ -214,21 +211,17 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 	}
 
 	private Schema loadJUnitSchema() throws SAXException {
-		SchemaFactory schemaFactory
-			= SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema junitXSD = schemaFactory.newSchema(new File(BASE_DIR, "junit.xsd"));
 		return junitXSD;
 	}
 
-	private Document parseAndValidate(File file, Schema junitXSD)
-			throws ParserConfigurationException, SAXException, IOException {
-				DocumentBuilderFactory docBuilderFactory
-					= DocumentBuilderFactory.newInstance();
-				docBuilderFactory.setSchema(junitXSD);
-				DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-				docBuilder.setErrorHandler(this);
-				Document doc = docBuilder.parse(file);
-				return doc;
-			}
-
+	private Document parseAndValidate(File file, Schema junitXSD) throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+		docBuilderFactory.setSchema(junitXSD);
+		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+		docBuilder.setErrorHandler(this);
+		Document doc = docBuilder.parse(file);
+		return doc;
+	}
 }

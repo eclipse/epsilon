@@ -14,12 +14,10 @@
 package org.eclipse.epsilon.hutn.validation.config;
 
 import java.util.List;
-
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.Configuration;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.DefaultValueRule;
 import org.eclipse.epsilon.hutn.model.config.hutnConfig.HutnConfigFactory;
@@ -29,7 +27,7 @@ import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 
 public abstract class HutnConfigFileValidationTest extends HutnTestWithFamiliesMetaModel {
 
-	public static List<ParseProblem> configFileValidationTest(Configuration configuration) throws HutnValidationException {
+	public static List<ParseProblem> configFileValidationTest(Configuration configuration) throws Exception {
 		EmfModel model = null;
 		
 		try {

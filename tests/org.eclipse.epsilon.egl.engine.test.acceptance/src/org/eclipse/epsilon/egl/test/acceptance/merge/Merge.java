@@ -47,24 +47,27 @@ public class Merge {
 	
 	@BeforeClass
 	public static void setUpOnce() throws IOException {
-		StoreProgram                = FileUtil.getFile("Store.egl", Merge.class);
-		GenerateProgram             = FileUtil.getFile("Generate.egl", Merge.class);
-		GenerateAbsentProgram       = FileUtil.getFile("GenerateAbsent.egl", Merge.class);
-		GenerateAbsentNestedProgram = FileUtil.getFile("GenerateAbsentNested.egl", Merge.class);
-		OverwriteProgram            = FileUtil.getFile("Overwrite.egl", Merge.class);
-		DuplicatePRProgram          = FileUtil.getFile("DuplicateProtectedRegion.egl", Merge.class);
+		StoreProgram                = FileUtil.getFileStandalone("Store.egl", Merge.class);
+		GenerateProgram             = FileUtil.getFileStandalone("Generate.egl", Merge.class);
+		GenerateAbsentProgram       = FileUtil.getFileStandalone("GenerateAbsent.egl", Merge.class);
+		GenerateAbsentNestedProgram = FileUtil.getFileStandalone("GenerateAbsentNested.egl", Merge.class);
+		OverwriteProgram            = FileUtil.getFileStandalone("Overwrite.egl", Merge.class);
+		DuplicatePRProgram          = FileUtil.getFileStandalone("DuplicateProtectedRegion.egl", Merge.class);
 		
-		PetOverwrite           = FileUtil.getFile("Pet_overwrite.txt", Merge.class);
-		PetGenerate            = FileUtil.getFile("Pet_generate.txt", Merge.class);
-		PetGenerateAbsent      = FileUtil.getFile("Pet_generateAbsent.txt", Merge.class);
-		PetStore               = FileUtil.getFile("Pet_store.txt", Merge.class);
+		PetOverwrite           = FileUtil.getFileStandalone("Pet_overwrite.txt", Merge.class);
+		PetGenerate            = FileUtil.getFileStandalone("Pet_generate.txt", Merge.class);
+		PetGenerateAbsent      = FileUtil.getFileStandalone("Pet_generateAbsent.txt", Merge.class);
+		PetStore               = FileUtil.getFileStandalone("Pet_store.txt", Merge.class);
 		
-		ExistingGenerate       = FileUtil.getFile("Existing_generate.txt", Merge.class);
+		ExistingGenerate       = FileUtil.getFileStandalone("Existing_generate.txt", Merge.class);
 		
-		ExpectedGenerate       = FileUtil.getFile("Expected_generate.txt", Merge.class);
-		ExpectedGenerateAbsent = FileUtil.getFile("Expected_generateAbsent.txt", Merge.class);
-		ExpectedOverwrite      = FileUtil.getFile("Expected_overwrite.txt", Merge.class);
+		ExpectedGenerate       = FileUtil.getFileStandalone("Expected_generate.txt", Merge.class);
+		ExpectedGenerateAbsent = FileUtil.getFileStandalone("Expected_generateAbsent.txt", Merge.class);
+		ExpectedOverwrite      = FileUtil.getFileStandalone("Expected_overwrite.txt", Merge.class);
 		
+		// Load imported files
+		FileUtil.getFileStandalone("OOClass2JavaClass.egl", Merge.class);
+		FileUtil.getFileStandalone("OOClass2JavaClassUnprotected.egl", Merge.class);
 		
 		org.eclipse.epsilon.egl.util.FileUtil.write(PetStore,          ExpectedStore);
 		org.eclipse.epsilon.egl.util.FileUtil.write(PetOverwrite,      ExpectedStore);

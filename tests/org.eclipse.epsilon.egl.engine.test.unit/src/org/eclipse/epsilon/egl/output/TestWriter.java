@@ -11,8 +11,8 @@ package org.eclipse.epsilon.egl.output;
 
 import java.io.File;
 import java.io.IOException;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.junit.*;
-
 import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 
@@ -24,11 +24,14 @@ public class TestWriter {
 	private int testNumber = 0;
 	
 	@BeforeClass
-	public static void setUpOnce() throws IOException {	
-		VALID_PATH     = org.eclipse.epsilon.common.util.FileUtil.getFile("Valid.txt", TestWriter.class);
-		READ_ONLY_PATH = org.eclipse.epsilon.common.util.FileUtil.getFile("ReadOnly.txt", TestWriter.class);
+	public static void setUpOnce() throws Exception {	
+		// FIXME What we actually want is some temp paths
+		//VALID_PATH     = FileUtil.getFile("Valid.txt", TestWriter.class);
+		//READ_ONLY_PATH = FileUtil.getFile("ReadOnly.txt", TestWriter.class);
+		VALID_PATH     = FileUtil.createTempFile("Valid.txt");
+		READ_ONLY_PATH = FileUtil.createTempFile("ReadOnly.txt");
 		
-		READ_ONLY_PATH.createNewFile();
+		// READ_ONLY_PATH.createNewFile();
 		READ_ONLY_PATH.setReadOnly();
 	}
 	

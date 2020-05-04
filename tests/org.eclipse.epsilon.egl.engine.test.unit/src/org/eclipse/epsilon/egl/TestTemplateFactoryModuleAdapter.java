@@ -32,15 +32,9 @@ public class TestTemplateFactoryModuleAdapter {
 	
 	@BeforeClass
 	public static void setUpOnce() throws IOException {	
-		VALID_PATH           = org.eclipse.epsilon.common.util.FileUtil.getFile(
-			"Valid.txt",          TestTemplateFactoryModuleAdapter.class
-		);
-		INVALID_PATH         = org.eclipse.epsilon.common.util.FileUtil.getFile(
-			"Invalid.txt",        TestTemplateFactoryModuleAdapter.class
-		);
-		INVALID_RUNTIME_PATH = org.eclipse.epsilon.common.util.FileUtil.getFile(
-			"InvalidRuntime.txt", TestTemplateFactoryModuleAdapter.class
-		);
+		VALID_PATH           = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Valid", ".txt");
+		INVALID_PATH         = org.eclipse.epsilon.common.util.FileUtil.createTempFile("Invalid.", "t.xt");
+		INVALID_RUNTIME_PATH = org.eclipse.epsilon.common.util.FileUtil.createTempFile("InvalidRuntime", ".txt");
 		
 		org.eclipse.epsilon.egl.util.FileUtil.write(VALID_PATH,           valid);
 		org.eclipse.epsilon.egl.util.FileUtil.write(INVALID_PATH,         invalid);

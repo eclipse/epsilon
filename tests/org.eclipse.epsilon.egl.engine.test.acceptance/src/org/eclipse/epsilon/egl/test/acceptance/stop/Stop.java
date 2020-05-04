@@ -22,9 +22,9 @@ public class Stop {
 	private static File StopNested;
 	
 	@BeforeClass
-	public static void setUpOnce() {
-		Stop       = org.eclipse.epsilon.common.util.FileUtil.getFile("Stop.egl",       Stop.class);
-		StopNested = org.eclipse.epsilon.common.util.FileUtil.getFile("StopNested.egl", Stop.class);
+	public static void setUpOnce() throws Exception {
+		Stop       = org.eclipse.epsilon.common.util.FileUtil.getFileStandalone("Stop.egl",       Stop.class);
+		StopNested = org.eclipse.epsilon.common.util.FileUtil.getFileStandalone("StopNested.egl", Stop.class);
 	}
 	
 	@Test

@@ -14,10 +14,10 @@ Export-Package: org.eclipse.epsilon.hutn.test.model,
  org.eclipse.epsilon.hutn.test.model.families,
  org.eclipse.epsilon.hutn.test.model.families.impl,
  org.eclipse.epsilon.hutn.test.model.families.util,
- org.eclipse.epsilon.hutn.test.models,
- org.eclipse.epsilon.hutn.test.models.util
+ org.eclipse.epsilon.hutn.test.models
 Require-Bundle: org.eclipse.epsilon.emc.emf,
- org.junit;bundle-version="4.0.0"
+ org.junit;bundle-version="4.0.0",
+ org.eclipse.epsilon.common
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.epsilon.hutn.test.dependencies.model

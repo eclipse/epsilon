@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.engine.test.acceptance.reuse;
 
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.evl.*;
@@ -41,7 +39,7 @@ public class EvlModuleReuseTests {
 		return model;
 	}
 	
-	static IModel removeModel(String modelName) throws EolModelNotFoundException {
+	static IModel removeModel(String modelName) throws Exception {
 		ModelRepository modelRepo = module.getContext().getModelRepository();
 		IModel model = modelRepo.getModelByName(modelName);
 		modelRepo.removeModel(model);
@@ -54,7 +52,7 @@ public class EvlModuleReuseTests {
 	}
 	
 	@After
-	public void testExecution() throws EolRuntimeException {
+	public void testExecution() throws Exception {
 		EvlTests.getTestScript(module);		// Setup variables
 		module.execute();
 		EvlTests.testUnsatisfiedConstraintsForTestScriptAndModel(module.getContext());
@@ -77,7 +75,7 @@ public class EvlModuleReuseTests {
 	 * @throws EolModelNotFoundException
 	 */
 	@Test
-	public void test2_ReuseWithChangedModelRepositorySameModel() throws EolModelNotFoundException {
+	public void test2_ReuseWithChangedModelRepositorySameModel() throws Exception {
 		ModelRepository modelRepo = new ModelRepository();
 		modelRepo.addModel(module.getContext().getModelRepository().getModelByName("test"));
 		module.getContext().setModelRepository(modelRepo);

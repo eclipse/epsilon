@@ -10,10 +10,22 @@
 package org.eclipse.epsilon.flexmi.test;
 
 import static org.junit.Assert.assertEquals;
-
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ExternalTests extends FlexmiTests {
+	
+	@Before
+	public void setup() throws Exception {
+		super.setup();
+		FileUtil.getFileStandalone("models/external/p2.eol", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/external/package-name.txt", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/external/external.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/external/toplevel.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/external/nested/nested.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/external/external-with-warning.flexmi", FlexmiTests.class);
+	}
 	
 	@Test
 	public void testExternalFile() throws Exception {
@@ -30,6 +42,4 @@ public class ExternalTests extends FlexmiTests {
 	public void testExternalWithWarning() throws Exception {
 		assertEquals(1, loadResource("external/external-with-warning.flexmi").getWarnings().size());
 	}
-	
-	
 }

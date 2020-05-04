@@ -33,7 +33,7 @@ public class GenerateShouldUpdateTextLocation extends EglFineGrainedTraceability
 	}
 	
 	@Test
-	public void destinationResourceShouldHaveGenerationLocationForChildTemplate() {
+	public void destinationResourceShouldHaveGenerationLocationForChildTemplate() throws Exception {
 		trace.assertEquals(getAbsoluteOutputPathFor("ClassName.txt"), "trace.traceLinks.first.destination.resource");		
 	}
 }

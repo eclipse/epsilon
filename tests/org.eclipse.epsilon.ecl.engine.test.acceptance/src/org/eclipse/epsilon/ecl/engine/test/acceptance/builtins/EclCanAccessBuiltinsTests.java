@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance.builtins;
 
 import java.io.File;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -24,8 +23,8 @@ public class EclCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 	}
 
 	@Override
-	protected File getProgram() {
-		return FileUtil.getFile(("System.ecl"), EclCanAccessBuiltinsTests.class);
+	protected File getProgram() throws Exception {
+		return FileUtil.getFileStandalone(("System.ecl"), EclCanAccessBuiltinsTests.class);
 	}
 
 	@Override

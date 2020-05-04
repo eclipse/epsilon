@@ -17,11 +17,12 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class HutnModelTests extends HutnTestWithFamiliesMetaModel {
 
-	private static final String MODEL_PATH = FileUtil.getPath("temp.model", HutnModelTests.class);
+	private static String MODEL_PATH;
 
 	private static final String hutn = families("Person \"p\" {" +
 	                                            "  name: \"John\" " +
@@ -29,6 +30,13 @@ public class HutnModelTests extends HutnTestWithFamiliesMetaModel {
 	
 	private static final String program = "Person.all.first.name = Person.all.first.name + ' Smith';";
 	
+	
+	@BeforeClass
+	public static void setupBeforeClass() throws Exception {
+		//MODEL_PATH = FileUtil.getPath("temp.model", HutnModelTests.class);
+		// FIXME We want a temp file
+		MODEL_PATH = FileUtil.createTempFile("temp.model").getAbsolutePath();
+	}
 	
 	@Before
 	public void deleteModelFile() {

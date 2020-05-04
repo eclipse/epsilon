@@ -17,7 +17,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.validation.config.HutnConfigFileValidationTest;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.junit.BeforeClass;
@@ -28,7 +27,7 @@ public class MultiValuedDefaultAttribute extends HutnConfigFileValidationTest {
 	private static List<ParseProblem> problems;
 	
 	@BeforeClass
-	public static void buildModel() throws HutnValidationException {
+	public static void buildModel() throws Exception {
 		problems = configFileValidationTest(createConfiguration(createIdentifierRule("Family", "address")));
 	}
 	

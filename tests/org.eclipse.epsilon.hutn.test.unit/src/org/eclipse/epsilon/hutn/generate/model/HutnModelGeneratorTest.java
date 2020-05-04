@@ -13,7 +13,6 @@
  */
 package org.eclipse.epsilon.hutn.generate.model;
 
-import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
@@ -23,7 +22,7 @@ public class HutnModelGeneratorTest extends HutnTestWithFamiliesMetaModel {
 
 	protected static ModelWithEolAssertions model;
 	
-	protected static ModelWithEolAssertions modelGeneratorTest(Spec spec) throws HutnGenerationException {
+	protected static ModelWithEolAssertions modelGeneratorTest(Spec spec) throws Exception {
 		return new ModelWithEolAssertions(new ModelGenerator(spec).generate((String)null));
 	}
 	

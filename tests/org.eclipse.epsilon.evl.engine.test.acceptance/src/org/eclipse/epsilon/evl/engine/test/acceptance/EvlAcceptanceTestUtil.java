@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
@@ -28,6 +29,19 @@ import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
  */
 public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	protected EvlAcceptanceTestUtil() {}
+	
+	static {
+		try {
+			// Load imported file
+			FileUtil.getFileStandalone("scripts/utils.eol", EvlTests.class);
+			FileUtil.getFileStandalone("scripts/thrift-helper-functions.eol", EvlAcceptanceTestUtil.class);
+			//FileUtil.getFile("scripts/test.evl", EvlTests.class);
+			//FileUtil.getFile("scripts/optimised.evl", EvlTests.class);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 	public static final String
 		// Core
@@ -105,8 +119,8 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	public static Collection<EvlRunConfiguration> getScenarios(List<String[]> testInputs, boolean includeTest, Collection<Supplier<? extends IEvlModule>> moduleGetters, Function<String[], Integer> idCalculator) throws Exception {
 		if (testInputs == null) testInputs = allInputs;
 		if (moduleGetters == null) moduleGetters = modules();
-		Collection<EvlRunConfiguration> scenarios = EolAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator);
-		Collection<EvlRunConfiguration> alts = EolAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator);
+		Collection<EvlRunConfiguration> scenarios = EolAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator, EvlAcceptanceTestUtil.class);
+		Collection<EvlRunConfiguration> alts = EolAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator, EvlAcceptanceTestUtil.class);
 		
 		for (EvlRunConfiguration conf : alts) {
 			conf.getModule().getContext().setOptimizeConstraintTrace(!conf.getModule().getContext().isOptimizeConstraintTrace());

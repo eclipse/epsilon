@@ -16,7 +16,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -67,9 +66,10 @@ public class EUnitRunner extends Runner {
 		module.getContext().getOperationContributorRegistry().add(new AssertWarningOperationContributor(module.getContext()));
 		
 		try {
-			eolFile = FileUtil.getFile(clazz.getSimpleName() + ".eol", clazz);
+			eolFile = FileUtil.getFileStandalone(clazz.getSimpleName() + ".eol", clazz);
 			module.parse(eolFile);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return testSuiteDescription;
 		}
 		
@@ -81,7 +81,6 @@ public class EUnitRunner extends Runner {
 			Description testDescription = Description.createTestDescription(clazz, test.getName());
 			testSuiteDescription.addChild(testDescription);
 			descriptions.put(test.getName(), testDescription);
-			
 		}
 		
 		return testSuiteDescription;

@@ -10,13 +10,12 @@
 package org.eclipse.epsilon.eol.engine.test.acceptance.circularImports;
 
 import static org.junit.Assert.assertEquals;
-
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
-
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.EolModule;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -25,25 +24,38 @@ import org.junit.Test;
  */
 public class CircularImportTests {
 
+	static File immediate, two_a, three_a;
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		Class<?> relClass = CircularImportTests.class;
+		// Load dependencies
+		FileUtil.getFileStandalone("two-b.eol", relClass);
+		FileUtil.getFileStandalone("three-c.eol", relClass);
+		FileUtil.getFileStandalone("three-b.eol", relClass);
+		immediate = FileUtil.getFileStandalone("immediate.eol", relClass);
+		two_a = FileUtil.getFileStandalone("two-a.eol", relClass);
+		three_a = FileUtil.getFileStandalone("three-a.eol", relClass);
+	}
+	
 	@Test
 	public void immediate() throws Exception {
-		parse("immediate.eol");
+		parse(immediate);
 	}
 
 	@Test
 	public void oneLevel() throws Exception {
-		parse("two-a.eol");
+		parse(two_a);
 	}
 
 	@Test
 	public void twoLevels() throws Exception {
-		parse("three-a.eol");
+		parse(three_a);
 	}
 
-	private static void parse(final String script) throws Exception {
+	private static void parse(final File script) throws Exception {
 		EolModule module = new EolModule();
-		final URI eolURI = CircularImportTests.class.getResource(script).toURI();
-		module.parse(new File(eolURI.getPath()));
+		module.parse(script);
 		assertEquals(new ArrayList<ParseProblem>(), module.getParseProblems());
 		module.execute();
 	}

@@ -22,10 +22,13 @@ import org.junit.Test;
 
 public class ExternalObjectReferenceRelative extends HutnAcceptanceTest {
 	
-	private static File hutnSource = FileUtil.getFile("temp.hutn", ExternalObjectReferenceRelative.class);
+	private static File hutnSource;
 	
 	@BeforeClass
 	public static void executeHutn() throws Exception {
+		// FIXME We want a temp file
+		//hutnSource = FileUtil.getFile("temp.hutn", ExternalObjectReferenceRelative.class);
+		hutnSource = FileUtil.createTempFile("temp.hutn");
 		final String hutn = "@Spec {"                                                                  +
 	                        "	MetaModel \"FamiliesMetaModel\" {"                                     +
 	                        "		nsUri = \"families\""                                              +
@@ -40,10 +43,10 @@ public class ExternalObjectReferenceRelative extends HutnAcceptanceTest {
 		
 		FileUtil.setFileContents(hutn, hutnSource);
 		
+		// Load nearby model
+		FileUtil.getFileStandalone("Nearby.model", ExternalObjectReferenceRelative.class);
 		model = generateModel(hutnSource);
-		
 		model.setVariable("john", "Person.all().first()");
-		
 		model.setVariable("accNumber", "john.sharedAccounts.first().eClass.getEStructuralFeature('number')");
 	}
 	

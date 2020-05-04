@@ -22,8 +22,8 @@ public class EmlCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 	}
 	
 	@Override
-	protected File getProgram() {
-		return FileUtil.getFile(("System.eml"), EmlCanAccessBuiltinsTests.class);
+	protected File getProgram() throws Exception {
+		return FileUtil.getFileStandalone(("System.eml"), EmlCanAccessBuiltinsTests.class);
 	}
 
 	@Override

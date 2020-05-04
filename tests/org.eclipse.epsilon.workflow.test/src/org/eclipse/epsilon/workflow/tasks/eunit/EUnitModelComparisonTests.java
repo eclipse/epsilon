@@ -36,14 +36,14 @@ import org.xml.sax.SAXException;
 public class EUnitModelComparisonTests extends EUnitTestCase {
 
 	@Override
-	public void runTarget(File buildFile, String targetName)
-			throws BuildException, IOException {
+	public void runTarget(File buildFile, String targetName) throws BuildException, IOException {
 		AntRunner runner = new AntRunner();
 		runner.setBuildFileLocation(buildFile.getCanonicalPath());
 		runner.setExecutionTargets(new String[] { targetName });
 		try {
 			runner.run();
-		} catch (CoreException e) {
+		}
+		catch (CoreException e) {
 			throw new BuildException(e);
 		}
 	}

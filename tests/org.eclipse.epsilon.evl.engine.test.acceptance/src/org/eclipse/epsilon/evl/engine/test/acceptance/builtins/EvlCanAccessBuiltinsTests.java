@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.evl.engine.test.acceptance.builtins;
 
 import java.io.File;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.evl.EvlModule;
@@ -24,8 +23,8 @@ public class EvlCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 	}
 
 	@Override
-	protected File getProgram() {
-		return FileUtil.getFile(("System.evl"), EvlCanAccessBuiltinsTests.class);
+	protected File getProgram() throws Exception {
+		return FileUtil.getFileStandalone(("System.evl"), EvlCanAccessBuiltinsTests.class);
 	}
 
 	@Override

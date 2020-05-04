@@ -42,7 +42,16 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class EplTests {
 	
-	private static final File TEST_SCRIPT = new File(EplAcceptanceTestUtil.scriptsRoot+"test.epl");
+	private static File TEST_SCRIPT;
+	
+	static {
+		try {
+			TEST_SCRIPT = FileUtil.getFileStandalone(EplAcceptanceTestUtil.scriptsRoot+"test.epl", EplAcceptanceTestUtil.class);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 	public static IModel getTestModel() throws Exception {
 		return newModel("test.xml");
@@ -66,10 +75,9 @@ public class EplTests {
 	
 	private static IModel newModel(String modelName) throws Exception {
 		PlainXmlModel model = new PlainXmlModel();
-		model.setFile(new File(EplAcceptanceTestUtil.modelsRoot+modelName));
+		model.setFile(FileUtil.getFileStandalone(EplAcceptanceTestUtil.modelsRoot+modelName, EplAcceptanceTestUtil.class));
 		model.setName(FileUtil.removeExtension(model.getFile().getName()));
 		model.setCachingEnabled(false);
-		//model.setConcurrent(true);
 		model.load();
 		return model;
 	}

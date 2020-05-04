@@ -11,19 +11,48 @@ package org.eclipse.epsilon.flexmi.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import java.io.File;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolEvaluator;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
+import org.junit.Before;
 
 public abstract class FlexmiTests {
+	
+	@Before
+	public void setup()  throws Exception {
+		// Load imported files
+		FileUtil.getFileStandalone("models/templates/subdir/template-importing-eol.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/templates/imported-template.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/templates/imported-templates.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/templates/library.eol", FlexmiTests.class);	
+	}
+	
+	protected FlexmiResource loadResource(String filename) throws Exception {
+		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("flexmi", new FlexmiResourceFactory());
+		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(), EcorePackage.eINSTANCE);
+		File resourceFile;
+		try {
+			resourceFile = FileUtil.getFileStandalone("models/" + filename, FlexmiTestSuite.class);
+		}
+		catch (NullPointerException ex) {
+			// Let tests for invalid paths have their joy
+			resourceFile = new File("models/" + filename);
+		}
+		FlexmiResource resource = (FlexmiResource) resourceSet.createResource(URI.createURI(resourceFile.toURI().toString()));
+		resource.load(null);
+		return resource;
+	}
 	
 	protected FlexmiResource loadResource(String filename, String... metamodels) throws Exception {
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -31,15 +60,17 @@ public abstract class FlexmiTests {
 		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(), EcorePackage.eINSTANCE);
 		
 		for (String metamodel : metamodels) {
-			EmfUtil.register(URI.createURI(FlexmiTestSuite.class.getResource("models/" + metamodel)
-					.toURI().toString()), EPackage.Registry.INSTANCE);
+			EmfUtil.register(URI.createURI(FileUtil.getFileStandalone(
+				"models/" + metamodel, FlexmiTestSuite.class).toURI().toString()), EPackage.Registry.INSTANCE
+			);
 		}
 		
 		for (Object ePackage : resourceSet.getPackageRegistry().values()) {
 			System.out.println(ePackage);
 		}
 		
-		FlexmiResource resource = (FlexmiResource) resourceSet.createResource(URI.createURI(FlexmiTestSuite.class.getResource("models/" + filename).toURI().toString()));
+		File resourceFile = FileUtil.getFileStandalone("models/" + filename, FlexmiTestSuite.class);
+		FlexmiResource resource = (FlexmiResource) resourceSet.createResource(URI.createURI(resourceFile.toURI().toString()));
 		resource.load(null);
 		return resource;
 	}

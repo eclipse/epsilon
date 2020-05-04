@@ -46,21 +46,34 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			ecoreBase, ecoreBase, ecoreBase
 		));
 		allInputs.addAll(ecoreInputs);
+		
+		try {
+			FileUtil.getFileStandalone("ecore2dot/eclass2dot.egl", EgxAcceptanceTestUtil.class);
+			FileUtil.getFileStandalone("ecore2dot/ecore2dot.egl", EgxAcceptanceTestUtil.class);
+			FileUtil.getFileStandalone("ecore2dot/Ecore.ecore", EgxAcceptanceTestUtil.class);
+			FileUtil.getFileStandalone("ecore2dot/java.ecore", EgxAcceptanceTestUtil.class);
+			FileUtil.getFileStandalone("ecore2dot/ecore.egx", EgxAcceptanceTestUtil.class);
+			FileUtil.getFileStandalone("ecore2dot/ecore23d.egl", EgxAcceptanceTestUtil.class);
+			FileUtil.getFileStandalone("ecore2dot/objectdiagram.egl", EgxAcceptanceTestUtil.class);
+			FileUtil.getFileStandalone("ecore2dot/stats.egl", EgxAcceptanceTestUtil.class);
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
 		return parallelModules(THREADS,
 			includeStandard ? EgxModule::new : null,
 			p -> new EgxModuleParallelAnnotation(new EgxContextParallel(p)),
-			//p -> new EgxModuleParallelElements(new EgxContextParallel(p)),
 			p -> new EgxModuleParallelGenerationRuleAtoms(new EgxContextParallel(p))
 		);
 	}
 	
 	public static Collection<EgxRunConfiguration> getScenarios(
 		List<String[]> testInputs,
-		Collection<Supplier<? extends IEgxModule>> moduleGetters) {
-			return getScenarios(EgxRunConfiguration.class, testInputs, moduleGetters, null);
+		Collection<Supplier<? extends IEgxModule>> moduleGetters) throws Exception {
+			return getScenarios(EgxRunConfiguration.class, testInputs, moduleGetters, null, EgxAcceptanceTestUtil.class);
 	}
 	
 	public static void deleteOutputDirectories() throws IOException {

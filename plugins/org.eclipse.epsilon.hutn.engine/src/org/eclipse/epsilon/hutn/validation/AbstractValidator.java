@@ -9,11 +9,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn.validation;
 
-import java.net.URL;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
@@ -23,11 +25,24 @@ import org.eclipse.epsilon.hutn.util.EpsilonUtil;
 public abstract class AbstractValidator {
 
 	private final AbstractFixer fixer;
-	private final URL evlSource;
+	private final File evlSource;
 	
-	protected AbstractValidator(AbstractFixer fixer, URL url) {
+	/**
+	 * 
+	 * @param fixer
+	 * @param filename
+	 * @param relativeTo
+	 * @throws HutnException 
+	 * @since 1.6
+	 */
+	protected AbstractValidator(AbstractFixer fixer, String filename) throws HutnValidationException {
 		this.fixer = fixer;
-		this.evlSource = url;
+		try {
+			this.evlSource = FileUtil.getFileStandalone(filename, getClass());
+		}
+		catch (IOException ex) {
+			throw new HutnValidationException(ex);
+		}
 	}
 	
 	protected List<ParseProblem> validate(IModel model, List<IModel> extraModels) throws HutnValidationException {
@@ -49,7 +64,7 @@ public abstract class AbstractValidator {
 	private List<ParseProblem> doValidate(IModel model, IModel... extraModels) throws HutnValidationException {
 		try {		
 			final IEvlModule validator = EpsilonUtil.initialseEvlModule(fixer, model, extraModels);
-			validator.parse(evlSource.toURI());
+			validator.parse(evlSource);
 			validator.execute();
 			return collectParseProblems(validator);
 		}

@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
@@ -100,6 +101,7 @@ public class ModelGenerator extends AbstractGenerator {
 		return nsUris.toArray(new String[]{});
 	}
 	
+	@Override
 	protected EmfModel generate(Resource resource) throws HutnGenerationException {
 		try {
 			final EmfModel target = new InMemoryEmfModel("Model", resource, getNsUrisForTargetModel());
@@ -141,7 +143,7 @@ public class ModelGenerator extends AbstractGenerator {
 			final EglTemplateFactory generator = new EglTemplateFactory();
 			generator.getContext().getModelRepository().addModel(source);
 			
-			final EglTemplate template = generator.load(ModelGenerator.class.getResource("GenerateIntermediate2ModelTransformation.egl").toURI());
+			final EglTemplate template = generator.load(FileUtil.getFileStandalone("GenerateIntermediate2ModelTransformation.egl", ModelGenerator.class));
 			
 			final Collection<EClass> classes;
 			

@@ -12,7 +12,6 @@ package org.eclipse.epsilon.flock.engine.test.acceptance.copying;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory.AccessMode;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.flock.engine.test.acceptance.models.FlockAcceptanceTestModels;
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
@@ -36,7 +35,7 @@ public class DoNotCopyTypesThatDoNotBelongToTheOriginalMetamodel extends FlockAc
 		migrated.setVariable("joe", "Person.all.first");
 	}
 
-	private static EmfModel loadModelWithACrossReferenceToExternalType() throws EolModelLoadingException {
+	private static EmfModel loadModelWithACrossReferenceToExternalType() throws Exception {
 		final EmfModel model = EmfModelFactory.getInstance().loadEmfModel("Original", FlockAcceptanceTestModels.getBloggsModelFile(), "families", AccessMode.READ_ONLY);
 		model.setExpand(false);
 		model.load();

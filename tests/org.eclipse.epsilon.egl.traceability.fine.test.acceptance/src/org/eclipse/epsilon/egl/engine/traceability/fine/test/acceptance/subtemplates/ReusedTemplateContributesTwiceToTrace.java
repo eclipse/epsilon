@@ -41,12 +41,12 @@ public class ReusedTemplateContributesTwiceToTrace extends EglFineGrainedTraceab
 	}
 	
 	@Test
-	public void firstDestinationResourceShouldBeFirstFile() {
+	public void firstDestinationResourceShouldBeFirstFile() throws Exception {
 		trace.assertEquals(getAbsoluteOutputPathFor("Out.txt"), "trace.traceLinks.first.destination.resource");
 	}
 	
 	@Test
-	public void secondDestinationResourceShouldBeSecondFile() {
+	public void secondDestinationResourceShouldBeSecondFile() throws Exception {
 		trace.assertEquals(getAbsoluteOutputPathFor("Out2.txt"), "trace.traceLinks.second.destination.resource");
 	}
 //	

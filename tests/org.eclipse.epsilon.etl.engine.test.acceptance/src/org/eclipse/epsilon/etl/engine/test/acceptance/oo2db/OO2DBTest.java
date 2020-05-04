@@ -34,7 +34,7 @@ public class OO2DBTest extends EtlTest {
 		return EtlAcceptanceTestUtil.modules();
 	}
 	
-	static Resource dbModelOracle;
+	static Resource dbModelOracle, dbModelClean;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -42,6 +42,7 @@ public class OO2DBTest extends EtlTest {
 		registerMetamodel("models/DB.ecore", OO2DBTest.class);
 		registerMetamodel("models/TM.ecore", OO2DBTest.class);
 		registerMetamodel("models/SimpleTrace.ecore", OO2DBTest.class);
+		dbModelClean = getResource("models/DBInstance_clean.model", OO2DBTest.class);
 		dbModelOracle = getResource("models/DBInstance.model", OO2DBTest.class);
 	}
 	
@@ -60,9 +61,7 @@ public class OO2DBTest extends EtlTest {
 		);
 		
 		module.execute();
-		
-		testForEquivalence(dbModelOracle, dbModel.getResource());
-		
+		testForEquivalence(dbModelOracle, dbModel, dbModelClean);
 		module.getContext().dispose();
 	}
 		

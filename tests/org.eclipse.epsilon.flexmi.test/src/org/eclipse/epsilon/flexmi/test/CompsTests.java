@@ -11,13 +11,15 @@ package org.eclipse.epsilon.flexmi.test;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class CompsTests extends FlexmiTests {
-	protected EPackage comps = null;
+	
+	protected EPackage comps;
 	
 	@Test
 	public void testInPorts() throws Exception {
@@ -43,9 +45,11 @@ public class CompsTests extends FlexmiTests {
 	
 	@Before
 	public void setup() throws Exception {
-		comps = EmfUtil.register(URI.createURI(
-			FlexmiTestSuite.class.getResource("models/comps/comps.ecore").toURI().toString()), 
-				EPackage.Registry.INSTANCE).get(0);
+		super.setup();
+		comps = EmfUtil.register(URI.createURI(FileUtil.getFileStandalone(
+			"models/comps/comps.ecore", FlexmiTestSuite.class).toURI().toString()), 
+			EPackage.Registry.INSTANCE
+		).get(0);
 	}
 	
 	@After

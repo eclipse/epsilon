@@ -10,7 +10,7 @@
 		<version>1.6.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>org.eclipse.epsilon.test</artifactId>
-	<packaging>eclipse-test-plugin</packaging>
+	<packaging>eclipse-plugin</packaging>
 
 	<dependencies>
 		<dependency>
@@ -31,9 +31,12 @@
 				<version>3.0.0-M4</version>
 				<configuration>
 					<includes>
-						<include>EpsilonTestSuite.java</include>
+						<include>**/*Surefire*.java</include>
 					</includes>
 					<argLine>-ea -Xmx4g</argLine>
+					<additionalClasspathElements>
+						<!--additionalClasspathElement>${project.basedir}/../</additionalClasspathElement-->
+					</additionalClasspathElements>
 				</configuration>
 			</plugin>
 		</plugins>

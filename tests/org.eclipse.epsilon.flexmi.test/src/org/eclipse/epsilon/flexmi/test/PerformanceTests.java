@@ -10,14 +10,20 @@
 package org.eclipse.epsilon.flexmi.test;
 
 import static org.junit.Assert.*;
-
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PerformanceTests extends FlexmiTests {
+	
+	@Before
+	public void setup() throws Exception {
+		super.setup();
+		FileUtil.getFileStandalone("models/performance/filesystem.flexmi", FlexmiTests.class);
+	}
 	
 	@Test
 	public void testFilesystem() throws Exception {
 		assertEquals(0, loadResource("performance/filesystem.flexmi").getWarnings().size());
 	}
-	
 }

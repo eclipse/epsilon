@@ -37,19 +37,18 @@ public class Exceptions {
 	private static File ProtectedAndControlled;
 	
 	@BeforeClass
-	public static void setUpOnce() {
-		StopPreserve       = FileUtil.getFile("StopPreserve.egl",       Exceptions.class);
-		StartPreserve4     = FileUtil.getFile("StartPreserve4.egl",     Exceptions.class);
-		StartPreserve2     = FileUtil.getFile("StartPreserve2.egl",     Exceptions.class);
-		StartPreserve2NoCT = FileUtil.getFile("StartPreserve2NoCT.egl", Exceptions.class);
-		SetContentType     = FileUtil.getFile("SetContentType.egl",     Exceptions.class);
+	public static void setUpOnce() throws Exception {
+		StopPreserve       = FileUtil.getFileStandalone("StopPreserve.egl",       Exceptions.class);
+		StartPreserve4     = FileUtil.getFileStandalone("StartPreserve4.egl",     Exceptions.class);
+		StartPreserve2     = FileUtil.getFileStandalone("StartPreserve2.egl",     Exceptions.class);
+		StartPreserve2NoCT = FileUtil.getFileStandalone("StartPreserve2NoCT.egl", Exceptions.class);
+		SetContentType     = FileUtil.getFileStandalone("SetContentType.egl",     Exceptions.class);
 		
-		Exception          = FileUtil.getFile("Exception.egl",          Exceptions.class);
-		Load               = FileUtil.getFile("Load.egl",               Exceptions.class);
-		Process            = FileUtil.getFile("Process.egl",            Exceptions.class);
-		ProcessDeep        = FileUtil.getFile("ProcessDeep.egl",        Exceptions.class);
-		ProtectedAndControlled        = FileUtil.getFile("ProtectedAndControlled.egl",        Exceptions.class);
-
+		Exception          = FileUtil.getFileStandalone("Exception.egl",          Exceptions.class);
+		Load               = FileUtil.getFileStandalone("Load.egl",               Exceptions.class);
+		Process            = FileUtil.getFileStandalone("Process.egl",            Exceptions.class);
+		ProcessDeep        = FileUtil.getFileStandalone("ProcessDeep.egl",        Exceptions.class);
+		ProtectedAndControlled        = FileUtil.getFileStandalone("ProtectedAndControlled.egl",        Exceptions.class);
 	}
 	
 	

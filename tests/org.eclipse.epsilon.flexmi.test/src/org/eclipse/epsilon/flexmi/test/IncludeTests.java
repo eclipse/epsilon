@@ -10,10 +10,18 @@
 package org.eclipse.epsilon.flexmi.test;
 
 import static org.junit.Assert.assertEquals;
-
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.junit.Before;
 import org.junit.Test;
 
 public class IncludeTests extends FlexmiTests {
+	
+	@Before
+	public void setup()  throws Exception {
+		super.setup();
+		FileUtil.getFileStandalone("models/include/valid-included.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/include/datatypes.flexmi", FlexmiTests.class);
+	}
 	
 	@Test
 	public void testNoWarnings() throws Exception {
@@ -29,6 +37,5 @@ public class IncludeTests extends FlexmiTests {
 	@Test
 	public void testESuperType() throws Exception {
 		assertEval("EClass.all.first().eSuperTypes.first().name", "c2", "include/valid-main.flexmi");
-	}
-	
+	}	
 }

@@ -9,7 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.egx.engine.test.acceptance.operations;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.*;
 import org.junit.*;
 
@@ -19,13 +22,24 @@ import org.junit.*;
  */
 public class IncludeTests {
 	
+	static File fooEGX;
+	static Path outputRoot;
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		outputRoot = Paths.get(FileUtil.getFileStandalone("", PrintTests.class).toURI());
+		// Load dependencies
+		FileUtil.getFileStandalone("foo.egl", PrintTests.class);
+		FileUtil.getFileStandalone("bar.egl", PrintTests.class);
+		fooEGX = FileUtil.getFileStandalone("foo.egx", PrintTests.class);
+	}
+	
 	IEgxModule module;
 	
 	@Test
 	public void testEglInclude() throws Exception {
-		module = new EgxModule(Paths.get(getClass().getResource("").toURI()));
-		module.parse(getClass().getResource("foo.egx"));
+		module = new EgxModule(outputRoot);
+		module.parse(fooEGX);
 		module.execute();
 	}
-	
 }

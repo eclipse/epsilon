@@ -79,10 +79,12 @@ public abstract class EpsilonUtil {
 				return new EmfTool();
 			}
 
+			@Override
 			public boolean knowsAbout(String clazz) {
 				return "org.eclipse.epsilon.emc.emf.tools.EmfTool".equals(clazz);
 			}
 
+			@Override
 			public Object createInstance(String clazz, List<Object> parameters,
 					IEolContext context) throws EolRuntimeException {
 				return createInstance(clazz, context);

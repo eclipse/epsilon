@@ -24,9 +24,15 @@ public class Output {
 	private static File hierachy;
 	
 	@BeforeClass
-	public static void setUpOnce() {
-		process  = FileUtil.getFile("Process.egl",  Output.class);
-		hierachy = FileUtil.getFile("Hierachy.egl", Output.class);
+	public static void setUpOnce() throws Exception {
+		process  = FileUtil.getFileStandalone("Process.egl",  Output.class);
+		hierachy = FileUtil.getFileStandalone("Hierachy.egl", Output.class);
+		// Create imported files
+		FileUtil.getFileStandalone("SubTemplate1.egl", Output.class);
+		FileUtil.getFileStandalone("SubTemplate2.egl", Output.class);
+		FileUtil.getFileStandalone("SubTemplate3.egl", Output.class);
+		FileUtil.getFileStandalone("HierachySubTemplate.egl", Output.class);
+		FileUtil.getFileStandalone("HierachySubSubTemplate.egl", Output.class);
 	}
 	
 	@Test

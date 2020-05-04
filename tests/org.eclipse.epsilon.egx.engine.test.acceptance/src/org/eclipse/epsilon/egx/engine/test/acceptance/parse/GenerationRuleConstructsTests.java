@@ -10,8 +10,8 @@
 package org.eclipse.epsilon.egx.engine.test.acceptance.parse;
 
 import static org.junit.Assert.assertEquals;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxAcceptanceTest;
 import org.junit.Test;
 
 /**
@@ -19,13 +19,12 @@ import org.junit.Test;
  * @author Sina Madani
  * @since 1.6
  */
-public final class GenerationRuleConstructsTests extends EgxAcceptanceTest {
+public final class GenerationRuleConstructsTests {
 	
 	@Test
 	public void assertParseProblems() throws Exception {
 		EgxModule module = new EgxModule();
-		module.parse(getClass().getResource("InvalidGenerationRule.egx"));
+		module.parse(FileUtil.getFileStandalone("InvalidGenerationRule.egx", GenerationRuleConstructsTests.class));
 		assertEquals(5, module.getParseProblems().size());
 	}
-
 }

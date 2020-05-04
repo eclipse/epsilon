@@ -70,7 +70,7 @@ public class EplAcceptanceTestUtil {
 		Collection<Supplier<? extends IEplModule>> moduleGetters
 		) throws Exception {
 			Collection<EplRunConfiguration> scenarios = EolAcceptanceTestUtil
-				.getScenarios(EplRunConfiguration.class, testInputs, moduleGetters, null);
+				.getScenarios(EplRunConfiguration.class, testInputs, moduleGetters, null, EplAcceptanceTestUtil.class);
 			
 			if (includeTest) {
 				for (Supplier<? extends IEplModule> moduleGetter : moduleGetters) {

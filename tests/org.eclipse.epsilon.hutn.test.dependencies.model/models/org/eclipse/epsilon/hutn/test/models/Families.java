@@ -12,38 +12,36 @@
  */
 package org.eclipse.epsilon.hutn.test.models;
 
-
 import java.io.File;
-import java.io.FileFilter;
-
+import java.io.IOException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.epsilon.hutn.test.models.util.FileUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 
 public abstract class Families {
 
 	private Families() {}
 	
-	public static File getMetaModelFile() {
-		return FileUtil.getFile("Families.ecore", Families.class);
+	public static File getMetaModelFile() throws IOException {
+		return FileUtil.getFileURL("Families.ecore", Families.class);
 	}
 	
-	public static URI getMetaModelUri() {
+	public static URI getMetaModelUri() throws IOException {
 		return URI.createFileURI(getMetaModelFile().getAbsolutePath());
 	}
 	
-	public static File getBankAccountsModelFile() {
-		return FileUtil.getFile("BankAccounts.model", Families.class);
+	public static File getBankAccountsModelFile() throws IOException {
+		return FileUtil.getFileURL("BankAccounts.model", Families.class);
 	}
 	
-	public static URI getBankAccountsModelUri() {
+	public static URI getBankAccountsModelUri() throws IOException {
 		return URI.createFileURI(getBankAccountsModelFile().getAbsolutePath());
 	}
 	
 	
-	public static File getProjectDirectory() {
+	public static File getProjectDirectory() throws IOException {
 		File file = getMetaModelFile();
 		
-		while (file.isFile() || file.listFiles(new DotProjectOnlyFilter()).length == 0) {
+		while (file.isFile() || file.listFiles(f -> ".project".equals(f.getName())).length == 0) {
 			file = file.getParentFile();
 			
 			if (file == null) {
@@ -54,14 +52,7 @@ public abstract class Families {
 		return file;
 	}
 	
-	public static URI getProjectDirectoryUri() {
+	public static URI getProjectDirectoryUri() throws IOException {
 		return URI.createFileURI(getProjectDirectory().getAbsolutePath() + "/");
-	}
-	
-	
-	private static class DotProjectOnlyFilter implements FileFilter {
-		public boolean accept(File file) {
-			return ".project".equals(file.getName());
-		}
 	}
 }

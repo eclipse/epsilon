@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.egl.test.acceptance.eol;
 
 import java.io.File;
-
+import java.io.IOException;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
@@ -25,8 +25,8 @@ public class EglCanAccessBuiltinsFromOperationsTests extends CanAccessBuiltinsTe
 	}
 
 	@Override
-	protected File getProgram() {
-		return FileUtil.getFile(("SystemInOperation.egl"), EglCanAccessBuiltinsFromOperationsTests.class);
+	protected File getProgram() throws IOException {
+		return FileUtil.getFileStandalone(("SystemInOperation.egl"), EglCanAccessBuiltinsFromOperationsTests.class);
 	}
 
 	@Override

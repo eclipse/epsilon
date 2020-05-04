@@ -41,9 +41,6 @@ package org.eclipse.epsilon.hutn.parse.spec;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 public class HutnSpecLexer extends Lexer {
     public static final int ID_START_LETTER=10;
@@ -72,7 +69,8 @@ public class HutnSpecLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g"; }
+    @Override
+	public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g"; }
 
     // $ANTLR start SPEC
     public final void mSPEC() throws RecognitionException {
@@ -629,7 +627,8 @@ public class HutnSpecLexer extends Lexer {
     }
     // $ANTLR end TEXT_LETTER
 
-    public void mTokens() throws RecognitionException {
+    @Override
+	public void mTokens() throws RecognitionException {
         // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:1:8: ( SPEC | LBRACKET | RBRACKET | ASSIGNMENT | NAME | TEXTUAL_VALUE | WS | ML_COMMENT | SL_COMMENT )
         int alt8=9;
         alt8 = dfa8.predict(input);
@@ -767,7 +766,8 @@ public class HutnSpecLexer extends Lexer {
             this.special = DFA8_special;
             this.transition = DFA8_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "1:1: Tokens : ( SPEC | LBRACKET | RBRACKET | ASSIGNMENT | NAME | TEXTUAL_VALUE | WS | ML_COMMENT | SL_COMMENT );";
         }
     }

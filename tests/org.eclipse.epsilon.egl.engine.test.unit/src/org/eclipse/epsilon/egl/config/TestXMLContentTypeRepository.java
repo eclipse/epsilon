@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.nio.file.Paths;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
@@ -33,10 +33,10 @@ public class TestXMLContentTypeRepository {
 	
 	
 	@BeforeClass
-	public static void setUpOnce() {
-		invalidPath     = FileUtil.getPath("In*alid.xml", TestXMLContentTypeRepository.class);
-		nonExistentPath = FileUtil.getPath("Absent.xml", TestXMLContentTypeRepository.class);
-		valid           = FileUtil.getPath("Valid.xml", TestXMLContentTypeRepository.class);
+	public static void setUpOnce() throws Exception {
+		invalidPath     = Paths.get("Invalid.xml").toString();
+		nonExistentPath = "Absent.xml";
+		valid           = FileUtil.getFileStandalone("Valid.xml", TestXMLContentTypeRepository.class).getPath();
 	}
 	
 	

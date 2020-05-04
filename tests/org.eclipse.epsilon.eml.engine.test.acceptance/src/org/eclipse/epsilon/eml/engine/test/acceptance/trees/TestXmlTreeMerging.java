@@ -11,10 +11,12 @@ package org.eclipse.epsilon.eml.engine.test.acceptance.trees;
 
 import java.io.File;
 import java.util.HashMap;
-
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.ecl.EclModule;
+import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eml.EmlModule;
+import org.eclipse.epsilon.eml.IEmlModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,30 +25,38 @@ import static org.junit.Assert.*;
 
 public class TestXmlTreeMerging {
 	
-	protected EclModule eclModule = null;
-	protected EmlModule emlModule = null;
-	protected PlainXmlModel mergedModel = null;
+	protected IEclModule eclModule;
+	protected IEmlModule emlModule;
+	protected PlainXmlModel mergedModel;
 	
 	protected HashMap<String, Object> info;
 	
 	@Before
 	public void setup() throws Exception {
+		// Load imported file
+		FileUtil.getFileStandalone("imported.eml", TestXmlTreeMerging.class);
 		
-		PlainXmlModel leftModel = loadXmlModel("Left", "left.xml");
-		PlainXmlModel rightModel = loadXmlModel("Right", "right.xml");
+		File leftXML = FileUtil.getFileStandalone("left.xml", TestXmlTreeMerging.class);
+		PlainXmlModel leftModel = loadXmlModel("Left", leftXML);
+		File rightXML = FileUtil.getFileStandalone("right.xml", TestXmlTreeMerging.class);
+		PlainXmlModel rightModel = loadXmlModel("Right", rightXML);
 		leftModel.getAliases().add("Source");
-		rightModel.getAliases().add("Right");
+		rightModel.getAliases().add("Target");
 		
+		File treesECL = FileUtil.getFileStandalone("trees.ecl", TestXmlTreeMerging.class);
 		eclModule = new EclModule();
-		eclModule.parse(getClass().getResource("trees.ecl").toURI());
+		eclModule.parse(treesECL);
 		info = new HashMap<>();
 		eclModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("info", info));
 		eclModule.getContext().getModelRepository().addModels(leftModel, rightModel);
 		eclModule.execute();
 		
-		mergedModel = loadXmlModel("Merged", "merged.xml", false);
+		File merged = FileUtil.getFileStandalone("merged.xml", TestXmlTreeMerging.class);
+		mergedModel = loadXmlModel("Merged", merged, false);
 		emlModule = new EmlModule();
-		emlModule.parse(getClass().getResource("trees.eml").toURI());
+		
+		File treesEML = FileUtil.getFileStandalone("trees.eml", TestXmlTreeMerging.class);
+		emlModule.parse(treesEML);
 		emlModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("info", info));
 		emlModule.getContext().getModelRepository().addModels(leftModel, rightModel, mergedModel);
 		emlModule.getContext().setMatchTrace(eclModule.getContext().getMatchTrace().getReduced());
@@ -73,17 +83,16 @@ public class TestXmlTreeMerging {
 		assertNotEquals(true, info.get("imported"));		
 	}
 	
-	protected PlainXmlModel loadXmlModel(String name, String fileName, boolean readOnLoad) throws Exception {
+	protected static PlainXmlModel loadXmlModel(String name, File file, boolean readOnLoad) throws Exception {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setName(name);
-		model.setFile(new File(getClass().getResource(fileName).toURI()));
+		model.setFile(file);
 		model.setReadOnLoad(readOnLoad);
 		model.load();
 		return model;
 	}
 	
-	protected PlainXmlModel loadXmlModel(String name, String fileName) throws Exception {
-		return loadXmlModel(name, fileName, true);
+	protected static PlainXmlModel loadXmlModel(String name, File file) throws Exception {
+		return loadXmlModel(name, file, true);
 	}
-	
 }

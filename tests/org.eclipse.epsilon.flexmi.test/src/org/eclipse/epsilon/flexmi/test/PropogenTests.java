@@ -11,6 +11,7 @@ package org.eclipse.epsilon.flexmi.test;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.junit.After;
 import org.junit.Before;
@@ -26,14 +27,15 @@ public class PropogenTests extends FlexmiTests {
 	
 	@Before
 	public void setup() throws Exception {
-		ePackage = EmfUtil.register(URI.createURI(
-			FlexmiTestSuite.class.getResource("models/propogen/propogen.ecore").toURI().toString()), 
-				EPackage.Registry.INSTANCE).get(0);
+		super.setup();
+		ePackage = EmfUtil.register(URI.createURI(FileUtil.getFileStandalone(
+				"models/propogen/propogen.ecore", FlexmiTestSuite.class).toURI().toString()
+			), EPackage.Registry.INSTANCE
+		).get(0);
 	}
 	
 	@After
 	public void teardown() {
 		EPackage.Registry.INSTANCE.remove(ePackage.getNsURI());
 	}
-	
 }

@@ -14,7 +14,6 @@
 package org.eclipse.epsilon.hutn.translate;
 
 import org.eclipse.epsilon.hutn.exceptions.HutnConfigFileNotFoundException;
-import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Node;
 import org.junit.BeforeClass;
@@ -44,7 +43,7 @@ public class NonExistentConfigFile extends HutnTranslatorTest {
 	}
 	
 	@Test(expected=HutnConfigFileNotFoundException.class)
-	public void configurationFileShouldNotBeFound() throws HutnTranslationException {
+	public void configurationFileShouldNotBeFound() throws Exception {
 		translatorTest(ast);
 	}
 }

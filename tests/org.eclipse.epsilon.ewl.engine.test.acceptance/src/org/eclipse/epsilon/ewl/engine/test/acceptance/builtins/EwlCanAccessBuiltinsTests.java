@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ewl.engine.test.acceptance.builtins;
 
-
 import java.io.File;
 import java.util.List;
 
@@ -28,8 +27,8 @@ public class EwlCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 	}
 
 	@Override
-	protected File getProgram() {
-		return FileUtil.getFile(("System.ewl"), EwlCanAccessBuiltinsTests.class);
+	protected File getProgram() throws Exception {
+		return FileUtil.getFileStandalone(("System.ewl"), EwlCanAccessBuiltinsTests.class);
 	}
 
 	@Override

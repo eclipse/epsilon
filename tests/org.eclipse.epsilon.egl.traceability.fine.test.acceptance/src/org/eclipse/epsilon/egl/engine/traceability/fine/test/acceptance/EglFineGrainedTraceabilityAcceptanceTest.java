@@ -10,17 +10,14 @@
 package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.FILE_SEP;
-
 import java.io.File;
 import java.util.Collections;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.engine.traceability.fine.EglFineGrainedTraceContextAdaptor;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
@@ -40,15 +37,15 @@ public class EglFineGrainedTraceabilityAcceptanceTest {
 		runEgl(egl, root, destination);
 	}
 	
-	protected static String getOutputPath() {
-		return FileUtil.getDirectoryOf(EglFineGrainedTraceabilityAcceptanceTest.class).getAbsolutePath();
+	protected static String getOutputPath() throws Exception {
+		return FileUtil.createTempDir(EglFineGrainedTraceabilityAcceptanceTest.class.getSimpleName(), true).getAbsolutePath();
 	}
 	
-	protected static boolean deleteOutputFile(String relativePath) {
+	protected static boolean deleteOutputFile(String relativePath) throws Exception {
 		return new File(getOutputPath() + FILE_SEP + relativePath).delete();
 	}
 	
-	protected static String getAbsoluteOutputPathFor(String filename) {
+	protected static String getAbsoluteOutputPathFor(String filename) throws Exception {
 		final File generatedFile = new File(getOutputPath(), filename);
 		return generatedFile.getAbsolutePath().replace("\\", "\\\\");
 	}
@@ -58,7 +55,7 @@ public class EglFineGrainedTraceabilityAcceptanceTest {
 		AcceptanceTestUtil.generate(createTemplateFactory(), egl, destination, new InMemoryEmfModel("Ecore", EmfUtil.createResource(root), EcorePackage.eINSTANCE));
 	}
 
-	private static EglFileGeneratingTemplateFactory createTemplateFactory() throws EglRuntimeException {
+	private static EglFileGeneratingTemplateFactory createTemplateFactory() throws Exception {
 		final EglFileGeneratingTemplateFactory factory = new EglFileGeneratingTemplateFactory();
 		factory.setOutputRoot(getOutputPath());
 		createTraceWithAssertions(new EglFineGrainedTraceContextAdaptor().adapt(factory.getContext()));

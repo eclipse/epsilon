@@ -23,7 +23,12 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ EtlCanAccessBuiltinsTests.class, TransformationRuleTests.class, OO2DBTest.class, Tree2GraphTest.class })
+@SuiteClasses({
+	EtlCanAccessBuiltinsTests.class,
+	TransformationRuleTests.class,
+	OO2DBTest.class,
+	Tree2GraphTest.class
+})
 public class EtlAcceptanceTestSuite {
 
 	public static Test suite() {

@@ -32,7 +32,7 @@ public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	
 	static final String testsBase = getTestBaseDir(EclAcceptanceTestUtil.class);
 
-	public static Collection<EclRunConfiguration> getScenarios(Iterable<Supplier<? extends IEclModule>> moduleGetters) {
+	public static Collection<EclRunConfiguration> getScenarios(Iterable<Supplier<? extends IEclModule>> moduleGetters) throws Exception {
 		ArrayList<EclRunConfiguration> scenarios = new ArrayList<>();
 		
 		String matchesRoot = testsBase+"/matches/";

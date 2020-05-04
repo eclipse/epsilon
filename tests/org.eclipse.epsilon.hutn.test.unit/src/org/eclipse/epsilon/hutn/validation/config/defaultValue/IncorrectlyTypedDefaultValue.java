@@ -14,10 +14,7 @@
 package org.eclipse.epsilon.hutn.validation.config.defaultValue;
 
 import static org.junit.Assert.*;
-
 import java.util.List;
-
-import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.validation.config.HutnConfigFileValidationTest;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.junit.BeforeClass;
@@ -30,7 +27,7 @@ public class IncorrectlyTypedDefaultValue extends HutnConfigFileValidationTest {
 	private final static String defaultValue = "4";
 	
 	@BeforeClass
-	public static void buildModel() throws HutnValidationException {
+	public static void buildModel() throws Exception {
 		problems = configFileValidationTest(createConfiguration(createDefaultValueRule("Family", "nuclear", defaultValue)));
 	}
 	

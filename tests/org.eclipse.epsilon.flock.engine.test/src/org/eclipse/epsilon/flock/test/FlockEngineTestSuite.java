@@ -25,8 +25,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({EpsilonFlockEngineAcceptanceTestSuite.class,
                EpsilonFlockEngineUnitTestSuite.class})
-public class EpsilonFlockEngineTestSuite {
+public class FlockEngineTestSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonFlockEngineTestSuite.class);
+		return new JUnit4TestAdapter(FlockEngineTestSuite.class);
 	}
 }

@@ -16,9 +16,7 @@ import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamo
 import static org.eclipse.epsilon.test.util.builders.emf.MetamodelBuilder.aMetamodelWithSeveralPackages;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
-
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory.AccessMode;
@@ -48,7 +46,7 @@ public class EmfModelPackageForNameTests {
 			EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
 		}
 		
-		final File modelFile = FileUtil.getFile("Test.model", EmfModelPackageForNameTests.class);
+		final File modelFile = FileUtil.createTempFile("Test.model");
 		model = EmfModelFactory.getInstance().loadEmfModel("Test", modelFile, metamodel, AccessMode.WRITE_ONLY);
 	}
 	

@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.antlr.postprocessor.model;
 
 import java.io.File;
-
+import java.io.IOException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.common.util.FileUtil;
 
@@ -18,11 +18,11 @@ public class AntlrAstMetamodel {
 
 	private AntlrAstMetamodel() {}
 	
-	public static File getMetaModelFile() {
-		return FileUtil.getFile("AntlrAst.ecore", AntlrAstMetamodel.class);
+	public static File getMetaModelFile() throws IOException {
+		return FileUtil.getFileURL("AntlrAst.ecore", AntlrAstMetamodel.class);
 	}
 	
-	public static URI getMetaModelUri() {
+	public static URI getMetaModelUri() throws IOException {
 		return URI.createFileURI(getMetaModelFile().getAbsolutePath());
 	}
 }

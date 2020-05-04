@@ -11,12 +11,15 @@ package org.eclipse.epsilon.ecl.engine.test.acceptance.matches;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import java.io.File;
 import java.util.function.Supplier;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUtil;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -31,7 +34,12 @@ import org.junit.runners.Parameterized.Parameters;
 public class MatchesOperationTest {
 
 	IEclModule module;
-	String script = "CompareInstance.ecl";
+	static File script;
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		script = FileUtil.getFileStandalone("CompareInstance.ecl", MatchesOperationTest.class);
+	}
 	
 	public MatchesOperationTest(Supplier<? extends IEclModule> moduleGetter) {
 		this.module = moduleGetter.get();
@@ -44,7 +52,7 @@ public class MatchesOperationTest {
 	
 	@Before
 	public void setup() throws Exception {
-		module.parse(getClass().getResource(script).toURI());
+		module.parse(script);
 		loadEmfModel("Left");
 		loadEmfModel("Right");
 		module.execute();
@@ -64,8 +72,8 @@ public class MatchesOperationTest {
 		model.setName(modelName);
 		model.setCachingEnabled(true);
 		model.setConcurrent(true);
-		model.setMetamodelFile(getClass().getResource("mymetamodel.ecore").toURI().getPath().toString());
-		model.setModelFile(getClass().getResource(modelName+".model").toURI().getPath().toString());
+		model.setMetamodelFile(FileUtil.getFileStandalone("mymetamodel.ecore", MatchesOperationTest.class).getAbsolutePath());
+		model.setModelFile(FileUtil.getFileStandalone(modelName+".model", MatchesOperationTest.class).getAbsolutePath());
 		module.getContext().getModelRepository().addModel(model);
 		model.load();
 		return model;

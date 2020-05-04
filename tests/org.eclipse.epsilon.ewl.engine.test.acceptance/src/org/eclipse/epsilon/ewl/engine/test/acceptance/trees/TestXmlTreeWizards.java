@@ -9,27 +9,26 @@
 **********************************************************************/
 package org.eclipse.epsilon.ewl.engine.test.acceptance.trees;
 
-import java.io.File;
 import java.util.HashMap;
-
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.ewl.EwlModule;
+import org.eclipse.epsilon.ewl.IEwlModule;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 public class TestXmlTreeWizards {
 	
-	protected EwlModule module = null;
+	protected IEwlModule module;
 	protected HashMap<String, Object> info;
-	protected PlainXmlModel model = null;
+	protected PlainXmlModel model;
 	
 	@Before
 	public void setup() throws Exception {
 		module = new EwlModule();
-		module.parse(getClass().getResource("trees.ewl").toURI());
+		module.parse(FileUtil.getFileStandalone("trees.ewl", TestXmlTreeWizards.class));
 		info = new HashMap<>();
 		model = loadXmlModel("Tree", "tree.xml");
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("info", info));
@@ -64,7 +63,7 @@ public class TestXmlTreeWizards {
 	protected PlainXmlModel loadXmlModel(String name, String fileName) throws Exception {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setName(name);
-		model.setFile(new File(getClass().getResource(fileName).toURI()));
+		model.setFile(FileUtil.getFileStandalone(fileName, getClass()));
 		model.load();
 		return model;
 	}

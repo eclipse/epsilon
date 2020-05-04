@@ -4,12 +4,6 @@ package org.eclipse.epsilon.hutn.parse;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
 import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
@@ -93,20 +87,25 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return HutnParser.tokenNames; }
-    public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g"; }
+    @Override
+	public String[] getTokenNames() { return HutnParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g"; }
 
 
     public static class document_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start document
@@ -210,7 +209,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class pkg_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start pkg
@@ -323,7 +323,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class pkg_contents_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start pkg_contents
@@ -499,7 +500,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class assoc_instance_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start assoc_instance
@@ -598,7 +600,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class infix_assoc_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start infix_assoc
@@ -661,7 +664,7 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g:106:31: ^( ASSOC_INSTANCE[$NAME.text] ref ref )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
-                root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ASSOC_INSTANCE, (NAME14!=null?NAME14.getText():null)), root_1);
+                root_1 = (CommonTree)adaptor.becomeRoot(adaptor.create(ASSOC_INSTANCE, (NAME14!=null?NAME14.getText():null)), root_1);
 
                 adaptor.addChild(root_1, stream_ref.nextTree());
                 adaptor.addChild(root_1, stream_ref.nextTree());
@@ -696,7 +699,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class assoc_block_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start assoc_block
@@ -787,7 +791,7 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g:110:53: ^( ASSOC_INSTANCE[$NAME.text] ( assoc_contents )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
-                root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ASSOC_INSTANCE, (NAME17!=null?NAME17.getText():null)), root_1);
+                root_1 = (CommonTree)adaptor.becomeRoot(adaptor.create(ASSOC_INSTANCE, (NAME17!=null?NAME17.getText():null)), root_1);
 
                 // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g:110:82: ( assoc_contents )*
                 while ( stream_assoc_contents.hasNext() ) {
@@ -826,7 +830,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class assoc_contents_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start assoc_contents
@@ -886,7 +891,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class cls_level_attribute_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start cls_level_attribute
@@ -958,7 +964,7 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g:118:48: ^( CLS_LVL_ATTRIBUTE ^( NAME ^( NAME attr ) ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
-                root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CLS_LVL_ATTRIBUTE, "CLS_LVL_ATTRIBUTE"), root_1);
+                root_1 = (CommonTree)adaptor.becomeRoot(adaptor.create(CLS_LVL_ATTRIBUTE, "CLS_LVL_ATTRIBUTE"), root_1);
 
                 // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g:118:68: ^( NAME ^( NAME attr ) )
                 {
@@ -1008,7 +1014,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class cls_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start cls
@@ -1168,7 +1175,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class cls_body_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start cls_body
@@ -1250,7 +1258,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class adjective_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start adjective
@@ -1323,7 +1332,7 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g:129:93: ^( ADJECTIVE[name] )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
-                root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ADJECTIVE, name), root_1);
+                root_1 = (CommonTree)adaptor.becomeRoot(adaptor.create(ADJECTIVE, name), root_1);
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -1355,7 +1364,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class cls_contents_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start cls_contents
@@ -1457,7 +1467,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class feature_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start feature
@@ -1519,7 +1530,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class feature_contents_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start feature_contents
@@ -1609,7 +1621,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class attr_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start attr
@@ -1731,7 +1744,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class attr_value_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start attr_value
@@ -1864,7 +1878,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class bool_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start bool
@@ -1885,10 +1900,10 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            set55=(Token)input.LT(1);
+            set55=input.LT(1);
             if ( (input.LA(1)>=TRUE && input.LA(1)<=FALSE) ) {
                 input.consume();
-                if ( state.backtracking==0 ) adaptor.addChild(root_0, (CommonTree)adaptor.create(set55));
+                if ( state.backtracking==0 ) adaptor.addChild(root_0, adaptor.create(set55));
                 state.errorRecovery=false;state.failed=false;
             }
             else {
@@ -1922,7 +1937,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class refs_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start refs
@@ -2009,7 +2025,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class ref_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start ref
@@ -2056,7 +2073,7 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\Hutn.g:147:33: ^( REFERENCE[$NAME.text] TEXTUAL_VALUE )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
-                root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(REFERENCE, (NAME59!=null?NAME59.getText():null)), root_1);
+                root_1 = (CommonTree)adaptor.becomeRoot(adaptor.create(REFERENCE, (NAME59!=null?NAME59.getText():null)), root_1);
 
                 adaptor.addChild(root_1, stream_TEXTUAL_VALUE.nextNode());
 
@@ -2090,7 +2107,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class containments_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start containments
@@ -2177,7 +2195,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
     public static class enum_value_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start enum_value
@@ -2283,7 +2302,8 @@ public class HutnParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
             this.special = DFA13_special;
             this.transition = DFA13_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "136:1: feature_contents : ( attr | refs | containments );";
         }
     }

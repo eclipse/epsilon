@@ -7,30 +7,24 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egx.engine.test.acceptance;
+package org.eclipse.epsilon.egx.engine.test.acceptance.rules;
 
-import org.eclipse.epsilon.egx.engine.test.acceptance.equivalence.EgxModuleEquivalenceTests;
-import org.eclipse.epsilon.egx.engine.test.acceptance.operations.*;
-import org.eclipse.epsilon.egx.engine.test.acceptance.parse.GenerationRuleConstructsTests;
-import org.eclipse.epsilon.egx.engine.test.acceptance.rules.EgxHutnTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-// FIXME: Get the commented out tests working via Maven
 @RunWith(Suite.class)
 @SuiteClasses({
-	//EgxHutnTestSuite.class,
-	IncludeTests.class,
-	PrintTests.class,
-	GenerationRuleConstructsTests.class,
-	EgxModuleEquivalenceTests.class
+	Rule.class,
+	RulesAreTyped.class,
+	DomainTests.class,
+	TemplateAndTargetCanBeDynamic.class
 })
-public class EgxAcceptanceTestSuite {
+public class EgxHutnTestSuite {
 
 	public static Test suite() {
-		return new JUnit4TestAdapter(EgxAcceptanceTestSuite.class);
+		return new JUnit4TestAdapter(EgxHutnTestSuite.class);
 	}
 }

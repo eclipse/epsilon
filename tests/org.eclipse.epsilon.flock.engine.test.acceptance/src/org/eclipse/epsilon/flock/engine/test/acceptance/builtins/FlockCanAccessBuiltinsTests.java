@@ -9,9 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.engine.test.acceptance.builtins;
 
-
 import java.io.File;
-
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
@@ -20,7 +18,6 @@ import org.eclipse.epsilon.emc.emf.EmfModelFactory.AccessMode;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.flock.IFlockModule;
 import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;
@@ -28,17 +25,16 @@ import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;
 public class FlockCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 
 	@Override
-	protected IEolModule createModule() throws EolModelLoadingException {
+	protected IEolModule createModule() throws Exception {
 		final IFlockModule module = new FlockModule();
-		
-		module.getContext().getModelRepository().addModel(createOriginalModel());
-		module.getContext().getModelRepository().addModel(createMigratedModel());
-		
+		module.getContext().getModelRepository().addModels(createOriginalModel(), createMigratedModel());
 		return module;
 	}
 
-	private EmfModel createOriginalModel() throws EolModelLoadingException {
-		return EmfModelFactory.getInstance().loadEmfModel("Original", FileUtil.getFile("Original.ecore", FlockCanAccessBuiltinsTests.class), EcorePackage.eINSTANCE, AccessMode.READ_ONLY);
+	private EmfModel createOriginalModel() throws Exception {
+		return EmfModelFactory.getInstance().loadEmfModel("Original",
+			FileUtil.getFileStandalone("Original.ecore", FlockCanAccessBuiltinsTests.class), EcorePackage.eINSTANCE, AccessMode.READ_ONLY
+		);
 	}
 
 	private InMemoryEmfModel createMigratedModel() {
@@ -46,8 +42,8 @@ public class FlockCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 	}
 	
 	@Override
-	protected File getProgram() {
-		return FileUtil.getFile(("System.mig"), FlockCanAccessBuiltinsTests.class);
+	protected File getProgram() throws Exception {
+		return FileUtil.getFileStandalone(("System.mig"), FlockCanAccessBuiltinsTests.class);
 	}
 
 	@Override

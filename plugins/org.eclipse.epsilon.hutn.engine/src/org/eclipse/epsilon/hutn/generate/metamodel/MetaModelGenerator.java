@@ -11,6 +11,7 @@ package org.eclipse.epsilon.hutn.generate.metamodel;
 
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
@@ -30,13 +31,14 @@ public class MetaModelGenerator extends AbstractGenerator {
 		source = new InMemoryEmfModel("Intermediate", spec.eResource(), HutnPackage.eINSTANCE);
 	}
 	
+	@Override
 	protected EmfModel generate(Resource resource) throws HutnGenerationException {
 		try {
 			final EmfModel target = new InMemoryEmfModel("MetaModel", resource, EcorePackage.eINSTANCE);
 			
 			final IEtlModule transformer = EpsilonUtil.initialiseEtlModule(source, target, new EmfMetaModel("Ecore", EcorePackage.eNS_URI));
 
-			transformer.parse(MetaModelGenerator.class.getResource("Intermediate2MetaModel.etl").toURI());
+			transformer.parse(FileUtil.getFileStandalone("Intermediate2MetaModel.etl", MetaModelGenerator.class));
 			transformer.execute();
 			
 			return target;

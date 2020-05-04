@@ -10,7 +10,9 @@
 package org.eclipse.epsilon.egx.engine.test.acceptance.rules;
 
 import static org.junit.Assert.assertEquals;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxAcceptanceTest;
+import org.eclipse.epsilon.hutn.test.models.Families;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -30,6 +32,8 @@ public class Rule extends EgxAcceptanceTest {
 	
 	@BeforeClass
 	public static void setup() throws Exception {
+		// FIXME These assumes the metamodel is registered?
+		FileUtil.getFileStandalone("Families.ecore", Families.class);
 		runEgx(egx, model, template("hello.egl", "Hello [%=p.name%]"));
 	}
 	
@@ -37,5 +41,4 @@ public class Rule extends EgxAcceptanceTest {
 	public void targetContainsGeneratedText() {
 		assertEquals("Hello John", factory.getContentFor("out.txt"));
 	}
-
 }

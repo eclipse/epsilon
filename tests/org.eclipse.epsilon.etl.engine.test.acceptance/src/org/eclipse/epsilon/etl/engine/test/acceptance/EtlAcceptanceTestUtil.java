@@ -10,10 +10,11 @@
 package org.eclipse.epsilon.etl.engine.test.acceptance;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 import org.eclipse.epsilon.etl.*;
+import org.eclipse.epsilon.etl.concurrent.EtlModuleParallel;
+import org.eclipse.epsilon.etl.execute.context.concurrent.EtlContextParallel;
 
 /**
  * 
@@ -24,6 +25,8 @@ public class EtlAcceptanceTestUtil  extends EolAcceptanceTestUtil {
 	protected EtlAcceptanceTestUtil() {}
 	
 	public static Collection<Supplier<? extends IEtlModule>> modules() {
-		return Collections.singleton(EtlModule::new);
+		return EolAcceptanceTestUtil.parallelModules(THREADS, EtlModule::new,
+			t -> new EtlModuleParallel(new EtlContextParallel(t))
+		);
 	}
 }

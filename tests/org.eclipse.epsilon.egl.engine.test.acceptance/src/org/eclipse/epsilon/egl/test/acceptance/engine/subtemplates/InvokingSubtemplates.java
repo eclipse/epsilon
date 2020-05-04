@@ -9,7 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test.acceptance.engine.subtemplates;
 
-import static org.eclipse.epsilon.common.util.FileUtil.getFile;
+import static org.eclipse.epsilon.common.util.FileUtil.getFileStandalone;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.junit.Assert.assertEquals;
 
@@ -39,7 +39,10 @@ public class InvokingSubtemplates {
 		final EglTemplateFactory factory = new EglFileGeneratingTemplateFactory();
 		factory.getTemplateExecutionListeners().add(listener);
 		
-		final File driver = getFile("Driver.egl", InvokingSubtemplates.class);
+		// Load dependencies
+		getFileStandalone("first/First.egl", InvokingSubtemplates.class);
+		getFileStandalone("second/Second.egl", InvokingSubtemplates.class);
+		final File driver = getFileStandalone("Driver.egl", InvokingSubtemplates.class);
 		actual = AcceptanceTestUtil.run(factory, driver, new IModel[]{});
 	}
 	

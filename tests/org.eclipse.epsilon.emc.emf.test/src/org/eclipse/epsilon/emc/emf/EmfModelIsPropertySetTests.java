@@ -10,10 +10,9 @@
 package org.eclipse.epsilon.emc.emf;
 
 import static org.junit.Assert.*;
-import java.net.URISyntaxException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +22,9 @@ public class EmfModelIsPropertySetTests {
 	private EmfModel model;
 
 	@Before
-	public void setUp() throws EolModelLoadingException, URISyntaxException {
+	public void setUp() throws Exception {
 		model = new EmfModel();
-		model.setMetamodelFileUri(URI.createURI(EmfModelIsPropertySetTests.class.getResource("DefaultValue.ecore").toURI().toString()));
+		model.setMetamodelFileUri(URI.createURI(FileUtil.getFileStandalone("DefaultValue.ecore", EmfModelIsPropertySetTests.class).toURI().toString()));
 		model.setModelFile("model/dummy.model");
 		model.setReadOnLoad(false);
 		model.setStoredOnDisposal(false);

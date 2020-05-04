@@ -29,18 +29,22 @@ public class Formatters {
 	private static File TemplateSpecificFormatterGroup, TemplateSpecificFormatterGroupExpected;
 	
 	@BeforeClass
-	public static void setUpOnce() {
-		DefaultFormatter         = FileUtil.getFile("DefaultFormatter.egl", Formatters.class);
-		DefaultFormatterExpected = FileUtil.getFile("DefaultFormatter.txt", Formatters.class);
+	public static void setUpOnce() throws Exception {
+		DefaultFormatter         = FileUtil.getFileStandalone("DefaultFormatter.egl", Formatters.class);
+		DefaultFormatterExpected = FileUtil.getFileStandalone("DefaultFormatter.txt", Formatters.class);
 		
-		FormatterGroup         = FileUtil.getFile("DefaultFormatterGroup.egl", Formatters.class);
-		FormatterGroupExpected = FileUtil.getFile("DefaultFormatterGroup.txt", Formatters.class);
+		FormatterGroup         = FileUtil.getFileStandalone("DefaultFormatterGroup.egl", Formatters.class);
+		FormatterGroupExpected = FileUtil.getFileStandalone("DefaultFormatterGroup.txt", Formatters.class);
 		
-		TemplateSpecificFormatter         = FileUtil.getFile("TemplateSpecificFormatter.egl", Formatters.class);
-		TemplateSpecificFormatterExpected = FileUtil.getFile("TemplateSpecificFormatter.txt", Formatters.class);
+		TemplateSpecificFormatter         = FileUtil.getFileStandalone("TemplateSpecificFormatter.egl", Formatters.class);
+		TemplateSpecificFormatterExpected = FileUtil.getFileStandalone("TemplateSpecificFormatter.txt", Formatters.class);
 		
-		TemplateSpecificFormatterGroup         = FileUtil.getFile("TemplateSpecificFormatterGroup.egl", Formatters.class);
-		TemplateSpecificFormatterGroupExpected = FileUtil.getFile("TemplateSpecificFormatterGroup.txt", Formatters.class);
+		TemplateSpecificFormatterGroup         = FileUtil.getFileStandalone("TemplateSpecificFormatterGroup.egl", Formatters.class);
+		TemplateSpecificFormatterGroupExpected = FileUtil.getFileStandalone("TemplateSpecificFormatterGroup.txt", Formatters.class);
+		
+		// Load imported files
+		FileUtil.getFileStandalone("FirstSubtemplate.egl", Formatters.class);
+		FileUtil.getFileStandalone("SecondSubtemplate.egl", Formatters.class);
 	}
 	
 	@Test

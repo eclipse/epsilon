@@ -12,12 +12,14 @@ package org.eclipse.epsilon.ecl.engine.test.acceptance.trees;
 import java.io.File;
 import java.util.HashMap;
 import java.util.function.Supplier;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUtil;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -30,6 +32,13 @@ public class TestXmlTreeComparison {
 	
 	protected IEclModule module;
 	protected HashMap<String, Object> prepost;
+	
+	static File script;
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		script = FileUtil.getFileStandalone("trees.ecl", TestXmlTreeComparison.class);
+	}
 	
 	@Parameter
 	public Supplier<? extends IEclModule> moduleGetter;
@@ -47,7 +56,7 @@ public class TestXmlTreeComparison {
 	@Before
 	public void setup() throws Exception {
 		module = moduleGetter.get();
-		module.parse(getClass().getResource("trees.ecl").toURI());
+		module.parse(script);
 		prepost = new HashMap<>();
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("prepost", prepost));
 		loadXmlModel("Left", "left.xml");
@@ -86,7 +95,7 @@ public class TestXmlTreeComparison {
 	protected PlainXmlModel loadXmlModel(String name, String fileName) throws Exception {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setName(name);
-		model.setFile(new File(getClass().getResource(fileName).toURI()));
+		model.setFile(FileUtil.getFileStandalone(fileName, TestXmlTreeComparison.class));
 		model.load();
 		module.getContext().getModelRepository().addModel(model);
 		return model;

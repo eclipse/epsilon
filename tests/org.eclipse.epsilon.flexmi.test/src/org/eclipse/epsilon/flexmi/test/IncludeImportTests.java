@@ -9,9 +9,17 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.test;
 
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.junit.Before;
 import org.junit.Test;
 
 public class IncludeImportTests extends FlexmiTests {
+	
+	@Before
+	public void setup()  throws Exception {
+		super.setup();
+		FileUtil.getFileStandalone("models/include-import/valid-included.flexmi", FlexmiTests.class);	
+	}
 	
 	@Test
 	public void testUniqueC1() throws Exception {

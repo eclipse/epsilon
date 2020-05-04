@@ -18,7 +18,6 @@ import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createReferenceSlot;
 import static org.eclipse.epsilon.hutn.test.util.HutnUtil.createSpec;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.epsilon.hutn.exceptions.HutnValidationException;
 import org.eclipse.epsilon.hutn.validation.model.HutnModelValidationTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,7 +25,7 @@ import org.junit.Test;
 public class NonExistentModelElementId extends HutnModelValidationTest {
 
 	@BeforeClass
-	public static void validateModel() throws HutnValidationException {
+	public static void validateModel() throws Exception {
 		problems = modelValidationTest(createSpec("families", createPackageObject(createClassObject("John",
 		                                                                                "Person",
 		                                                                                createReferenceSlot("sharedAccounts", BANK_ACCOUNTS_MODEL_URI + "#_swAAYJX5Ed2TbbKclXXXXX")))));

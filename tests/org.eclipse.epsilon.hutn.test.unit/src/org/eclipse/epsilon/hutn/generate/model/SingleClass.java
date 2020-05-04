@@ -15,14 +15,13 @@ package org.eclipse.epsilon.hutn.generate.model;
 
 import static org.eclipse.epsilon.hutn.test.util.HutnUtil.*;
 
-import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SingleClass extends HutnModelGeneratorTest {
 	
 	@BeforeClass
-	public static void generateModel() throws HutnGenerationException {
+	public static void generateModel() throws Exception {
 		model = modelGeneratorTest(createSpec("families", createPackageObject(createClassObject("The Smiths", "Family"))));
 	}
 	

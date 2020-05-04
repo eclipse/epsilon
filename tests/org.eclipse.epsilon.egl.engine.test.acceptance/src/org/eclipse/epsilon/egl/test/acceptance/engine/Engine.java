@@ -12,9 +12,10 @@ package org.eclipse.epsilon.egl.test.acceptance.engine;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Collection;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import static org.eclipse.epsilon.common.util.FileUtil.getFile;
+import static org.eclipse.epsilon.common.util.FileUtil.getFileStandalone;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
@@ -32,17 +33,20 @@ public class Engine {
 	
 	
 	@BeforeClass
-	public static void setUpOnce() {
-		OO2JavaProgram          = getFile("OO2Java.egl",           Engine.class);
-		OO2JavaImportEolProgram = getFile("OO2JavaImportEol.egl",  Engine.class);
-		OO2JavaImportEglProgram = getFile("OO2JavaImportEgl.egl",  Engine.class);
-		OO2JavaExpected         = getFile("OO2Java.txt",           Engine.class);
-		
-		NonExistentImport       = getFile("NonExistentImport.egl", Engine.class);
-		
-		runtimeExceptionProgram = getFile("RuntimeException.egl",  Engine.class);
-		invalidPath             = getFile("Inva*lid.egl",          Engine.class);
-		processTemplate         = getFile("ProcessTemplate.egl",   Engine.class);
+	public static void setUpOnce() throws Exception {
+		// Create imported files
+		getFileStandalone("template.egl", Engine.class);
+		getFileStandalone("Operations.eol", Engine.class);
+		getFileStandalone("Operations.egl", Engine.class);
+		OO2JavaProgram          = getFileStandalone("OO2Java.egl",           Engine.class);
+		OO2JavaImportEolProgram = getFileStandalone("OO2JavaImportEol.egl",  Engine.class);
+		OO2JavaImportEglProgram = getFileStandalone("OO2JavaImportEgl.egl",  Engine.class);
+		OO2JavaExpected         = getFileStandalone("OO2Java.txt",           Engine.class);
+		NonExistentImport       = getFileStandalone("NonExistentImport.egl", Engine.class);
+		processTemplate         = getFileStandalone("ProcessTemplate.egl",   Engine.class);
+		runtimeExceptionProgram = getFileStandalone("RuntimeException.egl", Engine.class);
+		// FIXME We want a temp file
+		invalidPath = Paths.get("Invalid.egl").toFile();
 	}
 	
 	@Test
@@ -74,14 +78,15 @@ public class Engine {
 		try {
 			AcceptanceTestUtil.run(runtimeExceptionProgram);
 		
-		} catch (EglRuntimeException ex) {
+		}
+		catch (EglRuntimeException ex) {
 			assertEquals(2,  ex.getLine());
 			assertEquals(9, ex.getColumn());
 			throw ex;
 		}
 	}
 	
-	@Test (expected=EglRuntimeException.class)
+	@Test (expected=Exception.class)
 	public void testParseInvalid() throws Exception {
 		AcceptanceTestUtil.run(invalidPath);
 	}

@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.egx.engine.test.acceptance.util;
 
 import java.io.File;
-
+import java.io.IOException;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
@@ -39,13 +39,14 @@ public class EgxAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 		module.execute();
 	}
 
-	private static File setupFactory(String source, Template... templates) {
+	private static File setupFactory(String source, Template... templates) throws IOException {
 		factory.addVirtualTemplate("base.egx", source);
 		for (Template template : templates) {
 			factory.addVirtualTemplate(template.name, template.content);
 		}
-		
-		File egxFile = FileUtil.getFile("base.egx", EgxAcceptanceTest.class);
+		// FIXME We want a temp file or reuse the previous one
+		//File egxFile = FileUtil.getFileStandalone("base.egx", EgxAcceptanceTest.class);
+		File egxFile = FileUtil.createTempFile("base",  "egx");
 		factory.setRoot(egxFile.getParentFile().toURI());
 		return egxFile;
 	}

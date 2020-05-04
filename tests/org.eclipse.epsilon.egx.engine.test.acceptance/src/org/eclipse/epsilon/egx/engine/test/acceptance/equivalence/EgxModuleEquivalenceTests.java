@@ -44,7 +44,7 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 	}
 
 	@Parameters//(name = "0")	// Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<? extends EgxRunConfiguration> configurations() {
+	public static Iterable<? extends EgxRunConfiguration> configurations() throws Exception {
 		return getScenarios(allInputs, modules(false));
 	}
 	

@@ -168,7 +168,7 @@
 		</description>
 		<project name="org.eclipse.epsilon.common.cli"/>
 		<project name="org.eclipse.epsilon.eol.cli"/>
-		<plugin name="org.apache.commons.cli_1.4"
+		<plugin name="org.apache.commons.cli"
 			groupId="commons-cli"
 			artifactId="commons-cli"
 			version="1.4" />

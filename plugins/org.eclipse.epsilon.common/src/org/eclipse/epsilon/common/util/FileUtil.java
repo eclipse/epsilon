@@ -18,18 +18,58 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
 
 public class FileUtil {
 	private FileUtil() {}
+	
+	/**
+	 * Temporary directory location
+	 */
+	private static Path tmpdir;
+	
+	static {
+		final String javaTemp = System.getProperty("java.io.tmpdir");
+		try {
+			Files.createDirectory(tmpdir = Paths.get(javaTemp, "epsilon"));
+		}
+		catch (FileAlreadyExistsException fax) {
+			// Oh well
+		}
+		catch (Exception ex) {
+			System.err.println("Couldn't create temp directory for Epsilon, using default");
+			ex.printStackTrace();
+			tmpdir = Paths.get(javaTemp);
+		}
+	}
+
+	private static final boolean isPosix = FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
+
+	// Default file and directory permissions (lazily initialized)
+	private static class PosixPermissions {
+		static final FileAttribute<Set<PosixFilePermission>> filePermissions = PosixFilePermissions
+				.asFileAttribute(EnumSet.of(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE));
+		static final FileAttribute<Set<PosixFilePermission>> dirPermissions = PosixFilePermissions
+				.asFileAttribute(EnumSet.of(
+					PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_EXECUTE
+				));
+	}
+
 	
 	public static Path getCurrentDirectory() {
 		return Paths.get(".").toAbsolutePath().normalize();
@@ -120,23 +160,48 @@ public class FileUtil {
 		return file.getAbsolutePath();
 	}
 	
-	public static File getFile(String name, Class<?> relativeTo) {
+	/**
+	 * Gets a file stored as a resource in a jar. Since not all users of the file
+	 * can read from inside jars, we get the file as a stream and create a temp file
+	 * with its contents.
+	 * 
+	 * @param name
+	 * @param relativeTo
+	 * @return
+	 * @throws IOException
+	 * @since 1.6
+	 */
+	public static File getFileStandalone(String name, Class<?> relativeTo) throws IOException {
+		if (StringUtil.isEmpty(name)) return tmpdir.toFile();
+		try (InputStream inStream = relativeTo.getResourceAsStream(name)) {
+			return inputStreamToFile(inStream, name);
+		}
+	}
+	
+	/**
+	 * The getFile method of old, before we tried to fix it to work in JAR files.
+	 * 
+	 * @param name
+	 * @param relativeTo
+	 * @return
+	 * @since 1.6
+	 */
+	public static File getFileURL(String name, Class<?> relativeTo) {
 		try {
 			final File clazz = new File(URLDecoder.decode(relativeTo.getResource(relativeTo.getSimpleName() + ".class").getFile(), "UTF-8"));
-			
 			return new File(clazz.getParentFile(), name);
-		
-		} catch (UnsupportedEncodingException e) {
+		}
+		catch (UnsupportedEncodingException e) {
 			throw new IllegalArgumentException(name + " could not be located relative to " + relativeTo);
 		}
 	}
 	
-	public static File getDirectoryOf(Class<?> clazz) {
-		return getFile(clazz.getSimpleName() + ".class", clazz).getParentFile();
+	public static File getDirectoryOf(Class<?> clazz) throws IOException {
+		return getFileURL(clazz.getSimpleName() + ".class", clazz).getParentFile();
 	}
 	
-	public static String getPath(String name, Class<?> relativeTo) {
-		return getFile(name, relativeTo).getAbsolutePath();
+	public static String getPath(String name, Class<?> relativeTo) throws IOException {
+		return getFileURL(name, relativeTo).getAbsolutePath();
 	}
 
 	public static void checkFileExists(final File file) throws FileNotFoundException {
@@ -303,13 +368,228 @@ public class FileUtil {
 	 */
 	public static Map<Path, byte[]> readDirectory(final Path dir) throws IOException {		
 		Map<Path, byte[]> contents = new HashMap<>();
-		
 		for (Path path : ((Iterable<Path>)Files.walk(dir)::iterator)) {
 			if (Files.isRegularFile(path)) {
 				contents.put(path, Files.readAllBytes(path));
 			}
 		}
-		
 		return contents;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 * @since 1.6
+	 */
+	public static File createTempFile(String name) {
+		return createTempFile(name, "tmp");
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param extension
+	 * @return
+	 * @since 1.6
+	 */
+	public static File createTempFile(String name, String extension) {
+		Path tmpFile;
+		try {
+			tmpFile = createTempFile(null, name, extension);
+		}
+		catch (IOException e) {
+			throw new IllegalArgumentException("Could not create temp file ", e);
+		}
+		return tmpFile.toFile();
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 * @since 1.6
+	 */
+	public static File createTempDir(String name) {
+		return createTempDir(name, false);
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param reuse
+	 * @return
+	 * @since 1.6
+	 */
+	public static File createTempDir(String name, boolean reuse) {
+		Path tmpFile = null;
+		if (reuse) {
+			DirectoryStream.Filter<Path> filter = file -> Files.isDirectory(file) && file.getFileName().startsWith(Paths.get(name));
+			Iterator<Path> it;
+			try {
+				it = Files.newDirectoryStream(tmpdir, filter).iterator();
+				tmpFile = it.hasNext() ? it.next() : null;
+			}
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (tmpFile == null) {
+			try {
+				tmpFile = createTempDirectory(null, name);
+			}
+			catch (IOException e) {
+				throw new IllegalArgumentException("Could not create temp directory ", e);
+			}
+		}
+		return tmpFile.toFile();
+	}
+	
+	/**
+	 * 
+	 * @param inputStream
+	 * @param name
+	 * @return
+	 * @since 1.6
+	 */
+	private static File inputStreamToFile(InputStream inputStream, String name) throws IOException {
+		//Objects.requireNonNull(inputStream, "InputStream is null!")
+		name = name.replace('\\', '/');
+		String prefix = name;
+		String suffix = "";
+		Path dirStructure = null;
+		
+		// Name might be a path, get the file name, remove it
+		if (name.contains("/")) {
+			dirStructure = Paths.get(tmpdir.toString(), name.substring(0, name.lastIndexOf("/")), "/");
+			dirStructure.toFile().mkdirs();
+			name = name.substring(name.lastIndexOf("/") + 1);
+		}
+
+		String[] parts = name.split("\\.");
+		boolean isFile = parts.length == 2;
+		if (isFile) {
+			prefix = parts[0];
+			suffix = "." + parts[1];
+		}
+		File file = null;
+		Path tempPath;
+		
+		try {
+			tempPath = isFile ?
+				createTempFile(dirStructure, prefix, suffix) :
+				createTempDirectory(dirStructure, prefix);
+		}
+		catch (IllegalArgumentException e) {
+			throw e;
+		}
+		
+		if ((file = tempPath.toFile()).exists() && file.isDirectory()) {
+			//return file;
+		}
+		
+		if (inputStream != null) try (OutputStream outputStream = new FileOutputStream(file)) {
+			byte[] bytes = new byte[1<<10];
+			for (int read = 0; (read = inputStream.read(bytes)) != -1; outputStream.write(bytes, 0, read));
+			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    Files.delete(tempPath);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+	        }));
+		}
+
+		return file;
+	}
+
+	static Path createTempDirectory(Path dir, String prefix, FileAttribute<?>... attrs) throws IOException {
+		return create(dir, prefix, null, true, attrs);
+	}
+
+	static Path createTempFile(Path dir, String prefix, String suffix, FileAttribute<?>... attrs) throws IOException {
+		return create(dir, prefix, suffix, false, attrs);
+	}
+
+	/**
+	 * Creates a file or directory in the given given directory (or in the
+	 * temporary directory if dir is {@code null}).
+	 * @since 1.6
+	 */
+	private static Path create(Path dir, String prefix, String suffix, boolean createDirectory, FileAttribute<?>[] attrs) throws IOException {
+		if (prefix == null)
+			prefix = "";
+		if (suffix == null)
+			suffix = (createDirectory) ? "" : ".tmp";
+		if (dir == null)
+			dir = tmpdir;
+
+		// in POSIX environments use default file and directory permissions
+		// if initial permissions not given by caller.
+		if (isPosix && dir.getFileSystem() == FileSystems.getDefault()) {
+			if (attrs.length == 0) {
+				// no attributes so use default permissions
+				attrs = new FileAttribute<?>[1];
+				attrs[0] = (createDirectory) ? PosixPermissions.dirPermissions : PosixPermissions.filePermissions;
+			}
+			else {
+				// check if posix permissions given; if not use default
+				boolean hasPermissions = false;
+				for (int i = 0; i < attrs.length; i++) {
+					if (attrs[i].name().equals("posix:permissions")) {
+						hasPermissions = true;
+						break;
+					}
+				}
+				if (!hasPermissions) {
+					FileAttribute<?>[] copy = new FileAttribute<?>[attrs.length + 1];
+					System.arraycopy(attrs, 0, copy, 0, attrs.length);
+					attrs = copy;
+					attrs[attrs.length - 1] = (createDirectory) ? PosixPermissions.dirPermissions
+							: PosixPermissions.filePermissions;
+				}
+			}
+		}
+
+		// loop generating random names until file or directory can be created
+		SecurityManager sm = System.getSecurityManager();
+		
+		Path f;
+		try {
+			f = generatePath(prefix, suffix, dir);
+		}
+		catch (InvalidPathException e) {
+			// don't reveal temporary directory location
+			if (sm != null)
+				throw new IllegalArgumentException("Invalid prefix or suffix");
+			throw e;
+		}
+		try {
+			return createDirectory ? Files.createDirectory(f, attrs) : Files.createFile(f, attrs);
+		}
+		catch (FileAlreadyExistsException fax) {
+			// FIXME Add the file deletion so we don't need this.
+			// FIXME or make each test use a different folder...
+			return f;
+		}
+	}
+
+	/**
+	 * 
+	 * @param prefix
+	 * @param suffix
+	 * @param dir
+	 * @return
+	 * @since 1.6
+	 */
+	private static Path generatePath(String prefix, String suffix, Path dir) {
+		Path name = dir.getFileSystem().getPath(prefix + suffix);
+		// the generated name should be a simple file name
+		if (name.getParent() != null && !StringUtil.isEmpty(suffix)) {
+			throw new IllegalArgumentException("Invalid prefix or suffix");
+		}
+		return dir.resolve(name);
 	}
 }

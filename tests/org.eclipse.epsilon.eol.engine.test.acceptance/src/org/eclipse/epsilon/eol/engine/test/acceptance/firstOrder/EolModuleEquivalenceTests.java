@@ -12,9 +12,9 @@ package org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
@@ -38,20 +38,28 @@ import org.junit.runners.Parameterized.Parameters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EolModuleEquivalenceTests extends EolEquivalenceTests<EolRunConfiguration> {
 	
-	static final String[] scripts = Stream.of(
-			new File(getTestBaseDir(FirstOrderOperationTests.class)),
-			new File(getTestBaseDir(LambdaExpressionTests.class))
-		)
-		.<File> flatMap(f -> Stream.of(f.listFiles()))
-		.<String> map(File::getAbsolutePath)
-		.filter(fn -> fn.endsWith(".eol"))
-		.toArray(String[]::new);
+	static final String[] scripts;
+	
+	static {
+		scripts = new String[6];
+		try {
+			scripts[0] = FileUtil.getFileStandalone("LambdaExpressionTests.eol", LambdaExpressionTests.class).getAbsolutePath();
+			scripts[1] = FileUtil.getFileStandalone("FirstOrderOperationTests.eol", FirstOrderOperationTests.class).getAbsolutePath();
+			scripts[2] = FileUtil.getFileStandalone("FirstOrderOperationAdvancedTests.eol", FirstOrderOperationAdvancedTests.class).getAbsolutePath();
+			scripts[3] = FileUtil.getFileStandalone("SequentialFirstOrderOperationTests.eol", SequentialFirstOrderOperationTests.class).getAbsolutePath();
+			scripts[4] = FileUtil.getFileStandalone("ParallelFirstOrderOperationTests.eol", ParallelFirstOrderOperationTests.class).getAbsolutePath();
+			scripts[5] = FileUtil.getFileStandalone("ParallelFirstOrderOperationEquivalenceTests.eol", ParallelFirstOrderOperationEquivalenceTests.class).getAbsolutePath();
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 	public EolModuleEquivalenceTests(EolRunConfiguration configUnderTest) {
 		super(configUnderTest);
 	}
 
-	public static Collection<EolRunConfiguration> getScenarios(Collection<Supplier<? extends IEolModule>> moduleConstructors) {
+	public static Collection<EolRunConfiguration> getScenarios(Collection<Supplier<? extends IEolModule>> moduleConstructors) throws Exception {
 		Collection<EolRunConfiguration> scenarios = new ArrayList<>(scripts.length * moduleConstructors.size());
 		for (Supplier<? extends IEolModule> moduleConstructor : moduleConstructors) {
 			for (String script : scripts) {
@@ -71,7 +79,7 @@ public class EolModuleEquivalenceTests extends EolEquivalenceTests<EolRunConfigu
 	}
 	
 	@Parameters//(name = "0")	// Don't use this as the Eclipse JUnit view won't show failures!
-	public static Collection<EolRunConfiguration> configurations() {
+	public static Collection<EolRunConfiguration> configurations() throws Exception {
 		return getScenarios(parallelModules(THREADS, null, p -> new EolModuleParallel(new EolContextParallel(p))));
 	}
 	

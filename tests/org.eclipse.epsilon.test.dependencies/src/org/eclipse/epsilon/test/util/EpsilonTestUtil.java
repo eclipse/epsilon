@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.test.util;
 
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -27,9 +25,10 @@ public class EpsilonTestUtil {
 	 */
 	public static String getTestBaseDir(Class<?> clazz) {
 		try {
-			return Paths.get(clazz.getResource("").toURI()).toString().replace("bin", "src")+'/';
+			// Using temp dirs, so no need to do anything here
+			return "";//Paths.get(clazz.getResource("").toURI()).toString().replace("bin", "src")+'/';
 		}
-		catch (URISyntaxException urx) {
+		catch (Exception urx) {
 			System.err.println(urx.getMessage());
 			return null;
 		}

@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.hutn.model;
 
 import java.io.File;
-
+import java.io.IOException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.common.util.FileUtil;
 
@@ -18,11 +18,11 @@ public class HutnMetamodel {
 
 	private HutnMetamodel() {}
 	
-	public static File getMetaModelFile() {
-		return FileUtil.getFile("HUTN.ecore", HutnMetamodel.class);
+	public static File getMetaModelFile() throws IOException {
+		return FileUtil.getFileStandalone("HUTN.ecore", HutnMetamodel.class);
 	}
 	
-	public static URI getMetaModelUri() {
-		return URI.createURI(HutnMetamodel.class.getResource("HUTN.ecore").toString());
+	public static URI getMetaModelUri() throws IOException {
+		return URI.createFileURI(FileUtil.getFileStandalone("HUTN.ecore", HutnMetamodel.class).getAbsolutePath());
 	}
 }

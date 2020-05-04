@@ -15,7 +15,6 @@ package org.eclipse.epsilon.hutn.generate.model;
 
 import static org.eclipse.epsilon.hutn.test.util.HutnUtil.*;
 
-import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.eclipse.epsilon.hutn.test.model.families.FamiliesFactory;
@@ -31,7 +30,7 @@ public class Enumerations extends HutnModelGeneratorTest {
 	}
 	
 	@BeforeClass
-	public static void generateModel() throws HutnGenerationException {
+	public static void generateModel() throws Exception {
 		model = modelGeneratorTest(createSpec("families", createPackageObject(createDog("Fido", "labrador"), createDog("Lassie", "poodle"))));
 		
 		model.setVariable("fido",   "Dog.allInstances().selectOne(d|d.name='Fido')");

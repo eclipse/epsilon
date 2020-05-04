@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.hutn.validation.config;
 
 import java.util.List;
-
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -24,12 +23,12 @@ import org.eclipse.epsilon.hutn.validation.AbstractValidator;
 public class HutnConfigFileValidator extends AbstractValidator {
 
 	// For unit tests
-	HutnConfigFileValidator() {
+	HutnConfigFileValidator() throws HutnValidationException {
 		this(1,1);
 	}
 	
-	public HutnConfigFileValidator(int line, int column) {
-		super(new HutnConfigFileFixer(line, column), HutnConfigFileValidator.class.getResource("ValidateConfigurationModel.evl"));
+	public HutnConfigFileValidator(int line, int column) throws HutnValidationException {
+		super(new HutnConfigFileFixer(line, column), "ValidateConfigurationModel.evl");
 	}
 	
 	private static void registerMetaModels() throws HutnMetaModelRegistrationException {

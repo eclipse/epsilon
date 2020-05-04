@@ -30,7 +30,9 @@ public class TestEglLexer {
 	
 	@BeforeClass
 	public static void setUpOnce() throws IOException {
-		TEST_FILE = FileUtil.getFile("Test.txt", TestEglLexer.class);
+		// FIXME We want a temp file
+		//TEST_FILE = FileUtil.getFile("Test.txt", TestEglLexer.class);
+		TEST_FILE = FileUtil.createTempFile("Test.txt");
 		
 		final String program = "[% for(i in Sequence(1..10) { %]" + NEWLINE +
 		                       "i is [%=i%]" + NEWLINE +
