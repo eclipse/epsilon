@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.etl.engine.test.acceptance;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -74,7 +75,11 @@ public abstract class EtlTest {
 		return r;
 	}
 	
-	protected String getFullPath(String path) throws IOException {
+	protected final File getFile(String fileName) throws IOException {
+		return FileUtil.getFileStandalone(fileName, getClass());
+	}
+	
+	protected final String getFullPath(String path) throws IOException {
 		return getFullPath(path, getClass());
 	}
 	

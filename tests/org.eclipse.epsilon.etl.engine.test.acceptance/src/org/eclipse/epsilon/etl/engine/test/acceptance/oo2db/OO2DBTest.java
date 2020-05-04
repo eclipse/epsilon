@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.etl.engine.test.acceptance.oo2db;
 
-import java.io.File;
 import java.util.function.Supplier;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.emc.emf.EmfModel;
@@ -49,7 +48,7 @@ public class OO2DBTest extends EtlTest {
 	@Test
 	public void testOO2DBTransformation() throws Exception {	
 		IEtlModule module = moduleGetter.get();
-		module.parse(new File(getFullPath("OO2DB.etl")));
+		module.parse(getFile("OO2DB.etl"));
 
 		EmfModel dbModel = loadModel("DB", "models/DBInstance.model", "DB", false, false);
 		

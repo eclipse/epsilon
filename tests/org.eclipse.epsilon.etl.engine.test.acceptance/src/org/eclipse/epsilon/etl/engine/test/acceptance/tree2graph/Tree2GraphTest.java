@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.etl.engine.test.acceptance.tree2graph;
 
-import java.io.File;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.etl.engine.test.acceptance.EtlAcceptanceTestUtil;
 import org.eclipse.epsilon.etl.engine.test.acceptance.EtlTest;
@@ -47,7 +46,7 @@ public class Tree2GraphTest extends EtlTest {
 	@Test
 	public void testTree2GraphTransformation() throws Exception {
 		IEtlModule module = moduleGetter.get();
-		module.parse(new File(getFullPath("Tree2Graph.etl")));
+		module.parse(getFile("Tree2Graph.etl"));
 
 		EmfModel graphModel = loadModel("Graph", "models/graph.model", "Graph", false, false);
 		
