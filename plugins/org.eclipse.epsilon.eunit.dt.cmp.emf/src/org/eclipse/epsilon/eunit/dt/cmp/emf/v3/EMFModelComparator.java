@@ -150,7 +150,7 @@ public class EMFModelComparator implements IModelComparator {
 		return cmp.getDifferences().isEmpty() ? null : cmp;
 	}
 
-	private AbstractEmfModel adaptToEMF(IModel model) {
+	private static final AbstractEmfModel adaptToEMF(IModel model) {
 		if (model instanceof AbstractEmfModel) {
 			return (AbstractEmfModel)model;
 		}
@@ -167,7 +167,7 @@ public class EMFModelComparator implements IModelComparator {
 	 * do not have platform:// URIs are saved into temporary files. Cross-references are
 	 * preserved: all non-platform:// URIs are rewritten to the proper temporary files.
 	 */
-	private ResourceSet cloneToTmpFiles(ResourceSet resourceSet) throws IOException {
+	private static final ResourceSet cloneToTmpFiles(ResourceSet resourceSet) throws IOException {
 		EcoreUtil.resolveAll(resourceSet);
 		ResourceSet newResourceSet = new EmfModelResourceSet();
 
