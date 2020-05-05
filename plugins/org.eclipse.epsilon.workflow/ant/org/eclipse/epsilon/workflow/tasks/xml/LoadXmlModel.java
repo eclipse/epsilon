@@ -44,7 +44,6 @@ public class LoadXmlModel extends EpsilonTask {
 		}
 		
 		getProjectRepository().addModel(model);
-		
 	}
 
 	public String getName() {

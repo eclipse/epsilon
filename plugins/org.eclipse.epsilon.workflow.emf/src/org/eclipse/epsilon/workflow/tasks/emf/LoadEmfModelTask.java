@@ -7,20 +7,18 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio García-Domínguez - reuseUnmodifiedMetamodelFiles flag
+ *     Sina Madani - concurrency flag
 ******************************************************************************/
-
 package org.eclipse.epsilon.workflow.tasks.emf;
 
 import java.io.File;
-
 import org.apache.tools.ant.BuildException;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 
-//TODO: Finish this
 public class LoadEmfModelTask extends EpsilonTask {
 
 	protected String name;
@@ -38,13 +36,10 @@ public class LoadEmfModelTask extends EpsilonTask {
 	
 	@Override
 	public void executeImpl() throws BuildException {
-		
 		final EmfModel model = createEmfModel();
-		
 		final StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
 		properties.put(EmfModel.PROPERTY_ALIASES, alias + "");
-		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, (metamodelUri == null) + "");
 		properties.put(EmfModel.PROPERTY_READONLOAD, read + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
@@ -53,34 +48,29 @@ public class LoadEmfModelTask extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, reuseUnmodifiedMetamodelFile + "");
 		
 		if (metamodelUri != null) {
-			properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
+			properties.put(EmfModel.PROPERTY_METAMODEL_URI, EmfUtil.createUri(metamodelUri));
 		}
-
+		if (metamodelFile != null) {
+			properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, EmfUtil.convertFileToUri(metamodelFile));
+		}
 		if (modelFile != null && modelUri != null) {
 			throw new BuildException("Only one of modelFile or modelUri may be used");
 		}
 		else if (modelUri != null) {
-			properties.put(EmfModel.PROPERTY_MODEL_URI, modelUri);
+			properties.put(EmfModel.PROPERTY_MODEL_URI, EmfUtil.createUri(modelUri));
 		}
 		else {
-			properties.put(EmfModel.PROPERTY_MODEL_URI, convertFileToUri(modelFile));
-		}
-
-		if (metamodelFile != null) {
-			properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, convertFileToUri(metamodelFile));
+			properties.put(EmfModel.PROPERTY_MODEL_URI, EmfUtil.convertFileToUri(modelFile));
 		}
 		
 		try {
 			model.load(properties);
 			getProjectRepository().addModel(model);
-		} catch (EolModelLoadingException e) {
+		}
+		catch (EolModelLoadingException e) {
 			e.printStackTrace();
 			throw new BuildException(e);
 		}
-	}
-
-	private URI convertFileToUri(File file) {
-		return file == null ? null : URI.createFileURI(file.getAbsolutePath());
 	}
 
 	// This logic has been extracted so that it can be stubbed out in tests

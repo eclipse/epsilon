@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,7 +40,30 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 
 public class EmfUtil {
-		
+	private EmfUtil() {}	
+	
+	/**
+	 * 
+	 * @param uri
+	 * @return
+	 * @since 1.6
+	 */
+	public static URI createUri(String uri) {
+		return uri == null ? null :
+			URI.createURI(uri.replace('\\', '/'));
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 * @since 1.6
+	 */
+	public static URI convertFileToUri(File file) {
+		return file == null ? null :
+			URI.createFileURI(file.getAbsolutePath());
+	}
+	
 	public static EStructuralFeature getEStructuralFeature(EClass eClass, String featureName) {
 		try {
 			EStructuralFeature feature = eClass.getEStructuralFeature(featureName);
@@ -149,6 +173,18 @@ public class EmfUtil {
 	
 	public static List<EPackage> register(URI uri, EPackage.Registry registry) throws Exception {
 		return register(uri, registry, true);
+	}
+	
+	/**
+	 * 
+	 * @param uri
+	 * @param registry
+	 * @return
+	 * @throws Exception
+	 * @since 1.6
+	 */
+	public static List<EPackage> register(File file, EPackage.Registry registry) throws Exception {
+		return register(convertFileToUri(file), registry, true);
 	}
 	
 	/**

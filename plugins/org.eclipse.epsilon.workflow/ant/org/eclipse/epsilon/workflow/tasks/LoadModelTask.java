@@ -50,7 +50,8 @@ public class LoadModelTask extends EpsilonTask {
 			model.load(getStringProperties());
 			model.setName(name);
 			getProjectRepository().addModel(model);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new BuildException(e);
 		}

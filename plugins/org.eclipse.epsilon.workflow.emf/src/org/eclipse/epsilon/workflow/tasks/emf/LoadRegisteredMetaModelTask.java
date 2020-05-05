@@ -35,7 +35,8 @@ public class LoadRegisteredMetaModelTask extends EpsilonTask {
 		try {
 			model.load(properties);
 			getProjectRepository().addModel(model);
-		} catch (EolModelLoadingException e) {
+		}
+		catch (EolModelLoadingException e) {
 			e.printStackTrace();
 			throw new BuildException(e);
 		}

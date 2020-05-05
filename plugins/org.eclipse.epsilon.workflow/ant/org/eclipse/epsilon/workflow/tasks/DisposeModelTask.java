@@ -25,7 +25,8 @@ public class DisposeModelTask extends EpsilonTask {
 			IModel eolModel = getProjectRepository().getModelByName(model);
 			eolModel.dispose();
 			getProjectRepository().getModels().remove(eolModel);
-		} catch (EolModelNotFoundException e) {
+		}
+		catch (EolModelNotFoundException e) {
 			throw new BuildException(e);
 		}
 		finally {
@@ -39,6 +40,5 @@ public class DisposeModelTask extends EpsilonTask {
 
 	public void setModel(String model) {
 		this.model = model;
-	}
-	
+	}	
 }

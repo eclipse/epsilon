@@ -13,7 +13,6 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -32,13 +31,15 @@ public class StoreModelTask extends EpsilonTask {
 			IModel eolModel = getProjectRepository().getModelByName(model);
 			if (targetUri != null) {
 				eolModel.store(targetUri.toString());
-			} else if (target != null) {
+			}
+			else if (target != null) {
 				eolModel.store(target.getAbsolutePath());
 			}
 			else {
 				eolModel.store();
 			}
-		} catch (EolModelNotFoundException e) {
+		}
+		catch (EolModelNotFoundException e) {
 			throw new BuildException(e);
 		}
 		finally {
@@ -71,6 +72,6 @@ public class StoreModelTask extends EpsilonTask {
 	}
 
 	public void setTargetUri(String targetUri) throws URISyntaxException {
-		this.targetUri = new URI(targetUri);
+		setTargetUri(new URI(targetUri.replace('\\', '/')));
 	}
 }

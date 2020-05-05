@@ -49,6 +49,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	public class TaskCollection implements TaskContainer {
 		private List<Task> tasks = new ArrayList<>();
 
+		@Override
 		public void addTask(Task task) {
 			tasks.add(task);
 			if (task instanceof ExecutableModuleTask) {
@@ -114,7 +115,8 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 				hutnModel = (IModel)constructor.newInstance(modelName, hutnContent);
 				hutnModel.load();
 				module.getContext().getModelRepository().addModel(hutnModel);
-			} catch (Exception ex) {
+			}
+			catch (Exception ex) {
 				throw new EolModelLoadingException(ex, hutnModel);
 			}
 		}
@@ -148,8 +150,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		}
 
 		HostManager.getHost().addNativeTypeDelegates(eunitModule);
-		final List<EUnitTestListener> testListeners
-			= HostManager.getHost().getExtensionsOfType(EUnitTestListener.class);
+		final List<EUnitTestListener> testListeners = HostManager.getHost().getExtensionsOfType(EUnitTestListener.class);
 		for (EUnitTestListener listener : testListeners) {
 			eunitModule.addTestListener(listener);
 		}
@@ -188,6 +189,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 	// TEST LISTENER METHODS
 
+	@Override
 	public void beforeCase(EUnitModule module, EUnitTest test) {
 		if (test.isRootTest()) {
 			// Disable notification through dialogs: it's bad for automated test cases.
@@ -199,7 +201,8 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			try {
 				// Dispose all models in this module's model repository, and reload them from the <model> references
 				populateModelRepository(true);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				fail("Exception while repopulating the model repository", e);
 			}
 
@@ -215,6 +218,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		}
 	}
 
+	@Override
 	public void afterCase(EUnitModule module, EUnitTest test) {
 		// Restore the original model repository for the project after running the test
 		if (test.isLeafTest()) {
@@ -229,9 +233,11 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		final String testDescription = "Test " + test.getMethodName() + " {" + test.explainAllBindings() + "}";
 		if (test.getResult() == EUnitTestResultType.SUCCESS) {
 			out.println(testDescription + " passed" + sMillis);
-		} else if (test.getResult() == EUnitTestResultType.SKIPPED){
+		}
+		else if (test.getResult() == EUnitTestResultType.SKIPPED){
 			out.println(testDescription + " skipped" + sMillis);
-		} else {
+		}
+		else {
 			err.print(testDescription + " failed with status " + test.getResult());
 			final Exception testException = test.getException();
 			if (testException != null) {
