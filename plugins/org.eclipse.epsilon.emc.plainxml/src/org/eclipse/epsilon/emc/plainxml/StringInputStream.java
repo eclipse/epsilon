@@ -24,7 +24,8 @@ public class StringInputStream extends InputStream {
         available = s.length() * 2;
     }
 
-    public int read() throws java.io.IOException {
+    @Override
+	public int read() throws java.io.IOException {
 
         if (available == 0) {
             return -1;
@@ -47,7 +48,8 @@ public class StringInputStream extends InputStream {
         }
     }
 
-    public int available() throws IOException {
+    @Override
+	public int available() throws IOException {
         return available;
     }
 }
