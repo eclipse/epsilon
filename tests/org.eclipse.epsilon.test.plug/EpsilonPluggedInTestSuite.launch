@@ -14,7 +14,7 @@
     <booleanAttribute key="includeOptional" value="true"/>
     <stringAttribute key="location" value="${workspace_loc}/../junit-workspace"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/org.eclipse.epsilon.test"/>
+        <listEntry value="/org.eclipse.epsilon.test.plug"/>
     </listAttribute>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
         <listEntry value="4"/>
@@ -23,9 +23,9 @@
     <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
     <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
     <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.epsilon.test.plug.EpsilonPluggedInTestSuite"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.epsilon.test.EpsilonPluggedInTestSuite"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.epsilon.test"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.epsilon.test.plug"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea -Xmx4g"/>
     <stringAttribute key="pde.version" value="3.3"/>
