@@ -50,13 +50,14 @@ public class ConstraintTraceItem {
 	}
 	
 	/**
+	 * Used by {@link ConstraintTrace#isChecked(Constraint, Object)}.
 	 * 
 	 * @param constraint
 	 * @param instance
 	 * @return
 	 * @since 1.6
 	 */
-	public boolean equals(Constraint constraint, Object instance) {
+	boolean equals(Constraint constraint, Object instance) {
 		return Objects.equals(this.constraint, constraint) &&
 			   Objects.equals(this.instance, instance);
 	}

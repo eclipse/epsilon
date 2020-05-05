@@ -108,7 +108,7 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(iterable);
+		return Objects.hash(iterable, storageOptimised);
 	}
 	
 	/**
@@ -121,6 +121,8 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 			return false;
 		
 		ConstraintTrace ct = (ConstraintTrace) other;
-		return Objects.equals(this.iterable, ct.iterable);
+		return
+			Objects.equals(this.storageOptimised, ct.storageOptimised) &&
+			Objects.equals(this.iterable, ct.iterable);
 	}
 }
