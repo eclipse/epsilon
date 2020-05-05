@@ -17,12 +17,11 @@ public class Binding {
 	protected String targetAttribute;
 	protected boolean many;
 	
-	public Binding(String sourceTag, String sourceAttribute, String targetTag,
-			String targetAttribute, boolean many) {
+	public Binding(String sourceTag, String sourceAttribute, String targetTag, String targetAttribute, boolean many) {
 		super();
 		
-		if (sourceTag.equals("*")) sourceTag =  ".*";
-		if (targetTag.equals("*")) targetTag =  ".*";
+		if ("*".equals(sourceTag)) sourceTag =  ".*";
+		if ("*".equals(targetTag)) targetTag =  ".*";
 		
 		this.sourceTag = sourceTag;
 		this.sourceAttribute = sourceAttribute;
@@ -50,5 +49,4 @@ public class Binding {
 	public boolean isMany() {
 		return many;
 	}
-
 }

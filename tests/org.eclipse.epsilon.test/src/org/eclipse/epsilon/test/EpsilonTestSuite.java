@@ -80,7 +80,7 @@ import junit.framework.Test;
 	SpreadsheetDriverTestSuite.class,
 	CsvModelTestSuite.class,
 	FlexmiTestSuite.class,
-	//EvlAdvancedTestSuite.class
+	//EvlAdvancedTestSuite.class	// Commented out because it takes too long
 })
 public class EpsilonTestSuite {
 	public static Test suite() {

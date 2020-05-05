@@ -49,6 +49,18 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class EvlTests {
 	
+	private static IModel TEST_MODEL, OPTIMISED_MODEL;
+	
+	static {
+		try {
+			TEST_MODEL = newTestModel(false);
+			OPTIMISED_MODEL = newTestModel(true);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	@Parameter
 	public Supplier<? extends IEvlModule> moduleGetter;
 	
@@ -76,7 +88,11 @@ public class EvlTests {
 		return model;
 	}
 	
-	public static IModel getTestModel(boolean optimised) throws Exception {
+	public static IModel getTestModel(final boolean optimised) throws Exception {
+		return optimised ? OPTIMISED_MODEL : TEST_MODEL;
+	}
+	
+	public static IModel newTestModel(boolean optimised) throws Exception {
 		return setUpModel(optimised ? "optimised.xml" : "test.xml");
 	}
 	

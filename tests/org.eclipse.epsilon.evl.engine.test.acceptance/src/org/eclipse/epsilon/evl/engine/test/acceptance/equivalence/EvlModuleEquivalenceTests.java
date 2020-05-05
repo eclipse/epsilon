@@ -15,7 +15,9 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.*;
+import org.eclipse.epsilon.evl.engine.test.acceptance.EvlTests;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -116,6 +118,15 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	@Override
 	public void _0test0() throws Exception {
 		super.beforeTests();
+	}
+	
+	@Override
+	public void zzz_AfterAll() throws Exception {
+		Collection<? extends IModel> ks = testConfig.modelsAndProperties.keySet();
+		
+		if (ks.isEmpty() || ks.iterator().next() != EvlTests.getTestModel(false)) {
+			super.zzz_AfterAll();
+		}
 	}
 	
 	@Test
