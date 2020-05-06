@@ -460,6 +460,8 @@
       <repository
           url="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
       <repository
+          url="https://download.eclipse.org/tools/orbit/downloads/drops/S20200427151422/repository"/>
+      <repository
           url="https://download.eclipse.org/modeling/emf/emf/builds/release/latest"/>
       <repository
           url="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
