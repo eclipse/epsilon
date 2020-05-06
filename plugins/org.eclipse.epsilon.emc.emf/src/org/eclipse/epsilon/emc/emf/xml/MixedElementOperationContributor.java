@@ -32,7 +32,5 @@ public class MixedElementOperationContributor extends OperationContributor {
 		EObject eObject = (EObject) getTarget();
 		FeatureMap mixed = (FeatureMap) eObject.eGet(eObject.eClass().getEStructuralFeature("mixed"));
 		FeatureMapUtil.addText(mixed, index, text);
-		
 	}
-	
 }

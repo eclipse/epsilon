@@ -16,8 +16,8 @@ public class ModelElementOperationContributor extends OperationContributor {
 	
 	@Override
 	public boolean contributesTo(Object target) {
-		if (context != null) {
-			ModelRepository repository = context.getModelRepository();
+		if (getContext() != null) {
+			ModelRepository repository = getContext().getModelRepository();
 			if (repository != null) {
 				return repository.getOwningModel(target) != null;
 			}
@@ -26,7 +26,7 @@ public class ModelElementOperationContributor extends OperationContributor {
 	}
 
 	public String id() throws Exception {
-		IModel model = context.getModelRepository().getOwningModel(getTarget());
+		IModel model = getContext().getModelRepository().getOwningModel(getTarget());
 		return model.getElementId(getTarget());
 	}
 

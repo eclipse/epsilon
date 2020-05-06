@@ -43,8 +43,8 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 	}
 
 	public void assertEquals(Object expected, Object obtained) throws EolAssertionException {
-		final String sExpected = context.getPrettyPrinterManager().print(expected);
-		final String sObtained = context.getPrettyPrinterManager().print(obtained);
+		final String sExpected = getContext().getPrettyPrinterManager().print(expected);
+		final String sObtained = getContext().getPrettyPrinterManager().print(obtained);
 		final String message = "Expected " + sExpected + ", but got " + sObtained + " instead";
 		assertEquals(message, expected, obtained);
 	}
@@ -78,14 +78,14 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 	}
 
 	public void fail(String message) throws EolAssertionException {
-		throw new EolAssertionException(message, context.getFrameStack().getCurrentStatement(), null, null, null);
+		throw new EolAssertionException(message, getContext().getFrameStack().getCurrentStatement(), null, null, null);
 	}
 
 	private void compareBoolean(String message, boolean condition, final boolean expected) throws EolAssertionException {
 		if (condition != expected) {
 			throw new EolAssertionException(
-					context.getPrettyPrinterManager().toString(message),
-					context.getFrameStack().getCurrentStatement(),
+					getContext().getPrettyPrinterManager().toString(message),
+					getContext().getFrameStack().getCurrentStatement(),
 					expected, condition, null);
 		}
 	}
@@ -94,7 +94,7 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 			throws EolAssertionException {
 		if (EolObjectComparator.equals(expected, obtained) != mustBeEqual) {
 			throw new EolAssertionException(
-					message, context.getFrameStack().getCurrentStatement(), expected, obtained, null);
+					message, getContext().getFrameStack().getCurrentStatement(), expected, obtained, null);
 		}
 	}
 
@@ -125,7 +125,7 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 				message = "Expected " + obtained + (mustBeEqual ? "" : " not")
 					+ " to be in [" + lowerBound + ", " + upperBound + "]";
 			}
-			throw new EolAssertionException(message, context.getFrameStack().getCurrentStatement(), expected, obtained != null ? obtained : "null", null);
+			throw new EolAssertionException(message, getContext().getFrameStack().getCurrentStatement(), expected, obtained != null ? obtained : "null", null);
 		}
 	}
 }

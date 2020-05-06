@@ -42,7 +42,7 @@ public class JUnitIntegrationExampleSuite implements IEUnitSuite {
 
 		public void transform() throws Exception {
 			EtlModule etl = new EtlModule();
-			etl.getContext().setModelRepository(context.getModelRepository());
+			etl.getContext().setModelRepository(getContext().getModelRepository());
 			etl.parse(new File("resources/etl/Tree2Graph.etl"));
 			etl.execute();
 		}

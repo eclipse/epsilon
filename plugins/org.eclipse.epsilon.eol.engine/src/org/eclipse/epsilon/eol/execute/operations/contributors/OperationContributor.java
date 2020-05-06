@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2012-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - Thread safety
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
@@ -18,10 +19,16 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
+/**
+ * Implementation note: All extending classes
+ * should ensure that the operation contributor is
+ * stateless, or if it contains state (i.e. fields)
+ * then they are either immutable or ThreadLocal.
+ */
 public abstract class OperationContributor {
 	
-	protected Object target;
-	protected IEolContext context;
+	private final ThreadLocal<Object> target = new ThreadLocal<>();
+	private final ThreadLocal<IEolContext> context = new ThreadLocal<>();
 	protected Set<String> cachedMethodNames;
 	
 	public abstract boolean contributesTo(Object target);
@@ -44,8 +51,10 @@ public abstract class OperationContributor {
 		Method method = null;
 		// Maintain a cache of method names if the reflection target is this
 		// so that we don't iterate through all methods every time
-		if (getReflectionTarget(target) == this && cachedMethodNames == null) {
-			cachedMethodNames = ReflectionUtil.getMethodNames(this, includeInheritedMethods());
+		if (getReflectionTarget(target) == this && cachedMethodNames == null) synchronized (this) {
+			if (cachedMethodNames == null) {
+				cachedMethodNames = ReflectionUtil.getMethodNames(this, includeInheritedMethods());
+			}
 		}
 		
 		if (cachedMethodNames == null || cachedMethodNames.contains(name)) {
@@ -85,14 +94,23 @@ public abstract class OperationContributor {
 	 * @since 1.6
 	 */
 	protected Object getTarget() {
-		return target;
+		return target.get();
 	}
 	
 	public void setTarget(Object target) {
-		this.target = target;
+		this.target.set(target);
 	}
 	
 	public void setContext(IEolContext context) {
-		this.context = context;
+		this.context.set(context);
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	protected IEolContext getContext() {
+		return context.get();
 	}
 }

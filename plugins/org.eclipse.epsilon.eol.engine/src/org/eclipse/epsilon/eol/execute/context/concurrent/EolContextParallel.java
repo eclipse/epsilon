@@ -63,9 +63,10 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	boolean isInShortCircuitTask;
 	protected EolThreadPoolExecutor executorService;
 	
-	// Data structures which will be written to and read from during parallel execution:
+	// Data structures which will be written to and read from during parallel execution.
+	// Note that the OperationContributorRegistry is shared; thread-safety is
+	// handled by the OperationContributor class.
 	ThreadLocal<FrameStack> concurrentFrameStacks;
-	ThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
 	ThreadLocal<ExecutorFactory> concurrentExecutorFactories;
 	
 	/**
@@ -111,7 +112,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	protected void initThreadLocals() {
-		concurrentMethodContributors = ThreadLocal.withInitial(this::createThreadLocalOperationContributorRegistry);
 		concurrentFrameStacks = initDelegateThreadLocal(this::createThreadLocalFrameStack);
 		concurrentExecutorFactories = initDelegateThreadLocal(this::createThreadLocalExecutorFactory);
 		threadLocalShadows = ThreadLocal.withInitial(this::createShadowThreadLocalContext);
@@ -187,13 +187,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	protected synchronized void clearThreadLocals() {
-		removeAll(concurrentFrameStacks, concurrentExecutorFactories, concurrentMethodContributors, threadLocalShadows);
+		removeAll(concurrentFrameStacks, concurrentExecutorFactories, threadLocalShadows);
 	}
 	
 	protected void nullifyThreadLocals() {
 		concurrentFrameStacks = null;
 		concurrentExecutorFactories = null;
-		concurrentMethodContributors = null;
 		threadLocalShadows = null;
 	}
 	
@@ -276,11 +275,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public ExecutorFactory getExecutorFactory() {
 		return parallelGet(concurrentExecutorFactories, executorFactory);
-	}
-	
-	@Override
-	public OperationContributorRegistry getOperationContributorRegistry() {
-		return parallelGet(concurrentMethodContributors, methodContributorRegistry);
 	}
 	
 	@Override

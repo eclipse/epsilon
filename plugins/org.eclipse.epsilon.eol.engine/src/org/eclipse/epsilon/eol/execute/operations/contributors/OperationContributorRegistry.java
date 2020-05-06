@@ -33,7 +33,9 @@ public class OperationContributorRegistry {
 	 * {@link #getDefaultOperationContributors()} method.</p>
 	 */
 	public void add(OperationContributor operationContributor) {
-		operationContributorsCache.add(operationContributor);
+		synchronized (operationContributorsCache) {
+			operationContributorsCache.add(operationContributor);
+		}
 	}
 	
 	/**

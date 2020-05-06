@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContribu
 
 public class ModelOperationContributor extends OperationContributor {
 
-	protected MatlabEngine engine = null;
+	protected MatlabEngine engine;
 
 	public ModelOperationContributor(MatlabEngine engine) {
 		this.engine = engine;

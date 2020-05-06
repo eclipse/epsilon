@@ -24,7 +24,7 @@ public class ContextlessOperationContributor extends OperationContributor {
 	}
 	
 	public Object _package(String name) throws Exception {
-		IModel ecoreModel = context.getModelRepository().getModelByName("Ecore");
+		IModel ecoreModel = getContext().getModelRepository().getModelByName("Ecore");
 		for (Object o : ecoreModel.getAllOfType("EPackage")) {
 			if (name.equals(((EPackage) o).getName())) {
 				return o;
@@ -34,7 +34,7 @@ public class ContextlessOperationContributor extends OperationContributor {
 	}
 	
 	public Object _class(String name) throws Exception {
-		IModel ecoreModel = context.getModelRepository().getModelByName("Ecore");
+		IModel ecoreModel = getContext().getModelRepository().getModelByName("Ecore");
 		for (Object o : ecoreModel.getAllOfType("EClass")) {
 			if (name.equals(((EClass) o).getName())) {
 				return o;

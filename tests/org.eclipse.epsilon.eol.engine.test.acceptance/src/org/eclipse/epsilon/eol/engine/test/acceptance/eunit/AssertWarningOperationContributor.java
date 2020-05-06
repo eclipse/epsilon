@@ -69,8 +69,8 @@ public class AssertWarningOperationContributor extends OperationContributor {
 	
 	private void fail(String reason, String expected, String actual) throws EolAssertionException {
 		throw new EolAssertionException(
-				context.getPrettyPrinterManager().toString(reason),
-				context.getFrameStack().getCurrentStatement(),
+				getContext().getPrettyPrinterManager().toString(reason),
+				getContext().getFrameStack().getCurrentStatement(),
 				expected, actual, null);
 	}
 	

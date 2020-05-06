@@ -18,17 +18,6 @@ public class IterableOperationContributor extends OperationContributor {
 
 	public IterableOperationContributor() {}
 	
-	public static void main(String[] args) {
-		
-		Collection<Object> c = new ArrayList<>();
-		for (int i = 0; i < 100; i++) {
-			c.add(i);
-		}
-		IterableOperationContributor ioc = new IterableOperationContributor(c);
-		System.out.println(ioc.first(10));
-		
-	}
-	
 	public IterableOperationContributor(Iterable<?> target) {
 		setTarget(target);
 	}

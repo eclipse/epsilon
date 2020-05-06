@@ -134,7 +134,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 				}
 			}
 
-			final ModuleElement ast = context.getFrameStack().getCurrentStatement();
+			final ModuleElement ast = getContext().getFrameStack().getCurrentStatement();
 			throw new EolAssertionException(
 					message != null ? message : String.format("No lines matched '%s' from start to finish", regexp),
 					ast, null, null, null);
@@ -178,14 +178,14 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		// Since the assertion has failed, !mustBeEqual shows whether the
 		// trees were equal or not. If they are equal, there is no point
 		// in showing differences in the UI.
-		final ModuleElement ast = context.getFrameStack().getCurrentStatement();
+		final ModuleElement ast = getContext().getFrameStack().getCurrentStatement();
 		throw new EolAssertionException(
 			message, ast, fileExpected, fileActual, null);
 	}
 
 	private IModel getModel(String name) throws EolModelNotFoundException
 	{
-		return context.getModelRepository().getModelByName(name);
+		return getContext().getModelRepository().getModelByName(name);
 	}
 
 	private void compareModels(String message, String expectedModelName, String actualModelName, boolean mustBeEqual, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
@@ -236,10 +236,10 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		}
 
 		if (mustBeEqual) {
-			throw new EolAssertionException(message.toString(), context.getFrameStack().getCurrentStatement(), expectedCModel, actualCModel, delta);
+			throw new EolAssertionException(message.toString(), getContext().getFrameStack().getCurrentStatement(), expectedCModel, actualCModel, delta);
 		}
 		else {
-			throw new EolAssertionException(message.toString(), context.getFrameStack().getCurrentStatement(), null, null, null);
+			throw new EolAssertionException(message.toString(), getContext().getFrameStack().getCurrentStatement(), null, null, null);
 		}
 	}
 

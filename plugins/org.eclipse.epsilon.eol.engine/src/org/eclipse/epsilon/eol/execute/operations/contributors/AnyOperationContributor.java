@@ -69,7 +69,7 @@ public class AnyOperationContributor extends OperationContributor {
 			return EolMapType.ConcurrentMap;
 		}
 		
-		IModel model = context.getModelRepository().getOwningModel(target);
+		IModel model = getContext().getModelRepository().getOwningModel(target);
 		if (model != null) {
 			return model.getTypeOf(target);
 		}
@@ -102,17 +102,17 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public IModel owningModel() {
-		return context.getModelRepository().getOwningModel(getTarget());
+		return getContext().getModelRepository().getOwningModel(getTarget());
 	}
 	
 	public boolean hasProperty(String property) throws Exception {
 		Object target = getTarget();
-		IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(target, property, context);
-		return getter.hasProperty(target, property, context);
+		IPropertyGetter getter = getContext().getIntrospectionManager().getPropertyGetterFor(target, property, getContext());
+		return getter.hasProperty(target, property, getContext());
 	}
 	
 	public String asString() {
-		return context.getPrettyPrinterManager().print(getTarget());
+		return getContext().getPrettyPrinterManager().print(getTarget());
 	}
 	
 	public boolean isDefined() {
@@ -146,8 +146,8 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public Object println(Object prefix, Object suffix) {
-		context.getOutputStream().
-			println(prefix + context.getPrettyPrinterManager().print(getTarget()) + suffix);
+		getContext().getOutputStream().
+			println(prefix + getContext().getPrettyPrinterManager().print(getTarget()) + suffix);
 		return getTarget();
 	}
 	
@@ -160,8 +160,8 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public Object print(Object prefix, Object suffix) {
-		context.getOutputStream().
-			print(prefix + context.getPrettyPrinterManager().print(getTarget()) + suffix);
+		getContext().getOutputStream().
+			print(prefix + getContext().getPrettyPrinterManager().print(getTarget()) + suffix);
 		return getTarget();
 	}
 	
@@ -174,8 +174,8 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public Object err(Object prefix, Object suffix) {
-		context.getErrorStream().
-			print(prefix + context.getPrettyPrinterManager().print(getTarget()) + suffix);
+		getContext().getErrorStream().
+			print(prefix + getContext().getPrettyPrinterManager().print(getTarget()) + suffix);
 		return getTarget();
 	}
 	
@@ -188,8 +188,8 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public Object errln(Object prefix, Object suffix) {
-		context.getErrorStream().
-			println(prefix + context.getPrettyPrinterManager().print(getTarget()) + suffix);
+		getContext().getErrorStream().
+			println(prefix + getContext().getPrettyPrinterManager().print(getTarget()) + suffix);
 		return getTarget();
 	}
 	

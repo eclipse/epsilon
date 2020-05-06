@@ -38,7 +38,7 @@ public class StringOperationContributor extends OperationContributor {
 	}
 	
 	public Object toEnum() throws Exception {
-		return context.getModelRepository().getEnumerationValue(getTarget() + "");
+		return getContext().getModelRepository().getEnumerationValue(getTarget() + "");
 	}
 	
 	@Override
