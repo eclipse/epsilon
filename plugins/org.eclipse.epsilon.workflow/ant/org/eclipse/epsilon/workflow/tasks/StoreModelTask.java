@@ -67,10 +67,10 @@ public class StoreModelTask extends EpsilonTask {
 		return targetUri;
 	}
 
-	public void setTargetUri(URI targetUri) {
-		this.targetUri = targetUri;
+	protected void setTargetUri(URI uri) {
+		this.targetUri = uri;
 	}
-
+	
 	public void setTargetUri(String targetUri) throws URISyntaxException {
 		setTargetUri(new URI(targetUri.replace('\\', '/')));
 	}

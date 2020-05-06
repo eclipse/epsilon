@@ -261,7 +261,8 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			
 			if (!isDebug() || !HostManager.getHost().supportsDebugging()) {
 				result = module.execute();
-			} else {
+			}
+			else {
 				HostManager.getHost().debug(module, getSrc());
 			}
 

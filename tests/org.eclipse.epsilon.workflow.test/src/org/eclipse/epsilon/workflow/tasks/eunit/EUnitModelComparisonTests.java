@@ -15,14 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import javax.xml.parsers.ParserConfigurationException;
 import org.apache.tools.ant.BuildException;
 import org.eclipse.ant.core.AntRunner;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 /**
  * Tests for the EUnit model comparison assertions. Since these depend on the
@@ -63,8 +60,6 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 
 	@Test
 	public void compareEMFWithEMFCopy() throws Exception {
-		// See Bug 562772
-		if (OperatingSystem.isWindows()) return;
 		runTarget(ANT_BUILD_FILE, "emf-emf-copy");
 	}
 
@@ -78,7 +73,8 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 		try {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-left");
 			fail("Expected a BuildException");
-		} catch (BuildException ex) {
+		}
+		catch (BuildException ex) {
 			assertTrue(ex.getMessage().contains("Expected B to be also empty, but it is not"));
 		}
 	}
@@ -88,7 +84,8 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 		try {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-right");
 			fail("Expected a BuildException");
-		} catch (BuildException ex) {
+		}
+		catch (BuildException ex) {
 			assertTrue(ex.getMessage().contains("but it is empty"));
 		}
 	}
@@ -118,7 +115,8 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 		try {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-both-noteq");
 			fail("Expected a BuildException");
-		} catch (BuildException ex) {
+		}
+		catch (BuildException ex) {
 			assertTrue(ex.getMessage().contains("Expected B not to be empty, but it is empty"));
 		}
 	}
@@ -128,8 +126,7 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 		runTarget(ANT_BUILD_FILE, "inline-hutn-compare");
 	}
 
-	private void runBasicTests(String targetName) throws IOException,
-			SAXException, ParserConfigurationException {
+	private void runBasicTests(String targetName) throws Exception {
 		runTarget(ANT_BUILD_FILE, targetName);
 		checkOutput(new File(BASE_DIR, "TEST-default.emf-emf.xml"),
 				EUnitModule.DEFAULT_PACKAGE,
@@ -145,7 +142,8 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 				new HashSet<>(
 					Arrays.asList(
 						"modelsWithDifferentContentAreDifferentFailing",
-						"transformedIsEqualToExpectedFailing")),
+						"transformedIsEqualToExpectedFailing")
+				),
 				new HashSet<String>());
 	}
 
