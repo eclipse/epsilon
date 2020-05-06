@@ -50,7 +50,7 @@ public class EmfUtil {
 	 */
 	public static URI createUri(String uri) {
 		return uri == null ? null :
-			URI.createURI(uri.replace('\\', '/'));
+			URI.createURI(uri.replace('\\', '/').replaceAll(" ", "%20"));
 	}
 	
 	/**

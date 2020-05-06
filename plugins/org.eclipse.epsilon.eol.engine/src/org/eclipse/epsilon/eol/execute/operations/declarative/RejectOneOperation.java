@@ -19,6 +19,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 /**
  * Returns a new Collection containing one less element for which the predicate is not satisfied.
+ * 
  * @author Sina Madani
  * @since 1.6
  */
@@ -27,9 +28,11 @@ public class RejectOneOperation extends SelectBasedOperation {
 	@Override
 	public Collection<?> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
-		Collection<?> rejected = getDelegateOperation().execute(true, target, operationNameExpression, iterators, expressions.get(0), context);
+		Collection<?> rejectedCol = getDelegateOperation().execute(true, target, operationNameExpression, iterators, expressions.get(0), context);
 		Collection<?> source = resolveSource(target, iterators, context);
-		source.removeAll(rejected);
+		if (rejectedCol != null && !rejectedCol.isEmpty()) {
+			source.remove(rejectedCol.iterator().next());
+		}
 		return source;
 	}
 }

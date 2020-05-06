@@ -53,7 +53,8 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		for (Object item : source) {
 			jobs.add(() -> {
 				if (keepSearching.get()) {
-					final int currentInt = predicate.testThrows(item) ?
+					// Re-check the condition - may have changed after execution
+					final int currentInt = predicate.testThrows(item) && keepSearching.get() ?
 						currentMatches.incrementAndGet() : currentMatches.get(),
 						evaluatedInt = evaluated.incrementAndGet();
 					

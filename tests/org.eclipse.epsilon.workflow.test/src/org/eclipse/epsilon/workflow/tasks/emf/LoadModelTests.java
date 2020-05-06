@@ -23,42 +23,24 @@ public class LoadModelTests extends WorkflowTaskTestCase {
 	@Test
 	public void nameIsMappedToName() throws Exception {
 		runLoadModelStatementWithProperty("name", "MyModel");
-		
 		assertEquals("MyModel", valueOfPropertyInEmfModel(EmfModel.PROPERTY_NAME));
 	}
 	
 	@Test
 	public void readIsMappedToReadOnLoad() throws Exception {
 		runLoadModelStatementWithProperty("read", "false");
-		
 		assertEquals("false", valueOfPropertyInEmfModel(EmfModel.PROPERTY_READONLOAD));
-	}
-	
-	@Test
-	public void metamodelIsFileBasedIsFalseWhenThereIsAMetamodelUri() throws Exception {
-		runLoadModelStatementWithProperty("metamodeluri", "http://www.eclipse.org/uml2/2.1.0/UML");
-		
-		assertEquals("false", valueOfPropertyInEmfModel(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED));
-	}
-	
-	@Test
-	public void metamodelIsFileBasedIsTrueWhenThereIsAMetamodelFile() throws Exception {
-		runLoadModelStatementWithProperty("metamodelfile", "My.ecore");
-		
-		assertEquals("true", valueOfPropertyInEmfModel(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED));
 	}
 	
 	@Test
 	public void metamodelFileIsConvertedToUri() throws Exception {
 		runLoadModelStatementWithProperty("metamodelfile", "My.ecore");
-		
 		assertEquals(locationOfRelativePath("My.ecore").toString(), valueOfPropertyInEmfModel(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI));
 	}
 	
 	@Test
 	public void modelFileIsConvertedToUri() throws Exception {
 		runLoadModelStatementWithProperty("modelFile", "My.model");
-		
 		assertEquals(locationOfRelativePath("My.model").toString(), valueOfPropertyInEmfModel(EmfModel.PROPERTY_MODEL_URI));
 	}
 
