@@ -7,7 +7,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egx.engine.test.acceptance.util;
+package org.eclipse.epsilon.egx.engine.test.acceptance.hutn;
 
 import java.util.Collections;
 import java.util.List;

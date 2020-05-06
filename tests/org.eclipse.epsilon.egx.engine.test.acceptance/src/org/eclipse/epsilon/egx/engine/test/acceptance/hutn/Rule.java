@@ -7,11 +7,10 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egx.engine.test.acceptance.rules;
+package org.eclipse.epsilon.egx.engine.test.acceptance.hutn;
 
 import static org.junit.Assert.assertEquals;
 import org.eclipse.epsilon.common.util.FileUtil;
-import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxAcceptanceTest;
 import org.eclipse.epsilon.hutn.test.models.Families;
 import org.junit.BeforeClass;
 import org.junit.Test;

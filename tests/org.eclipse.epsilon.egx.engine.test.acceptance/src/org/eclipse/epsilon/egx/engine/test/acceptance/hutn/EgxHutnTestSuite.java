@@ -7,7 +7,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egx.engine.test.acceptance.rules;
+package org.eclipse.epsilon.egx.engine.test.acceptance.hutn;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

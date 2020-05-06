@@ -7,7 +7,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egx.engine.test.acceptance.util;
+package org.eclipse.epsilon.egx.engine.test.acceptance.hutn;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.execute.context.EgxContext;
+import org.eclipse.epsilon.egx.engine.test.acceptance.virtual.VirtualTemplateFactory;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 
