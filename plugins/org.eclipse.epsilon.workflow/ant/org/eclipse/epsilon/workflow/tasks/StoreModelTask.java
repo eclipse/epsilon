@@ -14,6 +14,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.tools.ant.BuildException;
+import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.profiling.Profiler;
@@ -66,12 +67,10 @@ public class StoreModelTask extends EpsilonTask {
 	public URI getTargetUri() {
 		return targetUri;
 	}
-
-	protected void setTargetUri(URI uri) {
-		this.targetUri = uri;
-	}
 	
-	public void setTargetUri(String targetUri) throws URISyntaxException {
-		setTargetUri(new URI(targetUri.replace('\\', '/')));
+	public void setTargetUri(String uriStr) throws URISyntaxException {
+		// Don't create one that takes a URI directly: that would mean ANT tries to reflectively
+		// create a bad URI and fail, which is a nightmare to debug!
+		this.targetUri = UriUtil.sanitize(uriStr);
 	}
 }

@@ -12,20 +12,33 @@ package org.eclipse.epsilon.common.util;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
-public abstract class UriUtil {
-
-	// Uninstantiable class
+public class UriUtil {
 	private UriUtil() {}
 	
+	/**
+	 * 
+	 * @param uriStr
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @since 1.6
+	 */
+	public static URI sanitize(String uriStr) throws IllegalArgumentException {
+		return URI.create(
+			Objects.requireNonNull(uriStr)
+				.replace('\\', '/')
+				.replaceAll(" ", "%20")
+		);
+	}
+	
 	public static URI resolve(String path, URI... relativeTo) throws URISyntaxException {
-		if (path == null)
-			return null;
+		if (path == null) return null;
 		
-		final URI uri = new URI(path);
+		path = encode(path, false);
+		final URI uri = sanitize(path);
 		
-		if (uri.isAbsolute())
-			return uri;
+		if (uri.isAbsolute()) return uri;
 		
 		else if (relativeTo != null) {
 			for (URI parent : relativeTo) {
@@ -58,7 +71,6 @@ public abstract class UriUtil {
 	
 	public static String encode(String s, boolean isDirectory) {
 		s = s.replaceAll(" ",    "%20").replaceAll("\\\\", "/");
-		
 		if (isDirectory && !s.endsWith("/"))
 			s += "/";
 		
@@ -67,7 +79,6 @@ public abstract class UriUtil {
 	
 	public static URI fileToUri(File file) throws URISyntaxException {
 		final String encoded = UriUtil.encode(file.getAbsolutePath(), file.isDirectory());
-		
 		return new URI("file://" + (encoded.startsWith("/") ? encoded : '/' + encoded));
 	}
 
