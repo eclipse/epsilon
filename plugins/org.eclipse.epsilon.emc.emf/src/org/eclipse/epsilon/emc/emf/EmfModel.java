@@ -104,8 +104,14 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	protected List<URI> metamodelUris = new ArrayList<>();
 	protected List<EPackage> packages;
+	
+	/**
+	 * @deprecated
+	 */
+	@Deprecated
 	protected boolean isMetamodelFileBased = false;
-	protected URI modelUri = null;
+	
+	protected URI modelUri;
 	protected List<URI> metamodelFileUris = new ArrayList<>();
 	protected boolean useExtendedMetadata = false;
 

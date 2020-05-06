@@ -60,7 +60,6 @@ public class EmfModelLoadPropertiesTests {
 	 *   - TODO try changes on INESS
 	 */
 	
-	// TODO run these tests on Windows (and maybe Linux too)
 	// TODO fix other clients of load(Properties, String), such as EglServlet and the Ant tasks
 	// TODO ensure only legacy code uses the EmfUtil.createPlatformResourceURI and createFileBasedURI methods, and maybe deprecate them
 	
@@ -72,18 +71,15 @@ public class EmfModelLoadPropertiesTests {
 	
 	private static StringProperties createPropertiesFor(URI modelFileUri) {
 		final StringProperties properties = new StringProperties();
-		
 		properties.put(EmfModel.PROPERTY_NAME,       "Simple");
 		properties.put(EmfModel.PROPERTY_READONLOAD, "true");		
 		properties.put(EmfModel.PROPERTY_MODEL_URI,  modelFileUri);
-		
 		return properties;
 	}
 
 	private static void assertModelCanBeLoadedFrom(StringProperties properties) throws EolModelLoadingException {
 		final EmfModel model = new EmfModel();
 		model.load(properties);
-		
 		final EObject firstElement = model.getResource().getContents().get(0);
 		assertEquals("Simple", firstElement.eClass().getName());
 	}
@@ -108,10 +104,7 @@ public class EmfModelLoadPropertiesTests {
 		@Test
 		public void registeredMetamodelTest() throws Exception {
 			final StringProperties properties = createPropertiesFor(MODEL_IN_BUNDLE);
-			
-			properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
-			properties.put(EmfModel.PROPERTY_METAMODEL_URI,           registeredPackages.get(0).getNsURI());
-			
+			properties.put(EmfModel.PROPERTY_METAMODEL_URI, registeredPackages.get(0).getNsURI());
 			assertModelCanBeLoadedFrom(properties);
 		}
 	}
@@ -123,10 +116,7 @@ public class EmfModelLoadPropertiesTests {
 		
 		private static StringProperties createPropertiesWithRegisteredMetamodelFor(URI modelFileUri) {
 			final StringProperties properties = createPropertiesFor(modelFileUri);
-			
-			properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
-			properties.put(EmfModel.PROPERTY_METAMODEL_URI,            registeredPackages.get(0).getNsURI());
-			
+			properties.put(EmfModel.PROPERTY_METAMODEL_URI, registeredPackages.get(0).getNsURI());
 			return properties;
 		}
 		

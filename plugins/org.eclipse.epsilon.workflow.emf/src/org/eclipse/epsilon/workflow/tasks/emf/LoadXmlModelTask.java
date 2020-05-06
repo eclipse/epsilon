@@ -13,6 +13,7 @@ import java.io.File;
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.xml.XmlModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
@@ -35,7 +36,7 @@ public class LoadXmlModelTask extends EpsilonTask {
 		final StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
 		properties.put(EmfModel.PROPERTY_ALIASES, aliases + "");
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, modelFile.getAbsolutePath());
+		properties.put(EmfModel.PROPERTY_MODEL_URI, ""+EmfUtil.createFileBasedURI(modelFile.getAbsolutePath()));
 		properties.put(XmlModel.PROPERTY_XSD_FILE, xsdFile.getAbsolutePath());
 		properties.put(EmfModel.PROPERTY_READONLOAD, read + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");

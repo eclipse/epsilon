@@ -22,6 +22,7 @@ import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.dt.util.WorkspaceUtil;
@@ -141,16 +142,13 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate {
 	
 	private String createEmfModel(String modelName, String modelFile, String metamodelUri, boolean readOnLoad, boolean storeOnDisposal) {
 		final StringProperties properties = new StringProperties();
-		
-		properties.put("type",                                    "EMF");
-		properties.put("name",                                    modelName);
-		properties.put("aliases",                                 "");
-		properties.put("readOnLoad",                              readOnLoad + "");
-		properties.put("storeOnDisposal",                         storeOnDisposal + "");
-		properties.put(EmfModel.PROPERTY_MODEL_FILE,              modelFile);
-		properties.put(EmfModel.PROPERTY_METAMODEL_URI,           metamodelUri);
-		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
-		
+		properties.put("type", "EMF");
+		properties.put(EmfModel.PROPERTY_NAME, modelName);
+		properties.put(EmfModel.PROPERTY_ALIASES, "");
+		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
+		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
+		properties.put(EmfModel.PROPERTY_MODEL_URI, EmfUtil.createFileBasedURI(modelFile) + "");
+		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri);
 		return properties.toString();
 	}
 }
