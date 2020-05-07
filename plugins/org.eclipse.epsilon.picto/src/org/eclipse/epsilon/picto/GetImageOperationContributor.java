@@ -25,7 +25,7 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 public class GetImageOperationContributor extends OperationContributor {
 	
 	protected IEgxModule module;
-	protected Map<String, String> cache = new HashMap<>();
+	protected static Map<String, String> cache = new HashMap<>();
 	
 	public GetImageOperationContributor(IEgxModule module) {
 		this.module = module;
@@ -43,14 +43,18 @@ public class GetImageOperationContributor extends OperationContributor {
 		else if (module.getUri() != null) {
 			try {
 				URI imageUri = module.getUri().resolve(path);
-				String tempImagePath = cache.get(imageUri.toString());
-				if (tempImagePath == null) {
-					try (InputStream in = imageUri.toURL().openStream()) {
-						Path temp = Files.createTempFile("picto", Paths.get(path).getFileName().toString());
-						Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
-						tempImagePath = temp.toAbsolutePath().toString();
+
+				String tempImagePath = null;
+				synchronized (cache) {
+					tempImagePath = cache.get(imageUri.toString());
+					if (tempImagePath == null) {
+						try (InputStream in = imageUri.toURL().openStream()) {
+							Path temp = Files.createTempFile("picto", Paths.get(path).getFileName().toString());
+							Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
+							tempImagePath = temp.toAbsolutePath().toString();
+						}
+						cache.put(imageUri.toString(), tempImagePath);
 					}
-					cache.put(imageUri.toString(), tempImagePath);
 				}
 				return tempImagePath;
 			} catch (Exception e) {}
