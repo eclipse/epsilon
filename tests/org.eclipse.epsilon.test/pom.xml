@@ -24,7 +24,7 @@
 					<includes>
 						<include>**/*Surefire*.java</include>
 					</includes>
-					<argLine>-ea -Xmx4g</argLine>
+					<argLine>-ea -Xms2g -Xmx8g</argLine>
 					<additionalClasspathElements>
 						<!--additionalClasspathElement>${project.basedir}/../</additionalClasspathElement-->
 					</additionalClasspathElements>
