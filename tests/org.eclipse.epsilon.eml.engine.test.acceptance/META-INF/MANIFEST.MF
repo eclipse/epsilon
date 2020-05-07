@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.epsilon.eml.engine.test.acceptance
 Bundle-Version: 1.6.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
+Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.eml.engine,
  org.eclipse.epsilon.ecl.engine,
  org.eclipse.epsilon.etl.engine,
