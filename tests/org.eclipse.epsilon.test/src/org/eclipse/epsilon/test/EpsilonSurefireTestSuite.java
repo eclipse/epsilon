@@ -54,7 +54,7 @@ import junit.framework.Test;
 @SuiteClasses({
 	CommonsTestSuite.class,
 	EolUnitTestSuite.class, 
-	//EolAcceptanceTestSuite.class,
+	EolAcceptanceTestSuite.class,
 	EvlAcceptanceTestSuite.class,
 	EtlAcceptanceTestSuite.class,
 	EclAcceptanceTestSuite.class,

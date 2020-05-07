@@ -361,7 +361,7 @@ public class EUnitTest {
 	}
 
 	public String toString() {
-		StringBuffer sbuf = new StringBuffer(getOperationName());
+		StringBuilder sbuf = new StringBuilder(getOperationName());
 
 		// data binding
 		if (getDataVariableName() != null) {

@@ -183,8 +183,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 			message, ast, fileExpected, fileActual, null);
 	}
 
-	private IModel getModel(String name) throws EolModelNotFoundException
-	{
+	private IModel getModel(String name) throws EolModelNotFoundException {
 		return getContext().getModelRepository().getModelByName(name);
 	}
 

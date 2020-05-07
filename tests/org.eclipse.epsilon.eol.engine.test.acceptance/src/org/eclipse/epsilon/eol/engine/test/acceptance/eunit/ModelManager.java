@@ -9,12 +9,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.engine.test.acceptance.eunit;
 
-import static org.eclipse.epsilon.common.util.FileUtil.getPath;
-
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
@@ -29,8 +28,8 @@ public class ModelManager {
 	public ModelManager(IEolContext context) throws Exception {
 		this.context = context;
 		
-		register(getPath("ecore_lite.ecore", ModelManager.class));
-		register(getPath("fruits.ecore",     ModelManager.class));
+		register(FileUtil.getFileStandalone("ecore_lite.ecore", ModelManager.class).getAbsolutePath());
+		register(FileUtil.getFileStandalone("fruits.ecore",     ModelManager.class).getAbsolutePath());
 	}
 	
 	private List<EPackage> register(String metamodelPath) throws Exception {

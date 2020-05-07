@@ -12,8 +12,6 @@ package org.eclipse.epsilon.eol.engine.test.acceptance;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.epsilon.eol.engine.test.acceptance.eunit.EUnitRunner;
 import org.eclipse.epsilon.eol.engine.test.acceptance.eunit.ExtraModel;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -33,7 +31,7 @@ public class IterableTests {
 	 * values are not wrapped by the PointExecutor.
 	 */
 	public static class FakeIterable implements Iterable<Integer> {
-		private final List<Integer> list = new ArrayList<>();
+		private final ArrayList<Integer> list = new ArrayList<>();
 
 		public FakeIterable create(int nElements) {
 			final FakeIterable iterable = new FakeIterable();
@@ -43,6 +41,7 @@ public class IterableTests {
 
 		public void populate(int nElements) {
 			list.clear();
+			list.ensureCapacity(nElements);
 			for (int i = 0; i < nElements; ++i) {
 				list.add(i);
 			}

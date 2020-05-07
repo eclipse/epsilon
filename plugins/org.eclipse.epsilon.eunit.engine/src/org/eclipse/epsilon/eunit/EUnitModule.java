@@ -229,8 +229,7 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 		}
 	}
 
-	private void populateSuiteTreeTestOperation(EUnitTest parent)
-			throws EolRuntimeException {
+	private void populateSuiteTreeTestOperation(EUnitTest parent) throws EolRuntimeException {
 		for (Operation opTest : this.getTests()) {
 			EUnitTest test = new EUnitTest();
 			test.setParent(parent);
@@ -244,7 +243,8 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 					// Do not create an inner node if there is only one
 					// model binding
 					test.setModelBindings(annotationsValues.get(0));
-				} else if (!annotationsValues.isEmpty()) {
+				}
+				else if (!annotationsValues.isEmpty()) {
 					for (ModelBindings mb : annotationsValues) {
 						EUnitTest child = new EUnitTest();
 						child.setParent(test);
@@ -253,7 +253,8 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 						test.addChildren(child);
 					}
 				}
-			} catch (Exception ex) {
+			}
+			catch (Exception ex) {
 				this.setResultWithFailureTrace(test, ex, EUnitTestResultType.ERROR);
 			}
 		}
@@ -297,16 +298,13 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 		}
 	}
 
-	private void setResultWithFailureTrace(
-		EUnitTest node, Exception asex, final EUnitTestResultType resultType)
-	{
+	private void setResultWithFailureTrace(EUnitTest node, Exception asex, final EUnitTestResultType resultType) {
 		node.setResult(resultType);
 		node.setException(asex);
 		node.setFrameStack(getContext().getFrameStack().clone());
 	}
 
-	private void runSuiteInternal(EUnitTest node)
-			throws EolModelNotFoundException, EolRuntimeException {
+	private void runSuiteInternal(EUnitTest node) throws EolRuntimeException {
 		// We need separate stack frames to ensure everything is clean after
 		// each test case
 		if (node.getOperation() != null) {
