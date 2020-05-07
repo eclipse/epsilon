@@ -39,7 +39,6 @@ import org.eclipse.epsilon.evl.engine.test.acceptance.*;
 import org.eclipse.epsilon.ewl.engine.test.acceptance.*;
 import org.eclipse.epsilon.flexmi.test.FlexmiTestSuite;
 import org.eclipse.epsilon.flock.engine.test.acceptance.FlockEngineAcceptanceTestSuite;
-import org.eclipse.epsilon.flock.test.*;
 import org.eclipse.epsilon.flock.test.unit.FlockEngineUnitTestSuite;
 import org.eclipse.epsilon.hutn.test.*;
 import org.eclipse.epsilon.hutn.unparser.*;
