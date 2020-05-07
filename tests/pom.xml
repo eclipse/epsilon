@@ -47,9 +47,7 @@
     <module>org.eclipse.epsilon.etl.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.evl.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.ewl.engine.test.acceptance</module>
-    <module>org.eclipse.epsilon.flock.engine.test</module>
     <module>org.eclipse.epsilon.flock.engine.test.acceptance</module>
-    <module>org.eclipse.epsilon.flock.engine.test.dependencies</module>
     <module>org.eclipse.epsilon.flock.engine.test.unit</module>
     <module>org.eclipse.epsilon.hutn.dt.test</module>
     <module>org.eclipse.epsilon.hutn.test</module>

@@ -32,8 +32,8 @@ import org.junit.runners.Suite.SuiteClasses;
                EquivalencesSuite.class,
                WarningsSuite.class,
                PreAndPostBlocks.class})
-public class EpsilonFlockEngineAcceptanceTestSuite {
+public class FlockEngineAcceptanceTestSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonFlockEngineAcceptanceTestSuite.class);
+		return new JUnit4TestAdapter(FlockEngineAcceptanceTestSuite.class);
 	}
 }

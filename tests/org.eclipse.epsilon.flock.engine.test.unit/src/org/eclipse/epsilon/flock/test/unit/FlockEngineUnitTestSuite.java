@@ -23,8 +23,8 @@ import junit.framework.Test;
 @SuiteClasses({TestFlock.class, DomainModelSuite.class,
                EmcWrappersSuite.class,
                ExecutionSuite.class})
-public class EpsilonFlockEngineUnitTestSuite {
+public class FlockEngineUnitTestSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonFlockEngineUnitTestSuite.class);
+		return new JUnit4TestAdapter(FlockEngineUnitTestSuite.class);
 	}
 }
