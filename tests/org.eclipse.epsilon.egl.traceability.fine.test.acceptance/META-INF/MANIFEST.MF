@@ -4,8 +4,7 @@ Bundle-Name: EGL Fine-Grained Traceability Acceptance Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.egl.traceability.fine.test.acceptance
 Bundle-Version: 1.6.0.qualifier
 Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
- org.eclipse.epsilon.egl.engine.test.acceptance,
+Require-Bundle: org.eclipse.epsilon.egl.engine.test.acceptance,
  org.eclipse.epsilon.egl.traceability.fine
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance,

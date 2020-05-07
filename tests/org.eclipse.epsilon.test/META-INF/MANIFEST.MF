@@ -8,7 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.epsilon.test
 Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.eol.engine.test.acceptance,
- org.eclipse.epsilon.egl.engine.test,
+ org.eclipse.epsilon.egl.engine.test.acceptance,
  org.eclipse.epsilon.egx.engine.test.acceptance,
  org.eclipse.epsilon.egl.dt.test,
  org.eclipse.epsilon.hutn.test,
@@ -48,4 +48,5 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.flexmi.test,
  org.eclipse.epsilon.emc.simulink.test,
  org.eclipse.epsilon.flock.engine.test.unit,
- org.eclipse.epsilon.flock.engine.test.acceptance
+ org.eclipse.epsilon.flock.engine.test.acceptance,
+ org.eclipse.epsilon.egl.engine.test.unit

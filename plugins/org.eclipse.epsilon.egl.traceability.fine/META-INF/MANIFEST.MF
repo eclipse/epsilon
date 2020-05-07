@@ -9,6 +9,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine,
  org.eclipse.epsilon.egl.engine.traceability.fine.internal;x-friends:="org.eclipse.epsilon.egl.traceability.fine.test.unit",
  org.eclipse.epsilon.egl.engine.traceability.fine.trace
-Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.egl.engine
+Require-Bundle: org.eclipse.epsilon.egl.engine;visibility:=reexport
 Automatic-Module-Name: org.eclipse.epsilon.egl.traceability.fine

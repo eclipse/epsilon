@@ -20,7 +20,8 @@ import org.eclipse.epsilon.egl.dt.test.*;
 import org.eclipse.epsilon.egl.dt.traceability.editor.*;
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.*;
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.*;
-import org.eclipse.epsilon.egl.test.*;
+import org.eclipse.epsilon.egl.test.acceptance.EglAcceptanceTestSuite;
+import org.eclipse.epsilon.egl.test.unit.EglUnitTestSuite;
 import org.eclipse.epsilon.egx.engine.test.acceptance.*;
 import org.eclipse.epsilon.emc.bibtex.*;
 import org.eclipse.epsilon.emc.csv.test.*;
@@ -60,8 +61,9 @@ import junit.framework.Test;
 	EclAcceptanceTestSuite.class,
 	EmlAcceptanceTestSuite.class,
 	EwlAcceptanceTestSuite.class,
-	EglTestSuite.class,
 	EplAcceptanceTestSuite.class,
+	EglAcceptanceTestSuite.class,
+	EglUnitTestSuite.class,
 	EglDevelopmentToolsTestSuite.class,
 	EglTraceabilityEditorTestSuite.class,
 	EglFineGrainedTraceabilityAcceptanceTestSuite.class,
