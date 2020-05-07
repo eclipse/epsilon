@@ -21,16 +21,17 @@ public class LoadRegisteredMetaModelTask extends EpsilonTask {
 	protected String name;
 	protected String aliases;
 	protected String metamodelUri;
+	protected boolean cached;
 	
 	@Override
 	public void executeImpl() throws BuildException {
-		
 		EmfMetaModel model = new EmfMetaModel();
-		
 		StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
 		properties.put(EmfModel.PROPERTY_ALIASES, aliases + "");
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
+		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodelUri + "");
+		properties.put(EmfModel.PROPERTY_CACHED, cached + "");
 		
 		try {
 			model.load(properties);
@@ -40,7 +41,6 @@ public class LoadRegisteredMetaModelTask extends EpsilonTask {
 			e.printStackTrace();
 			throw new BuildException(e);
 		}
-		
 	}
 	
 	public String getName() {
@@ -65,6 +65,24 @@ public class LoadRegisteredMetaModelTask extends EpsilonTask {
 
 	public void setMetamodelUri(String metamodelUri) {
 		this.metamodelUri = metamodelUri;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isCached() {
+		return cached;
+	}
+
+	/**
+	 * 
+	 * @param cached
+	 * @since 1.6
+	 */
+	public void setCached(boolean cached) {
+		this.cached = cached;
 	}
 }
  
