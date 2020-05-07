@@ -21,12 +21,12 @@ digraph G {
 	
 	[* The components of the application *]
 	[%for (c in app.components){%]
-	[%=c.toDot()%]
+	[%=c.toDot().replaceAll("\\R+", " ")%]
 	[%}%]
 	
 	[* The connectors of the application *]
 	[%for (c in app.connectors){%]
-	[%=c.source.getDotID()%] -> [%=c.target.getDotID()%]
+	[%=c.source.getDotID()%] -> [%=c.target.getDotID()%][name="[%=c.source.getDotID() + "-" + c.target.getDotID()%]"]
 	[%}%]
 }
 
