@@ -289,7 +289,7 @@
 		<epsilon.eunit src="model-comparison/emf-emf-copy.eunit">
 			<modelTasks>
 				<loadTree name="Tree" path="${tree.model.location}"/>
-				<epsilon.storeModel model="Tree" targetUri="file:/${copy.tmpfile}"/>
+				<epsilon.storeModel model="Tree" targetFile="${copy.tmpfile}"/>
 				<loadTree name="TreeCopy" path="${copy.tmpfile}"/>
 			</modelTasks>
 		</epsilon.eunit>

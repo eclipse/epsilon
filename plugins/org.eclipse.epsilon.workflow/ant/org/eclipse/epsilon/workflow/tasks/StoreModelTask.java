@@ -73,4 +73,11 @@ public class StoreModelTask extends EpsilonTask {
 		// create a bad URI and fail, which is a nightmare to debug!
 		this.targetUri = UriUtil.sanitize(uriStr);
 	}
+	
+	/**
+	 * @since 1.6
+	 */
+	public void setTargetFile(File file) {
+		this.targetUri = file.toURI();
+	}
 }
