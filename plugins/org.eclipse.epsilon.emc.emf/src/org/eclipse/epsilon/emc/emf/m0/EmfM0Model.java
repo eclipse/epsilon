@@ -41,18 +41,6 @@ public class EmfM0Model extends EmfModel {
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		this.m0SpecificationFile = new File(resolver.resolve(properties.getProperty("m0SpecificationFile")));
 		super.load(properties, resolver);
-//		this.name = properties.getProperty("name");
-//		String[] aliases = properties.getProperty("aliases").split(",");
-//		for (int i=0;i<aliases.length;i++){
-//			this.aliases.add(aliases[i].trim());
-//		}
-//		setMetamodelFile(properties.getProperty(EmfModel.PROPERTY_METAMODEL_FILE));
-//		setMetamodelUri(properties.getProperty("metamodelUri"));
-//		this.isMetamodelFileBased = Boolean.parseBoolean(properties.getProperty("isMetamodelFileBased"));
-//		this.m0SpecificationFile = new File(resolver.resolve(properties.getProperty("m0SpecificationFile")));
-//		this.readOnLoad = Boolean.parseBoolean(properties.getProperty("readOnLoad"));
-//		this.storeOnDisposal = Boolean.parseBoolean(properties.getProperty("storeOnDisposal"));
-//		load();
 	}
 
 	@Override

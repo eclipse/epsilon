@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,9 +27,6 @@ import org.junit.Test;
 public class XmlModelTests {
 	
 	static String SCHEMA_FILE_PATH, MODEL_PATH;
-	
-	public XmlModelTests() throws Exception {
-	}
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -56,7 +54,6 @@ public class XmlModelTests {
 		assertTrue(model.store());
 	}
 	
-
 	@Test
 	public void testFileURI() throws Exception {
 		String absolutePath = new File(MODEL_PATH).getAbsolutePath();
@@ -66,11 +63,11 @@ public class XmlModelTests {
 		assertTrue(model.store());
 	}
 	
-	private XmlModel createXmlModel(String uri, String xsdURI) throws EolModelLoadingException {
+	private XmlModel createXmlModel(String uri, String xsdFile) throws EolModelLoadingException {
 	  	XmlModel xmlModel = new XmlModel();
 		StringProperties properties = new StringProperties();
 	    properties.put(XmlModel.PROPERTY_MODEL_URI, uri);
-	    properties.put(XmlModel.PROPERTY_XSD_FILE, xsdURI);
+	    properties.put(XmlModel.PROPERTY_XSD_URI, EmfUtil.createFullyQualifiedUri(xsdFile));
 	    properties.put(XmlModel.PROPERTY_READONLOAD, "false");
 	    properties.put(XmlModel.PROPERTY_STOREONDISPOSAL, "true");
 	    xmlModel.load(properties);

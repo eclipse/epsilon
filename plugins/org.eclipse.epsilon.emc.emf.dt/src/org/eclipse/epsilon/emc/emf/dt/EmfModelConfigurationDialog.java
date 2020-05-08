@@ -101,15 +101,13 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	/**
 	 * Key used to store the raw (i.e. unqualified URI) model file value. 
 	 */
-	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See #341481.
-	@SuppressWarnings("deprecation")
+	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See Bug 341481.
 	private final static String PROPERTY_MODEL_FILE     = EmfModel.PROPERTY_MODEL_FILE;
 
 	/**
 	 * Key used to store the raw (i.e. unqualified URI) metamodel file value. 
 	 */
-	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See #341481.
-	@SuppressWarnings("deprecation")
+	// The deprecated property is used for backwards-compatibility with legacy launch configurations. See Bug 341481.
 	private final static String PROPERTY_METAMODEL_FILE = EmfModel.PROPERTY_METAMODEL_FILE;
 
 	protected Button expandButton;
@@ -140,7 +138,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	}
 	
 	@Override
-	protected void loadProperties(){
+	protected void loadProperties() {
 		super.loadProperties();
 		if (properties == null) return;
 
@@ -168,7 +166,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	}
 	
 	@Override
-	protected void storeProperties(){
+	protected void storeProperties() {
 		super.storeProperties();
 
 		/*

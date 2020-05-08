@@ -21,7 +21,6 @@ import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.CachedResourceSet;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
@@ -29,22 +28,42 @@ import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
 public class XmlModel extends EmfModel implements IOperationContributorProvider {
 	
+	/**
+	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
+	 * 
+	 * This key is paired with a {@link URI} that can be used to locate this model.
+	 * This key must always be paired with a value.
+	 */
+	public static final String PROPERTY_XSD_URI = "xsdUri";
+	
+	/**
+	 * 
+	 * @deprecated Replaced by {@link #PROPERTY_XSD_URI}.
+	 */
+	@Deprecated
 	public static final String PROPERTY_XSD_FILE = "xsdFile";
+	
+	/**
+	 * @since 1.6
+	 */
+	protected URI xsdUri;
+	
 	protected MixedElementOperationContributor mixedElementOperationContributor = new MixedElementOperationContributor();
 	
-	protected String xsdFile = "";
-	
 	public XmlModel() {
-	}
-	
-	@Override
-	public IReflectivePropertySetter getPropertySetter() {
-		return new XmlPropertySetter();
+		propertySetter = new XmlPropertySetter();
 	}
 	
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
-		this.xsdFile = resolver.resolve(properties.getProperty(PROPERTY_XSD_FILE));
+		String uriStr = properties.getProperty(PROPERTY_XSD_URI);
+		if (StringUtil.isEmpty(uriStr)) {
+			String xsdFile = resolver.resolve(properties.getProperty(PROPERTY_XSD_FILE));
+			this.xsdUri = URI.createFileURI(xsdFile);
+		}
+		else {
+			this.xsdUri = URI.createURI(uriStr);
+		}
 		super.load(properties, resolver);
 	}
 	
@@ -52,10 +71,10 @@ public class XmlModel extends EmfModel implements IOperationContributorProvider 
 	protected void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
 		super.determinePackagesFrom(resourceSet);
 		
-		if (xsdFile != null && xsdFile.endsWith("xsd")) {
+		if (xsdUri != null && xsdUri.fileExtension() != null && xsdUri.fileExtension().equalsIgnoreCase("xsd")) {
 			XSDEcoreBuilder xsdEcoreBuilder = new XSDEcoreBuilder();
 			
-		    Collection<?> ePackages = xsdEcoreBuilder.generate(URI.createFileURI(xsdFile));
+		    Collection<?> ePackages = xsdEcoreBuilder.generate(xsdUri);
 		    
 		    CollectionUtil.addCapacityIfArrayList(packages, ePackages.size());
 		    for (Object eObj : ePackages) {

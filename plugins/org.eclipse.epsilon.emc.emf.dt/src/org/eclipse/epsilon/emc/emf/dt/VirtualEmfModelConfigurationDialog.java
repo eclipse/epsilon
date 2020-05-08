@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.emf.dt;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -21,9 +22,9 @@ import org.eclipse.swt.widgets.Text;
 
 public class VirtualEmfModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 
-	protected Button browseModelFile;
-	protected Text   modelFileText;
-	protected Label  modelFileLabel;
+	protected Button browseModelUri;
+	protected Text   modelUriText;
+	protected Label  modelUriLabel;
 	
 	@Override
 	protected String getModelType() {
@@ -45,15 +46,15 @@ public class VirtualEmfModelConfigurationDialog extends AbstractCachedModelConfi
 	protected Composite createFilesGroup(Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Files/URIs", 3);
 		
-		modelFileLabel = new Label(groupContent, SWT.NONE);
-		modelFileLabel.setText("Model file: ");
+		modelUriLabel = new Label(groupContent, SWT.NONE);
+		modelUriLabel.setText("Model file: ");
 		
-		modelFileText = new Text(groupContent, SWT.BORDER);
-		modelFileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		modelUriText = new Text(groupContent, SWT.BORDER);
+		modelUriText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		browseModelFile = new Button(groupContent, SWT.NONE);
-		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText, "EMF models in the workspace", "Select an EMF model"));
+		browseModelUri = new Button(groupContent, SWT.NONE);
+		browseModelUri.setText("Browse Workspace...");
+		browseModelUri.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelUriText, "EMF models in the workspace", "Select an EMF model"));
 		
 		Label emptyLabel = new Label(groupContent, SWT.NONE);
 		emptyLabel.setText("");
@@ -76,7 +77,6 @@ public class VirtualEmfModelConfigurationDialog extends AbstractCachedModelConfi
 		
 		groupContent.layout();
 		groupContent.pack();
-		
 	}
 
 	
@@ -84,12 +84,12 @@ public class VirtualEmfModelConfigurationDialog extends AbstractCachedModelConfi
 	protected void loadProperties() {
 		super.loadProperties();
 		if (properties == null) return;
-		modelFileText.setText(properties.getProperty(EmfModel.PROPERTY_MODEL_FILE));
+		modelUriText.setText(properties.getProperty(EmfModel.PROPERTY_MODEL_URI));
 	}
 	
 	@Override
 	protected void storeProperties() {
 		super.storeProperties();
-		properties.put(EmfModel.PROPERTY_MODEL_FILE, modelFileText.getText());
+		properties.put(EmfModel.PROPERTY_MODEL_URI, EmfUtil.createFullyQualifiedUri(modelUriText.getText()));
 	}
 }
