@@ -61,7 +61,6 @@
     <module>org.eclipse.epsilon.test</module>
     <module>org.eclipse.epsilon.test.dependencies</module>
     <module>org.eclipse.epsilon.test.fixtures.hutn</module>
-    <module>org.eclipse.epsilon.test.plug</module>
     <module>org.eclipse.epsilon.workflow.test</module>
   </modules>
 </project>
