@@ -84,7 +84,7 @@ import junit.framework.Test;
 	SpreadsheetDriverTestSuite.class,
 	CsvModelTestSuite.class,
 	FlexmiTestSuite.class,
-	//EvlAdvancedTestSuite.class	// Commented out because it takes too long
+	//EvlAdvancedTestSuite.class	// Needs a lot of time and memory
 })
 public class EpsilonTestSuite {
 	public static Test suite() {

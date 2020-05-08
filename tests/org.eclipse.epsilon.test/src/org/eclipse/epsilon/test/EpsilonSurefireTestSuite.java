@@ -86,7 +86,7 @@ import junit.framework.Test;
 	SpreadsheetDriverTestSuite.class,
 	CsvModelTestSuite.class,
 	FlexmiTestSuite.class,
-	EvlAdvancedTestSuite.class
+	EvlAdvancedTestSuite.class	// Needs a lot of memory
 })
 /**
  * 

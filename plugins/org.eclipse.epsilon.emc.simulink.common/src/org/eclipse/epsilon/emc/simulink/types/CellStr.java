@@ -93,7 +93,8 @@ public class CellStr extends AbstractType {
 	public Object getStringArray() {
 		try {
 			return (Integer) getStringArrayMethod.invoke(object);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
 		}
@@ -103,11 +104,11 @@ public class CellStr extends AbstractType {
 	public boolean equals(Object object) {
 		try {
 			return (Boolean) equalsMethod.invoke(object, object);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
 		}
-		
 	}
 
 	@Override

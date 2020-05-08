@@ -29,21 +29,21 @@ import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 @SuppressWarnings("unchecked")
 public class MatlabEngine {
 
-	/** MATHWOWRKS CLASS */
+	/* MATHWOWRKS CLASS */
 	private static final String MATLAB_ENGINE_CLASS = "com.mathworks.engine.MatlabEngine";
 	
-	/** ENGINE STATIC METHODS */
+	/* ENGINE STATIC METHODS */
 	private static final String CONNECT_MATLAB_METHOD = "connectMatlab";
 	private static final String START_MATLAB_METHOD = "startMatlab";
 	private static final String FIND_MATLAB_METHOD = "findMatlab";
 
-	/** ASYNC 
+	/* ASYNC 
 	private static final String CONNECT_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
 	private static final String START_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
 	private static final String FIND_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
 	 */
 
-	/** ENGINE METHODS */
+	/* ENGINE METHODS */
 	private static final String GET_VARIABLE_METHOD = "getVariable";
 	private static final String PUT_VARIABLE_METHOD = "putVariable";
 	private static final String EVAL_METHOD = "eval";
@@ -57,7 +57,7 @@ public class MatlabEngine {
 	private static final String ASIGN = " = ";
 	private static final String PARAM_REGEX = "[?]";
 
-	/** ASYNC
+	/* ASYNC
 	
 	private static final String GET_VARIABLE_ASYNC_METHOD = "getVariableAsync";
 	private static final String PUT_VARIABLE_ASYNC_METHOD = "putVariableAsync";
@@ -66,14 +66,14 @@ public class MatlabEngine {
 	 */
 	private static final String FEVAL_ASYNC_METHOD = "fevalAsync";
 	
-	/** ERRORS AND LOGS */
+	/* ERRORS AND LOGS */
 	private static final String ERROR_INVALID_PARAMETER_NUMBER = "%d parameters were expected but %d were provided";
 	
-	/** VARIABLES */
+	/* VARIABLES */
 	protected Object engine;
 	private static Class<?> engine_class;
 
-	/** METHODS */
+	/* METHODS */
 	protected Method getVariableMethod;
 	protected Method getVariableAsyncMethod;
 	protected Method putVariableMethod;
@@ -221,7 +221,7 @@ public class MatlabEngine {
 		return Arrays.stream(objects).map(this::processInputObject).toArray();
 	}
 	
-	/** CLASS METHODS */
+	// CLASS METHODS
 	
 	public static MatlabEngine startMatlab() throws MatlabException {
 		try {
@@ -282,7 +282,7 @@ public class MatlabEngine {
 		} 
 	}
 		
-	/** OBJECT METHODS */
+	// OBJECT METHODS
 	
 	public void eval(String cmd) throws MatlabException {
 		if (evalMethod == null) {

@@ -31,10 +31,10 @@ public class ConditionalMatlabSuite extends Suite {
 	public static boolean isMatlabWorking() {
 		if (isMatlabWorking != null) return isMatlabWorking;
 		try {
-			// Deliberate assignment of the boolean, not accidental
 			if (MatlabEnginePool.resolveFromEnv()) {
 				MatlabEnginePool.getInstance();
 				MatlabEngine.startMatlab();
+				// Deliberate assignment of the boolean, not accidental
 				return isMatlabWorking = true;
 			}
 		}
@@ -42,6 +42,7 @@ public class ConditionalMatlabSuite extends Suite {
 			System.err.println("MATLAB was found on the system but is not working!");
 			ex.printStackTrace();
 		}
+		// Deliberate assignment of the boolean, not accidental
 		return isMatlabWorking = false;
 	}
 	
@@ -76,8 +77,7 @@ public class ConditionalMatlabSuite extends Suite {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ConditionalMatlabSuite(RunnerBuilder builder, Class<?> klass, Class<?>[] suiteClasses)
-		throws InitializationError {
+	public ConditionalMatlabSuite(RunnerBuilder builder, Class<?> klass, Class<?>[] suiteClasses) throws InitializationError {
 		super(builder, klass, suiteClasses);
 		// TODO Auto-generated constructor stub
 	}

@@ -57,7 +57,6 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 					if (System.currentTimeMillis() - startTime > TEST_TIMEOUT) {
 						assert testInProgress;
 						System.err.println(currentTestConfig + " got stuck!");
-						System.exit(1);
 					}
 				}
 			}

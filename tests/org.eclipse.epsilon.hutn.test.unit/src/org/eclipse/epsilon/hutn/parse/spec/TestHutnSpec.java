@@ -104,7 +104,6 @@ public class TestHutnSpec extends TestCase {
 			}
 			catch(IOException e) {
 				System.err.println("connection failed...");
-				System.exit(1);
 			}
 			PrintStream console = System.out;
 			PrintStream consoleErr = System.err;
@@ -167,20 +166,9 @@ public class TestHutnSpec extends TestCase {
 			if ( stderrVacuum.toString().length()==0 && stdoutVacuum.toString().length()==0 ) {
 				return null;
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(); System.exit(1);
-		} catch (SecurityException e) {
-			e.printStackTrace(); System.exit(1);
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace(); System.exit(1);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace(); System.exit(1);
-		} catch (InvocationTargetException e) {
-			e.printStackTrace(); System.exit(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace(); System.exit(1);
-		} catch (Exception e) {
-			e.printStackTrace(); System.exit(1);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 		}
 		return stdout;
 	}
