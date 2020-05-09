@@ -30,7 +30,7 @@
 						<version>${tycho.version}</version>
 						<configuration>
 							<application>org.eclipse.ui.ide.workbench</application>
-							<argLine>-ea -Xmx4g</argLine>
+							<argLine>-ea -Xmx8g</argLine>
 							<!-- To enable remote debugging, comment the <argLine> above and uncomment 
 								this one: the Eclipse instance will suspend until a remote debugger is attached -->
 							<!-- <argLine>-Xmx4g -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y</argLine> -->
@@ -81,7 +81,7 @@
 							<includes>
 								<include>**/*Surefire*.java</include>
 							</includes>
-							<argLine>-ea -Xms2g -Xmx8g</argLine>
+							<argLine>-ea -Xms2g -Xmx10g -Xss5m</argLine>
 							<additionalClasspathElements>
 								<!--additionalClasspathElement>${project.basedir}/../</additionalClasspathElement-->
 							</additionalClasspathElements>
