@@ -71,8 +71,8 @@
 		<unit id="org.dom4j" version="1.6.1.v20190321-1528"/>
 		<unit id="org.dom4j.source" version="1.6.1.v20190321-1528"/>
 		<unit id="org.jdom" version="1.1.1.v201101151400"/>
-		<unit id="org.mockito" version="2.13.0.v20180426-1843"/>
-		<unit id="org.mockito.source" version="2.13.0.v20180426-1843"/>
+		<unit id="org.mockito" version="2.23.0.v20190527-1420"/>
+		<unit id="org.mockito.source" version="2.23.0.v20190527-1420"/>
 		<unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
 		<unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
 		<unit id="org.slf4j.api.source" version="1.7.2.v20121108-1250"/>
