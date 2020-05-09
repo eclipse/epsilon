@@ -53,7 +53,7 @@ public class EglOutputBufferPrintExecutionListener implements IExecutionListener
 	
 	protected boolean isCallToPrintMethod(ModuleElement p) {
 		final List<String> printMethods = Arrays.asList("printdyn", "println", "print", "prinx");
-		return p instanceof OperationCallExpression && printMethods.contains(((OperationCallExpression) p).getOperationName());
+		return p instanceof OperationCallExpression && printMethods.contains(((OperationCallExpression) p).getName());
 	}
 	
 	private void associatePropertyAccessesWithRegionInGeneratedText(ModuleElement ast, IEglContext context) {

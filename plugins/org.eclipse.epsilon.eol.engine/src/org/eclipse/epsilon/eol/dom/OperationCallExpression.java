@@ -197,10 +197,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 	}
 	
-	public String getOperationName() {
-		return nameExpression.getName();
-	}
-	
 	public void setContextless(boolean contextless) {
 		this.contextless = contextless;
 	}
@@ -211,5 +207,9 @@ public class OperationCallExpression extends FeatureCallExpression {
 	
 	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
+	}
+	
+	public String getOperationName() {
+		return getName();
 	}
 }

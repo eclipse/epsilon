@@ -124,7 +124,7 @@ public class FirstOrderOperation extends AbstractOperation {
 			}
 			catch (ClassCastException ccx) {
 				throw new EolIllegalOperationParametersException(
-					((OperationCallExpression)expression.getParent()).getOperationName(),
+					((OperationCallExpression)expression.getParent()).getName(),
 					fType.getSimpleName(),
 					java.util.Objects.toString(exprValue),
 					expression

@@ -18,7 +18,7 @@ import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	//EvlParallelOperationsTests.class,	// Doesn't work on some JVMs / systems
+	//EvlParallelOperationsTests.class,	// Requires JVM tuning to work
 	EvlModuleEquivalenceTests.class
 })
 /**

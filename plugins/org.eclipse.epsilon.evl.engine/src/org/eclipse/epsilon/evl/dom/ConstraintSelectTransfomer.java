@@ -77,7 +77,7 @@ public class ConstraintSelectTransfomer {
 		if (node instanceof OperationCallExpression) {
 			OperationCallExpression opCall = (OperationCallExpression)node;
 			if (opCall.getParameterExpressions().size() > 0) {
-				final String functionName = opCall.getOperationName();
+				final String functionName = opCall.getName();
 				if ("satisfies".equals(functionName)
 						|| "satisfiesAll".equals(functionName)
 						|| "satisfiesOne".equals(functionName)) {

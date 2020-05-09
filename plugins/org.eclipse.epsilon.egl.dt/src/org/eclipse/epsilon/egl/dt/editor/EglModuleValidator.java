@@ -72,7 +72,7 @@ public class EglModuleValidator extends AbstractModuleValidator {
 					NameExpression nameExpression = (NameExpression) operationCallExpression.getTargetExpression();
 					if (operationCallExpression.getParameterExpressions().size() == 1 && operationCallExpression.getParameterExpressions().get(0) instanceof StringLiteral) {
 						String parameterValue = ((StringLiteral) operationCallExpression.getParameterExpressions().get(0)).getValue();
-						return "out".equals(nameExpression.getName()) && "prinx".equals(operationCallExpression.getOperationName())
+						return "out".equals(nameExpression.getName()) && "prinx".equals(operationCallExpression.getName())
 								&& (parameterValue.trim().equals("\\n") || parameterValue.trim().isEmpty());
 					}
 				}
