@@ -43,13 +43,14 @@
               <includeArtifactIds><!-- Match MANIFEST.MF -->
                 org.antlr.runtime,
                 org.apache.ant,
-                <!--org.apache.commons.cli,-->
+                org.apache.commons.cli,
                 org.apache.commons.collections,
-                org.apache.commons.csv,
                 org.apache.commons.lang3,
+                org.apache.commons.csv,
                 org.apache.poi_3.10.1,
                 org.apache.poi.ooxml_3.10.1,
                 org.apache.poi.ooxml.schemas_3.10.1,
+                org.apache.xmlbeans,
                 org.eclipse.core.runtime,
                 org.eclipse.emf.codegen,
                 org.eclipse.emf.codegen.ecore,
@@ -119,17 +120,17 @@
                 <descriptor>assembly/workflow-emf.xml</descriptor>
                 <descriptor>assembly/workflow-emf-src.xml</descriptor>
                 <descriptor>assembly/workflow-emf-sources.xml</descriptor>
-                <!-->descriptor>assembly/cli.xml</descriptor>
+                <descriptor>assembly/cli.xml</descriptor>
                 <descriptor>assembly/cli-src.xml</descriptor>
                 <descriptor>assembly/cli-sources.xml</descriptor>
                 <descriptor>assembly/cli-deps.xml</descriptor>
-                <descriptor>assembly/kitchensink.xml</descriptor-->
+                <descriptor>assembly/kitchensink.xml</descriptor>
               </descriptors>
-              <!--archive>
+              <archive>
                 <manifest>
                   <mainClass>org.eclipse.epsilon.eol.cli.EolConfigParser</mainClass>
                 </manifest>
-              </archive-->
+              </archive>
             </configuration>
           </execution>
         </executions>
