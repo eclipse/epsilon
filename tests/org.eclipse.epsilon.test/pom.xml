@@ -78,13 +78,13 @@
 							<includes>
 								<include>**/*Surefire*.java</include>
 							</includes>
-							<reuseForks>true</reuseForks>
+							<reuseForks>false</reuseForks>
 							<forkCount>1</forkCount>
+							<!--useUnlimitedThreads>false</useUnlimitedThreads>
 							<threadCount>1</threadCount>
 							<threadCountSuites>1</threadCountSuites>
 							<threadCountClasses>1</threadCountClasses>
-							<threadCountMethods>1</threadCountMethods>
-							<useUnlimitedThreads>false</useUnlimitedThreads>
+							<threadCountMethods>1</threadCountMethods-->
 						</configuration>
 					</plugin>
 				</plugins>
