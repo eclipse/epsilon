@@ -30,10 +30,6 @@
 						<version>${tycho.version}</version>
 						<configuration>
 							<application>org.eclipse.ui.ide.workbench</application>
-							<argLine>-ea -Xmx4g</argLine>
-							<!-- To enable remote debugging, comment the <argLine> above and uncomment 
-								this one: the Eclipse instance will suspend until a remote debugger is attached -->
-							<!-- <argLine>-Xmx4g -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y</argLine> -->
 							<useUIThread>true</useUIThread>
 							<useUIHarness>true</useUIHarness>
 							<includes>
@@ -62,6 +58,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-test-plugin</packaging.type>
+				<argLine>-ea -Xmx4g</argLine>
 				<tests.skip.tests>false</tests.skip.tests>
 				<skipTests>${tests.skip.tests}</skipTests>
 			</properties>
@@ -81,16 +78,20 @@
 							<includes>
 								<include>**/*Surefire*.java</include>
 							</includes>
-							<argLine>-ea -Xms2g -Xmx9g -Xss3m</argLine>
-							<additionalClasspathElements>
-								<!--additionalClasspathElement>${project.basedir}/../</additionalClasspathElement-->
-							</additionalClasspathElements>
+							<reuseForks>true</reuseForks>
+							<forkCount>1</forkCount>
+							<threadCount>1</threadCount>
+							<threadCountSuites>1</threadCountSuites>
+							<threadCountClasses>1</threadCountClasses>
+							<threadCountMethods>1</threadCountMethods>
+							<useUnlimitedThreads>false</useUnlimitedThreads>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
+				<argLine>-ea -Xms2g -Xmx8g</argLine>
 			</properties>
 		</profile>
 	</profiles>
