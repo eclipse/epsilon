@@ -32,7 +32,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getTemplate <em>Template</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getTransformation <em>Transformation</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#isStandalone <em>Standalone</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getModels <em>Models</em>}</li>
@@ -44,24 +44,24 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  */
 public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	/**
-	 * The default value of the '{@link #getTemplate() <em>Template</em>}' attribute.
+	 * The default value of the '{@link #getTransformation() <em>Transformation</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTemplate()
+	 * @see #getTransformation()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String TEMPLATE_EDEFAULT = null;
+	protected static final String TRANSFORMATION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getTemplate() <em>Template</em>}' attribute.
+	 * The cached value of the '{@link #getTransformation() <em>Transformation</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTemplate()
+	 * @see #getTransformation()
 	 * @generated
 	 * @ordered
 	 */
-	protected String template = TEMPLATE_EDEFAULT;
+	protected String transformation = TRANSFORMATION_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getFormat() <em>Format</em>}' attribute.
@@ -158,8 +158,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	 * @generated
 	 */
 	@Override
-	public String getTemplate() {
-		return template;
+	public String getTransformation() {
+		return transformation;
 	}
 
 	/**
@@ -168,11 +168,11 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	 * @generated
 	 */
 	@Override
-	public void setTemplate(String newTemplate) {
-		String oldTemplate = template;
-		template = newTemplate;
+	public void setTransformation(String newTransformation) {
+		String oldTransformation = transformation;
+		transformation = newTransformation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.PICTO__TEMPLATE, oldTemplate, template));
+			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.PICTO__TRANSFORMATION, oldTransformation, transformation));
 	}
 
 	/**
@@ -286,8 +286,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PictoPackage.PICTO__TEMPLATE:
-				return getTemplate();
+			case PictoPackage.PICTO__TRANSFORMATION:
+				return getTransformation();
 			case PictoPackage.PICTO__FORMAT:
 				return getFormat();
 			case PictoPackage.PICTO__STANDALONE:
@@ -311,8 +311,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PictoPackage.PICTO__TEMPLATE:
-				setTemplate((String)newValue);
+			case PictoPackage.PICTO__TRANSFORMATION:
+				setTransformation((String)newValue);
 				return;
 			case PictoPackage.PICTO__FORMAT:
 				setFormat((String)newValue);
@@ -344,8 +344,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case PictoPackage.PICTO__TEMPLATE:
-				setTemplate(TEMPLATE_EDEFAULT);
+			case PictoPackage.PICTO__TRANSFORMATION:
+				setTransformation(TRANSFORMATION_EDEFAULT);
 				return;
 			case PictoPackage.PICTO__FORMAT:
 				setFormat(FORMAT_EDEFAULT);
@@ -374,8 +374,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PictoPackage.PICTO__TEMPLATE:
-				return TEMPLATE_EDEFAULT == null ? template != null : !TEMPLATE_EDEFAULT.equals(template);
+			case PictoPackage.PICTO__TRANSFORMATION:
+				return TRANSFORMATION_EDEFAULT == null ? transformation != null : !TRANSFORMATION_EDEFAULT.equals(transformation);
 			case PictoPackage.PICTO__FORMAT:
 				return FORMAT_EDEFAULT == null ? format != null : !FORMAT_EDEFAULT.equals(format);
 			case PictoPackage.PICTO__STANDALONE:
@@ -400,8 +400,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (template: ");
-		result.append(template);
+		result.append(" (transformation: ");
+		result.append(transformation);
 		result.append(", format: ");
 		result.append(format);
 		result.append(", standalone: ");

@@ -67,13 +67,13 @@ public interface PictoPackage extends EPackage {
 	int PICTO = 0;
 
 	/**
-	 * The feature id for the '<em><b>Template</b></em>' attribute.
+	 * The feature id for the '<em><b>Transformation</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PICTO__TEMPLATE = 0;
+	int PICTO__TRANSFORMATION = 0;
 
 	/**
 	 * The feature id for the '<em><b>Format</b></em>' attribute.
@@ -443,15 +443,15 @@ public interface PictoPackage extends EPackage {
 	EClass getPicto();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Picto#getTemplate <em>Template</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Picto#getTransformation <em>Transformation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Template</em>'.
-	 * @see org.eclipse.epsilon.picto.dom.Picto#getTemplate()
+	 * @return the meta object for the attribute '<em>Transformation</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Picto#getTransformation()
 	 * @see #getPicto()
 	 * @generated
 	 */
-	EAttribute getPicto_Template();
+	EAttribute getPicto_Transformation();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Picto#getFormat <em>Format</em>}'.
@@ -802,12 +802,12 @@ public interface PictoPackage extends EPackage {
 		EClass PICTO = eINSTANCE.getPicto();
 
 		/**
-		 * The meta object literal for the '<em><b>Template</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Transformation</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PICTO__TEMPLATE = eINSTANCE.getPicto_Template();
+		EAttribute PICTO__TRANSFORMATION = eINSTANCE.getPicto_Transformation();
 
 		/**
 		 * The meta object literal for the '<em><b>Format</b></em>' attribute feature.

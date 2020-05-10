@@ -37,6 +37,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.eclipse.epsilon.eol.types.EolAny;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.LazyEgxModule;
@@ -104,11 +105,11 @@ public abstract class EglPictoSource implements PictoSource {
 			
 			module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 			
-			URI templateUri = null;
+			URI transformationUri = null;
 			
-			if (renderingMetadata.getTemplate() != null) {			
-				templateUri = UriUtil.resolve(renderingMetadata.getTemplate(), modelFile.toURI());
-				module.parse(templateUri);
+			if (renderingMetadata.getTransformation() != null) {			
+				transformationUri = UriUtil.resolve(renderingMetadata.getTransformation(), modelFile.toURI());
+				module.parse(transformationUri);
 			}
 			else {
 				module.parse("");
@@ -157,6 +158,10 @@ public abstract class EglPictoSource implements PictoSource {
 						if (customView.getPosition() != null) customView.getParameters().add(createParameter("position", customView.getPosition()));
 						if (customView.eIsSet(PictoPackage.eINSTANCE.getCustomView_Layers())) {
 							customView.getParameters().add(createParameter("activeLayers", customView.getLayers()));
+						}
+						
+						for (Parameter customViewParameter : customView.getParameters()) {
+							module.getContext().getFrameStack().put(new Variable(customViewParameter.getName(), getValue(customViewParameter), EolAnyType.Instance));
 						}
 						
 						LazyGenerationRuleContentPromise contentPromise = (LazyGenerationRuleContentPromise) 
@@ -269,9 +274,9 @@ public abstract class EglPictoSource implements PictoSource {
 				}
 			}
 			
-			if (templateUri != null) {
-				viewTree.getBaseUris().add(templateUri);
-				viewTree.getBaseUris().add(templateUri.resolve("./icons/"));
+			if (transformationUri != null) {
+				viewTree.getBaseUris().add(transformationUri);
+				viewTree.getBaseUris().add(transformationUri.resolve("./icons/"));
 			}
 			
 			return viewTree;

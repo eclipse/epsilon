@@ -42,7 +42,7 @@ public class FlexmiSource extends EglPictoSource {
 			.map(renderProcessingInstruction -> {
 				Picto metadata = PictoFactory.eINSTANCE.createPicto();
 				metadata.setFormat(renderProcessingInstruction.getTarget().substring("render-".length()));
-				metadata.setTemplate(renderProcessingInstruction.getData().trim());
+				metadata.setTransformation(renderProcessingInstruction.getData().trim());
 				return metadata;
 			})
 			.orElse(null);

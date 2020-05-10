@@ -52,7 +52,9 @@ public class LazyEgxModule extends EgxModule {
 		context.getOperationContributorRegistry().add(new GetImageOperationContributor(this));
 		List<LazyGenerationRuleContentPromise> promises = new ArrayList<>();
 		for (GenerationRule rule : getGenerationRules()) {
-			promises.addAll((List<LazyGenerationRuleContentPromise>) context.getExecutorFactory().execute(rule, context));
+			if (!rule.isLazy(context)) {
+				promises.addAll((List<LazyGenerationRuleContentPromise>) context.getExecutorFactory().execute(rule, context));
+			}
 		}
 		return promises;
 	}

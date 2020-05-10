@@ -25,7 +25,7 @@ public abstract class SimpleSource extends EglPictoSource {
 	@Override
 	public Picto getRenderingMetadata(IEditorPart editorPart) {
 		Picto metadata = PictoFactory.eINSTANCE.createPicto();
-		metadata.setTemplate(getFile(editorPart).getLocation().toOSString());
+		metadata.setTransformation(getFile(editorPart).getLocation().toOSString());
 		metadata.setFormat(getFormat());
 		return metadata;
 	}

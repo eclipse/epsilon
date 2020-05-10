@@ -2,7 +2,7 @@
 package dom;
 
 class Picto {
-	attr String template;
+	attr String transformation;
 	attr String format;
 	attr boolean standalone;
 	val Model[*] models;

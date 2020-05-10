@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getTemplate <em>Template</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getTransformation <em>Transformation</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#isStandalone <em>Standalone</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getModels <em>Models</em>}</li>
@@ -29,26 +29,26 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Picto extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Template</b></em>' attribute.
+	 * Returns the value of the '<em><b>Transformation</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Template</em>' attribute.
-	 * @see #setTemplate(String)
-	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getPicto_Template()
+	 * @return the value of the '<em>Transformation</em>' attribute.
+	 * @see #setTransformation(String)
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getPicto_Transformation()
 	 * @model
 	 * @generated
 	 */
-	String getTemplate();
+	String getTransformation();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.Picto#getTemplate <em>Template</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.Picto#getTransformation <em>Transformation</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Template</em>' attribute.
-	 * @see #getTemplate()
+	 * @param value the new value of the '<em>Transformation</em>' attribute.
+	 * @see #getTransformation()
 	 * @generated
 	 */
-	void setTemplate(String value);
+	void setTransformation(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Format</b></em>' attribute.

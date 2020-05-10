@@ -56,8 +56,8 @@ public abstract class ExternalMetadataSource extends EglPictoSource {
 			properties.load(file.getContents(true));
 			Picto picto = PictoFactory.eINSTANCE.createPicto();
 			picto.setFormat(properties.getProperty("format", "text"));
-			picto.setTemplate(properties.getProperty("file"));
-			if (properties.contains("template")) picto.setTemplate(properties.getProperty("template"));
+			picto.setTransformation(properties.getProperty("file"));
+			if (properties.contains("template")) picto.setTransformation(properties.getProperty("template"));
 			return picto;
 		}
 		catch (Exception ex) {
