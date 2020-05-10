@@ -1,23 +1,19 @@
 /*******************************************************************************
- * Copyright (c) 2009 The University of York.
+ * Copyright (c) 2009-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Sina Madani - refactored to Mockito
  ******************************************************************************
  *
  * $Id$
  */
 package org.eclipse.epsilon.eol.models;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.reset;
-import static org.easymock.classextension.EasyMock.verify;
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,13 +33,17 @@ import org.w3c.dom.Element;
 public class ModelGroupTests {
 	
 	private static final ModelRepository repository = new ModelRepository();
-	private static IModel first;
-	private static IModel second;
+	private static IModel first, second;
+	
+	// TODO: Refactored from easymock to Mockito.
+	// Someone that knows about mocking frameworks:
+	// Please check that the refactoring is correct!
+	// Specifically, the verify calls have been removed.
 	
 	@BeforeClass
 	public static void setup() {
-		first  = createMock(IModel.class);
-		second = createMock(IModel.class);
+		first  = mock(IModel.class);
+		second = mock(IModel.class);
 		
 		repository.addModel(first);
 		repository.addModel(second);
@@ -52,12 +52,8 @@ public class ModelGroupTests {
 	@Before
 	public void resetMocks() {
 		reset(first, second);
-		
-		expect(first.getAliases()) .andReturn(Arrays.asList("first",  "Ecore"));
-		expectLastCall().anyTimes();
-		
-		expect(second.getAliases()).andReturn(Arrays.asList("second", "Ecore"));
-		expectLastCall().anyTimes();
+		when(first.getAliases()).thenReturn(Arrays.asList("first",  "Ecore"));
+		when(second.getAliases()).thenReturn(Arrays.asList("second", "Ecore"));
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -65,15 +61,12 @@ public class ModelGroupTests {
 	public void allContentsDelegatesToGroupedModels() throws EolModelNotFoundException {		
 		final Object pkg = EcoreFactory.eINSTANCE.createEPackage();
 		final Object cls = EcoreFactory.eINSTANCE.createEClass();
-		
-		expect(first.allContents()) .andReturn((Collection)Arrays.asList(pkg));		
-		expect(second.allContents()).andReturn((Collection)Arrays.asList(cls));
-		
-		replay(first, second);
+
+		when(first.allContents()).thenReturn((Collection)Arrays.asList(pkg));	
+		when(second.allContents()).thenReturn((Collection)Arrays.asList(cls));
 		
 		final ModelGroup group = new ModelGroup(repository, "Ecore");
 		assertEquals(Arrays.asList(pkg, cls), group.allContents());
-		verify(first, second);
 	}
 	
 	
@@ -81,24 +74,18 @@ public class ModelGroupTests {
 	public void typeNameOfDelegatesToGroupedModels() throws EolModelNotFoundException {		
 		final EObject pkg = EcoreFactory.eINSTANCE.createEPackage();
 		
-		expect(first.isModelElement(pkg)) .andReturn(false);		
-		expect(second.isModelElement(pkg)).andReturn(true);		
-		
-		expect(second.getTypeNameOf(pkg)).andReturn("EPackage");
-		
-		replay(first, second);
+		when(first.isModelElement(pkg)).thenReturn(false);	
+		when(second.isModelElement(pkg)).thenReturn(true);		
+		when(second.getTypeNameOf(pkg)).thenReturn("EPackage");
 		
 		final ModelGroup group = new ModelGroup(repository, "Ecore");
 		assertEquals("EPackage", group.getTypeNameOf(pkg));
-		verify(first, second);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void exceptionWhenNoGroupedModelKnowsTypeNameOfInstance() throws EolModelNotFoundException {		
-		expect(first.isModelElement("foo")) .andReturn(false);		
-		expect(second.isModelElement("foo")).andReturn(false);		
-		
-		replay(first, second);
+		when(first.isModelElement("foo")).thenReturn(false);		
+		when(second.isModelElement("foo")).thenReturn(false);	
 		
 		final ModelGroup group = new ModelGroup(repository, "Ecore");
 		group.getTypeNameOf("foo");
