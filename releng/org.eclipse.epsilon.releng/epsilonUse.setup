@@ -19,11 +19,11 @@
     </detail>
     <detail
         key="imageURI">
-      <value>https://git.eclipse.org/c/www.eclipse.org/epsilon.git/plain/resources/epsilonlogo.small.sphere.png</value>
+      <value>http://git.eclipse.org/c/www.eclipse.org/epsilon.git/plain/resources/epsilonlogo.small.sphere.png</value>
     </detail>
     <detail
         key="siteURI">
-      <value>https://www.eclipse.org/epsilon</value>
+      <value>http://www.eclipse.org/epsilon</value>
     </detail>
   </annotation>
   <setupTask
@@ -278,19 +278,19 @@
       <requirement
           name="org.eclipse.epsilon.emc.spreadsheets.google.dt.feature.feature.group"/>
       <repository
-          url="https://download.eclipse.org/releases/photon"/>
+          url="http://download.eclipse.org/releases/photon"/>
       <repository
-          url="https://download.eclipse.org/oomph/updates/release"/>
+          url="http://download.eclipse.org/oomph/updates/release"/>
       <repository
-          url="https://download.eclipse.org/epsilon/updates/1.5"/>
+          url="http://download.eclipse.org/epsilon/updates/1.5"/>
       <repository
-          url="https://download.eclipse.org/modeling/emf/emf/builds/release/2.14"/>
+          url="http://download.eclipse.org/modeling/emf/emf/builds/release/2.14"/>
       <repository
-          url="https://download.eclipse.org/emfatic/update"/>
+          url="http://download.eclipse.org/emfatic/update"/>
       <repository
-          url="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+          url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
       <repository
-          url="https://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+          url="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
     </setupTask>
     <description>Epsilon v1.5</description>
   </version>
@@ -450,23 +450,23 @@
       <requirement
           name="org.eclipse.epsilon.flexmi.dt.feature.feature.group"/>
       <repository
-          url="https://download.eclipse.org/releases/latest"/>
+          url="http://download.eclipse.org/releases/latest"/>
       <repository
-          url="https://download.eclipse.org/oomph/updates/milestone/latest"/>
+          url="http://download.eclipse.org/oomph/updates/milestone/latest"/>
       <repository
-          url="https://download.eclipse.org/epsilon/interim"/>
+          url="http://download.eclipse.org/epsilon/interim"/>
       <repository
-          url="https://download.eclipse.org/emfatic/update"/>
+          url="http://download.eclipse.org/emfatic/update"/>
       <repository
-          url="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
+          url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
       <repository
-          url="https://download.eclipse.org/tools/orbit/downloads/drops/S20200427151422/repository"/>
+          url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200427151422/repository"/>
       <repository
-          url="https://download.eclipse.org/modeling/emf/emf/builds/release/latest"/>
+          url="http://download.eclipse.org/modeling/emf/emf/builds/release/latest"/>
       <repository
-          url="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+          url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
       <repository
-          url="https://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+          url="http://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
     </setupTask>
     <description>Latest version of Epsilon</description>
   </version>
