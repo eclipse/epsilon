@@ -9,33 +9,20 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import static org.easymock.classextension.EasyMock.expect;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import org.easymock.classextension.EasyMock;
-import org.easymock.IMocksControl;
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import java.util.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
 public class SpreadsheetPropertySetterTest {
-	
-	IMocksControl control = EasyMock.createControl();
 
 	@Test
 	public void testEditNull() throws EolRuntimeException {
 		SpreadsheetRow row = null;
 		final String columnName = "COLUMN";
 		final String value = "VALUE";
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-
-		control.reset();
-		control.replay();
-
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 
 		try {
@@ -43,28 +30,24 @@ public class SpreadsheetPropertySetterTest {
 			fail();
 		}
 		catch (Exception e) {
-			assertTrue(true); // exception from JavaPropertySetter
+			// passed
 		}
 	}
 
 	@Test
 	public void testSettingToNull() throws EolRuntimeException {
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		final String value = null;
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 
-		control.reset();
-
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getReferencesBySource(column)).andReturn(new HashSet<SpreadsheetReference>());
-		expect(row.getReferencesByTarget(column)).andReturn(new HashSet<SpreadsheetReference>());
-		expect(column.isMany()).andReturn(true);
-		expect(column.getDelimiter()).andReturn(",");
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getReferencesBySource(column)).thenReturn(new HashSet<SpreadsheetReference>());
+		when(row.getReferencesByTarget(column)).thenReturn(new HashSet<SpreadsheetReference>());
+		when(column.isMany()).thenReturn(true);
+		when(column.getDelimiter()).thenReturn(",");
 		row.writeVisibleCellValues(column, Arrays.asList("null"));
-
-		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 		setter.invoke(row, columnName, value, null);
@@ -72,16 +55,12 @@ public class SpreadsheetPropertySetterTest {
 
 	@Test
 	public void testColumnNull() throws EolRuntimeException {
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
 		final String columnName = null;
 		final String value = null;
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-
-		control.reset();
-
-		expect(row.getColumn(columnName)).andReturn(null);
-
-		control.replay();
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		
+		when(row.getColumn(columnName)).thenReturn(null);
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 
@@ -90,27 +69,23 @@ public class SpreadsheetPropertySetterTest {
 			fail();
 		}
 		catch (EolRuntimeException e) {
-			assertTrue(true);
+			// passed
 		}
 	}
 
 	@Test
 	public void testColumnNotMany() throws EolRuntimeException {
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		final String value = "VALUE";
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 
-		control.reset();
-
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getReferencesBySource(column)).andReturn(new HashSet<SpreadsheetReference>());
-		expect(row.getReferencesByTarget(column)).andReturn(new HashSet<SpreadsheetReference>());
-		expect(column.isMany()).andReturn(false);
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getReferencesBySource(column)).thenReturn(new HashSet<SpreadsheetReference>());
+		when(row.getReferencesByTarget(column)).thenReturn(new HashSet<SpreadsheetReference>());
+		when(column.isMany()).thenReturn(false);
 		row.writeVisibleCellValues(column, Arrays.asList(value));
-
-		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 		setter.invoke(row, columnName, value, null);
@@ -118,22 +93,18 @@ public class SpreadsheetPropertySetterTest {
 
 	@Test
 	public void testColumnMany() throws EolRuntimeException {
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		final String value = "VALUE";
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 
-		control.reset();
-
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getReferencesBySource(column)).andReturn(new HashSet<SpreadsheetReference>());
-		expect(row.getReferencesByTarget(column)).andReturn(new HashSet<SpreadsheetReference>());
-		expect(column.isMany()).andReturn(true);
-		expect(column.getDelimiter()).andReturn(",");
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getReferencesBySource(column)).thenReturn(new HashSet<SpreadsheetReference>());
+		when(row.getReferencesByTarget(column)).thenReturn(new HashSet<SpreadsheetReference>());
+		when(column.isMany()).thenReturn(true);
+		when(column.getDelimiter()).thenReturn(",");
 		row.writeVisibleCellValues(column, Arrays.asList(value));
-
-		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 		setter.invoke(row, columnName, value, null);
@@ -141,22 +112,18 @@ public class SpreadsheetPropertySetterTest {
 
 	@Test
 	public void testEditReferencingCellWithoutRow() throws EolRuntimeException {
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		final String value = "VALUE";
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
-		SpreadsheetReference reference = control.createMock(SpreadsheetReference.class);
+		SpreadsheetReference reference = mock(SpreadsheetReference.class);
 		sourceReferences.add(reference);
 
-		control.reset();
-
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getReferencesBySource(column)).andReturn(sourceReferences);
-		expect(row.getReferencesByTarget(column)).andReturn(new HashSet<SpreadsheetReference>());
-
-		control.replay();
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getReferencesBySource(column)).thenReturn(sourceReferences);
+		when(row.getReferencesByTarget(column)).thenReturn(new HashSet<SpreadsheetReference>());
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 
@@ -171,40 +138,39 @@ public class SpreadsheetPropertySetterTest {
 
 	@Test
 	public void testEditReferencingCellWithRow() throws EolRuntimeException {
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
-		SpreadsheetRow valueRow = control.createMock(SpreadsheetRow.class);
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetRow valueRow = mock(SpreadsheetRow.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
-		SpreadsheetReference reference = control.createMock(SpreadsheetReference.class);
+		SpreadsheetReference reference = mock(SpreadsheetReference.class);
 		sourceReferences.add(reference);
-		SpreadsheetWorksheet targetWorksheet = control.createMock(SpreadsheetWorksheet.class);
+		SpreadsheetWorksheet targetWorksheet = mock(SpreadsheetWorksheet.class);
 		final List<String> newValues = new ArrayList<>();
 		newValues.add("V1");
-		SpreadsheetColumn targetColumn = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetColumn targetColumn = mock(SpreadsheetColumn.class);
 		final List<String> currentValues = new ArrayList<>();
 		currentValues.add("V1");
 		currentValues.add("V2");
 		currentValues.add("V3");
 		currentValues.add("V4");
 
-		control.reset();
-
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getReferencesBySource(column)).andReturn(sourceReferences).times(2);
-		expect(row.getReferencesByTarget(column)).andReturn(new HashSet<SpreadsheetReference>());
-		expect(reference.getReferencedWorksheet()).andReturn(targetWorksheet);
-		expect(valueRow.getWorksheet()).andReturn(targetWorksheet);
-		expect(reference.getReferencedColumn()).andReturn(targetColumn);
-		expect(valueRow.getAllVisibleCellValues(targetColumn)).andReturn(currentValues);
-		expect(column.isNotMany()).andReturn(true).times(2);
-		expect(row.getReferencesByTarget(column)).andReturn(new HashSet<SpreadsheetReference>());
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getReferencesBySource(column)).thenReturn(sourceReferences);
+		when(row.getReferencesByTarget(column)).thenReturn(new HashSet<SpreadsheetReference>());
+		when(reference.getReferencedWorksheet()).thenReturn(targetWorksheet);
+		when(valueRow.getWorksheet()).thenReturn(targetWorksheet);
+		when(reference.getReferencedColumn()).thenReturn(targetColumn);
+		when(valueRow.getAllVisibleCellValues(targetColumn)).thenReturn(currentValues);
+		when(column.isNotMany()).thenReturn(true);
+		when(row.getReferencesByTarget(column)).thenReturn(new HashSet<SpreadsheetReference>());
 		row.writeVisibleCellValues(column, newValues);
-
-		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 		setter.invoke(row, columnName, valueRow, null);
+		
+		verify(column, times(1)).isNotMany();
+		verify(row, times(2)).getReferencesBySource(column);
 	}
 }

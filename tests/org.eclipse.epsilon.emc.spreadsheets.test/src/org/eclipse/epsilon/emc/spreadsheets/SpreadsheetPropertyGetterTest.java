@@ -9,22 +9,13 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import static org.easymock.classextension.EasyMock.expect;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.easymock.IMocksControl;
-import org.easymock.classextension.EasyMock;
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import java.util.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
 public class SpreadsheetPropertyGetterTest {
-	IMocksControl control = EasyMock.createControl();
 
 	@Test
 	public void testColumnNotMany() throws EolRuntimeException {
@@ -32,26 +23,20 @@ public class SpreadsheetPropertyGetterTest {
 		List<String> values = new ArrayList<>();
 		values.add("VALUE");
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 
-		control.reset();
-
-		expect(row.getModel()).andReturn(model);
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getAllVisibleCellValues(column)).andReturn(values);
-		expect(row.getReferencesBySource(column)).andReturn(sourceReferences);
-		expect(column.isMany()).andReturn(false);
-
-		control.replay();
+		when(row.getModel()).thenReturn(model);
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getAllVisibleCellValues(column)).thenReturn(values);
+		when(row.getReferencesBySource(column)).thenReturn(sourceReferences);
+		when(column.isMany()).thenReturn(false);
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
 		Object response = getter.invoke(row, columnName, null);
 
-		control.verify();
-
-		assertTrue(((String) response).equals("VALUE"));
+		assertEquals("VALUE", response);
 	}
 
 	@Test
@@ -59,29 +44,22 @@ public class SpreadsheetPropertyGetterTest {
 		String columnName = "COLUMN";
 		List<String> values = new ArrayList<>();
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 
-		control.reset();
-
-		expect(row.getModel()).andReturn(model);
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getAllVisibleCellValues(column)).andReturn(values);
-		expect(row.getReferencesBySource(column)).andReturn(sourceReferences);
-		expect(column.isMany()).andReturn(false);
-
-		control.replay();
+		when(row.getModel()).thenReturn(model);
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getAllVisibleCellValues(column)).thenReturn(values);
+		when(row.getReferencesBySource(column)).thenReturn(sourceReferences);
+		when(column.isMany()).thenReturn(false);
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
 		Object response = getter.invoke(row, columnName, null);
 
-		control.verify();
-
-		assertTrue(response == null);
+		assertNull(response);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testColumnIsMany() throws EolRuntimeException {
 		String columnName = "COLUMN";
@@ -89,60 +67,47 @@ public class SpreadsheetPropertyGetterTest {
 		values.add("VALUE1");
 		values.add("VALUE2");
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 
-		control.reset();
-
-		expect(row.getModel()).andReturn(model);
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getAllVisibleCellValues(column)).andReturn(values);
-		expect(row.getReferencesBySource(column)).andReturn(sourceReferences);
-		expect(column.isMany()).andReturn(true);
-
-		control.replay();
+		when(row.getModel()).thenReturn(model);
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getAllVisibleCellValues(column)).thenReturn(values);
+		when(row.getReferencesBySource(column)).thenReturn(sourceReferences);
+		when(column.isMany()).thenReturn(true);
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
 		Object response = getter.invoke(row, columnName, null);
 
-		control.verify();
-
-		assertTrue(((List<String>) response).containsAll(values));
+		assertTrue(((Collection<?>) response).containsAll(values));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testColumnIsManyAndCellIsBlank() throws EolRuntimeException {
 		String columnName = "COLUMN";
 		List<String> values = new ArrayList<>();
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetRow row = mock(SpreadsheetRow.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 
-		control.reset();
-
-		expect(row.getModel()).andReturn(model);
-		expect(row.getColumn(columnName)).andReturn(column);
-		expect(row.getAllVisibleCellValues(column)).andReturn(values);
-		expect(row.getReferencesBySource(column)).andReturn(sourceReferences);
-		expect(column.isMany()).andReturn(true);
-
-		control.replay();
+		when(row.getModel()).thenReturn(model);
+		when(row.getColumn(columnName)).thenReturn(column);
+		when(row.getAllVisibleCellValues(column)).thenReturn(values);
+		when(row.getReferencesBySource(column)).thenReturn(sourceReferences);
+		when(column.isMany()).thenReturn(true);
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
 		Object response = getter.invoke(row, columnName, null);
 
-		control.verify();
-
-		assertTrue(((List<String>) response).size() == 0);
+		assertEquals(0, ((Collection<?>) response).size());
 	}
 
 	@Test
 	public void testCollection() throws EolRuntimeException {
-		SpreadsheetRow row1 = control.createMock(SpreadsheetRow.class);
-		SpreadsheetRow row2 = control.createMock(SpreadsheetRow.class);
+		SpreadsheetRow row1 = mock(SpreadsheetRow.class);
+		SpreadsheetRow row2 = mock(SpreadsheetRow.class);
 		List<SpreadsheetRow> rows = new ArrayList<>();
 		rows.add(row1);
 		rows.add(row2);
@@ -154,35 +119,31 @@ public class SpreadsheetPropertyGetterTest {
 		values2.add("VALUE2");
 
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
-		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
-		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
+		SpreadsheetModel model = mock(SpreadsheetModel.class);
+		SpreadsheetColumn column = mock(SpreadsheetColumn.class);
 
-		control.reset();
+		when(row1.getModel()).thenReturn(model);
+		when(row1.getColumn(columnName)).thenReturn(column);
+		when(row1.getAllVisibleCellValues(column)).thenReturn(values1);
+		when(row1.getReferencesBySource(column)).thenReturn(sourceReferences);
+		when(column.isMany()).thenReturn(false);
 
-		expect(row1.getModel()).andReturn(model);
-		expect(row1.getColumn(columnName)).andReturn(column);
-		expect(row1.getAllVisibleCellValues(column)).andReturn(values1);
-		expect(row1.getReferencesBySource(column)).andReturn(sourceReferences);
-		expect(column.isMany()).andReturn(false);
-
-		expect(row2.getModel()).andReturn(model);
-		expect(row2.getColumn(columnName)).andReturn(column);
-		expect(row2.getAllVisibleCellValues(column)).andReturn(values2);
-		expect(row2.getReferencesBySource(column)).andReturn(sourceReferences);
-		expect(column.isMany()).andReturn(false);
-
-		control.replay();
+		when(row2.getModel()).thenReturn(model);
+		when(row2.getColumn(columnName)).thenReturn(column);
+		when(row2.getAllVisibleCellValues(column)).thenReturn(values2);
+		when(row2.getReferencesBySource(column)).thenReturn(sourceReferences);
+		when(column.isMany()).thenReturn(false);
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
 		Object response = getter.invoke(rows, columnName, null);
-
-		control.verify();
 
 		@SuppressWarnings("unchecked")
 		Iterator<String> it = ((List<String>) response).iterator();
 		String value1 = it.next();
 		String value2 = it.next();
 		assertTrue(
-			value1.equals("VALUE1") && value2.equals("VALUE2") || value1.equals("VALUE2") && value2.equals("VALUE1"));
+			"VALUE1".equals(value1) && "VALUE2".equals(value2) ||
+			"VALUE2".equals(value1) && "VALUE1".equals(value2)
+		);
 	}
 }
