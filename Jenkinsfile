@@ -28,8 +28,12 @@ spec:
     - cat
     tty: true
     resources:
+      limits:
+        memory: "16Gi"
+        cpu: "64"
       requests:
         memory: "8Gi"
+        cpu: "4"
 """
       }
     }
