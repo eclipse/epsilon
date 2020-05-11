@@ -58,7 +58,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-test-plugin</packaging.type>
-				<argLine>-ea -Xmx4g</argLine>
+				<argLine>-ea -Xmx2g</argLine>
 				<tests.skip.tests>false</tests.skip.tests>
 				<skipTests>${tests.skip.tests}</skipTests>
 			</properties>
@@ -96,7 +96,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xms2g -Xmx8g</argLine>
+				<argLine>-ea -Xmx3g</argLine>
 			</properties>
 		</profile>
 		<profile>
