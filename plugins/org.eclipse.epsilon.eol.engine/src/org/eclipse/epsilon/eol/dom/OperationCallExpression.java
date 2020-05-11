@@ -208,8 +208,4 @@ public class OperationCallExpression extends FeatureCallExpression {
 	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
 	}
-	
-	public String getOperationName() {
-		return getName();
-	}
 }
