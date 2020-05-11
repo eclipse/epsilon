@@ -16,7 +16,6 @@
   </properties>
 
   <modules>
-    <module>org.easymock_2.4</module>
     <module>org.eclipse.epsilon.common.dt.test</module>
     <module>org.eclipse.epsilon.commons.test</module>
     <module>org.eclipse.epsilon.ecl.engine.test.acceptance</module>
