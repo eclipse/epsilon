@@ -78,20 +78,17 @@
 							<includes>
 								<include>**/*Surefire*.java</include>
 							</includes>
-							<reuseForks>false</reuseForks>
+							<reuseForks>true</reuseForks>
 							<forkCount>1</forkCount>
-							<!--useUnlimitedThreads>false</useUnlimitedThreads>
+							<useUnlimitedThreads>false</useUnlimitedThreads>
 							<threadCount>1</threadCount>
-							<threadCountSuites>1</threadCountSuites>
-							<threadCountClasses>1</threadCountClasses>
-							<threadCountMethods>1</threadCountMethods-->
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xms2g -Xmx8g</argLine>
+				<argLine>-ea -Xms2g -Xmx8g -Xss5m</argLine>
 			</properties>
 		</profile>
 	</profiles>
