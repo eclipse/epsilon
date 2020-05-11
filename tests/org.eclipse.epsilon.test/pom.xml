@@ -88,7 +88,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xms2g -Xmx8g -Xss5m</argLine>
+				<argLine>-ea -Xms2g -Xmx8g</argLine>
 			</properties>
 		</profile>
 	</profiles>
