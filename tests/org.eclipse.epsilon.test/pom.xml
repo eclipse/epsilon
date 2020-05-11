@@ -67,7 +67,15 @@
 			<id>unit</id>
 			<activation>
                 <activeByDefault>false</activeByDefault>
-            </activation>
+			</activation>
+			<dependencies>
+				  <dependency>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					<version>4.13</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
