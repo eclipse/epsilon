@@ -4,7 +4,7 @@
 <locations>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.license.feature.group" version="0.0.0"/>
-		<repository location="https://download.eclipse.org/cbi/updates/license"/>
+		<repository location="http://download.eclipse.org/cbi/updates/license"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="0.0.0"/>
@@ -27,11 +27,11 @@
 		<unit id="org.eclipse.xsd.sdk.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="0.0.0"/>
-		<repository location="https://download.eclipse.org/releases/2020-03"/>
+		<repository location="http://download.eclipse.org/releases/2020-03"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.emf.emfatic.feature.group" version="0.0.0"/>
-		<repository location="https://download.eclipse.org/emfatic/update"/>
+		<repository location="http://download.eclipse.org/emfatic/update"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.emf.compare.feature.group" version="0.0.0"/>
@@ -41,18 +41,18 @@
 		<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.emf.compare.rcp.ui.source.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.emf.compare.uml2.source.feature.group" version="0.0.0"/>
-		<repository location="https://download.eclipse.org/modeling/emf/compare/updates/releases/3.3/R201911051515"/>
+		<repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/3.3/R201911051515"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="0.0.0"/>
-		<repository location="https://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+		<repository location="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.gmf.sdk.feature.group" version="3.2.1.201409171321"/>
 		<unit id="org.eclipse.gmf.tooling.codegen.xtend2.feature.group" version="3.2.1.201409171321"/>
 		<unit id="org.eclipse.gmf.tooling.feature.group" version="3.2.1.201409171321"/>
 		<unit id="org.eclipse.gmf.tooling.runtime.feature.group" version="3.2.1.201409171321"/>
-		<repository location="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+		<repository location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="net.bytebuddy.byte-buddy" version="1.7.9.v20180420-1519"/>
@@ -78,13 +78,13 @@
 		<unit id="org.slf4j.api.source" version="1.7.2.v20121108-1250"/>
 		<unit id="org.slf4j.log4j" version="1.7.2.v20130115-1340"/>
 		<unit id="org.slf4j.log4j.source" version="1.7.2.v20130115-1340"/>
-		<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20190827152740/repository"/>
+		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20190827152740/repository"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.apache.commons.cli" version="1.4.0.v20200417-1444"/>
 		<unit id="org.apache.commons.cli.source" version="1.4.0.v20200417-1444"/>
 		<unit id="org.apache.xmlbeans" version="2.6.0.v20200418-0047"/>
-		<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20200427151422/repository"/>
+		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20200427151422/repository"/>
 	</location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
