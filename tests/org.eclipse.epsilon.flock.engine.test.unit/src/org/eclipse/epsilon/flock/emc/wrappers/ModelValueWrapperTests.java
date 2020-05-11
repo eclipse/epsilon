@@ -1,27 +1,25 @@
 /*******************************************************************************
- * Copyright (c) 2009 The University of York.
+ * Copyright (c) 2009-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Sina Madani - refactor to Mockito
  ******************************************************************************
  *
  * $Id$
  */
 package org.eclipse.epsilon.flock.emc.wrappers;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.isA;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.eclipse.epsilon.flock.test.unit.easymock.matchers.OneOfCollection.oneOf;
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import java.util.Arrays;
+import java.util.Collection;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.junit.Test;
+import org.mockito.ArgumentMatcher;
 
 public class ModelValueWrapperTests {
 	
@@ -37,14 +35,17 @@ public class ModelValueWrapperTests {
 	
 	@Test
 	public void wrapCollectionOfValues() {
-		final CollectionOfModelValues wrappedValues = wrapValueTest(Arrays.asList("a model value", "dummy model element"),
-		                                                            CollectionOfModelValues.class,
-		                                                            "dummy model element");
+		final CollectionOfModelValues wrappedValues = wrapValueTest(
+			Arrays.asList("a model value", "dummy model element"),
+			CollectionOfModelValues.class,
+			"dummy model element"
+		);
 		
 		for (ModelValue<?> wrappedValue : wrappedValues) {
-			if (wrappedValue.unwrap().equals("dummy model element")) {
+			if ("dummy model element".equals(wrappedValue.unwrap())) {
 				assertWrappedValueTypeEquals(ModelElement.class, wrappedValue);
-			} else {
+			}
+			else {
 				assertWrappedValueTypeEquals(AttributeValue.class, wrappedValue);
 			}
 		}
@@ -63,17 +64,15 @@ public class ModelValueWrapperTests {
 		assertEquals(wrappedValue.unwrap(), wrapValue(wrappedValue).unwrap());
 	}	
 	
-	
+
 	
 	private static <T extends ModelValue<?>> T wrapValueTest(Object unwrappedValue, Class<T> expectedWrappedType, Object... modelElements) {	
 		return wrapValueTest(unwrappedValue, false, expectedWrappedType, modelElements);
 	}
 	
 	private static <T extends ModelValue<?>> T wrapValueTest(Object unwrappedValue, boolean isEnumValue, Class<T> expectedWrappedType, Object... modelElements) {	
-		final ModelValue<?> wrappedValue = wrapValue(unwrappedValue, isEnumValue ,modelElements);
-		
+		final ModelValue<?> wrappedValue = wrapValue(unwrappedValue, isEnumValue, modelElements);
 		assertWrappedValueTypeEquals(expectedWrappedType, wrappedValue);
-		
 		return expectedWrappedType.cast(wrappedValue);
 	}
 	
@@ -83,55 +82,46 @@ public class ModelValueWrapperTests {
 	
 	private static ModelValue<?> wrapValue(Object unwrappedValue, boolean isEnumValue, Object... modelElements) {	
 		final ModelValueWrapper wrapper = new ModelValueWrapper(createModelStubWithModelElements(isEnumValue, modelElements));
-		
 		return wrapper.wrapValue(unwrappedValue);
 	}
 
 	private static <T extends ModelValue<?>> void assertWrappedValueTypeEquals(Class<T> expectedWrappedType, ModelValue<?> wrappedValue) {
 		assertTrue("Expected an instance of <" + expectedWrappedType.getCanonicalName() + "> " +
-		           "but was " + (wrappedValue == null ? "null" : "an instance of <" + wrappedValue.getClass().getCanonicalName() + ">"),
-		           expectedWrappedType.isInstance(wrappedValue));
+			"but was " + (wrappedValue == null ? "null" : "an instance of <" + wrappedValue.getClass().getCanonicalName() + ">"),
+			expectedWrappedType.isInstance(wrappedValue)
+		);
 	}
-	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static Model createModelStubWithModelElements(boolean isEnumValue, Object... modelElements) {
-		final Model modelStub = createMock(Model.class);
+		final Collection<?> elementsCol = Arrays.asList(modelElements);
+		final ArgumentMatcher contains = elementsCol::contains;
+		
+		final Model modelStub = mock(Model.class);
 		
 		// Respond as to whether this is an enumeration value
-		expect(modelStub.isEnumeration(isA(Object.class)))
-			.andReturn(isEnumValue).anyTimes();
+		when(modelStub.isEnumeration(isA(Object.class)))
+			.thenReturn(isEnumValue);
 		
 		// Return true for any object contained in modelElements
-		expect(modelStub.isModelElement(oneOf(Arrays.asList(modelElements))))
-			.andReturn(true);
-		expectLastCall().anyTimes();
-		
-		// And return false for any object not contained in modelElements
-		expect(modelStub.isModelElement(isA(Object.class)))
-			.andReturn(false);
-		expectLastCall().anyTimes();
+		when(modelStub.isModelElement(argThat(contains)))
+			.thenReturn(true);
 		
 		// Return dummy type for type of any object contained in modelElements
-		expect(modelStub.getTypeNameOf(oneOf(Arrays.asList(modelElements))))
-			.andReturn("dummy type");
-		expectLastCall().anyTimes();
+		when(modelStub.getTypeNameOf(argThat(contains)))
+			.thenReturn("dummy type");
+		
+		when(modelStub.getUnqualifiedTypeNameOf(argThat(contains)))
+			.thenReturn("dummy unqualified type");
 
-		expect(modelStub.getUnqualifiedTypeNameOf(oneOf(Arrays.asList(modelElements))))
-			.andReturn("dummy unqualified type");
-		expectLastCall().anyTimes();
-		
-		
 		// CollectionOfModelValues will use model to wrap values
-		expect(modelStub.wrap(oneOf(Arrays.asList(modelElements))))
-			.andReturn((BackedModelValue)new ModelElement(modelStub, new ModelType(modelStub, "dummy type", "dummy unqualified type"), "dummy model element"));
-		expectLastCall().anyTimes();
+		when(modelStub.wrap(argThat(contains)))
+			.thenReturn((BackedModelValue) new ModelElement(modelStub,
+					new ModelType(modelStub, "dummy type", "dummy unqualified type"), "dummy model element")
+			);
 		
-		expect(modelStub.wrap(isA(Object.class)))
-			.andReturn((BackedModelValue)new AttributeValue(modelStub, "dummy wrapped value"));
-		expectLastCall().anyTimes();
-		
-		replay(modelStub);
+		when(modelStub.wrap(isA(Object.class)))
+			.thenReturn((BackedModelValue)new AttributeValue(modelStub, "dummy wrapped value"));
 		
 		return modelStub;
 	}

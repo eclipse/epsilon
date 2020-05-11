@@ -1,21 +1,19 @@
 /*******************************************************************************
- * Copyright (c) 2009 The University of York.
+ * Copyright (c) 2009-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Sina Madani - refactor to Mockito
  ******************************************************************************
  *
  * $Id$
  */
 package org.eclipse.epsilon.flock.emc.wrappers;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,97 +30,67 @@ public class ModelTests {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void setPropertyValueShouldDelegateToPropertySetterAndUnwrapValue() throws EolRuntimeException {
-		final IReflectiveModel          mockUnderlyingModel = createMock(IReflectiveModel.class);
-		final IReflectivePropertySetter mockPropertySetter  = createMock(IReflectivePropertySetter.class);
-		final BackedModelValue          mockWrappedValue    = createMock(BackedModelValue.class);
-	
+		final IReflectiveModel          mockUnderlyingModel = mock(IReflectiveModel.class);
+		final IReflectivePropertySetter mockPropertySetter  = mock(IReflectivePropertySetter.class);
+		final BackedModelValue          mockWrappedValue    = mock(BackedModelValue.class);
 		
-		// Expectations
-		
-		expect(mockWrappedValue.unwrap())
-			.andReturn("bar");
+		when(mockWrappedValue.unwrap())
+			.thenReturn("bar");
 		
 		String property = "foo";
 		Object target = "dummy model element";
 		
-		expect(mockPropertySetter.coerce(target, property, "bar", null)).andReturn("bar");
+		when(mockPropertySetter.coerce(target, property, "bar", null)).thenReturn("bar");
 		mockPropertySetter.invoke(target, property, "bar", null);
 		
-		expect(mockUnderlyingModel.getPropertySetter())
-			.andReturn(mockPropertySetter);
-		
-		replay(mockUnderlyingModel, mockPropertySetter, mockWrappedValue);
-		
-		
-		// Verification
-		
+		when(mockUnderlyingModel.getPropertySetter())
+			.thenReturn(mockPropertySetter);
+
 		new Model(mockUnderlyingModel).setValueOfProperty("dummy model element", "foo", mockWrappedValue);
 		
-		verify(mockUnderlyingModel, mockPropertySetter, mockWrappedValue);
+		verify(mockUnderlyingModel).getPropertySetter();
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void getPropertyValueShouldDelegateToPropertyGetterAndWrapValue() throws EolRuntimeException {
-		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
-		final IPropertyGetter   mockPropertyGetter  = createMock(IPropertyGetter.class);
-		final ModelValueWrapper mockWrapper         = createMock(ModelValueWrapper.class);
-		
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
+		final IPropertyGetter   mockPropertyGetter  = mock(IPropertyGetter.class);
+		final ModelValueWrapper mockWrapper         = mock(ModelValueWrapper.class);
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
+		when(mockUnderlyingModel.getPropertyGetter())
+			.thenReturn(mockPropertyGetter);
 		
-		// Expectations
+		when(mockPropertyGetter.invoke("dummy model element", "foo", null))
+			.thenReturn("bar");
 		
-		expect(mockUnderlyingModel.getPropertyGetter())
-			.andReturn(mockPropertyGetter);
-		
-		expect(mockPropertyGetter.invoke("dummy model element", "foo", null))
-			.andReturn("bar");
-		
-		expect(mockWrapper.wrapValue("bar"))
-			.andReturn((BackedModelValue)new AttributeValue(model, "bar"));
-		
-		replay(mockUnderlyingModel, mockPropertyGetter, mockWrapper);
-		
-		
-		// Verification
+		when(mockWrapper.wrapValue("bar"))
+			.thenReturn((BackedModelValue)new AttributeValue(model, "bar"));
 		
 		assertEquals(new AttributeValue(model, "bar"), model.getValueOfProperty("dummy model element", "foo"));
-		
-		verify(mockUnderlyingModel, mockPropertyGetter, mockWrapper);
 	}
 	
 	@Test
 	public void createInstanceDelegatesToUnderlyingModelAndWrapsValue() throws EolRuntimeException {
-		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
-		final ModelValueWrapper mockWrapper         = createMock(ModelValueWrapper.class);
-		
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
+		final ModelValueWrapper mockWrapper         = mock(ModelValueWrapper.class);
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
+		when(mockUnderlyingModel.createInstance("DummyType"))
+			.thenReturn("foo");
 		
-		// Expectations
-		
-		expect(mockUnderlyingModel.createInstance("DummyType"))
-			.andReturn("foo");
-		
-		expect(mockWrapper.wrapModelElement("foo"))
-			.andReturn(new ModelElement(model, new ModelType(model, "DummyType", "DummyUnqualifiedType"), "foo"));
-		
-		replay(mockUnderlyingModel, mockWrapper);
-		
-		
-		// Verification
-		
+		when(mockWrapper.wrapModelElement("foo"))
+			.thenReturn(new ModelElement(model, new ModelType(model, "DummyType", "DummyUnqualifiedType"), "foo"));
+
 		assertEquals(new ModelElement(model, new ModelType(model, "DummyType", "DummyUnqualifiedType"), "foo"), model.createInstance("DummyType"));
-		
-		verify(mockUnderlyingModel, mockWrapper);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void allContentsDelegatesToUnderlyingModelAndWrapsValues() throws EolRuntimeException {
-		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
-		final ModelValueWrapper mockWrapper         = createMock(ModelValueWrapper.class);
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
+		final ModelValueWrapper mockWrapper         = mock(ModelValueWrapper.class);
 		
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
@@ -130,101 +98,64 @@ public class ModelTests {
 		
 		// Expectations
 		
-		expect(mockUnderlyingModel.allContents())
-			.andReturn((Collection)Arrays.asList("foo", "bar", "baz"));
+		when(mockUnderlyingModel.allContents())
+			.thenReturn((Collection)Arrays.asList("foo", "bar", "baz"));
 		
-		expect(mockUnderlyingModel.owns("foo")).andReturn(true);
-		expect(mockUnderlyingModel.owns("bar")).andReturn(false);
-		expect(mockUnderlyingModel.owns("baz")).andReturn(true);
+		when(mockUnderlyingModel.owns("foo")).thenReturn(true);
+		when(mockUnderlyingModel.owns("bar")).thenReturn(false);
+		when(mockUnderlyingModel.owns("baz")).thenReturn(true);
 		
-		expect(mockWrapper.wrapModelElement("foo"))
-			.andReturn(new ModelElement(model, dummyType, "foo"));
+		when(mockWrapper.wrapModelElement("foo"))
+			.thenReturn(new ModelElement(model, dummyType, "foo"));
 		
-		expect(mockWrapper.wrapModelElement("baz"))
-			.andReturn(new ModelElement(model, dummyType, "baz"));
-		
-		replay(mockUnderlyingModel, mockWrapper);
-		
-		
-		// Verification
-		
-		assertEquals(Arrays.asList(
-		             	new ModelElement(model, dummyType, "foo"),
-		             	new ModelElement(model, dummyType, "baz")
-		             ), 
-		             model.directContents());
-		
-		verify(mockUnderlyingModel, mockWrapper);
+		when(mockWrapper.wrapModelElement("baz"))
+			.thenReturn(new ModelElement(model, dummyType, "baz"));
+
+		assertEquals(
+			Arrays.asList(
+				new ModelElement(model, dummyType, "foo"),
+				new ModelElement(model, dummyType, "baz")
+			),
+			model.directContents()
+		);
 	}
 	
 	
 	@Test
 	public void getEquivalentForEnumeratorDelegatesToUnderlyingModel() throws EolRuntimeException {
-		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
 		
 		final Model model = new Model(mockUnderlyingModel);
 		
+		when(mockUnderlyingModel.getEnumerationTypeOf(DogBreed.LABRADOR))
+			.thenReturn("DogBreed");
 		
-		// Expectations
-		expect(mockUnderlyingModel.getEnumerationTypeOf(DogBreed.LABRADOR))
-			.andReturn("DogBreed");
+		when(mockUnderlyingModel.getEnumerationLabelOf(DogBreed.LABRADOR))
+			.thenReturn("labrador");
 		
-		expect(mockUnderlyingModel.getEnumerationLabelOf(DogBreed.LABRADOR))
-			.andReturn("labrador");
-		
-		expect(mockUnderlyingModel.getEnumerationValue("DogBreed", "labrador"))
-			.andReturn(DogBreed.LABRADOR);
-		
-		replay(mockUnderlyingModel);
-		
-
-		// Verification
+		when(mockUnderlyingModel.getEnumerationValue("DogBreed", "labrador"))
+			.thenReturn(DogBreed.LABRADOR);
 		
 		assertEquals(DogBreed.LABRADOR, model.getEquivalentEnumerationValue(DogBreed.LABRADOR));
-		
-		verify(mockUnderlyingModel);
 	}
 	
 	@Test
 	public void getIdentityDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
 		
 		final Model model = new Model(mockUnderlyingModel);
 		
-		
-		// Expectations
-		
-		expect(mockUnderlyingModel.getElementId("dummyModelElement"))
-			.andReturn("anIdentity");
-		
-		replay(mockUnderlyingModel);
+		when(mockUnderlyingModel.getElementId("dummyModelElement"))
+			.thenReturn("anIdentity");
 
-		
-		// Verification
-		
 		assertEquals("anIdentity", model.getIdentity("dummyModelElement"));
-		
-		verify(mockUnderlyingModel);
 	}
 	
 	@Test
 	public void setIdentityDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IReflectiveModel  mockUnderlyingModel = createMock(IReflectiveModel.class);
-		
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
 		final Model model = new Model(mockUnderlyingModel);
-		
-		
-		// Expectations
-		
 		mockUnderlyingModel.setElementId("dummyModelElement", "anIdentity");
-		
-		replay(mockUnderlyingModel);
-
-		
-		// Verification
-		
 		model.setIdentity("dummyModelElement", "anIdentity");
-		
-		verify(mockUnderlyingModel);
 	}
 }

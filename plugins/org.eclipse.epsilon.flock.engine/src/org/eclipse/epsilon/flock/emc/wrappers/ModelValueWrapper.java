@@ -12,8 +12,8 @@
  */
 package org.eclipse.epsilon.flock.emc.wrappers;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 
 class ModelValueWrapper {
 
@@ -26,17 +26,17 @@ class ModelValueWrapper {
 	ModelValue<?> wrapValue(Object value) {
 		if (value instanceof BackedModelValue<?>) {
 			return (BackedModelValue<?>)value;
-		
-		} else if (model.isEnumeration(value)) {
+		}
+		else if (model.isEnumeration(value)) {
 			return new EnumValue(model, value);
-			
-		} else if (model.isModelElement(value)) {
+		}
+		else if (model.isModelElement(value)) {
 			return wrapModelElement(value);
-		
-		} else if(value instanceof Collection) {
+		}
+		else if (value instanceof Collection) {
 			return new CollectionOfModelValues(model, wrapValues((Collection<?>)value));
-		
-		} else {
+		}
+		else {
 			return new AttributeValue(model, value);
 		}
 	}
@@ -46,12 +46,10 @@ class ModelValueWrapper {
 	}
 	
 	private Collection<ModelValue<?>> wrapValues(Collection<?> underlyingModelObjects) {
-		final Collection<ModelValue<?>> modelValues = new LinkedList<>();
-		
+		final Collection<ModelValue<?>> modelValues = new ArrayList<>(underlyingModelObjects.size());
 		for (Object underlyingModelObject : underlyingModelObjects) {
 			modelValues.add(model.wrap(underlyingModelObject));
 		}
-		
 		return modelValues;
 	}
 }
