@@ -29,17 +29,17 @@ import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	EpsilonJenkinsTestSuite.class,
+	HutnTestSuite.class,
+	HutnUnparserUnitTestSuite.class,
+	HutnEmcDriverTestSuite.class,
+	HutnXmiTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
 	FlockEngineUnitTestSuite.class,
 	WorkflowTestSuite.class,
-	HutnTestSuite.class,
-	HutnUnparserUnitTestSuite.class,
-	HutnXmiTestSuite.class,
-	HutnEmcDriverTestSuite.class,
+	EpsilonJenkinsTestSuite.class
 })
-public class EpsilonTestSuite {
+public class EpsilonEclipseTestSuite {
 	public static Test suite() {
-		return new JUnit4TestAdapter(EpsilonTestSuite.class);
+		return new JUnit4TestAdapter(EpsilonEclipseTestSuite.class);
 	}
 }
