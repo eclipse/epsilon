@@ -17,24 +17,6 @@ pipeline {
     agent {
       kubernetes {
         label 'ui-test'
-        yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: maven
-    image: maven:alpine
-    command:
-    - cat
-    tty: true
-    resources:
-      limits:
-        memory: "16Gi"
-        cpu: "64"
-      requests:
-        memory: "8Gi"
-        cpu: "4"
-"""
       }
     }
     options {
@@ -56,7 +38,7 @@ spec:
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
-              sh 'mvn -T 1C -B --quiet clean javadoc:aggregate install -P eclipse-sign'
+              sh 'mvn -T 1C -B -V -X clean javadoc:aggregate install -P eclipse-sign'
               sh 'mvn -f tests/org.eclipse.epsilon.test/pom.xml surefire:test -P ci,-plugged'
               sh 'mvn -B --quiet -f standalone/pom.xml install'
             }
