@@ -84,9 +84,9 @@
 						<version>3.0.0-M4</version>
 						<configuration>
 							<includes>
-								<include>**/*Surefire*.java</include>
+								<include>**/*Jenkins*.java</include>
 							</includes>
-							<reuseForks>false</reuseForks>
+							<reuseForks>true</reuseForks>
 							<forkCount>1</forkCount>
 							<useUnlimitedThreads>false</useUnlimitedThreads>
 							<threadCount>1</threadCount>
