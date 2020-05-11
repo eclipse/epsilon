@@ -32,7 +32,7 @@
    </build>
   <name>Epsilon jar component</name>
   <description>
-		 Command-line interface for Epsilon's main languages.
+		Command-line interface for Epsilon's main languages.
 		</description>
   <url>https://eclipse.org/epsilon</url>
   <licenses>

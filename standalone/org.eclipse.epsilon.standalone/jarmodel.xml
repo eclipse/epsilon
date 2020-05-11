@@ -5,7 +5,9 @@
 		The execution engines of all Epsilon languages,
 		as well as the plain XML and CSV drivers.
 		</description>
+		<project name="org.eclipse.epsilon.common"/>
 		<project name="org.eclipse.epsilon.eol.engine"/>
+		<project name="org.eclipse.epsilon.erl.engine"/>
 		<project name="org.eclipse.epsilon.egl.engine"/>
 		<project name="org.eclipse.epsilon.egl.traceability.fine"/>
 		<project name="org.eclipse.epsilon.ecl.engine"/>
@@ -15,11 +17,9 @@
 		<project name="org.eclipse.epsilon.epl.engine"/>
 		<project name="org.eclipse.epsilon.eunit.engine"/>
 		<project name="org.eclipse.epsilon.eunit.junit"/>
-		<project name="org.eclipse.epsilon.erl.engine"/>
 		<project name="org.eclipse.epsilon.ewl.engine"/>
 		<project name="org.eclipse.epsilon.flock.engine"/>
 		<project name="org.eclipse.epsilon.profiling"/>
-		<project name="org.eclipse.epsilon.common"/>
 		<project name="org.eclipse.epsilon.eol.tools"/>
 		<project name="org.eclipse.epsilon.emc.composite"/>
 		<project name="org.eclipse.epsilon.emc.plainxml"/>
@@ -160,11 +160,15 @@
 			groupId="org.apache.poi"
 			artifactId="poi-ooxml-schemas"
 			version="3.10.1" />
+		<plugin name="org.apache.xmlbeans"
+			groupId="org.apache.xmlbeans"
+			artifactId="xmlbeans"
+			version="2.6.0" />
 	</jar>
 	
-	<!-->jar name="cli" requires="core">
+	<jar name="cli" requires="core">
 		<description>
-		 Command-line interface for Epsilon's main languages.
+		Command-line interface for Epsilon's main languages.
 		</description>
 		<project name="org.eclipse.epsilon.common.cli"/>
 		<project name="org.eclipse.epsilon.eol.cli"/>
@@ -172,5 +176,5 @@
 			groupId="commons-cli"
 			artifactId="commons-cli"
 			version="1.4" />
-	</jar-->
+	</jar>
 </jarmodel>

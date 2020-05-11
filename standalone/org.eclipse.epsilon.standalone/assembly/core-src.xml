@@ -8,11 +8,27 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
       <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.common/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.common/src</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.eol.engine/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.eol.engine/src</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.erl.engine/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.erl.engine/src</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
@@ -88,14 +104,6 @@
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
-        <directory>../../plugins/org.eclipse.epsilon.erl.engine/target/classes</directory>
-        <outputDirectory></outputDirectory>
-      </fileSet>
-      <fileSet>
-        <directory>../../plugins/org.eclipse.epsilon.erl.engine/src</directory>
-        <outputDirectory></outputDirectory>
-      </fileSet>
-      <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.ewl.engine/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
@@ -117,14 +125,6 @@
       </fileSet>
       <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.profiling/src</directory>
-        <outputDirectory></outputDirectory>
-      </fileSet>
-      <fileSet>
-        <directory>../../plugins/org.eclipse.epsilon.common/target/classes</directory>
-        <outputDirectory></outputDirectory>
-      </fileSet>
-      <fileSet>
-        <directory>../../plugins/org.eclipse.epsilon.common/src</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
