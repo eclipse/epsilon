@@ -96,7 +96,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xmx3g</argLine>
+				<argLine>-ea -Xmx3584m</argLine>
 			</properties>
 		</profile>
 		<profile>
