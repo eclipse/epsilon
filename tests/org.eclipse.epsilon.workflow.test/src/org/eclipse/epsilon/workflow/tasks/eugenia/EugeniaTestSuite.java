@@ -12,6 +12,8 @@ package org.eclipse.epsilon.workflow.tasks.eugenia;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
 /**
  * Test suite for Eugenia.
@@ -23,4 +25,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	EugeniaRegressionTest.class,
 	EugeniaEmfInRootTest.class
 })
-public class EugeniaTestSuite {}
+public class EugeniaTestSuite {
+	public static Test suite() {
+		return new JUnit4TestAdapter(EugeniaTestSuite.class);
+	}
+}

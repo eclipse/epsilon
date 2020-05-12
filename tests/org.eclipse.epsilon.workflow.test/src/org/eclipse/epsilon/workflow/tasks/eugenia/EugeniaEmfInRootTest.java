@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eugenia;
 
-import org.eclipse.core.runtime.CoreException;
 import org.junit.Test;
 
 /**
@@ -24,7 +23,7 @@ public class EugeniaEmfInRootTest extends EugeniaTest {
 	}
 
 	@Test
-	public void worksWithEmfInRoot() throws CoreException {
+	public void worksWithEmfInRoot() throws Exception {
 		runAntTarget("emf-in-root");
 	}
 }

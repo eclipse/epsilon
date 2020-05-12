@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2011 The University of York.
+ * Copyright (c) 2011-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
+ *     Sina Madani - stateless refactoring (i.e. work outside IDE in JAR)
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eunit;
 
@@ -61,13 +62,24 @@ public abstract class EUnitTestCase extends WorkflowTestCase implements ErrorHan
 	static {
 		File baseTemp = null;
 		try {
-			//baseTemp = FileUtil.getDirectoryStandalone("resources", EUnitTestCase.class);
+			FileUtil.getDirectoryStandalone("../../resources", EUnitTestCase.class);
+			baseTemp = FileUtil.getDirectoryStandalone("../../resources/eunit", EUnitTestCase.class);
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		if (baseTemp == null) {
-			baseTemp = new File("../org.eclipse.epsilon.workflow.test/resources/eunit/");
+			// Plugged-in test
+			String path = "../org.eclipse.epsilon.workflow.test/src/org/eclipse/epsilon/workflow/resources/eunit/";
+			if (!(baseTemp = new File(path)).exists()) {
+				baseTemp = new File(path.replace("/src/", "/bin/"));
+			}
+			if (!(baseTemp = new File(path)).exists()) {
+				baseTemp = new File(path.replace("/src/", "/target/"));
+			}
+			if (!(baseTemp = new File(path)).exists()) {
+				baseTemp = new File(path.replace("/src/", ""));
+			}
 		}
 		BASE_DIR = baseTemp;
 		ANT_BUILD_FILE = new File(BASE_DIR, "eunit.xml");
@@ -148,7 +160,7 @@ public abstract class EUnitTestCase extends WorkflowTestCase implements ErrorHan
 					if (n instanceof Element) {
 						Element e = (Element)n;
 						final String tagName = e.getTagName();
-						if (tagName.equals("testcase")) {
+						if ("testcase".equals(tagName)) {
 							if (nTestCases >= expectedTestCases.length) {
 								fail(String.format(
 									"There are more test cases (%d or more) than expected (%d)",

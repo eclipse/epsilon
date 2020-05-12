@@ -128,23 +128,26 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 
 	private void runBasicTests(String targetName) throws Exception {
 		runTarget(ANT_BUILD_FILE, targetName);
-		checkOutput(new File(BASE_DIR, "TEST-default.emf-emf.xml"),
-				EUnitModule.DEFAULT_PACKAGE,
-				new String[]{
-					"sameModelsAreEqual[1]", "sameModelsAreEqual[2]", "sameModelsAreEqual[3]",
-					"modelsFromDifferentMetamodelsAreDifferent[1]",
-					"modelsFromDifferentMetamodelsAreDifferent[2]",					
-					"modelsWithDifferentContentAreDifferent",
+		checkOutput(
+			new File(BASE_DIR, "TEST-default.emf-emf.xml"),
+			EUnitModule.DEFAULT_PACKAGE,
+			new String[]{
+				"sameModelsAreEqual[1]", "sameModelsAreEqual[2]", "sameModelsAreEqual[3]",
+				"modelsFromDifferentMetamodelsAreDifferent[1]",
+				"modelsFromDifferentMetamodelsAreDifferent[2]",					
+				"modelsWithDifferentContentAreDifferent",
+				"modelsWithDifferentContentAreDifferentFailing",
+				"transformedIsEqualToExpected",
+				"transformedIsEqualToExpectedFailing"
+			},
+			new HashSet<>(
+				Arrays.asList(
 					"modelsWithDifferentContentAreDifferentFailing",
-					"transformedIsEqualToExpected",
 					"transformedIsEqualToExpectedFailing"
-				},
-				new HashSet<>(
-					Arrays.asList(
-						"modelsWithDifferentContentAreDifferentFailing",
-						"transformedIsEqualToExpectedFailing")
-				),
-				new HashSet<String>());
+				)
+			),
+			new HashSet<String>()
+		);
 	}
 
 }

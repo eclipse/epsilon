@@ -10,17 +10,8 @@
 package org.eclipse.epsilon.workflow.tasks.eugenia;
 
 import java.io.InputStream;
-
 import org.eclipse.ant.core.AntRunner;
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.Path;
 import org.junit.After;
 import org.junit.Before;
@@ -38,12 +29,13 @@ import org.junit.Before;
  */
 public class EugeniaTest {
 
-	protected static final String[] CASE_EXTENSIONS = new String[] {
+	protected static final String[] CASE_EXTENSIONS = {
 		"ecore", "emf", "genmodel", "gmfgraph", "gmfmap", "gmftool"
 	};
-	protected static final String RES_PREFIX = "/eugenia/";
-
+	
+	protected static final String RES_PREFIX = "/org/eclipse/epsilon/workflow/resources/eugenia/";
 	private static final String ANT_BUILDFILE_PATH = RES_PREFIX + "eunit.xml";
+	
 	private final String caseName;
 	private IProject testProject;
 
@@ -71,7 +63,7 @@ public class EugeniaTest {
 	}
 
 	@Before
-	public void createTestProject() throws CoreException {
+	public void createTestProject() throws Exception {
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IWorkspaceRoot root = workspace.getRoot();
 
@@ -87,32 +79,35 @@ public class EugeniaTest {
 	}
 
 	@After
-	public void deleteTestProject() throws CoreException {
+	public void deleteTestProject() throws Exception {
 		testProject.delete(true, true, null);
 	}
 
-	public void copyCaseFiles() throws CoreException {
+	public void copyCaseFiles() throws Exception {
 		for (String ext : CASE_EXTENSIONS) {
 			final String srcPath = RES_PREFIX + caseName + "/" + caseName + "."	+ ext;
 			copyIntoProject(srcPath);
 		}
 	}
 
-	public void copyIntoProject(String path)
-			throws CoreException {
-		final InputStream source = getClass().getResourceAsStream(path);
-		final IFile destFile = testProject.getFile(new Path(path));
-		createParentFolders(destFile);
-		destFile.create(source, true, null);
+	public void copyIntoProject(String path) throws Exception {
+		try (InputStream source = getClass().getResourceAsStream(path)) {
+			final IFile destFile = testProject.getFile(new Path(path));
+			createParentFolders(destFile);
+			destFile.create(source, true, null);
+		}
 	}
 
-	public void runAntTarget(String target) throws CoreException {
-		AntRunner runner = getAntRunner();
+	public void runAntTarget(String target) throws Exception {
+		AntRunner runner = new AntRunner();
+		String bf = testProject.getFile(ANT_BUILDFILE_PATH).getLocation().toOSString();
+		runner.setBuildFileLocation(bf);
+		runner.setArguments("-Dcase.name=" + caseName);
 		runner.setExecutionTargets(new String[] { target });
 		runner.run();
 	}
 
-	private void createParentFolders(IResource res) throws CoreException {
+	private static void createParentFolders(IResource res) throws Exception {
 		final IContainer parent = res.getParent();
 		if (parent instanceof IFolder) {
 			createParentFolders(parent);
@@ -121,13 +116,4 @@ public class EugeniaTest {
 			((IFolder) res).create(false, true, null);
 		}
 	}
-
-	private AntRunner getAntRunner() {
-		AntRunner runner = new AntRunner();
-		runner.setBuildFileLocation(testProject.getFile(ANT_BUILDFILE_PATH)
-				.getLocation().toOSString());
-		runner.setArguments("-Dcase.name=" + caseName);
-		return runner;
-	}
-
 }

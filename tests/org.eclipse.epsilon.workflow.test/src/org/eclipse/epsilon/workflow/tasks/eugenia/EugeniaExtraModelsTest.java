@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eugenia;
 
-import org.eclipse.core.runtime.CoreException;
 import org.junit.Test;
 
 /**
@@ -19,7 +18,7 @@ import org.junit.Test;
 public class EugeniaExtraModelsTest extends EugeniaTest {
 
 	private static final String CASE_NAME = "flowchartextra";
-	private static final String[] CASE_FILES = new String[]{
+	private static final String[] CASE_FILES = {
 		"ECore2GMF.eol", "FixGMFGen.eol", CASE_NAME + ".emf",
 		"labels.ecore", "labels.model", "tests.eunit"
 	};
@@ -29,7 +28,7 @@ public class EugeniaExtraModelsTest extends EugeniaTest {
 	}
 
 	@Override
-	public void copyCaseFiles() throws CoreException {
+	public void copyCaseFiles() throws Exception {
 		for (String extraFile : CASE_FILES) {
 			copyIntoProject(RES_PREFIX + CASE_NAME + "/" + extraFile);
 		}

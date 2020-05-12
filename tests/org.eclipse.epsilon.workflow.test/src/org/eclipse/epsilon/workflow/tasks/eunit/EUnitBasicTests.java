@@ -9,24 +9,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.eunit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import static org.junit.Assert.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitParseException;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 /**
  * EUnit tests: basic aspects.
@@ -73,12 +64,15 @@ public class EUnitBasicTests extends EUnitTestCase {
 	}
 
 	@Test
-	public void buildFailsWithBadImports() throws IOException {
+	public void buildFailsWithBadImports() throws Exception {
 		try {
 			runTarget(ANT_BUILD_FILE, "badImports");
-		} catch (BuildException ex) {
-				assertTrue("The cause of the build exception should be an Epsilon exception",
-						ex.getCause() instanceof EUnitParseException);
+		}
+		catch (BuildException ex) {
+			assertTrue(
+				"The cause of the build exception should be an Epsilon exception",
+				ex.getCause() instanceof EUnitParseException
+			);
 		}
 	}
 
@@ -146,18 +140,18 @@ public class EUnitBasicTests extends EUnitTestCase {
 		assertParametric2LevelWorks("parametric2levels-reused-op", "2levels-reused-op");
 	}
 
-	private void assertParametric2LevelWorks(final String targetName, String eunitBasename)
-			throws IOException, SAXException, ParserConfigurationException {
+	private void assertParametric2LevelWorks(final String targetName, String eunitBasename) throws Exception {
 		runTarget(ANT_BUILD_FILE, targetName);
 		checkOutput(new File(BASE_DIR, "TEST-default." + eunitBasename + ".xml"),
-				EUnitModule.DEFAULT_PACKAGE,
-				new String[]{
-					"twoElements[1][1]", "firstElement[1][1]",
-					"twoElements[1][2]", "firstElement[1][2]",
-					"twoElements[2][1]", "firstElement[2][1]",
-					"twoElements[2][2]", "firstElement[2][2]",
-				},
-				new HashSet<String>(), new HashSet<String>());
+			EUnitModule.DEFAULT_PACKAGE,
+			new String[]{
+				"twoElements[1][1]", "firstElement[1][1]",
+				"twoElements[1][2]", "firstElement[1][2]",
+				"twoElements[2][1]", "firstElement[2][1]",
+				"twoElements[2][2]", "firstElement[2][2]",
+			},
+			new HashSet<String>(), new HashSet<String>()
+		);
 	}
 
 	@Test

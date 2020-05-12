@@ -11,14 +11,9 @@ package org.eclipse.epsilon.workflow.test;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-
-import org.eclipse.epsilon.workflow.tasks.AntLibTests;
-import org.eclipse.epsilon.workflow.tasks.LoadModelTaskTests;
+import org.eclipse.epsilon.workflow.tasks.*;
 import org.eclipse.epsilon.workflow.tasks.emf.LoadModelTests;
-import org.eclipse.epsilon.workflow.tasks.eunit.EUnitBasicTests;
-import org.eclipse.epsilon.workflow.tasks.eunit.EUnitInlineModelTests;
-import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithEGLTests;
-import org.eclipse.epsilon.workflow.tasks.eunit.EUnitWithEVLTests;
+import org.eclipse.epsilon.workflow.tasks.eunit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

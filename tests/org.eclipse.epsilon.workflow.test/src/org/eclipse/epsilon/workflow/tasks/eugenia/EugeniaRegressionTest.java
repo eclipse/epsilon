@@ -11,8 +11,6 @@ package org.eclipse.epsilon.workflow.tasks.eugenia;
 
 import java.util.Arrays;
 import java.util.Collection;
-
-import org.eclipse.core.runtime.CoreException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -32,9 +30,10 @@ public class EugeniaRegressionTest extends EugeniaTest {
 		// These should be names of the folders in resources/eugenia
 		// and the names of the Ant targets in eunit.xml
 		return Arrays.asList(
-				new String[] { "filesystem" },
-				new String[] { "flowchart" },
-				new String[] { "friends" });
+			new String[] { "filesystem" },
+			new String[] { "flowchart" },
+			new String[] { "friends" }
+		);
 	}
 
 	public EugeniaRegressionTest(String caseName) {
@@ -42,7 +41,7 @@ public class EugeniaRegressionTest extends EugeniaTest {
 	}
 
 	@Override
-	public void copyCaseFiles() throws CoreException {
+	public void copyCaseFiles() throws Exception {
 		super.copyCaseFiles();
 		copyIntoProject(EUNIT_PATH);
 	}

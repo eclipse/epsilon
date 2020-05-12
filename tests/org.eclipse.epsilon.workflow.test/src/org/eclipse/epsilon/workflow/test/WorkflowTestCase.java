@@ -10,10 +10,7 @@
 package org.eclipse.epsilon.workflow.test;
 
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
-import java.io.IOException;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.helper.ProjectHelper2;
@@ -35,7 +32,7 @@ public abstract class WorkflowTestCase {
 	 * @param targetName Name of the target to be run.
 	 * @throws BuildException The build failed.
 	 */
-	public void runTarget(File buildFile, String targetName) throws BuildException, IOException {
+	public void runTarget(File buildFile, String targetName) throws Exception {
 		Project project = new Project();
 		project.init();
 		project.setBaseDir(buildFile.getParentFile());
