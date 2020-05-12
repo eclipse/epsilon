@@ -61,10 +61,7 @@ public abstract class EUnitTestCase extends WorkflowTestCase implements ErrorHan
 	static {
 		File baseTemp = null;
 		try {
-			// TODO: use FileUtil.getFileStandalone along with dependencies
-			// to make this work on Maven.
-			//File resources = FileUtil.getDirectoryStandalone("../../../../../../../resources/", EUnitTestCase.class);
-			//baseTemp = new File(resources, "eunit.xml");
+			//baseTemp = FileUtil.getDirectoryStandalone("resources", EUnitTestCase.class);
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();

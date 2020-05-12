@@ -208,11 +208,16 @@ public class FileUtil {
 	public static File getDirectoryStandalone(String dir, Class<?> relativeTo) throws IOException {
 		Objects.requireNonNull(dir, "Directory can't be null!");
 		Objects.requireNonNull(relativeTo, "relativeTo (Class) can't be null!");
-		String normalDir = (dir.replace('\\', '/')+"/").replace("//", "");
+		dir = dir.replace('\\', '/');
+		if (dir.endsWith("/")) {
+			dir = dir.substring(0, dir.length()-1);
+		}
+		final String normalDir = dir;
 		
 		Path resource = getStandalonePath(normalDir, relativeTo);
 		
 		Collection<String> fileNames = Files.walk(resource)
+			//.filter(p -> p.toFile().isFile())
 			.map(p -> {
 				String pathStr = p.toString().replace('\\', '/');
 				pathStr = pathStr.substring(pathStr.indexOf(normalDir));
@@ -224,7 +229,7 @@ public class FileUtil {
 			getFileStandalone(fileName, relativeTo);
 		}
 		
-		return getFileStandalone(dir, relativeTo);
+		return getFileStandalone(normalDir, relativeTo);
 	}
 	
 	/**
@@ -556,7 +561,7 @@ public class FileUtil {
 		}
 		
 		if ((file = tempPath.toFile()).exists() && file.isDirectory()) {
-			//return file;
+			return file;
 		}
 		
 		if (inputStream != null) try (OutputStream outputStream = new FileOutputStream(file)) {
