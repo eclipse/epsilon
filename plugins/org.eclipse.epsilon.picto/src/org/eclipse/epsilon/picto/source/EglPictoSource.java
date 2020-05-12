@@ -376,7 +376,6 @@ public abstract class EglPictoSource implements PictoSource {
 			if (!parameter.getItems().isEmpty()) {
 				// If one of the nested items has a name, then the parameter is a map
 				boolean map = parameter.getItems().stream().anyMatch(item -> item.getName() != null);
-				System.out.println("MAP: " + map);
 				if (map) {
 					HashMap<String, Object> values = new LinkedHashMap<String, Object>();
 					for (Parameter item : parameter.getItems()) {

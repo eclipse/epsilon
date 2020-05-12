@@ -196,7 +196,7 @@ operation EClass getLabel() {
 	
 	if (self.eSuperTypes.includes(main)) features = features.excludingAll(main.eAllStructuralFeatures);
 	
-	var javascript = "javascript:top.showView('/Model/Classes/" + self.name + "')";
+	var javascript = "javascript:top.showView(['Model', 'Classes', '" + self.name + "'])";
 	var tooltip = "Show class diagram for " + self.name;
 	if (self==main) {
 		javascript = "javascript:top.showElement('" + self.id + "','" + self.eResource.uri + "')";
@@ -357,7 +357,7 @@ operation getVisibleReferences() {
 		visibleReferences.addAll(classes.eReferences.flatten().select(r|classes.includes(r.eType)));
 	}
 	
-	visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
+	if (not isLayerActive("referencesToSelf")) visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
 	if (not isLayerActive("derived")) visibleReferences = visibleReferences.reject(r|r.isDerived);
 	
 	// Remove explicitly hidden features

@@ -113,9 +113,15 @@ public class PictoView extends ViewPart {
 		
 		new BrowserFunction(viewRenderer.getBrowser(), "showView") {
 			public Object function(Object[] arguments) {
-				if (arguments.length == 1) {
-					String viewPath = arguments[0] + "";
-					ViewTree viewTree = getViewTree().forPath(Arrays.asList(viewPath.split("/")));
+				
+				if (arguments.length == 1 && arguments[0] instanceof Object[]) {
+					
+					Object[] pathArray = (Object[]) arguments[0];
+					String[] pathStringArray = Arrays.copyOf(pathArray, pathArray.length, String[].class);
+					List<String> pathList = new ArrayList<String>(Arrays.asList(pathStringArray));
+					pathList.add(0, getViewTree().getName());
+					
+					ViewTree viewTree = getViewTree().forPath(pathList);
 					List<ViewTree> path = new ArrayList<>();
 					while (viewTree != null) {
 						path.add(0, viewTree);
