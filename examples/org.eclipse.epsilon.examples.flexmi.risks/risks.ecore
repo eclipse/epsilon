@@ -6,6 +6,7 @@
         eType="#//Risk" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Risk">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="likelihood" eType="#//Scale"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="severity" eType="#//Scale"/>

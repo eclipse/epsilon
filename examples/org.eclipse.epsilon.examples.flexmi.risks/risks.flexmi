@@ -1,8 +1,8 @@
 <?nsuri risks?>
 <?render-egx risks2html/risks2html.egx?>
 <system>
-	<r t="A low-significance risk" lik="l" sev="m"/>
-	<r t="An important risk" lik="m" sev="m"/>
-	<r t="A critical risk" lik="m" sev="h"/>
-	<r t="A closed critical risk" lik="h" sev="m" closed="true"/>
+	<r Id="R1" t="A low-significance risk" lik="l" sev="m"/>
+	<r Id="R2" t="An important risk" lik="m" sev="m"/>
+	<r Id="R3" t="A critical risk" lik="m" sev="h"/>
+	<r Id="R4" t="A closed critical risk" lik="h" sev="m" closed="true"/>
 </system>

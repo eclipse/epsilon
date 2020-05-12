@@ -6,6 +6,7 @@ class System {
 }
 
 class Risk {
+	attr String Id;
 	attr String title;
 	attr Scale likelihood;
 	attr Scale severity;
