@@ -86,7 +86,7 @@
 							<includes>
 								<include>**/*Jenkins*.java</include>
 							</includes>
-							<reuseForks>true</reuseForks>
+							<reuseForks>false</reuseForks>
 							<forkCount>1</forkCount>
 							<useUnlimitedThreads>false</useUnlimitedThreads>
 							<threadCount>1</threadCount>
@@ -96,7 +96,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xmx3584m</argLine>
+				<argLine>-ea -Xmx3g</argLine>
 			</properties>
 		</profile>
 		<profile>

@@ -30,6 +30,7 @@ import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.TempFile;
 import org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.workflow.tasks.EUnitTask;
 import org.eclipse.epsilon.workflow.tasks.EglTask;
 import org.eclipse.epsilon.workflow.tasks.EtlTask;
@@ -54,9 +55,27 @@ import org.xml.sax.SAXParseException;
  */
 public abstract class EUnitTestCase extends WorkflowTestCase implements ErrorHandler {
 
-	protected static final File BASE_DIR = new File("../org.eclipse.epsilon.workflow.test/resources/eunit/");
-	protected static final File ANT_BUILD_FILE = new File(BASE_DIR, "eunit.xml");
+	protected static final File BASE_DIR;
+	protected static final File ANT_BUILD_FILE;
 
+	static {
+		File baseTemp = null;
+		try {
+			// TODO: use FileUtil.getFileStandalone along with dependencies
+			// to make this work on Maven.
+			//File resources = FileUtil.getDirectoryStandalone("../../../../../../../resources/", EUnitTestCase.class);
+			//baseTemp = new File(resources, "eunit.xml");
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		if (baseTemp == null) {
+			baseTemp = new File("../org.eclipse.epsilon.workflow.test/resources/eunit/");
+		}
+		BASE_DIR = baseTemp;
+		ANT_BUILD_FILE = new File(BASE_DIR, "eunit.xml");
+	}
+	
 	@Override
 	protected void addTaskDefinitionsTo(Project project) {
 		project.addTaskDefinition("antcall", CallTarget.class);

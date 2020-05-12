@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryStream;
@@ -34,6 +35,7 @@ import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FileUtil {
 	private FileUtil() {}
@@ -161,6 +163,71 @@ public class FileUtil {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public static boolean isInJarFile() {
+		return isInJarFile(FileUtil.class);
+	}
+	
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 * @since 1.6
+	 */
+	public static boolean isInJarFile(Class<?> clazz) {
+		return new File(clazz.getProtectionDomain().getCodeSource().getLocation().getPath()).isFile();
+	}
+	
+	public static Path getStandalonePath(String dir, Class<?> relativeTo) throws IOException {
+		URI uri;
+		try {
+			uri = relativeTo.getResource("").toURI();
+		}
+		catch (URISyntaxException ex) {
+			throw new IOException(ex);
+		}
+	    
+		return Paths.get(uri).resolve(Paths.get(dir));
+	}
+	
+	/**
+	 * Convenience method for copying all files from the workspace / JAR
+	 * path (relative to the class) to temp folder. Used for tests.
+	 * 
+	 * @see #getFileStandalone(String, Class)
+	 * @param dir
+	 * @param relativeTo
+	 * @return
+	 * @throws IOException
+	 * @throws URISyntaxException 
+	 * @since 1.6
+	 */
+	public static File getDirectoryStandalone(String dir, Class<?> relativeTo) throws IOException {
+		Objects.requireNonNull(dir, "Directory can't be null!");
+		Objects.requireNonNull(relativeTo, "relativeTo (Class) can't be null!");
+		String normalDir = (dir.replace('\\', '/')+"/").replace("//", "");
+		
+		Path resource = getStandalonePath(normalDir, relativeTo);
+		
+		Collection<String> fileNames = Files.walk(resource)
+			.map(p -> {
+				String pathStr = p.toString().replace('\\', '/');
+				pathStr = pathStr.substring(pathStr.indexOf(normalDir));
+				return pathStr;
+			})
+			.collect(Collectors.toList());
+		
+		for (String fileName : fileNames) {
+			getFileStandalone(fileName, relativeTo);
+		}
+		
+		return getFileStandalone(dir, relativeTo);
+	}
+	
+	/**
 	 * Gets a file stored as a resource in a jar. Since not all users of the file
 	 * can read from inside jars, we get the file as a stream and create a temp file
 	 * with its contents.
@@ -173,7 +240,7 @@ public class FileUtil {
 	 */
 	public static File getFileStandalone(String name, Class<?> relativeTo) throws IOException {
 		if (StringUtil.isEmpty(name)) return tmpdir.toFile();
-		try (InputStream inStream = relativeTo.getResourceAsStream(name)) {
+		try (InputStream inStream = Objects.requireNonNull(relativeTo, "Class can't be null!").getResourceAsStream(name)) {
 			return inputStreamToFile(inStream, name);
 		}
 	}
@@ -455,7 +522,7 @@ public class FileUtil {
 	 */
 	private static File inputStreamToFile(InputStream inputStream, String name) throws IOException {
 		//Objects.requireNonNull(inputStream, "InputStream is null!")
-		name = name.replace('\\', '/');
+		name = name.replace('\\', '/').replace("../", "");
 		String prefix = name;
 		String suffix = "";
 		Path dirStructure = null;
@@ -472,6 +539,9 @@ public class FileUtil {
 		if (isFile) {
 			prefix = parts[0];
 			suffix = "." + parts[1];
+		}
+		else {
+			prefix = prefix.substring(prefix.lastIndexOf('/')+1);
 		}
 		File file = null;
 		Path tempPath;
@@ -522,7 +592,7 @@ public class FileUtil {
 		if (prefix == null)
 			prefix = "";
 		if (suffix == null)
-			suffix = (createDirectory) ? "" : ".tmp";
+			suffix = createDirectory ? "" : ".tmp";
 		if (dir == null)
 			dir = tmpdir;
 
