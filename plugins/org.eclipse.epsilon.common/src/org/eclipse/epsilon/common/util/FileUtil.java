@@ -571,8 +571,10 @@ public class FileUtil {
                 try {
                     Files.delete(tempPath);
                 }
-                catch (IOException e) {
-                    e.printStackTrace();
+                catch (IOException ex) {
+                    // Don't care - not even worth printing
+                	// since we don't want to confuse anyone
+                	// or pollute logs with useless stack trace
                 }
 	        }));
 		}
