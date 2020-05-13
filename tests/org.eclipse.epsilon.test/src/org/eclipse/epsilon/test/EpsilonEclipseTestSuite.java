@@ -14,7 +14,9 @@
  */
 package org.eclipse.epsilon.test;
 
+import org.eclipse.epsilon.egx.engine.test.acceptance.hutn.EgxHutnTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.*;
+import org.eclipse.epsilon.emc.simulink.test.suite.SimulinkTestSuite;
 import org.eclipse.epsilon.flock.engine.test.acceptance.FlockEngineAcceptanceTestSuite;
 import org.eclipse.epsilon.flock.test.unit.FlockEngineUnitTestSuite;
 import org.eclipse.epsilon.hutn.test.*;
@@ -36,6 +38,8 @@ import junit.framework.Test;
 	FlockEngineAcceptanceTestSuite.class,
 	FlockEngineUnitTestSuite.class,
 	WorkflowTestSuite.class,
+	SimulinkTestSuite.class,
+	EgxHutnTestSuite.class,
 	EpsilonJenkinsTestSuite.class
 })
 public class EpsilonEclipseTestSuite {
