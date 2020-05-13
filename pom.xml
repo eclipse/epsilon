@@ -267,7 +267,7 @@
         </plugins>
       </build>
     </profile>
-  
+
     <!--profile>
       <id>maven-sign</id>
       <activation>
@@ -283,4 +283,5 @@
         </plugins>
       </build>
     </profile-->
+  </profiles>
 </project>
