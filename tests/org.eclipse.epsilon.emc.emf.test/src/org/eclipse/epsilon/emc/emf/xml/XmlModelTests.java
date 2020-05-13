@@ -26,13 +26,12 @@ import org.junit.Test;
 
 public class XmlModelTests {
 	
-	static String SCHEMA_FILE_PATH, MODEL_PATH;
+	private static String SCHEMA_FILE_PATH, MODEL_PATH;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Class<?> relClass = XmlModelTests.class;
 		// Load dependencies
-		FileUtil.getFileStandalone("graphml/ygraphml.xsd", relClass);
 		FileUtil.getFileStandalone("graphml/yfeatures.xsd", relClass);
 		FileUtil.getFileStandalone("graphml/ygraphics.xsd", relClass);
 		FileUtil.getFileStandalone("graphml/yprocessors.xsd", relClass);
