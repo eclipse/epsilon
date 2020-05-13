@@ -12,6 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tycho.version>1.7.0</tycho.version>
     <java.version>1.8</java.version>
+    <javadoc.opts>-Xdoclint:none</javadoc.opts>
   </properties>
   
   <repositories>
@@ -58,7 +59,6 @@
     <module>tests</module>
     <module>releng</module>
     <!-- Build standalone separately -->
-    <!--module>standalone</module-->
   </modules>
 
   <build>
@@ -185,6 +185,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.2.0</version>
         <configuration>
+          <doclint>none</doclint>
           <additionalparam>${javadoc.opts}</additionalparam>
           <doctitle>Epsilon Interim API</doctitle>
           <sourceFileIncludes>
@@ -282,15 +283,4 @@
         </plugins>
       </build>
     </profile-->
-  
-    <profile>
-      <id>java8-doclint-disabled</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <properties>
-        <javadoc.opts>-Xdoclint:none</javadoc.opts>
-      </properties>
-    </profile>
-  </profiles>
 </project>
