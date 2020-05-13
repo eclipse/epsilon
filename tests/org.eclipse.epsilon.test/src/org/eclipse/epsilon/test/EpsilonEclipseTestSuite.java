@@ -22,13 +22,16 @@ import org.eclipse.epsilon.flock.test.unit.FlockEngineUnitTestSuite;
 import org.eclipse.epsilon.hutn.test.*;
 import org.eclipse.epsilon.hutn.unparser.*;
 import org.eclipse.epsilon.hutn.xmi.test.*;
-import org.eclipse.epsilon.workflow.test.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+/**
+ * Test suite to be run from Eclipse IDE.
+ * 
+ */
 @RunWith(Suite.class)
 @SuiteClasses({
 	HutnTestSuite.class,
@@ -37,7 +40,6 @@ import junit.framework.Test;
 	HutnXmiTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
 	FlockEngineUnitTestSuite.class,
-	WorkflowTestSuite.class,
 	SimulinkTestSuite.class,
 	EgxHutnTestSuite.class,
 	EpsilonJenkinsTestSuite.class

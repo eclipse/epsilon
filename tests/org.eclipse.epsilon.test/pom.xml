@@ -23,7 +23,22 @@
 		  <artifactId>junit</artifactId>
 		  <version>4.13</version>
 		  <scope>test</scope>
-	  </dependency>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.epsilon</groupId>
+			<artifactId>org.eclipse.epsilon.workflow</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.epsilon</groupId>
+			<artifactId>org.eclipse.epsilon.workflow.emf</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.epsilon</groupId>
+			<artifactId>org.eclipse.epsilon.workflow.csv</artifactId>
+			<version>${project.version}</version>
+		</dependency>
   	</dependencies>
 
 	<profiles>
@@ -116,6 +131,11 @@
 							<includes>
 								<include>**/*Surefire*.java</include>
 							</includes>
+							<additionalClasspathElements>
+								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow/lib/org.eclipse.epsilon.workflow.jar</additionalClasspathElement>
+								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow.emf/lib/org.eclipse.epsilon.workflow.emf.jar</additionalClasspathElement>
+								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow.eugenia/lib/org.eclipse.epsilon.workflow.eugenia.jar</additionalClasspathElement>
+							</additionalClasspathElements>
 						</configuration>
 					</plugin>
 				</plugins>

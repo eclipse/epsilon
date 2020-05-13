@@ -50,10 +50,23 @@ import org.junit.runners.Suite.SuiteClasses;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-// FIXME: The commented out tests
-
+/**
+ * Test suite to be run on CI server:
+ * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P ci,-plugged</code>
+ * 
+ * FIXME: The commented out tests
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @RunWith(Suite.class)
 @SuiteClasses({
+	/*HutnTestSuite.class,
+	HutnUnparserUnitTestSuite.class,
+	HutnXmiTestSuite.class,
+	HutnEmcDriverTestSuite.class,
+	FlockEngineAcceptanceTestSuite.class,
+	FlockEngineUnitTestSuite.class,*/
 	CommonsTestSuite.class,
 	EolUnitTestSuite.class, 
 	EolAcceptanceTestSuite.class,
@@ -70,27 +83,15 @@ import junit.framework.Test;
 	EglFineGrainedTraceabilityAcceptanceTestSuite.class,
 	EglFineGrainedTraceabilityUnitTestSuite.class,
 	EgxAcceptanceTestSuite.class,
-	//HutnTestSuite.class,
-	//HutnUnparserUnitTestSuite.class,
-	//HutnXmiTestSuite.class,
-	//HutnEmcDriverTestSuite.class,
 	PlainXmlTestSuite.class,
 	BibtexModelTestSuite.class,
-	//FlockEngineAcceptanceTestSuite.class,
-	//FlockEngineUnitTestSuite.class,
-	//WorkflowTestSuite.class,
+	WorkflowTestSuite.class,
 	GraphmlTestSuite.class,
 	EmfTestSuite.class,
 	SpreadsheetDriverTestSuite.class,
 	CsvModelTestSuite.class,
 	FlexmiTestSuite.class
 })
-/**
- * 
- * 
- * @author Sina Madani
- * @since 1.6
- */
 public class EpsilonJenkinsTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonJenkinsTestSuite.class);

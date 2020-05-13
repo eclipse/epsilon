@@ -22,7 +22,7 @@ import org.w3c.dom.NodeList;
 /**
  * Checks that the &lt;antlib&gt; document for the workflow tasks is valid.
  *
- * @author Antonio Garc��a-Dom��nguez
+ * @author Antonio Garcia-Dominguez
  */
 public class AntLibTests {
 

@@ -20,17 +20,18 @@ import org.junit.runners.Suite.SuiteClasses;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+/**
+ * Test suite to be run using
+ * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit,-plugged</code>
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @RunWith(Suite.class)
 @SuiteClasses({
 	EpsilonJenkinsTestSuite.class,
 	EvlAdvancedTestSuite.class	// Needs a lot of memory
 })
-/**
- * 
- * 
- * @author Sina Madani
- * @since 1.6
- */
 public class EpsilonSurefireTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonSurefireTestSuite.class);

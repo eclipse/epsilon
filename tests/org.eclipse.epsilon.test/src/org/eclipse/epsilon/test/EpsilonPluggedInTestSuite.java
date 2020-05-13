@@ -22,6 +22,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+/**
+ * Test suite to be run as JUnit Plugged In test.
+ * 
+ */
 @RunWith(Suite.class)
 @SuiteClasses({
 	CommonDevelopmentToolsTestSuite.class,
@@ -30,7 +34,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	WorkflowPluggedInTestSuite.class
 })
 public class EpsilonPluggedInTestSuite {
-
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonPluggedInTestSuite.class);
 	}
