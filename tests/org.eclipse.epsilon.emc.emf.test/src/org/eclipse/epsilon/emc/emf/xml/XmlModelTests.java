@@ -10,8 +10,6 @@
 package org.eclipse.epsilon.emc.emf.xml;
 
 import static org.junit.Assert.assertTrue;
-import java.io.File;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
