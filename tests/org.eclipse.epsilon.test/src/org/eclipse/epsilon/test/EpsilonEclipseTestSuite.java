@@ -40,8 +40,8 @@ import junit.framework.Test;
 	HutnXmiTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
 	FlockEngineUnitTestSuite.class,
-	SimulinkTestSuite.class,
 	EgxHutnTestSuite.class,
+	SimulinkTestSuite.class,
 	EpsilonJenkinsTestSuite.class
 })
 public class EpsilonEclipseTestSuite {

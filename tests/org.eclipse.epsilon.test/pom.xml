@@ -24,21 +24,6 @@
 		  <version>4.13</version>
 		  <scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.eclipse.epsilon</groupId>
-			<artifactId>org.eclipse.epsilon.workflow</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.epsilon</groupId>
-			<artifactId>org.eclipse.epsilon.workflow.emf</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.epsilon</groupId>
-			<artifactId>org.eclipse.epsilon.workflow.csv</artifactId>
-			<version>${project.version}</version>
-		</dependency>
   	</dependencies>
 
 	<profiles>
