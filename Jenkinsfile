@@ -38,8 +38,8 @@ pipeline {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
-              sh 'mvn -T 1C -B -V -X clean javadoc:aggregate install -P eclipse-sign'
-              sh 'mvn -f tests/org.eclipse.epsilon.test/pom.xml surefire:test -P ci,-plugged'
+              sh 'mvn -B clean javadoc:aggregate install -P eclipse-sign'
+              sh 'mvn -B -f tests/org.eclipse.epsilon.test/pom.xml surefire:test -P ci,-plugged'
               sh 'mvn -B --quiet -f standalone/pom.xml install'
             }
             sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
