@@ -161,7 +161,9 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.2.0</version>
         <configuration>
+          <doclint>none</doclint>
           <additionalparam>${javadoc.opts}</additionalparam>
+          <failOnError>false</failOnError>
         </configuration>
       </plugin>
 
@@ -186,6 +188,7 @@
         <version>3.2.0</version>
         <configuration>
           <doclint>none</doclint>
+          <failOnError>false</failOnError>
           <additionalparam>${javadoc.opts}</additionalparam>
           <doctitle>Epsilon Interim API</doctitle>
           <sourceFileIncludes>
