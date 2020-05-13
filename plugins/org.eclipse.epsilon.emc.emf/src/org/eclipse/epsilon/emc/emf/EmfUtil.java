@@ -79,9 +79,9 @@ public class EmfUtil {
 			
 			return feature;
 		}
-			catch (Throwable t) {
-				t.printStackTrace();
-				return null;
+		catch (Throwable t) {
+			t.printStackTrace();
+			return null;
 		}
 	}
 	
@@ -97,22 +97,20 @@ public class EmfUtil {
 	
     public static URI createPlatformResourceURI(String s) {
         final URI uri = fixUriForOperatingSystem(s, URI.createURI(s));
-
         if (uri.scheme() == null) {
             return URI.createPlatformResourceURI(s, true);
-        
-        } else {
+        }
+        else {
         	return uri;
         }
     }
     
     public static URI createFileBasedURI(String s) {
     	final URI uri = fixUriForOperatingSystem(s, URI.createURI(s));
-        
     	if (uri.scheme() == null) {
             return URI.createFileURI(s);
-        
-        } else {
+        }
+    	else {
         	return uri;
         }
     }
