@@ -95,7 +95,6 @@
 							<additionalClasspathElements>
 								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow/lib/org.eclipse.epsilon.workflow.jar</additionalClasspathElement>
 								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow.emf/lib/org.eclipse.epsilon.workflow.emf.jar</additionalClasspathElement>
-								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow.eugenia/lib/org.eclipse.epsilon.workflow.eugenia.jar</additionalClasspathElement>
 							</additionalClasspathElements>
 						</configuration>
 					</plugin>
@@ -124,7 +123,6 @@
 							<additionalClasspathElements>
 								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow/lib/org.eclipse.epsilon.workflow.jar</additionalClasspathElement>
 								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow.emf/lib/org.eclipse.epsilon.workflow.emf.jar</additionalClasspathElement>
-								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow.eugenia/lib/org.eclipse.epsilon.workflow.eugenia.jar</additionalClasspathElement>
 							</additionalClasspathElements>
 						</configuration>
 					</plugin>
