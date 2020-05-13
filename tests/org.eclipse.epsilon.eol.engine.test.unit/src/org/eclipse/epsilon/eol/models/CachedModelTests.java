@@ -415,7 +415,7 @@ public class CachedModelTests {
 
 	// TODO: Could see if JUnit rules help to tidy up the tests
 	
-	private static class SimpleCachedModel extends CachedModel<String> {
+	public static class SimpleCachedModel extends CachedModel<String> {
 		
 		SimpleCachedModel() {
 			setCachingEnabled(true);
