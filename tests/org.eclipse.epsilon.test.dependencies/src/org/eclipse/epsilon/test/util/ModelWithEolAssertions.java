@@ -103,9 +103,6 @@ public class ModelWithEolAssertions {
 		final Object expectedResult = evaluator.evaluate(convert(expected));
 		final Object actualResult   = evaluator.evaluate(actual);
 		
-//		System.err.println(expectedResult.getClass() + " : " + expectedResult);
-//		System.err.println(actualResult.getClass()   + " : " + actualResult);
-		
 		if (message == null)
 			org.junit.Assert.assertEquals(expectedResult, actualResult);
 		else

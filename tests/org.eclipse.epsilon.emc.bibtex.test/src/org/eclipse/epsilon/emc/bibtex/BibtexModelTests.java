@@ -51,7 +51,7 @@ public class BibtexModelTests {
 			                      "" + NEWLINE +
 			                      "@article{selic05uml2," + NEWLINE + 
 			                      "author    = {Bran Selic}, " + NEWLINE +
-			                      "title     = {WhatÕs new in UML 2.0?}, " + NEWLINE +
+			                      "title     = {What's new in UML 2.0?}, " + NEWLINE +
 			                      "journal   = {IBM Rational software}," + NEWLINE +
 			                      "year      = {2005}" + NEWLINE +
 			                      "}";
@@ -71,7 +71,7 @@ public class BibtexModelTests {
 			model.assertEquals("1960",                                                          "Article.all.first.year");
 			
 			model.assertEquals("Bran Selic",             "Article.all.second.author");
-			model.assertEquals("WhatÕs new in UML 2.0?", "Article.all.second.title");
+			model.assertEquals("What's new in UML 2.0?", "Article.all.second.title");
 			model.assertEquals("IBM Rational software",  "Article.all.second.journal");
 			model.assertEquals("2005",                   "Article.all.second.year");
 		}

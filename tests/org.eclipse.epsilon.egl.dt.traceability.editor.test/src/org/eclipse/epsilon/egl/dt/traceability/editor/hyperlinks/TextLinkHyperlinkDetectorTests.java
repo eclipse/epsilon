@@ -21,7 +21,6 @@ import org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks.TextLinkHyperli
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkFactory;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.jface.text.Region;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,23 +36,24 @@ public class TextLinkHyperlinkDetectorTests {
 		private final TextLinkModel model = mock(TextLinkModel.class);
 		private final TraceLink traceLink = createTraceLink();
 		private final TextLinkHyperlinkDetector hyperlinkDetector = spy(new TextLinkHyperlinkDetector());
-
+		private org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region destRegion;
 	
 		@Before
 		public void setup() {
 			when(model.getTraceLinks()).thenReturn(Collections.singleton(traceLink));
 			when(hyperlinkDetector.isActive(traceLink)).thenReturn(true);
+			destRegion = traceLink.getDestination().getRegion();
 		}
 		
 		@Test
-		public void filterIncludesTraceLinksWhoseDestinationsContainHoverLocation() throws EolModelElementTypeNotFoundException {
-			when(hoverLocation.isIn(traceLink.getDestination().getRegion())).thenReturn(true);
+		public void filterIncludesTraceLinksWhoseDestinationsContainHoverLocation() throws Exception {
+			when(hoverLocation.isIn(destRegion)).thenReturn(true);
 			assertTrue(filter().contains(traceLink));
 		}
 	
 		@Test
-		public void filterExcludesTraceLinksWhoseDestinationsDoNotContainHoverLocation() throws EolModelElementTypeNotFoundException {
-			when(hoverLocation.isIn(traceLink.getDestination().getRegion())).thenReturn(false);
+		public void filterExcludesTraceLinksWhoseDestinationsDoNotContainHoverLocation() throws Exception {
+			when(hoverLocation.isIn(destRegion)).thenReturn(false);
 			assertTrue(filter().isEmpty());
 		}
 	
@@ -79,7 +79,7 @@ public class TextLinkHyperlinkDetectorTests {
 			
 			Collection<HyperlinkSpec> result = new TextLinkHyperlinkDetector().createHyperlinkSpecsFor(traceLinks);
 			
-			assertEquals(new Region(2, 4), result.iterator().next().region);
+			assertEquals(new org.eclipse.jface.text.Region(2, 4), result.iterator().next().region);
 			assertEquals(traceLink.getSource(), result.iterator().next().source);
 		}
 		

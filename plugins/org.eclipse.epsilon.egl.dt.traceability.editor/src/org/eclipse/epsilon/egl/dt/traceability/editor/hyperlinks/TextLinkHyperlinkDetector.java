@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -34,17 +35,16 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 
 	@Override
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {	
-		if (textViewer.getDocument() == null)
-			return null;
+		if (textViewer.getDocument() == null) return null;
 		
-		if (!(getActiveEditor() instanceof TextLinkEditor))
-			return null;
+		TextLinkEditor activeEditor =  getActiveEditor();
+		if (activeEditor == null) return null;
 		
-		final Collection<TraceLink> matchingTraceLinks = matchingTraceLinksFor(new DocumentLocation(region.getOffset()), getActiveEditor().getTextlinkModel());
+		final Collection<TraceLink> matchingTraceLinks = matchingTraceLinksFor(new DocumentLocation(region.getOffset()), activeEditor.getTextlinkModel());
 		final Collection<HyperlinkSpec> hyperlinkSpecs = createHyperlinkSpecsFor(matchingTraceLinks);
 		final Collection<IHyperlink> hyperlinks = createHyperlinks(hyperlinkSpecs);
 		
-		return hyperlinks.isEmpty() ? null : hyperlinks.toArray(new IHyperlink[]{});
+		return hyperlinks.isEmpty() ? null : hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 	}
 
 	private static TextLinkEditor getActiveEditor() {
@@ -57,7 +57,8 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 					return (TextLinkEditor)candidateReference.getEditor(false);
 				}
 			}
-		} catch (Throwable t) {
+		}
+		catch (Throwable t) {
 			t.printStackTrace();
 		}
 		
@@ -66,23 +67,18 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 
 	Collection<TraceLink> matchingTraceLinksFor(DocumentLocation hoverLocation, TextLinkModel model) {
 		final List<TraceLink> matching = new LinkedList<>();
-		
 		for (TraceLink candidate : model.getTraceLinks()) {
 			final Region region = candidate.getDestination().getRegion();
-		
 			if (isActive(candidate) && hoverLocation.isIn(region)) {				
 				matching.add(candidate);
 			}
 		}
-		
 		return matching;
 	}
 
 	boolean isActive(TraceLink candidate) {
-		if (getActiveEditor() == null)
-			return false;
-		else
-			return getActiveEditor().isActiveDestination(candidate.getDestination());
+		TextLinkEditor activeEditor =  getActiveEditor();
+		return activeEditor == null ? false : getActiveEditor().isActiveDestination(candidate.getDestination());
 	}
 	
 	Set<HyperlinkSpec> createHyperlinkSpecsFor(Collection<TraceLink> traceLinks) {
@@ -99,12 +95,10 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 	
 	private Collection<IHyperlink> createHyperlinks(Collection<HyperlinkSpec> hyperlinkSpecs) {
-		final List<IHyperlink> hyperlinks = new LinkedList<>();
-		
+		final List<IHyperlink> hyperlinks = new ArrayList<>(hyperlinkSpecs.size());
 		for (HyperlinkSpec hyperlinkSpec : hyperlinkSpecs) {
 			hyperlinks.add(new TextlinkHyperlink(hyperlinkSpec));
 		}
-		
 		return hyperlinks;
 	}
 	

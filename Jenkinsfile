@@ -39,7 +39,7 @@ pipeline {
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
               sh 'mvn -B -T 1C clean install javadoc:aggregate -P eclipse-sign'
-              sh 'mvn -B -f tests/org.eclipse.epsilon.test/pom.xml surefire:test -P ci,-plugged'
+              sh 'mvn -B -f tests/org.eclipse.epsilon.test/pom.xml clean surefire:test -P ci,-plugged'
               sh 'mvn -B --quiet -f standalone/pom.xml install'
             }
             sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
