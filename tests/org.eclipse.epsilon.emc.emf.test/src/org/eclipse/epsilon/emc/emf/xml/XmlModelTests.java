@@ -10,13 +10,13 @@
 package org.eclipse.epsilon.emc.emf.xml;
 
 import static org.junit.Assert.assertTrue;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class XmlModelTests {
 	
 	@Test
 	public void testFileURI() throws Exception {
-		XmlModel model = createXmlModel(EmfUtil.createFullyQualifiedUri(MODEL_PATH), SCHEMA_FILE_PATH);
+		XmlModel model = createXmlModel(URI.createFileURI(MODEL_PATH).toString(), SCHEMA_FILE_PATH);
 		Resource resource = model.getResource();
 		resource.getContents().add(createRootElement(resource));
 		assertTrue(model.store());
@@ -50,7 +50,7 @@ public class XmlModelTests {
 	  	XmlModel xmlModel = new XmlModel();
 		StringProperties properties = new StringProperties();
 	    properties.put(XmlModel.PROPERTY_MODEL_URI, uri);
-	    properties.put(XmlModel.PROPERTY_XSD_URI, EmfUtil.createFullyQualifiedUri(xsdFile));
+	    properties.put(XmlModel.PROPERTY_XSD_URI, URI.createFileURI(xsdFile).toString());
 	    properties.put(XmlModel.PROPERTY_READONLOAD, "false");
 	    properties.put(XmlModel.PROPERTY_STOREONDISPOSAL, "true");
 	    xmlModel.load(properties);
