@@ -35,13 +35,23 @@ pipeline {
     }
     stages {
         stage('Build') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
+          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*)' } }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
               sh 'mvn -B -T 1C clean install javadoc:aggregate -P eclipse-sign'
-              sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci,-plugged'
-              sh 'mvn -B --quiet -f standalone install'
             }
+          }
+        }
+        stage('Test') {
+          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(tests\\/.*)' } }
+          steps {
+            sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci,-plugged'
+          }
+        }
+        stage('Build JARs') {
+          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(standalone\\/.*)' } }
+          steps {
+            sh 'mvn -B -f standalone install'
             sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
           }
         }
