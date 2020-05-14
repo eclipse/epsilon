@@ -119,6 +119,7 @@
 						<configuration>
 							<includes>
 								<include>**/*Surefire*.java</include>
+								<include>**/*EvlAdvancedTestSuite.java</include>
 							</includes>
 							<additionalClasspathElements>
 								<additionalClasspathElement>${basedir}/../../plugins/org.eclipse.epsilon.workflow/lib/org.eclipse.epsilon.workflow.jar</additionalClasspathElement>
