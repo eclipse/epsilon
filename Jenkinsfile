@@ -56,7 +56,7 @@ pipeline {
           }
         }
         stage('Update website') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
+          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*)|(interim\\/.*)|(standalone\\/.*)' } }
           steps {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
@@ -98,7 +98,7 @@ pipeline {
               done
             '''
             lock('ossrh') {
-              sh 'mvn -B --quiet -f standalone/org.eclipse.epsilon.standalone/pom.xml -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
+              sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
             }
           }
         }
