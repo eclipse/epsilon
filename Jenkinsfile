@@ -16,7 +16,7 @@ def getSlackMessage() {
 pipeline {
     agent {
       kubernetes {
-        label 'ui-test'
+        label 'migration'
       }
     }
     options {
