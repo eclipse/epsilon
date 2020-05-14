@@ -41,8 +41,9 @@ import junit.framework.Test;
 	HutnXmiTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
 	FlockEngineUnitTestSuite.class,
-	EglTraceabilityEditorTestSuite.class,
 	EgxHutnTestSuite.class,
+	EglTraceabilityEditorTestSuite.class,
+	EglTraceabilityEditorTestSuite.class,
 	SimulinkTestSuite.class,
 	EpsilonJenkinsTestSuite.class
 })

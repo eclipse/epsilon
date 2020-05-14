@@ -55,7 +55,8 @@ import junit.framework.Test;
  * Test suite to be run on CI server:
  * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P ci,-plugged</code>
  * 
- * FIXME: The commented out tests
+ * FIXME: The commented out tests. Note that some of the tests work
+ * locally but fail on Jenkins.
  * 
  * @author Sina Madani
  * @since 1.6
@@ -69,11 +70,11 @@ import junit.framework.Test;
 	FlockEngineAcceptanceTestSuite.class,
 	FlockEngineUnitTestSuite.class,
 	EgxHutnTestSuite.class,
-	EglTraceabilityEditorTestSuite.class,*/
+	EglTraceabilityEditorTestSuite.class,
+	EglFineGrainedTraceabilityUnitTestSuite.class,*/
 	EglAcceptanceTestSuite.class,
 	EglUnitTestSuite.class,
 	EglDevelopmentToolsTestSuite.class,
-	EglFineGrainedTraceabilityUnitTestSuite.class,
 	EglFineGrainedTraceabilityAcceptanceTestSuite.class,
 	EgxAcceptanceTestSuite.class,
 	WorkflowTestSuite.class,
