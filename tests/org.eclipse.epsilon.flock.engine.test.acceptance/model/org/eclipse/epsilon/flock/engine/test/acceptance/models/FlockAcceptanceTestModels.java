@@ -12,7 +12,6 @@
  */
 package org.eclipse.epsilon.flock.engine.test.acceptance.models;
 
-
 import java.io.File;
 import java.io.IOException;
 import org.eclipse.emf.common.util.URI;
@@ -23,7 +22,7 @@ public abstract class FlockAcceptanceTestModels {
 	private FlockAcceptanceTestModels() {}
 	
 	public static File getDoesModelFile() throws IOException {
-		return FileUtil.getFileURL("Does.model", FlockAcceptanceTestModels.class);
+		return FileUtil.getFileStandalone("Does.model", FlockAcceptanceTestModels.class);
 	}
 	
 	public static URI getDoesModelUri() throws IOException {
@@ -31,6 +30,6 @@ public abstract class FlockAcceptanceTestModels {
 	}
 
 	public static File getBloggsModelFile() throws IOException {
-		return FileUtil.getFileURL("Bloggs.model", FlockAcceptanceTestModels.class);
+		return FileUtil.getFileStandalone("Bloggs.model", FlockAcceptanceTestModels.class);
 	}
 }

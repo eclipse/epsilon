@@ -14,12 +14,9 @@
 package org.eclipse.epsilon.hutn.test.acceptance.util;
 
 import static org.junit.Assert.fail;
-
 import java.io.File;
-
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
-import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
@@ -35,23 +32,17 @@ public abstract class HutnAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 	
 	protected static ModelWithEolAssertions generateModel(String hutn, String path) throws Exception {
 		final IHutnModule module = new HutnModule();
-		
 		return generateModel(module, module.parse(hutn), path);
 	}
 	
 	protected static ModelWithEolAssertions generateModel(File hutnSource) throws Exception {
 		final IHutnModule module = new HutnModule();
-		
 		return generateModel(module, module.parse(hutnSource), null);
 	}
 
 	private static ModelWithEolAssertions generateModel(IHutnModule module, boolean parsedCorrectly, String outputPath) throws Exception, HutnGenerationException {
-		
-		
 		if (!parsedCorrectly) {
-			for (ParseProblem p : module.getParseProblems()) {
-				System.err.println(p);
-			}
+			module.getParseProblems().forEach(System.err::println);
 			fail("Could not parse HUTN.");
 		}
 		

@@ -22,7 +22,7 @@ public abstract class BankAccounts {
 	private BankAccounts() {}
 	
 	public static File getMetaModelFile() throws IOException {
-		return FileUtil.getFileURL("BankAccounts.ecore", BankAccounts.class);
+		return FileUtil.getFileStandalone("BankAccounts.ecore", BankAccounts.class);
 	}
 	
 	public static URI getMetaModelUri() throws IOException {

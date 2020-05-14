@@ -22,7 +22,7 @@ public abstract class Families {
 	private Families() {}
 	
 	public static File getMetaModelFile() throws IOException {
-		return FileUtil.getFileURL("Families.ecore", Families.class);
+		return FileUtil.getFileStandalone("Families.ecore", Families.class);
 	}
 	
 	public static URI getMetaModelUri() throws IOException {
@@ -30,7 +30,7 @@ public abstract class Families {
 	}
 	
 	public static File getBankAccountsModelFile() throws IOException {
-		return FileUtil.getFileURL("BankAccounts.model", Families.class);
+		return FileUtil.getFileStandalone("BankAccounts.model", Families.class);
 	}
 	
 	public static URI getBankAccountsModelUri() throws IOException {

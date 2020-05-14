@@ -13,9 +13,7 @@
 package org.eclipse.epsilon.flock.engine.test.acceptance.util;
 
 import static org.junit.Assert.fail;
-
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
@@ -25,7 +23,6 @@ import org.eclipse.epsilon.flock.execute.FlockResult;
 import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
-
 
 public abstract class FlockAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 	
@@ -53,21 +50,16 @@ public abstract class FlockAcceptanceTest extends HutnTestWithFamiliesMetaModel 
 	
 	private static void migrate(String strategy, AbstractEmfModel original, InMemoryEmfModel migratedModel) throws Exception {
 		final IFlockModule migrator = new FlockModule();
-		
 		migrator.getContext().getPrettyPrinterManager().addPrettyPrinter(new EmfPrettyPrinter());
 		original.setExpand(false);
 		
 		if (migrator.parse(strategy) && migrator.getParseProblems().isEmpty()) {		
 			result = migrator.execute(original, migratedModel);
-			
 			migrated = new ModelWithEolAssertions(migratedModel);
-			
 			result.printWarnings(System.err);
-			
-		} else {
-			for (ParseProblem problem : migrator.getParseProblems()) {
-				System.err.println(problem);
-			}
+		}
+		else {
+			migrator.getParseProblems().forEach(System.err::println);
 			fail("Could not parse migration strategy.");
 		}
 	}

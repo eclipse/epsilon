@@ -39,7 +39,6 @@ public class ModelWithEolAssertions {
 	private static Resource createResourceFor(EObject eObject) {
 		final ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new EcoreResourceFactoryImpl());
-		
 		final Resource resource = resourceSet.createResource(URI.createFileURI("debug.model"));
 		resource.getContents().add(eObject);
 		return resource;
@@ -91,7 +90,6 @@ public class ModelWithEolAssertions {
 
 	public void assertNumberOfModelElementsIs(int expected) {
 		int actual = (int) evaluator.evaluate(model.getName() + ".allInstances.size()");
-		
 		org.junit.Assert.assertEquals(expected, actual);
 	}
 	
@@ -204,7 +202,8 @@ public class ModelWithEolAssertions {
 	public Object evaluate(String eolStatement) throws Throwable {
 		try {
 			return evaluator.evaluate(eolStatement);
-		} catch (EolEvaluatorException e) {
+		}
+		catch (EolEvaluatorException e) {
 			throwCauseOf(e);
 			return null; // Never reached
 		}
@@ -213,7 +212,8 @@ public class ModelWithEolAssertions {
 	public void execute(String statement) throws Throwable {
 		try {
 			evaluator.execute(statement);
-		} catch (EolEvaluatorException e) {
+		}
+		catch (EolEvaluatorException e) {
 			throwCauseOf(e);
 		}
 	}
@@ -221,7 +221,8 @@ public class ModelWithEolAssertions {
 	private void throwCauseOf(EolEvaluatorException e) throws Throwable {
 		if (e.getCause() != null) {
 			throw e.getCause();
-		} else {
+		}
+		else {
 			throw e;
 		}
 	}
@@ -239,7 +240,8 @@ public class ModelWithEolAssertions {
 		if (model instanceof AbstractEmfModel) {
 			((AbstractEmfModel) model).getResource().setURI(URI.createFileURI(path));
 			model.store();
-		} else {
+		}
+		else {
 			model.store(path);
 		}
 	}

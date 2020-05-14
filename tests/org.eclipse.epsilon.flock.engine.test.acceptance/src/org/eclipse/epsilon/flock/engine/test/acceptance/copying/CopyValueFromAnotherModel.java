@@ -20,15 +20,13 @@ import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 public class CopyValueFromAnotherModel extends FlockAcceptanceTest {
 
 	private static final String strategy = "";
 	
 	@BeforeClass
 	public static void setup() throws Exception {
-		migrateFamiliesToFamilies(strategy, loadModelWithACrossReference());
-		
+		migrateFamiliesToFamilies(strategy, loadModelWithACrossReference());	
 		migrated.setVariable("sally", "Person.all.first");
 	}
 
