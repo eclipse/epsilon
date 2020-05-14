@@ -14,6 +14,7 @@
  */
 package org.eclipse.epsilon.test;
 
+import org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceabilityEditorTestSuite;
 import org.eclipse.epsilon.egx.engine.test.acceptance.hutn.EgxHutnTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.*;
 import org.eclipse.epsilon.emc.simulink.test.suite.SimulinkTestSuite;
@@ -40,6 +41,7 @@ import junit.framework.Test;
 	HutnXmiTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
 	FlockEngineUnitTestSuite.class,
+	EglTraceabilityEditorTestSuite.class,
 	EgxHutnTestSuite.class,
 	SimulinkTestSuite.class,
 	EpsilonJenkinsTestSuite.class

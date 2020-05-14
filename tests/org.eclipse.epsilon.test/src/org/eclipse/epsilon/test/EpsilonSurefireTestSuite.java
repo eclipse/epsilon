@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.test;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.EglFineGrainedTraceabilityUnitTestSuite;
+import org.eclipse.epsilon.egx.engine.test.acceptance.hutn.EgxHutnTestSuite;
 import org.eclipse.epsilon.evl.engine.test.acceptance.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -31,7 +31,7 @@ import junit.framework.Test;
 @RunWith(Suite.class)
 @SuiteClasses({
 	EpsilonJenkinsTestSuite.class,
-	EglFineGrainedTraceabilityUnitTestSuite.class,
+	EgxHutnTestSuite.class,
 	EvlAdvancedTestSuite.class	// Needs a lot of memory
 })
 public class EpsilonSurefireTestSuite {

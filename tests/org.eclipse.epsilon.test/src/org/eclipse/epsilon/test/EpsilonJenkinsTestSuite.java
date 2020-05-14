@@ -22,6 +22,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.*;
 import org.eclipse.epsilon.egl.test.acceptance.*;
 import org.eclipse.epsilon.egl.test.unit.EglUnitTestSuite;
 import org.eclipse.epsilon.egx.engine.test.acceptance.*;
+import org.eclipse.epsilon.egx.engine.test.acceptance.hutn.EgxHutnTestSuite;
 import org.eclipse.epsilon.emc.bibtex.*;
 import org.eclipse.epsilon.emc.csv.test.*;
 import org.eclipse.epsilon.emc.emf.test.*;
@@ -66,7 +67,16 @@ import junit.framework.Test;
 	HutnXmiTestSuite.class,
 	HutnEmcDriverTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
-	FlockEngineUnitTestSuite.class,*/
+	FlockEngineUnitTestSuite.class,
+	EgxHutnTestSuite.class,
+	EglTraceabilityEditorTestSuite.class,*/
+	EglAcceptanceTestSuite.class,
+	EglUnitTestSuite.class,
+	EglDevelopmentToolsTestSuite.class,
+	EglFineGrainedTraceabilityUnitTestSuite.class,
+	EglFineGrainedTraceabilityAcceptanceTestSuite.class,
+	EgxAcceptanceTestSuite.class,
+	WorkflowTestSuite.class,
 	CommonsTestSuite.class,
 	EolUnitTestSuite.class, 
 	EolAcceptanceTestSuite.class,
@@ -76,14 +86,6 @@ import junit.framework.Test;
 	EmlAcceptanceTestSuite.class,
 	EwlAcceptanceTestSuite.class,
 	EplAcceptanceTestSuite.class,
-	EglAcceptanceTestSuite.class,
-	EglUnitTestSuite.class,
-	EglDevelopmentToolsTestSuite.class,
-	EglTraceabilityEditorTestSuite.class,
-	EglFineGrainedTraceabilityUnitTestSuite.class,
-	EglFineGrainedTraceabilityAcceptanceTestSuite.class,
-	EgxAcceptanceTestSuite.class,
-	WorkflowTestSuite.class,
 	PlainXmlTestSuite.class,
 	BibtexModelTestSuite.class,
 	GraphmlTestSuite.class,
