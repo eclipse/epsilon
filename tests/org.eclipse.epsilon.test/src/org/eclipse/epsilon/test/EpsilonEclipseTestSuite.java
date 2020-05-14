@@ -14,14 +14,7 @@
  */
 package org.eclipse.epsilon.test;
 
-import org.eclipse.epsilon.egx.engine.test.acceptance.hutn.EgxHutnTestSuite;
-import org.eclipse.epsilon.emc.hutn.test.*;
 import org.eclipse.epsilon.emc.simulink.test.suite.SimulinkTestSuite;
-import org.eclipse.epsilon.flock.engine.test.acceptance.FlockEngineAcceptanceTestSuite;
-import org.eclipse.epsilon.flock.test.unit.FlockEngineUnitTestSuite;
-import org.eclipse.epsilon.hutn.test.*;
-import org.eclipse.epsilon.hutn.unparser.*;
-import org.eclipse.epsilon.hutn.xmi.test.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -34,13 +27,6 @@ import junit.framework.Test;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-	HutnTestSuite.class,
-	HutnUnparserUnitTestSuite.class,
-	HutnEmcDriverTestSuite.class,
-	HutnXmiTestSuite.class,
-	FlockEngineAcceptanceTestSuite.class,
-	FlockEngineUnitTestSuite.class,
-	EgxHutnTestSuite.class,
 	SimulinkTestSuite.class,
 	EpsilonSurefireTestSuite.class
 })
