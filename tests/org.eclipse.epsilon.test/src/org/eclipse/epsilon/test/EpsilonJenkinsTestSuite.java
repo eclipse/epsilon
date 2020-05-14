@@ -80,6 +80,7 @@ import junit.framework.Test;
 	EglUnitTestSuite.class,
 	EglDevelopmentToolsTestSuite.class,
 	EglTraceabilityEditorTestSuite.class,
+	EglFineGrainedTraceabilityUnitTestSuite.class,
 	EglFineGrainedTraceabilityAcceptanceTestSuite.class,
 	EgxAcceptanceTestSuite.class,
 	WorkflowTestSuite.class,

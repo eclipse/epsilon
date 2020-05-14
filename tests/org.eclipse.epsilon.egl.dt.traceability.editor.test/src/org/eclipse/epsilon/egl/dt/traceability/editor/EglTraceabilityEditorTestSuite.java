@@ -9,13 +9,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.traceability.editor;
 
-import org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks.TextLinkHyperlinkDetectorTests;
+import org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({TextLinkHyperlinkDetectorTests.class})
 public class EglTraceabilityEditorTestSuite {
-
+	public static Test suite() {
+		return new JUnit4TestAdapter(EglTraceabilityEditorTestSuite.class);
+	}
 }

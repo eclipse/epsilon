@@ -14,7 +14,6 @@
  */
 package org.eclipse.epsilon.test;
 
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.EglFineGrainedTraceabilityUnitTestSuite;
 import org.eclipse.epsilon.egx.engine.test.acceptance.hutn.EgxHutnTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.*;
 import org.eclipse.epsilon.emc.simulink.test.suite.SimulinkTestSuite;
@@ -43,7 +42,6 @@ import junit.framework.Test;
 	FlockEngineUnitTestSuite.class,
 	EgxHutnTestSuite.class,
 	SimulinkTestSuite.class,
-	EglFineGrainedTraceabilityUnitTestSuite.class,
 	EpsilonJenkinsTestSuite.class
 })
 public class EpsilonEclipseTestSuite {

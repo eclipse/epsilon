@@ -82,15 +82,12 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 	
 	Set<HyperlinkSpec> createHyperlinkSpecsFor(Collection<TraceLink> traceLinks) {
-		final Set<HyperlinkSpec> hyperlinkSpecs = new HashSet<>();
-		
+		final Set<HyperlinkSpec> hyperlinkSpecs = new HashSet<>(traceLinks.size());
 		for (TraceLink traceLink : traceLinks) {
 			final Region textlinkRegion = traceLink.getDestination().getRegion();
 			final IRegion jfaceRegion = new org.eclipse.jface.text.Region(textlinkRegion.getOffset(), textlinkRegion.getLength());
-			
 			hyperlinkSpecs.add(new HyperlinkSpec(jfaceRegion, traceLink.getSource()));
 		}
-		
 		return hyperlinkSpecs;
 	}
 	
