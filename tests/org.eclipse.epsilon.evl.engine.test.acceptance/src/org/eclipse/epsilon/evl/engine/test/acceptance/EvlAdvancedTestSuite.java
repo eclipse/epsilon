@@ -16,18 +16,17 @@ import org.junit.runners.Suite.SuiteClasses;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-@RunWith(Suite.class)
-@SuiteClasses({
-	EvlParallelOperationsTests.class, // May require JVM tuning to work
-	EvlModuleEquivalenceTests.class
-})
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
+@RunWith(Suite.class)
+@SuiteClasses({
+	EvlParallelOperationsTests.class, // May require JVM tuning to work
+	EvlModuleEquivalenceTests.class
+})
 public class EvlAdvancedTestSuite {
-
 	public static Test suite() {
 		return new JUnit4TestAdapter(EvlAdvancedTestSuite.class);
 	}
