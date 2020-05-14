@@ -16,12 +16,12 @@ def getSlackMessage() {
 pipeline {
     agent {
       kubernetes {
-        label 'migration'
+        label 'ui-tests'
       }
     }
     options {
       disableConcurrentBuilds()
-      buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '14', numToKeepStr: ''))
+      buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: ''))
     }
     environment {
       KEYRING = credentials('secret-subkeys.asc')
