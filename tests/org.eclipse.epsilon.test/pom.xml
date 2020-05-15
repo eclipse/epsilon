@@ -17,10 +17,6 @@
 		<testOutputDirectory>${project.basedir}/target/classes</testOutputDirectory>
 	</build>
 
-	<properties>
-    	<os-jvm-flags/>
-  	</properties>
-
 	<dependencies>
 		<dependency>
 		  <groupId>junit</groupId>
@@ -34,7 +30,8 @@
 		<profile>
 			<id>plugged</id>
 			<activation>
-                <activeByDefault>true</activeByDefault>
+				<activeByDefault>true</activeByDefault>
+				<os><family>!mac</family></os>
             </activation>
 			<build>
 				<plugins>
@@ -72,7 +69,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-test-plugin</packaging.type>
-				<argLine>-ea -Xmx2g ${os-jvm-flags}</argLine>
+				<argLine>-ea -Xmx2g</argLine>
 				<tests.skip.tests>false</tests.skip.tests>
 				<skipTests>${tests.skip.tests}</skipTests>
 			</properties>
@@ -106,7 +103,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xmx3g ${os-jvm-flags}</argLine>
+				<argLine>-ea -Xmx3g</argLine>
 			</properties>
 		</profile>
 		<profile>
@@ -136,17 +133,54 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xms2g -Xmx8g ${os-jvm-flags}</argLine>
+				<argLine>-ea -Xms2g -Xmx8g</argLine>
 			</properties>
 		</profile>
 		<profile>
-    		<id>macosx-jvm-flags</id>
+    		<id>plugged-macos</id>
     		<activation>
         		<os><family>mac</family></os>
 			</activation>
-    		<properties>
-        		<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
-      		</properties>
+    		<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-surefire-plugin</artifactId>
+						<version>${tycho.version}</version>
+						<configuration>
+							<application>org.eclipse.ui.ide.workbench</application>
+							<useUIThread>true</useUIThread>
+							<useUIHarness>true</useUIHarness>
+							<includes>
+								<include>**/*EpsilonPluggedInTest*.class</include>
+							</includes>
+							<dependencies>
+								<dependency>
+									<type>eclipse-plugin</type>
+									<artifactId>org.eclipse.equinox.event</artifactId>
+									<version>0.0.0</version>
+								</dependency>
+								<dependency>
+									<type>eclipse-plugin</type>
+									<artifactId>org.eclipse.osgi.compatibility.state</artifactId>
+									<version>0.0.0</version>
+								</dependency>
+								<dependency>
+									<type>eclipse-plugin</type>
+									<artifactId>org.eclipse.jdt.ui</artifactId>
+									<version>0.0.0</version>
+								</dependency>
+							</dependencies>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<packaging.type>eclipse-test-plugin</packaging.type>
+				<argLine>-ea -Xmx2g -XstartOnFirstThread</argLine>
+				<tests.skip.tests>false</tests.skip.tests>
+				<skipTests>${tests.skip.tests}</skipTests>
+			</properties>
     	</profile>
 	</profiles>
 </project>
