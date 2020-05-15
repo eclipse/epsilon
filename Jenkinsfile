@@ -44,7 +44,7 @@ pipeline {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(tests\\/.*)' } }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
-              'mvn -B -f tests/org.eclipse.epsilon.test clean install -P plugged'
+              'mvn -B -f tests/org.eclipse.epsilon.test install -P plugged'
             }
             sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
           }
