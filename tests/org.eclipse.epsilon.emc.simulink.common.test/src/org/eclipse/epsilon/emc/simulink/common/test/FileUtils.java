@@ -16,12 +16,12 @@ import java.nio.file.Paths;
 public class FileUtils {
 
 	public static File getModelFile(String fileName) {
-		String resource = FileUtils.getResource("models/" + fileName);
-		return (resource != null) ? new File(resource) : null;
+		String resource = getResource("models/" + fileName);
+		return resource != null ? new File(resource) : null;
 	}
 
 	public static String getScript(String fileName) {
-		return FileUtils.getResource("scripts/" + fileName);
+		return getResource("scripts/" + fileName);
 	}
 	
 	public static String getResource(String resourceLocation) {

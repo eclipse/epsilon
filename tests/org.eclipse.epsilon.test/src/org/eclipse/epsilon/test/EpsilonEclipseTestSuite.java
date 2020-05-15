@@ -27,7 +27,7 @@ import junit.framework.Test;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-	SimulinkTestSuite.class,
+	SimulinkTestSuite.class,	// Needs specific env setup.
 	EpsilonSurefireTestSuite.class
 })
 public class EpsilonEclipseTestSuite {

@@ -12,6 +12,12 @@ package org.eclipse.epsilon.emc.simulink.test.suite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
+/**
+ * NOTE: This doesn't work unless you use the JRE that came
+ * with MATLAB as your JAVA_HOME (and the one that you start Eclipse with),
+ * and have your PATH env pointing to MATLAB's bin directory.
+ * 
+ */
 @RunWith(ConditionalMatlabSuite.class)
 @SuiteClasses({ 
 	org.eclipse.epsilon.emc.simulink.test.unit.AllTests.class,

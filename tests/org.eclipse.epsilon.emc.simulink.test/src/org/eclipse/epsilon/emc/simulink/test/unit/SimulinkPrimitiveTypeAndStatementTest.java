@@ -18,8 +18,9 @@ import org.junit.Test;
 public class SimulinkPrimitiveTypeAndStatementTest extends AbstractSimulinkTest {
 
 	@Before
-	public void setup(){
+	public void setup() {
 		activeCache = false;
+		// FIXME: Not working in Maven
 		modelFile = FileUtils.getModelFile("sldemo_varsize_basic_copy.slx");		
 	}
 
@@ -58,7 +59,7 @@ public class SimulinkPrimitiveTypeAndStatementTest extends AbstractSimulinkTest 
 				;
 	}
 	
-	@Ignore // Not sure what this test does
+	@Ignore("Not sure what this test does")
 	@Test
 	public void testNames() {
 		eol = 	  "var selector = Selector.all().first();"
@@ -72,12 +73,12 @@ public class SimulinkPrimitiveTypeAndStatementTest extends AbstractSimulinkTest 
 				+ "params.values().collect(v|v.Type).asSet().println('set: '); ";
 	}
 
-	@Ignore //TODO Check more types
+	@Ignore("TODO: Check more types")
 	@Test
 	public void testTypes() {
 		eol = 	  "var selector = Selector.all().first();"
 
-				//+ "selector.Capabilities.println('matrix: '); " //matrix UNSPORTED BY MATLAB
+				//+ "selector.Capabilities.println('matrix: '); " //matrix UNSUPPORTED BY MATLAB
 				+ "selector.ModelParamTableInfo.println('matrix: '); " //matrix
 				+ "selector.IndexOptionArray.println('matrix: '); " //matrix
 				+ "selector.RuntimeObject.println('matrix: '); " //matrix

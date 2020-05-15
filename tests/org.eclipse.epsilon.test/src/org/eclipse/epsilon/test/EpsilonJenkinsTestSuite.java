@@ -54,10 +54,7 @@ import junit.framework.Test;
  * Test suite to be run on CI server:
  * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P ci,-plugged</code>
  * 
- * FIXME: The commented out tests. Note that some of the tests work
- * locally but fail on Jenkins. In an ideal world, this suite wouldn't
- * exist and everything that works locally using the {@linkplain EpsilonSurefireTestSuite}
- * would also work on the CI, but for some reason that isn't the case at the moment :(
+ * FIXME: The commented out tests. These have no excuse not to be working.
  * 
  * @author Sina Madani
  * @since 1.6
