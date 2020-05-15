@@ -45,7 +45,7 @@ pipeline {
         stage('Test') {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(tests\\/.*)' } }
           steps {
-            sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci,-plugged'
+            sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
           }
         }
         stage('Build JARs') {

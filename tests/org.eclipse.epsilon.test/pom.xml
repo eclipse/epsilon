@@ -17,6 +17,10 @@
 		<testOutputDirectory>${project.basedir}/target/classes</testOutputDirectory>
 	</build>
 
+	<properties>
+    	<os-jvm-flags/>
+  	</properties>
+
 	<dependencies>
 		<dependency>
 		  <groupId>junit</groupId>
@@ -43,7 +47,7 @@
 							<useUIThread>true</useUIThread>
 							<useUIHarness>true</useUIHarness>
 							<includes>
-								<include>org/eclipse/epsilon/test/EpsilonPluggedInTestSuite.class</include>
+								<include>**/*EpsilonPluggedInTest*.class</include>
 							</includes>
 							<dependencies>
 								<dependency>
@@ -68,7 +72,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-test-plugin</packaging.type>
-				<argLine>-ea -Xmx2g</argLine>
+				<argLine>-ea -Xmx2g ${os-jvm-flags}</argLine>
 				<tests.skip.tests>false</tests.skip.tests>
 				<skipTests>${tests.skip.tests}</skipTests>
 			</properties>
@@ -86,7 +90,7 @@
 						<version>3.0.0-M4</version>
 						<configuration>
 							<includes>
-								<include>**/*Jenkins*.java</include>
+								<include>**/*EpsilonJenkinsTest*.java</include>
 							</includes>
 							<reuseForks>true</reuseForks>
 							<forkCount>1</forkCount>
@@ -102,7 +106,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xmx3g</argLine>
+				<argLine>-ea -Xmx3g ${os-jvm-flags}</argLine>
 			</properties>
 		</profile>
 		<profile>
@@ -118,8 +122,8 @@
 						<version>3.0.0-M4</version>
 						<configuration>
 							<includes>
-								<include>**/*Surefire*.java</include>
-								<include>**/*EvlAdvanced*.java</include>
+								<include>**/*EpsilonSurefireTest*.java</include>
+								<include>**/*EvlAdvancedTest*.java</include>
 							</includes>
 							<additionalClasspathElements>
 								<additionalClasspathElement>${basedir}/../org.eclipse.epsilon.evl.engine.test.acceptance</additionalClasspathElement>
@@ -132,8 +136,17 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
-				<argLine>-ea -Xms2g -Xmx8g</argLine>
+				<argLine>-ea -Xms2g -Xmx8g ${os-jvm-flags}</argLine>
 			</properties>
 		</profile>
+		<profile>
+    		<id>macosx-jvm-flags</id>
+    		<activation>
+        		<os><family>mac</family></os>
+			</activation>
+    		<properties>
+        		<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+      		</properties>
+    	</profile>
 	</profiles>
 </project>
