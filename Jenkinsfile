@@ -14,11 +14,7 @@ def getSlackMessage() {
 }
 
 pipeline {
-    agent {
-      kubernetes {
-        label 'ui-tests'
-      }
-    }
+    agent any
     options {
       disableConcurrentBuilds()
       buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '14', numToKeepStr: ''))
@@ -34,15 +30,21 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     stages {
+      stage('Super-stage') {
+        agent {
+          kubernetes {
+            label 'ui-tests'
+          }
+        }
+        when { branch 'master'; }
         stage('Build') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)' } }
+          when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)' } }
           steps {
             sh 'mvn -B clean javadoc:aggregate install -P eclipse-sign'
-            archiveArtifacts artifacts: '**', onlyIfSuccessful: true
           }
         }
         stage('Test') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(tests\\/.*)' } }
+          when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(tests\\/.*)' }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
               sh 'mvn -B -f tests/org.eclipse.epsilon.test install -P plugged'
@@ -51,15 +53,14 @@ pipeline {
           }
         }
         stage('Standalone JARs') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(standalone\\/.*)' } }
+          when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(standalone\\/.*)' }
           steps {
             sh 'mvn -B -f standalone install'
             sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
-            archiveArtifacts artifacts: '**', onlyIfSuccessful: true
           }
         }
         stage('Update website') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)' } }
+          when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)' }
           steps {
             sh 'mvn -f releng/org.eclipse.epsilon.releng -P interim'
             lock('download-area') {
@@ -92,7 +93,7 @@ pipeline {
           }
         }
         stage('Deploy to OSSRH') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)' } }
+          when { changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)' }
           steps {
             sh '''
               gpg --batch --import "${KEYRING}"
@@ -106,6 +107,7 @@ pipeline {
             }
           }
         }
+      }
     }
     post {
       success {
