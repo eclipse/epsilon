@@ -37,8 +37,8 @@ pipeline {
         stage('Build') {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)' } }
           steps {
-            sh 'mvn -T 1C -B clean javadoc:aggregate install -P eclipse-sign'
-            archiveArtifacts artifacts: '**/*', onlyIfSuccessful: true
+            sh 'mvn -B clean javadoc:aggregate install -P eclipse-sign'
+            archiveArtifacts artifacts: '**', onlyIfSuccessful: true
           }
         }
         stage('Test') {
@@ -55,7 +55,7 @@ pipeline {
           steps {
             sh 'mvn -B -f standalone install'
             sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
-            archiveArtifacts artifacts: '**/*', onlyIfSuccessful: true
+            archiveArtifacts artifacts: '**', onlyIfSuccessful: true
           }
         }
         stage('Update website') {
