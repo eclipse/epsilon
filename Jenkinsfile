@@ -37,17 +37,12 @@ pipeline {
           }
         }
         when {
-          allOf {
-            branch 'master';
-            anyOf {
-              changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)'
-            }
-          }
+          branch 'master'
         }
         stages {
           stage('Build') {
             when {
-              changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)'
+              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)'
             } 
             steps {
               sh 'mvn -B -T 1C clean javadoc:aggregate install -P eclipse-sign'
@@ -55,7 +50,7 @@ pipeline {
           }
           stage('Test') {
             when {
-              changeset comparator: 'REGEXP', pattern: '(plugins\\/.*)|(tests\\/.*)'
+              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(tests\\/.*)'
             }
             steps {
               wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
@@ -66,7 +61,7 @@ pipeline {
           }
           stage('Standalone JARs') {
             when {
-              changeset comparator: 'REGEXP', pattern: '(plugins\\/.*)|(standalone\\/.*)'
+              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(standalone\\/.*)'
             }
             steps {
               sh 'mvn -B -f standalone install'
@@ -75,7 +70,7 @@ pipeline {
           }
           stage('Deploy') {
             when {
-              changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
+              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
             }
             parallel {
               stage('download.eclipse.org') {
@@ -112,7 +107,7 @@ pipeline {
               }
               stage('OSSRH') {
                 when {
-                  changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)'
+                  changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)'
                 }
                 steps {
                   sh '''
