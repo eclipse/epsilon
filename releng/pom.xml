@@ -31,7 +31,6 @@
           <activeByDefault>false</activeByDefault>
         </activation>
         <modules>
-          <module>org.eclipse.epsilon.target</module>
           <module>org.eclipse.epsilon.updatesite.interim</module>
         </modules>
     </profile>
