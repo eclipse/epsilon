@@ -56,83 +56,75 @@ pipeline {
               sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
             }
           }
-          stage('Artifacts') {
+          stage('Javadocs') {
+            when {
+              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)'
+            }
+            steps {
+              sh 'mvn -B javadoc:aggregate'
+            }
+          }
+          stage('Standalone JARs') {
             when {
               changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(standalone\\/.*)'
             }
-            parallel {
-              stage('Javadocs') {
-                when {
-                  changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)'
-                }
-                steps {
-                  sh 'mvn -B javadoc:aggregate'
-                }
-              }
-              stage('Standalone JARs') {
-                steps {
-                  sh 'mvn -B -f standalone install'
-                  sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
+            steps {
+              sh 'mvn -B -f standalone install'
+              sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
+            }
+          }
+          stage('Update site') {
+            when {
+              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
+            }
+            steps {
+              sh 'mvn -f releng install -P interim'
+              lock('download-area') {
+                sshagent (['projects-storage.eclipse.org-bot-ssh']) {
+                  sh '''
+                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
+                    INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
+                    SITEDIR="$INTERIMWS/target"
+                    if [ -d "$SITEDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
+                      scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
+                      scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
+                    fi
+                    if [ -e "$INTERIMWS/index.html" ]; then
+                      scp "$INTERIMWS/index.html" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/index.html
+                    fi
+                    JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
+                    if [ -d "$JARSDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
+                      scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
+                    fi
+                    JAVADOCDIR="$WORKSPACE/target/site/apidocs"
+                    if [ -d "$JAVADOCDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf ${INTERIM}/javadoc
+                      scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
+                    fi
+                  '''
                 }
               }
             }
           }
-          stage('Release') {
+          stage('Deploy to OSSRH') {
             when {
-              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
+              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(standalone\\/.*)'
             }
-            parallel {
-              stage('Update site') {
-                steps {
-                  sh 'mvn -f releng install -P interim'
-                  lock('download-area') {
-                    sshagent (['projects-storage.eclipse.org-bot-ssh']) {
-                      sh '''
-                        INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                        INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
-                        SITEDIR="$INTERIMWS/target"
-                        if [ -d "$SITEDIR" ]; then
-                          ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
-                          scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
-                          scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
-                        fi
-                        if [ -e "$INTERIMWS/index.html" ]; then
-                          scp "$INTERIMWS/index.html" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/index.html
-                        fi
-                        JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
-                        if [ -d "$JARSDIR" ]; then
-                          ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
-                          scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
-                        fi
-                        JAVADOCDIR="$WORKSPACE/target/site/apidocs"
-                        if [ -d "$JAVADOCDIR" ]; then
-                          ssh genie.epsilon@projects-storage.eclipse.org rm -rf ${INTERIM}/javadoc
-                          scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
-                        fi
-                      '''
-                    }
-                  }
-                }
-              }
-              stage('Deploy to OSSRH') {
-                when {
-                  changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(standalone\\/.*)'
-                }
-                environment {
-                  KEYRING = credentials('secret-subkeys.asc')
-                }
-                steps {
-                  sh '''
-                    gpg --batch --import "${KEYRING}"
-                    for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
-                    do
-                      echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
-                    done
-                  '''
-                  lock('ossrh') {
-                    sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
-                  }
-                }
+            environment {
+              KEYRING = credentials('secret-subkeys.asc')
+            }
+            steps {
+              sh '''
+                gpg --batch --import "${KEYRING}"
+                for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
+                do
+                  echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
+                done
+              '''
+              lock('ossrh') {
+                sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
               }
             }
           }
