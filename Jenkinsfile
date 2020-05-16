@@ -45,7 +45,7 @@ pipeline {
               changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)'
             } 
             steps {
-              sh 'mvn -B -T 1C clean javadoc:aggregate install -P eclipse-sign'
+              sh 'mvn -B -T 1C clean install javadoc:aggreagate -P eclipse-sign'
             }
           }
           stage('Test') {
