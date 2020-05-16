@@ -31,13 +31,13 @@ pipeline {
     }
     stages {
       stage('Super stage') {
-        agent {
-          kubernetes {
-            label 'ui-tests'
-          }
-        }
         when {
           branch 'master'
+        }
+        agent {
+          kubernetes {
+            label 'migration'
+          }
         }
         stages {
           stage('Build') {
