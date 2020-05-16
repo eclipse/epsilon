@@ -45,7 +45,7 @@ pipeline {
               changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)'
             } 
             steps {
-              sh 'mvn -B -T 1C clean install javadoc:aggreagate -P eclipse-sign'
+              sh 'mvn -B -T 1C install -P eclipse-sign'
             }
           }
           stage('Test') {
@@ -57,6 +57,14 @@ pipeline {
                 sh 'mvn -B -f tests/org.eclipse.epsilon.test install -P plugged'
               }
               sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
+            }
+          }
+          stage('Javadocs') {
+            when {
+              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)'
+            }
+            steps {
+              sh 'mvn -B javadoc:aggregate'
             }
           }
           stage('Standalone JARs') {
