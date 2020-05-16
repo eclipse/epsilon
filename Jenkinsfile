@@ -19,9 +19,6 @@ pipeline {
       disableConcurrentBuilds()
       buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '14', numToKeepStr: ''))
     }
-    environment {
-      KEYRING = credentials('secret-subkeys.asc')
-    }
     tools {
         maven 'apache-maven-latest'
         jdk 'adoptopenjdk-hotspot-jdk8-latest'
@@ -120,6 +117,9 @@ pipeline {
               stage('Deploy to OSSRH') {
                 when {
                   changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(standalone\\/.*)'
+                }
+                environment {
+                  KEYRING = credentials('secret-subkeys.asc')
                 }
                 steps {
                   sh '''
