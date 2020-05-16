@@ -81,7 +81,7 @@ pipeline {
               changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
             }
             steps {
-              sh 'mvn -f releng -P interim'
+              sh 'mvn -f releng install -P interim'
               lock('download-area') {
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                   sh '''
