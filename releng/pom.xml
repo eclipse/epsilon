@@ -11,6 +11,10 @@
   <artifactId>releng</artifactId>
   <packaging>pom</packaging>
 
+  <modules>
+    <module>org.eclipse.epsilon.target</module>
+  </modules>
+
   <profiles>
     <profile>
         <id>stable</id>
