@@ -36,16 +36,27 @@ pipeline {
             label 'ui-tests'
           }
         }
-        when { branch 'master'; }
+        when {
+          allOf {
+            branch 'master';
+            anyOf {
+              changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)'
+            }
+          }
+        }
         stages {
           stage('Build') {
-            when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)' } 
+            when {
+              changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)'
+            } 
             steps {
               sh 'mvn -B -T 1C clean javadoc:aggregate install -P eclipse-sign'
             }
           }
           stage('Test') {
-            when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(tests\\/.*)' }
+            when {
+              changeset comparator: 'REGEXP', pattern: '(plugins\\/.*)|(tests\\/.*)'
+            }
             steps {
               wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
                 sh 'mvn -B -f tests/org.eclipse.epsilon.test install -P plugged'
@@ -54,7 +65,9 @@ pipeline {
             }
           }
           stage('Standalone JARs') {
-            when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(plugins\\/.*)|(standalone\\/.*)' }
+            when {
+              changeset comparator: 'REGEXP', pattern: '(plugins\\/.*)|(standalone\\/.*)'
+            }
             steps {
               sh 'mvn -B -f standalone install'
               sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
@@ -62,7 +75,9 @@ pipeline {
           }
           parallel {
             stage('Update website') {
-              when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)' }
+              when {
+                changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
+              }
               steps {
                 sh 'mvn -f releng/org.eclipse.epsilon.releng -P interim'
                 lock('download-area') {
@@ -95,7 +110,9 @@ pipeline {
               }
             }
             stage('Deploy to OSSRH') {
-              when { changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)' }
+              when {
+                changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)'
+              }
               steps {
                 sh '''
                   gpg --batch --import "${KEYRING}"
