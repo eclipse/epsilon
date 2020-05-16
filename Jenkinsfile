@@ -17,7 +17,7 @@ pipeline {
     agent any
     options {
       disableConcurrentBuilds()
-      buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '0', numToKeepStr: ''))
+      buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '14', numToKeepStr: ''))
     }
     environment {
       KEYRING = credentials('secret-subkeys.asc')
