@@ -38,7 +38,7 @@ pipeline {
         }
         when { branch 'master'; }
         stage('Build') {
-          when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)' } }
+          when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)' } 
           steps {
             sh 'mvn -B clean javadoc:aggregate install -P eclipse-sign'
           }
