@@ -17,7 +17,7 @@ pipeline {
     agent any
     options {
       disableConcurrentBuilds()
-      buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '14', numToKeepStr: ''))
+      buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '14', numToKeepStr: ''))
     }
     environment {
       KEYRING = credentials('secret-subkeys.asc')
@@ -30,7 +30,7 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     stages {
-      stage('Super stage') {
+      stage('Sequential') {
         when {
           branch 'master'
         }
@@ -81,7 +81,7 @@ pipeline {
               changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
             }
             steps {
-              sh 'mvn -f releng/org.eclipse.epsilon.releng -P interim'
+              sh 'mvn -f releng -P interim'
               lock('download-area') {
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                   sh '''
