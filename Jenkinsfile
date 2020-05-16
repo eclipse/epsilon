@@ -30,13 +30,12 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     stages {
-      stage('Super-stage') {
+      stage('Super stage') {
         agent {
           kubernetes {
             label 'ui-tests'
           }
         }
-        when { branch 'master'; }
         stages {
           stage('Build') {
             when { changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)' } 
