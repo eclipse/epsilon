@@ -14,9 +14,9 @@
   <profiles>
     <profile>
         <id>stable</id>
-        <properties>
-          <build.stable></build.stable>
-        </properties>
+        <activation>
+          <activeByDefault>false</activeByDefault>
+        </activation>
         <modules>
           <module>org.eclipse.epsilon.updatesite</module>
         </modules>
@@ -24,9 +24,7 @@
     <profile>
         <id>interim</id>
         <activation>
-          <property>
-            <name>!build.stable</name>
-          </property>
+          <activeByDefault>false</activeByDefault>
         </activation>
         <modules>
           <module>org.eclipse.epsilon.target</module>

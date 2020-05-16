@@ -59,6 +59,7 @@ pipeline {
         stage('Update website') {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(pom\\.xml)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)' } }
           steps {
+            sh 'mvn -f releng/org.eclipse.epsilon.releng -P interim'
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
