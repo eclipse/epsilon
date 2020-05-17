@@ -36,9 +36,10 @@ public class EolInternalException extends EolRuntimeException {
 	@Override
 	public String getReason() {
 		//return "Internal error: " + internal.getMessage() + " [" + internal.getClass().getName() + "]";
-		StringOutputStream sos = new StringOutputStream();
-		internal.printStackTrace(new PrintStream(sos));
-		return "Internal error: " + sos.toString();
+		//StringOutputStream sos = new StringOutputStream();
+		//internal.printStackTrace(new PrintStream(sos));
+		//return "Internal error: " + sos.toString();
+		return internal.getMessage();
 	}
 	
 	public Throwable getInternal() {

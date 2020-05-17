@@ -178,7 +178,7 @@ public class EglModule extends EolModule implements IEglModule {
 				throw new EglRuntimeException(ex);
 			}
 			else {
-				throw new EglRuntimeException("Error encountered whilst processing template.", ex);
+				throw new EglRuntimeException((Throwable) ex);
 			}
 		}
 		catch (EglRuntimeException ex) {

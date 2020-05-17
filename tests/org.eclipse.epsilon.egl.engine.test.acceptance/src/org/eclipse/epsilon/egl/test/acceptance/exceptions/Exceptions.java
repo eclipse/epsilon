@@ -137,7 +137,6 @@ public class Exceptions {
 			fail("Expected EglRuntimeException");
 		}
 		catch (EglRuntimeException e) {
-			assertTrue(e.getReason().startsWith("Error encountered whilst processing template."));
 			assertTrue(typeOfCauses(e).contains(ArithmeticException.class));
 		}
 	}

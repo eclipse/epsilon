@@ -49,6 +49,10 @@ public class EglRuntimeException extends EolRuntimeException {
 		this(reason, null, ast);
 	}
 	
+	public EglRuntimeException(Throwable cause) {
+		this(cause.getMessage(), cause, 1, 1, null);
+	}
+	
 	public EglRuntimeException(String reason, Throwable cause) {
 		this(reason, cause, 1, 1, null);
 	}
