@@ -13,9 +13,6 @@
  */
 package org.eclipse.epsilon.test;
 
-import org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceabilityEditorTestSuite;
-import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.EglFineGrainedTraceabilityUnitTestSuite;
-import org.eclipse.epsilon.flock.test.unit.FlockEngineUnitTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -34,9 +31,6 @@ import junit.framework.Test;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-	EglFineGrainedTraceabilityUnitTestSuite.class,
-	EglTraceabilityEditorTestSuite.class,
-	FlockEngineUnitTestSuite.class,
 	EpsilonJenkinsTestSuite.class
 })
 public class EpsilonSurefireTestSuite {

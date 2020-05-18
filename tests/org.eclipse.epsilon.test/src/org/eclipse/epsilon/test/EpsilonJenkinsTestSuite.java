@@ -54,8 +54,6 @@ import junit.framework.Test;
  * Test suite to be run on CI server:
  * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P ci</code>
  * 
- * FIXME: The commented out tests. These have no excuse not to be working.
- * 
  * @author Sina Madani
  * @since 1.6
  */
@@ -67,9 +65,9 @@ import junit.framework.Test;
 	HutnEmcDriverTestSuite.class,
 	EgxHutnTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
-	/*FlockEngineUnitTestSuite.class,
+	FlockEngineUnitTestSuite.class,
 	EglTraceabilityEditorTestSuite.class,
-	EglFineGrainedTraceabilityUnitTestSuite.class,*/
+	EglFineGrainedTraceabilityUnitTestSuite.class,
 	EglAcceptanceTestSuite.class,
 	EglUnitTestSuite.class,
 	EglDevelopmentToolsTestSuite.class,
