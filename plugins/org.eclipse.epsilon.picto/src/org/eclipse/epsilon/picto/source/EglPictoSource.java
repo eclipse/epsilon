@@ -15,12 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
@@ -33,11 +31,11 @@ import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
-import org.eclipse.epsilon.eol.types.EolAny;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.LazyEgxModule;
@@ -103,7 +101,8 @@ public abstract class EglPictoSource implements PictoSource {
 				module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
 			}
 			
-			module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
+			IEolContext context = module.getContext();
+			context.getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 			
 			URI transformationUri = null;
 			
@@ -115,7 +114,7 @@ public abstract class EglPictoSource implements PictoSource {
 				module.parse("");
 			}
 			
-			IEolContext context = module.getContext();
+			
 			context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
 			context.setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 			context.setWarningStream(EpsilonConsole.getInstance().getWarningStream());		
@@ -135,9 +134,10 @@ public abstract class EglPictoSource implements PictoSource {
 				// Handle dynamic views (i.e. where type != null)
 				for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getType() != null).collect(Collectors.toList())) {
 					
-					LazyGenerationRule generationRule = (LazyGenerationRule)((LazyEgxModule) module).
-							getGenerationRules().stream().filter(r -> r.getName().
-							equals(customView.getType())).findFirst().orElse(null);
+					LazyGenerationRule generationRule = ((LazyEgxModule) module).getGenerationRules().stream()
+						.filter(r -> r.getName().equals(customView.getType()) && r instanceof LazyGenerationRule)
+						.map(LazyGenerationRule.class::cast)
+						.findFirst().orElse(null);
 					
 					if (generationRule != null) {
 						Object source = null;
@@ -160,20 +160,23 @@ public abstract class EglPictoSource implements PictoSource {
 							customView.getParameters().add(createParameter("activeLayers", customView.getLayers()));
 						}
 						
+						FrameStack fs = context.getFrameStack();
 						for (Parameter customViewParameter : customView.getParameters()) {
-							module.getContext().getFrameStack().put(new Variable(customViewParameter.getName(), getValue(customViewParameter), EolAnyType.Instance));
+							fs.put(new Variable(customViewParameter.getName(), getValue(customViewParameter), EolAnyType.Instance));
 						}
 						
 						LazyGenerationRuleContentPromise contentPromise = (LazyGenerationRuleContentPromise) 
-								generationRule.execute(module.getContext(), source);
+								generationRule.execute(context, source);
 						
 						for (Parameter parameter : customView.getParameters()) {
-							Variable variable = contentPromise.getVariables().stream().filter(v -> v.getName().equals(parameter.getName())).findFirst().orElse(null);
+							Variable variable = contentPromise.getVariables().stream()
+								.filter(v -> v.getName().equals(parameter.getName()))
+								.findAny().orElse(null);
 							
 							Object value = getValue(parameter);
 							
 							if (variable != null) {
-								variable.setValue(value, module.getContext());
+								variable.setValue(value, context);
 							}
 							else {
 								contentPromise.getVariables().add(new Variable(parameter.getName(), value, EolAnyType.Instance, false));
@@ -377,7 +380,7 @@ public abstract class EglPictoSource implements PictoSource {
 				// If one of the nested items has a name, then the parameter is a map
 				boolean map = parameter.getItems().stream().anyMatch(item -> item.getName() != null);
 				if (map) {
-					HashMap<String, Object> values = new LinkedHashMap<String, Object>();
+					Map<String, Object> values = new LinkedHashMap<>();
 					for (Parameter item : parameter.getItems()) {
 						String key = item.getName();
 						if (key == null) key = "";
@@ -386,7 +389,7 @@ public abstract class EglPictoSource implements PictoSource {
 					value = values;
 				}
 				else {
-					List<Object> values = new ArrayList<Object>();
+					List<Object> values = new ArrayList<>();
 					values.addAll(parameter.getItems().stream().map(item -> getValue(item)).collect(Collectors.toList()));
 					value = values;
 				}

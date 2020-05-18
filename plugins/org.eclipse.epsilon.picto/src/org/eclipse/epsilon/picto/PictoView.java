@@ -118,7 +118,7 @@ public class PictoView extends ViewPart {
 					
 					Object[] pathArray = (Object[]) arguments[0];
 					String[] pathStringArray = Arrays.copyOf(pathArray, pathArray.length, String[].class);
-					List<String> pathList = new ArrayList<String>(Arrays.asList(pathStringArray));
+					List<String> pathList = new ArrayList<>(Arrays.asList(pathStringArray));
 					pathList.add(0, getViewTree().getName());
 					
 					ViewTree viewTree = getViewTree().forPath(pathList);
