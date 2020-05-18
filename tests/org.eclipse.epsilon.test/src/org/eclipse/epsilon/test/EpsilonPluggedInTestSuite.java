@@ -24,9 +24,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * Test suite to be run as JUnit Plugged In test.
- * On Maven, this is automatically run as part
- * of the build. To invoke manually, do
- * <code>mvn -f tests/org.eclipse.epsilon.test install</code>.
+ * <code>mvn -f tests/org.eclipse.epsilon.test install -P plugged</code>.
  * 
  */
 @RunWith(Suite.class)

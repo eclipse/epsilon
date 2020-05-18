@@ -52,7 +52,7 @@ import junit.framework.Test;
 
 /**
  * Test suite to be run on CI server:
- * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P ci,-plugged</code>
+ * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P ci</code>
  * 
  * FIXME: The commented out tests. These have no excuse not to be working.
  * 

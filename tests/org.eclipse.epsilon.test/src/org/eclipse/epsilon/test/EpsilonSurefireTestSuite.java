@@ -24,7 +24,10 @@ import junit.framework.Test;
 
 /**
  * Test suite to be run using
- * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit,-plugged</code>
+ * <code>mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit</code>
+ * 
+ * This exists because some tests may not work on the CI due to
+ * wrong environment setup or insufficient hardware resources.
  * 
  * @author Sina Madani
  * @since 1.6
