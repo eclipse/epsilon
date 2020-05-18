@@ -32,7 +32,7 @@ The project maintains the following source code repositories:
 
 This project leverages the following third party content.
 
-ANTLR 3
+ANTLR 3 Runtime
 
 * License: New BSD license
 
@@ -41,7 +41,7 @@ Apache Commons Command Line Interface CLI (1.4)
 
 * License: Apache-2.0
 
-apache commons csv (1.5)
+Apache Commons CSV
 
 * License: Apache-2.0
 
@@ -92,35 +92,15 @@ dom4j (1.6.1)
 
 * License: Custom license based on Apache 1.1
 
-easymock (2.4)
-
-* License: MIT license
-
 GData (1.47.1)
 
 * License: Apache License, 2.0
 * Project: https://code.google.com/p/gdata-java-client/
 * Source: https://code.google.com/p/gdata-java-client/downloads/list
 
-Google Guava (18.0)
+Google Guava
 
 * License: Apache License 2.0
-
-Google Guava (21.0)
-
-* License: Apache License, 2.0
-
-Guava (11.0.2)
-
-* License: Apache License, 2.0
-
-Guava (13.0.1)
-
-* License: Apache License, 2.0
-
-hamcrest-all (1.2)
-
-* License: New BSD license
 
 Jdom (1.0)
 
@@ -136,21 +116,16 @@ jsoup (1.7.2)
 
 * License: MIT license
 
-JUnit (4.12)
+JUnit (4.13)
 
 * License: Eclipse Public License
 
-Mockito (1.8.4)
+Mockito
 
 * License: Apache License, 2.0, New BSD license, MIT license
 
-mockito (2.13.0)
-
 * License: MIT
 
-Objenesis (1.0)
-
-* License: MIT License
 
 plantUML (2018.8)
 
