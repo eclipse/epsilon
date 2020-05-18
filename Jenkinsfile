@@ -42,7 +42,7 @@ pipeline {
               changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*target.*)'
             } 
             steps {
-              sh 'mvn -B -T 1C clean dependency:purge-local-repository install -P eclipse-sign'
+              sh 'mvn -B -T 1C clean install -P eclipse-sign'
             }
           }
           stage('Test') {
