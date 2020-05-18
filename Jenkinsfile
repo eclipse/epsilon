@@ -57,9 +57,6 @@ pipeline {
             }
           }
           stage('Artifacts') {
-            when {
-              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(standalone\\/.*)'
-            }
             parallel {
               stage('Javadocs') {
                 when {
@@ -70,6 +67,9 @@ pipeline {
                 }
               }
               stage('Standalone JARs') {
+                when {
+                  changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(standalone\\/.*)'
+                }
                 steps {
                   sh 'mvn -B -f standalone install'
                   sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
@@ -78,11 +78,11 @@ pipeline {
             }
           }
           stage('Release') {
-            when {
-              changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
-            }
             parallel {
               stage('Update site') {
+                when {
+                  changeset comparator: 'REGEXP', pattern: '(pom\\.xml)|(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim.*)|(standalone\\/.*)'
+                }
                 steps {
                   sh 'mvn -f releng install -P interim'
                   lock('download-area') {
