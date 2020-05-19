@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 2008 The University of York.
+* Copyright (c) 2008-2020 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -78,7 +78,7 @@ public final class StackTraceManager {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(stackTrace);
+		return Objects.hash(StackTraceManager.class, stackTrace);
 	}
 	
 	@Override
