@@ -22,6 +22,19 @@ import org.junit.Test;
 
 public class ModelTypeTests {
 
+
+	/**
+	 * This exists to stop Mockito complaining about visibility when running on CI.
+	 * 
+	 * @author Sina Madani
+	 * @since 1.6
+	 */
+	public static class ModelTypeForTests extends ModelType {
+		ModelTypeForTests(Model model, String name, String unqualifiedName) {
+			super(model, name, unqualifiedName);
+		}
+	}
+	
 	private static final Model     mockModel = mock(Model.class);
 	private static final ModelType type      = new ModelType(mockModel, "dummy", "dummy");	
 	
