@@ -89,7 +89,7 @@ public class EglOutputBufferPrintExecutionListenerTests {
 			
 			// Have the context return the correct template
 			final EglTemplate template = mock(EglTemplate.class);
-			final EglContext context = mock(EglContext.class, RETURNS_DEEP_STUBS);
+			final EglContext context = mock(EglContext.class);
 			when(context.getCurrentTemplate()).thenReturn(template);
 			
 			// Execute the test

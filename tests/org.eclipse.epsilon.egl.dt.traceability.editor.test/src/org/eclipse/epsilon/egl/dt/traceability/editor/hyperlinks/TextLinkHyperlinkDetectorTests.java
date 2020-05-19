@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,13 +34,19 @@ public class TextLinkHyperlinkDetectorTests {
 		private final DocumentLocation hoverLocation = mock(DocumentLocation.class);
 		private final TextLinkModel model = mock(TextLinkModel.class);
 		private final TraceLink traceLink = createTraceLink();
-		private final TextLinkHyperlinkDetector hyperlinkDetector = spy(new TextLinkHyperlinkDetector());
+		private final TextLinkHyperlinkDetector hyperlinkDetector = new TextLinkHyperlinkDetector() {
+			@Override
+			boolean isActive(TraceLink candidate) {
+				if (candidate == traceLink) return true;
+				else return super.isActive(candidate);
+			}
+		};
+		
 		private org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region destRegion;
 	
 		@Before
 		public void setup() {
 			when(model.getTraceLinks()).thenReturn(Collections.singleton(traceLink));
-			when(hyperlinkDetector.isActive(traceLink)).thenReturn(true);
 			destRegion = traceLink.getDestination().getRegion();
 		}
 		
