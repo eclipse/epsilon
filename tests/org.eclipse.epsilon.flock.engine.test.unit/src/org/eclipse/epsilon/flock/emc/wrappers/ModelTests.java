@@ -22,7 +22,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelValueWrapperTests.ModelValueWrapperForTests;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.junit.Test;
 
@@ -56,8 +55,8 @@ public class ModelTests {
 	@Test
 	public void getPropertyValueShouldDelegateToPropertyGetterAndWrapValue() throws EolRuntimeException {
 		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
-		final IPropertyGetter mockPropertyGetter  = mock(IPropertyGetter.class);
-		final ModelValueWrapperForTests mockWrapper= mock(ModelValueWrapperForTests.class);
+		final IPropertyGetter   mockPropertyGetter  = mock(IPropertyGetter.class);
+		final ModelValueWrapper mockWrapper         = mock(ModelValueWrapper.class);
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
 		when(mockUnderlyingModel.getPropertyGetter())
@@ -74,8 +73,8 @@ public class ModelTests {
 	
 	@Test
 	public void createInstanceDelegatesToUnderlyingModelAndWrapsValue() throws EolRuntimeException {
-		final IReflectiveModel mockUnderlyingModel = mock(IReflectiveModel.class);
-		final ModelValueWrapperForTests mockWrapper = mock(ModelValueWrapperForTests.class);
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
+		final ModelValueWrapper mockWrapper         = mock(ModelValueWrapper.class);
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
 		when(mockUnderlyingModel.createInstance("DummyType"))
@@ -90,8 +89,8 @@ public class ModelTests {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void allContentsDelegatesToUnderlyingModelAndWrapsValues() throws EolRuntimeException {
-		final IReflectiveModel mockUnderlyingModel = mock(IReflectiveModel.class);
-		final ModelValueWrapperForTests mockWrapper = mock(ModelValueWrapperForTests.class);
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
+		final ModelValueWrapper mockWrapper         = mock(ModelValueWrapper.class);
 		
 		final Model model = new Model(mockUnderlyingModel, mockWrapper);
 		
@@ -124,7 +123,7 @@ public class ModelTests {
 	
 	@Test
 	public void getEquivalentForEnumeratorDelegatesToUnderlyingModel() throws EolRuntimeException {
-		final IReflectiveModel mockUnderlyingModel = mock(IReflectiveModel.class);
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
 		
 		final Model model = new Model(mockUnderlyingModel);
 		
@@ -142,7 +141,7 @@ public class ModelTests {
 	
 	@Test
 	public void getIdentityDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IReflectiveModel mockUnderlyingModel = mock(IReflectiveModel.class);
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
 		
 		final Model model = new Model(mockUnderlyingModel);
 		
@@ -154,7 +153,7 @@ public class ModelTests {
 	
 	@Test
 	public void setIdentityDelegatesToUnderlyingModel() throws EolEnumerationValueNotFoundException {
-		final IReflectiveModel mockUnderlyingModel = mock(IReflectiveModel.class);
+		final IReflectiveModel  mockUnderlyingModel = mock(IReflectiveModel.class);
 		final Model model = new Model(mockUnderlyingModel);
 		mockUnderlyingModel.setElementId("dummyModelElement", "anIdentity");
 		model.setIdentity("dummyModelElement", "anIdentity");

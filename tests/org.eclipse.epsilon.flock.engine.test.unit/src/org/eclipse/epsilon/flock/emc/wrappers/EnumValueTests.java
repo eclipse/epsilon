@@ -23,18 +23,6 @@ import org.junit.Test;
 
 public class EnumValueTests {
 
-	/**
-	 * This exists to stop Mockito complaining about visibility when running on CI.
-	 * 
-	 * @author Sina Madani
-	 * @since 1.6
-	 */
-	public static class EnumValueForTests extends EnumValue {
-		public EnumValueForTests(Model model, Object underlyingModelObject) {
-			super(model, underlyingModelObject);
-		}
-	}
-	
 	private static final Model     dummyModel  = mock(Model.class);
 	private static final EnumValue value       = new EnumValue(dummyModel, DogBreed.LABRADOR);
 	

@@ -19,7 +19,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelTypeTests.ModelTypeForTests;
 import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,22 +30,11 @@ import org.junit.runners.Suite;
                      ModelElementTests.ConservativeCopyTests.class})
 public class ModelElementTests {
 
-	/**
-	 * This exists to stop Mockito complaining about visibility when running on CI.
-	 * 
-	 * @author Sina Madani
-	 * @since 1.6
-	 */
-	public static class ModelElementForTests extends ModelElement {
-		public ModelElementForTests(Model model, ModelType type, Object underlyingModelElement) {
-			super(model, type, underlyingModelElement);
-		}
-	}
+	private static final Object       underlyingElement = "foo";
+	private static final Model        migratedModel     = mock(Model.class, "mockModel");
+	private static final ModelType    mockModelType     = mock(ModelType.class);
+	private static final ModelElement element           = new ModelElement(migratedModel, mockModelType, underlyingElement);
 	
-	private static final Object underlyingElement = "foo";
-	private static final Model migratedModel = mock(Model.class, "mockModel");
-	private static final ModelTypeForTests mockModelType = mock(ModelTypeForTests.class);
-	private static final ModelElement element = new ModelElement(migratedModel, mockModelType, underlyingElement);
 	private static final ConservativeCopyContext context = mock(ConservativeCopyContext.class);
 	
 	

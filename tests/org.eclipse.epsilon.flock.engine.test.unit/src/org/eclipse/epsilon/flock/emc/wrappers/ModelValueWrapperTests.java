@@ -23,18 +23,6 @@ import org.mockito.ArgumentMatcher;
 
 public class ModelValueWrapperTests {
 	
-	/**
-	 * This exists to stop Mockito complaining about visibility when running on CI.
-	 * 
-	 * @author Sina Madani
-	 * @since 1.6
-	 */
-	public static class ModelValueWrapperForTests extends ModelValueWrapper {
-		public ModelValueWrapperForTests(Model model) {
-			super(model);
-		}
-	}
-	
 	@Test
 	public void wrapValue() {
 		wrapValueTest("a model value", AttributeValue.class);
@@ -93,7 +81,7 @@ public class ModelValueWrapperTests {
 	}
 	
 	private static ModelValue<?> wrapValue(Object unwrappedValue, boolean isEnumValue, Object... modelElements) {	
-		final ModelValueWrapperForTests wrapper = new ModelValueWrapperForTests(createModelStubWithModelElements(isEnumValue, modelElements));
+		final ModelValueWrapper wrapper = new ModelValueWrapper(createModelStubWithModelElements(isEnumValue, modelElements));
 		return wrapper.wrapValue(unwrappedValue);
 	}
 

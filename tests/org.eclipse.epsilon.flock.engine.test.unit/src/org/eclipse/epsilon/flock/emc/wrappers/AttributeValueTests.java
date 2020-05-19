@@ -21,18 +21,6 @@ import org.junit.Test;
 
 public class AttributeValueTests {
 
-	/**
-	 * This exists to stop Mockito complaining about visibility when running on CI.
-	 * 
-	 * @author Sina Madani
-	 * @since 1.6
-	 */
-	public static class AttributeValueForTests extends AttributeValue {
-		public AttributeValueForTests(Model model, Object underlyingModelObject) {
-			super(model, underlyingModelObject);
-		}
-	}
-	
 	private static final Model          dummyModel  = mock(Model.class);
 	private static final AttributeValue value       = new AttributeValue(dummyModel, "foo");
 	
@@ -43,8 +31,8 @@ public class AttributeValueTests {
 	
 	@Test
 	public void getEquivalentShouldCreateEquivalentValue() throws ConservativeCopyException {
-		final Model dummyMigratedModel = mock(Model.class);
-		final ConservativeCopyContext dummyContext = mock(ConservativeCopyContext.class);
+		final Model               dummyMigratedModel = mock(Model.class);
+		final ConservativeCopyContext dummyContext       = mock(ConservativeCopyContext.class);
 		
 		assertEquals(
 			new AttributeValue(dummyMigratedModel, "foo"),
