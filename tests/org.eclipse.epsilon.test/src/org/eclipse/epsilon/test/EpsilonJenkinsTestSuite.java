@@ -65,9 +65,9 @@ import junit.framework.Test;
 	HutnEmcDriverTestSuite.class,
 	EgxHutnTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
-	FlockEngineUnitTestSuite.class,
+	//FlockEngineUnitTestSuite.class,	// FIXME
 	EglTraceabilityEditorTestSuite.class,
-	EglFineGrainedTraceabilityUnitTestSuite.class,
+	//EglFineGrainedTraceabilityUnitTestSuite.class,	// FIXME
 	EglAcceptanceTestSuite.class,
 	EglUnitTestSuite.class,
 	EglDevelopmentToolsTestSuite.class,
