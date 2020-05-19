@@ -70,7 +70,7 @@ public class EglOutputBufferPrintExecutionListenerTests {
 		@Test
 		public void stopsRecordingWhenPrintCallHasBeenExecuted() throws Exception {
 			final IPropertyAccessRecorder recorder = createPropertyAccessRecorder(new PropertyAccesses());
-			afterExecutingMethodCallTest(recorder, new TracedPropertyAccessLedger(), new OutputBuffer(), mock(EglContext.class));
+			afterExecutingMethodCallTest(recorder, new TracedPropertyAccessLedger(), new OutputBuffer(), new EglContext());
 			verify(recorder).stopRecording();
 		}
 		
@@ -89,8 +89,12 @@ public class EglOutputBufferPrintExecutionListenerTests {
 			
 			// Have the context return the correct template
 			final EglTemplate template = mock(EglTemplate.class);
-			final EglContext context = mock(EglContext.class);
-			when(context.getCurrentTemplate()).thenReturn(template);
+			final EglContext context = new EglContext() {
+				@Override
+				public EglTemplate getCurrentTemplate() {
+					return template;
+				}
+			};
 			
 			// Execute the test
 			afterExecutingMethodCallTest(createPropertyAccessRecorder(new PropertyAccesses(access)), ledger, buffer, context);
