@@ -82,11 +82,10 @@ public class OperationCallExpression extends FeatureCallExpression {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object targetObject;
 		String operationName = nameExpression.getName();
-		ExecutorFactory executorFactory = null;
+		final ExecutorFactory executorFactory = context.getExecutorFactory();
 		
 		if (!contextless) {
 			try {
-				executorFactory = context.getExecutorFactory();
 				targetObject = executorFactory.execute(targetExpression, context);
 			}
 			catch (EolUndefinedVariableException npe) {
@@ -94,7 +93,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 					default: throw npe;
 					case "isDefined": case "isUndefined": case "ifDefined": case "ifUndefined": {
 						targetObject = EolUndefined.INSTANCE;
-						context.getExecutorFactory().getStackTraceManager().finishedExecuting(nameExpression, targetObject, context);
 					}
 				}
 			}
@@ -135,8 +133,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		if (objectMethod != null) {
 			return wrap(objectMethod.execute(nameExpression, context, nameExpression)); 
 		}
-		
-		if (executorFactory == null) executorFactory = context.getExecutorFactory();
+
 		ArrayList<Object> parameterValues = new ArrayList<>(parameterExpressions.size());
 		
 		for (Expression parameter : parameterExpressions) {
