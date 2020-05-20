@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -71,9 +72,10 @@ public class ModeLinkStarter extends EditorPart {
 	private void startModeLinkEditor() {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				getSite().getPage().closeEditor(ModeLinkStarter.this, false);
+				IWorkbenchPage page = getSite().getPage();
+				page.closeEditor(ModeLinkStarter.this, false);
 				try {
-					getSite().getPage().openEditor(
+					page.openEditor(
 						new FileEditorInputToModeLinkEditorInputConverter()
 							.convert((FileEditorInput) ModeLinkStarter.this.getEditorInput()),
 						ExeedPlugin.MODELINK_EDITOR_ID);
