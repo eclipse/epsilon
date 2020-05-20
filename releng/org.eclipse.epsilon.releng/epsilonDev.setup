@@ -166,10 +166,10 @@
               xsi:type="predicates:NamePredicate"
               pattern="org.eclipse.epsilon.workflow"/>
           <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org.eclipse.epsilon.*.engine"/>
+          <operand
               xsi:type="predicates:AndPredicate">
-            <operand
-                xsi:type="predicates:NamePredicate"
-                pattern="org.eclipse.epsilon.*.engine"/>
             <operand
                 xsi:type="predicates:NotPredicate">
               <operand
@@ -243,6 +243,9 @@
           <operand
               xsi:type="predicates:NamePredicate"
               pattern="org.eclipse.epsilon.test"/>
+          <operand
+              xsi:type="predicates:LocationPredicate"
+              pattern="${epsilon.git.clone.location/tests}"/>
         </operand>
       </predicate>
     </workingSet>
@@ -274,6 +277,9 @@
         <operand
             xsi:type="predicates:NamePredicate"
             pattern="org.eclipse.epsilon.*.examples"/>
+        <operand
+            xsi:type="predicates:LocationPredicate"
+            pattern="${epsilon.git.clone.location/examples}"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -284,8 +290,14 @@
             xsi:type="workingsets:ExclusionPredicate"
             excludedWorkingSet="//@setupTasks.10/@workingSets[name='Epsilon%20Core'] //@setupTasks.10/@workingSets[name='Epsilon%20Examples'] //@setupTasks.10/@workingSets[name='Epsilon%20Features'] //@setupTasks.10/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.10/@workingSets[name='Epsilon%20Tests']"/>
         <operand
-            xsi:type="predicates:NamePredicate"
-            pattern="org.eclipse.epsilon.*"/>
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org.eclipse.epsilon.*"/>
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="org.eclipse.epsilon.releng"/>
+        </operand>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for ${scope.project.label}</description>

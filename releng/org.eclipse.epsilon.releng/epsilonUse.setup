@@ -458,8 +458,6 @@
       <repository
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
-          url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
-      <repository
           url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200427151422/repository"/>
       <repository
           url="http://download.eclipse.org/modeling/emf/emf/builds/release/latest"/>
