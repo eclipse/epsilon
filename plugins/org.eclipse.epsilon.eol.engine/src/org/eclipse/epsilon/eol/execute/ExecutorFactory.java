@@ -66,7 +66,7 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 		stackTraceManager = null;
 	}
 	
-	public StackTraceManager getStackTraceManager() {
+	public final StackTraceManager getStackTraceManager() {
 		return stackTraceManager;
 	}
 	
