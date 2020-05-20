@@ -27,7 +27,7 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     stages {
-      stage('') {
+      stage('Sequential') {
         when {
           branch 'master'
         }
@@ -56,7 +56,7 @@ pipeline {
               sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
             }
           }
-          stage('') {
+          stage('Artifacts') {
             parallel {
               stage('Javadocs') {
                 when {
@@ -77,7 +77,7 @@ pipeline {
               }
             }
           }
-          stage('') {
+          stage('Release') {
             parallel {
               stage('Update site') {
                 when {
