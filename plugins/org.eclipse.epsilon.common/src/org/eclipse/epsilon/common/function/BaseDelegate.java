@@ -12,6 +12,7 @@ package org.eclipse.epsilon.common.function;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 
 /**
@@ -49,13 +50,14 @@ public interface BaseDelegate<T extends BaseDelegate<? extends T>> {
 		return MergeMode.INHERIT_FROM_BASE.equals(mode) ? (T) this : getBase();
 	}
 	
-	default <C> void mergeCollectionsUnique(Function<T, Collection<C>> colPropertyGetter, Function<Collection<C>, ? extends Collection<C>> targetCol, MergeMode mode) {
+	default <C> void mergeCollectionsUnique(Function<T, Collection<C>> colPropertyGetter, Supplier<? extends Collection<C>> targetColSup, MergeMode mode) {
 		if (getBase() != null) {
 			Collection<C>
 				from = colPropertyGetter.apply(getFrom(mode)),
 				to = colPropertyGetter.apply(getTo(mode));
 			
-			to = targetCol.apply(CollectionUtil.mergeCollectionsUnique(from, to, ArrayList::new));
+			if (targetColSup == null) targetColSup = ArrayList::new;
+			CollectionUtil.mergeCollectionsUnique(from, to, targetColSup);
 		}
 	}
 

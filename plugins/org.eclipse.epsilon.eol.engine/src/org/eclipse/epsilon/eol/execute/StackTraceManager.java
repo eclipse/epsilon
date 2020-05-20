@@ -14,19 +14,22 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
 /**
  * 
  * @since 1.6 Doesn't implement IExecutionListener to prevent misuse.
+ * Not extensible - add an {@link IExecutionListener} to {@link ExecutorFactory}
+ * if you want to add functionality.
  */
-public class StackTraceManager {
+public final class StackTraceManager {
 	
 	/** Use Deque instead of Stack to avoid bottlenecks due to synchronisation overhead!
 	 * Concurrency can be handled by having a different StackTraceManager for each thread,
 	 * or by using a {@linkplain ConcurrentLinkedDeque}
 	 * @since 1.6
 	 */
-	protected final Deque<ModuleElement> stackTrace = new ArrayDeque<>();
+	final Deque<ModuleElement> stackTrace = new ArrayDeque<>();
 	
 	/**
 	 * @since 1.6
@@ -35,6 +38,11 @@ public class StackTraceManager {
 		stackTrace.clear();
 	}
 	
+	/**
+	 * 
+	 * @return An immutable view of the stack trace
+	 * in proper order.
+	 */
 	public List<ModuleElement> getStackTrace() {
 		return new ArrayList<>(this.stackTrace);
 	}
@@ -50,7 +58,7 @@ public class StackTraceManager {
 	public String getStackTraceAsString() {
 		StringBuilder sb = new StringBuilder();
 		for (ModuleElement ast : getStackTrace()) {
-			sb.append(toString(ast) + "\r\n");
+			sb.append(toString(ast) + System.lineSeparator());
 		}
 		return sb.toString();
 	}

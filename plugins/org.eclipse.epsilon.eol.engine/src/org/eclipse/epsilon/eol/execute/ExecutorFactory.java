@@ -24,11 +24,16 @@ import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.*;
 
+/**
+ * This class is not thread-safe.
+ * Use serial thread confinement (ThreadLocal) if using from multiple threads.
+ * 
+ */
 public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 	
-	protected ExecutionController executionController;
-	protected ModuleElement activeModuleElement;
-	protected Collection<IExecutionListener> executionListeners;
+	private ExecutionController executionController;
+	private ModuleElement activeModuleElement;
+	private Collection<IExecutionListener> executionListeners;
 	private ExecutorFactory base;
 	private StackTraceManager stackTraceManager;
 	
@@ -44,20 +49,41 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 	public ExecutorFactory(ExecutorFactory parent) {
 		this.base = parent;
 		executionController = new DefaultExecutionController();
-		executionListeners = new ArrayList<>(1);
-		setStackTraceManager(new StackTraceManager());
+		enableStackTraceManager();
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	public final void enableStackTraceManager() {
+		stackTraceManager = new StackTraceManager();
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	public final void disableStackTraceManager() {
+		stackTraceManager = null;
+	}
+	
+	public StackTraceManager getStackTraceManager() {
+		return stackTraceManager;
 	}
 	
 	public void addExecutionListener(IExecutionListener listener) {
+		if (executionListeners == null) {
+			executionListeners = new ArrayList<>(1);
+		}
 		executionListeners.add(listener);
 	}
 	
 	public Collection<IExecutionListener> getExecutionListeners() {
-		return Collections.unmodifiableCollection(executionListeners);
+		return executionListeners == null ? Collections.emptyList() :
+			Collections.unmodifiableCollection(executionListeners);
 	}
 	
 	public boolean removeExecutionListener(IExecutionListener listener) {
-		return executionListeners.remove(listener);
+		return executionListeners != null && executionListeners.remove(listener);
 	}
 	
 	public ExecutionController getExecutionController() {
@@ -66,14 +92,6 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 
 	public void setExecutionController(ExecutionController executionController) {
 		this.executionController = executionController;
-	}
-	
-	public StackTraceManager getStackTraceManager() {
-		return stackTraceManager;
-	}
-	
-	protected void setStackTraceManager(StackTraceManager stackTraceManager) {
-		this.stackTraceManager = stackTraceManager;
 	}
 	
 	/**
@@ -109,7 +127,7 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 			stackTraceManager.stackTrace.push(moduleElement);
 		}
 		
-		for (IExecutionListener listener : executionListeners) {
+		if (executionListeners != null) for (IExecutionListener listener : executionListeners) {
 			listener.aboutToExecute(moduleElement, context);
 		}
 	}
@@ -123,7 +141,7 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 	 * @since 1.6
 	 */
 	protected void postExecuteSuccess(ModuleElement moduleElement, Object result, IEolContext context) {
-		for (IExecutionListener listener : executionListeners) {
+		if (executionListeners != null) for (IExecutionListener listener : executionListeners) {
 			listener.finishedExecuting(moduleElement, result, context);
 		}
 	}
@@ -149,7 +167,7 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 		else {
 			exception = new EolInternalException(ex, moduleElement);
 		}
-		for (IExecutionListener listener : executionListeners) {
+		if (executionListeners != null) for (IExecutionListener listener : executionListeners) {
 			listener.finishedExecutingWithException(moduleElement, exception, context);
 		}
 		throw exception;
@@ -294,5 +312,6 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 		activeModuleElement = null;
 		if (stackTraceManager != null) stackTraceManager.dispose();
 		if (executionController != null) executionController.dispose();
+		if (executionListeners != null) executionListeners.clear();
 	}
 }

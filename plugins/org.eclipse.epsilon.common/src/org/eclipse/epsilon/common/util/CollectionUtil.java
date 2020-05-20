@@ -82,9 +82,20 @@ public class CollectionUtil {
 	 * @since 1.6
 	 */
 	public static <T, C extends Collection<T>> C mergeCollectionsUnique(Collection<T> c1, Collection<T> c2, Supplier<? extends C> newCollection) {
-		return Stream.concat(c1.stream(), c2.stream())
-			.distinct()
-			.collect(Collectors.toCollection(newCollection));
+		Stream<T> stream;
+		if (c2 != null && (c1 == null || c1.isEmpty())) {
+			stream = c2.stream();
+		}
+		else if (c1 != null && (c2 == null || c2.isEmpty())) {
+			stream = c1.stream();
+		}
+		else if (c1 != null && c2 != null) {
+			stream = Stream.concat(c1.stream(), c2.stream());
+		}
+		else {
+			stream = Stream.empty();
+		}
+		return stream.distinct().collect(Collectors.toCollection(newCollection));
 	}
 	
 	/**

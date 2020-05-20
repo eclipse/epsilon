@@ -11,6 +11,7 @@ package org.eclipse.epsilon.common.concurrent;
 
 import java.util.Collection;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import org.eclipse.epsilon.common.function.BaseDelegate;
 
 /**
@@ -35,8 +36,8 @@ public interface ConcurrentBaseDelegate<T extends ConcurrentBaseDelegate<T>> ext
 	 */
 	default <C> void mergeCollectionsUnique(
 		Function<T, Collection<C>> colPropertyGetter,
-		Function<Collection<C>, ? extends Collection<C>> threadSafeTargetCol,
-		Function<Collection<C>, ? extends Collection<C>> targetCol,
+		Supplier<? extends Collection<C>> threadSafeTargetCol,
+		Supplier<? extends Collection<C>> targetCol,
 		MergeMode mode) {
 		
 			T to = getTo(mode);
