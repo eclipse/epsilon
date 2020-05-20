@@ -88,6 +88,7 @@ public class LazyEgxModule extends EgxModule {
 			
 			final String templateName = (templateBlock == null) ? null : templateBlock.execute(context, false);
 			final EglTemplateFactory templateFactory = context.getTemplateFactory();
+			final Map<URI, EglTemplate> templateCache = context.getTemplateCache();
 			List<Variable> variables = new ArrayList<>();
 			URI templateUri = null; 
 			
@@ -106,7 +107,7 @@ public class LazyEgxModule extends EgxModule {
 			}
 			
 			frameStack.leaveLocal(this);
-			return new LazyGenerationRuleContentPromise(templateFactory, templateUri, variables);
+			return new LazyGenerationRuleContentPromise(templateFactory, templateCache, templateUri, variables);
 		}
 		
 		@Override
@@ -130,13 +131,17 @@ public class LazyEgxModule extends EgxModule {
 	
 	public class LazyGenerationRuleContentPromise implements ContentPromise {
 		protected EglTemplateFactory templateFactory;
+		protected Map<URI, EglTemplate> templateCache;
 		protected URI templateUri;
 		protected Collection<Variable> variables;
 		
 		protected LazyGenerationRuleContentPromise() {}
 		
-		public LazyGenerationRuleContentPromise(EglTemplateFactory templateFactory, URI templateUri, Collection<Variable> variables) {
+		public LazyGenerationRuleContentPromise(EglTemplateFactory templateFactory,
+				Map<URI, EglTemplate> templateCache,
+				URI templateUri, Collection<Variable> variables) {
 			this.templateFactory = templateFactory;
+			this.templateCache = templateCache;
 			this.templateUri = templateUri;
 			this.variables = variables;
 		}
@@ -149,12 +154,22 @@ public class LazyEgxModule extends EgxModule {
 		public String getContent() throws Exception {
 			if (templateUri == null) return "";
 			
-			EglTemplate template = templateFactory.load(templateUri);
+			EglTemplate template = null;
+			if (templateCache == null || (template = templateCache.get(templateUri)) == null) {
+				template = templateFactory.load(templateUri);
+				if (templateCache != null) {
+					templateCache.put(templateUri, template);
+				}
+			}
 			
 			for (Variable variable : variables) {
 				template.populate(variable.getName(), variable.getValue());
 			}
-			return template.process();
+
+			String result = template.process();
+			template.reset();
+
+			return result;
 		}
 		
 	}
