@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension id="epsilon" point="org.eclipse.core.runtime.products">
+   <extension id="org.eclipse.epsilon.common.dt" point="org.eclipse.core.runtime.products">
       <product name="%productName" application="org.eclipse.ui.ide.workbench" description="%aboutText"> 
-         <property name="aboutImage" value="splash.bmp"/>
+         <property name="aboutImage" value="%aboutImage"/>
          <property name="aboutText" value="%aboutText"/>
       </product> 
    </extension>
