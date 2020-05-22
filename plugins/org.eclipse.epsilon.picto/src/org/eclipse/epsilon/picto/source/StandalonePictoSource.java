@@ -33,6 +33,6 @@ public class StandalonePictoSource extends SimpleSource {
 	public boolean supports(IEditorPart editorPart) {
 		if (!super.supports(editorPart)) return false;
 		Picto picto = new EditingDomainProviderSource().getRenderingMetadata(getFile(editorPart));
-		return picto != null && picto.isStandalone();
+		return picto != null && (picto.isStandalone() || !picto.getModels().isEmpty());
 	}
 }
