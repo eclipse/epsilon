@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Simulink Common
+Bundle-Name: Epsilon Simulink support (base)
 Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.common
 Bundle-Version: 1.6.0.qualifier
 Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.common
@@ -18,3 +18,4 @@ Export-Package: org.eclipse.epsilon.emc.simulink.engine,
  org.eclipse.epsilon.emc.simulink.util,
  org.eclipse.epsilon.emc.simulink.util.collection,
  org.eclipse.epsilon.emc.simulink.util.manager
+Bundle-Vendor: Eclipse Modeling Project

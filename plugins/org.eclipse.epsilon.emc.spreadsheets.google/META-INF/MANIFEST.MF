@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Google Spreadsheets Driver for EMC
+Bundle-Name: Epsilon Google Spreadsheets driver
 Bundle-SymbolicName: org.eclipse.epsilon.emc.spreadsheets.google
 Bundle-Version: 1.6.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project

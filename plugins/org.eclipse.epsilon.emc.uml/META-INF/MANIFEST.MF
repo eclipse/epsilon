@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Uml
+Bundle-Name: Epsilon UML support
 Bundle-SymbolicName: org.eclipse.epsilon.emc.uml
 Bundle-Version: 1.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -9,3 +9,4 @@ Require-Bundle: org.eclipse.epsilon.emc.emf;visibility:=reexport,
  org.eclipse.uml2.uml;visibility:=reexport
 Export-Package: org.eclipse.epsilon.emc.uml
 Automatic-Module-Name: org.eclipse.epsilon.emc.uml
+Bundle-Vendor: Eclipse Modeling Project

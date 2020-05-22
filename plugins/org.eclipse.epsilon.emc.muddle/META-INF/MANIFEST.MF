@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Epsilon Muddle driver
 Bundle-SymbolicName: org.eclipse.epsilon.emc.muddle;singleton:=true
 Automatic-Module-Name: org.eclipse.epsilon.emc.muddle
 Bundle-Version: 1.6.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: %providerName
+Bundle-Vendor: Eclipse Modeling Project
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.emc.muddle,

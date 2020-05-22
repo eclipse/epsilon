@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: EPL Engine
+Bundle-Name: Epsilon Pattern Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.epl.engine
 Automatic-Module-Name: org.eclipse.epsilon.epl.engine
 Bundle-Version: 1.6.0.qualifier

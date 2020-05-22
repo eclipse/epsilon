@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: EMF Bridge Development Tools Plug-in
+Bundle-Name: Epsilon EMF Decorator Development Tools
 Bundle-SymbolicName: org.eclipse.epsilon.emc.emf.decorator.dt;singleton:=true
 Bundle-Version: 1.6.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.emc.emf.decorator.dt.Activator
@@ -11,3 +11,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.emc.emf.decorator.dt
 Automatic-Module-Name: org.eclipse.epsilon.emc.emf.decorator.dt
+Bundle-Vendor: Eclipse Modeling Project

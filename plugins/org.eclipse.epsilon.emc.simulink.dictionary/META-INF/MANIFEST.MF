@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Simulink Dictionary
+Bundle-Name: Epsilon Simulink Dictionary driver
 Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.dictionary
 Bundle-Version: 1.6.0.qualifier
 Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.dictionary
@@ -10,3 +10,4 @@ Export-Package: org.eclipse.epsilon.emc.simulink.dictionary.model,
  org.eclipse.epsilon.emc.simulink.dictionary.model.element,
  org.eclipse.epsilon.emc.simulink.dictionary.util.collection,
  org.eclipse.epsilon.emc.simulink.dictionary.util.manager
+Bundle-Vendor: Eclipse Modeling Project
