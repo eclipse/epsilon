@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension id="epsilon" point="org.eclipse.core.runtime.products">
+      <product name="%productName" application="org.eclipse.ui.ide.workbench" description="%aboutText"> 
+         <property name="aboutImage" value="splash.bmp"/>
+         <property name="aboutText" value="%aboutText"/>
+      </product> 
+   </extension>
    <extension-point id="modelType" name="Model Type" schema="schema/modelType.exsd"/>
    <extension-point id="modelElementLocator" name="Model Element Locator" schema="schema/modelElementLocator.exsd"/>
    <extension-point id="prettyPrinter" name="Pretty Printer" schema="schema/prettyPrinter.exsd"/>
