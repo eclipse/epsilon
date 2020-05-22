@@ -29,7 +29,7 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     stages {
-      stage('Co-ordinator') {
+      stage('Main') {
         when {
           branch 'master'
         }
@@ -83,15 +83,15 @@ pipeline {
             parallel {
               stage('Update site') {
                 when {
-                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)|(features\\/.*)|(releng\\/.*interim.*)"
+                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)|(features\\/.*)|(releng\\/.*updatesite.*)"
                 }
                 steps {
-                  sh 'mvn -f releng install -P interim'
+                  sh 'mvn -f releng install -P updatesite'
                   lock('download-area') {
                     sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                       sh '''
                         INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                        INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
+                        INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite"
                         SITEDIR="$INTERIMWS/target"
                         if [ -d "$SITEDIR" ]; then
                           ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM

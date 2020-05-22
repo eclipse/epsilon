@@ -17,21 +17,12 @@
 
   <profiles>
     <profile>
-        <id>stable</id>
+        <id>updatesite</id>
         <activation>
           <activeByDefault>false</activeByDefault>
         </activation>
         <modules>
           <module>org.eclipse.epsilon.updatesite</module>
-        </modules>
-    </profile>
-    <profile>
-        <id>interim</id>
-        <activation>
-          <activeByDefault>false</activeByDefault>
-        </activation>
-        <modules>
-          <module>org.eclipse.epsilon.updatesite.interim</module>
         </modules>
     </profile>
   </profiles>
