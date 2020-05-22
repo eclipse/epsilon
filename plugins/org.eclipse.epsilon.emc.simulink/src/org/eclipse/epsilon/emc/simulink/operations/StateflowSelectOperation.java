@@ -55,9 +55,12 @@ public class StateflowSelectOperation extends SelectOperation {
 				
 				targetList = (StateflowBlockCollection) target;
 				List<?> handles = targetList.getPrimitive();
-				String cellArray = handles.stream().map(e->new Integer(((Double)e).intValue()).toString()).collect(Collectors.joining(";","{","}"));
+				String cellArray = handles.stream()
+					.map( e -> ((Double)e).intValue() + "")
+					.collect(Collectors.joining(";","{","}"));
+				
 				SimulinkModel model = targetList.getManager().getModel(); 
-				try{
+				try {
 					StateflowUtil.modelHandleAsM(model);
 					String setup = "handles=cell2mat(arrayfun(@(a) m.find('Id',a),cell2mat(?), 'UniformOutput', false));";
 					engine.eval(setup, cellArray);

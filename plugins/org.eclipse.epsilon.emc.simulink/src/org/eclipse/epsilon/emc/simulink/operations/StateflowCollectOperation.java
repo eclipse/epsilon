@@ -41,7 +41,10 @@ public class StateflowCollectOperation extends CollectOperation {
 			targetList = (StateflowBlockCollection) target;
 			
 			List<?> handles = targetList.getPrimitive();
-			String cellArray = handles.stream().map(e->new Integer(((Double)e).intValue()).toString()).collect(Collectors.joining(";","{","}"));
+			String cellArray = handles.stream()
+				.map(e -> ((Double)e).intValue() + "")
+				.collect(Collectors.joining(";","{","}"));
+			
 			if (areExpressionsValid(expressions)) {
 				PropertyCallExpression expression = (PropertyCallExpression) expressions.get(0);
 				try{
@@ -62,12 +65,7 @@ public class StateflowCollectOperation extends CollectOperation {
 		return super.execute(target, operationNameExpression, iterators, expressions, context);
 	}
 	
-	protected boolean areExpressionsValid(List<Expression> expressions){
-		if (expressions.size()==1) {			
-			if ((expressions.get(0) instanceof PropertyCallExpression)) {
-				return true;
-			}
-		}
-		return false;
+	protected boolean areExpressionsValid(List<Expression> expressions) {
+		return expressions.size() == 1 && expressions.get(0) instanceof PropertyCallExpression;
 	}
 }

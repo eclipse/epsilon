@@ -131,20 +131,20 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		super.loadProperties();
 		if (properties == null) return;
 		if (currentSimulinkCheckbox != null) {
-			currentSimulinkCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL,"false")).booleanValue());
+			currentSimulinkCheckbox.setSelection(Boolean.valueOf(properties.getProperty(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL,"false")));
 			if (currentSimulinkCheckbox.getSelection()) {
 				disableOnSelect(currentSimulinkCheckbox, modelFileText);
 				disableOnSelect(currentSimulinkCheckbox, browseModelFile);
 			}
 		}
 		if (followLinksCheckbox != null) {
-			followLinksCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS,"true")).booleanValue());
+			followLinksCheckbox.setSelection(Boolean.valueOf(properties.getProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS,"true")));
 		}
 		if (isCommentedCheckbox != null) {
-			isCommentedCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_INCLUDE_COMMENTED,"true")).booleanValue());
+			isCommentedCheckbox.setSelection(Boolean.valueOf(properties.getProperty(SimulinkModel.PROPERTY_INCLUDE_COMMENTED,"true")));
 		}
 		if (enableFindOptimisationsCheckbox != null) {
-			enableFindOptimisationsCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_LOOK_UNDER_MASKS,"true")).booleanValue());
+			enableFindOptimisationsCheckbox.setSelection(Boolean.valueOf(properties.getProperty(SimulinkModel.PROPERTY_LOOK_UNDER_MASKS,"true")));
 		}
 	}
 
