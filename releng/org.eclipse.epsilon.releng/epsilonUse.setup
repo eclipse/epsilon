@@ -123,21 +123,17 @@
       <description>Populate default workspace preferences.</description>
     </setupTask>
     <setupTask
-        xsi:type="setup:TextModifyTask"
-        url="${eclipse.folder/eclipse.ini|uri}">
-      <modification
-          pattern="(-startup)(\s+)((?:.|\s)+)">
-        <substitution>-showsplash\2</substitution>
-        <substitution>org.eclipse.epsilon.splash\2\1\2</substitution>
-        <substitution>\3</substitution>
-      </modification>
-      <description>Custom splashscreen</description>
+        xsi:type="setup:ResourceCopyTask"
+        id="splash"
+        sourceURL="http://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/plain/plugins/org.eclipse.epsilon.common.dt/splash.bmp"
+        targetURL="${eclipse.folder|uri}/splash.bmp">
+      <description>Creates the custom splash image.</description>
     </setupTask>
     <setupTask
-        xsi:type="setup:ResourceCopyTask"
-        sourceURL="https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/plain/plugins/org.eclipse.epsilon.common.dt/splash.bmp"
-        targetURL="${eclipse.folder/plugins/org.eclipse.epsilon.splash_0.0.0/splash.bmp|uri}">
-      <description>Copies the custom splash image into a dummy plugin to trick Eclipse into loading it.</description>
+        xsi:type="setup:EclipseIniTask"
+        option="-showSplash"
+        value="${splash.targetURL|file}">
+      <description>Use custom splash screen.</description>
     </setupTask>
     <description>Creates the workspace and points Eclipse to it, with default preferences pre-configured.</description>
   </setupTask>
