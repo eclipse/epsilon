@@ -137,7 +137,7 @@
         xsi:type="setup:ResourceCopyTask"
         sourceURL="https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/plain/plugins/org.eclipse.epsilon.common.dt/splash.bmp"
         targetURL="${eclipse.folder/plugins/org.eclipse.epsilon.splash_0.0.0/splash.bmp|uri}">
-      <description>Copies the custom splash image to trick Eclipse into a dummy plugin to trick Eclipse into loading it.</description>
+      <description>Copies the custom splash image into a dummy plugin to trick Eclipse into loading it.</description>
     </setupTask>
     <description>Creates the workspace and points Eclipse to it, with default preferences pre-configured.</description>
   </setupTask>
