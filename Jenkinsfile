@@ -73,7 +73,7 @@ pipeline {
                   changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
                 }
                 steps {
-                  sh 'mvn -B -f standalone install'
+                  sh 'mvn -B -f standalone install -P build'
                   sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
                 }
               }

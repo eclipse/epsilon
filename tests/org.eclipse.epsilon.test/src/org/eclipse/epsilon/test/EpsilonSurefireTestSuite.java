@@ -14,6 +14,7 @@
 package org.eclipse.epsilon.test;
 
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.EglFineGrainedTraceabilityUnitTestSuite;
+import org.eclipse.epsilon.emc.simulink.test.suite.SimulinkTestSuite;
 import org.eclipse.epsilon.flock.test.unit.FlockEngineUnitTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -33,6 +34,7 @@ import junit.framework.Test;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
+	SimulinkTestSuite.class,	// Needs specific env setup
 	EglFineGrainedTraceabilityUnitTestSuite.class,
 	FlockEngineUnitTestSuite.class,
 	EpsilonJenkinsTestSuite.class

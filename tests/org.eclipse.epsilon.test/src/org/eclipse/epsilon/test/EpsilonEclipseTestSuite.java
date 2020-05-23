@@ -14,7 +14,6 @@
  */
 package org.eclipse.epsilon.test;
 
-import org.eclipse.epsilon.emc.simulink.test.suite.SimulinkTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -27,7 +26,6 @@ import junit.framework.Test;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-	SimulinkTestSuite.class,	// Needs specific env setup.
 	EpsilonSurefireTestSuite.class
 })
 public class EpsilonEclipseTestSuite {
