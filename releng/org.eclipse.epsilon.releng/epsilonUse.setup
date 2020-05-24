@@ -295,7 +295,7 @@
       <repository
           url="http://download.eclipse.org/releases/2020-03"/>
       <repository
-          url="http://download.eclipse.org/oomph/updates/milestone/latest"/>
+          url="http://download.eclipse.org/oomph/updates/release"/>
       <repository
           url="http://download.eclipse.org/epsilon/updates/2.0"/>
       <repository
@@ -469,7 +469,7 @@
       <repository
           url="http://download.eclipse.org/releases/latest"/>
       <repository
-          url="http://download.eclipse.org/oomph/updates/milestone/latest"/>
+          url="http://download.eclipse.org/oomph/updates/milestone"/>
       <repository
           url="http://download.eclipse.org/epsilon/interim"/>
       <repository
