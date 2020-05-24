@@ -22,6 +22,9 @@ javadoc JARs in tandem to Sonatype OSSRH. The custom Maven plugin is
 in ../eutils-maven-plugin. For more instructions on its use, check the
 comments of its EpsilonStandaloneDeployMojo class.
 
+The version should be updated in both pom.xml and at the top of jarmodel.xml.
+The <ver-no-snapshot> property should match the JarModel's "version" attribute.
+
 IMPORTANT !!!
 
 If the jarmodel.xml is modified it is IMPORTANT to run the jarmodel2mvn.launch file 
