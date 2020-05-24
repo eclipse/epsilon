@@ -41,7 +41,7 @@ pipeline {
         stages {
           stage('Build') {
             when {
-              changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(features\\/.*)|(tests\\/.*)|(releng\\/.*target.*)"
+              changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(features\\/.*)|(tests\\/.*)|(releng\\/.*target.*)|(standalone\\/.*)"
             } 
             steps {
               sh 'mvn -B -T 1C clean install -P eclipse-sign'
@@ -53,7 +53,7 @@ pipeline {
             }
             steps {
               wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
-                sh 'mvn -B -f tests/org.eclipse.epsilon.test install -P plugged'
+                sh 'mvn -B -f tests/org.eclipse.epsilon.test verify -P plugged'
               }
               sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
             }
