@@ -83,7 +83,7 @@ pipeline {
             parallel {
               stage('Update site') {
                 when {
-                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)|(features\\/.*)|(releng\\/.*updatesite.*)"
+                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)|(features\\/.*)"
                 }
                 steps {
                   sh 'mvn -f releng install -P updatesite'
