@@ -5,7 +5,8 @@
       <product name="%productName" application="org.eclipse.ui.ide.workbench" description="%aboutText"> 
          <property name="aboutImage" value="%aboutImage"/>
          <property name="aboutText" value="%aboutText"/>
-      </product> 
+         <property name="windowImage" value="icons/epsilon16.png"/>
+      </product>
    </extension>
    <extension-point id="modelType" name="Model Type" schema="schema/modelType.exsd"/>
    <extension-point id="modelElementLocator" name="Model Element Locator" schema="schema/modelElementLocator.exsd"/>
