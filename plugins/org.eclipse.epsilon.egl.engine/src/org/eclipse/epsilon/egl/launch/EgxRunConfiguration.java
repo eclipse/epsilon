@@ -17,6 +17,7 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelAnnotation;
 import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelGenerationRuleAtoms;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
@@ -69,7 +70,11 @@ public class EgxRunConfiguration extends ErlRunConfiguration {
 		
 		@Override
 		protected IEgxModule createModule() {
-			return isParallel() ? new EgxModuleParallelGenerationRuleAtoms(new EgxContextParallel(parallelism)) : new EgxModule();
+			if (isSequential()) return new EgxModule();
+			EgxContextParallel context = new EgxContextParallel(parallelism);
+			return isParallel() ?
+				new EgxModuleParallelGenerationRuleAtoms(context) :
+				new EgxModuleParallelAnnotation(context);
 		}
 	}
 	

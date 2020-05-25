@@ -12,6 +12,9 @@ package org.eclipse.epsilon.epl.launch;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.IEplModule;
+import org.eclipse.epsilon.epl.concurrent.EplModuleParallel;
+import org.eclipse.epsilon.epl.concurrent.EplModuleParallelPatterns;
+import org.eclipse.epsilon.epl.execute.context.concurrent.EplContextParallel;
 import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 import org.eclipse.epsilon.erl.launch.ErlRunConfiguration;
 
@@ -25,7 +28,11 @@ public class EplRunConfiguration extends ErlRunConfiguration {
 	public static class Builder<R extends EplRunConfiguration, B extends Builder<R, B>> extends ErlRunConfiguration.Builder<R, B> {
 		@Override
 		protected IEplModule createModule() {
-			return new EplModule();
+			if (isSequential()) return new EplModule();
+			EplContextParallel context = new EplContextParallel(parallelism);
+			return isParallel() ?
+				new EplModuleParallelPatterns(context) :
+				new EplModuleParallel(context);
 		}
 		
 		protected Builder() {

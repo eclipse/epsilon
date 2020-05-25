@@ -269,11 +269,8 @@ public class EolRunConfiguration extends ProfilableRunConfiguration {
 		public Map<String, Object> parameters = new LinkedHashMap<>(4);
 		public boolean loadModels = true;
 		public int parallelism = Integer.MIN_VALUE;
+		protected boolean sequential = true;
 
-		public boolean isParallel() {
-			return parallelism > -1;
-		}
-		
 		public B skipModelLoading() {
 			return loadModels(false);
 		}
@@ -322,18 +319,26 @@ public class EolRunConfiguration extends ProfilableRunConfiguration {
 			return (B) this;
 		}
 		public B withParallelism(int parallelism) {
-			this.parallelism = parallelism;
+			sequential = (this.parallelism = parallelism) > -1;
 			return (B) this;
 		}
 		public B withParallelism() {
 			return parallel(true);
 		}
+		public B sequential() {
+			return parallel(false);
+		}
 		public B parallel(boolean parallel) {
-			this.parallelism = parallel ? ConcurrencyUtils.DEFAULT_PARALLELISM : Integer.MIN_VALUE;
-			return (B) this;
+			return withParallelism(parallel ? ConcurrencyUtils.DEFAULT_PARALLELISM : Integer.MIN_VALUE);
 		}
 		public B parallel() {
 			return parallel(true);
+		}
+		public boolean isSequential() {
+			return sequential;
+		}
+		public boolean isParallel() {
+			return parallelism > -1;
 		}
 	}
 }
