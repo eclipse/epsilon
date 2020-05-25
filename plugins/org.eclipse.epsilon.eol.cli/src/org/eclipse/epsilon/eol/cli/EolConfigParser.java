@@ -65,7 +65,8 @@ public class EolConfigParser<C extends EolRunConfiguration, B extends EolRunConf
 		moduleOpt = "module",
 		modelsOpt = "models",
 		scriptParamsOpt = "parameters",
-		parallelismOpt = "parallelism";
+		parallelismOpt = "parallelism",
+		sequentialOpt = "sequential";
 	
 	
 	public EolConfigParser(B builder) {
@@ -107,6 +108,10 @@ public class EolConfigParser<C extends EolRunConfiguration, B extends EolRunConf
 			.desc("Maximum number of simulatenously running jobs.")
 			.hasArg()
 			.build()
+		)
+		.addOption(Option.builder(sequentialOpt)
+			.desc("Use sequential implementation.")
+			.build()
 		);
 	}
 	
@@ -114,6 +119,9 @@ public class EolConfigParser<C extends EolRunConfiguration, B extends EolRunConf
 	protected void parseArgs(String[] args) throws Exception {
 		super.parseArgs(args);
 		builder.parallelism = tryParse(parallelismOpt, builder.parallelism);
+		if (cmdLine.hasOption(sequentialOpt)) {
+			builder.sequential();
+		}
 		if (cmdLine.hasOption(moduleOpt)) {
 			builder.module = parseModule(cmdLine.getOptionValues(moduleOpt));
 		}
