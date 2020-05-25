@@ -319,7 +319,7 @@ public class EolRunConfiguration extends ProfilableRunConfiguration {
 			return (B) this;
 		}
 		public B withParallelism(int parallelism) {
-			sequential = (this.parallelism = parallelism) > -1;
+			sequential = (this.parallelism = parallelism) < 0;
 			return (B) this;
 		}
 		public B withParallelism() {

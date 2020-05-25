@@ -11,6 +11,7 @@ package org.eclipse.epsilon.ewl.launch;
 
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.ewl.*;
+import org.eclipse.epsilon.ewl.execute.context.concurrent.EwlContextParallel;
 
 /**
  * 
@@ -29,7 +30,9 @@ public class EwlRunConfiguration extends EolRunConfiguration {
 		
 		@Override
 		protected IEwlModule createModule() {
-			return new EwlModule();
+			if (isSequential()) return new EwlModule();
+			EwlContextParallel context = new EwlContextParallel(parallelism);
+			return new EwlModule(context);
 		}
 	}
 	
