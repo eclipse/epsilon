@@ -63,7 +63,6 @@ import junit.framework.Test;
 	HutnUnparserUnitTestSuite.class,
 	HutnXmiTestSuite.class,
 	HutnEmcDriverTestSuite.class,
-	EgxHutnTestSuite.class,
 	FlockEngineAcceptanceTestSuite.class,
 	//FlockEngineUnitTestSuite.class,	// FIXME
 	EglTraceabilityEditorTestSuite.class,

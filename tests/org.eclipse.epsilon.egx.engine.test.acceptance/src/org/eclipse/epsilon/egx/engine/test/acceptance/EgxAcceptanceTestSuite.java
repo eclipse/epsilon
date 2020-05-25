@@ -20,10 +20,9 @@ import org.junit.runners.Suite.SuiteClasses;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-// FIXME: Get the commented out tests working via Maven
 @RunWith(Suite.class)
 @SuiteClasses({
-	//EgxHutnTestSuite.class,
+	EgxHutnTestSuite.class,
 	OperationContributorTests.class,
 	IncludeTests.class,
 	PrintTests.class,
