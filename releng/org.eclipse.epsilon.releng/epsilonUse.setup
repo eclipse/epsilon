@@ -125,7 +125,7 @@
     <setupTask
         xsi:type="setup:ResourceCopyTask"
         id="splash"
-        sourceURL="http://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/plain/plugins/org.eclipse.epsilon.common.dt/splash.bmp"
+        sourceURL="http://www.eclipse.org/epsilon/resources/splash.bmp"
         targetURL="${eclipse.folder|uri}/splash.bmp">
       <description>Creates the custom splash image.</description>
     </setupTask>
