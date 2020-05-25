@@ -269,7 +269,7 @@ public class EolRunConfiguration extends ProfilableRunConfiguration {
 		public Map<String, Object> parameters = new LinkedHashMap<>(4);
 		public boolean loadModels = true;
 		public int parallelism = Integer.MIN_VALUE;
-		protected boolean sequential = true;
+		protected boolean sequential = false;
 
 		public B skipModelLoading() {
 			return loadModels(false);
