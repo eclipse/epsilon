@@ -137,7 +137,7 @@
     </setupTask>
     <description>Creates the workspace and points Eclipse to it, with default preferences pre-configured.</description>
   </setupTask>
-  <version name="2.0 (COMING SOON)"
+  <version name="2.0"
       requiredJavaVersion="1.8">
     <setupTask
         xsi:type="setup.p2:P2Task"
@@ -301,7 +301,7 @@
       <repository
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
-          url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200427151422/repository"/>
+          url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200526004052/repository"/>
       <repository
           url="http://download.eclipse.org/modeling/emf/emf/builds/release/2.21"/>
       <repository
@@ -475,7 +475,7 @@
       <repository
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
-          url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200427151422/repository"/>
+          url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200526004052/repository"/>
       <repository
           url="http://download.eclipse.org/modeling/emf/emf/builds/release/latest"/>
       <repository

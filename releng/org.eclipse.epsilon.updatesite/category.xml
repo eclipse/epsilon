@@ -133,8 +133,7 @@
          Support for managing spreadsheet models with languages of the Epsilon platform.
       </description>
    </category-def>
-   <repository-reference location="http://download.eclipse.org/tools/orbit/downloads/drops/R20190827152740/repository" enabled="true"/>
-   <repository-reference location="https://download.eclipse.org/tools/orbit/downloads/drops/S20200519202422/repository" enabled="true"/>
+   <repository-reference location="https://download.eclipse.org/tools/orbit/downloads/drops/S20200526004052/repository" enabled="true"/>
    <repository-reference location="https://download.eclipse.org/modeling/emf/emf/builds/release/latest" enabled="true"/>
    <repository-reference location="https://download.eclipse.org/emfatic/update" enabled="true"/>
    <repository-reference location="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases" enabled="true"/>
