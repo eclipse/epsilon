@@ -7,12 +7,12 @@ Bundle-Activator: org.eclipse.epsilon.eugenia.Activator
 Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.emf,
+ org.eclipse.emf.emfatic.core;resolution:="optional",
  org.eclipse.gmf.map,
  org.eclipse.gmf.codegen,
  org.eclipse.epsilon.etl.engine,
  org.eclipse.epsilon.egl.engine,
  org.eclipse.gmf.bridge.ui,
- org.eclipse.emf.emfatic.core;resolution:=optional,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.evl.engine,
  org.eclipse.compare.core,

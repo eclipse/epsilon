@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.eugenia;
 
 import java.util.List;
-
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.emfatic.core.generator.ecore.EcoreGenerator;
 import org.eclipse.epsilon.eol.models.IModel;

@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eugenia;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IStatus;

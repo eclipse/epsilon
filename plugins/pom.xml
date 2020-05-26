@@ -80,6 +80,7 @@
     <module>org.eclipse.epsilon.etl.dt</module>
     <module>org.eclipse.epsilon.etl.engine</module>
     <module>org.eclipse.epsilon.eugenia</module>
+    <module>org.eclipse.epsilon.eugenia.runtime.dependencies</module>
     <module>org.eclipse.epsilon.eunit.dt</module>
     <module>org.eclipse.epsilon.eunit.dt.cmp.emf</module>
     <module>org.eclipse.epsilon.eunit.dt.diff.emf</module>
