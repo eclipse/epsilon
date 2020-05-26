@@ -303,8 +303,6 @@
       <repository
           url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200526004052/repository"/>
       <repository
-          url="http://download.eclipse.org/modeling/emf/emf/builds/release/2.21"/>
-      <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
       <repository
           url="http://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
@@ -477,8 +475,6 @@
       <repository
           url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200526004052/repository"/>
       <repository
-          url="http://download.eclipse.org/modeling/emf/emf/builds/release/latest"/>
-      <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
       <repository
           url="http://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
@@ -639,13 +635,11 @@
       <requirement
           name="org.eclipse.epsilon.emc.spreadsheets.google.dt.feature.feature.group"/>
       <repository
-          url="http://download.eclipse.org/releases/photon"/>
+          url="http://download.eclipse.org/releases/2018-09"/>
       <repository
           url="http://download.eclipse.org/oomph/updates/release"/>
       <repository
           url="http://download.eclipse.org/epsilon/updates/1.5"/>
-      <repository
-          url="http://download.eclipse.org/modeling/emf/emf/builds/release/2.14"/>
       <repository
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
