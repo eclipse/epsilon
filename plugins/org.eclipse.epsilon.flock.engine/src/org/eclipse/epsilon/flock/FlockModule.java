@@ -38,7 +38,7 @@ import org.eclipse.epsilon.flock.parse.FlockParser;
 
 public class FlockModule extends ErlModule implements IFlockModule {
 	
-	private MigrationStrategy strategy;
+	protected MigrationStrategy strategy;
 	
 	public FlockModule() {
 		this(null);
@@ -96,7 +96,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		
-		strategy = new MigrationStrategy();
+		strategy = createMigrationStrategy();
 		
 		for (AST childAst : cst.getChildren()) {
 			
@@ -111,7 +111,11 @@ public class FlockModule extends ErlModule implements IFlockModule {
 			
 		}
 	}
-
+	
+	protected MigrationStrategy createMigrationStrategy() {
+		return new MigrationStrategy();
+	}
+	
 	@Override
 	public FlockResult execute() throws EolRuntimeException {
 		return (FlockResult) super.execute();

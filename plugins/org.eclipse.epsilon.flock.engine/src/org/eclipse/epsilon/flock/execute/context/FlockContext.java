@@ -29,11 +29,19 @@ import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class FlockContext extends ErlContext implements IFlockContext {
 
-	private Model originalModel;
-	private Model migratedModel;
+	protected Model originalModel;
+	protected Model migratedModel;
 	
 	public FlockContext() {
 		setOperationFactory(new FlockOperationFactory());
+	}
+	
+	public Model getOriginalModel() {
+		return originalModel;
+	}
+	
+	public Model getMigratedModel() {
+		return migratedModel;
 	}
 	
 	@Override

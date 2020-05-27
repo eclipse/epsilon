@@ -30,10 +30,9 @@ import org.eclipse.epsilon.flock.model.domain.typemappings.TypeMappingConstructs
 
 public class MigrationStrategy {
 	
-	private final List<ModuleElement> children = new LinkedList<>();
-	private final TypeMappingConstructs typeMappingConstructs = new TypeMappingConstructs();
-	private final MigrateRules          migrateRules          = new MigrateRules();
-	
+	protected List<ModuleElement> children = new LinkedList<>();
+	protected TypeMappingConstructs typeMappingConstructs;
+	protected MigrateRules migrateRules = new MigrateRules();
 	
 	public MigrationStrategy(ClassifierTypedConstruct... constructs) {
 		for (ClassifierTypedConstruct construct : constructs) {
@@ -49,17 +48,24 @@ public class MigrationStrategy {
 		}
 	}
 	
+	public TypeMappingConstructs getTypeMappingConstructs() {
+		if (typeMappingConstructs == null) {
+			typeMappingConstructs = new TypeMappingConstructs();
+		}
+		return typeMappingConstructs;
+	}
+	
 	public Collection<ModuleElement> getTypeMappingsAndRules() {
 		return children;
 	}
 	
 	public void addTypeMappingConstruct(TypeMappingConstruct typeMappingConstruct) {
-		typeMappingConstructs.add(typeMappingConstruct);
+		getTypeMappingConstructs().add(typeMappingConstruct);
 		children.add(typeMappingConstruct);
 	}
 	
 	public Equivalence createEquivalence(TypeMappingContext context) throws EolRuntimeException {
-		return typeMappingConstructs.createEquivalence(context);
+		return getTypeMappingConstructs().createEquivalence(context);
 	}
 	
 	
@@ -69,7 +75,7 @@ public class MigrationStrategy {
 	}
 	
 	public void checkTypeMappingsAndRules(MigrationStrategyCheckingContext context) {
-		typeMappingConstructs.check(context);
+		getTypeMappingConstructs().check(context);
 		migrateRules.check(context);
 	}
 	

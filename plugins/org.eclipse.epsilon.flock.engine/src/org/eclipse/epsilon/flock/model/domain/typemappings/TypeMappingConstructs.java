@@ -20,8 +20,8 @@ import org.eclipse.epsilon.flock.equivalences.factory.DefaultEquivalenceFactory;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
 
 public class TypeMappingConstructs {
-	private final List<TypeMappingConstruct> typeMappingConstructs = new LinkedList<>();
-	private final EquivalenceFactory defaultEquivalenceFactory;
+	protected final List<TypeMappingConstruct> typeMappingConstructs = new LinkedList<>();
+	protected final EquivalenceFactory defaultEquivalenceFactory;
 	
 	public TypeMappingConstructs(TypeMappingConstruct... typeMappings) {
 		this(DefaultEquivalenceFactory.getInstance());
