@@ -68,7 +68,7 @@
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Xmx"
-        value="3g"
+        value="4g"
         vm="true">
       <description>Default max heap.</description>
     </setupTask>
@@ -146,8 +146,6 @@
           name="org.eclipse.platform.feature.group"/>
       <requirement
           name="org.eclipse.pde.feature.group"/>
-      <requirement
-          name="org.eclipse.jgit.feature.group"/>
       <requirement
           name="org.eclipse.egit.feature.group"/>
       <requirement
@@ -319,8 +317,6 @@
       <requirement
           name="org.eclipse.pde.feature.group"/>
       <requirement
-          name="org.eclipse.jgit.feature.group"/>
-      <requirement
           name="org.eclipse.egit.feature.group"/>
       <requirement
           name="org.eclipse.platform.ide"/>
@@ -490,8 +486,6 @@
           name="org.eclipse.platform.feature.group"/>
       <requirement
           name="org.eclipse.pde.feature.group"/>
-      <requirement
-          name="org.eclipse.jgit.feature.group"/>
       <requirement
           name="org.eclipse.egit.feature.group"/>
       <requirement
