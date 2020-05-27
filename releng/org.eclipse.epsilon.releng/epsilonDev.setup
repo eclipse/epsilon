@@ -53,6 +53,13 @@
     <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Xverify"
+      value=":none"
+      vm="true">
+    <description>Disable bytecode verification for faster boot time.</description>
+  </setupTask>
+  <setupTask
       xsi:type="setup.p2:P2Task">
     <requirement
         name="org.eclipse.platform.feature.group"/>
@@ -180,19 +187,13 @@
     <workingSet
         name="Epsilon Plugins">
       <predicate
-          xsi:type="predicates:OrPredicate">
+          xsi:type="predicates:AndPredicate">
         <operand
-            xsi:type="predicates:NamePredicate"
-            pattern="org.eclipse.epsilon.antlr.*"/>
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.epsilon.releng"/>
         <operand
-            xsi:type="predicates:AndPredicate">
-          <operand
-              xsi:type="predicates:RepositoryPredicate"
-              project="org.eclipse.epsilon.releng"/>
-          <operand
-              xsi:type="predicates:LocationPredicate"
-              pattern="${epsilon.git.clone.location/plugins}"/>
-        </operand>
+            xsi:type="predicates:LocationPredicate"
+            pattern="${epsilon.git.clone.location/plugins}"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -237,7 +238,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.11/@workingSets[name='Epsilon%20Plugins'] //@setupTasks.11/@workingSets[name='Epsilon%20Examples'] //@setupTasks.11/@workingSets[name='Epsilon%20Features'] //@setupTasks.11/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.12/@workingSets[name='Epsilon%20Plugins'] //@setupTasks.12/@workingSets[name='Epsilon%20Examples'] //@setupTasks.12/@workingSets[name='Epsilon%20Features'] //@setupTasks.12/@workingSets[name='Epsilon%20Tests']"/>
         <operand
             xsi:type="predicates:OrPredicate">
           <operand
