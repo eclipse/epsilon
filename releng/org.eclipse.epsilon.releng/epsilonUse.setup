@@ -122,7 +122,7 @@
         targetURL="${epsilon.workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs|uri}">
       <description>Populate default workspace preferences.</description>
     </setupTask>
-    <setupTask
+    <!--setupTask
         xsi:type="setup:ResourceCopyTask"
         id="splash"
         sourceURL="http://www.eclipse.org/epsilon/resources/splash.bmp"
@@ -134,7 +134,7 @@
         option="-showSplash"
         value="${splash.targetURL|file}">
       <description>Use custom splash screen.</description>
-    </setupTask>
+    </setupTask-->
     <description>Creates the workspace and points Eclipse to it, with default preferences pre-configured.</description>
   </setupTask>
   <version name="2.0"
