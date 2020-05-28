@@ -75,9 +75,6 @@
    <feature url="features/org.eclipse.epsilon.picto.feature_2.0.0.qualifier.jar" id="org.eclipse.epsilon.picto.feature" version="2.0.0.qualifier">
       <category name="Picto"/>
    </feature>
-   <feature id="org.eclipse.emf.emfatic" version="0.0.0">
-      <category name="Epsilon EMF Integration"/>
-   </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
          Parsers and execution engines for languages of the Epsilon platform.
