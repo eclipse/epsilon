@@ -14,6 +14,7 @@ def getSlackMessage() {
 }
 
 def baseTriggers = '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)'
+def updateTriggers = "${baseTriggers}|(standalone\\/.*)|(features\\/.*)|(releng\\/.*(target|updatesite)\\/.*)"
 
 pipeline {
     agent any
@@ -41,7 +42,7 @@ pipeline {
         stages {
           stage('Build') {
             when {
-              changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(features\\/.*)|(tests\\/.*)|(releng\\/.*target.*)|(standalone\\/.*)"
+              changeset comparator: 'REGEXP', pattern: "${updateTriggers}|(tests\\/.*)"
             } 
             steps {
               sh 'mvn -B -T 1C clean install -P eclipse-sign'
@@ -83,7 +84,7 @@ pipeline {
             parallel {
               stage('Update site') {
                 when {
-                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)|(features\\/.*)"
+                  changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
                 }
                 steps {
                   sh 'mvn -f releng install -P updatesite'
