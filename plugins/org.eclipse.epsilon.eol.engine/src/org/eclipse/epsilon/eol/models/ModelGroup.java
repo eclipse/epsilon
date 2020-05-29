@@ -30,6 +30,8 @@ public class ModelGroup extends Model {
 	
 	protected ArrayList<IModel> models = new ArrayList<>();
 	
+	public ModelGroup() {}
+	
 	public ModelGroup(ModelRepository repository, String metaModel) throws EolModelNotFoundException {
 		this.name = metaModel;
 		propertyGetter = new DelegatingModelElementPropertyGetter();
