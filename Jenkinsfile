@@ -76,59 +76,55 @@ pipeline {
               sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
             }
           }
-          stage('Release') {
-            parallel {
-              stage('Update site') {
-                when {
-                  changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
-                }
-                steps {
-                  sh 'mvn -f releng install -P updatesite'
-                  lock('download-area') {
-                    sshagent (['projects-storage.eclipse.org-bot-ssh']) {
-                      sh '''
-                        INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                        LATEST=/home/data/httpd/download.eclipse.org/epsilon/latest
-                        SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite/target"
-                        if [ -d "$SITEDIR" ]; then
-                          ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
-                          scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
-                          scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
-                        fi
-                        JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
-                        if [ -d "$JARSDIR" ]; then
-                          ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $LATEST/jars && mkdir -p $LATEST/jars"
-                          scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${LATEST}/jars
-                        fi
-                        JAVADOCDIR="$WORKSPACE/target/site/apidocs"
-                        if [ -d "$JAVADOCDIR" ]; then
-                          ssh genie.epsilon@projects-storage.eclipse.org "rm -rf ${LATEST}/javadoc"
-                          scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${LATEST}/javadoc
-                        fi
-                      '''
-                    }
-                  }
+          stage('Update site') {
+            when {
+              changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
+            }
+            steps {
+              sh 'mvn -f releng install -P updatesite'
+              lock('download-area') {
+                sshagent (['projects-storage.eclipse.org-bot-ssh']) {
+                  sh '''
+                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
+                    LATEST=/home/data/httpd/download.eclipse.org/epsilon/latest
+                    SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite/target"
+                    if [ -d "$SITEDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
+                      scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
+                      scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
+                    fi
+                    JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
+                    if [ -d "$JARSDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $LATEST/jars && mkdir -p $LATEST/jars"
+                      scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${LATEST}/jars
+                    fi
+                    JAVADOCDIR="$WORKSPACE/target/site/apidocs"
+                    if [ -d "$JAVADOCDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf ${LATEST}/javadoc"
+                      scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${LATEST}/javadoc
+                    fi
+                  '''
                 }
               }
-              stage('Deploy to OSSRH') {
-                when {
-                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
-                }
-                environment {
-                  KEYRING = credentials('secret-subkeys.asc')
-                }
-                steps {
-                  sh '''
-                    gpg --batch --import "${KEYRING}"
-                    for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
-                    do
-                      echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
-                    done
-                  '''
-                  lock('ossrh') {
-                    sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
-                  }
-                }
+            }
+          }
+          stage('Deploy to OSSRH') {
+            when {
+              changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+            }
+            environment {
+              KEYRING = credentials('secret-subkeys.asc')
+            }
+            steps {
+              sh '''
+                gpg --batch --import "${KEYRING}"
+                for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
+                do
+                  echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
+                done
+              '''
+              lock('ossrh') {
+                sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
               }
             }
           }
