@@ -122,19 +122,6 @@
         targetURL="${epsilon.workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs|uri}">
       <description>Populate default workspace preferences.</description>
     </setupTask>
-    <!--setupTask
-        xsi:type="setup:ResourceCopyTask"
-        id="splash"
-        sourceURL="http://www.eclipse.org/epsilon/resources/splash.bmp"
-        targetURL="${eclipse.folder|uri}/splash.bmp">
-      <description>Creates the custom splash image.</description>
-    </setupTask>
-    <setupTask
-        xsi:type="setup:EclipseIniTask"
-        option="-showSplash"
-        value="${splash.targetURL|file}">
-      <description>Use custom splash screen.</description>
-    </setupTask-->
     <description>Creates the workspace and points Eclipse to it, with default preferences pre-configured.</description>
   </setupTask>
   <version name="2.0"
@@ -299,7 +286,7 @@
       <repository
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
-          url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200526004052/repository"/>
+          url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137"/>
       <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
       <repository
@@ -469,7 +456,7 @@
       <repository
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
-          url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200526004052/repository"/>
+          url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137"/>
       <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
       <repository
