@@ -155,12 +155,12 @@ public class LazyEgxModule extends EgxModule {
 			if (templateUri == null) return "";
 			
 			EglTemplate template = null;
-			//if (templateCache == null || (template = templateCache.get(templateUri)) == null) {
+			if (templateCache == null || (template = templateCache.get(templateUri)) == null) {
 				template = templateFactory.load(templateUri);
-			//	if (templateCache != null) {
-			//		templateCache.put(templateUri, template);
-			//	}
-			//}
+				if (templateCache != null) {
+					templateCache.put(templateUri, template);
+				}
+			}
 			
 			for (Variable variable : variables) {
 				template.populate(variable.getName(), variable.getValue());

@@ -177,5 +177,7 @@ public class EglTemplate {
 	public void reset() {
 		processed = false;
 		template.reset();
+		contents = "";
+		((EglModule) module).clearCache();
 	}
 }
