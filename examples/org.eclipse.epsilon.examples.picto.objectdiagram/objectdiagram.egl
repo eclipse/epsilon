@@ -1,6 +1,7 @@
 digraph G {
 	node[shape=record, fontname=Tahoma, fontsize=10, style=filled, fillcolor=azure]
 	edge[fontname=Tahoma, fontsize=10, fontcolor=grey]
+	
 	[%
 	var elements = M.allInstances();
 	var colors = Sequence{"azure", "beige", "floralwhite", "lemonchiffon", "mistyrose", "palegreen", "pink", "wheat", "plum"};
@@ -45,7 +46,7 @@ operation getReferenceLabel(s, t, r) {
 	
 	for (ref in s.eClass().getEAllReferences()) {
 		if (ref.eType.isSuperTypeOf(t.eClass()) and r <> ref) {
-			return "[label=" + r.name + "]";
+			return "[label=\"  " + r.name + "  \"]";
 		}
 	}
 	return "";
