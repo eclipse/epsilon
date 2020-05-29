@@ -88,25 +88,22 @@ pipeline {
                     sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                       sh '''
                         INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                        INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite"
-                        SITEDIR="$INTERIMWS/target"
+                        LATEST=/home/data/httpd/download.eclipse.org/epsilon/latest
+                        SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite/target"
                         if [ -d "$SITEDIR" ]; then
                           ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
                           scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
                           scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
                         fi
-                        if [ -e "$INTERIMWS/index.html" ]; then
-                          scp "$INTERIMWS/index.html" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/index.html
-                        fi
                         JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
                         if [ -d "$JARSDIR" ]; then
-                          ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
-                          scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
+                          ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $LATEST/jars && mkdir -p $LATEST/jars"
+                          scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${LATEST}/jars
                         fi
                         JAVADOCDIR="$WORKSPACE/target/site/apidocs"
                         if [ -d "$JAVADOCDIR" ]; then
-                          ssh genie.epsilon@projects-storage.eclipse.org rm -rf ${INTERIM}/javadoc
-                          scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
+                          ssh genie.epsilon@projects-storage.eclipse.org "rm -rf ${LATEST}/javadoc"
+                          scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${LATEST}/javadoc
                         fi
                       '''
                     }

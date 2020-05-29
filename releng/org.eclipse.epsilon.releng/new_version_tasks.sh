@@ -19,24 +19,13 @@ for version in "${OldVersions[@]}"; do
 done
 
 cd /home/data/httpd/download.eclipse.org/epsilon &&
-mkdir /home/data/httpd/archive.eclipse.org/epsilon/$NewVersion &&
-cp -r interim /home/data/httpd/archive.eclipse.org/epsilon/$NewVersion/updates &&
-cd updates &&
-mkdir $NewVersion && 
-cp -r /home/data/httpd/archive.eclipse.org/epsilon/$NewVersion/updates $NewVersion &&
-mv $NewVersion/updates/* $NewVersion &&
-rm -rf $NewVersion/updates &&
+mkdir $NewVersion && mkdir updates/$NewVersion &&
+echo "Copying update site" &&
+cp -r interim updates/$NewVersion &&
 declare -a NewFolders=("jars" "javadoc");
 for folder in "${NewFolders[@]}"; do
-  cd /home/data/httpd/download.eclipse.org/epsilon &&
-  echo "Moving $folder"
-  mkdir -p $NewVersion/$folder &&
-  mv updates/$NewVersion/$folder/* $NewVersion/$folder &&
-  rm -rf updates/$NewVersion/$folder &&
-  cd /home/data/httpd/archive.eclipse.org/epsilon/$NewVersion &&
-  mkdir $folder &&
-  mv updates/$folder/* $folder &&
-  rm -rf updates/$folder
+  echo "Copying $folder"
+  cp -r latest/$folder $NewVersion
 done;
 
 ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
