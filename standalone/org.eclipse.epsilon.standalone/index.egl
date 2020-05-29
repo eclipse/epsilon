@@ -4,8 +4,6 @@ var version = JarModel.root.a_version;
 var root = JarModel.root.a_root;
 var dir = JarModel.root.a_dir;
 %]
-<h4>Modular JARs</h4>
-
 <table class="table table-striped">
 	<thead>
 		<tr>

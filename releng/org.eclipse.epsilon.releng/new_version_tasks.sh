@@ -26,7 +26,7 @@ declare -a NewFolders=("jars" "javadoc");
 for folder in "${NewFolders[@]}"; do
   echo "Copying $folder"
   cp -r latest/$folder $NewVersion
-done;
+done
 
 ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
 

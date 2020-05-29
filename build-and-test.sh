@@ -1,11 +1,11 @@
 # Build
-mvn -T 1C clean install;
+mvn -T 1C clean install
 
 # Plugged-In tests
-mvn -f tests/org.eclipse.epsilon.test verify -P plugged;
+mvn -f tests/org.eclipse.epsilon.test verify -P plugged
 
 # Full test suite
-mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit;
+mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit
 
 # Build standalone JARs
 # mvn -f standalone verify -P build
