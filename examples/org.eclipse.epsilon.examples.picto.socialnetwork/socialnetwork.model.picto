@@ -1,2 +1,2 @@
 <?nsuri picto?>
-<picto format="egx" template="picto/socialnetwork.egx"/>
+<picto format="egx" transformation="picto/socialnetwork.egx"/>

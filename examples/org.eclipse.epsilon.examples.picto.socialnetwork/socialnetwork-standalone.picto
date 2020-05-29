@@ -1,5 +1,5 @@
 <?nsuri picto?>
-<picto format="egx" template="picto/socialnetwork.egx" standalone="true">
+<picto format="egx" transformation="picto/socialnetwork.egx" standalone="true">
 	<model type="EMF">
 		<parameter name="name" value="M"/>
 		<parameter name="metamodelUri" value="socialnetwork"/>

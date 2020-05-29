@@ -1,2 +1,2 @@
 <?nsuri picto?>
-<picto format="egx" template="ecore2vis/ecore.egx"/>
+<picto format="egx" transformation="ecore2vis/ecore.egx"/>

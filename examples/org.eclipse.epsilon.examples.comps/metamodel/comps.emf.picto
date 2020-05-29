@@ -1,5 +1,5 @@
 <?nsuri picto?>
-<picto template="platform:/resource/org.eclipse.epsilon.examples.picto.ecore/ecore2vis/ecore.egx">
+<picto transformation="platform:/resource/org.eclipse.epsilon.examples.picto.ecore/ecore2vis/ecore.egx">
 	<view path="Model, (All Classes)" layers="referenceLabels, inlineReferences, features">
 		<patch format="graphviz-dot">
 			<content>

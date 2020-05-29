@@ -1,5 +1,5 @@
 <?nsuri picto?>
-<picto format="egx" template="ecore2vis/ecore.egx" standalone="true">
+<picto format="egx" transformation="ecore2vis/ecore.egx" standalone="true">
 	<model type="EMF">
 		<parameter name="name" value="M"/>
 		<parameter name="modelFile" file="comps.ecore"/>
