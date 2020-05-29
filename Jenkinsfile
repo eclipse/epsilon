@@ -59,25 +59,21 @@ pipeline {
               sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
             }
           }
-          stage('Artifacts') {
-            parallel {
-              stage('Javadocs') {
-                when {
-                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}"
-                }
-                steps {
-                  sh 'mvn -B javadoc:aggregate'
-                }
-              }
-              stage('Standalone JARs') {
-                when {
-                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
-                }
-                steps {
-                  sh 'mvn -B -f standalone install -P build'
-                  sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
-                }
-              }
+          stage('Javadocs') {
+            when {
+              changeset comparator: 'REGEXP', pattern: "${baseTriggers}"
+            }
+            steps {
+              sh 'mvn -B javadoc:aggregate'
+            }
+          }
+          stage('Standalone JARs') {
+            when {
+              changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+            }
+            steps {
+              sh 'mvn -B -f standalone install -P build'
+              sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
             }
           }
           stage('Release') {
