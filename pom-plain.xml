@@ -49,6 +49,13 @@
     <module>plugins/org.eclipse.epsilon.emc.muddle/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.emc.graphml/pom-plain.xml</module>
 
+    <!-- Simulink component -->
+    <module>plugins/org.eclipse.epsilon.emc.simulink.common/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.emc.simulink/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.emc.simulink.dictionary/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.emc.simulink.requirement/pom-plain.xml</module>
+
+
   </modules>
 
   <!--
@@ -426,9 +433,19 @@ same version of EMF / other bits always.
         <version>1.1.1</version>
       </dependency>
       <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.2</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>3.1</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.2.2</version>
       </dependency>
 
       <!-- UML: this is the newest version to date in Central -->
