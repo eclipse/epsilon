@@ -76,7 +76,7 @@ pipeline {
           stage('Plain Maven build') {
             when {
               anyOf {
-                changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+                changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
                 expression { return currentBuild.number == 1 }
               }
             }
@@ -127,7 +127,7 @@ pipeline {
               allOf {
                 branch 'master'
                 anyOf {
-                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+                  changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
                   expression { return currentBuild.number == 1 }
                 }
               }
