@@ -77,6 +77,9 @@
     <module>plugins/org.eclipse.epsilon.evl.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.workflow/pom-plain.xml</module>
 
+    <!-- Workflow EMF component -->
+    <module>plugins/org.eclipse.epsilon.emf.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.workflow.emf/pom-plain.xml</module>
   </modules>
 
   <!--
