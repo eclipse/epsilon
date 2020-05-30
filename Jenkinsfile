@@ -42,7 +42,10 @@ pipeline {
         stages {
           stage('Build') {
             when {
-              changeset comparator: 'REGEXP', pattern: "${updateTriggers}|(tests\\/.*)"
+              anyOf {
+                changeset comparator: 'REGEXP', pattern: "${updateTriggers}|(tests\\/.*)"
+                expression { return currentBuild.number == 1 }
+              }
             } 
             steps {
               sh 'mvn -B -T 1C clean install -P eclipse-sign'
@@ -50,7 +53,10 @@ pipeline {
           }
           stage('Test') {
             when {
-              changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(tests\\/.*)"
+              anyOf {
+                changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(tests\\/.*)"
+                expression { return currentBuild.number == 1 }
+              }
             }
             steps {
               wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
@@ -61,7 +67,10 @@ pipeline {
           }
           stage('Javadocs') {
             when {
-              changeset comparator: 'REGEXP', pattern: "${baseTriggers}"
+              anyOf {
+                changeset comparator: 'REGEXP', pattern: "${baseTriggers}"
+                expression { return currentBuild.number == 1 }
+              }
             }
             steps {
               sh 'mvn -B javadoc:aggregate'
@@ -69,7 +78,10 @@ pipeline {
           }
           stage('Plain Maven build') {
             when {
-              changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+              anyOf {
+                changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+                expression { return currentBuild.number == 1 }
+              }
             }
             steps {
               sh 'mvn -B -f pom-plain.xml compile'
@@ -79,7 +91,10 @@ pipeline {
             when {
               allOf {
                 branch 'master'
-                changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
+                anyOf {
+                  changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
+                  expression { return currentBuild.number == 1 }
+                }
               }
             }
             steps {
@@ -114,7 +129,10 @@ pipeline {
             when {
               allOf {
                 branch 'master'
-                changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+                anyOf {
+                  changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+                  expression { return currentBuild.number == 1 }
+                }
               }
             }
             environment {
