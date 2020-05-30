@@ -81,7 +81,7 @@ pipeline {
               }
             }
             steps {
-              sh 'mvn -B -f pom-plain.xml compile'
+              sh 'mvn -B -T 1C -f pom-plain.xml compile'
             }
           }
           stage('Update site') {
