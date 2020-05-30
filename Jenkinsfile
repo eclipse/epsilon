@@ -13,7 +13,7 @@ def getSlackMessage() {
     return message
 }
 
-def baseTriggers = '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)'
+def baseTriggers = '(pom\\.xml)|(Jenkinsfile)|(plugins\\/.*)|(pom[-]plain[.]xml)'
 def updateTriggers = "${baseTriggers}|(standalone\\/.*)|(features\\/.*)|(releng\\/.*(target|updatesite)\\/.*)"
 
 pipeline {
