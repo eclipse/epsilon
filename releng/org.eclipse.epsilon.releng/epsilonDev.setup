@@ -173,8 +173,6 @@
     <sourceLocator
         rootFolder="${epsilon.git.clone.location/examples}"/>
     <sourceLocator
-        rootFolder="${epsilon.git.clone.location/standalone}"/>
-    <sourceLocator
         rootFolder="${epsilon.git.clone.location/features}"/>
     <sourceLocator
         rootFolder="${epsilon.git.clone.location/releng}"/>
