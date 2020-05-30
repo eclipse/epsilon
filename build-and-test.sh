@@ -13,8 +13,10 @@ mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit
 # Build update site
 # mvn -f releng verify -P updatesite
 
-# Bump version (replace X.Y.Z with appropriate numbers)
-#mvn org.eclipse.tycho:tycho-versions-plugin:set-version "-DnewVersion=X.Y.Z"
+# Bump versions (replace X.Y.Z with appropriate numbers)
+#mvn versions:set-property -Dproperty=epsilon.version -DnewVersion=X.Y.Z
+#mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=X.Y.Z
+#mvn -f pom-plain.xml versions:set -DnewVersion=X.Y.Z
 
 # Query project version
 #mvn help:evaluate -Dexpression=project.version -q -DforceStdout 
