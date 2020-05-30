@@ -134,5 +134,5 @@
    <repository-reference location="https://download.eclipse.org/modeling/emf/emf/builds/release/latest" enabled="true"/>
    <repository-reference location="https://download.eclipse.org/emfatic/update" enabled="true"/>
    <repository-reference location="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases" enabled="true"/>
-   <repository-reference location="https://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1" enabled="true"/>
+   <repository-reference location="https://download.eclipse.org/mmt/qvto/updates/releases" enabled="true"/>
 </site>

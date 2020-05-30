@@ -45,7 +45,7 @@
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="0.0.0"/>
-		<repository location="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+		<repository location="http://download.eclipse.org/mmt/qvto/updates/releases/latest"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.gmf.sdk.feature.group" version="3.2.1.201409171321"/>

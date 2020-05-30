@@ -24,7 +24,7 @@
 
    <url>
       <discovery label="GMF Tooling" url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
-      <discovery label="QVTo 3.9.1" url="http://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+      <discovery label="QVTo" url="http://download.eclipse.org/mmt/qvto/updates/releases"/>
    </url>
 
    <plugin
