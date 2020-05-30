@@ -45,6 +45,10 @@
     <!-- UML component -->
     <module>plugins/org.eclipse.epsilon.emc.uml/pom-plain.xml</module>
 
+    <!-- GraphML component -->
+    <module>plugins/org.eclipse.epsilon.emc.muddle/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.emc.graphml/pom-plain.xml</module>
+
   </modules>
 
   <!--
@@ -415,6 +419,11 @@ same version of EMF / other bits always.
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>27.1-jre</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jopendocument</groupId>
+        <artifactId>jdom</artifactId>
+        <version>1.1.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
