@@ -1,6 +1,7 @@
 # binaries
 bin/
 target
+target-plain
 
 # Unwanted JARs
 /tests/org.eclipse.epsilon.egl.engine.test.dependencies/dependencies.jar
