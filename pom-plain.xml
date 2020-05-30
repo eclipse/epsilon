@@ -66,6 +66,17 @@
     <module>plugins/org.eclipse.epsilon.antlr.postprocessor/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.antlr.postprocessor.model/pom-plain.xml</module>
 
+    <!-- Workflow component -->
+    <module>plugins/org.eclipse.epsilon.ecl.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.egl.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.eml.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.eol.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.epl.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.erl.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.etl.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.evl.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.workflow/pom-plain.xml</module>
+
   </modules>
 
   <!--
@@ -221,6 +232,11 @@ same version of EMF / other bits always.
       </dependency>
 
       <!-- Eclipse UI -->
+      <dependency>
+        <groupId>org.eclipse.platform</groupId>
+        <artifactId>org.eclipse.ant.core</artifactId>
+        <version>3.5.700</version>
+      </dependency>
       <dependency>
         <groupId>org.eclipse.platform</groupId>
         <artifactId>org.eclipse.compare.core</artifactId>
@@ -422,6 +438,11 @@ same version of EMF / other bits always.
       </dependency>
 
       <!-- Other libraries: this is just so we are consistent across projects -->
+      <dependency>
+        <groupId>org.apache.ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.10.7</version>
+      </dependency>
       <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
