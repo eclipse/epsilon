@@ -55,6 +55,16 @@
     <module>plugins/org.eclipse.epsilon.emc.simulink.dictionary/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.emc.simulink.requirement/pom-plain.xml</module>
 
+    <!-- HUTN component -->
+    <module>plugins/org.eclipse.epsilon.emc.hutn/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.hutn.engine/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.hutn.model/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.hutn.model.antlrAst/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.hutn.model.config/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.hutn.unparser/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.hutn.xmi/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.antlr.postprocessor/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.antlr.postprocessor.model/pom-plain.xml</module>
 
   </modules>
 

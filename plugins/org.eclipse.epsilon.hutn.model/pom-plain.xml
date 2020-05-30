@@ -4,7 +4,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
-  <artifactId>org.eclipse.epsilon.emc.muddle</artifactId>
+  <artifactId>org.eclipse.epsilon.hutn.model</artifactId>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>
@@ -16,16 +16,13 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.eol.engine</artifactId>
+      <artifactId>org.eclipse.epsilon.common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.emf</groupId>
-      <artifactId>org.eclipse.emf.ecore</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.platform</groupId>
-      <artifactId>org.eclipse.core.runtime</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>org.eclipse.epsilon.emc.emf</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 
@@ -44,7 +41,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>src-gen</source>
+                <source>model</source>
               </sources>
             </configuration>
           </execution>
