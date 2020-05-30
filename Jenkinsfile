@@ -31,9 +31,6 @@ pipeline {
     }
     stages {
       stage('Main') {
-        when {
-          branch 'master'
-        }
         agent {
           kubernetes {
             label 'migration'
