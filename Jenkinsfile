@@ -67,18 +67,20 @@ pipeline {
               sh 'mvn -B javadoc:aggregate'
             }
           }
-          stage('Standalone JARs') {
+          stage('Plain Maven build') {
             when {
               changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
             }
             steps {
-              sh 'mvn -B -f standalone install -P build'
-              sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
+              sh 'mvn -B -f pom-plain.xml compile'
             }
           }
           stage('Update site') {
             when {
-              changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
+              allOf {
+                branch 'master'
+                changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
+              }
             }
             steps {
               sh 'mvn -f releng install -P updatesite'
@@ -110,7 +112,10 @@ pipeline {
           }
           stage('Deploy to OSSRH') {
             when {
-              changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+              allOf {
+                branch 'master'
+                changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(standalone\\/.*)"
+              }
             }
             environment {
               KEYRING = credentials('secret-subkeys.asc')
@@ -124,7 +129,7 @@ pipeline {
                 done
               '''
               lock('ossrh') {
-                sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
+                sh 'mvn -B -f pom-plain.xml -P ossrh,eclipse-sign deploy'
               }
             }
           }
