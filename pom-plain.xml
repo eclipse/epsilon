@@ -42,6 +42,8 @@
     <module>plugins/org.eclipse.epsilon.emc.emf/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.flexmi/pom-plain.xml</module>
 
+    <!-- UML component -->
+    <module>plugins/org.eclipse.epsilon.emc.uml/pom-plain.xml</module>
 
   </modules>
 
@@ -392,6 +394,11 @@ same version of EMF / other bits always.
         <artifactId>org.eclipse.xsd</artifactId>
         <version>2.17.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.eclipse.emf</groupId>
+        <artifactId>org.eclipse.emf.mapping.ecore2xml</artifactId>
+        <version>2.11.0</version>
+      </dependency>
 
       <!-- Other libraries: this is just so we are consistent across projects -->
       <dependency>
@@ -414,6 +421,14 @@ same version of EMF / other bits always.
         <artifactId>commons-lang3</artifactId>
         <version>3.1</version>
       </dependency>
+
+      <!-- UML: this is the newest version to date in Central -->
+      <dependency>
+        <groupId>org.eclipse.uml2</groupId>
+        <artifactId>uml</artifactId>
+        <version>5.0.0-v20140602-0749</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
