@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.profiling</artifactId>
+  <name>Eclipse Epsilon Profiling Support</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>

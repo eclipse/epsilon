@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.hutn.model.antlrAst</artifactId>
+  <name>Eclipse Epsilon HUTN Model for ANTLR ASTs</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>

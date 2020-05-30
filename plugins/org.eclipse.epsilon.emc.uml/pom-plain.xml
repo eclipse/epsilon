@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.emc.uml</artifactId>
+  <name>Eclipse Epsilon EMC for UML Models</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>

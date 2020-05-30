@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.eunit.junit</artifactId>
+  <name>Eclipse Epsilon JUnit Bridge for EUnit</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>

@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.erl.engine</artifactId>
+  <name>Eclipse Epsilon Rule Engine</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>

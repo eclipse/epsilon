@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.emc.simulink.common</artifactId>
+  <name>Eclipse Epsilon EMC for Simulink - Common</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>

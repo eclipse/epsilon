@@ -8,6 +8,116 @@
   <version>2.0.0</version>
   <packaging>pom</packaging>
 
+  <name>Eclipse Epsilon Parent</name>
+  <url>https://www.eclipse.org/epsilon/</url>
+  <description>
+    Epsilon is a family of languages and tools for code generation,
+    model-to-model transformation, model validation, comparison, migration and
+    refactoring that work out of the box with EMF, UML, Simulink, XML and other
+    types of models.
+  </description>
+
+  <scm>
+    <connection>scm:git:git://git.eclipse.org/gitroot/epsilon/org.eclipse.epsilon.git</connection>
+    <developerConnection>scm:git:ssh://git.eclipse.org:29418/epsilon/org.eclipse.epsilon.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License 2.0</name>
+      <url>https://www.eclipse.org/legal/epl-2.0/</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>dkolovos</id>
+      <name>Dimitris Kolovos</name>
+      <url>https://www.cs.york.ac.uk/people/dkolovos</url>
+      <roles><role>Lead</role></roles>
+    </developer>
+    <developer>
+      <id>avega</id>
+      <name>Alfonso de la Vega</name>
+      <url>https://www.cs.york.ac.uk/people/dkolovos</url>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>agarciad</id>
+      <name>Antonio Garcia Dominguez</name>
+      <url>https://cs.aston.ac.uk/~garcia-a/</url>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>thanos</id>
+      <name>Athanasios Zolotas</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>beatriz</id>
+      <name>Beatriz Sanchez</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>hhoyos</id>
+      <name>Horacio Hoyos</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>jonco</id>
+      <name>Jonathan Co</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>jcooper</id>
+      <name>Justin Cooper</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>mfrancis</id>
+      <name>Martin Francis</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>qurat</id>
+      <name>Qurat ul ain Ali</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>rwei</id>
+      <name>Ran Wei</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>sgerasimou</id>
+      <name>Simos Gerasimou</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>smadani</id>
+      <name>Sina Madani</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>sjahanbin</id>
+      <name>Sorour Jahanbin</name>
+      <roles><role>Committer</role></roles>
+    </developer>
+    <developer>
+      <id>mbezemer</id>
+      <name>Martin Bezemer</name>
+      <roles><role>Historical Committer</role></roles>
+    </developer>
+    <developer>
+      <id>lrose</id>
+      <name>Louis Rose</name>
+      <roles><role>Historical Committer</role></roles>
+    </developer>
+  </developers>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>

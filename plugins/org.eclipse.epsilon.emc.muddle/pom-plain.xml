@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.emc.muddle</artifactId>
+  <name>Eclipse Epsilon EMC for Muddles</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>

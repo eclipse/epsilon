@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.egl.dt</artifactId>
+  <name>Eclipse Epsilon Generation Language Developer Tools</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>

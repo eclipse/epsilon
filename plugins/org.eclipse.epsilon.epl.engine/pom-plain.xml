@@ -5,6 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.epl.engine</artifactId>
+  <name>Eclipse Epsilon Object Language Engine</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>
