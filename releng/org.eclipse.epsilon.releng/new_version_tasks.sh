@@ -17,13 +17,11 @@ mv $Downloads/$OldVersion/* $Archives/$OldVersion &&
 rm -rf $Downloads/$OldVersion
 
 cd $Downloads &&
-mkdir $NewVersion && mkdir updates/$NewVersion &&
-echo "Copying update site" &&
+echo "Copying interim to $NewVersion" &&
 cp -r interim updates/$NewVersion &&
 declare -a NewFolders=("jars" "javadoc");
 for folder in "${NewFolders[@]}"; do
-  echo "Copying $folder"
-  cp -r latest/$folder $NewVersion
+  mv updates/$NewVersion/$folder $NewVersion/$folder
 done
 
 ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
