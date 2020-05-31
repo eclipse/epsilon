@@ -731,6 +731,35 @@ same version of EMF / other bits always.
   </distributionManagement>
 
   <profiles>
+    <!-- NOTE: these two profiles have to be in this exact order, so we first
+         sign the JAR with a certificate, and then we GPG sign the resulting
+         JAR. The opposite order won't work. -->
+    <profile>
+      <id>eclipse-sign</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <!-- https://www.eclipse.org/cbi/sitedocs/eclipse-jarsigner-plugin/plugin-info.html -->
+          <plugin>
+            <groupId>org.eclipse.cbi.maven.plugins</groupId>
+            <artifactId>eclipse-jarsigner-plugin</artifactId>
+            <version>1.1.7</version>
+            <executions>
+              <execution>
+                <id>sign</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <profile>
       <id>ossrh</id>
       <build>
@@ -767,31 +796,6 @@ same version of EMF / other bits always.
       </build>
     </profile>
 
-    <profile>
-      <id>eclipse-sign</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <!-- https://www.eclipse.org/cbi/sitedocs/eclipse-jarsigner-plugin/plugin-info.html -->
-          <plugin>
-            <groupId>org.eclipse.cbi.maven.plugins</groupId>
-            <artifactId>eclipse-jarsigner-plugin</artifactId>
-            <version>1.1.7</version>
-            <executions>
-              <execution>
-                <id>sign</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
   </profiles>
 
 </project>
