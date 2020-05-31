@@ -21,7 +21,9 @@ echo "Copying interim to $NewVersion" &&
 cp -r interim updates/$NewVersion &&
 declare -a NewFolders=("jars" "javadoc");
 for folder in "${NewFolders[@]}"; do
-  mv updates/$NewVersion/$folder $NewVersion/$folder
+  if [ -d updates/$NewVersion/$folder ]; then
+    mv updates/$NewVersion/$folder $NewVersion/$folder
+  fi
 done
 
 ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
