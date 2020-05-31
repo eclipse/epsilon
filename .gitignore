@@ -13,6 +13,9 @@ target-plain
 *.iml
 *.idea/
 
+# Maven version bump artifacts
+*.versionsBackup
+
 # Debug files
 *.phd
 *.trc
