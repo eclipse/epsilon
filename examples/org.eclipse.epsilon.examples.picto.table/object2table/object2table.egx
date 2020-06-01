@@ -1,0 +1,29 @@
+import "objectUtils.eol";
+
+pre {
+	/*var objects = M.getResource().getContents();
+	for (object in objects) {
+		object.println();
+		if (not object.eContents().isEmpty()) {
+			for (children in object.eContents()) {
+				children.println("\t");
+			}
+		}
+	}*/
+}
+
+rule Object2HTML
+	transform object in: M.allInstances() {
+
+	parameters {
+		return Map {
+			"path" = object.getPath(),
+			"icon" = "diagram-000000",
+			"format" = "html",
+			"layers" = Sequence {
+			}
+		};
+	}
+
+	template: "object2table.egl"
+}

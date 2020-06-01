@@ -1,0 +1,19 @@
+operation Any getPath(): Sequence {
+	var result = Sequence{};
+	if (self.eContainer <> null) {
+		result.addAll(self.eContainer.getPath());
+	}
+	result.add(self.getName());
+	return result;
+}
+
+operation Any getName() {
+	var result = self.eClass.name + " ";
+	if (self.hasProperty("name")) {
+		result += self.name;
+	}
+	else {
+		result += M.getAllOfType(self.eClass.name).indexOf(self);
+	}
+	return result;
+}
