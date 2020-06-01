@@ -18,8 +18,11 @@ rm -rf $Downloads/$OldVersion
 
 cd $Downloads &&
 echo "Copying interim to $NewVersion" &&
-cp -r interim updates/$NewVersion &&
-declare -a NewFolders=("jars" "javadoc");
+cp -r interim updates/$NewVersion
+if [ -e updates/epsilon-interim-site.zip]; then
+  mv updates/epsilon-interim-site.zip updates/epsilon-${$NewVersion}-site.zip
+fi
+declare -a NewFolders=("javadoc" "jars");
 for folder in "${NewFolders[@]}"; do
   if [ -d updates/$NewVersion/$folder ]; then
     mv updates/$NewVersion/$folder $NewVersion/$folder

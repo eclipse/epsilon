@@ -104,7 +104,7 @@ pipeline {
                     if [ -d "$SITEDIR" ]; then
                       ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
                       scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:$INTERIM
-                      scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:$INTERIM/site.zip
+                      scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:$INTERIM/epsilon-interim-site.zip
                     fi
                     JAVADOCDIR="$WORKSPACE/target/site/apidocs"
                     if [ -d "$JAVADOCDIR" ]; then
