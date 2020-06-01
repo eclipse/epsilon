@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -182,18 +183,15 @@ public abstract class EglPictoSource implements PictoSource {
 								contentPromise.getVariables().add(new Variable(parameter.getName(), value, EolAnyType.Instance, false));
 							}
 						}
-						
 						instances.add(contentPromise);
-						
 					}
-					
 				}
 				
 				for (LazyGenerationRuleContentPromise instance : instances) {
 					String format = getDefaultFormat();
 					String icon = getDefaultIcon();
 					List<Patch> patches = new ArrayList<>();
-					Collection<String> path = new ArrayList<>(Arrays.asList(""));
+					Collection<String> path = Arrays.asList("");
 					List<Layer> layers = new ArrayList<>();
 					Variable layersVariable = null;
 					Integer position = null;
@@ -201,7 +199,15 @@ public abstract class EglPictoSource implements PictoSource {
 					for (Variable variable : instance.getVariables()) {
 						switch (variable.getName()) {
 						case "format": format = variable.getValue() + ""; break;
-						case "path": path = (Collection<String>) variable.getValue(); break;
+						case "path": {
+							Object pathValue = variable.getValue();
+							if (!(pathValue instanceof Collection)) {
+								((Collection<String>) (pathValue = new ArrayList<>(1)))
+									.add(Objects.toString(pathValue));
+							}
+							path = (Collection<String>) pathValue;
+							break;
+						}
 						case "icon": icon = variable.getValue() + ""; break;
 						case "position": position = (Integer) variable.getValue(); break;
 						case "layers": {
@@ -212,7 +218,9 @@ public abstract class EglPictoSource implements PictoSource {
 									Layer layer = new Layer();
 									layer.setId(layerMap.get("id") + "");
 									layer.setTitle(layerMap.get("title") + "");
-									if (layerMap.containsKey("active")) layer.setActive((Boolean) layerMap.get("active"));
+									if (layerMap.containsKey("active")) {
+										layer.setActive((boolean) layerMap.get("active"));
+									}
 									layers.add(layer);
 								}
 								break;
