@@ -29,7 +29,9 @@ public class ViewRenderer {
 	public Point getScrollPosition() {
 		Double scrollX = (Double) browser.evaluate("return window.pageXOffset;");
 		Double scrollY = (Double) browser.evaluate("return window.pageYOffset;");
-		return new Point(scrollX.intValue(), scrollY.intValue());
+		return new Point(
+				(scrollX != null) ? scrollX.intValue() : 0,
+				(scrollY != null) ? scrollY.intValue() : 0);
 	}
 	
 	public Point getPrintableArea() {
