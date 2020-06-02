@@ -204,8 +204,12 @@ public abstract class EglPictoSource implements PictoSource {
 							if (!(pathValue instanceof Collection)) {
 								((Collection<String>) (pathValue = new ArrayList<>(1)))
 									.add(Objects.toString(pathValue));
+								path = (Collection<String>) pathValue;
 							}
-							path = (Collection<String>) pathValue;
+							else if (!((Collection<?>) pathValue).isEmpty()) {
+								path = ((Collection<?>) pathValue).stream()
+									.map(Objects::toString).collect(Collectors.toList());
+							}
 							break;
 						}
 						case "icon": icon = variable.getValue() + ""; break;
