@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -26,16 +27,14 @@ public class ViewTreeLabelProvider extends LabelProvider {
 	
 	protected Image diagramImage = PictoPlugin.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
 	protected Image folderImage = PictoPlugin.getDefault().getImageDescriptor("icons/folder.gif").createImage();
-	protected HashMap<String, Image> iconCache = new HashMap<>();
+	protected Map<String, Image> iconCache = new HashMap<>();
 	protected List<String> extensions = Arrays.asList("gif", "png");
 	
 	@Override
 	public String getText(Object element) {
 		ViewTree contentTree = (ViewTree) element;
-		if (contentTree.getName() == null || contentTree.getName().trim().length() == 0) {
-			return "<empty>";
-		}
-		else return contentTree.getName();
+		String name = contentTree.getName();
+		return StringUtil.isEmpty(name) ? "<empty>" : name;
 	}
 	
 	@Override

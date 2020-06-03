@@ -37,7 +37,7 @@ public class ViewTreeContentProvider implements ITreeContentProvider {
 		List<ViewTree> children = ((ViewTree) parentElement).getChildren();
 		Object[] childrenArray = children.toArray();
 		
-		Arrays.sort(childrenArray, (o1, o2) -> {
+		Arrays.parallelSort(childrenArray, (o1, o2) -> {
 			ViewTree v1 = (ViewTree) o1;
 			ViewTree v2 = (ViewTree) o2;
 			
