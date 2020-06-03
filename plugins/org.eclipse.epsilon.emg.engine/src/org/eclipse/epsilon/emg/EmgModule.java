@@ -84,7 +84,13 @@ public class EmgModule extends EplModule implements IEmgModule {
 	private long seed;
 
 	private boolean useSeed;
-
+	
+	public static void main(String[] args) throws Exception {
+		EmgModule m = new EmgModule();
+		m.parse("pre{}");
+		System.out.println(m.getParseProblems());
+	}
+	
 	/**
 	 * A maps to keep track of objects created by create operations that us
 	 * the @name annotation. The key of the map is the value of the annotation.
@@ -127,16 +133,6 @@ public class EmgModule extends EplModule implements IEmgModule {
 			randomGenerator = new EmgOperationContributor(this);
 		}
 		context.getOperationContributorRegistry().add(randomGenerator);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.epsilon.epl.EplModule#getMainRule()
-	 */
-	@Override
-	public String getMainRule() {
-		return "emgModule";
 	}
 
 	/*
