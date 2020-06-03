@@ -41,9 +41,9 @@ public interface IEplModule extends IErlModule {
 	Collection<PatternMatch> match(Pattern pattern) throws EolRuntimeException;
 	
 	default int getMaximumLevel() {
-		return getPatterns()
+		return !getPatterns().isEmpty() ? getPatterns()
 			.stream()
 			.mapToInt(Pattern::getLevel)
-			.max().getAsInt();
+			.max().getAsInt() : 0;
 	}
 }
