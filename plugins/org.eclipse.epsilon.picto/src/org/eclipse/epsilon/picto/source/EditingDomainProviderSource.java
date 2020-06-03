@@ -40,8 +40,9 @@ public class EditingDomainProviderSource extends ExternalMetadataSource {
 		if (input instanceof IFileEditorInput) {
 			return ((IFileEditorInput)input).getFile();
 		}
-		else 
+		else {
 			return null;
+		}
 	}
 
 	@Override

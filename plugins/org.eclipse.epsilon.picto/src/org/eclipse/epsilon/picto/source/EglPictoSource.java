@@ -188,7 +188,9 @@ public abstract class EglPictoSource implements PictoSource {
 					Variable layersVariable = null;
 					Integer position = null;
 					
-					for (Variable variable : instance.getVariables()) {
+					Collection<Variable> instanceVariables = instance.getVariables();
+					
+					for (Variable variable : instanceVariables) {
 						Object varValue = variable.getValue();
 						switch (variable.getName()) {
 							case "format": {
@@ -251,7 +253,7 @@ public abstract class EglPictoSource implements PictoSource {
 					}
 					
 					// If this is a custom view there may be an activeLayers variable in the variables list
-					Variable activeLayersVariable = instance.getVariables().stream().filter(v -> v.getName().equals("activeLayers")).findAny().orElse(null);
+					Variable activeLayersVariable = instanceVariables.stream().filter(v -> v.getName().equals("activeLayers")).findAny().orElse(null);
 					if (activeLayersVariable != null) {
 						Collection<?> activeLayers =  (Collection<?>) activeLayersVariable.getValue();
 						for (Layer layer : layers) {
@@ -260,8 +262,10 @@ public abstract class EglPictoSource implements PictoSource {
 					}
 					
 					// Replace layers variable from list of maps to list of Layer objects
-					if (layersVariable != null) instance.getVariables().remove(layersVariable);
-					instance.getVariables().add(Variable.createReadOnlyVariable("layers", layers));
+					if (layersVariable != null) {
+						instanceVariables.remove(layersVariable);
+					}
+					instanceVariables.add(Variable.createReadOnlyVariable("layers", layers));
 					viewTree.add(new ArrayList<>(path), new ViewTree(instance, format, icon, position, patches, layers));
 				}
 				
