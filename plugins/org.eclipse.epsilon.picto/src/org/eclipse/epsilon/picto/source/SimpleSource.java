@@ -18,12 +18,12 @@ import org.eclipse.ui.IFileEditorInput;
 
 public abstract class SimpleSource extends EglPictoSource {
 
-	public abstract String getFormat();
+	protected abstract String getFormat();
 	
-	public abstract String getFileExtension();
+	protected abstract String getFileExtension();
 	
 	@Override
-	public Picto getRenderingMetadata(IEditorPart editorPart) {
+	protected Picto getRenderingMetadata(IEditorPart editorPart) {
 		Picto metadata = PictoFactory.eINSTANCE.createPicto();
 		metadata.setTransformation(getFile(editorPart).getLocation().toOSString());
 		metadata.setFormat(getFormat());
@@ -31,19 +31,19 @@ public abstract class SimpleSource extends EglPictoSource {
 	}
 
 	@Override
-	public Resource getResource(IEditorPart editorPart) {
+	protected Resource getResource(IEditorPart editorPart) {
 		return null;
 	}
 
 	@Override
-	public boolean supportsEditorType(IEditorPart editorPart) {
+	protected boolean supportsEditorType(IEditorPart editorPart) {
 		IFile file = getFile(editorPart);
 		if (file == null) return false;
 		return file.getLocation().getFileExtension().equalsIgnoreCase(getFileExtension());
 	}
 
 	@Override
-	public IFile getFile(IEditorPart editorPart) {
+	protected IFile getFile(IEditorPart editorPart) {
 		if (editorPart.getEditorInput() instanceof IFileEditorInput) {
 			IFileEditorInput input = (IFileEditorInput)editorPart.getEditorInput();
 			return input.getFile();
