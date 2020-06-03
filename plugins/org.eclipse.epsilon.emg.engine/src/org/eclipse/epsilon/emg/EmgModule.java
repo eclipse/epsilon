@@ -13,6 +13,7 @@ package org.eclipse.epsilon.emg;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,12 +86,6 @@ public class EmgModule extends EplModule implements IEmgModule {
 
 	private boolean useSeed;
 	
-	public static void main(String[] args) throws Exception {
-		EmgModule m = new EmgModule();
-		m.parse("pre{}");
-		System.out.println(m.getParseProblems());
-	}
-	
 	/**
 	 * A maps to keep track of objects created by create operations that us
 	 * the @name annotation. The key of the map is the value of the annotation.
@@ -151,7 +146,6 @@ public class EmgModule extends EplModule implements IEmgModule {
 	protected void prepareContext() throws EolRuntimeException {
 		super.prepareContext();
 		preload();
-		executeCreateOperations();
 	}
 
 	/*
@@ -161,6 +155,7 @@ public class EmgModule extends EplModule implements IEmgModule {
 	 */
 	@Override
 	public Object processRules() throws EolRuntimeException {
+		executeCreateOperations();
 		super.processRules();
 		IModel model = context.getModelRepository().getModels().get(0);
 		model.store();
@@ -271,7 +266,7 @@ public class EmgModule extends EplModule implements IEmgModule {
 			}
 			Object modelObject = instancesType.createInstance(paramObj);
 			// Execute statements in the operation to initialise object attributes
-			operation.execute(modelObject, null, context);
+			operation.execute(modelObject, Collections.emptyList(), context);
 			classes.add(modelObject);
 		}
 	}
