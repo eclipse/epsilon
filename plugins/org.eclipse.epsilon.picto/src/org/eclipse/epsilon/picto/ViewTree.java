@@ -145,6 +145,8 @@ public class ViewTree {
 		getChildren().removeAll(obsolete);
 		getChildren().addAll(fresh);
 		
+		// maintain any base URIs aded in the new ViewTree
+		this.getBaseUris().addAll(other.getBaseUris());
 	}
 	
 	protected void preserveLayerState(ViewTree existing, ViewTree _new) {
