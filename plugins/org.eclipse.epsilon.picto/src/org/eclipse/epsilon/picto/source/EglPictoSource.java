@@ -199,9 +199,8 @@ public abstract class EglPictoSource implements PictoSource {
 							}
 							case "path": {
 								if (!(varValue instanceof Collection)) {
-									((Collection<String>) (varValue = new ArrayList<>(1)))
+									(path = (Collection<String>) (varValue = new ArrayList<>(1)))
 										.add(Objects.toString(varValue));
-									path = (Collection<String>) varValue;
 								}
 								else if (!((Collection<?>) varValue).isEmpty()) {
 									path = ((Collection<?>) varValue).stream()

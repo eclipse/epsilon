@@ -289,8 +289,6 @@
           url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
       <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
-      <repository
-          url="http://download.eclipse.org/mmt/qvto/updates/releases"/>
     </setupTask>
     <description>Epsilon v2.0</description>
   </version>
@@ -459,8 +457,6 @@
           url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
       <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
-      <repository
-          url="http://download.eclipse.org/mmt/qvto/updates/releases/latest"/>
     </setupTask>
     <description>Latest version of Epsilon</description>
   </version>

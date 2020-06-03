@@ -27,6 +27,7 @@
 		<unit id="org.eclipse.xsd.sdk.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="0.0.0"/>
 		<repository location="http://download.eclipse.org/releases/2020-03"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
@@ -42,10 +43,6 @@
 		<unit id="org.eclipse.emf.compare.rcp.ui.source.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.emf.compare.uml2.source.feature.group" version="0.0.0"/>
 		<repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/3.3/R201911051515"/>
-	</location>
-	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-		<unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="0.0.0"/>
-		<repository location="http://download.eclipse.org/mmt/qvto/updates/releases/latest"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.gmf.sdk.feature.group" version="3.2.1.201409171321"/>
