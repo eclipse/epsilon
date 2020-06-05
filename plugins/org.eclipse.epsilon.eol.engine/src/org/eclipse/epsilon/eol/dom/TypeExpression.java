@@ -146,7 +146,7 @@ public class TypeExpression extends Expression {
 			case "ConcurrentSet": case "ConcurrentBag":
 				type = new EolCollectionType(name);
 				break;
-			case "Nothing":
+			case "Nothing": case "None":
 				type = EolNoType.Instance;
 				break;
 			default:

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -33,14 +34,22 @@ public class MapLiteralExpression extends LiteralExpression {
 	 * @since 1.6
 	 */
 	protected EolMap<Object, Object> createMap() {
-		return mapName != null && mapName.contains("Concurrent") ?
-			new EolConcurrentMap<>() : new EolMap<>();
+		switch (mapName) {
+			case "Map": return  new EolMap<>();
+			case "ConcurrentMap": return new EolConcurrentMap<>();
+			default: return null;
+		}
 	}
 	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		this.mapName = cst.getText();
+		if (createMap() == null) {
+			module.getParseProblems().add(
+				new ParseProblem("Unknown map type: "+mapName, ParseProblem.ERROR)
+			);
+		}
 		
 		final AST keyvalListAST = cst.getFirstChild();
 
@@ -58,6 +67,10 @@ public class MapLiteralExpression extends LiteralExpression {
 	@Override
 	public EolMap<Object, Object> execute(IEolContext context) throws EolRuntimeException {
 		final EolMap<Object, Object> map = createMap();
+		if (map == null) {
+			throw new EolRuntimeException("Unknown map type: "+mapName);
+		}
+		
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
 		for (Entry<Expression, Expression> keyValueExpressionPair : keyValueExpressionPairs) {

@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -54,7 +55,12 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		this.collectionType = cst.getText();
-		this.range = false;
+		if (createCollection() == null) {
+			module.getParseProblems().add(
+				new ParseProblem("Unknown collection type: "+collectionType, ParseProblem.ERROR)
+			);
+		}
+
 		if (cst.getFirstChild() != null) {
 			for (AST parameterAst : cst.getFirstChild().getChildren()) {
 				parameterExpressions.add((Expression) module.createAst(parameterAst, this));
@@ -65,31 +71,35 @@ public class CollectionLiteralExpression extends LiteralExpression {
 		}
 	}
 	
-	@Override
-	public Collection<Object> execute(IEolContext context) throws EolRuntimeException {
-		Collection<Object> collection;
-		
+	/**
+	 * 
+	 * @return
+	 * @since 2.1
+	 */
+	protected Collection<Object> createCollection() {
 		switch (collectionType) {
 			case "Sequence": case "List":
-				collection = new EolSequence<>();
-				break;
+				return new EolSequence<>();
 			case "Set":
-				collection = new EolSet<>();
-				break;
+				return new EolSet<>();
 			case "OrderedSet":
-				collection = new EolOrderedSet<>();
-				break;
-			case "Bag":
-				collection = new EolBag<>();
-				break;
+				return new EolOrderedSet<>();
+			case "Bag": case "Collection":
+				return new EolBag<>();
 			case "ConcurrentBag":
-				collection = new EolConcurrentBag<>();
-				break;
+				return new EolConcurrentBag<>();
 			case "ConcurrentSet":
-				collection = new EolConcurrentSet<>();
-				break;
+				return new EolConcurrentSet<>();
 			default:
-				throw new EolRuntimeException("Unknown collection type: "+collectionType);
+				return null;
+		}
+	}
+	
+	@Override
+	public Collection<Object> execute(IEolContext context) throws EolRuntimeException {
+		Collection<Object> collection = createCollection();
+		if (collection == null) {
+			throw new EolRuntimeException("Unknown collection type: "+collectionType);
 		}
 		
 		ExecutorFactory executorFactory = context.getExecutorFactory();
@@ -102,9 +112,7 @@ public class CollectionLiteralExpression extends LiteralExpression {
 			Object rangeEnd = executorFactory.execute(rangeEndExpression, context);
 			
 			if (rangeStart instanceof Integer && rangeEnd instanceof Integer) {
-				
 				int s = (int) rangeStart, e = (int) rangeEnd;
-				
 				if (s > e) {
 					for (int i = s; i >= e; i--) {
 						collection.add(i);
