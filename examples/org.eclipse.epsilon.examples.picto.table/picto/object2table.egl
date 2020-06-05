@@ -28,7 +28,8 @@
 //TODO: think later about layering (e.g. superclasses on/off),
 //  or about separating attributes and references
 operation Any getFeatures() {
-	return self.eClass().getEAllStructuralFeatures();
+	var features = self.eClass().getEAllStructuralFeatures();
+	return features.sortBy(f | f.name.toLowerCase());
 }
 
 operation Any displayValue(object) {
