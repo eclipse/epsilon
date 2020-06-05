@@ -7,10 +7,11 @@
 [%
 	var javascript = "javascript:top.showElement('" + object.id + "','" + object.eResource.uri + "')";
 %]
+<h5 style="padding: 5px;">[%=object.getName()%] <a href="[%=javascript%]">(show in editor)</a></h5>
 <table class="table table-stripped">
 	<tr>
-		<th style="white-space: nowrap; width: 1%;">Feature</th>
-		<th style="float: left;">Value</th>
+		<th style="white-space: nowrap; width: 1%; text-align: left;">Feature</th>
+		<th style="text-align: left;">Value</th>
 	</tr>
 [%for (feature in object.getFeatures()){%]
 	<tr>
@@ -19,16 +20,33 @@
 	</tr>
 [%}%]
 </table>
-<a style="padding: 5px;" href="[%=javascript%]">Show [%=object.getName()%] in the upper viewer</a>
 </body>
 </html>
-
 [%
 
 //TODO: think later about layering (e.g. superclasses on/off),
 //  or about separating attributes and references
 operation Any getFeatures() {
-	var features = self.eClass().getEAllStructuralFeatures();
+	var features = null;
+	
+	if (isLayerActive("inherited")) {
+		features = self.eClass().getEAllStructuralFeatures(); 
+	}
+	else {
+		features = self.eClass().getEStructuralFeatures();
+	}
+
+	if (not isLayerActive("derived")) {
+		features = features.select(f | not f.derived);
+	}
+	
+	if (isLayerActive("containmentReferences")) {
+		features = features.select(f | 
+				(not f.hasProperty("eReferenceType"))
+				or 
+				(f.containment));
+	}
+
 	return features.sortBy(f | f.name.toLowerCase());
 }
 

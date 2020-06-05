@@ -1,17 +1,5 @@
 import "objectUtils.eol";
 
-pre {
-	/*var objects = M.getResource().getContents();
-	for (object in objects) {
-		object.println();
-		if (not object.eContents().isEmpty()) {
-			for (children in object.eContents()) {
-				children.println("\t");
-			}
-		}
-	}*/
-}
-
 rule Object2HTML
 	transform object in: M.allInstances() {
 
@@ -21,6 +9,9 @@ rule Object2HTML
 			"icon" = "diagram-000000",
 			"format" = "html",
 			"layers" = Sequence {
+				Map {"id"="inherited", "title"="Inherited features"},
+				Map {"id"="derived", "title"="Derived features", "active"=false},
+				Map {"id"="containmentReferences", "title"="Only containment references", "active"=false}
 			}
 		};
 	}
