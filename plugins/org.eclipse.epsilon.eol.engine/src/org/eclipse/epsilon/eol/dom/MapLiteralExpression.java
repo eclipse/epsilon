@@ -13,6 +13,8 @@ import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
@@ -29,25 +31,11 @@ public class MapLiteralExpression extends LiteralExpression {
 	
 	/**
 	 * 
-	 * @param cst
+	 * @param mapName
 	 * @return
 	 * @since 2.1
 	 */
-	public static boolean validateType(AST cst) {
-		String mapName = cst.getText();
-		switch (mapName) {
-			case "Map": case "ConcurrentMap":
-				return true;
-			default: return false;
-		}
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 1.6
-	 */
-	protected EolMap<Object, Object> createMap() {
+	public static Map<Object, Object> createMap(String mapName) {
 		switch (mapName) {
 			case "Map": return new EolMap<>();
 			case "ConcurrentMap": return new EolConcurrentMap<>();
@@ -74,8 +62,8 @@ public class MapLiteralExpression extends LiteralExpression {
 	}
 	
 	@Override
-	public EolMap<Object, Object> execute(IEolContext context) throws EolRuntimeException {
-		final EolMap<Object, Object> map = createMap();
+	public Map<Object, Object> execute(IEolContext context) throws EolRuntimeException {
+		final Map<Object, Object> map = createMap(mapName);
 		if (map == null) {
 			throw new EolRuntimeException("Unknown map type: "+mapName);
 		}

@@ -32,21 +32,6 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	protected boolean range;
 	protected List<Expression> parameterExpressions = new ArrayList<>();
 	
-	/**
-	 * 
-	 * @param cst
-	 * @return
-	 * @since 2.1
-	 */
-	public static boolean validateType(AST cst) {
-		String collectionName = cst.getText();
-		switch (collectionName) {
-			case "Sequence": case "List": case "Set": case "OrderedSet": case "Bag":
-			case "Collection": case "ConcurrentBag": case "ConcurrentSet": return true;
-			default: return false;
-		}
-	}
-	
 	public CollectionLiteralExpression() {}
 	
 	public CollectionLiteralExpression(String collectionType, Expression... parameterExpressions) {
@@ -82,10 +67,11 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	
 	/**
 	 * 
+	 * @param collectionType
 	 * @return
 	 * @since 2.1
 	 */
-	protected Collection<Object> createCollection() {
+	public static Collection<Object> createCollection(String collectionType) {
 		switch (collectionType) {
 			case "Sequence": case "List":
 				return new EolSequence<>();
@@ -106,7 +92,7 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	
 	@Override
 	public Collection<Object> execute(IEolContext context) throws EolRuntimeException {
-		Collection<Object> collection = createCollection();
+		Collection<Object> collection = createCollection(collectionType);
 		if (collection == null) {
 			throw new EolRuntimeException("Unknown collection type: "+collectionType);
 		}
