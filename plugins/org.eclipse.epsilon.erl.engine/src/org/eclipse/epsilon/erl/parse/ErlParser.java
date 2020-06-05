@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.erl.engine\\src\\org\\eclipse\\epsilon\\erl\\parse/Erl.g 2020-04-25 02:27:44
+// $ANTLR 3.1b1 C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.erl.engine\\src\\org\\eclipse\\epsilon\\erl\\parse/Erl.g 2020-06-05 16:59:18
 
 package org.eclipse.epsilon.erl.parse;
 
@@ -51,31 +51,32 @@ import org.antlr.runtime.tree.*;
  ******************************************************************************/
 public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "FLOAT", "DIGIT", "EXPONENT", "FLOAT_TYPE_SUFFIX", "INT", "POINT", "POINT_POINT", "ARROW", "BOOLEAN", "EscapeSequence", "STRING", "StrangeNameLiteral", "Letter", "SpecialNameChar", "JavaIDDigit", "NAME", "WS", "COMMENT", "LINE_COMMENT", "Annotation", "FORMAL", "PARAMLIST", "ASSIGNMENT", "SPECIAL_ASSIGNMENT", "HELPERMETHOD", "StatementBlock", "FOR", "IF", "ELSE", "TERNARY", "WHILE", "SWITCH", "CASE", "DEFAULT", "RETURN", "BREAK", "BREAKALL", "CONTINUE", "TRANSACTION", "COLLECTION", "ABORT", "CollectionType", "ModelElementType", "PARAMETERS", "NewExpression", "VAR", "NEW", "ANNOTATIONBLOCK", "EXECUTABLEANNOTATION", "DELETE", "THROW", "EXPRLIST", "EXPRRANGE", "NativeType", "MultiplicativeExpression", "OPERATOR", "EXPRESSIONINBRACKETS", "FeatureCall", "EOLMODULE", "BLOCK", "FEATURECALL", "LAMBDAEXPR", "TYPE", "ENUMERATION_VALUE", "IMPORT", "MODELDECLARATION", "NAMESPACE", "ALIAS", "DRIVER", "MODELDECLARATIONPARAMETERS", "MODELDECLARATIONPARAMETER", "ITEMSELECTOR", "MAP", "KEYVAL", "KEYVALLIST", "PRE", "POST", "EXTENDS", "GUARD", "ERLMODULE", "'model'", "';'", "'alias'", "','", "'driver'", "'{'", "'}'", "'='", "'operation'", "'function'", "'('", "')'", "':'", "'import'", "'$'", "'!'", "'#'", "'::'", "'Native'", "'Collection'", "'Sequence'", "'List'", "'Bag'", "'Set'", "'OrderedSet'", "'Map'", "'ConcurrentMap'", "'ConcurrentBag'", "'ConcurrentSet'", "'<'", "'>'", "'if'", "'else'", "'switch'", "'case'", "'default'", "'for'", "'in'", "'while'", "'return'", "'throw'", "'delete'", "'break'", "'breakAll'", "'continue'", "'abort'", "'transaction'", "':='", "'+='", "'-='", "'*='", "'/='", "'::='", "'or'", "'and'", "'xor'", "'implies'", "'?'", "'=='", "'>='", "'<='", "'<>'", "'+'", "'-'", "'*'", "'/'", "'not'", "'++'", "'--'", "'['", "']'", "'|'", "'=>'", "'new'", "'var'", "'ext'", "'pre'", "'post'", "'guard'", "'extends'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "FLOAT", "DIGIT", "EXPONENT", "FLOAT_TYPE_SUFFIX", "INT", "POINT", "POINT_POINT", "ARROW", "BOOLEAN", "EscapeSequence", "STRING", "StrangeNameLiteral", "CollectionLiteralName", "MapLiteralName", "SpecialLiteralName", "Letter", "SpecialNameChar", "JavaIDDigit", "NAME", "WS", "COMMENT", "LINE_COMMENT", "Annotation", "FORMAL", "PARAMLIST", "ASSIGNMENT", "SPECIAL_ASSIGNMENT", "HELPERMETHOD", "StatementBlock", "FOR", "IF", "ELSE", "TERNARY", "WHILE", "SWITCH", "CASE", "DEFAULT", "RETURN", "BREAK", "BREAKALL", "CONTINUE", "TRANSACTION", "COLLECTION", "ABORT", "CollectionType", "ModelElementType", "PARAMETERS", "NewExpression", "VAR", "NEW", "ANNOTATIONBLOCK", "EXECUTABLEANNOTATION", "DELETE", "THROW", "EXPRLIST", "EXPRRANGE", "NativeType", "MultiplicativeExpression", "OPERATOR", "EXPRESSIONINBRACKETS", "FeatureCall", "EOLMODULE", "BLOCK", "FEATURECALL", "LAMBDAEXPR", "TYPE", "ENUMERATION_VALUE", "IMPORT", "MODELDECLARATION", "NAMESPACE", "ALIAS", "DRIVER", "MODELDECLARATIONPARAMETERS", "MODELDECLARATIONPARAMETER", "ITEMSELECTOR", "MAP", "KEYVAL", "KEYVALLIST", "PRE", "POST", "EXTENDS", "GUARD", "ERLMODULE", "'model'", "';'", "'alias'", "','", "'driver'", "'{'", "'}'", "'='", "'operation'", "'function'", "'('", "')'", "':'", "'import'", "'$'", "'!'", "'#'", "'::'", "'<'", "'>'", "'if'", "'else'", "'switch'", "'case'", "'default'", "'for'", "'in'", "'while'", "'return'", "'throw'", "'delete'", "'break'", "'breakAll'", "'continue'", "'abort'", "'transaction'", "':='", "'+='", "'-='", "'*='", "'/='", "'::='", "'or'", "'and'", "'xor'", "'implies'", "'?'", "'=='", "'>='", "'<='", "'<>'", "'+'", "'-'", "'*'", "'/'", "'not'", "'++'", "'--'", "'['", "']'", "'|'", "'=>'", "'new'", "'var'", "'ext'", "'pre'", "'post'", "'guard'", "'extends'"
     };
     public static final int T__144=144;
     public static final int T__143=143;
     public static final int T__146=146;
-    public static final int MODELDECLARATIONPARAMETER=74;
+    public static final int MODELDECLARATIONPARAMETER=77;
     public static final int T__145=145;
-    public static final int BREAKALL=40;
+    public static final int BREAKALL=43;
     public static final int T__140=140;
     public static final int T__142=142;
-    public static final int VAR=49;
-    public static final int MODELDECLARATIONPARAMETERS=73;
+    public static final int VAR=52;
+    public static final int MODELDECLARATIONPARAMETERS=76;
     public static final int T__141=141;
-    public static final int THROW=54;
-    public static final int PARAMLIST=25;
-    public static final int EXPRLIST=55;
-    public static final int EXPRRANGE=56;
-    public static final int BREAK=39;
-    public static final int ELSE=32;
+    public static final int THROW=57;
+    public static final int SpecialLiteralName=18;
+    public static final int PARAMLIST=28;
+    public static final int EXPRLIST=58;
+    public static final int EXPRRANGE=59;
+    public static final int BREAK=42;
+    public static final int ELSE=35;
     public static final int T__137=137;
     public static final int T__136=136;
-    public static final int FORMAL=24;
-    public static final int IF=31;
-    public static final int MultiplicativeExpression=58;
-    public static final int TYPE=66;
+    public static final int FORMAL=27;
+    public static final int IF=34;
+    public static final int MultiplicativeExpression=61;
+    public static final int TYPE=69;
     public static final int T__139=139;
     public static final int T__138=138;
     public static final int T__133=133;
@@ -83,49 +84,41 @@ public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final int T__135=135;
     public static final int T__134=134;
     public static final int T__131=131;
-    public static final int NewExpression=48;
+    public static final int NewExpression=51;
     public static final int T__130=130;
-    public static final int CASE=36;
-    public static final int Letter=16;
-    public static final int LINE_COMMENT=22;
+    public static final int CASE=39;
+    public static final int Letter=19;
+    public static final int LINE_COMMENT=25;
     public static final int T__129=129;
     public static final int T__126=126;
-    public static final int JavaIDDigit=18;
+    public static final int JavaIDDigit=21;
     public static final int T__125=125;
-    public static final int LAMBDAEXPR=65;
-    public static final int MAP=76;
+    public static final int LAMBDAEXPR=68;
+    public static final int MAP=79;
     public static final int T__128=128;
     public static final int T__127=127;
-    public static final int T__162=162;
-    public static final int T__161=161;
-    public static final int MODELDECLARATION=69;
-    public static final int T__163=163;
-    public static final int EXPRESSIONINBRACKETS=60;
-    public static final int T__160=160;
-    public static final int TERNARY=33;
-    public static final int TRANSACTION=42;
+    public static final int MODELDECLARATION=72;
+    public static final int EXPRESSIONINBRACKETS=63;
+    public static final int TERNARY=36;
+    public static final int TRANSACTION=45;
     public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int ITEMSELECTOR=75;
-    public static final int COMMENT=21;
-    public static final int ModelElementType=46;
-    public static final int IMPORT=68;
-    public static final int DELETE=53;
+    public static final int ITEMSELECTOR=78;
+    public static final int COMMENT=24;
+    public static final int ModelElementType=49;
+    public static final int IMPORT=71;
+    public static final int DELETE=56;
     public static final int ARROW=11;
-    public static final int T__159=159;
-    public static final int T__158=158;
     public static final int T__155=155;
-    public static final int SPECIAL_ASSIGNMENT=27;
+    public static final int SPECIAL_ASSIGNMENT=30;
     public static final int T__154=154;
-    public static final int T__157=157;
-    public static final int T__156=156;
     public static final int T__151=151;
     public static final int T__150=150;
     public static final int T__153=153;
     public static final int T__152=152;
-    public static final int Annotation=23;
-    public static final int CONTINUE=41;
-    public static final int ENUMERATION_VALUE=67;
-    public static final int OPERATOR=59;
+    public static final int Annotation=26;
+    public static final int CONTINUE=44;
+    public static final int ENUMERATION_VALUE=70;
+    public static final int OPERATOR=62;
     public static final int EXPONENT=6;
     public static final int STRING=14;
     public static final int T__148=148;
@@ -133,59 +126,60 @@ public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final int T__149=149;
     public static final int T__91=91;
     public static final int T__100=100;
-    public static final int NAMESPACE=70;
+    public static final int NAMESPACE=73;
     public static final int T__92=92;
-    public static final int COLLECTION=43;
-    public static final int NEW=50;
-    public static final int EXTENDS=81;
+    public static final int COLLECTION=46;
+    public static final int NEW=53;
+    public static final int EXTENDS=84;
     public static final int T__93=93;
     public static final int T__102=102;
-    public static final int PRE=79;
+    public static final int PRE=82;
     public static final int T__94=94;
     public static final int T__101=101;
-    public static final int POST=80;
+    public static final int POST=83;
     public static final int T__90=90;
-    public static final int ALIAS=71;
-    public static final int DRIVER=72;
-    public static final int KEYVAL=77;
+    public static final int ALIAS=74;
+    public static final int DRIVER=75;
+    public static final int KEYVAL=80;
     public static final int POINT_POINT=10;
-    public static final int GUARD=82;
+    public static final int GUARD=85;
     public static final int T__99=99;
     public static final int T__95=95;
-    public static final int HELPERMETHOD=28;
+    public static final int HELPERMETHOD=31;
     public static final int T__96=96;
     public static final int T__97=97;
-    public static final int StatementBlock=29;
+    public static final int StatementBlock=32;
     public static final int T__98=98;
-    public static final int ERLMODULE=83;
-    public static final int ABORT=44;
+    public static final int ERLMODULE=86;
+    public static final int ABORT=47;
     public static final int StrangeNameLiteral=15;
-    public static final int FOR=30;
-    public static final int BLOCK=63;
-    public static final int PARAMETERS=47;
-    public static final int SpecialNameChar=17;
+    public static final int FOR=33;
+    public static final int BLOCK=66;
+    public static final int CollectionLiteralName=16;
+    public static final int PARAMETERS=50;
+    public static final int SpecialNameChar=20;
     public static final int BOOLEAN=12;
-    public static final int NAME=19;
-    public static final int SWITCH=35;
-    public static final int FeatureCall=61;
+    public static final int NAME=22;
+    public static final int SWITCH=38;
+    public static final int FeatureCall=64;
     public static final int T__122=122;
     public static final int T__121=121;
     public static final int T__124=124;
     public static final int FLOAT=4;
     public static final int T__123=123;
     public static final int T__120=120;
-    public static final int NativeType=57;
+    public static final int NativeType=60;
     public static final int INT=8;
-    public static final int ANNOTATIONBLOCK=51;
-    public static final int RETURN=38;
-    public static final int KEYVALLIST=78;
-    public static final int FEATURECALL=64;
-    public static final int CollectionType=45;
+    public static final int ANNOTATIONBLOCK=54;
+    public static final int RETURN=41;
+    public static final int KEYVALLIST=81;
+    public static final int FEATURECALL=67;
+    public static final int CollectionType=48;
     public static final int T__119=119;
-    public static final int ASSIGNMENT=26;
+    public static final int ASSIGNMENT=29;
     public static final int T__118=118;
     public static final int T__115=115;
-    public static final int WS=20;
+    public static final int WS=23;
     public static final int EOF=-1;
     public static final int T__114=114;
     public static final int T__117=117;
@@ -195,23 +189,21 @@ public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final int T__113=113;
     public static final int T__112=112;
     public static final int EscapeSequence=13;
-    public static final int EOLMODULE=62;
+    public static final int EOLMODULE=65;
+    public static final int MapLiteralName=17;
     public static final int DIGIT=5;
-    public static final int EXECUTABLEANNOTATION=52;
+    public static final int EXECUTABLEANNOTATION=55;
     public static final int T__88=88;
     public static final int T__108=108;
     public static final int T__89=89;
     public static final int T__107=107;
-    public static final int WHILE=34;
+    public static final int WHILE=37;
     public static final int T__109=109;
-    public static final int T__84=84;
     public static final int T__104=104;
     public static final int POINT=9;
-    public static final int T__85=85;
     public static final int T__103=103;
-    public static final int T__86=86;
     public static final int T__106=106;
-    public static final int DEFAULT=37;
+    public static final int DEFAULT=40;
     public static final int T__87=87;
     public static final int T__105=105;
 
@@ -279,7 +271,7 @@ public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0==97) ) {
+                if ( (LA1_0==100) ) {
                     alt1=1;
                 }
 
@@ -309,7 +301,7 @@ public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( (LA2_0==84) ) {
+                if ( (LA2_0==87) ) {
                     alt2=1;
                 }
 
@@ -339,7 +331,7 @@ public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
                 int alt3=2;
                 int LA3_0 = input.LA(1);
 
-                if ( (LA3_0==Annotation||(LA3_0>=92 && LA3_0<=93)||LA3_0==98||(LA3_0>=160 && LA3_0<=161)) ) {
+                if ( (LA3_0==Annotation||(LA3_0>=95 && LA3_0<=96)||LA3_0==101||(LA3_0>=152 && LA3_0<=153)) ) {
                     alt3=1;
                 }
 
@@ -369,7 +361,7 @@ public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
 
 
             // AST REWRITE
-            // elements: erlModuleContent, modelDeclaration, importStatement
+            // elements: modelDeclaration, importStatement, erlModuleContent
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -434,86 +426,86 @@ public class ErlParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     // $ANTLR end erlModule
 
     // Delegated rules
-    public Erl_EolParserRules.literalMapCollection_return literalMapCollection() throws RecognitionException { return gEolParserRules.literalMapCollection(); }
-    public Erl_EolParserRules.modelDeclarationParameter_return modelDeclarationParameter() throws RecognitionException { return gEolParserRules.modelDeclarationParameter(); }
-    public Erl_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
-    public Erl_EolParserRules.literalSequentialCollection_return literalSequentialCollection() throws RecognitionException { return gEolParserRules.literalSequentialCollection(); }
-    public Erl_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
-    public Erl_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
-    public Erl_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
-    public Erl_ErlParserRules.erlModuleContent_return erlModuleContent() throws RecognitionException { return gErlParserRules.erlModuleContent(); }
-    public Erl_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
-    public Erl_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
-    public Erl_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
-    public Erl_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
-    public Erl_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
-    public Erl_EolParserRules.switchStatement_return switchStatement() throws RecognitionException { return gEolParserRules.switchStatement(); }
-    public Erl_EolParserRules.shortcutOperatorExpression_return shortcutOperatorExpression() throws RecognitionException { return gEolParserRules.shortcutOperatorExpression(); }
-    public Erl_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
-    public Erl_EolParserRules.defaultStatement_return defaultStatement() throws RecognitionException { return gEolParserRules.defaultStatement(); }
-    public Erl_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
-    public Erl_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
-    public Erl_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
-    public Erl_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
-    public Erl_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
-    public Erl_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
-    public Erl_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
-    public Erl_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
-    public Erl_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
-    public Erl_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
-    public Erl_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
-    public Erl_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
-    public Erl_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
-    public Erl_EolParserRules.keyvalExpressionList_return keyvalExpressionList() throws RecognitionException { return gEolParserRules.keyvalExpressionList(); }
-    public Erl_EolParserRules.lambdaExpression_return lambdaExpression() throws RecognitionException { return gEolParserRules.lambdaExpression(); }
-    public Erl_EolParserRules.modelDriver_return modelDriver() throws RecognitionException { return gEolParserRules.modelDriver(); }
-    public Erl_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
     public Erl_EolParserRules.keyvalExpression_return keyvalExpression() throws RecognitionException { return gEolParserRules.keyvalExpression(); }
-    public Erl_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
-    public Erl_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
-    public Erl_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
-    public Erl_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
-    public Erl_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
-    public Erl_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
-    public Erl_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
-    public Erl_EolParserRules.modelDeclarationParameters_return modelDeclarationParameters() throws RecognitionException { return gEolParserRules.modelDeclarationParameters(); }
-    public Erl_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
-    public Erl_EolParserRules.itemSelectorExpression_return itemSelectorExpression() throws RecognitionException { return gEolParserRules.itemSelectorExpression(); }
-    public Erl_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
-    public Erl_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
-    public Erl_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
-    public Erl_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
-    public Erl_ErlParserRules.guard_return guard() throws RecognitionException { return gErlParserRules.guard(); }
-    public Erl_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
-    public Erl_EolParserRules.lambdaExpressionInBrackets_return lambdaExpressionInBrackets() throws RecognitionException { return gEolParserRules.lambdaExpressionInBrackets(); }
-    public Erl_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
-    public Erl_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
-    public Erl_EolParserRules.complexFeatureCall_return complexFeatureCall() throws RecognitionException { return gEolParserRules.complexFeatureCall(); }
-    public Erl_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
-    public Erl_EolParserRules.logicalExpressionInBrackets_return logicalExpressionInBrackets() throws RecognitionException { return gEolParserRules.logicalExpressionInBrackets(); }
-    public Erl_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
-    public Erl_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
-    public Erl_EolParserRules.packagedType_return packagedType() throws RecognitionException { return gEolParserRules.packagedType(); }
-    public Erl_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
-    public Erl_EolParserRules.caseStatement_return caseStatement() throws RecognitionException { return gEolParserRules.caseStatement(); }
-    public Erl_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Erl_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
     public Erl_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
+    public Erl_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
     public Erl_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
-    public Erl_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
-    public Erl_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
-    public Erl_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
-    public Erl_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
-    public Erl_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
-    public Erl_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Erl_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
     public Erl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
+    public Erl_EolParserRules.literalSequentialCollection_return literalSequentialCollection() throws RecognitionException { return gEolParserRules.literalSequentialCollection(); }
+    public Erl_ErlParserRules.guard_return guard() throws RecognitionException { return gErlParserRules.guard(); }
+    public Erl_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
+    public Erl_EolParserRules.modelDeclarationParameters_return modelDeclarationParameters() throws RecognitionException { return gEolParserRules.modelDeclarationParameters(); }
+    public Erl_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
+    public Erl_EolParserRules.lambdaExpression_return lambdaExpression() throws RecognitionException { return gEolParserRules.lambdaExpression(); }
+    public Erl_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
+    public Erl_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
+    public Erl_EolParserRules.itemSelectorExpression_return itemSelectorExpression() throws RecognitionException { return gEolParserRules.itemSelectorExpression(); }
+    public Erl_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
+    public Erl_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
+    public Erl_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
+    public Erl_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
+    public Erl_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
+    public Erl_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
+    public Erl_EolParserRules.packagedType_return packagedType() throws RecognitionException { return gEolParserRules.packagedType(); }
+    public Erl_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
+    public Erl_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
+    public Erl_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
+    public Erl_EolParserRules.logicalExpressionInBrackets_return logicalExpressionInBrackets() throws RecognitionException { return gEolParserRules.logicalExpressionInBrackets(); }
+    public Erl_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
+    public Erl_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
+    public Erl_EolParserRules.caseStatement_return caseStatement() throws RecognitionException { return gEolParserRules.caseStatement(); }
+    public Erl_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
+    public Erl_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
+    public Erl_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
+    public Erl_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
+    public Erl_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
+    public Erl_EolParserRules.lambdaExpressionInBrackets_return lambdaExpressionInBrackets() throws RecognitionException { return gEolParserRules.lambdaExpressionInBrackets(); }
+    public Erl_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
+    public Erl_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Erl_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
+    public Erl_EolParserRules.complexFeatureCall_return complexFeatureCall() throws RecognitionException { return gEolParserRules.complexFeatureCall(); }
+    public Erl_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
+    public Erl_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
+    public Erl_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
+    public Erl_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
+    public Erl_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Erl_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
+    public Erl_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Erl_EolParserRules.modelDeclarationParameter_return modelDeclarationParameter() throws RecognitionException { return gEolParserRules.modelDeclarationParameter(); }
+    public Erl_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
+    public Erl_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
+    public Erl_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
+    public Erl_EolParserRules.modelDriver_return modelDriver() throws RecognitionException { return gEolParserRules.modelDriver(); }
     public Erl_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
+    public Erl_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
+    public Erl_EolParserRules.defaultStatement_return defaultStatement() throws RecognitionException { return gEolParserRules.defaultStatement(); }
+    public Erl_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
+    public Erl_EolParserRules.specialType_return specialType() throws RecognitionException { return gEolParserRules.specialType(); }
+    public Erl_EolParserRules.switchStatement_return switchStatement() throws RecognitionException { return gEolParserRules.switchStatement(); }
+    public Erl_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
+    public Erl_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
+    public Erl_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
+    public Erl_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
+    public Erl_EolParserRules.literalMapCollection_return literalMapCollection() throws RecognitionException { return gEolParserRules.literalMapCollection(); }
+    public Erl_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
+    public Erl_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
+    public Erl_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
+    public Erl_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
+    public Erl_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
+    public Erl_ErlParserRules.erlModuleContent_return erlModuleContent() throws RecognitionException { return gErlParserRules.erlModuleContent(); }
+    public Erl_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
+    public Erl_EolParserRules.shortcutOperatorExpression_return shortcutOperatorExpression() throws RecognitionException { return gEolParserRules.shortcutOperatorExpression(); }
+    public Erl_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
+    public Erl_EolParserRules.keyvalExpressionList_return keyvalExpressionList() throws RecognitionException { return gEolParserRules.keyvalExpressionList(); }
 
 
  
 
-    public static final BitSet FOLLOW_importStatement_in_erlModule73 = new BitSet(new long[]{0x0000000000800000L,0x0000000630100000L,0x0000000300000000L});
-    public static final BitSet FOLLOW_modelDeclaration_in_erlModule76 = new BitSet(new long[]{0x0000000000800000L,0x0000000430100000L,0x0000000300000000L});
-    public static final BitSet FOLLOW_erlModuleContent_in_erlModule80 = new BitSet(new long[]{0x0000000000800000L,0x0000000430000000L,0x0000000300000000L});
+    public static final BitSet FOLLOW_importStatement_in_erlModule73 = new BitSet(new long[]{0x0000000004000000L,0x0000003180800000L,0x0000000003000000L});
+    public static final BitSet FOLLOW_modelDeclaration_in_erlModule76 = new BitSet(new long[]{0x0000000004000000L,0x0000002180800000L,0x0000000003000000L});
+    public static final BitSet FOLLOW_erlModuleContent_in_erlModule80 = new BitSet(new long[]{0x0000000004000000L,0x0000002180000000L,0x0000000003000000L});
     public static final BitSet FOLLOW_EOF_in_erlModule84 = new BitSet(new long[]{0x0000000000000002L});
 
 }

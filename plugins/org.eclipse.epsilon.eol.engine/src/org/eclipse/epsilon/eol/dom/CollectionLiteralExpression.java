@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -32,6 +31,21 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	protected String collectionType;
 	protected boolean range;
 	protected List<Expression> parameterExpressions = new ArrayList<>();
+	
+	/**
+	 * 
+	 * @param cst
+	 * @return
+	 * @since 2.1
+	 */
+	public static boolean validateType(AST cst) {
+		String collectionName = cst.getText();
+		switch (collectionName) {
+			case "Sequence": case "List": case "Set": case "OrderedSet": case "Bag":
+			case "Collection": case "ConcurrentBag": case "ConcurrentSet": return true;
+			default: return false;
+		}
+	}
 	
 	public CollectionLiteralExpression() {}
 	
@@ -55,11 +69,6 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		this.collectionType = cst.getText();
-		if (createCollection() == null) {
-			module.getParseProblems().add(
-				new ParseProblem("Unknown collection type: "+collectionType, ParseProblem.ERROR)
-			);
-		}
 
 		if (cst.getFirstChild() != null) {
 			for (AST parameterAst : cst.getFirstChild().getChildren()) {

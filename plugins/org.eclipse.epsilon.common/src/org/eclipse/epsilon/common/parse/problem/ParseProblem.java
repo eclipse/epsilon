@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.parse.problem;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 public class ParseProblem {
 	
@@ -21,14 +22,20 @@ public class ParseProblem {
 	private int severity;
 	
 	public ParseProblem() {
+	}
 	
+	/**
+	 * @since 2.1
+	 */
+	public ParseProblem(String reason, ModuleElement element) {
+		this(element.getRegion().getStart().getLine(), element.getRegion().getStart().getColumn(), reason);
 	}
 	
 	public ParseProblem(int line, int column, String reason) {
 		this(line, column, reason, ERROR);
 	}
 	
-	public ParseProblem(String reason, int severity){
+	public ParseProblem(String reason, int severity) {
 		this(-1, -1, reason, severity);
 	}
 	

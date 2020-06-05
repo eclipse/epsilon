@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -30,12 +29,27 @@ public class MapLiteralExpression extends LiteralExpression {
 	
 	/**
 	 * 
+	 * @param cst
+	 * @return
+	 * @since 2.1
+	 */
+	public static boolean validateType(AST cst) {
+		String mapName = cst.getText();
+		switch (mapName) {
+			case "Map": case "ConcurrentMap":
+				return true;
+			default: return false;
+		}
+	}
+	
+	/**
+	 * 
 	 * @return
 	 * @since 1.6
 	 */
 	protected EolMap<Object, Object> createMap() {
 		switch (mapName) {
-			case "Map": return  new EolMap<>();
+			case "Map": return new EolMap<>();
 			case "ConcurrentMap": return new EolConcurrentMap<>();
 			default: return null;
 		}
@@ -45,11 +59,6 @@ public class MapLiteralExpression extends LiteralExpression {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		this.mapName = cst.getText();
-		if (createMap() == null) {
-			module.getParseProblems().add(
-				new ParseProblem("Unknown map type: "+mapName, ParseProblem.ERROR)
-			);
-		}
 		
 		final AST keyvalListAST = cst.getFirstChild();
 

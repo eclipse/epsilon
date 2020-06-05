@@ -210,7 +210,16 @@ typeName
 	@after {
 		$tree.getToken().setType(TYPE);
 	}
-	: pathName | nativeType | collectionType
+	: pathName | collectionType | specialType
+	;
+
+specialType
+	@after {
+		$tree.getExtraTokens().add($s); 
+		$tree.getExtraTokens().add($e);
+		$tree.getToken().setType(TYPE);
+	}
+	:	SpecialLiteralName^ s='('! STRING e=')'!
 	;
 
 pathName
@@ -239,22 +248,13 @@ packagedType
 		)*
 	;
 
-nativeType
-	@after {
-		$tree.getExtraTokens().add($s); 
-		$tree.getExtraTokens().add($e);
-		$tree.getToken().setType(TYPE);
-	}
-	:	'Native'^ s='('! STRING e=')'!
-	;
-
 collectionType
 	@after {
 		$tree.getExtraTokens().add($op); 
 		$tree.getExtraTokens().add($cp);
 		$tree.getToken().setType(TYPE);
 	}
-	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet'|'Map'|'ConcurrentMap'|'ConcurrentBag'|'ConcurrentSet')^
+	: 	(CollectionLiteralName | MapLiteralName)^
 		((op='('! tn=typeName {setTokenType(tn,TYPE);} (',' tn=typeName {setTokenType(tn,TYPE);})* cp=')'!) |
 		 (op='<'! tn=typeName {setTokenType(tn,TYPE);} (',' tn=typeName {setTokenType(tn,TYPE);})* cp='>'!)
 		)?
@@ -503,8 +503,7 @@ literalSequentialCollection
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	}
-	:	(l='Collection'^|l='Sequence'^|l='List'^|l='Bag'^|
-		l='Set'^|l='OrderedSet'^|l='ConcurrentBag'^|l='ConcurrentSet'^)
+	:	l=CollectionLiteralName^
 		ob='{'! expressionListOrRange? cb='}'!
 	{$l.setType(COLLECTION);}
 	;
@@ -531,7 +530,7 @@ literalMapCollection
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	}
-	:	(m='Map'^|m='ConcurrentMap'^) ob='{'! keyvalExpressionList? cb='}'!
+	:	m=MapLiteralName^ ob='{'! keyvalExpressionList? cb='}'!
 	{$m.setType(MAP);}
 	;
 
@@ -548,10 +547,10 @@ keyvalExpression
 	:	additiveExpression eq='='^ logicalExpression
 	{$eq.setType(KEYVAL);}
 	;
+
 primitiveExpression 
-	:	literalSequentialCollection | literalMapCollection | literal | featureCall | pathName | nativeType
-		| collectionType | logicalExpressionInBrackets
-		| newExpression | variableDeclarationExpression
+	:	literalSequentialCollection | literalMapCollection | literal | featureCall | collectionType |
+		pathName | specialType | logicalExpressionInBrackets | newExpression | variableDeclarationExpression
 	;
 
 logicalExpressionInBrackets
