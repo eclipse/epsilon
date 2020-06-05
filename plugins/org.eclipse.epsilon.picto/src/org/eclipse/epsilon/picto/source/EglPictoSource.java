@@ -373,7 +373,7 @@ public abstract class EglPictoSource implements PictoSource {
 		
 		for (Parameter parameter : model.getParameters()) {
 			properties.put(parameter.getName(), parameter.getFile() != null ?
-				parameter.getValue() : relativePathResolver.resolve(parameter.getFile())
+					relativePathResolver.resolve(parameter.getFile()) : parameter.getValue()
 			);
 		}
 		m.load(properties, relativePathResolver);
