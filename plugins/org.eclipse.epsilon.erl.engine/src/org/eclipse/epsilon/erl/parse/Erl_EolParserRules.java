@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.erl.parse;
 
-// $ANTLR 3.1b1 EolParserRules.g 2020-06-05 16:59:18
+// $ANTLR 3.1b1 EolParserRules.g 2020-06-06 01:10:40
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -61,7 +61,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int MODELDECLARATIONPARAMETERS=76;
     public static final int T__141=141;
     public static final int THROW=57;
-    public static final int SpecialLiteralName=18;
+    public static final int SpecialTypeName=18;
     public static final int PARAMLIST=28;
     public static final int EXPRLIST=58;
     public static final int EXPRRANGE=59;
@@ -104,6 +104,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int IMPORT=71;
     public static final int DELETE=56;
     public static final int ARROW=11;
+    public static final int MapTypeName=17;
     public static final int T__155=155;
     public static final int SPECIAL_ASSIGNMENT=30;
     public static final int T__154=154;
@@ -151,7 +152,6 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int StrangeNameLiteral=15;
     public static final int FOR=33;
     public static final int BLOCK=66;
-    public static final int CollectionLiteralName=16;
     public static final int PARAMETERS=50;
     public static final int SpecialNameChar=20;
     public static final int BOOLEAN=12;
@@ -186,7 +186,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__112=112;
     public static final int EscapeSequence=13;
     public static final int EOLMODULE=65;
-    public static final int MapLiteralName=17;
+    public static final int CollectionTypeName=16;
     public static final int DIGIT=5;
     public static final int EXECUTABLEANNOTATION=55;
     public static final int T__88=88;
@@ -873,7 +873,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                     alt8=1;
                 }
             }
-            else if ( ((LA8_0>=CollectionLiteralName && LA8_0<=SpecialLiteralName)) ) {
+            else if ( ((LA8_0>=CollectionTypeName && LA8_0<=SpecialTypeName)) ) {
                 alt8=1;
             }
             switch (alt8) {
@@ -1083,7 +1083,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 int alt11=2;
                 int LA11_0 = input.LA(1);
 
-                if ( (LA11_0==FLOAT||LA11_0==INT||LA11_0==BOOLEAN||LA11_0==STRING||(LA11_0>=CollectionLiteralName && LA11_0<=SpecialLiteralName)||LA11_0==NAME||LA11_0==97||LA11_0==107||LA11_0==109||LA11_0==112||(LA11_0>=114 && LA11_0<=122)||LA11_0==139||LA11_0==142||(LA11_0>=149 && LA11_0<=151)) ) {
+                if ( (LA11_0==FLOAT||LA11_0==INT||LA11_0==BOOLEAN||LA11_0==STRING||(LA11_0>=CollectionTypeName && LA11_0<=SpecialTypeName)||LA11_0==NAME||LA11_0==97||LA11_0==107||LA11_0==109||LA11_0==112||(LA11_0>=114 && LA11_0<=122)||LA11_0==139||LA11_0==142||(LA11_0>=149 && LA11_0<=151)) ) {
                     alt11=1;
                 }
 
@@ -1293,7 +1293,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
 
             // AST REWRITE
-            // elements: typeName, NAME
+            // elements: NAME, typeName
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1782,13 +1782,13 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 alt16=1;
                 }
                 break;
-            case CollectionLiteralName:
-            case MapLiteralName:
+            case CollectionTypeName:
+            case MapTypeName:
                 {
                 alt16=2;
                 }
                 break;
-            case SpecialLiteralName:
+            case SpecialTypeName:
                 {
                 alt16=3;
                 }
@@ -1877,7 +1877,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start specialType
-    // EolParserRules.g:216:1: specialType : SpecialLiteralName s= '(' STRING e= ')' ;
+    // EolParserRules.g:216:1: specialType : SpecialTypeName s= '(' STRING e= ')' ;
     public final Erl_EolParserRules.specialType_return specialType() throws RecognitionException {
         Erl_EolParserRules.specialType_return retval = new Erl_EolParserRules.specialType_return();
         retval.start = input.LT(1);
@@ -1886,24 +1886,24 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
         Token s=null;
         Token e=null;
-        Token SpecialLiteralName35=null;
+        Token SpecialTypeName35=null;
         Token STRING36=null;
 
         org.eclipse.epsilon.common.parse.AST s_tree=null;
         org.eclipse.epsilon.common.parse.AST e_tree=null;
-        org.eclipse.epsilon.common.parse.AST SpecialLiteralName35_tree=null;
+        org.eclipse.epsilon.common.parse.AST SpecialTypeName35_tree=null;
         org.eclipse.epsilon.common.parse.AST STRING36_tree=null;
 
         try {
-            // EolParserRules.g:222:2: ( SpecialLiteralName s= '(' STRING e= ')' )
-            // EolParserRules.g:222:4: SpecialLiteralName s= '(' STRING e= ')'
+            // EolParserRules.g:222:2: ( SpecialTypeName s= '(' STRING e= ')' )
+            // EolParserRules.g:222:4: SpecialTypeName s= '(' STRING e= ')'
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            SpecialLiteralName35=(Token)match(input,SpecialLiteralName,FOLLOW_SpecialLiteralName_in_specialType746); if (state.failed) return retval;
+            SpecialTypeName35=(Token)match(input,SpecialTypeName,FOLLOW_SpecialTypeName_in_specialType746); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
-            SpecialLiteralName35_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(SpecialLiteralName35);
-            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(SpecialLiteralName35_tree, root_0);
+            SpecialTypeName35_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(SpecialTypeName35);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(SpecialTypeName35_tree, root_0);
             }
             s=(Token)match(input,97,FOLLOW_97_in_specialType751); if (state.failed) return retval;
             STRING36=(Token)match(input,STRING,FOLLOW_STRING_in_specialType754); if (state.failed) return retval;
@@ -2157,7 +2157,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start collectionType
-    // EolParserRules.g:251:1: collectionType : ( CollectionLiteralName | MapLiteralName ) ( (op= '(' tn= typeName ( ',' tn= typeName )* cp= ')' ) | (op= '<' tn= typeName ( ',' tn= typeName )* cp= '>' ) )? ;
+    // EolParserRules.g:251:1: collectionType : ( CollectionTypeName | MapTypeName ) ( (op= '(' tn= typeName ( ',' tn= typeName )* cp= ')' ) | (op= '<' tn= typeName ( ',' tn= typeName )* cp= '>' ) )? ;
     public final Erl_EolParserRules.collectionType_return collectionType() throws RecognitionException {
         Erl_EolParserRules.collectionType_return retval = new Erl_EolParserRules.collectionType_return();
         retval.start = input.LT(1);
@@ -2179,14 +2179,14 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST char_literal42_tree=null;
 
         try {
-            // EolParserRules.g:257:2: ( ( CollectionLiteralName | MapLiteralName ) ( (op= '(' tn= typeName ( ',' tn= typeName )* cp= ')' ) | (op= '<' tn= typeName ( ',' tn= typeName )* cp= '>' ) )? )
-            // EolParserRules.g:257:5: ( CollectionLiteralName | MapLiteralName ) ( (op= '(' tn= typeName ( ',' tn= typeName )* cp= ')' ) | (op= '<' tn= typeName ( ',' tn= typeName )* cp= '>' ) )?
+            // EolParserRules.g:257:2: ( ( CollectionTypeName | MapTypeName ) ( (op= '(' tn= typeName ( ',' tn= typeName )* cp= ')' ) | (op= '<' tn= typeName ( ',' tn= typeName )* cp= '>' ) )? )
+            // EolParserRules.g:257:5: ( CollectionTypeName | MapTypeName ) ( (op= '(' tn= typeName ( ',' tn= typeName )* cp= ')' ) | (op= '<' tn= typeName ( ',' tn= typeName )* cp= '>' ) )?
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
             set40=(Token)input.LT(1);
             set40=(Token)input.LT(1);
-            if ( (input.LA(1)>=CollectionLiteralName && input.LA(1)<=MapLiteralName) ) {
+            if ( (input.LA(1)>=CollectionTypeName && input.LA(1)<=MapTypeName) ) {
                 input.consume();
                 if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(set40), root_0);
                 state.errorRecovery=false;state.failed=false;
@@ -2821,7 +2821,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt26=2;
             int LA26_0 = input.LA(1);
 
-            if ( (LA26_0==FLOAT||LA26_0==INT||LA26_0==BOOLEAN||LA26_0==STRING||(LA26_0>=CollectionLiteralName && LA26_0<=SpecialLiteralName)||LA26_0==NAME||LA26_0==97||LA26_0==107||LA26_0==109||LA26_0==112||(LA26_0>=114 && LA26_0<=122)||LA26_0==139||LA26_0==142||(LA26_0>=149 && LA26_0<=151)) ) {
+            if ( (LA26_0==FLOAT||LA26_0==INT||LA26_0==BOOLEAN||LA26_0==STRING||(LA26_0>=CollectionTypeName && LA26_0<=SpecialTypeName)||LA26_0==NAME||LA26_0==97||LA26_0==107||LA26_0==109||LA26_0==112||(LA26_0>=114 && LA26_0<=122)||LA26_0==139||LA26_0==142||(LA26_0>=149 && LA26_0<=151)) ) {
                 alt26=1;
             }
             else if ( (LA26_0==92) ) {
@@ -3319,7 +3319,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt31=2;
             int LA31_0 = input.LA(1);
 
-            if ( (LA31_0==EOF||LA31_0==FLOAT||LA31_0==INT||LA31_0==BOOLEAN||LA31_0==STRING||(LA31_0>=CollectionLiteralName && LA31_0<=SpecialLiteralName)||LA31_0==NAME||LA31_0==93||LA31_0==97||LA31_0==107||(LA31_0>=109 && LA31_0<=112)||(LA31_0>=114 && LA31_0<=122)||LA31_0==139||LA31_0==142||(LA31_0>=149 && LA31_0<=151)) ) {
+            if ( (LA31_0==EOF||LA31_0==FLOAT||LA31_0==INT||LA31_0==BOOLEAN||LA31_0==STRING||(LA31_0>=CollectionTypeName && LA31_0<=SpecialTypeName)||LA31_0==NAME||LA31_0==93||LA31_0==97||LA31_0==107||(LA31_0>=109 && LA31_0<=112)||(LA31_0>=114 && LA31_0<=122)||LA31_0==139||LA31_0==142||(LA31_0>=149 && LA31_0<=151)) ) {
                 alt31=1;
             }
             else if ( (LA31_0==92) ) {
@@ -3425,7 +3425,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt32=2;
             int LA32_0 = input.LA(1);
 
-            if ( (LA32_0==EOF||LA32_0==FLOAT||LA32_0==INT||LA32_0==BOOLEAN||LA32_0==STRING||(LA32_0>=CollectionLiteralName && LA32_0<=SpecialLiteralName)||LA32_0==NAME||LA32_0==93||LA32_0==97||LA32_0==107||(LA32_0>=109 && LA32_0<=112)||(LA32_0>=114 && LA32_0<=122)||LA32_0==139||LA32_0==142||(LA32_0>=149 && LA32_0<=151)) ) {
+            if ( (LA32_0==EOF||LA32_0==FLOAT||LA32_0==INT||LA32_0==BOOLEAN||LA32_0==STRING||(LA32_0>=CollectionTypeName && LA32_0<=SpecialTypeName)||LA32_0==NAME||LA32_0==93||LA32_0==97||LA32_0==107||(LA32_0>=109 && LA32_0<=112)||(LA32_0>=114 && LA32_0<=122)||LA32_0==139||LA32_0==142||(LA32_0>=149 && LA32_0<=151)) ) {
                 alt32=1;
             }
             else if ( (LA32_0==92) ) {
@@ -3691,7 +3691,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt33=2;
             int LA33_0 = input.LA(1);
 
-            if ( (LA33_0==FLOAT||LA33_0==INT||LA33_0==BOOLEAN||LA33_0==STRING||(LA33_0>=CollectionLiteralName && LA33_0<=SpecialLiteralName)||LA33_0==NAME||LA33_0==97||LA33_0==139||LA33_0==142||(LA33_0>=149 && LA33_0<=151)) ) {
+            if ( (LA33_0==FLOAT||LA33_0==INT||LA33_0==BOOLEAN||LA33_0==STRING||(LA33_0>=CollectionTypeName && LA33_0<=SpecialTypeName)||LA33_0==NAME||LA33_0==97||LA33_0==139||LA33_0==142||(LA33_0>=149 && LA33_0<=151)) ) {
                 alt33=1;
             }
             switch (alt33) {
@@ -3778,7 +3778,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt34=2;
             int LA34_0 = input.LA(1);
 
-            if ( (LA34_0==FLOAT||LA34_0==INT||LA34_0==BOOLEAN||LA34_0==STRING||(LA34_0>=CollectionLiteralName && LA34_0<=SpecialLiteralName)||LA34_0==NAME||LA34_0==97||LA34_0==139||LA34_0==142||(LA34_0>=149 && LA34_0<=151)) ) {
+            if ( (LA34_0==FLOAT||LA34_0==INT||LA34_0==BOOLEAN||LA34_0==STRING||(LA34_0>=CollectionTypeName && LA34_0<=SpecialTypeName)||LA34_0==NAME||LA34_0==97||LA34_0==139||LA34_0==142||(LA34_0>=149 && LA34_0<=151)) ) {
                 alt34=1;
             }
             switch (alt34) {
@@ -3865,7 +3865,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt35=2;
             int LA35_0 = input.LA(1);
 
-            if ( (LA35_0==FLOAT||LA35_0==INT||LA35_0==BOOLEAN||LA35_0==STRING||(LA35_0>=CollectionLiteralName && LA35_0<=SpecialLiteralName)||LA35_0==NAME||LA35_0==97||LA35_0==139||LA35_0==142||(LA35_0>=149 && LA35_0<=151)) ) {
+            if ( (LA35_0==FLOAT||LA35_0==INT||LA35_0==BOOLEAN||LA35_0==STRING||(LA35_0>=CollectionTypeName && LA35_0<=SpecialTypeName)||LA35_0==NAME||LA35_0==97||LA35_0==139||LA35_0==142||(LA35_0>=149 && LA35_0<=151)) ) {
                 alt35=1;
             }
             switch (alt35) {
@@ -6033,7 +6033,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt61=2;
             int LA61_0 = input.LA(1);
 
-            if ( (LA61_0==FLOAT||LA61_0==INT||LA61_0==BOOLEAN||LA61_0==STRING||(LA61_0>=CollectionLiteralName && LA61_0<=SpecialLiteralName)||LA61_0==NAME||LA61_0==97||LA61_0==139||LA61_0==142||(LA61_0>=149 && LA61_0<=151)) ) {
+            if ( (LA61_0==FLOAT||LA61_0==INT||LA61_0==BOOLEAN||LA61_0==STRING||(LA61_0>=CollectionTypeName && LA61_0<=SpecialTypeName)||LA61_0==NAME||LA61_0==97||LA61_0==139||LA61_0==142||(LA61_0>=149 && LA61_0<=151)) ) {
                 alt61=1;
             }
             switch (alt61) {
@@ -6261,9 +6261,9 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             	    case INT:
             	    case BOOLEAN:
             	    case STRING:
-            	    case CollectionLiteralName:
-            	    case MapLiteralName:
-            	    case SpecialLiteralName:
+            	    case CollectionTypeName:
+            	    case MapTypeName:
+            	    case SpecialTypeName:
             	    case NAME:
             	    case 139:
             	    case 142:
@@ -6306,9 +6306,9 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             	        case INT:
             	        case BOOLEAN:
             	        case STRING:
-            	        case CollectionLiteralName:
-            	        case MapLiteralName:
-            	        case SpecialLiteralName:
+            	        case CollectionTypeName:
+            	        case MapTypeName:
+            	        case SpecialTypeName:
             	        case 97:
             	        case 139:
             	        case 142:
@@ -6922,7 +6922,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start literalSequentialCollection
-    // EolParserRules.g:501:1: literalSequentialCollection : l= CollectionLiteralName ob= '{' ( expressionListOrRange )? cb= '}' ;
+    // EolParserRules.g:501:1: literalSequentialCollection : l= CollectionTypeName ob= '{' ( expressionListOrRange )? cb= '}' ;
     public final Erl_EolParserRules.literalSequentialCollection_return literalSequentialCollection() throws RecognitionException {
         Erl_EolParserRules.literalSequentialCollection_return retval = new Erl_EolParserRules.literalSequentialCollection_return();
         retval.start = input.LT(1);
@@ -6940,12 +6940,12 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST cb_tree=null;
 
         try {
-            // EolParserRules.g:506:2: (l= CollectionLiteralName ob= '{' ( expressionListOrRange )? cb= '}' )
-            // EolParserRules.g:506:4: l= CollectionLiteralName ob= '{' ( expressionListOrRange )? cb= '}'
+            // EolParserRules.g:506:2: (l= CollectionTypeName ob= '{' ( expressionListOrRange )? cb= '}' )
+            // EolParserRules.g:506:4: l= CollectionTypeName ob= '{' ( expressionListOrRange )? cb= '}'
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            l=(Token)match(input,CollectionLiteralName,FOLLOW_CollectionLiteralName_in_literalSequentialCollection2297); if (state.failed) return retval;
+            l=(Token)match(input,CollectionTypeName,FOLLOW_CollectionTypeName_in_literalSequentialCollection2297); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             l_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(l);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(l_tree, root_0);
@@ -6955,7 +6955,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt73=2;
             int LA73_0 = input.LA(1);
 
-            if ( (LA73_0==FLOAT||LA73_0==INT||LA73_0==BOOLEAN||LA73_0==STRING||(LA73_0>=CollectionLiteralName && LA73_0<=SpecialLiteralName)||LA73_0==NAME||LA73_0==97||LA73_0==139||LA73_0==142||(LA73_0>=149 && LA73_0<=151)) ) {
+            if ( (LA73_0==FLOAT||LA73_0==INT||LA73_0==BOOLEAN||LA73_0==STRING||(LA73_0>=CollectionTypeName && LA73_0<=SpecialTypeName)||LA73_0==NAME||LA73_0==97||LA73_0==139||LA73_0==142||(LA73_0>=149 && LA73_0<=151)) ) {
                 alt73=1;
             }
             switch (alt73) {
@@ -7284,7 +7284,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start literalMapCollection
-    // EolParserRules.g:528:1: literalMapCollection : m= MapLiteralName ob= '{' ( keyvalExpressionList )? cb= '}' ;
+    // EolParserRules.g:528:1: literalMapCollection : m= MapTypeName ob= '{' ( keyvalExpressionList )? cb= '}' ;
     public final Erl_EolParserRules.literalMapCollection_return literalMapCollection() throws RecognitionException {
         Erl_EolParserRules.literalMapCollection_return retval = new Erl_EolParserRules.literalMapCollection_return();
         retval.start = input.LT(1);
@@ -7302,22 +7302,22 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST cb_tree=null;
 
         try {
-            // EolParserRules.g:533:2: (m= MapLiteralName ob= '{' ( keyvalExpressionList )? cb= '}' )
-            // EolParserRules.g:533:4: m= MapLiteralName ob= '{' ( keyvalExpressionList )? cb= '}'
+            // EolParserRules.g:533:2: (m= MapTypeName ob= '{' ( keyvalExpressionList )? cb= '}' )
+            // EolParserRules.g:533:4: m= MapTypeName ob= '{' ( keyvalExpressionList )? cb= '}'
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            m=(Token)match(input,MapLiteralName,FOLLOW_MapLiteralName_in_literalMapCollection2407); if (state.failed) return retval;
+            m=(Token)match(input,MapTypeName,FOLLOW_MapTypeName_in_literalMapCollection2407); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             m_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(m);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(m_tree, root_0);
             }
             ob=(Token)match(input,92,FOLLOW_92_in_literalMapCollection2412); if (state.failed) return retval;
-            // EolParserRules.g:533:30: ( keyvalExpressionList )?
+            // EolParserRules.g:533:27: ( keyvalExpressionList )?
             int alt76=2;
             int LA76_0 = input.LA(1);
 
-            if ( (LA76_0==FLOAT||LA76_0==INT||LA76_0==BOOLEAN||LA76_0==STRING||(LA76_0>=CollectionLiteralName && LA76_0<=SpecialLiteralName)||LA76_0==NAME||LA76_0==97||LA76_0==139||LA76_0==142||(LA76_0>=149 && LA76_0<=151)) ) {
+            if ( (LA76_0==FLOAT||LA76_0==INT||LA76_0==BOOLEAN||LA76_0==STRING||(LA76_0>=CollectionTypeName && LA76_0<=SpecialTypeName)||LA76_0==NAME||LA76_0==97||LA76_0==139||LA76_0==142||(LA76_0>=149 && LA76_0<=151)) ) {
                 alt76=1;
             }
             switch (alt76) {
@@ -10130,7 +10130,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final BitSet FOLLOW_pathName_in_typeName721 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_collectionType_in_typeName725 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_specialType_in_typeName729 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SpecialLiteralName_in_specialType746 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
+    public static final BitSet FOLLOW_SpecialTypeName_in_specialType746 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
     public static final BitSet FOLLOW_97_in_specialType751 = new BitSet(new long[]{0x0000000000004000L});
     public static final BitSet FOLLOW_STRING_in_specialType754 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
     public static final BitSet FOLLOW_98_in_specialType758 = new BitSet(new long[]{0x0000000000000002L});
@@ -10329,7 +10329,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final BitSet FOLLOW_149_in_variableDeclarationExpression2264 = new BitSet(new long[]{0x0000000000470000L,0x0000000000000000L,0x0000000000200000L});
     public static final BitSet FOLLOW_typeName_in_variableDeclarationExpression2270 = new BitSet(new long[]{0x0000000000000002L,0x0000000200000000L});
     public static final BitSet FOLLOW_parameterList_in_variableDeclarationExpression2274 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CollectionLiteralName_in_literalSequentialCollection2297 = new BitSet(new long[]{0x0000000000000000L,0x0000000010000000L});
+    public static final BitSet FOLLOW_CollectionTypeName_in_literalSequentialCollection2297 = new BitSet(new long[]{0x0000000000000000L,0x0000000010000000L});
     public static final BitSet FOLLOW_92_in_literalSequentialCollection2304 = new BitSet(new long[]{0x0000000000475110L,0x0000000220000000L,0x0000000000E04800L});
     public static final BitSet FOLLOW_expressionListOrRange_in_literalSequentialCollection2307 = new BitSet(new long[]{0x0000000000000000L,0x0000000020000000L});
     public static final BitSet FOLLOW_93_in_literalSequentialCollection2312 = new BitSet(new long[]{0x0000000000000002L});
@@ -10341,7 +10341,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final BitSet FOLLOW_logicalExpression_in_expressionList2360 = new BitSet(new long[]{0x0000000000000002L,0x0000000004000000L});
     public static final BitSet FOLLOW_expressionRange_in_expressionListOrRange2384 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_expressionList_in_expressionListOrRange2388 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MapLiteralName_in_literalMapCollection2407 = new BitSet(new long[]{0x0000000000000000L,0x0000000010000000L});
+    public static final BitSet FOLLOW_MapTypeName_in_literalMapCollection2407 = new BitSet(new long[]{0x0000000000000000L,0x0000000010000000L});
     public static final BitSet FOLLOW_92_in_literalMapCollection2412 = new BitSet(new long[]{0x0000000000475110L,0x0000000220000000L,0x0000000000E04800L});
     public static final BitSet FOLLOW_keyvalExpressionList_in_literalMapCollection2415 = new BitSet(new long[]{0x0000000000000000L,0x0000000020000000L});
     public static final BitSet FOLLOW_93_in_literalMapCollection2420 = new BitSet(new long[]{0x0000000000000002L});

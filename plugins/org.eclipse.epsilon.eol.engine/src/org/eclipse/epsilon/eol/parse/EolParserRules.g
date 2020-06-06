@@ -219,7 +219,7 @@ specialType
 		$tree.getExtraTokens().add($e);
 		$tree.getToken().setType(TYPE);
 	}
-	:	SpecialLiteralName^ s='('! STRING e=')'!
+	:	SpecialTypeName^ s='('! STRING e=')'!
 	;
 
 pathName
@@ -254,7 +254,7 @@ collectionType
 		$tree.getExtraTokens().add($cp);
 		$tree.getToken().setType(TYPE);
 	}
-	: 	(CollectionLiteralName | MapLiteralName)^
+	: 	(CollectionTypeName | MapTypeName)^
 		((op='('! tn=typeName {setTokenType(tn,TYPE);} (',' tn=typeName {setTokenType(tn,TYPE);})* cp=')'!) |
 		 (op='<'! tn=typeName {setTokenType(tn,TYPE);} (',' tn=typeName {setTokenType(tn,TYPE);})* cp='>'!)
 		)?
@@ -503,7 +503,7 @@ literalSequentialCollection
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	}
-	:	l=CollectionLiteralName^
+	:	l=CollectionTypeName^
 		ob='{'! expressionListOrRange? cb='}'!
 	{$l.setType(COLLECTION);}
 	;
@@ -530,7 +530,7 @@ literalMapCollection
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	}
-	:	m=MapLiteralName^ ob='{'! keyvalExpressionList? cb='}'!
+	:	m=MapTypeName^ ob='{'! keyvalExpressionList? cb='}'!
 	{$m.setType(MAP);}
 	;
 

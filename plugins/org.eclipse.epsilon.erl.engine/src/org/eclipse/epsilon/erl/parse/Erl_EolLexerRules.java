@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.erl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2020-06-05 16:59:19
+// $ANTLR 3.1b1 EolLexerRules.g 2020-06-06 01:10:41
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -58,7 +58,7 @@ public class Erl_EolLexerRules extends Lexer {
     public static final int MODELDECLARATIONPARAMETERS=76;
     public static final int T__141=141;
     public static final int THROW=57;
-    public static final int SpecialLiteralName=18;
+    public static final int SpecialTypeName=18;
     public static final int PARAMLIST=28;
     public static final int EXPRLIST=58;
     public static final int EXPRRANGE=59;
@@ -102,6 +102,7 @@ public class Erl_EolLexerRules extends Lexer {
     public static final int IMPORT=71;
     public static final int DELETE=56;
     public static final int ARROW=11;
+    public static final int MapTypeName=17;
     public static final int T__155=155;
     public static final int SPECIAL_ASSIGNMENT=30;
     public static final int T__154=154;
@@ -149,7 +150,6 @@ public class Erl_EolLexerRules extends Lexer {
     public static final int StrangeNameLiteral=15;
     public static final int FOR=33;
     public static final int BLOCK=66;
-    public static final int CollectionLiteralName=16;
     public static final int PARAMETERS=50;
     public static final int SpecialNameChar=20;
     public static final int BOOLEAN=12;
@@ -184,7 +184,7 @@ public class Erl_EolLexerRules extends Lexer {
     public static final int T__112=112;
     public static final int EscapeSequence=13;
     public static final int EOLMODULE=65;
-    public static final int MapLiteralName=17;
+    public static final int CollectionTypeName=16;
     public static final int DIGIT=5;
     public static final int EXECUTABLEANNOTATION=55;
     public static final int T__88=88;
@@ -893,10 +893,10 @@ public class Erl_EolLexerRules extends Lexer {
     }
     // $ANTLR end StrangeNameLiteral
 
-    // $ANTLR start CollectionLiteralName
-    public final void mCollectionLiteralName() throws RecognitionException {
+    // $ANTLR start CollectionTypeName
+    public final void mCollectionTypeName() throws RecognitionException {
         try {
-            int _type = CollectionLiteralName;
+            int _type = CollectionTypeName;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // EolLexerRules.g:75:2: ( 'Bag' | 'Sequence' | 'Set' | 'OrderedSet' | 'Collection' | 'List' | 'ConcurrentBag' | 'ConcurrentSet' )
             int alt14=8;
@@ -974,12 +974,12 @@ public class Erl_EolLexerRules extends Lexer {
         finally {
         }
     }
-    // $ANTLR end CollectionLiteralName
+    // $ANTLR end CollectionTypeName
 
-    // $ANTLR start MapLiteralName
-    public final void mMapLiteralName() throws RecognitionException {
+    // $ANTLR start MapTypeName
+    public final void mMapTypeName() throws RecognitionException {
         try {
-            int _type = MapLiteralName;
+            int _type = MapTypeName;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // EolLexerRules.g:79:2: ( 'Map' | 'ConcurrentMap' )
             int alt15=2;
@@ -1023,12 +1023,12 @@ public class Erl_EolLexerRules extends Lexer {
         finally {
         }
     }
-    // $ANTLR end MapLiteralName
+    // $ANTLR end MapTypeName
 
-    // $ANTLR start SpecialLiteralName
-    public final void mSpecialLiteralName() throws RecognitionException {
+    // $ANTLR start SpecialTypeName
+    public final void mSpecialTypeName() throws RecognitionException {
         try {
-            int _type = SpecialLiteralName;
+            int _type = SpecialTypeName;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // EolLexerRules.g:83:2: ( 'Native' )
             // EolLexerRules.g:83:4: 'Native'
@@ -1044,7 +1044,7 @@ public class Erl_EolLexerRules extends Lexer {
         finally {
         }
     }
-    // $ANTLR end SpecialLiteralName
+    // $ANTLR end SpecialTypeName
 
     // $ANTLR start EscapeSequence
     public final void mEscapeSequence() throws RecognitionException {
@@ -1498,7 +1498,7 @@ public class Erl_EolLexerRules extends Lexer {
     // $ANTLR end Annotation
 
     public void mTokens() throws RecognitionException {
-        // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | CollectionLiteralName | MapLiteralName | SpecialLiteralName | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
+        // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | CollectionTypeName | MapTypeName | SpecialTypeName | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
         int alt21=15;
         alt21 = dfa21.predict(input);
         switch (alt21) {
@@ -1552,56 +1552,56 @@ public class Erl_EolLexerRules extends Lexer {
                 }
                 break;
             case 8 :
-                // EolLexerRules.g:1:72: CollectionLiteralName
+                // EolLexerRules.g:1:72: CollectionTypeName
                 {
-                mCollectionLiteralName(); if (state.failed) return ;
+                mCollectionTypeName(); if (state.failed) return ;
 
                 }
                 break;
             case 9 :
-                // EolLexerRules.g:1:94: MapLiteralName
+                // EolLexerRules.g:1:91: MapTypeName
                 {
-                mMapLiteralName(); if (state.failed) return ;
+                mMapTypeName(); if (state.failed) return ;
 
                 }
                 break;
             case 10 :
-                // EolLexerRules.g:1:109: SpecialLiteralName
+                // EolLexerRules.g:1:103: SpecialTypeName
                 {
-                mSpecialLiteralName(); if (state.failed) return ;
+                mSpecialTypeName(); if (state.failed) return ;
 
                 }
                 break;
             case 11 :
-                // EolLexerRules.g:1:128: NAME
+                // EolLexerRules.g:1:119: NAME
                 {
                 mNAME(); if (state.failed) return ;
 
                 }
                 break;
             case 12 :
-                // EolLexerRules.g:1:133: WS
+                // EolLexerRules.g:1:124: WS
                 {
                 mWS(); if (state.failed) return ;
 
                 }
                 break;
             case 13 :
-                // EolLexerRules.g:1:136: COMMENT
+                // EolLexerRules.g:1:127: COMMENT
                 {
                 mCOMMENT(); if (state.failed) return ;
 
                 }
                 break;
             case 14 :
-                // EolLexerRules.g:1:144: LINE_COMMENT
+                // EolLexerRules.g:1:135: LINE_COMMENT
                 {
                 mLINE_COMMENT(); if (state.failed) return ;
 
                 }
                 break;
             case 15 :
-                // EolLexerRules.g:1:157: Annotation
+                // EolLexerRules.g:1:148: Annotation
                 {
                 mAnnotation(); if (state.failed) return ;
 
@@ -1711,7 +1711,7 @@ public class Erl_EolLexerRules extends Lexer {
             this.transition = DFA14_transition;
         }
         public String getDescription() {
-            return "74:1: CollectionLiteralName : ( 'Bag' | 'Sequence' | 'Set' | 'OrderedSet' | 'Collection' | 'List' | 'ConcurrentBag' | 'ConcurrentSet' );";
+            return "74:1: CollectionTypeName : ( 'Bag' | 'Sequence' | 'Set' | 'OrderedSet' | 'Collection' | 'List' | 'ConcurrentBag' | 'ConcurrentSet' );";
         }
     }
     static final String DFA21_eotS =
@@ -1926,7 +1926,7 @@ public class Erl_EolLexerRules extends Lexer {
             this.transition = DFA21_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | CollectionLiteralName | MapLiteralName | SpecialLiteralName | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";
+            return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | CollectionTypeName | MapTypeName | SpecialTypeName | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";
         }
     }
  

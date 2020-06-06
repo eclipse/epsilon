@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g 2020-06-05 16:56:55
+// $ANTLR 3.1b1 Hutn.g 2020-06-06 01:10:57
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -84,15 +84,15 @@ public class HutnLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g"; }
+    public String getGrammarFileName() { return "Hutn.g"; }
 
     // $ANTLR start TRUE
     public final void mTRUE() throws RecognitionException {
         try {
             int _type = TRUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:44:6: ( 'true' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:44:8: 'true'
+            // Hutn.g:44:6: ( 'true' )
+            // Hutn.g:44:8: 'true'
             {
             match("true"); 
 
@@ -112,8 +112,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = FALSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:45:7: ( 'false' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:45:9: 'false'
+            // Hutn.g:45:7: ( 'false' )
+            // Hutn.g:45:9: 'false'
             {
             match("false"); 
 
@@ -133,8 +133,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = NULL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:46:6: ( 'null' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:46:8: 'null'
+            // Hutn.g:46:6: ( 'null' )
+            // Hutn.g:46:8: 'null'
             {
             match("null"); 
 
@@ -154,8 +154,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:47:7: ( ';' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:47:9: ';'
+            // Hutn.g:47:7: ( ';' )
+            // Hutn.g:47:9: ';'
             {
             match(';'); 
 
@@ -174,8 +174,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:48:7: ( '.' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:48:9: '.'
+            // Hutn.g:48:7: ( '.' )
+            // Hutn.g:48:9: '.'
             {
             match('.'); 
 
@@ -194,8 +194,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:154:14: ( ',' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:154:16: ','
+            // Hutn.g:154:14: ( ',' )
+            // Hutn.g:154:16: ','
             {
             match(','); 
 
@@ -214,8 +214,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = LBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:155:14: ( '{' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:155:16: '{'
+            // Hutn.g:155:14: ( '{' )
+            // Hutn.g:155:16: '{'
             {
             match('{'); 
 
@@ -234,8 +234,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = RBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:156:14: ( '}' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:156:16: '}'
+            // Hutn.g:156:14: ( '}' )
+            // Hutn.g:156:16: '}'
             {
             match('}'); 
 
@@ -254,8 +254,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = ASSIGNMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:157:13: ( ':' | '=' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:
+            // Hutn.g:157:13: ( ':' | '=' )
+            // Hutn.g:
             {
             if ( input.LA(1)==':'||input.LA(1)=='=' ) {
                 input.consume();
@@ -282,11 +282,11 @@ public class HutnLexer extends Lexer {
         try {
             int _type = NAME;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:158:14: ( ID_START_LETTER ( ID_LETTER )* )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:158:16: ID_START_LETTER ( ID_LETTER )*
+            // Hutn.g:158:14: ( ID_START_LETTER ( ID_LETTER )* )
+            // Hutn.g:158:16: ID_START_LETTER ( ID_LETTER )*
             {
             mID_START_LETTER(); 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:158:32: ( ID_LETTER )*
+            // Hutn.g:158:32: ( ID_LETTER )*
             loop1:
             do {
                 int alt1=2;
@@ -299,7 +299,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:158:32: ID_LETTER
+            	    // Hutn.g:158:32: ID_LETTER
             	    {
             	    mID_LETTER(); 
 
@@ -331,11 +331,11 @@ public class HutnLexer extends Lexer {
             Token normal=null;
 
             StringBuilder lBuf = new StringBuilder();
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:163:5: ( '\"' (escaped= ESC | normal= TEXT_LETTER )* '\"' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:164:12: '\"' (escaped= ESC | normal= TEXT_LETTER )* '\"'
+            // Hutn.g:163:5: ( '\"' (escaped= ESC | normal= TEXT_LETTER )* '\"' )
+            // Hutn.g:164:12: '\"' (escaped= ESC | normal= TEXT_LETTER )* '\"'
             {
             match('\"'); 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:165:12: (escaped= ESC | normal= TEXT_LETTER )*
+            // Hutn.g:165:12: (escaped= ESC | normal= TEXT_LETTER )*
             loop2:
             do {
                 int alt2=3;
@@ -351,7 +351,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:166:14: escaped= ESC
+            	    // Hutn.g:166:14: escaped= ESC
             	    {
             	    int escapedStart196 = getCharIndex();
             	    mESC(); 
@@ -361,7 +361,7 @@ public class HutnLexer extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:168:14: normal= TEXT_LETTER
+            	    // Hutn.g:168:14: normal= TEXT_LETTER
             	    {
             	    int normalStart239 = getCharIndex();
             	    mTEXT_LETTER(); 
@@ -394,10 +394,10 @@ public class HutnLexer extends Lexer {
         try {
             int _type = NUMERIC_VALUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:14: ( ( '-' | '+' )? ( DIGIT )+ ( '.' ( DIGIT )+ )? ( ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+ )? )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:16: ( '-' | '+' )? ( DIGIT )+ ( '.' ( DIGIT )+ )? ( ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+ )?
+            // Hutn.g:175:14: ( ( '-' | '+' )? ( DIGIT )+ ( '.' ( DIGIT )+ )? ( ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+ )? )
+            // Hutn.g:175:16: ( '-' | '+' )? ( DIGIT )+ ( '.' ( DIGIT )+ )? ( ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+ )?
             {
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:16: ( '-' | '+' )?
+            // Hutn.g:175:16: ( '-' | '+' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -406,7 +406,7 @@ public class HutnLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:
+                    // Hutn.g:
                     {
                     if ( input.LA(1)=='+'||input.LA(1)=='-' ) {
                         input.consume();
@@ -423,7 +423,7 @@ public class HutnLexer extends Lexer {
 
             }
 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:27: ( DIGIT )+
+            // Hutn.g:175:27: ( DIGIT )+
             int cnt4=0;
             loop4:
             do {
@@ -437,7 +437,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:27: DIGIT
+            	    // Hutn.g:175:27: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -453,7 +453,7 @@ public class HutnLexer extends Lexer {
                 cnt4++;
             } while (true);
 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:34: ( '.' ( DIGIT )+ )?
+            // Hutn.g:175:34: ( '.' ( DIGIT )+ )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -462,10 +462,10 @@ public class HutnLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:35: '.' ( DIGIT )+
+                    // Hutn.g:175:35: '.' ( DIGIT )+
                     {
                     match('.'); 
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:39: ( DIGIT )+
+                    // Hutn.g:175:39: ( DIGIT )+
                     int cnt5=0;
                     loop5:
                     do {
@@ -479,7 +479,7 @@ public class HutnLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:39: DIGIT
+                    	    // Hutn.g:175:39: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -501,7 +501,7 @@ public class HutnLexer extends Lexer {
 
             }
 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:48: ( ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+ )?
+            // Hutn.g:175:48: ( ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+ )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -510,7 +510,7 @@ public class HutnLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:49: ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+
+                    // Hutn.g:175:49: ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+
                     {
                     if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                         input.consume();
@@ -521,7 +521,7 @@ public class HutnLexer extends Lexer {
                         recover(mse);
                         throw mse;}
 
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:59: ( '+' | '-' )?
+                    // Hutn.g:175:59: ( '+' | '-' )?
                     int alt7=2;
                     int LA7_0 = input.LA(1);
 
@@ -530,7 +530,7 @@ public class HutnLexer extends Lexer {
                     }
                     switch (alt7) {
                         case 1 :
-                            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:
+                            // Hutn.g:
                             {
                             if ( input.LA(1)=='+'||input.LA(1)=='-' ) {
                                 input.consume();
@@ -547,7 +547,7 @@ public class HutnLexer extends Lexer {
 
                     }
 
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:70: ( DIGIT )+
+                    // Hutn.g:175:70: ( DIGIT )+
                     int cnt8=0;
                     loop8:
                     do {
@@ -561,7 +561,7 @@ public class HutnLexer extends Lexer {
 
                         switch (alt8) {
                     	case 1 :
-                    	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:175:70: DIGIT
+                    	    // Hutn.g:175:70: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -599,8 +599,8 @@ public class HutnLexer extends Lexer {
         try {
             int _type = ADJECTIVE_PREFIX;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:176:17: ( '~' | '#' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:
+            // Hutn.g:176:17: ( '~' | '#' )
+            // Hutn.g:
             {
             if ( input.LA(1)=='#'||input.LA(1)=='~' ) {
                 input.consume();
@@ -627,10 +627,10 @@ public class HutnLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:178:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:178:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // Hutn.g:178:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+            // Hutn.g:178:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             {
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:178:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // Hutn.g:178:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             int alt10=5;
             switch ( input.LA(1) ) {
             case ' ':
@@ -667,21 +667,21 @@ public class HutnLexer extends Lexer {
 
             switch (alt10) {
                 case 1 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:179:2: ' '
+                    // Hutn.g:179:2: ' '
                     {
                     match(' '); 
 
                     }
                     break;
                 case 2 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:180:2: '\\r'
+                    // Hutn.g:180:2: '\\r'
                     {
                     match('\r'); 
 
                     }
                     break;
                 case 3 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:181:2: '\\t'
+                    // Hutn.g:181:2: '\\t'
                     {
                     match('\t'); 
                     input.setCharPositionInLine(input.getCharPositionInLine() + 3);
@@ -689,14 +689,14 @@ public class HutnLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:182:3: '\\u000C'
+                    // Hutn.g:182:3: '\\u000C'
                     {
                     match('\f'); 
 
                     }
                     break;
                 case 5 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:183:3: '\\n'
+                    // Hutn.g:183:3: '\\n'
                     {
                     match('\n'); 
 
@@ -722,12 +722,12 @@ public class HutnLexer extends Lexer {
         try {
             int _type = ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:188:5: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:188:9: '/*' ( options {greedy=false; } : . )* '*/'
+            // Hutn.g:188:5: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // Hutn.g:188:9: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:188:14: ( options {greedy=false; } : . )*
+            // Hutn.g:188:14: ( options {greedy=false; } : . )*
             loop11:
             do {
                 int alt11=2;
@@ -752,7 +752,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:188:42: .
+            	    // Hutn.g:188:42: .
             	    {
             	    matchAny(); 
 
@@ -783,12 +783,12 @@ public class HutnLexer extends Lexer {
         try {
             int _type = SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:192:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:192:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // Hutn.g:192:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // Hutn.g:192:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             match("//"); 
 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:192:12: (~ ( '\\n' | '\\r' ) )*
+            // Hutn.g:192:12: (~ ( '\\n' | '\\r' ) )*
             loop12:
             do {
                 int alt12=2;
@@ -801,7 +801,7 @@ public class HutnLexer extends Lexer {
 
                 switch (alt12) {
             	case 1 :
-            	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:192:12: ~ ( '\\n' | '\\r' )
+            	    // Hutn.g:192:12: ~ ( '\\n' | '\\r' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -821,7 +821,7 @@ public class HutnLexer extends Lexer {
                 }
             } while (true);
 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:192:26: ( '\\r' )?
+            // Hutn.g:192:26: ( '\\r' )?
             int alt13=2;
             int LA13_0 = input.LA(1);
 
@@ -830,7 +830,7 @@ public class HutnLexer extends Lexer {
             }
             switch (alt13) {
                 case 1 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:192:26: '\\r'
+                    // Hutn.g:192:26: '\\r'
                     {
                     match('\r'); 
 
@@ -855,8 +855,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start ID_START_LETTER
     public final void mID_START_LETTER() throws RecognitionException {
         try {
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:197:2: ( '_' | 'a' .. 'z' | 'A' .. 'Z' | '@' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:
+            // Hutn.g:197:2: ( '_' | 'a' .. 'z' | 'A' .. 'Z' | '@' )
+            // Hutn.g:
             {
             if ( (input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -879,8 +879,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start ID_LETTER
     public final void mID_LETTER() throws RecognitionException {
         try {
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:205:5: ( ID_START_LETTER | '0' .. '9' | '-' | '#' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:
+            // Hutn.g:205:5: ( ID_START_LETTER | '0' .. '9' | '-' | '#' )
+            // Hutn.g:
             {
             if ( input.LA(1)=='#'||input.LA(1)=='-'||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='@' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -903,11 +903,11 @@ public class HutnLexer extends Lexer {
     // $ANTLR start ESC
     public final void mESC() throws RecognitionException {
         try {
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:213:5: ( '\\\\' ( '\"' | '\\\\' ) )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:213:9: '\\\\' ( '\"' | '\\\\' )
+            // Hutn.g:213:5: ( '\\\\' ( '\"' | '\\\\' ) )
+            // Hutn.g:213:9: '\\\\' ( '\"' | '\\\\' )
             {
             match('\\'); 
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:214:9: ( '\"' | '\\\\' )
+            // Hutn.g:214:9: ( '\"' | '\\\\' )
             int alt14=2;
             int LA14_0 = input.LA(1);
 
@@ -925,7 +925,7 @@ public class HutnLexer extends Lexer {
             }
             switch (alt14) {
                 case 1 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:215:12: '\"'
+                    // Hutn.g:215:12: '\"'
                     {
                     match('\"'); 
                     setText("\"");
@@ -933,7 +933,7 @@ public class HutnLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:216:12: '\\\\'
+                    // Hutn.g:216:12: '\\\\'
                     {
                     match('\\'); 
                     setText("\\");
@@ -955,8 +955,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start TEXT_LETTER
     public final void mTEXT_LETTER() throws RecognitionException {
         try {
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:222:5: (~ ( '\\\"' | '\\\\' ) )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:222:10: ~ ( '\\\"' | '\\\\' )
+            // Hutn.g:222:5: (~ ( '\\\"' | '\\\\' ) )
+            // Hutn.g:222:10: ~ ( '\\\"' | '\\\\' )
             {
             if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                 input.consume();
@@ -979,8 +979,8 @@ public class HutnLexer extends Lexer {
     // $ANTLR start DIGIT
     public final void mDIGIT() throws RecognitionException {
         try {
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:226:7: ( '0' .. '9' )
-            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:226:9: '0' .. '9'
+            // Hutn.g:226:7: ( '0' .. '9' )
+            // Hutn.g:226:9: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -993,117 +993,117 @@ public class HutnLexer extends Lexer {
     // $ANTLR end DIGIT
 
     public void mTokens() throws RecognitionException {
-        // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:8: ( TRUE | FALSE | NULL | T__27 | T__28 | COMMA | LBRACKET | RBRACKET | ASSIGNMENT | NAME | TEXTUAL_VALUE | NUMERIC_VALUE | ADJECTIVE_PREFIX | WS | ML_COMMENT | SL_COMMENT )
+        // Hutn.g:1:8: ( TRUE | FALSE | NULL | T__27 | T__28 | COMMA | LBRACKET | RBRACKET | ASSIGNMENT | NAME | TEXTUAL_VALUE | NUMERIC_VALUE | ADJECTIVE_PREFIX | WS | ML_COMMENT | SL_COMMENT )
         int alt15=16;
         alt15 = dfa15.predict(input);
         switch (alt15) {
             case 1 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:10: TRUE
+                // Hutn.g:1:10: TRUE
                 {
                 mTRUE(); 
 
                 }
                 break;
             case 2 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:15: FALSE
+                // Hutn.g:1:15: FALSE
                 {
                 mFALSE(); 
 
                 }
                 break;
             case 3 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:21: NULL
+                // Hutn.g:1:21: NULL
                 {
                 mNULL(); 
 
                 }
                 break;
             case 4 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:26: T__27
+                // Hutn.g:1:26: T__27
                 {
                 mT__27(); 
 
                 }
                 break;
             case 5 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:32: T__28
+                // Hutn.g:1:32: T__28
                 {
                 mT__28(); 
 
                 }
                 break;
             case 6 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:38: COMMA
+                // Hutn.g:1:38: COMMA
                 {
                 mCOMMA(); 
 
                 }
                 break;
             case 7 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:44: LBRACKET
+                // Hutn.g:1:44: LBRACKET
                 {
                 mLBRACKET(); 
 
                 }
                 break;
             case 8 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:53: RBRACKET
+                // Hutn.g:1:53: RBRACKET
                 {
                 mRBRACKET(); 
 
                 }
                 break;
             case 9 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:62: ASSIGNMENT
+                // Hutn.g:1:62: ASSIGNMENT
                 {
                 mASSIGNMENT(); 
 
                 }
                 break;
             case 10 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:73: NAME
+                // Hutn.g:1:73: NAME
                 {
                 mNAME(); 
 
                 }
                 break;
             case 11 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:78: TEXTUAL_VALUE
+                // Hutn.g:1:78: TEXTUAL_VALUE
                 {
                 mTEXTUAL_VALUE(); 
 
                 }
                 break;
             case 12 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:92: NUMERIC_VALUE
+                // Hutn.g:1:92: NUMERIC_VALUE
                 {
                 mNUMERIC_VALUE(); 
 
                 }
                 break;
             case 13 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:106: ADJECTIVE_PREFIX
+                // Hutn.g:1:106: ADJECTIVE_PREFIX
                 {
                 mADJECTIVE_PREFIX(); 
 
                 }
                 break;
             case 14 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:123: WS
+                // Hutn.g:1:123: WS
                 {
                 mWS(); 
 
                 }
                 break;
             case 15 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:126: ML_COMMENT
+                // Hutn.g:1:126: ML_COMMENT
                 {
                 mML_COMMENT(); 
 
                 }
                 break;
             case 16 :
-                // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse/Hutn.g:1:137: SL_COMMENT
+                // Hutn.g:1:137: SL_COMMENT
                 {
                 mSL_COMMENT(); 
 

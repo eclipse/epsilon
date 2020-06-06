@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Ewl__.g 2020-06-05 16:59:25
+// $ANTLR 3.1b1 Ewl__.g 2020-06-06 01:10:48
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -58,7 +58,7 @@ public class EwlLexer extends Lexer {
     public static final int MODELDECLARATIONPARAMETERS=76;
     public static final int T__141=141;
     public static final int THROW=57;
-    public static final int SpecialLiteralName=18;
+    public static final int SpecialTypeName=18;
     public static final int PARAMLIST=28;
     public static final int EXPRLIST=58;
     public static final int EXPRRANGE=59;
@@ -104,6 +104,7 @@ public class EwlLexer extends Lexer {
     public static final int IMPORT=71;
     public static final int DELETE=56;
     public static final int ARROW=11;
+    public static final int MapTypeName=17;
     public static final int T__159=159;
     public static final int T__158=158;
     public static final int T__155=155;
@@ -155,7 +156,6 @@ public class EwlLexer extends Lexer {
     public static final int StrangeNameLiteral=15;
     public static final int FOR=33;
     public static final int BLOCK=66;
-    public static final int CollectionLiteralName=16;
     public static final int PARAMETERS=50;
     public static final int SpecialNameChar=20;
     public static final int BOOLEAN=12;
@@ -191,7 +191,7 @@ public class EwlLexer extends Lexer {
     public static final int T__112=112;
     public static final int EscapeSequence=13;
     public static final int EOLMODULE=65;
-    public static final int MapLiteralName=17;
+    public static final int CollectionTypeName=16;
     public static final int DIGIT=5;
     public static final int EXECUTABLEANNOTATION=55;
     public static final int EWLMODULE=89;

@@ -71,15 +71,15 @@ StrangeNameLiteral
     {$type=NAME; setText($text.substring(1,$text.length() - 1));}
     ;
 	
-CollectionLiteralName
+CollectionTypeName
 	:	'Bag'|'Sequence'|'Set'|'OrderedSet'|'Collection'|'List'|'ConcurrentBag'|'ConcurrentSet'
 	;
 	
-MapLiteralName
+MapTypeName
 	:	'Map'|'ConcurrentMap'
 	;
 	
-SpecialLiteralName
+SpecialTypeName
 	:	'Native'
 	;
 
