@@ -10,14 +10,14 @@
 package org.eclipse.epsilon.emc.dummydriver;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DummyModelElement {
 	
 	protected String type = "";
-	protected HashMap<String, Object> props = new HashMap<String, Object>();
+	protected Map<String, Object> props = new HashMap<>();
 	
 	public DummyModelElement(String type) {
-		super();
 		this.type = type;
 	}
 
@@ -29,7 +29,7 @@ public class DummyModelElement {
 		return type;
 	}
 	
-	public HashMap<String, Object> getProps() {
+	public Map<String, Object> getProps() {
 		return props;
 	}
 	

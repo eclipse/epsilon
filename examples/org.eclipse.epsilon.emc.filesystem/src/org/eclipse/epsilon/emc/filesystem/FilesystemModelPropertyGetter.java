@@ -16,13 +16,13 @@ import java.util.Scanner;
 
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 
 public class FilesystemModelPropertyGetter extends JavaPropertyGetter {
 	
 	@Override
-	public Object invoke(Object object, String property)
-			throws EolRuntimeException {
+	public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 		
 		try {
 			if ("contents".equals(property)) {
@@ -33,7 +33,7 @@ public class FilesystemModelPropertyGetter extends JavaPropertyGetter {
 				p.load(new FileInputStream(((File) object)));
 				return p.get(property.substring(2));
 			}
-			else return super.invoke(object, property);
+			else return super.invoke(object, property, context);
 		}
 		catch (Exception e) {
 			throw new EolInternalException(e);

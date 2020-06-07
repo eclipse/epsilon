@@ -14,26 +14,24 @@ import java.io.FileOutputStream;
 
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 
 public class FilesystemModelPropertySetter extends JavaPropertySetter {
 	
 	@Override
-	public void invoke(Object value) throws EolRuntimeException {
+	public void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException {
 		if ("contents".equals(property)) {
-			
-			try {
-				FileOutputStream fos = new FileOutputStream((File) object);
+			try (FileOutputStream fos = new FileOutputStream((File) target)) {
 				fos.write((value + "").getBytes());
-				fos.close();
 			}
 			catch (Exception e) {
 				throw new EolInternalException(e);
 			}
 		}
 		else {
-			super.invoke(value);
+			super.invoke(target, property, value, context);
 		}
- 	}
+	}
 	
 }

@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
@@ -26,7 +27,7 @@ import org.eclipse.epsilon.eol.models.Model;
 
 public class DummyModel extends Model {
 	
-	protected ArrayList<DummyModelElement> contents = new ArrayList<DummyModelElement>();
+	protected ArrayList<DummyModelElement> contents = new ArrayList<>();
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -60,10 +61,9 @@ public class DummyModel extends Model {
 	}
 
 	@Override
-	public Collection<?> getAllOfType(String type)
-			throws EolModelElementTypeNotFoundException {
+	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		
-		ArrayList<DummyModelElement> result = new ArrayList<DummyModelElement>();
+		ArrayList<DummyModelElement> result = new ArrayList<>();
 		
 		for (DummyModelElement e : contents) {
 			if (e.getType().equals(type)) {
@@ -168,8 +168,7 @@ public class DummyModel extends Model {
 	class DummyElementPropertyGetter extends AbstractPropertyGetter {
 
 		@Override
-		public Object invoke(Object object, String property)
-				throws EolRuntimeException {
+		public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 			return ((DummyModelElement) object).getProps().get(property);
 		}
 		
@@ -178,10 +177,8 @@ public class DummyModel extends Model {
 	class DummyElementPropertySetter extends AbstractPropertySetter {
 
 		@Override
-		public void invoke(Object value) throws EolRuntimeException {
-			
-			((DummyModelElement) object).getProps().put(property, value);
-			
+		public void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException {
+			((DummyModelElement) target).getProps().put(property, value);
 		}
 		
 	}

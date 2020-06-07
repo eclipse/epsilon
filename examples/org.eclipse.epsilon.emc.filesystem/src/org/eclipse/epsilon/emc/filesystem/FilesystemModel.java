@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -28,7 +28,7 @@ import org.eclipse.epsilon.eol.models.Model;
 public class FilesystemModel extends Model {
 	
 	// Map of directories -> files they contain
-	protected HashMap<File, List<File>> cache = new HashMap<File, List<File>>();
+	protected Map<File, List<File>> cache = new HashMap<>();
 	
 	public FilesystemModel(File root) {
 		populateCache(root, cache);
@@ -146,10 +146,10 @@ public class FilesystemModel extends Model {
 		return null;
 	}
 	
-	protected void populateCache(File file, HashMap<File, List<File>> cache) {
+	protected void populateCache(File file, Map<File, List<File>> cache) {
 		
 		if (file.isDirectory()) {
-			ArrayList<File> files = new ArrayList<File>();
+			ArrayList<File> files = new ArrayList<>();
 			for (File child : file.listFiles()) {
 				if (child.isFile()) {
 					files.add(child);
