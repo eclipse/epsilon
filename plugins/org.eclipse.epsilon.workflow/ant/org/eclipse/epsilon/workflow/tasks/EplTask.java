@@ -9,26 +9,22 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
-import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.IEplModule;
+import org.eclipse.epsilon.epl.concurrent.EplModuleParallelPatterns;
 import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 
 public class EplTask extends ExecutableModuleTask {
 	
-	protected int maxLoops = -1;
-	protected boolean repeatWhileMatches;
 	protected String exportAs = null;
 	
 	@Override
 	protected void initialize() {
-		IEplModule module = (IEplModule) this.module;
-		module.setMaxLoops(maxLoops);
-		module.setRepeatWhileMatches(repeatWhileMatches);
+		
 	}
 
 	@Override
 	protected IEplModule createDefaultModule() {
-		return new EplModule();
+		return new EplModuleParallelPatterns();
 	}
 
 	@Override
@@ -42,19 +38,19 @@ public class EplTask extends ExecutableModuleTask {
 	}
 	
 	public int getMaxLoops() {
-		return maxLoops;
+		return ((IEplModule) module).getMaxLoops();
 	}
 	
 	public void setMaxLoops(int maxLoops) {
-		this.maxLoops = maxLoops;
+		((IEplModule) module).setMaxLoops(maxLoops);
 	}
 	
 	public boolean isRepeatWhileMatches() {
-		return repeatWhileMatches;
+		return ((IEplModule) module).isRepeatWhileMatches();
 	}
 	
 	public void setRepeatWhileMatches(boolean repeatWhileMatches) {
-		this.repeatWhileMatches = repeatWhileMatches;
+		((IEplModule) module).setRepeatWhileMatches(repeatWhileMatches);
 	}
 	
 	public String getExportAs() {
