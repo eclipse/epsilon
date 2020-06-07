@@ -12,8 +12,8 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
+import org.eclipse.epsilon.etl.concurrent.EtlModuleParallel;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.trace.Transformation;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
@@ -21,6 +21,7 @@ import org.eclipse.epsilon.etl.trace.TransformationTrace;
 public class EtlTask extends ExportableModuleTask {
 	
 	protected String exportTransformationTrace;
+	
 	public String getExportTransformationTrace() {
 		return exportTransformationTrace;
 	}
@@ -34,7 +35,7 @@ public class EtlTask extends ExportableModuleTask {
 	
 	@Override
 	protected IEtlModule createDefaultModule() {
-		return new EtlModule();
+		return new EtlModuleParallel();
 	}
 	
 	@Override

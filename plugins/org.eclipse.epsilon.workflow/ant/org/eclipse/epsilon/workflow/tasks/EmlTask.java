@@ -11,12 +11,11 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eml.EmlModule;
-import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eml.IEmlModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EmlTask extends ExecutableModuleTask {
 
-	//protected String eclsrc = null;
 	protected String useMatchTrace = null;
 	protected String exportMergeTrace = null;
 	protected String exportTransformationTrace = null;
@@ -46,7 +45,7 @@ public class EmlTask extends ExecutableModuleTask {
 	}
 
 	@Override
-	protected IEolModule createDefaultModule() {
+	protected IEmlModule createDefaultModule() {
 		return new EmlModule();
 	}
 
@@ -64,7 +63,7 @@ public class EmlTask extends ExecutableModuleTask {
 
 	@Override
 	protected void initialize() throws Exception {
-		EmlModule emlModule = (EmlModule) module;
+		IEmlModule emlModule = (EmlModule) module;
 		
 		if (useMatchTrace != null) {
 			Variable v = getProjectStackFrame().get(useMatchTrace);
@@ -75,12 +74,4 @@ public class EmlTask extends ExecutableModuleTask {
 		}
 	
 	}
-
-	//public String getEclsrc() {
-	//	return eclsrc;
-	//}
-
-	//public void setEclsrc(String eclsrc) {
-	//	this.eclsrc = eclsrc;
-	//}
 }
