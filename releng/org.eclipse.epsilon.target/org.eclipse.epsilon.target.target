@@ -21,6 +21,7 @@
 		<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
 		<unit id="org.eclipse.rcp.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.sdk.ide" version="0.0.0"/>
+		<unit id="org.eclipse.egit.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.ocl.all.sdk.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.sirius.runtime.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.sirius.runtime.ide.ui.feature.group" version="0.0.0"/>
