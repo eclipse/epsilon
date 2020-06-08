@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.types.*;
+import org.eclipse.epsilon.eol.types.concurrent.*;
 
 public class IterableOperationContributor extends OperationContributor {
 
@@ -112,7 +113,29 @@ public class IterableOperationContributor extends OperationContributor {
 		}
 	}
 
-	public List<Object> asSequence() {
+	/**
+	 * 
+	 * @return
+	 * @since 2.1
+	 */
+	public EolConcurrentBag<Object> asConcurrentBag() {
+		EolConcurrentBag<Object> copy = new EolConcurrentBag<>();
+		copy(getIterable(), copy);
+		return copy;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 2.1
+	 */
+	public EolConcurrentSet<Object> asConcurrentSet() {
+		EolConcurrentSet<Object> copy = new EolConcurrentSet<>();
+		copy(getIterable(), copy);
+		return copy;
+	}
+	
+	public EolSequence<Object> asSequence() {
 		EolSequence<Object> copy = new EolSequence<>();
 		copy(getIterable(), copy);
 		return copy;
