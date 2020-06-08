@@ -14,7 +14,7 @@
 		<th style="text-align: left;">Value</th>
 	</tr>
 [%for (feature in object.getFeatures()){%]
-	<tr>
+	<tr pictoid="[%=feature.getName()%]">
 		<td>[%=feature.getIcon()%][%=feature.name%]</th>
 		<td>[%=feature.displayValue(object)%]</th>
 	</tr>
