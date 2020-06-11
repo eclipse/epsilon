@@ -7,14 +7,14 @@
 [%
 	var javascript = "javascript:top.showElement('" + object.id + "','" + object.eResource.uri + "')";
 %]
-<h5 style="padding: 5px;">[%=object.getName()%] <a href="[%=javascript%]">(show in editor)</a></h5>
+<h5 style="padding: 5px;">[%=object.getIdentifier()%] <a href="[%=javascript%]">(show in editor)</a></h5>
 <table class="table table-stripped">
 	<tr>
 		<th style="white-space: nowrap; width: 1%; text-align: left;">Feature</th>
 		<th style="text-align: left;">Value</th>
 	</tr>
 [%for (feature in object.getFeatures()){%]
-	<tr pictoid="[%=feature.getName()%]">
+	<tr pictoid="[%=feature.name%]">
 		<td>[%=feature.getIcon()%][%=feature.name%]</th>
 		<td>[%=feature.displayValue(object)%]</th>
 	</tr>
@@ -24,8 +24,6 @@
 </html>
 [%
 
-//TODO: think later about layering (e.g. superclasses on/off),
-//  or about separating attributes and references
 operation Any getFeatures() {
 	var features = null;
 	
@@ -76,11 +74,11 @@ operation Any displayReference(object) {
 operation Any toLink() {
 	var javascript = "javascript:top.showView([" + 
 			self.getPath().collect(p | "'" + p + "'").concat(",") + "])";
-	var tooltip = "Jump to " + self.getName();
+	var tooltip = "Jump to " + self.getIdentifier();
 	if (self.eContainer <> null) {
-		tooltip += " (" + self.eContainer.getName() + ")";
+		tooltip += " (" + self.eContainer.getIdentifier() + ")";
 	}
-	return '<a href="' + javascript + '" title="' + tooltip + '">' + self.getName() + '</a>';
+	return '<a href="' + javascript + '" title="' + tooltip + '">' + self.getIdentifier() + '</a>';
 }
 
 operation isLayerActive(id : String) {

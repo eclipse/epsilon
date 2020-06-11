@@ -3,17 +3,24 @@ operation Any getPath(): Sequence {
 	if (self.eContainer <> null) {
 		result.addAll(self.eContainer.getPath());
 	}
-	result.add(self.getName());
+	result.add(self.getIdentifier());
 	return result;
 }
 
-operation Any getName() {
-	var result = self.eClass.name + " ";
+/*
+	First option: 	an EAttribute defined as ID
+	Second option:	a name property
+	Third option: 	the position in the list of types 
+*/
+operation Any getIdentifier() {
+	var prefix = self.eClass.name + " ";
+	for (attribute in self.eClass.getEAllAttributes()) {
+		if (attribute.isID()) {
+			return prefix + self.eGet(attribute);
+		}
+	}
 	if (self.hasProperty("name")) {
-		result += self.name;
+		return prefix + self.name;
 	}
-	else {
-		result += M.getAllOfType(self.eClass.name).indexOf(self);
-	}
-	return result;
+	return prefix + M.getAllOfType(self.eClass.name).indexOf(self);
 }
