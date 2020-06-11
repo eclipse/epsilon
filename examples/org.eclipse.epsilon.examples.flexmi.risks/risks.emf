@@ -2,11 +2,12 @@
 package risks;
 
 class System {
+	attr String name;
 	val Risk[*] risks;
 }
 
 class Risk {
-	attr String Id;
+	id attr String Id;
 	attr String title;
 	attr Scale likelihood;
 	attr Scale severity;
