@@ -1,0 +1,4 @@
+operation c5() {
+	"Hello".println();
+	return "C5";
+}

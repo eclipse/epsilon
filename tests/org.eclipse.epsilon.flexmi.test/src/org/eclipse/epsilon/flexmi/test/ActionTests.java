@@ -9,22 +9,27 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.test;
 
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.junit.Test;
 
 public class ActionTests extends FlexmiTests {
 	
 	@Test
 	public void testVar() throws Exception {
+		FileUtil.getFileStandalone("models/actions/operations.eol", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/actions/imported-operations.eol", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/actions/templates.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/actions/template-operations.eol", FlexmiTests.class);
+		
 		assertEval("EOperation.all.first().name", "createC1", "actions/model-with-actions.flexmi");
 		assertEval("EOperation.all.second().name", "createC3", "actions/model-with-actions.flexmi");
 		assertEval("EOperation.all.first().eType.name", "C1", "actions/model-with-actions.flexmi");
 		assertEval("EOperation.all.second().eType.name", "C3", "actions/model-with-actions.flexmi");
+		assertEval("EClass.all.at(5).name", "C4", "actions/model-with-actions.flexmi");
+		assertEval("EClass.all.at(6).name", "C5", "actions/model-with-actions.flexmi");
 		//TODO: See why this test fails
 		//assertEval("EClass.all.fourth().name", "C2Clone", "actions/model-with-actions.flexmi");
-		
-		assertWarning("Undefined variable", 7, "actions/model-with-actions.flexmi");
+		assertWarning("Undefined variable", 9, "actions/model-with-actions.flexmi");
 	}
-	
-	
 	
 }

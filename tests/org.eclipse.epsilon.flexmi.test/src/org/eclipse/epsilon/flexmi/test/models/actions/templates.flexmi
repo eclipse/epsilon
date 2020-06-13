@@ -1,0 +1,9 @@
+<?nsuri http://www.eclipse.org/emf/2002/Ecore?>
+<?eol template-operations.eol?>
+<_>
+	<:template name="c5">
+		<content>
+			<class :name="c5()"/>
+		</content>
+	</:template>
+</_>

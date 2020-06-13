@@ -12,6 +12,7 @@ package org.eclipse.epsilon.flexmi.actions;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
@@ -40,6 +41,10 @@ public class FeatureComputation extends Computation {
 		module.parse(code);
 		if (!module.getParseProblems().isEmpty()) {
 			throw new Exception(module.getParseProblems().get(0).getReason());
+		}
+		for (Resource r : resource.getResourceSet().getResources()) {
+			if (r instanceof FlexmiResource)
+				module.getOperations().addAll(((FlexmiResource)r).getOperations());
 		}
 		module.getContext().getModelRepository().addModel(model);
 		module.getContext().setFrameStack(resource.getFrameStack());
