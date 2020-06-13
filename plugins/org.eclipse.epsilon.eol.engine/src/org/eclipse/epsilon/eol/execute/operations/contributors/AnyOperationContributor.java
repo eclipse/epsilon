@@ -13,9 +13,12 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolMapType;
 import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
@@ -264,5 +267,11 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public Date asDate(String format) throws ParseException {
 		return new SimpleDateFormat(format).parse(getTarget().toString());
+	}
+	
+	public Object asVar(String name) {
+		Object target = getTarget();
+		getContext().getFrameStack().put(new Variable(name, getTarget(), EolAnyType.Instance));
+		return target;
 	}
 }
