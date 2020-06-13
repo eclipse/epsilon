@@ -25,20 +25,21 @@ import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
  */
 public class EvlStandaloneExample {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String... args) throws Exception {
 		Path root = Paths.get(EvlStandaloneExample.class.getResource("").toURI()),
 			modelsRoot = root.getParent().resolve("models");
 		
-		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "Model");
-		modelProperties.setProperty(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI,
-			modelsRoot.resolve("Tree.ecore").toAbsolutePath().toUri().toString()
-		);
-		modelProperties.setProperty(EmfModel.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("Tree.xmi").toAbsolutePath().toUri().toString()
-		);
-		modelProperties.setProperty(EmfModel.PROPERTY_CACHED, "true");
-		modelProperties.setProperty(EmfModel.PROPERTY_CONCURRENT, "true");
+		StringProperties modelProperties = StringProperties.Builder()
+			.withProperty(EmfModel.PROPERTY_NAME, "Model")
+			.withProperty(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI,
+				modelsRoot.resolve("Tree.ecore").toAbsolutePath().toUri()
+			)
+			.withProperty(EmfModel.PROPERTY_MODEL_URI,
+				modelsRoot.resolve("Tree.xmi").toAbsolutePath().toUri()
+			)
+			.withProperty(EmfModel.PROPERTY_CACHED, true)
+			.withProperty(EmfModel.PROPERTY_CONCURRENT, true)
+			.build();
 		
 		EvlRunConfiguration runConfig = EvlRunConfiguration.Builder()
 			.withScript(root.resolve("Demo.evl"))
@@ -51,5 +52,4 @@ public class EvlStandaloneExample {
 		
 		runConfig.run();
 	}
-
 }
