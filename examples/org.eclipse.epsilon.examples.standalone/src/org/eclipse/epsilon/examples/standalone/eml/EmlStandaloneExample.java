@@ -3,8 +3,10 @@ package org.eclipse.epsilon.examples.standalone.eml;
 import java.io.File;
 
 import org.eclipse.epsilon.ecl.EclModule;
+import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eml.EmlModule;
+import org.eclipse.epsilon.eml.IEmlModule;
 
 public class EmlStandaloneExample {
 	
@@ -27,25 +29,19 @@ public class EmlStandaloneExample {
 		merged.setReadOnLoad(false);
 		merged.load();
 		
-		EclModule eclModule = new EclModule();
+		IEclModule eclModule = new EclModule();
 		eclModule.parse(EmlStandaloneExample.class.getResource("catalogues.ecl").toURI());
-		eclModule.getContext().getModelRepository().addModel(catalogue1);
-		eclModule.getContext().getModelRepository().addModel(catalogue2);
+		eclModule.getContext().getModelRepository().addModels(catalogue1, catalogue2);
 		eclModule.execute();
 		
-		EmlModule emlModule = new EmlModule();
+		IEmlModule emlModule = new EmlModule();
 		emlModule.parse(EmlStandaloneExample.class.getResource("catalogues.eml").toURI());
-		emlModule.getContext().getModelRepository().addModel(catalogue1);
-		emlModule.getContext().getModelRepository().addModel(catalogue2);
-		emlModule.getContext().getModelRepository().addModel(merged);
+		emlModule.getContext().getModelRepository().addModels(catalogue1, catalogue2, merged);
 		emlModule.getContext().setMatchTrace(eclModule.getContext().getMatchTrace().getReduced());
 		emlModule.execute();
 		
 		System.out.println(merged.getXml());
 		
 	}
-	
-	
-	
 	
 }

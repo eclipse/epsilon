@@ -1,7 +1,8 @@
+@parallel
 rule Tree2Txt
 	transform t : Tree {
 	
-	template : "tree.egl"
+	template : eglTemplateFileName
 	
 	target : t.label + ".txt"
 	

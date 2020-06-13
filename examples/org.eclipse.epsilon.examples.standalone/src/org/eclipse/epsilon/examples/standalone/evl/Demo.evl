@@ -1,6 +1,6 @@
 pre {
-	var finishedMsg = "Hello from post";
-	"Hello from pre".println();
+	var finishedMsg = greeting+"post";
+	greeting+"pre".println();
 }
 
 context Tree {

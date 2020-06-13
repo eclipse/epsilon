@@ -10,49 +10,44 @@
 package org.eclipse.epsilon.examples.standalone.egl;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
 
 /**
- * This example demonstrates using the 
- * Epsilon Generation Language, the M2T language
- * of Epsilon, in a stand-alone manner 
+ * This example demonstrates using the Epsilon Generation Language, the M2T language of Epsilon, in a stand-alone manner 
+ * 
+ * @author Sina Madani
  * @author Dimitrios Kolovos
  */
-public class EgxStandaloneExample extends EpsilonStandaloneExample {
+public class EgxStandaloneExample {
 	
 	public static void main(String[] args) throws Exception {
-		new EgxStandaloneExample().execute();
-	}
-	
-	@Override
-	public IEolModule createModule() {
-		try {
-			EglFileGeneratingTemplateFactory templateFactory = new EglFileGeneratingTemplateFactory();
-			templateFactory.setOutputRoot(new File("egx-gen").getAbsolutePath());
-			return new EgxModule(templateFactory);
-		}
-		catch (Exception ex) { 
-			throw new RuntimeException(ex);
-		}
-	}
-
-	@Override
-	public List<IModel> getModels() throws Exception {
-		List<IModel> models = new ArrayList<IModel>();
-		models.add(createEmfModel("Model", "models/Tree.xmi", "models/Tree.ecore", true, false));
-		return models;
-	}
-
-	@Override
-	public String getSource() throws Exception {
-		return "egl/demo.egx";
+		Path root = Paths.get(EgxStandaloneExample.class.getResource("").toURI()),
+			modelsRoot = root.getParent().resolve("models");
+		
+		StringProperties modelProperties = new StringProperties();
+		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "Model");
+		modelProperties.setProperty(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI,
+			modelsRoot.resolve("Tree.ecore").toAbsolutePath().toUri().toString()
+		);
+		modelProperties.setProperty(EmfModel.PROPERTY_MODEL_URI,
+			modelsRoot.resolve("Tree.xmi").toAbsolutePath().toUri().toString()
+		);
+		modelProperties.setProperty(EmfModel.PROPERTY_CACHED, "true");
+		modelProperties.setProperty(EmfModel.PROPERTY_CONCURRENT, "true");
+		
+		EgxRunConfiguration runConfig = EgxRunConfiguration.Builder()
+			.withScript(root.resolve("demo.egx"))
+			.withModel(new EmfModel(), modelProperties)
+			.withParameter("eglTemplateFileName", "tree.egl")
+			.withOutputRoot(new File("egx-gen").getAbsolutePath())
+			.withProfiling()
+			.build();
+		
+		runConfig.run();
 	}
 
 }

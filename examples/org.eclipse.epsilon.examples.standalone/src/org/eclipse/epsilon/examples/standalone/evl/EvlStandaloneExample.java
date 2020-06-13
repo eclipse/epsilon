@@ -21,6 +21,7 @@ import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
  * of Epsilon, in a stand-alone manner
  * 
  * @author Sina Madani
+ * @author Dimitrios Kolovos
  */
 public class EvlStandaloneExample {
 
@@ -42,6 +43,7 @@ public class EvlStandaloneExample {
 		EvlRunConfiguration runConfig = EvlRunConfiguration.Builder()
 			.withScript(root.resolve("Demo.evl"))
 			.withModel(new EmfModel(), modelProperties)
+			.withParameter("greeting", "Hello from ")
 			.withProfiling()
 			.withResults()
 			.withParallelism()
