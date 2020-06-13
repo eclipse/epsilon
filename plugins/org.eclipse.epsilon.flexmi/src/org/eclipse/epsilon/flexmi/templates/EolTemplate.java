@@ -16,13 +16,13 @@ import java.util.List;
 
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.w3c.dom.Element;
 
-public class EolTemplate extends XmlTemplate {
+public class EolTemplate extends DynamicTemplate {
 
-	public EolTemplate(Element element, URI uri) {
-		super(element, uri);
+	public EolTemplate(Element element, FlexmiResource resource, URI uri) {
+		super(element, resource, uri);
 	}
 	
 	@Override
@@ -30,13 +30,7 @@ public class EolTemplate extends XmlTemplate {
 		try {
 			EolModule module = new EolModule();
 			module.parse(content.getTextContent().trim(), new File(uri));
-			
-			for (Parameter parameter : getParameters()) {
-				String parameterName = parameter.getName();
-				String value = call.getAttribute(parameterName);
-				if (call.hasAttribute(Template.PREFIX + parameterName)) value = call.getAttribute(Template.PREFIX + parameterName);
-				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(parameterName, value));
-			}
+			prepareModule(module, call);
 			
 			PlainXmlModel model = new PlainXmlModel();
 			model.setReadOnLoad(false);

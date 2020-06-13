@@ -13,14 +13,15 @@ import java.net.URI;
 import java.util.List;
 import org.apache.commons.lang3.text.StrLookup;
 import org.apache.commons.lang3.text.StrSubstitutor;
+import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class XmlTemplate extends Template {
-
-	public XmlTemplate(Element element, URI uri) {
-		super(element, uri);
+	
+	public XmlTemplate(Element element, FlexmiResource resource, URI uri) {
+		super(element, resource, uri);
 	}
 
 	public List<Element> apply(Element call) {

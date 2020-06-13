@@ -67,6 +67,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected ActionMap actionMap = new ActionMap();
 	protected HashMap<EObject, List<EObject>> orderedChildren = new HashMap<>();
 	protected List<Operation> operations = new ArrayList<Operation>();
+	protected FlexmiResource importedFrom = null;
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -714,6 +715,19 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 
 	public Collection<Operation> getOperations() {
 		return operations;
+	}
+	
+	public FlexmiResource getImportedFrom() {
+		return importedFrom;
+	}
+	
+	public void setImportedFrom(FlexmiResource importedFrom) {
+		this.importedFrom = importedFrom;
+	}
+	
+	public FlexmiResource getRootResource() {
+		if (importedFrom == null) return this;
+		else return importedFrom.getRootResource();
 	}
 	
 }

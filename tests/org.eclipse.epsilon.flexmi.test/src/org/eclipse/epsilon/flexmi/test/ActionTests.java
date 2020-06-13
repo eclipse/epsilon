@@ -27,6 +27,10 @@ public class ActionTests extends FlexmiTests {
 		assertEval("EOperation.all.second().eType.name", "C3", "actions/model-with-actions.flexmi");
 		assertEval("EClass.all.at(5).name", "C4", "actions/model-with-actions.flexmi");
 		assertEval("EClass.all.at(6).name", "C5", "actions/model-with-actions.flexmi");
+		assertEval("EClass.all.at(6).isAbstract", true, "actions/model-with-actions.flexmi");
+		assertEval("EClass.all.at(7).name", "C6", "actions/model-with-actions.flexmi");
+		assertEval("EClass.all.at(7).isAbstract", false, "actions/model-with-actions.flexmi");
+		
 		//TODO: See why this test fails
 		//assertEval("EClass.all.fourth().name", "C2Clone", "actions/model-with-actions.flexmi");
 		assertWarning("Undefined variable", 9, "actions/model-with-actions.flexmi");

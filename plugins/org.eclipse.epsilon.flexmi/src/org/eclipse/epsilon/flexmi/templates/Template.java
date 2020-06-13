@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Element;
 
@@ -23,12 +24,14 @@ public abstract class Template {
 	protected Element content;
 	protected URI uri;
 	protected Element slot;
+	protected FlexmiResource resource;
 	
 	public static final String NODE_NAME = "_template";
 	public static final String PREFIX = "_";
 	
-	public Template(Element element, URI uri) {
+	public Template(Element element, FlexmiResource resource, URI uri) {
 		this.uri = uri;
+		this.resource = resource;
 		this.name = element.getAttribute("name");
 		List<? extends Element> elements = Xml.getChildren(element, "parameter");
 		parameters.ensureCapacity(elements.size());

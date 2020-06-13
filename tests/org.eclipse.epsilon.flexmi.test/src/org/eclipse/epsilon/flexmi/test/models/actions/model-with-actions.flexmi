@@ -19,4 +19,7 @@
 	<class :name="c4()"/>
 	
 	<c5/>
+	
+	<c6 concrete="true"/>
+	
 </_>
