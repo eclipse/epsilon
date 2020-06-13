@@ -11,16 +11,23 @@ package org.eclipse.epsilon.examples.standalone.eol;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
 
-public class EolStandaloneMetamodelByUriExample extends EolStandaloneExample {
+public class EolStandaloneMetamodelByUriExample extends EpsilonStandaloneExample {
 
 	public static void main(String[] args) throws Exception {
 		new EolStandaloneMetamodelByUriExample().execute();
+	}
+	
+	public EolStandaloneMetamodelByUriExample() {
+		parameters.add(Variable.createReadOnlyVariable("Thread", Thread.class));
 	}
 	
 	@Override
@@ -31,4 +38,18 @@ public class EolStandaloneMetamodelByUriExample extends EolStandaloneExample {
 		return models;
 	}
 
+	@Override
+	public IEolModule createModule() {
+		return new EolModule();
+	}
+
+	@Override
+	public String getSource() throws Exception {
+		return "eol/Demo.eol";
+	}
+
+	@Override
+	public void postProcess() {
+		
+	}
 }

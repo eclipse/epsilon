@@ -11,7 +11,6 @@ package org.eclipse.epsilon.examples.standalone.eol;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
