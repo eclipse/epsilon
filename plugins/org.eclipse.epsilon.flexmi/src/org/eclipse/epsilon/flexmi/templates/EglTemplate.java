@@ -12,13 +12,8 @@ package org.eclipse.epsilon.flexmi.templates;
 import java.net.URI;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.emc.plainxml.StringInputStream;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Document;
@@ -40,13 +35,11 @@ public class EglTemplate extends DynamicTemplate {
 			prepareModule(module, call);
 			
 			String xml = "<?xml version=\"1.0\"?><root>" + (module.execute() + "").trim() + "</root>";
-			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			Document document = documentBuilder.parse(new StringInputStream(xml));
+			Document document = Xml.parse(xml);
+			replaceSlots(call, document.getDocumentElement());
 			return Xml.getChildren(document.getDocumentElement());
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}

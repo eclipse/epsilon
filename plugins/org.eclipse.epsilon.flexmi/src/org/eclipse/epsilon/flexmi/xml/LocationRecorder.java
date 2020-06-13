@@ -36,7 +36,7 @@ public class LocationRecorder extends XMLFilterImpl {
 	protected UserDataHandler dataHandler = new LocationDataHandler();
 	protected Stack<Node> nodeStack = new Stack<>();
 
-	LocationRecorder(XMLReader xmlReader, Document dom) {
+	public LocationRecorder(XMLReader xmlReader, Document dom) {
 		super(xmlReader);
 
 		((EventTarget) dom).addEventListener("DOMNodeInserted",

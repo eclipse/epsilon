@@ -12,12 +12,39 @@ package org.eclipse.epsilon.flexmi.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.sax.SAXSource;
+
+import org.eclipse.epsilon.emc.plainxml.StringInputStream;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 
 public class Xml {
+	
+	static DocumentBuilder documentBuilder = null;
+	static TransformerFactory transformerFactory = null;
+	static SAXParserFactory saxParserFactory = null;
+	
+	static {
+		try {
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			transformerFactory = TransformerFactory.newInstance();
+			documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			saxParserFactory = SAXParserFactory.newInstance();
+		}
+		catch (Exception ex) { throw new RuntimeException(ex); }
+	}
 	
 	public static List<Node> getAttributes(Element e) {
 		List<Node> attributes = new ArrayList<>();
@@ -78,6 +105,16 @@ public class Xml {
 			}
 		}
 		return children;
+	}
+	
+	public static Document parse(String xml) throws Exception {
+		Transformer transformer = transformerFactory.newTransformer();
+		Document document = documentBuilder.newDocument();
+		document.setStrictErrorChecking(false);
+		SAXParser saxParser = saxParserFactory.newSAXParser();
+		XMLReader xmlReader = saxParser.getXMLReader();
+		transformer.transform(new SAXSource(new LocationRecorder(xmlReader,document), new InputSource(new StringInputStream(xml))), new DOMResult(document));
+		return document;
 	}
 	
 }
