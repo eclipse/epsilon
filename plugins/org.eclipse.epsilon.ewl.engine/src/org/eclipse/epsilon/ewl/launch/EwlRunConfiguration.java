@@ -43,13 +43,13 @@ public class EwlRunConfiguration extends EolRunConfiguration {
 	public EwlRunConfiguration(Builder<? extends EolRunConfiguration, ?> builder) {
 		super(builder);
 	}
-	
-	public EwlRunConfiguration(EolRunConfiguration.Builder<? extends EolRunConfiguration, ?> builder) {
-		super(builder);
-	}
 
 	public EwlRunConfiguration(EwlRunConfiguration other) {
 		super(other);
 	}
 
+	@Override
+	public IEwlModule getModule() {
+		return (IEwlModule) super.getModule();
+	}
 }

@@ -12,6 +12,7 @@ package org.eclipse.epsilon.etl.launch;
 import org.eclipse.epsilon.erl.launch.ErlRunConfiguration;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
+import org.eclipse.epsilon.etl.concurrent.EtlModuleParallel;
 import org.eclipse.epsilon.etl.execute.context.concurrent.EtlContextParallel;
 
 /**
@@ -33,8 +34,7 @@ public class EtlRunConfiguration extends ErlRunConfiguration {
 		@Override
 		protected IEtlModule createModule() {
 			if (isSequential()) return new EtlModule();
-			EtlContextParallel context = new EtlContextParallel(parallelism);
-			return new EtlModule(context);
+			return new EtlModuleParallel(new EtlContextParallel(parallelism));
 		}
 	}
 	

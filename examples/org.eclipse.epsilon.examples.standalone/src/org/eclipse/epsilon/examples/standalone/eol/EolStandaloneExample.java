@@ -16,9 +16,9 @@ import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 
 /**
- * This example demonstrates using the 
- * Epsilon Object Language, the core language
- * of Epsilon, in a stand-alone manner 
+ * This example demonstrates using the Epsilon Object Language, the core language of Epsilon, in a stand-alone manner 
+ * 
+ * @author Sina Madani
  * @author Dimitrios Kolovos
  */
 public class EolStandaloneExample {
@@ -35,8 +35,6 @@ public class EolStandaloneExample {
 		modelProperties.setProperty(EmfModel.PROPERTY_MODEL_URI,
 			modelsRoot.resolve("Tree.xmi").toAbsolutePath().toUri().toString()
 		);
-		modelProperties.setProperty(EmfModel.PROPERTY_CACHED, "true");
-		modelProperties.setProperty(EmfModel.PROPERTY_CONCURRENT, "true");
 		
 		EolRunConfiguration runConfig = EolRunConfiguration.Builder()
 			.withScript(root.resolve("Demo.eol"))
