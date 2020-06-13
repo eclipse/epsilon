@@ -302,7 +302,7 @@ public class EolRunConfiguration extends ProfilableRunConfiguration {
 			}
 			return (B) this;
 		}
-		public B withProperties(StringProperties properties) {
+		public B withProperties(Map<?, ?> properties) {
 			modelsAndProperties.values().forEach(prop -> prop.putAll(properties));
 			return (B) this;
 		}

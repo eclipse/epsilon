@@ -12,6 +12,7 @@ package org.eclipse.epsilon.common.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 
 public class StringProperties extends Properties {
@@ -101,9 +102,8 @@ public class StringProperties extends Properties {
 	
 	@Override
 	public String getProperty(String key) {
-		String zuper = super.getProperty(key);
-		if (zuper == null) return "";
-		else return zuper;
+		String value = super.getProperty(key);
+		return value == null ? "" : value;
 	}
 	
 	
@@ -125,6 +125,18 @@ public class StringProperties extends Properties {
 	@Override
 	public Object put(Object key, Object value) {
 		return super.put(key, StringUtil.toString(value));
+	}
+	
+	@Override
+	public void putAll(Map<?, ?> map) {
+		if (map instanceof Properties) {
+			super.putAll(map);
+		}
+		else if (map != null) {
+			for (Map.Entry<?, ?> entry : map.entrySet()) {
+				put(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 	
 	public boolean getBooleanProperty(String key, boolean def) {
