@@ -9,11 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.examples.standalone;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collection;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
@@ -21,25 +19,31 @@ import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
+/**
+ * Please use the appropriate subclass of {@link EolRunConfiguration} instead.
+ * 
+ */
+@Deprecated
 public abstract class EpsilonStandaloneExample {
 	
 	protected IEolModule module;
-	protected List<Variable> parameters = new ArrayList<Variable>();
+	protected Collection<Variable> parameters = new ArrayList<>();
 	
 	protected Object result;
 	
-	public abstract IEolModule createModule();
+	protected abstract IEolModule createModule();
 	
-	public abstract String getSource() throws Exception;
+	protected abstract String getSource() throws Exception;
 	
-	public abstract List<IModel> getModels() throws Exception;
+	public abstract Collection<IModel> getModels() throws Exception;
 	
-	public void postProcess() {};
+	protected void postProcess() {}
 	
-	public void preProcess() {};
+	protected void preProcess() {}
 	
 	public void execute() throws Exception {
 		
@@ -69,7 +73,7 @@ public abstract class EpsilonStandaloneExample {
 		module.getContext().getModelRepository().dispose();
 	}
 	
-	public List<Variable> getParameters() {
+	public Collection<Variable> getParameters() {
 		return parameters;
 	}
 	
@@ -111,19 +115,8 @@ public abstract class EpsilonStandaloneExample {
 		return emfModel;
 	}
 
-	protected URI getFileURI(String fileName) throws URISyntaxException {
-		
-		URI binUri = EpsilonStandaloneExample.class.
-				getResource(fileName).toURI();
-		URI uri = null;
-		
-		if (binUri.toString().indexOf("bin") > -1) {
-			uri = new URI(binUri.toString().replaceAll("bin", "src"));
-		}
-		else {
-			uri = binUri;
-		}
-		
-		return uri;
+	protected java.net.URI getFileURI(String fileName) throws URISyntaxException {
+		java.net.URI binUri = EpsilonStandaloneExample.class.getResource(fileName).toURI();
+		return binUri.toString().contains("bin") ? new java.net.URI(binUri.toString().replaceAll("bin", "src")) : binUri;
 	}
 }

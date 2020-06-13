@@ -9,61 +9,45 @@
  ******************************************************************************/
 package org.eclipse.epsilon.examples.standalone.evl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
-import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 
 /**
  * This example demonstrates using the 
  * Epsilon Validation Language, the model validation language
- * of Epsilon, in a stand-alone manner 
- * @author Dimitrios Kolovos
+ * of Epsilon, in a stand-alone manner
+ * 
+ * @author Sina Madani
  */
-public class EvlStandaloneExample extends EpsilonStandaloneExample {
+public class EvlStandaloneExample {
 
 	public static void main(String[] args) throws Exception {
-		new EvlStandaloneExample().execute();
-	}
-	
-	@Override
-	public IEolModule createModule() {
-		return new EvlModule();
-	}
-
-	@Override
-	public List<IModel> getModels() throws Exception {
-		List<IModel> models = new ArrayList<IModel>();
-		models.add(createEmfModel("Model", "models/Tree.xmi", "models/Tree.ecore", true, true));
-		return models;
-	}
-
-	@Override
-	public String getSource() throws Exception {
-		return "evl/Demo.evl";
-	}
-
-	@Override
-	public void postProcess() {
+		Path root = Paths.get(EvlStandaloneExample.class.getResource("").toURI()),
+			modelsRoot = root.getParent().resolve("models");
 		
-		EvlModule module = (EvlModule) this.module;
+		StringProperties modelProperties = new StringProperties();
+		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "Model");
+		modelProperties.setProperty(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI,
+			modelsRoot.resolve("Tree.ecore").toAbsolutePath().toUri().toString()
+		);
+		modelProperties.setProperty(EmfModel.PROPERTY_MODEL_URI,
+			modelsRoot.resolve("Tree.xmi").toAbsolutePath().toUri().toString()
+		);
+		modelProperties.setProperty(EmfModel.PROPERTY_CACHED, "true");
+		modelProperties.setProperty(EmfModel.PROPERTY_CONCURRENT, "true");
 		
-		Collection<UnsatisfiedConstraint> unsatisfied = module.getContext().getUnsatisfiedConstraints();
-	
-		if (unsatisfied.size() > 0) {
-			System.err.println(unsatisfied.size() + " constraint(s) have not been satisfied");
-			for (UnsatisfiedConstraint uc : unsatisfied) {
-				System.err.println(uc.getMessage());
-			}
-		}
-		else {
-			System.out.println("All constraints have been satisfied");
-		}
+		EvlRunConfiguration runConfig = EvlRunConfiguration.Builder()
+			.withScript(root.resolve("Demo.evl"))
+			.withModel(new EmfModel(), modelProperties)
+			.withProfiling()
+			.withResults()
+			.withParallelism()
+			.build();
+		
+		runConfig.run();
 	}
 
 }

@@ -4,8 +4,7 @@ Bundle-Name: Epsilon Merging Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.eml.engine
 Bundle-Version: 2.1.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.ecl.engine,
+Require-Bundle: org.eclipse.epsilon.ecl.engine,
  org.eclipse.epsilon.etl.engine
 Export-Package: org.eclipse.epsilon.eml,
  org.eclipse.epsilon.eml.dom,
