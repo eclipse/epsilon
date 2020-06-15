@@ -1,13 +1,13 @@
 <?nsuri http://www.eclipse.org/emf/2002/Ecore?>
 <_>
 
-	<_template name="t2">
+	<:template name="t2">
 		<content language="EGL">
 		<![CDATA[		
 			[%import "../library.eol";%]
 			<class name="[%=c2()%]"/>
 		]]>
 		</content>
-	</_template>
+	</:template>
 	
 </_>

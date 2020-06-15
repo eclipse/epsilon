@@ -5,7 +5,7 @@
 		<t1 p1="C1" p2="a1"/>
 	</package>
 	
-	<_template name="t1">
+	<:template name="t1">
 		<parameter name="p1"/>
 		<parameter name="p2"/>
 		<content>
@@ -13,13 +13,13 @@
 				<t2 p1="${p2}"/>
 			</class>
 		</content>
-	</_template>
+	</:template>
 	
-	<_template name="t2">
+	<:template name="t2">
 		<parameter name="p1"/>
 		<content>
 			<attr name="${p1}"/>
 		</content>
-	</_template>
+	</:template>
 	
 </_>

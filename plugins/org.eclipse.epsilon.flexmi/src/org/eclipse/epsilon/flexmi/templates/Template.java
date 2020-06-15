@@ -26,8 +26,8 @@ public abstract class Template {
 	protected Element slot;
 	protected FlexmiResource resource;
 	
-	public static final String NODE_NAME = "_template";
-	public static final String PREFIX = "_";
+	public static final String NODE_NAME = ":template";
+	public static final String PREFIX = ":";
 	
 	public Template(Element element, FlexmiResource resource, URI uri) {
 		this.uri = uri;

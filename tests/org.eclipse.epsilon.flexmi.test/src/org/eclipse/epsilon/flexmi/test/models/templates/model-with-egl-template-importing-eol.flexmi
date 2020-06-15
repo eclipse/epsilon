@@ -9,13 +9,13 @@
 		<t2/>
 	</package>
 		
-	<_template name="t1">
+	<:template name="t1">
 		<content language="EGL">
 		<![CDATA[		
 			[%import "library.eol";%]
 			<class name="[%=c1()%]"/>
 		]]>
 		</content>
-	</_template>
+	</:template>
 	
 </_>

@@ -187,10 +187,10 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		//Remove prefixes
 		//TODO: Add option to disable this
-		int colonIndex = name.indexOf(":");
-		if (colonIndex > -1) {
-			name = name.substring(colonIndex+1);
-		}
+		//int colonIndex = name.indexOf(":");
+		//if (colonIndex > -1) {
+		//	name = name.substring(colonIndex+1);
+		//}
 		
 		EObject eObject = null;
 		EClass eClass = null;

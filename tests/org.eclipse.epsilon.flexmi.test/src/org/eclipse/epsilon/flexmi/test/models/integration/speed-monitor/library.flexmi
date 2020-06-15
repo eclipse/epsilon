@@ -1,6 +1,6 @@
 <?nsuri comps?>
 <_>
-	<_template name="binary_operator">
+	<:template name="binary_operator">
 		<parameter name="in"/>
 		<parameter name="out"/>
 		<content>
@@ -10,9 +10,9 @@
 				<out name="result" type="${out}"/>
 			</comp>
 		</content>
-	</_template>
+	</:template>
 
-	<_template name="nary_operator">
+	<:template name="nary_operator">
 		<parameter name="n"/>
 		<parameter name="in"/>
 		<parameter name="out"/>
@@ -26,5 +26,5 @@
 			</comp>
 			]]>
 		</content>
-	</_template>
+	</:template>
 </_>

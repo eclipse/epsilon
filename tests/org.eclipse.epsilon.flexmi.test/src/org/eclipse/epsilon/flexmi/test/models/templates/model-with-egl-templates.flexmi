@@ -16,7 +16,7 @@
 		<t3 n="5" abstract="true"/>
 	</package>
 	
-	<_template name="t1">
+	<:template name="t1">
 		<content language="EGL">
 		<![CDATA[		
 			[%for (i in 1.to(10)){%]
@@ -24,17 +24,17 @@
 			[%}%]
 		]]>
 		</content>
-	</_template>
+	</:template>
 	
-	<_template name="t2">
+	<:template name="t2">
 		<content language="EGL">
 		<![CDATA[		
 			<class name="C[%=11%]"/>
 		]]>
 		</content>
-	</_template>
+	</:template>
 	
-	<_template name="t3">
+	<:template name="t3">
 		<parameter name="n"/>
 		<content language="EGL">
 		<![CDATA[
@@ -43,6 +43,6 @@
 			[%}%]
 		]]>
 		</content>
-	</_template>
+	</:template>
 	
 </_>
