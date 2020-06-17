@@ -43,12 +43,12 @@ public class ParallelSelectOperation extends SelectOperation {
 		Collection<Callable<Optional<?>>> jobs = new ArrayList<>(source.size());
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
-		AtomicBoolean keepSearching = new AtomicBoolean(true);
+		AtomicBoolean keepSearching = returnOnMatch ? new AtomicBoolean(true) : null;
 		
 		for (Object item : source) {
 			jobs.add(() -> {
 				Optional<?> intermediateResult = null;
-				if ((!returnOnMatch || keepSearching.get()) && predicate.testThrows(item)) {
+				if ((keepSearching == null || keepSearching.get()) && predicate.testThrows(item)) {
 					intermediateResult = Optional.ofNullable(item);
 					if (returnOnMatch) {
 						keepSearching.set(false);
