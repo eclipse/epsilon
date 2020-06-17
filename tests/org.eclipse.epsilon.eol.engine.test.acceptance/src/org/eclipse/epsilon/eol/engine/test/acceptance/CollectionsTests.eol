@@ -31,6 +31,31 @@ operation testCorrectTypes() {
 	assertTrue(c.getClass().getName().endsWith("ConcurrentBag"));
 }
 
+
+@test
+operation testSelectByKindType() {
+	var c = Bag{0, null, 1, "a str", "2", 2, true, Sequence{}, Sequence{5}, Map{}, Set{3,3}, false, 0.4, 8l, 9d, ConcurrentBag{}, ConcurrentSet{}};
+	var result = c.selectByKind(Collection);
+	assertEquals(5, result.size());
+	assertTrue(result.forAll(e | e.isKindOf(Collection)));
+	
+	result = c.selectByType(List);
+	assertEquals(2, result.size());
+	assertTrue(result.forAll(e | e.isTypeOf(Sequence)));
+	
+	result = c.selectByType(Any);
+	assertEquals(0, result.size());
+	
+	result = c.selectByKind(Any);
+	assertEquals(c, result);
+	
+	result = c.selectByKind(Integer);
+	assertEquals(c.select(e | e.isKindOf(Integer)), result);
+	
+	result = c.selectByType(Integer);
+	assertEquals(c.select(e | e.isTypeOf(Integer)), result);
+}
+
 @test
 operation testFirst() {
 	assertEquals(1, Sequence{1,2,3}.first);

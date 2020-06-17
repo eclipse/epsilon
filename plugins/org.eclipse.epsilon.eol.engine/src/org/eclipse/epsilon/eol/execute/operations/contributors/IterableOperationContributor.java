@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.types.*;
@@ -241,7 +242,37 @@ public class IterableOperationContributor extends OperationContributor {
 			.mapToInt(item -> 1).sum();
 	}
 
-	public Collection<Object> includingAll(Collection<Object> col) {
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 * @since 2.1
+	 */
+	public Collection<Object> selectByKind(EolType type) {
+		if (type == null) {
+			type = EolNoType.Instance;
+		}
+		return StreamSupport.stream(getTarget().spliterator(), false)
+			.filter(type::isKind)
+			.collect(Collectors.toCollection(this::createCollection));
+	}
+	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 * @since 2.1
+	 */
+	public Collection<Object> selectByType(EolType type) {
+		if (type == null) {
+			type = EolNoType.Instance;
+		}
+		return StreamSupport.stream(getTarget().spliterator(), false)
+			.filter(type::isType)
+			.collect(Collectors.toCollection(this::createCollection));
+	}
+	
+	public Collection<Object> includingAll(Collection<?> col) {
 		Collection<Object> result = createCollection();
 		addAll(getTarget(), result);
 		addAll(col, result);
@@ -411,16 +442,16 @@ public class IterableOperationContributor extends OperationContributor {
 	public Collection<Object> createCollection() {
 		if (isCollection()) {
 			return EolCollectionType.createSameType(getCollection());
-		} else {
+		}
+		else {
 			return new EolSequence<>();
 		}
 	}
 	
-	public Set<Set<Object>> powerset() {
-		
+	public Set<Set<Object>> powerset() {	
 		List<Object> originalSet = asSequence();
-		
 		Set<Set<Object>> sets = new HashSet<>();
+		
 	    if (originalSet.isEmpty()) {
 	    	sets.add(new HashSet<>());
 	    	return sets;
