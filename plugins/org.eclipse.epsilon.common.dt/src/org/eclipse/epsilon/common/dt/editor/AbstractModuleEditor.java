@@ -36,7 +36,7 @@ import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
@@ -422,7 +422,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 				try {
 					if (EpsilonCommonsPlugin.getDefault().getPreferenceStore().getBoolean(EpsilonPreferencePage.ENABLE_STATIC_ANALYSIS)) {
 						if (module instanceof IEolModule) {
-							EolCompilationContext compilationContext = ((IEolModule) module).getCompilationContext();
+							IEolCompilationContext compilationContext = ((IEolModule) module).getCompilationContext();
 							if (compilationContext != null) compilationContext.setModelFactory(new ModelTypeExtensionFactory());
 						}
 						createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEM_MARKER);

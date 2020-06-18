@@ -15,7 +15,7 @@ import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public abstract class OperatorExpression extends Expression {
@@ -40,7 +40,7 @@ public abstract class OperatorExpression extends Expression {
 	}
 		
 	@Override
-	public void compile(EolCompilationContext context) {
+	public void compile(IEolCompilationContext context) {
 		firstOperand.compile(context);
 		if (secondOperand != null) secondOperand.compile(context);
 		

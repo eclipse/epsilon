@@ -14,7 +14,7 @@ import java.util.Iterator;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
@@ -124,7 +124,7 @@ public class ForStatement extends Statement {
 	}
 	
 	@Override
-	public void compile(EolCompilationContext context) {
+	public void compile(IEolCompilationContext context) {
 		//TODO: Fix iterator type
 		iteratedExpression.compile(context);
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyStatementBlock, 

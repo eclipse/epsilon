@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.OperationList;
@@ -54,7 +54,7 @@ public interface IEolModule extends IModule {
 	
 	void setContext(IEolContext context);
 	
-	EolCompilationContext getCompilationContext();
+	IEolCompilationContext getCompilationContext();
 	
 	@Override
 	List<ParseProblem> getParseProblems();

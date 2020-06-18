@@ -27,7 +27,7 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.OperationList;
@@ -196,7 +196,7 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	}
 
 	@Override
-	public EolCompilationContext getCompilationContext() {
+	public IEolCompilationContext getCompilationContext() {
 		if (current == null) return null;
 		return current.module.getCompilationContext();
 	}

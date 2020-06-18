@@ -13,7 +13,7 @@ import java.util.Collection;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -173,7 +173,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	}
 	
 	@Override
-	public void compile(EolCompilationContext context) {
+	public void compile(IEolCompilationContext context) {
 		// TODO Auto-generated method stub
 	}
 }

@@ -18,7 +18,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -88,7 +88,7 @@ public class ModelDeclaration extends AbstractModuleElement implements ICompilab
 	}
 
 	@Override
-	public void compile(EolCompilationContext context) {
+	public void compile(IEolCompilationContext context) {
 		if (context.getModelFactory() == null) return;
 		IModel model = context.getModelFactory().createModel(driverNameExpression.getName());
 		if (model == null) {

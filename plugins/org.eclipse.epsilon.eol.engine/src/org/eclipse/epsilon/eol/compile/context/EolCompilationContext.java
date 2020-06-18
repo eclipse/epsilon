@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 
-public class EolCompilationContext {
+public class EolCompilationContext implements IEolCompilationContext {
 
 	protected List<ModuleMarker> markers = new ArrayList<>();
 	protected IEolContext runtimeContext = null;
@@ -32,50 +32,62 @@ public class EolCompilationContext {
 	protected IRelativePathResolver relativePathResolver;
 	protected List<ModelDeclaration> modelDeclarations = new ArrayList<>();
 	
+	@Override
 	public List<ModuleMarker> getMarkers() {
 		return markers;
 	}
 	
+	@Override
 	public void setRuntimeContext(IEolContext context) {
 		this.runtimeContext = context;
 	}
 
+	@Override
 	public void addWarningMarker(AbstractModuleElement element, String message) {
 		markers.add(new ModuleMarker(element, message, Severity.Warning));
 	}
 
+	@Override
 	public void addErrorMarker(AbstractModuleElement element, String message) {
 		markers.add(new ModuleMarker(element, message, Severity.Error));
 	}
 	
+	@Override
 	public FrameStack getFrameStack() {
 		return frameStack;
 	}
 	
+	@Override
 	public IModelFactory getModelFactory() {
 		return modelFactory;
 	}
 	
+	@Override
 	public void setModelFactory(IModelFactory modelFactory) {
 		this.modelFactory = modelFactory;
 	}
 	
+	@Override
 	public IRelativePathResolver getRelativePathResolver() {
 		return relativePathResolver;
 	}
 	
+	@Override
 	public void setRelativePathResolver(IRelativePathResolver relativePathResolver) {
 		this.relativePathResolver = relativePathResolver;
 	}
 	
+	@Override
 	public void setModelDeclarations(List<ModelDeclaration> modelDeclarations) {
 		this.modelDeclarations = modelDeclarations;
 	}
 	
+	@Override
 	public List<ModelDeclaration> getModelDeclarations() {
 		return modelDeclarations;
 	}
 	
+	@Override
 	public EolModelElementType getModelElementType(String modelAndType) {
 		EolModelElementType modelElementType = new EolModelElementType(modelAndType);
 		

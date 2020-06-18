@@ -22,6 +22,7 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.dom.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -42,7 +43,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 	protected OperationList operations = new OperationList();
 	protected List<ModelDeclaration> declaredModelDeclarations;
 	protected Set<ModelDeclaration> modelDeclarations;
-	protected EolCompilationContext compilationContext;
+	protected IEolCompilationContext compilationContext;
 	private IEolModule parent;
 	
 	/**
@@ -292,7 +293,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 	}
 	
 	@Override
-	public EolCompilationContext getCompilationContext() {
+	public IEolCompilationContext getCompilationContext() {
 		if (compilationContext == null) {
 			compilationContext = new EolCompilationContext();
 			compilationContext.setModelDeclarations(getDeclaredModelDeclarations());
@@ -444,7 +445,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 	
 	@Override
 	public List<ModuleMarker> compile() {
-		EolCompilationContext context = getCompilationContext();
+		IEolCompilationContext context = getCompilationContext();
 		for (ModelDeclaration modelDeclaration : getDeclaredModelDeclarations()) {
 			modelDeclaration.compile(context);
 		}

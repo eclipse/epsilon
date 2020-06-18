@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -111,7 +111,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	}
 
 	@Override
-	public void compile(EolCompilationContext context) {
+	public void compile(IEolCompilationContext context) {
 		EolType contextType = EolNoType.Instance;
 		if (contextTypeExpression != null) {
 			contextTypeExpression.compile(context);

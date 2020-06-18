@@ -15,7 +15,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -151,7 +151,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	}
 	
 	@Override
-	public void compile(EolCompilationContext context) {
+	public void compile(IEolCompilationContext context) {
 		targetExpression.compile(context);
 		EolType contextType = null;
 		if (targetExpression.getResolvedType() instanceof EolCollectionType) {
