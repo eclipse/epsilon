@@ -7,6 +7,22 @@ operation J!FakeIterable average() {
 }
 
 @test
+operation stream() {
+	var x := new J!FakeIterable;
+	assertEquals(0, x.stream().count());
+	x.populate(99);
+	assertEquals(33, x.stream().filter(i | i.mod(3) == 0).count());
+}
+
+@test
+operation parallelStream() {
+	var x := new J!FakeIterable;
+	assertEquals(0, x.parallelStream().count());
+	x.populate(99);
+	assertEquals(33, x.parallelStream().filter(i | i.mod(3) == 0).count());
+}
+
+@test
 operation sizeEmpty() {
   var x := new J!FakeIterable;
   assertEquals(0, x.size);
@@ -142,5 +158,5 @@ operation product_bigdecimal() {
   s.add(new Native("java.math.BigDecimal")("2.5"));
   s.add(3);
   s.add(4.1);
-  assertEquals(30.749998, s.product().asFloat());
+  assertEquals(30.75, s.product().asFloat());
 }
