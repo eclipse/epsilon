@@ -433,8 +433,7 @@ public class IterableOperationContributor extends OperationContributor {
 	
 	public String concat(String delimiter) {
 		return CollectionUtil.join(getTarget(), delimiter,
-			//FIXME : Use the pretty printer manager here
-			element -> Objects.toString(element, "")
+			element -> getContext().getPrettyPrinterManager().toString(element)
 		);
 	}
 	
