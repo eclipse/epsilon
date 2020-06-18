@@ -12,37 +12,22 @@ package org.eclipse.epsilon.eol.dom;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
-public class StringLiteral extends Expression {
-	
-	protected String value;
-	
-	public StringLiteral() {}
+public class StringLiteral extends LiteralExpression<String> {
+		
+	public StringLiteral() {
+		super();
+	}
 	
 	public StringLiteral(String value) {
-		this.value = value;
+		super(value);
 	}
 	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		value = unescape(cst.getText());
-	}
-	
-	public String getValue() {
-		return value;
-	}
-	
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	@Override
-	public String execute(IEolContext context) throws EolRuntimeException {
-		return getValue();
 	}
 	
 	@Override

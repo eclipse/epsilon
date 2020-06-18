@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
@@ -32,7 +33,9 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	protected boolean range;
 	protected List<Expression> parameterExpressions = new ArrayList<>();
 	
-	public CollectionLiteralExpression() {}
+	public CollectionLiteralExpression() {
+		super();
+	}
 	
 	public CollectionLiteralExpression(String collectionType, Expression... parameterExpressions) {
 		this.collectionType = collectionType;

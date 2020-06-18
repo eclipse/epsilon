@@ -12,18 +12,17 @@ package org.eclipse.epsilon.eol.dom;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
-public class RealLiteral extends LiteralExpression {
-	
-	protected Number value;
-	
-	public RealLiteral() {}
+
+public class RealLiteral extends LiteralExpression<Number> {
+		
+	public RealLiteral() {
+		super();
+	}
 	
 	public RealLiteral(Number value) {
-		this.value = value;
+		super(value);
 	}
 	
 	@Override
@@ -52,23 +51,10 @@ public class RealLiteral extends LiteralExpression {
 			value = Float.valueOf(text);
 		}
 	}
-
-	@Override
-	public Number execute(IEolContext context) throws EolRuntimeException {
-		return getValue();
-	}
 	
 	@Override
 	public void compile(IEolCompilationContext context) {
 		resolvedType = EolPrimitiveType.Real;
-	}
-	
-	public Number getValue() {
-		return value;
-	}
-	
-	public void setValue(Number value) {
-		this.value = value;
 	}
 	
 }

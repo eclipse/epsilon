@@ -12,18 +12,16 @@ package org.eclipse.epsilon.eol.dom;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
-public class IntegerLiteral extends LiteralExpression {
+public class IntegerLiteral extends LiteralExpression<Number> {
 	
-	protected Number value;
-	
-	public IntegerLiteral() {}
+	public IntegerLiteral() {
+		super();
+	}
 	
 	public IntegerLiteral(Number value) {
-		setValue(value);
+		super(value);
 	}
 	
 	@Override
@@ -53,20 +51,6 @@ public class IntegerLiteral extends LiteralExpression {
 				value = Long.parseLong(text);
 			}
 		}
-	}
-	
-	@Override
-	public Number execute(IEolContext context) throws EolRuntimeException {
-		return getValue();
-	}
-	
-	public Number getValue() {
-		return value;
-	}
-	
-	public void setValue(Number value) {
-		//TODO: Throw exception if value is not an integer or a long
-		this.value = value;
 	}
 	
 	@Override

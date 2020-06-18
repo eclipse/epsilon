@@ -15,7 +15,7 @@ import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class EnumerationLiteralExpression extends LiteralExpression {
+public class EnumerationLiteralExpression extends LiteralExpression<Object> {
 
 	protected String enumerationLiteral;
 	

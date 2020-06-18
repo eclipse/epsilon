@@ -9,6 +9,31 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.dom;
 
-public abstract class LiteralExpression extends Expression {
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
+public abstract class LiteralExpression<T> extends Expression {
+	
+	public LiteralExpression() {
+		super();
+	}
+	
+	public LiteralExpression(T value) {
+		setValue(value);
+	}
+	
+	protected T value;
+
+	public T getValue() {
+		return value;
+	}
+	
+	public void setValue(T value) {
+		this.value = value;
+	}
+	
+	@Override
+	public T execute(IEolContext context) throws EolRuntimeException {
+		return getValue();
+	}
 }
