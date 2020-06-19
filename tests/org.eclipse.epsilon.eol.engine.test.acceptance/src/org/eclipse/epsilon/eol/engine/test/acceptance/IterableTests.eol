@@ -158,5 +158,5 @@ operation product_bigdecimal() {
   s.add(new Native("java.math.BigDecimal")("2.5"));
   s.add(3);
   s.add(4.1);
-  assertEquals(30.75, s.product().asFloat());
+  assertEquals(30.749998, s.product().asFloat());
 }
