@@ -4,6 +4,9 @@ pre {
 	foo();
 	var Thread = Native("java.lang.Thread");
 	var preVar = "my variable";
+}
+
+pre anotherPre {
 	preVar.printlnIf("sealed".isJavaKeyword());
 }
 
@@ -224,10 +227,49 @@ context test!t_c {
         guard: self.satisfies("TestModelNameRef")
         check: false
     }
+    
+    constraint duplicateTC {
+		check : self.isTypeOf(t_c)
+	}
+}
+
+constraint duplicateGlobal {
+	check : false
+}
+
+constraint duplicateGlobal {
+	check : false
+}
+
+constraint duplicate {
+	check : false
+}
+
+context t_c {
+	constraint duplicateTC {
+		check : self.isTypeOf(t_c)
+	}
+	constraint duplicate {
+		check : not self.isKindOf(t_c)
+	}
+}
+
+context t_b {
+	constraint duplicate {
+		check : not self.isKindOf(t_b)
+	}
 }
 
 post {
 	assert(preVar.isDefined() or EOL().isUndefined(), "preVar is undefined!");
 	printIfDefined(null);
 	assert(Thread.currentThread().getName().isDefined(), "No name for thread!");
+}
+
+post postDuplicate {
+	assertFalse(returnFalse());
+}
+
+post postDuplicate {
+	assertTrue(not returnFalse());
 }

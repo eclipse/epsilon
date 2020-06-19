@@ -30,6 +30,7 @@ import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.ConstraintSelectTransfomer;
+import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.*;
@@ -144,9 +145,13 @@ public class EvlTests {
 			Constraint ucConstraint = uc.getConstraint();
 			String contextTypeName = ucConstraint.getConstraintContext().getTypeName();
 			
-			if ((contextName == null || Objects.equals(contextTypeName, contextName)) &&
-				(constraintName == null || Objects.equals(ucConstraint.getName(), constraintName))) {
-				
+			if (
+				(
+					(contextName == null && ucConstraint.getConstraintContext() instanceof GlobalConstraintContext)
+					|| Objects.equals(contextTypeName, contextName)
+				) &&
+				(constraintName == null || Objects.equals(ucConstraint.getName(), constraintName))
+			) {
 				matches++;
 			}
 		}
@@ -168,6 +173,7 @@ public class EvlTests {
 		assertUnsatisfiedConstraints(2, "t_b", "RequiresLazyConstraint", context);
 		assertUnsatisfiedConstraints(2, "t_b", "RequiresContextlessLazy", context);
 		assertUnsatisfiedConstraints(2, "t_b", "InsaneLazyChain", context);
+		assertUnsatisfiedConstraints(2, "t_b", "duplicate", context);
 		assertUnsatisfiedConstraints(2, "t_c", "WrongType", context);
 		assertUnsatisfiedConstraints(0, "t_c", "AlwaysTrueOperation", context);
 		assertUnsatisfiedConstraints(2, "t_c", "AlwaysFalseOperation", context);
@@ -176,10 +182,13 @@ public class EvlTests {
 		assertUnsatisfiedConstraints(0, "t_c", "NeverCalledLazyGuard", context);
 		assertUnsatisfiedConstraints(2, "t_c", "LazyAlwaysFalseOperation", context);
 		assertUnsatisfiedConstraints(0, "t_c", "ExtendedPropertyCanBeAccessed", context);
+		assertUnsatisfiedConstraints(2, "t_c", "duplicate", context);
+		assertUnsatisfiedConstraints(0, "t_c", "duplicateTC", context);
 		assertUnsatisfiedConstraints(1, null, "LazyContextlessCallsLazy", context);
 		assertUnsatisfiedConstraints(1, null, "LazyContextlessDependedOn", context);
 		assertUnsatisfiedConstraints(0, null, "LazyContextlessNeverCalled", context);
 		assertUnsatisfiedConstraints(0, null, "ImportedOperationWithoutContext", context);
+		assertUnsatisfiedConstraints(1, null, "duplicate", context);
 		
 		for (UnsatisfiedConstraint uc : context.getUnsatisfiedConstraints()) {
 			uc.getMessage();
