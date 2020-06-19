@@ -226,11 +226,8 @@ public class IterableOperationContributor extends OperationContributor {
 	protected Stream<?> stream(boolean parallel) {
 		Iterable<?> target = getTarget();
 		if (target instanceof Collection) {
-			Stream<?> stream = ((Collection<?>) target).stream();
-			if (parallel) {
-				stream = stream.parallel();
-			}
-			return stream;
+			Collection<?> col = ((Collection<?>) target);
+			return parallel ? col.parallelStream() : col.stream();
 		}
 		else {
 			return StreamSupport.stream(target.spliterator(), parallel);
@@ -433,7 +430,7 @@ public class IterableOperationContributor extends OperationContributor {
 	
 	public String concat(String delimiter) {
 		return CollectionUtil.join(getTarget(), delimiter,
-			element -> getContext().getPrettyPrinterManager().toString(element)
+			element -> Objects.toString(element, "")
 		);
 	}
 	
