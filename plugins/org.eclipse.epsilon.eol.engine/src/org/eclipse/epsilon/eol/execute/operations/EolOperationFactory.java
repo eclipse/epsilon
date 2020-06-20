@@ -99,14 +99,16 @@ public class EolOperationFactory {
 		if (isOverridenDelegate(originalOp)) {
 			return originalOp;
 		}
-		else if (originalOp != null && context instanceof IEolContextParallel &&
-			((IEolContextParallel) context).isParallelisationLegal() && !name.startsWith("parallel") &&
-			target instanceof Collection && ((Collection<?>) target).size() >= ((IEolContextParallel) context).getParallelism()
+		if (originalOp != null && context instanceof IEolContextParallel &&
+			target instanceof Collection &&
+			((IEolContextParallel) context).isParallelisationLegal() &&
+			!name.startsWith("parallel") &&
+			((Collection<?>) target).size() >= ((IEolContextParallel) context).getParallelism()
 		) {
 			AbstractOperation parallelOp = operationCache.get("parallel" + StringUtil.firstToUpper(name));
 			if (parallelOp != null) return parallelOp;
 		}
-		else if (originalOp == null && name.startsWith("sequential")) {
+		if (originalOp == null && name.startsWith("sequential")) {
 			AbstractOperation sequentialOp = operationCache.get(StringUtil.firstToLower(name.substring(10)));
 			if (sequentialOp != null) return sequentialOp;
 		}
@@ -124,12 +126,15 @@ public class EolOperationFactory {
 	public boolean isOverridenDelegate(AbstractOperation operation) {
 		if (operation instanceof DelegateBasedOperation<?>) {
 			AbstractOperation delegate = ((DelegateBasedOperation<?>) operation).getDelegateOperation();
-			if (delegate != null) {
+			if (delegate == null) return false;
+			else {
 				Class<? extends AbstractOperation> delegateClass = delegate.getClass();
-				return operationCache.values().stream()
-					.noneMatch(op -> op.getClass() == delegateClass);
+				for (AbstractOperation op : operationCache.values()) {
+					if (op.getClass() == delegateClass) return false;
+				}
+				return true;
 			}
 		}
-		return false;
+		else return false;
 	}
 }
