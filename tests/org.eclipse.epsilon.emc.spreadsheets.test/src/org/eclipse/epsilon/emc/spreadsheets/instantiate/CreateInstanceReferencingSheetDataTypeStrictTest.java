@@ -11,15 +11,12 @@ package org.eclipse.epsilon.emc.spreadsheets.instantiate;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetConstants;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
@@ -64,7 +61,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		}
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isEmpty(rows));
+		assertTrue(rows == null || rows.isEmpty());
 	}
 
 	@Test
@@ -95,7 +92,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);
@@ -151,7 +148,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);
@@ -208,7 +205,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);
@@ -260,7 +257,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);
@@ -317,7 +314,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);
@@ -375,7 +372,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);
@@ -432,7 +429,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);
@@ -484,7 +481,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);
@@ -542,7 +539,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest {
 		model.createInstance(worksheetName, values);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind(worksheetName);
-		assertTrue(CollectionUtils.isNotEmpty(rows));
+		assertTrue(rows != null && !rows.isEmpty());
 		assertTrue(rows.size() == 1);
 
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType(worksheetName);

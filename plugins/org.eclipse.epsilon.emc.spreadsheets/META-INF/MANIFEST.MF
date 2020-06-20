@@ -8,6 +8,5 @@ Export-Package: org.eclipse.epsilon.emc.spreadsheets
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.apache.commons.lang3;bundle-version="3.1.0";visibility:=reexport,
- org.apache.commons.collections;bundle-version="3.2.2";visibility:=reexport,
  org.slf4j.api;bundle-version="1.7.2";visibility:=reexport
 Automatic-Module-Name: org.eclipse.epsilon.emc.spreadsheets

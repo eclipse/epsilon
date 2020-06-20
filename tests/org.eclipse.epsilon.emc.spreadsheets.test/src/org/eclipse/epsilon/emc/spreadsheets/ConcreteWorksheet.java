@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.List;
 import java.util.Map;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public class ConcreteWorksheet extends SpreadsheetWorksheet {

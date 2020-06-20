@@ -19,7 +19,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -207,7 +206,7 @@ public class GSModel extends SpreadsheetModel {
 
 	private void loadFirstSpreadsheet(final SpreadsheetFeed feed) throws Exception {
 		final List<SpreadsheetEntry> spreadsheets = feed.getEntries();
-		if (CollectionUtils.isEmpty(spreadsheets)) {
+		if (spreadsheets == null || spreadsheets.isEmpty()) {
 			throw new IllegalArgumentException("Could not find spreadsheet with name '" + this.spreadsheetName + "'");
 		}
 		else if (spreadsheets.size() > 1) {

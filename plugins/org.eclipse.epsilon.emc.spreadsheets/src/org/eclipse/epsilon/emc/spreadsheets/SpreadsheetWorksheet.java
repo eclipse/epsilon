@@ -9,13 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
@@ -346,7 +340,7 @@ public abstract class SpreadsheetWorksheet {
 	 */
 	private List<String> getValueToWriteToReferencingCell(final SpreadsheetColumn column, final Object value) {
 		final List<SpreadsheetRow> rows = SpreadsheetUtils.extractAllRowsFromObject(value);
-		if (CollectionUtils.isEmpty(rows)) {
+		if (rows == null || rows.isEmpty()) {
 			final String message = "At least one row must be provided when writing to a referencing cell";
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
@@ -363,7 +357,7 @@ public abstract class SpreadsheetWorksheet {
 			}
 		}
 
-		if (column.isNotMany() && CollectionUtils.isNotEmpty(valuesToWrite)) {
+		if (column.isNotMany() && valuesToWrite != null && !valuesToWrite.isEmpty()) {
 			final String oneValueToWrite = valuesToWrite.get(0);
 			valuesToWrite.clear();
 			valuesToWrite.add(oneValueToWrite);
@@ -430,13 +424,12 @@ public abstract class SpreadsheetWorksheet {
 		LOGGER.debug("Deleting row");
 		final boolean rowBelongsToThisWorksheet = row.getWorksheet() == this;
 		if (rowBelongsToThisWorksheet) {
-			final boolean worksheetIsReferenced = CollectionUtils.isNotEmpty(this.model.getReferencesByTarget(this));
-			if (worksheetIsReferenced) {
+			Collection<? extends SpreadsheetReference> worksheetTargetRefs = this.model.getReferencesByTarget(this);
+			if (worksheetTargetRefs != null && !worksheetTargetRefs.isEmpty()) {
 				final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(this.model);
-				for (final SpreadsheetReference reference : this.model.getReferencesByTarget(this)) {
+				for (final SpreadsheetReference reference : worksheetTargetRefs) {
 					if (reference.isCascadingUpdates()) {
-						setter.editReferencedCell(row, reference.getReferencedColumn(),
-							this.getDefaultEmptyCellValue());
+						setter.editReferencedCell(row, reference.getReferencedColumn(), this.getDefaultEmptyCellValue());
 					}
 				}
 			}
@@ -500,14 +493,15 @@ public abstract class SpreadsheetWorksheet {
 
 	@Override
 	public String toString() {
-		final StringBuffer stringObject = new StringBuffer("\n" + this.getName());
+		final StringBuilder stringObject = new StringBuilder("\n" + this.getName());
 		stringObject.append(" [");
 		if (StringUtils.isNotEmpty(this.getAlias())) {
 			stringObject.append("alias='" + this.getAlias() + "', ");
 		}
-		stringObject.append("existsInSpreadsheet='" + this.existsInSpreadsheet + "' ");
-		stringObject.append("dataTypeStrict='" + this.dataTypeStrict + "' ");
-		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
+		stringObject.append("existsInSpreadsheet='" + this.existsInSpreadsheet + "' ")
+			.append("dataTypeStrict='" + this.dataTypeStrict + "' ");
+		
+		for (SpreadsheetColumn column : this.getHeader().getColumns()) {
 			stringObject.append(column.toString());
 		}
 		stringObject.append("]\n");

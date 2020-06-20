@@ -9,13 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import org.apache.commons.collections.CollectionUtils;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -87,8 +81,8 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter {
 	}
 
 	public Object query(final SpreadsheetRow row, final SpreadsheetColumn column) {
-		final boolean columnIsReferencing = CollectionUtils.isNotEmpty(row.getReferencesBySource(column));
-		if (columnIsReferencing) {
+		Collection<?> rowSourceRefs = row.getReferencesBySource(column);
+		if (rowSourceRefs != null && !rowSourceRefs.isEmpty()) {
 			return this.getValuesFromReferencingCell(row, column);
 		}
 		else {
@@ -99,24 +93,20 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter {
 	private List<Object> getValuesFromReferencingCell(final SpreadsheetRow row, final SpreadsheetColumn column) {
 		final Set<Object> rowsToReturn = new LinkedHashSet<>();
 		final List<String> cellValues = row.getAllVisibleCellValues(column);
-		if (CollectionUtils.isNotEmpty(cellValues)) {
+		if (cellValues != null && !cellValues.isEmpty()) {
 			final Set<SpreadsheetReference> references = row.getReferencesBySource(column);
 			for (final SpreadsheetReference reference : references) {
 				final SpreadsheetWorksheet referencedWorksheet = reference.getReferencedWorksheet();
 				final SpreadsheetColumn referencedColumn = reference.getReferencedColumn();
 
-				final Iterator<String> it = cellValues.iterator();
-				while (it.hasNext()) {
-					List<SpreadsheetRow> referencedRows = referencedWorksheet.findRows(referencedColumn, it.next());
+				for (String value : cellValues) {
+					List<SpreadsheetRow> referencedRows = referencedWorksheet.findRows(referencedColumn, value);
 					if (reference.isMany()) {
 						rowsToReturn.addAll(referencedRows);
 					}
-					else {
-						if (CollectionUtils.isNotEmpty(referencedRows)) {
-							rowsToReturn.add(referencedRows.get(0));
-						}
+					else if (referencedRows != null && !referencedRows.isEmpty()) {
+						rowsToReturn.add(referencedRows.get(0));
 					}
-
 				}
 			}
 		}
@@ -128,14 +118,11 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter {
 		if (column.isMany()) {
 			return returnObjects;
 		}
+		else if (returnObjects != null && !returnObjects.isEmpty()) {
+			return returnObjects.iterator().next();
+		}
 		else {
-			if (CollectionUtils.isEmpty(returnObjects)) {
-				return null;
-			}
-			else {
-				return returnObjects.iterator().next();
-			}
+			return null;
 		}
 	}
-
 }

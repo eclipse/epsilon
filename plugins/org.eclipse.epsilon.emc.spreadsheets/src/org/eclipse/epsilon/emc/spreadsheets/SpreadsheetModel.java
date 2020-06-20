@@ -9,15 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.apache.commons.collections.CollectionUtils;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
@@ -512,17 +504,17 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	public Object findOne(final Variable iterator, final ModuleElement ast, final IEolContext context)
 		throws EolRuntimeException {
 		final Collection<SpreadsheetRow> results = this.find(iterator, ast, context);
-		if (CollectionUtils.isNotEmpty(results)) {
-			return results.iterator().next();
+		if (results != null) {
+			Iterator<?> iter = results.iterator();
+			if (iter.hasNext()) {
+				return iter.next();
+			}
 		}
-		else {
-			return null;
-		}
+		return null;
 	}
 
 	@Override
-	public abstract Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context)
-		throws EolRuntimeException;
+	public abstract Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context) throws EolRuntimeException;
 
 	/**
 	 * The purpose of this method is to delete the given worksheet from this

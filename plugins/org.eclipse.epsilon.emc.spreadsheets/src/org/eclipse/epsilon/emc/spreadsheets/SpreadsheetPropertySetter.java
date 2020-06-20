@@ -9,14 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
+import java.util.*;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -73,12 +66,13 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter {
 			throw new EolIllegalPropertyException(row, property, context);
 		}
 
-		final boolean columnIsReferencing = CollectionUtils.isNotEmpty(row.getReferencesBySource(column));
-		final boolean columnIsReferenced = CollectionUtils.isNotEmpty(row.getReferencesByTarget(column));
-		if (columnIsReferencing) {
+		Collection<?> rowSourceRefs = row.getReferencesBySource(column);
+		Collection<?> rowTargetRefs = row.getReferencesByTarget(column);
+		
+		if (rowSourceRefs != null && !rowSourceRefs.isEmpty()) {
 			this.editReferencingCell(row, column, value);
 		}
-		else if (columnIsReferenced) {
+		else if (rowTargetRefs != null && !rowTargetRefs.isEmpty()) {
 			this.editReferencedCell(row, column, value);
 		}
 		else {
@@ -126,8 +120,9 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter {
 			values.add(firstValue);
 		}
 
-		final boolean columnIsReferenced = CollectionUtils.isNotEmpty(row.getReferencesByTarget(column));
-		if (columnIsReferenced) {
+		Collection<?> colTargetRefs = row.getReferencesByTarget(column);
+		
+		if (colTargetRefs != null && !colTargetRefs.isEmpty()) {
 			this.editReferencedCell(row, column, values);
 		}
 		else {
@@ -153,7 +148,7 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter {
 		final SpreadsheetColumn column, final List<String> removedValues, final List<String> newCellValues) {
 		for (final String removedValue : removedValues) {
 			final List<SpreadsheetRow> referencedRowsWithValue = row.getWorksheet().findRows(column, removedValue);
-			if (CollectionUtils.isNotEmpty(referencedRowsWithValue)) {
+			if (referencedRowsWithValue != null && !referencedRowsWithValue.isEmpty()) {
 				continue; // another referenced row has the value thus no need to cascade it
 			}
 

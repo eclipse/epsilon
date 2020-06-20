@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
-
 public class ConcreteColumn extends SpreadsheetColumn {
 
 	public ConcreteColumn(SpreadsheetWorksheet worksheet, int index) {

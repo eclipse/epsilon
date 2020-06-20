@@ -9,13 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -90,7 +84,7 @@ public class SpreadsheetUtils {
 	@SuppressWarnings("unchecked")
 	public static Map<String, Object> extractMapFromCollection(final Collection<Object> collection) {
 		Map<String, Object> extractedMap = new HashMap<>();
-		if (CollectionUtils.isEmpty(collection)) {
+		if (collection == null || collection.isEmpty()) {
 			return extractedMap;
 		}
 		else {
