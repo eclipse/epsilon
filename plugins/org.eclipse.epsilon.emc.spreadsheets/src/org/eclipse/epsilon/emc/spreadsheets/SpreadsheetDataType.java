@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +35,7 @@ public enum SpreadsheetDataType {
 	 *         SpreadsheetConstants.DEFAULT_COL_DATATYPE
 	 */
 	public static SpreadsheetDataType convert(final String dataType) {
-		if (StringUtils.isNotBlank(dataType)) {
+		if (!StringUtil.isEmpty(dataType)) {
 			if (dataType.equalsIgnoreCase(SpreadsheetConstants.DT_STRING)) {
 				return SpreadsheetDataType.STRING;
 			}

@@ -10,8 +10,8 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.*;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetReferenceMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
@@ -170,7 +170,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 		boolean createWorksheetInSpreadsheet = false;
 		if (worksheet == null) {
 			final String createWorksheetOnLoad = worksheetMetadata.getCreateOnLoad();
-			if (StringUtils.isNotBlank(createWorksheetOnLoad)) {
+			if (!StringUtil.isEmpty(createWorksheetOnLoad)) {
 				createWorksheetInSpreadsheet = Boolean.parseBoolean(createWorksheetOnLoad);
 			}
 			else {
@@ -418,7 +418,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 * @return worksheet identifiable by type or null if none found
 	 */
 	public SpreadsheetWorksheet getWorksheetByType(final String type) {
-		if (StringUtils.isNotBlank(type)) {
+		if (!StringUtil.isEmpty(type)) {
 			for (final SpreadsheetWorksheet worksheet : this.getWorksheets()) {
 				if (worksheet.isIdentifiablyBy(type)) {
 					return worksheet;

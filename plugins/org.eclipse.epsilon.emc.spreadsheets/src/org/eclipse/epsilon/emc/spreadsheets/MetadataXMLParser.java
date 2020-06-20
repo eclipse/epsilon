@@ -11,8 +11,7 @@ package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -62,7 +61,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 	}
 
 	private void validateWorksheetMetadata(final SpreadsheetWorksheetMetadata worksheet) {
-		if (StringUtils.isBlank(worksheet.name)) {
+		if (StringUtil.isEmpty(worksheet.name)) {
 			String message = "A worksheet is missing its name in the configuration file";
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
@@ -119,7 +118,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 	}
 
 	private void validateColumnMetadata(final SpreadsheetColumnMetadata columnMetadata) {
-		if (StringUtils.isBlank(columnMetadata.index) && StringUtils.isBlank(columnMetadata.name)) {
+		if (StringUtil.isEmpty(columnMetadata.index) && StringUtil.isEmpty(columnMetadata.name)) {
 			String message = "Column is missing both index and name in the configuration file";
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
@@ -154,10 +153,10 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 
 	private void validateReferenceMetadata(final SpreadsheetReferenceMetadata reference) {
 		String message = null;
-		if (StringUtils.isBlank(reference.source)) {
+		if (StringUtil.isEmpty(reference.source)) {
 			message = "Reference is missing its source in the configuration file";
 		}
-		else if (StringUtils.isBlank(reference.target)) {
+		else if (StringUtil.isEmpty(reference.target)) {
 			message = "Reference is missing its target in the configuration file";
 		}
 
@@ -169,7 +168,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 
 	private String getValueFromElement(final Element element, final String attribute) {
 		final String value = element.getAttribute(attribute);
-		if (StringUtils.isNotBlank(value)) {
+		if (!StringUtil.isEmpty(value)) {
 			return value;
 		}
 		else {
@@ -183,7 +182,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 		if (node != null) {
 			value = node.getNodeValue();
 		}
-		return (StringUtils.isNotBlank(value)) ? value : null;
+		return StringUtil.isEmpty(value) ? null : value;
 	}
 
 }

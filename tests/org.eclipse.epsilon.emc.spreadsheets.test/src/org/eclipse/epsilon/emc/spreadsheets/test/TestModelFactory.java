@@ -15,8 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel;
 import org.eclipse.epsilon.emc.spreadsheets.google.GSModel;
@@ -56,7 +55,7 @@ public class TestModelFactory {
 	}
 
 	private static void setModelName(SpreadsheetModel model, String modelName) {
-		if (StringUtils.isNotBlank(modelName)) {
+		if (!StringUtil.isEmpty(modelName)) {
 			model.setName(modelName);
 		}
 	}

@@ -12,8 +12,7 @@ package org.eclipse.epsilon.emc.spreadsheets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +95,7 @@ public abstract class SpreadsheetRow {
 	public List<String> getAllVisibleCellValues(final SpreadsheetColumn column, final boolean trim) {
 		final List<String> values = new ArrayList<>();
 		final String visibleCellValue = this.getVisibleCellValue(column);
-		if (StringUtils.isNotEmpty(visibleCellValue)) {
+		if (visibleCellValue != null && !visibleCellValue.isEmpty()) {
 			if (column.isMany()) {
 				for (final String value : visibleCellValue.split(column.getDelimiter())) {
 					values.add(trim ? value.trim() : value);

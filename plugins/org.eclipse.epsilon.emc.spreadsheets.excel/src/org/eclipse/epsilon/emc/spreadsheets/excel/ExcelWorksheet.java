@@ -13,13 +13,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
@@ -55,7 +54,7 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 		final ExcelRow headerRow = new ExcelRow(this, row);
 
 		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
-			if (StringUtils.isNotBlank(column.getName())) {
+			if (!StringUtil.isEmpty(column.getName())) {
 				LOGGER.debug("Writing header column with name '" + column.getName() + "'");
 				row.createCell(column.getIndex());
 				headerRow.overwriteCellValue(column, column.getName());
@@ -71,8 +70,7 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 		if (this.sheet.getPhysicalNumberOfRows() > 0) {
 			final Row row = this.sheet.getRow(0);
 			final ExcelRow excelRow = new ExcelRow(this, row);
-			final Iterator<Cell> it = row.cellIterator();
-			while (it.hasNext()) {
+			for (Iterator<Cell> it = row.cellIterator(); it.hasNext();) {
 				final Cell headerCell = it.next();
 				final ExcelColumn excelColumn = new ExcelColumn(this, headerCell.getColumnIndex());
 				final String columnName = excelRow.getVisibleCellValue(excelColumn);

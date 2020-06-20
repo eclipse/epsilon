@@ -9,7 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Objects;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -168,7 +169,7 @@ public abstract class SpreadsheetColumn {
 	 */
 	public boolean isIdentifiableBy(final String identifier) {
 		if (identifier != null) {
-			return StringUtils.equals(this.name, identifier) || StringUtils.equals(this.alias, identifier)
+			return Objects.equals(this.name, identifier) || Objects.equals(this.alias, identifier)
 				|| this.isValidIndex(identifier);
 		}
 		return false;
@@ -193,7 +194,7 @@ public abstract class SpreadsheetColumn {
 	 * @return true if index of the column equals the embedded index
 	 */
 	public boolean isValidIndex(final String identifier) {
-		final boolean identifierIsPrefixed = StringUtils.isNotBlank(identifier)
+		final boolean identifierIsPrefixed = !StringUtil.isEmpty(identifier)
 			&& identifier.startsWith(SpreadsheetConstants.PREFIX_COLUMN);
 		if (identifierIsPrefixed) {
 			final int lengthOfPrefix = SpreadsheetConstants.PREFIX_COLUMN.length();

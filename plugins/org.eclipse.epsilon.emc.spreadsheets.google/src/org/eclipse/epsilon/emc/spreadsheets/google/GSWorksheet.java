@@ -18,8 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
@@ -28,7 +27,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.google.gdata.data.spreadsheet.CellEntry;
 import com.google.gdata.data.spreadsheet.CellFeed;
 import com.google.gdata.data.spreadsheet.ListEntry;
@@ -90,7 +88,7 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 			if (headerRow != null) {
 				for (final CellEntry headerCell : headerRow.getEntries()) {
 					final String name = headerCell.getCell().getValue();
-					if (StringUtils.isNotBlank(name)) {
+					if (!StringUtil.isEmpty(name)) {
 						LOGGER.debug("Adding column with name: '" + name + "' to the header");
 						int i = headerCell.getCell().getCol();
 						super.addColumn(i - getColumnOffset(), name);
@@ -146,7 +144,7 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 	@Override
 	public SpreadsheetColumn addColumn(final SpreadsheetColumnMetadata metadata) {
 		final SpreadsheetColumn column = super.addColumn(metadata);
-		if (StringUtils.isNotBlank(column.getName())) {
+		if (!StringUtil.isEmpty(column.getName())) {
 			this.headerInWorksheetIsEmpty = false;
 		}
 		return column;
@@ -285,7 +283,7 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 
 	private void writeHeader() throws Exception {
 		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
-			if (StringUtils.isNotBlank(column.getName())) {
+			if (!StringUtil.isEmpty(column.getName())) {
 				this.writeHeaderCell(column.getIndex() + this.getColumnOffset(), column.getName());
 				this.headerInWorksheetIsEmpty = false;
 			}

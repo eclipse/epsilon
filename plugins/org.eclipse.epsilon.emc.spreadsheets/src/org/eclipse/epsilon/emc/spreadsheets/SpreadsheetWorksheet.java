@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.*;
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -38,7 +38,7 @@ public abstract class SpreadsheetWorksheet {
 	protected boolean dataTypeStrict;
 
 	public SpreadsheetWorksheet(final SpreadsheetModel model, final String name, final boolean existsInSpreadsheet) {
-		if (StringUtils.isBlank(name)) {
+		if (StringUtil.isEmpty(name)) {
 			String message = "Worksheet must have a name";
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
@@ -87,8 +87,8 @@ public abstract class SpreadsheetWorksheet {
 	 * @return true if identifier describes this worksheet
 	 */
 	public boolean isIdentifiablyBy(final String identifier) {
-		if (StringUtils.isNotBlank(identifier)) {
-			return this.getName().equals(identifier) || StringUtils.equals(this.getAlias(), identifier);
+		if (!StringUtil.isEmpty(identifier)) {
+			return this.getName().equals(identifier) || Objects.equals(this.getAlias(), identifier);
 		}
 		return false;
 	}
@@ -116,10 +116,10 @@ public abstract class SpreadsheetWorksheet {
 	 */
 	protected void addWorksheetMetadata(final SpreadsheetWorksheetMetadata metadata) throws IllegalArgumentException {
 		if (this.getName().equals(metadata.getName())) {
-			if (StringUtils.isNotBlank(metadata.getAlias())) {
+			if (!StringUtil.isEmpty(metadata.getAlias())) {
 				this.alias = metadata.getAlias();
 			}
-			if (StringUtils.isNotBlank(metadata.getDataTypeStrict())) {
+			if (!StringUtil.isEmpty(metadata.getDataTypeStrict())) {
 				this.dataTypeStrict = Boolean.parseBoolean(metadata.getDataTypeStrict());
 			}
 		}
@@ -186,14 +186,14 @@ public abstract class SpreadsheetWorksheet {
 
 	private SpreadsheetColumn findOrCreateColumn(final SpreadsheetColumnMetadata metadata) {
 		SpreadsheetColumn column = null;
-		if (StringUtils.isNotBlank(metadata.getIndex())) {
+		if (!StringUtil.isEmpty(metadata.getIndex())) {
 			column = this.getColumn(Integer.parseInt(metadata.getIndex()));
 		}
-		if (column == null && StringUtils.isNotBlank(metadata.getName())) {
+		if (column == null && !StringUtil.isEmpty(metadata.getName())) {
 			column = this.getColumn(metadata.getName());
 		}
 		if (column == null) {
-			if (StringUtils.isNotBlank(metadata.getIndex())) {
+			if (!StringUtil.isEmpty(metadata.getIndex())) {
 				column = this.createColumn(Integer.parseInt(metadata.getIndex()));
 				this.header.addColumn(column);
 			}
@@ -206,7 +206,7 @@ public abstract class SpreadsheetWorksheet {
 	}
 
 	private void attachMetadataToColumn(final SpreadsheetColumn column, final SpreadsheetColumnMetadata metadata) {
-		if (StringUtils.isNotBlank(metadata.getName())) {
+		if (!StringUtil.isEmpty(metadata.getName())) {
 			if (metadata.getName().contains(SpreadsheetConstants.HEADER_NAME_SPLIT_CHARS)) {
 				column.setName(this.getValueBeforeDash(metadata.getName()));
 			}
@@ -215,24 +215,24 @@ public abstract class SpreadsheetWorksheet {
 			}
 		}
 
-		if (StringUtils.isNotBlank(metadata.getAlias())) {
+		if (!StringUtil.isEmpty(metadata.getAlias())) {
 			column.setAlias(metadata.getAlias());
 		}
 
 		column.setDataType(SpreadsheetDataType.convert(metadata.getDataType()));
 
-		if (StringUtils.isNotBlank(metadata.getMany())) {
+		if (!StringUtil.isEmpty(metadata.getMany())) {
 			column.setMany(Boolean.parseBoolean(metadata.getMany()));
 		}
 
-		if (StringUtils.isNotBlank(metadata.getDelimiter())) {
+		if (!StringUtil.isEmpty(metadata.getDelimiter())) {
 			column.setDelimiter(metadata.getDelimiter());
 		}
 	}
 
 	private String getValueBeforeDash(final String value) {
 		final String[] splitValue = value.split(SpreadsheetConstants.HEADER_NAME_SPLIT_CHARS);
-		if (splitValue.length != 0 && StringUtils.isNotBlank(splitValue[0])) {
+		if (splitValue.length != 0 && !StringUtil.isEmpty(splitValue[0])) {
 			return splitValue[0].trim();
 		}
 		return null;
@@ -376,7 +376,7 @@ public abstract class SpreadsheetWorksheet {
 	 */
 	private String getValueToWriteToCell(final SpreadsheetColumn column, final Object inputValue) {
 		final StringBuilder valueToWrite = new StringBuilder();
-		final String value = this.convertObjectToString(column, inputValue);
+		final String value = SpreadsheetUtils.convertObjectToString(column, inputValue);
 		if (column.isMany() && this.isDataTypeStrict()) {
 			for (final String splitValue : value.split(column.getDelimiter())) {
 				final Object castValue = SpreadsheetDataType.castColumnValue(column.getDataType(), splitValue.trim());
@@ -393,15 +393,6 @@ public abstract class SpreadsheetWorksheet {
 			valueToWrite.append(value);
 		}
 		return valueToWrite.toString();
-	}
-
-	private String convertObjectToString(final SpreadsheetColumn column, final Object inputValue) {
-		if (inputValue instanceof Iterable) {
-			return StringUtils.join((Iterable<?>) inputValue, column.getDelimiter());
-		}
-		else {
-			return String.valueOf(inputValue);
-		}
 	}
 
 	/**
@@ -495,7 +486,7 @@ public abstract class SpreadsheetWorksheet {
 	public String toString() {
 		final StringBuilder stringObject = new StringBuilder("\n" + this.getName());
 		stringObject.append(" [");
-		if (StringUtils.isNotEmpty(this.getAlias())) {
+		if (!StringUtil.isEmpty(this.getAlias())) {
 			stringObject.append("alias='" + this.getAlias() + "', ");
 		}
 		stringObject.append("existsInSpreadsheet='" + this.existsInSpreadsheet + "' ")

@@ -10,7 +10,8 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.*;
-import org.apache.commons.lang3.StringUtils;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * This class provides support methods.
@@ -109,7 +110,9 @@ public class SpreadsheetUtils {
 	 */
 	public static String convertObjectToString(final SpreadsheetColumn column, final Object inputValue) {
 		if (inputValue instanceof Iterable) {
-			return StringUtils.join((Iterable<?>) inputValue, column.getDelimiter());
+			return StreamSupport.stream(((Iterable<?>) inputValue).spliterator(), false)
+				.map(Objects::toString)
+				.collect(Collectors.joining(column.getDelimiter()));
 		}
 		else {
 			return String.valueOf(inputValue);

@@ -17,12 +17,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
@@ -36,6 +33,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.MetadataXMLParser;
@@ -113,7 +111,7 @@ public class ExcelModel extends SpreadsheetModel {
 		LOGGER.debug("Inside setSpreadsheetFile() method");
 		LOGGER.debug("File path: '" + pathToSpreadsheet + "'");
 
-		if (StringUtils.isNotEmpty(pathToSpreadsheet)) {
+		if (!StringUtil.isEmpty(pathToSpreadsheet)) {
 			this.spreadsheetFile = new File(pathToSpreadsheet);
 		}
 		else {
@@ -125,7 +123,7 @@ public class ExcelModel extends SpreadsheetModel {
 
 	public void setConfigurationFile(final String configurationFilePath)
 		throws ParserConfigurationException, SAXException, IOException {
-		if (StringUtils.isNotBlank(configurationFilePath)) {
+		if (!StringUtil.isEmpty(configurationFilePath)) {
 			this.configurationFile = new File(configurationFilePath);
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -149,7 +147,7 @@ public class ExcelModel extends SpreadsheetModel {
 			this.setSpreadsheetFile(resolver.resolve(spreadsheetFilePath));
 
 			final String configurationFilePath = properties.getProperty(ExcelModel.CONFIGURATION_FILE);
-			if (StringUtils.isNotEmpty(configurationFilePath)) {
+			if (!StringUtil.isEmpty(configurationFilePath)) {
 				this.setConfigurationFile(resolver.resolve(configurationFilePath));
 			}
 			this.setPassword(properties.getProperty(ExcelModel.SPREADSHEET_PASSWORD));
@@ -182,7 +180,7 @@ public class ExcelModel extends SpreadsheetModel {
 	}
 
 	private InputStream getFileInputStream() throws FileNotFoundException {
-		if (StringUtils.isNotBlank(this.password)) {
+		if (!StringUtil.isEmpty(this.password)) {
 			if (this.getIsXlsxFile()) {
 				return this.getProtectedInputStreamForXlsx();
 			}
@@ -196,7 +194,8 @@ public class ExcelModel extends SpreadsheetModel {
 	}
 
 	private boolean getIsXlsxFile() {
-		return StringUtils.endsWithIgnoreCase(this.spreadsheetFile.toString(), "xlsx");
+		String name = this.spreadsheetFile.toString();
+		return name != null && name.endsWith("xlsx");
 	}
 
 	private InputStream getProtectedInputStreamForXlsx() {
@@ -284,21 +283,19 @@ public class ExcelModel extends SpreadsheetModel {
 	}
 
 	private void encryptFile() throws Exception {
-		if (StringUtils.isNotBlank(this.password)) {
-			if (this.getIsXlsxFile()) {
-				final POIFSFileSystem fs = new POIFSFileSystem();
-				final EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+		if (!StringUtil.isEmpty(this.password) && this.getIsXlsxFile()) {
+			final POIFSFileSystem fs = new POIFSFileSystem();
+			final EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
 
-				final Encryptor enc = info.getEncryptor();
-				enc.confirmPassword(this.password);
+			final Encryptor enc = info.getEncryptor();
+			enc.confirmPassword(this.password);
 
-				try (OPCPackage opc = OPCPackage.open(this.spreadsheetFile, PackageAccess.READ_WRITE)) {
-					OutputStream os = enc.getDataStream(fs);
-					opc.save(os);
-				}
-
-				this.writeFile(fs);
+			try (OPCPackage opc = OPCPackage.open(this.spreadsheetFile, PackageAccess.READ_WRITE)) {
+				OutputStream os = enc.getDataStream(fs);
+				opc.save(os);
 			}
+
+			this.writeFile(fs);
 		}
 	}
 
@@ -306,7 +303,6 @@ public class ExcelModel extends SpreadsheetModel {
 	public void deleteWorksheet(final SpreadsheetWorksheet worksheet) {
 		final int worksheetIndex = this.workbook.getSheetIndex(((ExcelWorksheet) worksheet).sheet);
 		this.workbook.removeSheetAt(worksheetIndex);
-
 	}
 
 	@Override

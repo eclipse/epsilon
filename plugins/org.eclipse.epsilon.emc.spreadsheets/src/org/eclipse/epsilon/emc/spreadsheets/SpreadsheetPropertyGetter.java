@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.*;
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
@@ -65,7 +65,7 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter {
 			throw new EolRuntimeException("Row does not belong to model '" + this.model.getName() + "'");
 		}
 
-		if (StringUtils.isBlank(columnIdentifier)) {
+		if (StringUtil.isEmpty(columnIdentifier)) {
 			throw new EolRuntimeException("Column identifier '" + columnIdentifier + "' is blank");
 		}
 

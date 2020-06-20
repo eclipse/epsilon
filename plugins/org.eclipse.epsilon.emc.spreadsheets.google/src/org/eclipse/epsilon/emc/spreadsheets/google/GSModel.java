@@ -19,9 +19,9 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.MetadataXMLParser;
@@ -118,7 +118,7 @@ public class GSModel extends SpreadsheetModel {
 	}
 
 	public void setSpreadsheetName(final String name) {
-		if (StringUtils.isBlank(name)) {
+		if (StringUtil.isEmpty(name)) {
 			throw new IllegalArgumentException("Spreadsheet name may not be blank");
 		}
 		this.spreadsheetName = name;
@@ -134,7 +134,7 @@ public class GSModel extends SpreadsheetModel {
 
 	public void setConfigurationFile(final String configurationFilePath)
 		throws ParserConfigurationException, SAXException, IOException {
-		if (StringUtils.isNotBlank(configurationFilePath)) {
+		if (!StringUtil.isEmpty(configurationFilePath)) {
 			this.configurationFile = new File(configurationFilePath);
 			final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -178,7 +178,7 @@ public class GSModel extends SpreadsheetModel {
 			this.setUsername(properties.getProperty(GSModel.GOOGLE_USERNAME));
 			this.setPassword(properties.getProperty(GSModel.GOOGLE_PASSWORD));
 			final String configurationFilePath = properties.getProperty(GSModel.CONFIGURATION_FILE);
-			if (StringUtils.isNotEmpty(configurationFilePath)) {
+			if (!StringUtil.isEmpty(configurationFilePath)) {
 				this.setConfigurationFile(resolver.resolve(configurationFilePath));
 			}
 		}
@@ -317,7 +317,7 @@ public class GSModel extends SpreadsheetModel {
 	 * ast.getNextSibling(), context, ast.getText());
 	 * 
 	 * StringBuilder expression = new StringBuilder(valueOnLeft); if
-	 * (StringUtils.isNotBlank(valueOnRight)) { expression = new StringBuilder("(" +
+	 * (!StringUtil.isEmpty(valueOnRight)) { expression = new StringBuilder("(" +
 	 * valueOnLeft + ") " + parentOperator + " (" + valueOnRight + ")"); } return
 	 * expression.toString(); } else if (astParentIsOperator) { final String
 	 * valueOnLeft = this.getValueOnLeft(iterator, ast, context, parentOperator);
@@ -325,7 +325,7 @@ public class GSModel extends SpreadsheetModel {
 	 * ast.getNextSibling(), context, "");
 	 * 
 	 * StringBuilder expression = new StringBuilder(valueOnLeft); if
-	 * (StringUtils.isNotBlank(valueOnRight)) { expression = new StringBuilder("(" +
+	 * (!StringUtil.isEmpty(valueOnRight)) { expression = new StringBuilder("(" +
 	 * valueOnLeft + " " + parentOperator + " " + valueOnRight + ")"); } return
 	 * expression.toString(); } else { throw new
 	 * EolRuntimeException(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE); } }

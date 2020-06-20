@@ -9,7 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetReferenceMetadata;
 
 /**
@@ -102,12 +102,7 @@ public class SpreadsheetReference {
 	}
 
 	private boolean getBooleanOrDefault(final String value, final boolean defaultValue) {
-		if (StringUtils.isNotBlank(value)) {
-			return Boolean.parseBoolean(value);
-		}
-		else {
-			return defaultValue;
-		}
+		return StringUtil.isEmpty(value) ? defaultValue : Boolean.parseBoolean(value);
 	}
 
 	public SpreadsheetModel getModel() {
