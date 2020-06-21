@@ -64,10 +64,8 @@ public class ToolExtension {
 	}
 	
 	public static ToolExtension forClass(String clazz) {
-		ListIterator<ToolExtension> li = getInstances().listIterator();
-		while (li.hasNext()) {
-			ToolExtension extension = li.next();
-			if (extension.getClazz().equalsIgnoreCase(clazz)){
+		for (ToolExtension extension : getInstances()) {
+			if (extension.getClazz().equalsIgnoreCase(clazz)) {
 				return extension;
 			}
 		}

@@ -12,9 +12,8 @@ package org.eclipse.epsilon.emf.dt;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.StringTokenizer;
-
+import java.util.stream.Collectors;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
@@ -154,22 +153,16 @@ public class EmfRegistryManager {
 	public List<String> getMetamodels() {
 		List<String> metamodels = new ArrayList<>();
 		String concat = EmfUtilPlugin.getDefault().getPreferenceStore().getString("metamodels");
-		StringTokenizer st = new StringTokenizer(concat, ";");
-		while (st.hasMoreTokens()) {
-			metamodels.add(st.nextToken());
-		}
+		for (
+			StringTokenizer st = new StringTokenizer(concat, ";");
+			st.hasMoreTokens();
+			metamodels.add(st.nextToken())
+		);
 		return metamodels;
 	}
 
 	private void setMetamodels(List<String> metamodels) {
-		StringBuffer sb = new StringBuffer();
-		ListIterator<String> li = metamodels.listIterator();
-		while (li.hasNext()) {
-			sb.append(li.next());
-			if (li.hasNext()) {
-				sb.append(";");
-			}
-		}
-		EmfUtilPlugin.getDefault().getPreferenceStore().setValue("metamodels", sb.toString());
+		String mmStr = metamodels.stream().collect(Collectors.joining(";"));
+		EmfUtilPlugin.getDefault().getPreferenceStore().setValue("metamodels", mmStr);
 	}
 }

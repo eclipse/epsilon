@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -111,30 +112,27 @@ public class EcoreLabelProvider extends LabelProvider implements IFontProvider, 
 		}
 		else if (element instanceof EOperation) {
 			EOperation eOperation = (EOperation) element;
-			String signature = eOperation.getName() + "(";
-			ListIterator<EParameter> li = eOperation.getEParameters().listIterator();
-			while (li.hasNext()) {
-				EParameter parameter = li.next();
-				signature = signature + parameter.getName() + ":" + getTypeName(parameter.getEType());
-				if (li.hasNext()) signature = signature + ", ";
-			}
-			signature = signature + ")";
-			signature = signature + " : " + getTypeName(eOperation.getEType());
+			String signature =
+				eOperation.getName() + "(" +
+				eOperation.getEParameters().stream()
+					.map(p -> p.getName() + ":" + getTypeName(p.getEType()))
+					.collect(Collectors.joining(", ")) +
+				") : " + getTypeName(eOperation.getEType());
+			
 			if (eOperation.isMany()) {
-				signature = signature + " [*]";
+				signature += " [*]";
 			}
 			return signature;
 		}
 		else if (element instanceof DecoratorHookDescriptor) {
 			return getText(((DecoratorHookDescriptor) element).getEStructuralFeature());
 		}
-		else if (element instanceof SubTypesDescriptor) {
+		else if (element instanceof SubTypesDescriptor || element instanceof SuperTypesDescriptor) {
 			return "";
 		}
-		else if (element instanceof SuperTypesDescriptor) {
-			return "";
+		else {
+			return element.toString();
 		}
-		else return element.toString();
 	}
 	
 	protected String getTypeName(EClassifier classifier) {

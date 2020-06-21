@@ -51,12 +51,11 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected List<ProcessingInstruction> processingInstructions = new ArrayList<>();
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<>();
-	// protected List<Action> actions = new ArrayList<>();
 	protected Stack<Object> objectStack = new Stack<>();
-	protected Node currentNode = null;
-	protected List<String> importedEolModules = new ArrayList<>();
-	protected HashMap<String, EClass> eClassCache = new HashMap<>();
-	protected HashMap<EClass, List<EClass>> allSubtypesCache = new HashMap<>();
+	protected Node currentNode;
+	protected Collection<String> importedEolModules = new ArrayList<>();
+	protected Map<String, EClass> eClassCache = new HashMap<>();
+	protected Map<EClass, List<EClass>> allSubtypesCache = new HashMap<>();
 	protected StringSimilarityProvider stringSimilarityProvider = new CachedStringSimilarityProvider(new DefaultStringSimilarityProvider());
 	protected Stack<URI> parsedFragmentURIStack = new Stack<>();
 	protected Set<URI> parsedFragmentURIs = new HashSet<>();
@@ -65,8 +64,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Map<EObject, String> localIDs = new HashMap<>();
 	protected FrameStack frameStack = new FrameStack();
 	protected ActionMap actionMap = new ActionMap();
-	protected HashMap<EObject, List<EObject>> orderedChildren = new HashMap<>();
-	protected List<Operation> operations = new ArrayList<Operation>();
+	protected Map<EObject, List<EObject>> orderedChildren = new HashMap<>();
+	protected Collection<Operation> operations = new ArrayList<>();
 	protected FlexmiResource importedFrom = null;
 	
 	public void startProcessingFragment(URI uri) {

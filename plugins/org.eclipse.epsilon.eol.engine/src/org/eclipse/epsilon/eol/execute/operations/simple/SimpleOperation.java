@@ -10,9 +10,8 @@
 package org.eclipse.epsilon.eol.execute.operations.simple;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -27,7 +26,7 @@ public abstract class SimpleOperation extends AbstractOperation {
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		List<Object> parameters = new ArrayList<>(expressions.size());
-		ListIterator<Expression> it = expressions.listIterator();
+		Iterator<Expression> it = expressions.iterator();
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
 		for (int parameterIndex = 0; it.hasNext(); parameterIndex++) {

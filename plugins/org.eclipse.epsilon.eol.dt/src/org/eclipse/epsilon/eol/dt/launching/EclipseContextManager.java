@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.dt.launching;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -163,8 +162,8 @@ public class EclipseContextManager {
 			LogUtil.log(e); return;
 		}
 
-		for (ListIterator<?> li = models.listIterator(); li.hasNext();) {
-			String modelDescriptor = li.next().toString();
+		for (Object mdObj : models) {
+			String modelDescriptor = mdObj.toString();
 			StringProperties properties = new StringProperties();
 			properties.load(modelDescriptor);
 			

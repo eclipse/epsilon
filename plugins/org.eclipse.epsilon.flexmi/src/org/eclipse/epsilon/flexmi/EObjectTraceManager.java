@@ -10,14 +10,14 @@
 package org.eclipse.epsilon.flexmi;
 
 import java.util.HashMap;
-
+import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
 public class EObjectTraceManager {
 	
-	protected HashMap<EObject, EObjectLocation> eObjectLineTrace = new HashMap<>();
-	protected HashMap<EObjectLocation, EObject> lineEObjectTrace = new HashMap<>();
+	protected Map<EObject, EObjectLocation> eObjectLineTrace = new HashMap<>();
+	protected Map<EObjectLocation, EObject> lineEObjectTrace = new HashMap<>();
 	
 	public void trace(EObject eObject, URI uri, int line) {
 		eObjectLineTrace.put(eObject, new EObjectLocation(uri, line));

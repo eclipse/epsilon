@@ -19,7 +19,6 @@ public class FlexmiDiagnostic implements Diagnostic {
 	protected URI uri;
 	
 	public FlexmiDiagnostic(String message, URI uri, int line) {
-		super();
 		this.message = message;
 		this.line = line;
 		this.uri = uri;

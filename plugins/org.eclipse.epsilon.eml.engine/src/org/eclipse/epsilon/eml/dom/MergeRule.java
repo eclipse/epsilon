@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -137,21 +138,13 @@ public class MergeRule extends ExtensibleNamedRule {
 		
 	@Override
 	public String toString() {
-		String str = getName();
-		str = str + " (";
-		str = str + 
-		leftParameter.getTypeName() + ", " +
-		rightParameter.getTypeName();
-		str = str + ") : ";
-		ListIterator<Parameter> li = targetParameters.listIterator();
-		while (li.hasNext()) {
-			Parameter targetParameter = li.next();
-			str += targetParameter.getTypeName();
-			if (li.hasNext()) {
-				str += ", ";
-			}
-		}
-		return str;
+		return
+			getName() + " (" +
+			leftParameter.getTypeName() + ", " +
+			rightParameter.getTypeName() + ") : " +
+			targetParameters.stream()
+				.map(Parameter::getTypeName)
+				.collect(Collectors.joining(", "));
 	}
 	
 	public void executeSuperRulesAndBody(Match match, Collection<Object> targets, IEmlContext context) throws EolRuntimeException {		

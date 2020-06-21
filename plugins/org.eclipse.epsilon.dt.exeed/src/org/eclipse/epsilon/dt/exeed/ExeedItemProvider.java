@@ -118,9 +118,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		EPackage ePackage = (EPackage) EPackage.Registry.INSTANCE.get(nsUri); 
 		if (!allEPackages.contains(ePackage)) {
 			allEPackages.add(ePackage);
-			ListIterator<EClassifier> li = ePackage.getEClassifiers().listIterator();
-			while (li.hasNext()) {
-				final EClassifier next = li.next();
+			for (EClassifier next : ePackage.getEClassifiers()) {
 				if (!allEClasses.contains(next)) {
 					allEClasses.add((EClass)next);
 				}

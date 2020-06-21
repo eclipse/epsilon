@@ -12,8 +12,6 @@ package org.eclipse.epsilon.dt.exeed.modelink;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.jdom.Attribute;
@@ -51,9 +49,7 @@ public class ModeLink {
 		forceExeedM = getBooleanAttribute(root, ATTR_FORCE_EXEED_MIDDLE, ATTR_FORCE_EXEED_DEFAULT);
 		forceExeedR = getBooleanAttribute(root, ATTR_FORCE_EXEED_RIGHT, ATTR_FORCE_EXEED_DEFAULT);
 
-		ListIterator<?> li = root.getChildren().listIterator();
-		while (li.hasNext()) {
-			Object next = li.next();
+		for (Object next : root.getChildren()) {
 			if (next instanceof Element) {
 				Element el = (Element) next;
 				linkedModels.add(new LinkedModel(el.getAttributeValue(ATTR_MODEL_PATH), el.getAttributeValue(ATTR_MODEL_POS)));
@@ -111,15 +107,15 @@ public class ModeLink {
 
 	public void setForceExeed(ModelPosition position, boolean force) {
 		switch (position) {
-		case LEFT:
-			forceExeedL = force;
-			break;
-		case RIGHT:
-			forceExeedR = force;
-			break;
-		default:
-			forceExeedM = force;
-			break;
+			case LEFT:
+				forceExeedL = force;
+				break;
+			case RIGHT:
+				forceExeedR = force;
+				break;
+			default:
+				forceExeedM = force;
+				break;
 		}
 	}
 

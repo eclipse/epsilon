@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -23,13 +23,10 @@ import java.util.ListIterator;
 public class FilePatcher {
 	
 	public static void main(String[] args) throws Exception {
-		
 		if (args.length != 3) {
 			System.out.println("Usage: java -jar filepatcher.jar inputfile patchfile outputfile");
 		}
-		
 		new FilePatcher().run(args[0], args[1], args[2]);
-		
 	}
 	
 	public void run(String inputPath, String patchPath, String targetPath) throws Exception {
@@ -40,23 +37,18 @@ public class FilePatcher {
 		TextBlock output = patch.apply(input);
 		
 		try (FileWriter targetWriter = new FileWriter(targetPath)) {
-			ListIterator<Line> lineIterator = output.getLines().listIterator();
-			while (lineIterator.hasNext()) {
-				Line line = lineIterator.next();
-				targetWriter.write(line.getText());
-				if (lineIterator.hasNext()) targetWriter.write(System.lineSeparator());
-			}
+			String joined = output.getLines().stream()
+				.map(Line::getText)
+				.collect(Collectors.joining(System.lineSeparator()));
+			
+			targetWriter.write(joined);
 		}
-		
 	}
 	
 	protected String[] readFromPath(String path) throws Exception {
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
 			List<String> lines = new ArrayList<>();
-			String line = null;
-			while ((line = bufferedReader.readLine()) != null) {
-			    lines.add(line);
-			}
+			for (String line = null; (line = bufferedReader.readLine()) != null; lines.add(line));
 			return lines.toArray(new String[lines.size()]);
 		}
 	}

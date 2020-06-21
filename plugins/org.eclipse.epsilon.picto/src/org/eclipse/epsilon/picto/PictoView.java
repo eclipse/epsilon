@@ -12,6 +12,7 @@ package org.eclipse.epsilon.picto;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -394,9 +395,9 @@ public class PictoView extends ViewPart {
 		});
 		
 		// Check if one of the source contents of the view is active
-		ListIterator<ViewContent> contentIterator = view.getContents(this).listIterator();
+		
 		ViewContent content = null;
-		while (contentIterator.hasNext() && content == null) {
+		for (Iterator<ViewContent> contentIterator = view.getContents(this).iterator(); contentIterator.hasNext() && content == null; ) {
 			ViewContent next = contentIterator.next();
 			if (next.isActive()) {
 				content = next.getSourceContent(this);
