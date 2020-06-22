@@ -101,6 +101,10 @@ public class OperationCallExpression extends FeatureCallExpression {
 			targetObject = EolNoType.NoInstance;
 		}
 		
+		if (targetObject == null && isNullSafe()) {
+			return null;
+		}
+		
 		IModel owningModel = context.getModelRepository().getOwningModel(targetObject);
 		
 		// Non-overridable operations

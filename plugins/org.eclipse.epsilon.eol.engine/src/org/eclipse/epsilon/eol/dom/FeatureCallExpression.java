@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 
 public abstract class FeatureCallExpression extends Expression {
 		
-	protected boolean arrow;
+	protected boolean arrow, safe;
 	protected Expression targetExpression;
 	
 	/**
@@ -31,14 +31,11 @@ public abstract class FeatureCallExpression extends Expression {
 	 */
 	protected NameExpression nameExpression;
 	
-	public boolean isArrow() {
-		return arrow;
-	}
-	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
-		this.arrow = cst.getText().equals("->");
+		this.arrow = "->".equals(cst.getText());
+		this.safe = "?.".equals(cst.getText());
 	}
 	
 	static Object wrap(Object o) {
@@ -104,7 +101,6 @@ public abstract class FeatureCallExpression extends Expression {
 		this.targetExpression = targetExpression;
 	}
 	
-	
 	/**
 	 * 
 	 * @param nameExpression
@@ -131,5 +127,18 @@ public abstract class FeatureCallExpression extends Expression {
 	 */
 	public String getName() {
 		return nameExpression != null ? nameExpression.getName() : null;
+	}
+	
+	public boolean isArrow() {
+		return arrow;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 2.1
+	 */
+	public boolean isNullSafe() {
+		return safe;
 	}
 }

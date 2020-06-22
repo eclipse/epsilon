@@ -57,6 +57,8 @@ POINT_POINT : '..';
 
 ARROW : '->';
 
+NAVIGATION : '?.';
+
 BOOLEAN :
 	('true' | 'false')
 	;
@@ -106,7 +108,7 @@ NAME
     
 fragment
 SpecialNameChar
-	: '~' | '&' | '?' | '^'
+	: '~' | '&' | '^'
 	;
 
 /**I found this char range in JavaCC's grammar, but Letter and Digit overlap.

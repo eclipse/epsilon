@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eml.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2020-06-06 01:10:49
+// $ANTLR 3.1b1 EolLexerRules.g 2020-06-22 12:50:56
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -49,69 +49,70 @@ public class Eml_EolLexerRules extends Lexer {
     public static final int T__144=144;
     public static final int T__143=143;
     public static final int T__146=146;
-    public static final int MODELDECLARATIONPARAMETER=77;
+    public static final int MODELDECLARATIONPARAMETER=78;
     public static final int T__145=145;
-    public static final int BREAKALL=43;
+    public static final int BREAKALL=44;
     public static final int T__140=140;
     public static final int T__142=142;
-    public static final int VAR=52;
-    public static final int MODELDECLARATIONPARAMETERS=76;
+    public static final int VAR=53;
+    public static final int MODELDECLARATIONPARAMETERS=77;
     public static final int T__141=141;
-    public static final int THROW=57;
-    public static final int SpecialTypeName=18;
-    public static final int PARAMLIST=28;
-    public static final int EXPRLIST=58;
-    public static final int EXPRRANGE=59;
-    public static final int BREAK=42;
-    public static final int ELSE=35;
+    public static final int THROW=58;
+    public static final int SpecialTypeName=19;
+    public static final int PARAMLIST=29;
+    public static final int EXPRLIST=59;
+    public static final int EXPRRANGE=60;
+    public static final int BREAK=43;
+    public static final int ELSE=36;
     public static final int T__137=137;
     public static final int T__136=136;
-    public static final int FORMAL=27;
-    public static final int IF=34;
-    public static final int MultiplicativeExpression=61;
-    public static final int TYPE=69;
+    public static final int FORMAL=28;
+    public static final int IF=35;
+    public static final int MultiplicativeExpression=62;
+    public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=164;
+    public static final int Tokens=165;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
     public static final int T__134=134;
     public static final int T__131=131;
-    public static final int NewExpression=51;
+    public static final int NewExpression=52;
     public static final int T__130=130;
-    public static final int CASE=39;
-    public static final int Letter=19;
-    public static final int LINE_COMMENT=25;
+    public static final int CASE=40;
+    public static final int Letter=20;
+    public static final int LINE_COMMENT=26;
     public static final int T__129=129;
     public static final int T__126=126;
-    public static final int JavaIDDigit=21;
+    public static final int JavaIDDigit=22;
     public static final int T__125=125;
-    public static final int LAMBDAEXPR=68;
-    public static final int MAP=79;
+    public static final int LAMBDAEXPR=69;
+    public static final int MAP=80;
     public static final int T__128=128;
     public static final int T__127=127;
     public static final int T__162=162;
     public static final int T__161=161;
-    public static final int MERGE=87;
-    public static final int MODELDECLARATION=72;
+    public static final int MERGE=88;
+    public static final int T__164=164;
+    public static final int MODELDECLARATION=73;
     public static final int T__163=163;
-    public static final int EXPRESSIONINBRACKETS=63;
+    public static final int EXPRESSIONINBRACKETS=64;
     public static final int T__160=160;
-    public static final int TERNARY=36;
-    public static final int TRANSACTION=45;
+    public static final int TERNARY=37;
+    public static final int TRANSACTION=46;
     public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int ITEMSELECTOR=78;
-    public static final int COMMENT=24;
-    public static final int ModelElementType=49;
-    public static final int IMPORT=71;
-    public static final int DELETE=56;
+    public static final int ITEMSELECTOR=79;
+    public static final int COMMENT=25;
+    public static final int ModelElementType=50;
+    public static final int IMPORT=72;
+    public static final int DELETE=57;
     public static final int ARROW=11;
-    public static final int MapTypeName=17;
+    public static final int MapTypeName=18;
     public static final int T__159=159;
     public static final int T__158=158;
     public static final int T__155=155;
-    public static final int SPECIAL_ASSIGNMENT=30;
+    public static final int SPECIAL_ASSIGNMENT=31;
     public static final int T__154=154;
     public static final int T__157=157;
     public static final int T__156=156;
@@ -119,71 +120,71 @@ public class Eml_EolLexerRules extends Lexer {
     public static final int T__150=150;
     public static final int T__153=153;
     public static final int T__152=152;
-    public static final int Annotation=26;
-    public static final int CONTINUE=44;
-    public static final int ENUMERATION_VALUE=70;
-    public static final int OPERATOR=62;
-    public static final int EMLMODULE=88;
+    public static final int Annotation=27;
+    public static final int CONTINUE=45;
+    public static final int ENUMERATION_VALUE=71;
+    public static final int OPERATOR=63;
+    public static final int EMLMODULE=89;
     public static final int EXPONENT=6;
-    public static final int STRING=14;
+    public static final int STRING=15;
     public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__149=149;
     public static final int T__91=91;
     public static final int T__100=100;
-    public static final int NAMESPACE=73;
+    public static final int NAMESPACE=74;
     public static final int T__92=92;
-    public static final int COLLECTION=46;
-    public static final int NEW=53;
-    public static final int EXTENDS=84;
+    public static final int COLLECTION=47;
+    public static final int NEW=54;
+    public static final int EXTENDS=85;
     public static final int T__93=93;
     public static final int T__102=102;
-    public static final int PRE=82;
+    public static final int PRE=83;
     public static final int T__94=94;
     public static final int T__101=101;
-    public static final int POST=83;
+    public static final int POST=84;
     public static final int T__90=90;
-    public static final int ALIAS=74;
-    public static final int DRIVER=75;
-    public static final int KEYVAL=80;
+    public static final int ALIAS=75;
+    public static final int DRIVER=76;
+    public static final int KEYVAL=81;
     public static final int POINT_POINT=10;
-    public static final int GUARD=85;
+    public static final int GUARD=86;
     public static final int T__99=99;
-    public static final int TRANSFORM=86;
+    public static final int TRANSFORM=87;
     public static final int T__95=95;
-    public static final int HELPERMETHOD=31;
+    public static final int HELPERMETHOD=32;
     public static final int T__96=96;
     public static final int T__97=97;
-    public static final int StatementBlock=32;
+    public static final int StatementBlock=33;
     public static final int T__98=98;
-    public static final int ABORT=47;
-    public static final int StrangeNameLiteral=15;
-    public static final int FOR=33;
-    public static final int BLOCK=66;
-    public static final int PARAMETERS=50;
-    public static final int SpecialNameChar=20;
-    public static final int BOOLEAN=12;
-    public static final int NAME=22;
-    public static final int SWITCH=38;
-    public static final int FeatureCall=64;
+    public static final int ABORT=48;
+    public static final int StrangeNameLiteral=16;
+    public static final int FOR=34;
+    public static final int BLOCK=67;
+    public static final int PARAMETERS=51;
+    public static final int SpecialNameChar=21;
+    public static final int BOOLEAN=13;
+    public static final int NAME=23;
+    public static final int SWITCH=39;
+    public static final int FeatureCall=65;
     public static final int T__122=122;
     public static final int T__121=121;
     public static final int T__124=124;
     public static final int FLOAT=4;
     public static final int T__123=123;
     public static final int T__120=120;
-    public static final int NativeType=60;
+    public static final int NativeType=61;
     public static final int INT=8;
-    public static final int ANNOTATIONBLOCK=54;
-    public static final int RETURN=41;
-    public static final int KEYVALLIST=81;
-    public static final int FEATURECALL=67;
-    public static final int CollectionType=48;
+    public static final int ANNOTATIONBLOCK=55;
+    public static final int RETURN=42;
+    public static final int KEYVALLIST=82;
+    public static final int FEATURECALL=68;
+    public static final int CollectionType=49;
     public static final int T__119=119;
-    public static final int ASSIGNMENT=29;
+    public static final int ASSIGNMENT=30;
     public static final int T__118=118;
     public static final int T__115=115;
-    public static final int WS=23;
+    public static final int WS=24;
     public static final int EOF=-1;
     public static final int T__114=114;
     public static final int T__117=117;
@@ -192,21 +193,21 @@ public class Eml_EolLexerRules extends Lexer {
     public static final int T__110=110;
     public static final int T__113=113;
     public static final int T__112=112;
-    public static final int EscapeSequence=13;
-    public static final int EOLMODULE=65;
-    public static final int CollectionTypeName=16;
+    public static final int EscapeSequence=14;
+    public static final int EOLMODULE=66;
+    public static final int CollectionTypeName=17;
     public static final int DIGIT=5;
-    public static final int EXECUTABLEANNOTATION=55;
+    public static final int EXECUTABLEANNOTATION=56;
     public static final int T__108=108;
-    public static final int T__89=89;
     public static final int T__107=107;
-    public static final int WHILE=37;
+    public static final int WHILE=38;
     public static final int T__109=109;
+    public static final int NAVIGATION=12;
     public static final int T__104=104;
     public static final int POINT=9;
     public static final int T__103=103;
     public static final int T__106=106;
-    public static final int DEFAULT=40;
+    public static final int DEFAULT=41;
     public static final int T__105=105;
 
     // delegates
@@ -630,15 +631,36 @@ public class Eml_EolLexerRules extends Lexer {
     }
     // $ANTLR end ARROW
 
+    // $ANTLR start NAVIGATION
+    public final void mNAVIGATION() throws RecognitionException {
+        try {
+            int _type = NAVIGATION;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // EolLexerRules.g:60:12: ( '?.' )
+            // EolLexerRules.g:60:14: '?.'
+            {
+            match("?."); if (state.failed) return ;
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end NAVIGATION
+
     // $ANTLR start BOOLEAN
     public final void mBOOLEAN() throws RecognitionException {
         try {
             int _type = BOOLEAN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:60:9: ( ( 'true' | 'false' ) )
-            // EolLexerRules.g:61:2: ( 'true' | 'false' )
+            // EolLexerRules.g:62:9: ( ( 'true' | 'false' ) )
+            // EolLexerRules.g:63:2: ( 'true' | 'false' )
             {
-            // EolLexerRules.g:61:2: ( 'true' | 'false' )
+            // EolLexerRules.g:63:2: ( 'true' | 'false' )
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -657,7 +679,7 @@ public class Eml_EolLexerRules extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // EolLexerRules.g:61:3: 'true'
+                    // EolLexerRules.g:63:3: 'true'
                     {
                     match("true"); if (state.failed) return ;
 
@@ -665,7 +687,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:61:12: 'false'
+                    // EolLexerRules.g:63:12: 'false'
                     {
                     match("false"); if (state.failed) return ;
 
@@ -691,10 +713,10 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:65:5: ( ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' ) )
-            // EolLexerRules.g:65:9: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' )
+            // EolLexerRules.g:67:5: ( ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' ) )
+            // EolLexerRules.g:67:9: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' )
             {
-            // EolLexerRules.g:65:9: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' )
+            // EolLexerRules.g:67:9: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' )
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -713,10 +735,10 @@ public class Eml_EolLexerRules extends Lexer {
             }
             switch (alt12) {
                 case 1 :
-                    // EolLexerRules.g:65:10: '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\''
+                    // EolLexerRules.g:67:10: '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\''
                     {
                     match('\''); if (state.failed) return ;
-                    // EolLexerRules.g:65:15: ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )*
+                    // EolLexerRules.g:67:15: ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )*
                     loop10:
                     do {
                         int alt10=3;
@@ -732,14 +754,14 @@ public class Eml_EolLexerRules extends Lexer {
 
                         switch (alt10) {
                     	case 1 :
-                    	    // EolLexerRules.g:65:17: EscapeSequence
+                    	    // EolLexerRules.g:67:17: EscapeSequence
                     	    {
                     	    mEscapeSequence(); if (state.failed) return ;
 
                     	    }
                     	    break;
                     	case 2 :
-                    	    // EolLexerRules.g:65:34: ~ ( '\\'' | '\\\\' )
+                    	    // EolLexerRules.g:67:34: ~ ( '\\'' | '\\\\' )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                     	        input.consume();
@@ -765,10 +787,10 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:65:57: '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"'
+                    // EolLexerRules.g:67:57: '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"'
                     {
                     match('\"'); if (state.failed) return ;
-                    // EolLexerRules.g:65:61: ( EscapeSequence | ~ ( '\\\\' | '\"' ) )*
+                    // EolLexerRules.g:67:61: ( EscapeSequence | ~ ( '\\\\' | '\"' ) )*
                     loop11:
                     do {
                         int alt11=3;
@@ -784,14 +806,14 @@ public class Eml_EolLexerRules extends Lexer {
 
                         switch (alt11) {
                     	case 1 :
-                    	    // EolLexerRules.g:65:63: EscapeSequence
+                    	    // EolLexerRules.g:67:63: EscapeSequence
                     	    {
                     	    mEscapeSequence(); if (state.failed) return ;
 
                     	    }
                     	    break;
                     	case 2 :
-                    	    // EolLexerRules.g:65:80: ~ ( '\\\\' | '\"' )
+                    	    // EolLexerRules.g:67:80: ~ ( '\\\\' | '\"' )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                     	        input.consume();
@@ -838,11 +860,11 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = StrangeNameLiteral;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:70:5: ( '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`' )
-            // EolLexerRules.g:70:8: '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`'
+            // EolLexerRules.g:72:5: ( '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`' )
+            // EolLexerRules.g:72:8: '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`'
             {
             match('`'); if (state.failed) return ;
-            // EolLexerRules.g:70:12: ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )*
+            // EolLexerRules.g:72:12: ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )*
             loop13:
             do {
                 int alt13=3;
@@ -858,14 +880,14 @@ public class Eml_EolLexerRules extends Lexer {
 
                 switch (alt13) {
             	case 1 :
-            	    // EolLexerRules.g:70:14: EscapeSequence
+            	    // EolLexerRules.g:72:14: EscapeSequence
             	    {
             	    mEscapeSequence(); if (state.failed) return ;
 
             	    }
             	    break;
             	case 2 :
-            	    // EolLexerRules.g:70:31: ~ ( '\\\\' | '`' | '\\n' | '\\r' )
+            	    // EolLexerRules.g:72:31: ~ ( '\\\\' | '`' | '\\n' | '\\r' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -906,12 +928,12 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = CollectionTypeName;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:75:2: ( 'Bag' | 'Sequence' | 'Set' | 'OrderedSet' | 'Collection' | 'List' | 'ConcurrentBag' | 'ConcurrentSet' )
+            // EolLexerRules.g:77:2: ( 'Bag' | 'Sequence' | 'Set' | 'OrderedSet' | 'Collection' | 'List' | 'ConcurrentBag' | 'ConcurrentSet' )
             int alt14=8;
             alt14 = dfa14.predict(input);
             switch (alt14) {
                 case 1 :
-                    // EolLexerRules.g:75:4: 'Bag'
+                    // EolLexerRules.g:77:4: 'Bag'
                     {
                     match("Bag"); if (state.failed) return ;
 
@@ -919,7 +941,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:75:10: 'Sequence'
+                    // EolLexerRules.g:77:10: 'Sequence'
                     {
                     match("Sequence"); if (state.failed) return ;
 
@@ -927,7 +949,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 3 :
-                    // EolLexerRules.g:75:21: 'Set'
+                    // EolLexerRules.g:77:21: 'Set'
                     {
                     match("Set"); if (state.failed) return ;
 
@@ -935,7 +957,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 4 :
-                    // EolLexerRules.g:75:27: 'OrderedSet'
+                    // EolLexerRules.g:77:27: 'OrderedSet'
                     {
                     match("OrderedSet"); if (state.failed) return ;
 
@@ -943,7 +965,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 5 :
-                    // EolLexerRules.g:75:40: 'Collection'
+                    // EolLexerRules.g:77:40: 'Collection'
                     {
                     match("Collection"); if (state.failed) return ;
 
@@ -951,7 +973,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 6 :
-                    // EolLexerRules.g:75:53: 'List'
+                    // EolLexerRules.g:77:53: 'List'
                     {
                     match("List"); if (state.failed) return ;
 
@@ -959,7 +981,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 7 :
-                    // EolLexerRules.g:75:60: 'ConcurrentBag'
+                    // EolLexerRules.g:77:60: 'ConcurrentBag'
                     {
                     match("ConcurrentBag"); if (state.failed) return ;
 
@@ -967,7 +989,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 8 :
-                    // EolLexerRules.g:75:76: 'ConcurrentSet'
+                    // EolLexerRules.g:77:76: 'ConcurrentSet'
                     {
                     match("ConcurrentSet"); if (state.failed) return ;
 
@@ -989,7 +1011,7 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = MapTypeName;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:79:2: ( 'Map' | 'ConcurrentMap' )
+            // EolLexerRules.g:81:2: ( 'Map' | 'ConcurrentMap' )
             int alt15=2;
             int LA15_0 = input.LA(1);
 
@@ -1008,7 +1030,7 @@ public class Eml_EolLexerRules extends Lexer {
             }
             switch (alt15) {
                 case 1 :
-                    // EolLexerRules.g:79:4: 'Map'
+                    // EolLexerRules.g:81:4: 'Map'
                     {
                     match("Map"); if (state.failed) return ;
 
@@ -1016,7 +1038,7 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:79:10: 'ConcurrentMap'
+                    // EolLexerRules.g:81:10: 'ConcurrentMap'
                     {
                     match("ConcurrentMap"); if (state.failed) return ;
 
@@ -1038,8 +1060,8 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = SpecialTypeName;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:83:2: ( 'Native' )
-            // EolLexerRules.g:83:4: 'Native'
+            // EolLexerRules.g:85:2: ( 'Native' )
+            // EolLexerRules.g:85:4: 'Native'
             {
             match("Native"); if (state.failed) return ;
 
@@ -1057,8 +1079,8 @@ public class Eml_EolLexerRules extends Lexer {
     // $ANTLR start EscapeSequence
     public final void mEscapeSequence() throws RecognitionException {
         try {
-            // EolLexerRules.g:88:5: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) )
-            // EolLexerRules.g:88:9: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
+            // EolLexerRules.g:90:5: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) )
+            // EolLexerRules.g:90:9: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
             {
             match('\\'); if (state.failed) return ;
             if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||input.LA(1)=='t' ) {
@@ -1085,10 +1107,10 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = NAME;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:104:5: ( ( Letter | SpecialNameChar ) ( Letter | JavaIDDigit | SpecialNameChar )* )
-            // EolLexerRules.g:104:9: ( Letter | SpecialNameChar ) ( Letter | JavaIDDigit | SpecialNameChar )*
+            // EolLexerRules.g:106:5: ( ( Letter | SpecialNameChar ) ( Letter | JavaIDDigit | SpecialNameChar )* )
+            // EolLexerRules.g:106:9: ( Letter | SpecialNameChar ) ( Letter | JavaIDDigit | SpecialNameChar )*
             {
-            if ( input.LA(1)=='&'||input.LA(1)=='?'||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='^' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='~'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u3040' && input.LA(1)<='\u318F')||(input.LA(1)>='\u3300' && input.LA(1)<='\u337F')||(input.LA(1)>='\u3400' && input.LA(1)<='\u3D2D')||(input.LA(1)>='\u4E00' && input.LA(1)<='\u9FFF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFAFF') ) {
+            if ( input.LA(1)=='&'||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='^' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='~'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u3040' && input.LA(1)<='\u318F')||(input.LA(1)>='\u3300' && input.LA(1)<='\u337F')||(input.LA(1)>='\u3400' && input.LA(1)<='\u3D2D')||(input.LA(1)>='\u4E00' && input.LA(1)<='\u9FFF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFAFF') ) {
                 input.consume();
             state.failed=false;
             }
@@ -1098,13 +1120,13 @@ public class Eml_EolLexerRules extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // EolLexerRules.g:104:34: ( Letter | JavaIDDigit | SpecialNameChar )*
+            // EolLexerRules.g:106:34: ( Letter | JavaIDDigit | SpecialNameChar )*
             loop16:
             do {
                 int alt16=2;
                 int LA16_0 = input.LA(1);
 
-                if ( (LA16_0=='&'||(LA16_0>='0' && LA16_0<='9')||LA16_0=='?'||(LA16_0>='A' && LA16_0<='Z')||(LA16_0>='^' && LA16_0<='_')||(LA16_0>='a' && LA16_0<='z')||LA16_0=='~'||(LA16_0>='\u00C0' && LA16_0<='\u00D6')||(LA16_0>='\u00D8' && LA16_0<='\u00F6')||(LA16_0>='\u00F8' && LA16_0<='\u1FFF')||(LA16_0>='\u3040' && LA16_0<='\u318F')||(LA16_0>='\u3300' && LA16_0<='\u337F')||(LA16_0>='\u3400' && LA16_0<='\u3D2D')||(LA16_0>='\u4E00' && LA16_0<='\u9FFF')||(LA16_0>='\uF900' && LA16_0<='\uFAFF')) ) {
+                if ( (LA16_0=='&'||(LA16_0>='0' && LA16_0<='9')||(LA16_0>='A' && LA16_0<='Z')||(LA16_0>='^' && LA16_0<='_')||(LA16_0>='a' && LA16_0<='z')||LA16_0=='~'||(LA16_0>='\u00C0' && LA16_0<='\u00D6')||(LA16_0>='\u00D8' && LA16_0<='\u00F6')||(LA16_0>='\u00F8' && LA16_0<='\u1FFF')||(LA16_0>='\u3040' && LA16_0<='\u318F')||(LA16_0>='\u3300' && LA16_0<='\u337F')||(LA16_0>='\u3400' && LA16_0<='\u3D2D')||(LA16_0>='\u4E00' && LA16_0<='\u9FFF')||(LA16_0>='\uF900' && LA16_0<='\uFAFF')) ) {
                     alt16=1;
                 }
 
@@ -1113,7 +1135,7 @@ public class Eml_EolLexerRules extends Lexer {
             	case 1 :
             	    // EolLexerRules.g:
             	    {
-            	    if ( input.LA(1)=='&'||(input.LA(1)>='0' && input.LA(1)<='9')||input.LA(1)=='?'||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='^' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='~'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u3040' && input.LA(1)<='\u318F')||(input.LA(1)>='\u3300' && input.LA(1)<='\u337F')||(input.LA(1)>='\u3400' && input.LA(1)<='\u3D2D')||(input.LA(1)>='\u4E00' && input.LA(1)<='\u9FFF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFAFF') ) {
+            	    if ( input.LA(1)=='&'||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='^' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='~'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u3040' && input.LA(1)<='\u318F')||(input.LA(1)>='\u3300' && input.LA(1)<='\u337F')||(input.LA(1)>='\u3400' && input.LA(1)<='\u3D2D')||(input.LA(1)>='\u4E00' && input.LA(1)<='\u9FFF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFAFF') ) {
             	        input.consume();
             	    state.failed=false;
             	    }
@@ -1146,10 +1168,10 @@ public class Eml_EolLexerRules extends Lexer {
     // $ANTLR start SpecialNameChar
     public final void mSpecialNameChar() throws RecognitionException {
         try {
-            // EolLexerRules.g:109:2: ( '~' | '&' | '?' | '^' )
+            // EolLexerRules.g:111:2: ( '~' | '&' | '^' )
             // EolLexerRules.g:
             {
-            if ( input.LA(1)=='&'||input.LA(1)=='?'||input.LA(1)=='^'||input.LA(1)=='~' ) {
+            if ( input.LA(1)=='&'||input.LA(1)=='^'||input.LA(1)=='~' ) {
                 input.consume();
             state.failed=false;
             }
@@ -1171,7 +1193,7 @@ public class Eml_EolLexerRules extends Lexer {
     // $ANTLR start Letter
     public final void mLetter() throws RecognitionException {
         try {
-            // EolLexerRules.g:118:5: ( '\\u0041' .. '\\u005a' | '\\u005f' | '\\u0061' .. '\\u007a' | '\\u00c0' .. '\\u00d6' | '\\u00d8' .. '\\u00f6' | '\\u00f8' .. '\\u00ff' | '\\u0100' .. '\\u1fff' | '\\u3040' .. '\\u318f' | '\\u3300' .. '\\u337f' | '\\u3400' .. '\\u3d2d' | '\\u4e00' .. '\\u9fff' | '\\uf900' .. '\\ufaff' )
+            // EolLexerRules.g:120:5: ( '\\u0041' .. '\\u005a' | '\\u005f' | '\\u0061' .. '\\u007a' | '\\u00c0' .. '\\u00d6' | '\\u00d8' .. '\\u00f6' | '\\u00f8' .. '\\u00ff' | '\\u0100' .. '\\u1fff' | '\\u3040' .. '\\u318f' | '\\u3300' .. '\\u337f' | '\\u3400' .. '\\u3d2d' | '\\u4e00' .. '\\u9fff' | '\\uf900' .. '\\ufaff' )
             // EolLexerRules.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u3040' && input.LA(1)<='\u318F')||(input.LA(1)>='\u3300' && input.LA(1)<='\u337F')||(input.LA(1)>='\u3400' && input.LA(1)<='\u3D2D')||(input.LA(1)>='\u4E00' && input.LA(1)<='\u9FFF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFAFF') ) {
@@ -1196,7 +1218,7 @@ public class Eml_EolLexerRules extends Lexer {
     // $ANTLR start JavaIDDigit
     public final void mJavaIDDigit() throws RecognitionException {
         try {
-            // EolLexerRules.g:134:5: ( '\\u0030' .. '\\u0039' | '\\u0660' .. '\\u0669' | '\\u06f0' .. '\\u06f9' | '\\u0966' .. '\\u096f' | '\\u09e6' .. '\\u09ef' | '\\u0a66' .. '\\u0a6f' | '\\u0ae6' .. '\\u0aef' | '\\u0b66' .. '\\u0b6f' | '\\u0be7' .. '\\u0bef' | '\\u0c66' .. '\\u0c6f' | '\\u0ce6' .. '\\u0cef' | '\\u0d66' .. '\\u0d6f' | '\\u0e50' .. '\\u0e59' | '\\u0ed0' .. '\\u0ed9' | '\\u1040' .. '\\u1049' )
+            // EolLexerRules.g:136:5: ( '\\u0030' .. '\\u0039' | '\\u0660' .. '\\u0669' | '\\u06f0' .. '\\u06f9' | '\\u0966' .. '\\u096f' | '\\u09e6' .. '\\u09ef' | '\\u0a66' .. '\\u0a6f' | '\\u0ae6' .. '\\u0aef' | '\\u0b66' .. '\\u0b6f' | '\\u0be7' .. '\\u0bef' | '\\u0c66' .. '\\u0c6f' | '\\u0ce6' .. '\\u0cef' | '\\u0d66' .. '\\u0d6f' | '\\u0e50' .. '\\u0e59' | '\\u0ed0' .. '\\u0ed9' | '\\u1040' .. '\\u1049' )
             // EolLexerRules.g:
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='\u0660' && input.LA(1)<='\u0669')||(input.LA(1)>='\u06F0' && input.LA(1)<='\u06F9')||(input.LA(1)>='\u0966' && input.LA(1)<='\u096F')||(input.LA(1)>='\u09E6' && input.LA(1)<='\u09EF')||(input.LA(1)>='\u0A66' && input.LA(1)<='\u0A6F')||(input.LA(1)>='\u0AE6' && input.LA(1)<='\u0AEF')||(input.LA(1)>='\u0B66' && input.LA(1)<='\u0B6F')||(input.LA(1)>='\u0BE7' && input.LA(1)<='\u0BEF')||(input.LA(1)>='\u0C66' && input.LA(1)<='\u0C6F')||(input.LA(1)>='\u0CE6' && input.LA(1)<='\u0CEF')||(input.LA(1)>='\u0D66' && input.LA(1)<='\u0D6F')||(input.LA(1)>='\u0E50' && input.LA(1)<='\u0E59')||(input.LA(1)>='\u0ED0' && input.LA(1)<='\u0ED9')||(input.LA(1)>='\u1040' && input.LA(1)<='\u1049') ) {
@@ -1223,10 +1245,10 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:151:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-            // EolLexerRules.g:151:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // EolLexerRules.g:153:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+            // EolLexerRules.g:153:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             {
-            // EolLexerRules.g:151:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // EolLexerRules.g:153:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             int alt17=5;
             switch ( input.LA(1) ) {
             case ' ':
@@ -1264,21 +1286,21 @@ public class Eml_EolLexerRules extends Lexer {
 
             switch (alt17) {
                 case 1 :
-                    // EolLexerRules.g:152:2: ' '
+                    // EolLexerRules.g:154:2: ' '
                     {
                     match(' '); if (state.failed) return ;
 
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:153:2: '\\r'
+                    // EolLexerRules.g:155:2: '\\r'
                     {
                     match('\r'); if (state.failed) return ;
 
                     }
                     break;
                 case 3 :
-                    // EolLexerRules.g:154:2: '\\t'
+                    // EolLexerRules.g:156:2: '\\t'
                     {
                     match('\t'); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
@@ -1288,14 +1310,14 @@ public class Eml_EolLexerRules extends Lexer {
                     }
                     break;
                 case 4 :
-                    // EolLexerRules.g:155:3: '\\u000C'
+                    // EolLexerRules.g:157:3: '\\u000C'
                     {
                     match('\f'); if (state.failed) return ;
 
                     }
                     break;
                 case 5 :
-                    // EolLexerRules.g:156:3: '\\n'
+                    // EolLexerRules.g:158:3: '\\n'
                     {
                     match('\n'); if (state.failed) return ;
 
@@ -1323,15 +1345,15 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:161:5: ( ( '/*' ( options {greedy=false; } : . )* '*/' ) )
-            // EolLexerRules.g:161:9: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // EolLexerRules.g:163:5: ( ( '/*' ( options {greedy=false; } : . )* '*/' ) )
+            // EolLexerRules.g:163:9: ( '/*' ( options {greedy=false; } : . )* '*/' )
             {
-            // EolLexerRules.g:161:9: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // EolLexerRules.g:161:10: '/*' ( options {greedy=false; } : . )* '*/'
+            // EolLexerRules.g:163:9: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // EolLexerRules.g:163:10: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); if (state.failed) return ;
 
-            // EolLexerRules.g:161:15: ( options {greedy=false; } : . )*
+            // EolLexerRules.g:163:15: ( options {greedy=false; } : . )*
             loop18:
             do {
                 int alt18=2;
@@ -1356,7 +1378,7 @@ public class Eml_EolLexerRules extends Lexer {
 
                 switch (alt18) {
             	case 1 :
-            	    // EolLexerRules.g:161:43: .
+            	    // EolLexerRules.g:163:43: .
             	    {
             	    matchAny(); if (state.failed) return ;
 
@@ -1392,15 +1414,15 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:165:5: ( ( '//' (~ ( '\\n' | '\\r' ) )* ) )
-            // EolLexerRules.g:165:7: ( '//' (~ ( '\\n' | '\\r' ) )* )
+            // EolLexerRules.g:167:5: ( ( '//' (~ ( '\\n' | '\\r' ) )* ) )
+            // EolLexerRules.g:167:7: ( '//' (~ ( '\\n' | '\\r' ) )* )
             {
-            // EolLexerRules.g:165:7: ( '//' (~ ( '\\n' | '\\r' ) )* )
-            // EolLexerRules.g:165:8: '//' (~ ( '\\n' | '\\r' ) )*
+            // EolLexerRules.g:167:7: ( '//' (~ ( '\\n' | '\\r' ) )* )
+            // EolLexerRules.g:167:8: '//' (~ ( '\\n' | '\\r' ) )*
             {
             match("//"); if (state.failed) return ;
 
-            // EolLexerRules.g:165:13: (~ ( '\\n' | '\\r' ) )*
+            // EolLexerRules.g:167:13: (~ ( '\\n' | '\\r' ) )*
             loop19:
             do {
                 int alt19=2;
@@ -1413,7 +1435,7 @@ public class Eml_EolLexerRules extends Lexer {
 
                 switch (alt19) {
             	case 1 :
-            	    // EolLexerRules.g:165:13: ~ ( '\\n' | '\\r' )
+            	    // EolLexerRules.g:167:13: ~ ( '\\n' | '\\r' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -1456,11 +1478,11 @@ public class Eml_EolLexerRules extends Lexer {
         try {
             int _type = Annotation;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:169:2: ( '@' (~ ( '\\n' | '\\r' ) )* )
-            // EolLexerRules.g:169:4: '@' (~ ( '\\n' | '\\r' ) )*
+            // EolLexerRules.g:171:2: ( '@' (~ ( '\\n' | '\\r' ) )* )
+            // EolLexerRules.g:171:4: '@' (~ ( '\\n' | '\\r' ) )*
             {
             match('@'); if (state.failed) return ;
-            // EolLexerRules.g:169:8: (~ ( '\\n' | '\\r' ) )*
+            // EolLexerRules.g:171:8: (~ ( '\\n' | '\\r' ) )*
             loop20:
             do {
                 int alt20=2;
@@ -1473,7 +1495,7 @@ public class Eml_EolLexerRules extends Lexer {
 
                 switch (alt20) {
             	case 1 :
-            	    // EolLexerRules.g:169:8: ~ ( '\\n' | '\\r' )
+            	    // EolLexerRules.g:171:8: ~ ( '\\n' | '\\r' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -1506,8 +1528,8 @@ public class Eml_EolLexerRules extends Lexer {
     // $ANTLR end Annotation
 
     public void mTokens() throws RecognitionException {
-        // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | CollectionTypeName | MapTypeName | SpecialTypeName | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
-        int alt21=15;
+        // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | NAVIGATION | BOOLEAN | STRING | StrangeNameLiteral | CollectionTypeName | MapTypeName | SpecialTypeName | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
+        int alt21=16;
         alt21 = dfa21.predict(input);
         switch (alt21) {
             case 1 :
@@ -1539,77 +1561,84 @@ public class Eml_EolLexerRules extends Lexer {
                 }
                 break;
             case 5 :
-                // EolLexerRules.g:1:38: BOOLEAN
+                // EolLexerRules.g:1:38: NAVIGATION
+                {
+                mNAVIGATION(); if (state.failed) return ;
+
+                }
+                break;
+            case 6 :
+                // EolLexerRules.g:1:49: BOOLEAN
                 {
                 mBOOLEAN(); if (state.failed) return ;
 
                 }
                 break;
-            case 6 :
-                // EolLexerRules.g:1:46: STRING
+            case 7 :
+                // EolLexerRules.g:1:57: STRING
                 {
                 mSTRING(); if (state.failed) return ;
 
                 }
                 break;
-            case 7 :
-                // EolLexerRules.g:1:53: StrangeNameLiteral
+            case 8 :
+                // EolLexerRules.g:1:64: StrangeNameLiteral
                 {
                 mStrangeNameLiteral(); if (state.failed) return ;
 
                 }
                 break;
-            case 8 :
-                // EolLexerRules.g:1:72: CollectionTypeName
+            case 9 :
+                // EolLexerRules.g:1:83: CollectionTypeName
                 {
                 mCollectionTypeName(); if (state.failed) return ;
 
                 }
                 break;
-            case 9 :
-                // EolLexerRules.g:1:91: MapTypeName
+            case 10 :
+                // EolLexerRules.g:1:102: MapTypeName
                 {
                 mMapTypeName(); if (state.failed) return ;
 
                 }
                 break;
-            case 10 :
-                // EolLexerRules.g:1:103: SpecialTypeName
+            case 11 :
+                // EolLexerRules.g:1:114: SpecialTypeName
                 {
                 mSpecialTypeName(); if (state.failed) return ;
 
                 }
                 break;
-            case 11 :
-                // EolLexerRules.g:1:119: NAME
+            case 12 :
+                // EolLexerRules.g:1:130: NAME
                 {
                 mNAME(); if (state.failed) return ;
 
                 }
                 break;
-            case 12 :
-                // EolLexerRules.g:1:124: WS
+            case 13 :
+                // EolLexerRules.g:1:135: WS
                 {
                 mWS(); if (state.failed) return ;
 
                 }
                 break;
-            case 13 :
-                // EolLexerRules.g:1:127: COMMENT
+            case 14 :
+                // EolLexerRules.g:1:138: COMMENT
                 {
                 mCOMMENT(); if (state.failed) return ;
 
                 }
                 break;
-            case 14 :
-                // EolLexerRules.g:1:135: LINE_COMMENT
+            case 15 :
+                // EolLexerRules.g:1:146: LINE_COMMENT
                 {
                 mLINE_COMMENT(); if (state.failed) return ;
 
                 }
                 break;
-            case 15 :
-                // EolLexerRules.g:1:148: Annotation
+            case 16 :
+                // EolLexerRules.g:1:159: Annotation
                 {
                 mAnnotation(); if (state.failed) return ;
 
@@ -1719,18 +1748,18 @@ public class Eml_EolLexerRules extends Lexer {
             this.transition = DFA14_transition;
         }
         public String getDescription() {
-            return "74:1: CollectionTypeName : ( 'Bag' | 'Sequence' | 'Set' | 'OrderedSet' | 'Collection' | 'List' | 'ConcurrentBag' | 'ConcurrentSet' );";
+            return "76:1: CollectionTypeName : ( 'Bag' | 'Sequence' | 'Set' | 'OrderedSet' | 'Collection' | 'List' | 'ConcurrentBag' | 'ConcurrentSet' );";
         }
     }
     static final String DFA21_eotS =
-        "\2\uffff\1\24\1\uffff\2\17\2\uffff\7\17\6\uffff\11\17\2\uffff\2"+
-        "\17\1\55\1\17\1\55\4\17\1\63\1\17\1\65\1\17\1\uffff\4\17\1\55\1"+
-        "\uffff\1\17\1\uffff\1\65\11\17\1\105\4\17\1\uffff\1\55\6\17\2\55"+
-        "\7\17\2\55\1\63";
+        "\2\uffff\1\25\2\uffff\2\20\2\uffff\7\20\6\uffff\11\20\2\uffff\2"+
+        "\20\1\56\1\20\1\56\4\20\1\64\1\20\1\66\1\20\1\uffff\4\20\1\56\1"+
+        "\uffff\1\20\1\uffff\1\66\11\20\1\106\4\20\1\uffff\1\56\6\20\2\56"+
+        "\7\20\2\56\1\64";
     static final String DFA21_eofS =
-        "\131\uffff";
+        "\132\uffff";
     static final String DFA21_minS =
-        "\1\11\1\uffff\1\56\1\uffff\1\162\1\141\2\uffff\1\141\1\145\1\162"+
+        "\1\11\1\uffff\1\56\2\uffff\1\162\1\141\2\uffff\1\141\1\145\1\162"+
         "\1\157\1\151\2\141\2\uffff\1\52\3\uffff\1\165\1\154\1\147\1\161"+
         "\1\144\1\154\1\163\1\160\1\164\2\uffff\1\145\1\163\1\46\1\165\1"+
         "\46\1\145\1\154\1\143\1\164\1\46\1\151\1\46\1\145\1\uffff\1\145"+
@@ -1739,7 +1768,7 @@ public class Eml_EolLexerRules extends Lexer {
         "\1\145\1\uffff\1\46\1\145\1\157\1\156\1\164\1\156\1\164\2\46\1\102"+
         "\1\141\1\145\1\141\1\147\1\164\1\160\3\46";
     static final String DFA21_maxS =
-        "\1\ufaff\1\uffff\1\56\1\uffff\1\162\1\141\2\uffff\1\141\1\145\1"+
+        "\1\ufaff\1\uffff\1\56\2\uffff\1\162\1\141\2\uffff\1\141\1\145\1"+
         "\162\1\157\1\151\2\141\2\uffff\1\57\3\uffff\1\165\1\154\1\147\1"+
         "\164\1\144\1\156\1\163\1\160\1\164\2\uffff\1\145\1\163\1\ufaff\1"+
         "\165\1\ufaff\1\145\1\154\1\143\1\164\1\ufaff\1\151\1\ufaff\1\145"+
@@ -1749,98 +1778,92 @@ public class Eml_EolLexerRules extends Lexer {
         "\1\156\1\164\2\ufaff\1\123\1\141\1\145\1\141\1\147\1\164\1\160\3"+
         "\ufaff";
     static final String DFA21_acceptS =
-        "\1\uffff\1\1\1\uffff\1\4\2\uffff\1\6\1\7\7\uffff\1\13\1\14\1\uffff"+
-        "\1\17\1\3\1\2\11\uffff\1\15\1\16\15\uffff\1\10\5\uffff\1\11\1\uffff"+
-        "\1\5\17\uffff\1\12\23\uffff";
+        "\1\uffff\1\1\1\uffff\1\4\1\5\2\uffff\1\7\1\10\7\uffff\1\14\1\15"+
+        "\1\uffff\1\20\1\3\1\2\11\uffff\1\16\1\17\15\uffff\1\11\5\uffff\1"+
+        "\12\1\uffff\1\6\17\uffff\1\13\23\uffff";
     static final String DFA21_specialS =
-        "\131\uffff}>";
+        "\132\uffff}>";
     static final String[] DFA21_transitionS = {
-            "\2\20\1\uffff\2\20\22\uffff\1\20\1\uffff\1\6\3\uffff\1\17\1"+
-            "\6\5\uffff\1\3\1\2\1\21\12\1\5\uffff\1\17\1\22\1\17\1\10\1\13"+
-            "\10\17\1\14\1\15\1\16\1\12\3\17\1\11\7\17\3\uffff\2\17\1\7\5"+
-            "\17\1\5\15\17\1\4\6\17\3\uffff\1\17\101\uffff\27\17\1\uffff"+
-            "\37\17\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080"+
-            "\17\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
+            "\2\21\1\uffff\2\21\22\uffff\1\21\1\uffff\1\7\3\uffff\1\20\1"+
+            "\7\5\uffff\1\3\1\2\1\22\12\1\5\uffff\1\4\1\23\1\20\1\11\1\14"+
+            "\10\20\1\15\1\16\1\17\1\13\3\20\1\12\7\20\3\uffff\2\20\1\10"+
+            "\5\20\1\6\15\20\1\5\6\20\3\uffff\1\20\101\uffff\27\20\1\uffff"+
+            "\37\20\1\uffff\u1f08\20\u1040\uffff\u0150\20\u0170\uffff\u0080"+
+            "\20\u0080\uffff\u092e\20\u10d2\uffff\u5200\20\u5900\uffff\u0200"+
+            "\20",
             "",
-            "\1\23",
+            "\1\24",
             "",
-            "\1\25",
+            "",
             "\1\26",
-            "",
-            "",
             "\1\27",
+            "",
+            "",
             "\1\30",
             "\1\31",
             "\1\32",
             "\1\33",
             "\1\34",
             "\1\35",
+            "\1\36",
             "",
             "",
-            "\1\36\4\uffff\1\37",
+            "\1\37\4\uffff\1\40",
             "",
             "",
             "",
-            "\1\40",
             "\1\41",
             "\1\42",
-            "\1\43\2\uffff\1\44",
-            "\1\45",
-            "\1\46\1\uffff\1\47",
-            "\1\50",
+            "\1\43",
+            "\1\44\2\uffff\1\45",
+            "\1\46",
+            "\1\47\1\uffff\1\50",
             "\1\51",
             "\1\52",
-            "",
-            "",
             "\1\53",
+            "",
+            "",
             "\1\54",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "\1\56",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
+            "\1\55",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
             "\1\57",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
             "\1\60",
             "\1\61",
             "\1\62",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "\1\64",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "\1\66",
-            "",
+            "\1\63",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
+            "\1\65",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
             "\1\67",
+            "",
             "\1\70",
             "\1\71",
             "\1\72",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "",
             "\1\73",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
             "",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
             "\1\74",
+            "",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
             "\1\75",
             "\1\76",
             "\1\77",
@@ -1849,59 +1872,53 @@ public class Eml_EolLexerRules extends Lexer {
             "\1\102",
             "\1\103",
             "\1\104",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "\1\106",
+            "\1\105",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
             "\1\107",
             "\1\110",
             "\1\111",
-            "",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
             "\1\112",
+            "",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
             "\1\113",
             "\1\114",
             "\1\115",
             "\1\116",
             "\1\117",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "\1\120\12\uffff\1\122\5\uffff\1\121",
-            "\1\123",
+            "\1\120",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
+            "\1\121\12\uffff\1\123\5\uffff\1\122",
             "\1\124",
             "\1\125",
             "\1\126",
             "\1\127",
             "\1\130",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17",
-            "\1\17\11\uffff\12\17\5\uffff\1\17\1\uffff\32\17\3\uffff\2"+
-            "\17\1\uffff\32\17\3\uffff\1\17\101\uffff\27\17\1\uffff\37\17"+
-            "\1\uffff\u1f08\17\u1040\uffff\u0150\17\u0170\uffff\u0080\17"+
-            "\u0080\uffff\u092e\17\u10d2\uffff\u5200\17\u5900\uffff\u0200"+
-            "\17"
+            "\1\131",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20",
+            "\1\20\11\uffff\12\20\7\uffff\32\20\3\uffff\2\20\1\uffff\32"+
+            "\20\3\uffff\1\20\101\uffff\27\20\1\uffff\37\20\1\uffff\u1f08"+
+            "\20\u1040\uffff\u0150\20\u0170\uffff\u0080\20\u0080\uffff\u092e"+
+            "\20\u10d2\uffff\u5200\20\u5900\uffff\u0200\20"
     };
 
     static final short[] DFA21_eot = DFA.unpackEncodedString(DFA21_eotS);
@@ -1934,7 +1951,7 @@ public class Eml_EolLexerRules extends Lexer {
             this.transition = DFA21_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | CollectionTypeName | MapTypeName | SpecialTypeName | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";
+            return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | NAVIGATION | BOOLEAN | STRING | StrangeNameLiteral | CollectionTypeName | MapTypeName | SpecialTypeName | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";
         }
     }
  

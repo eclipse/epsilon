@@ -429,7 +429,7 @@ shortcutOperatorExpression
 	;
 	
 postfixExpression
-	:	itemSelectorExpression ((POINT|ARROW)^ fc=featureCall
+	:	itemSelectorExpression ((NAVIGATION|POINT|ARROW)^ fc=featureCall
 		{setTokenType(fc,FEATURECALL);} (is='['^ logicalExpression ']'! {$is.setType(ITEMSELECTOR);})*
 		)*
 	;

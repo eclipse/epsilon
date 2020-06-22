@@ -68,6 +68,9 @@ public class ComplexOperationCallExpression extends FeatureCallExpression {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object target = context.getExecutorFactory().execute(targetExpression, context);
+		if (target == null && isNullSafe()) {
+			return target;
+		}
 		return new DynamicOperation().execute(target, nameExpression, complexParameters, context);
 	}
 

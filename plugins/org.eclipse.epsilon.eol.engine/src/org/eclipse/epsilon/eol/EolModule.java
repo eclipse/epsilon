@@ -130,7 +130,10 @@ public class EolModule extends AbstractModule implements IEolModule {
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		if (cst == null) return null;
-		if (cst.getParent() != null && cst.getParent().getType() == EolParser.EOLMODULE && cst.getType() == EolParser.BLOCK) {
+		
+		AST cstParent = cst.getParent();
+		
+		if (cstParent != null && cstParent.getType() == EolParser.EOLMODULE && cst.getType() == EolParser.BLOCK) {
 			return new StatementBlock();
 		}
 		
@@ -146,8 +149,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 			case EolParser.SWITCH: return new SwitchStatement();
 			case EolParser.IF: return new IfStatement();
 			case EolParser.ITEMSELECTOR: return new ItemSelectorExpression();
-			case EolParser.ARROW:
-			case EolParser.POINT: {
+			case EolParser.ARROW: case EolParser.NAVIGATION: case EolParser.POINT: {
 				AST secondChild = cst.getSecondChild();
 				if (!secondChild.hasChildren()) {
 					return new PropertyCallExpression();
@@ -182,10 +184,14 @@ public class EolModule extends AbstractModule implements IEolModule {
 			case EolParser.FORMAL: return new Parameter();
 			case EolParser.BLOCK: return new StatementBlock();
 			case EolParser.FEATURECALL: {
+				int parentType = cstParent.getType();
 				if (cst.hasChildren() && cst.getFirstChild().getType() == EolParser.PARAMETERS && 
-						((cst.getParent().getType() != EolParser.ARROW && cst.getParent().getType() != EolParser.POINT) ||
-						(cst.getParent().getType() == EolParser.ARROW || cst.getParent().getType() == EolParser.POINT) && cst.getParent().getFirstChild() == cst)) {
-					return new OperationCallExpression(true);
+					(
+						(parentType != EolParser.ARROW && parentType != EolParser.POINT && parentType != EolParser.NAVIGATION) ||
+						(parentType == EolParser.ARROW || parentType == EolParser.POINT || parentType == EolParser.NAVIGATION) &&
+							cstParent.getFirstChild() == cst)
+					) {
+						return new OperationCallExpression(true);
 				}
 				else {
 					return new NameExpression();
@@ -211,7 +217,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 			case EolParser.OPERATOR: {
 				if (cst.getText().equals("=") && ((
 										(parentAst instanceof IfStatement || parentAst instanceof ForStatement || parentAst instanceof WhileStatement) 
-										&& (cst.getParent().getFirstChild() != cst)) || 
+										&& (cstParent.getFirstChild() != cst)) || 
 										parentAst instanceof StatementBlock /*|| 
 										"BLOCK".equals(parentAst.getText())*/)) {
 					return new AssignmentStatement();

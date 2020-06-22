@@ -61,6 +61,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	FirstOrderOperationAdvancedTests.class,
 	FirstOrderOperationExceptionHandlingTests.class,
 	TernaryTests.class,
+	SafeNavigationTests.class,
 	EolModuleEquivalenceTests.class,
 	NestedParallelOperationTests.class,
 	AutoParallelOperationTests.class,

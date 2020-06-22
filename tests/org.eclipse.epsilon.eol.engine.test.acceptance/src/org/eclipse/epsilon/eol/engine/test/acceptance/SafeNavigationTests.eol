@@ -1,0 +1,11 @@
+@test
+operation testPropertyCallExpression() {
+	var str = "a string";
+	var result = str?.getClass();
+	assertTrue(result.isDefined());
+	str = null;
+	result = str?.getClass();
+	
+}
+
+// TODO more tests

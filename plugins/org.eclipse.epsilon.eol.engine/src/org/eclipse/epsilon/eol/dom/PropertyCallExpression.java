@@ -48,7 +48,14 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	
 	public Object execute(Object source, NameExpression propertyNameExpression, IEolContext context) throws EolRuntimeException {
 		String propertyName = propertyNameExpression.getName();
-		if (source == null) throw new EolRuntimeException("Called feature '" + propertyName + "' on undefined object", propertyNameExpression);
+		if (source == null) {
+			if (isNullSafe()) {
+				return null;
+			}
+			else {
+				throw new EolRuntimeException("Called feature '" + propertyName + "' on undefined object", propertyNameExpression);
+			}
+		}
 
 		IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, propertyName, context);
 		// Added support for properties on collections
