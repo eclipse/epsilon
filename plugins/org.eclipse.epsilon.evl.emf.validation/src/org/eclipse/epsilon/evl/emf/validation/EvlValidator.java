@@ -44,6 +44,7 @@ import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 public class EvlValidator implements EValidator {
 
@@ -213,7 +214,7 @@ public class EvlValidator implements EValidator {
 		if (resource.getResourceSet() != null) EcoreUtil.resolveAll(resource.getResourceSet());
 		else EcoreUtil.resolveAll(resource);
 		
-		module = newModule();
+		IEvlContext evlContext = (module = newModule()).getContext();
 
 		try {
 			module.parse(source);
@@ -239,7 +240,8 @@ public class EvlValidator implements EValidator {
 		}
 
 		InMemoryEmfModel model = new InMemoryEmfModel(modelName, resource, ePackages);
-		module.getContext().getModelRepository().addModel(model);
+		model.setConcurrent(true);
+		evlContext.getModelRepository().addModel(model);
 		
 		Object monitor = null;
 		if (context != null) {
@@ -247,10 +249,10 @@ public class EvlValidator implements EValidator {
 		}
 		
 		if (monitor instanceof IProgressMonitor) {
-			EclipseContextManager.setup(module.getContext(), (IProgressMonitor) monitor);
+			EclipseContextManager.setup(evlContext, (IProgressMonitor) monitor);
 		}
 		else {
-			EclipseContextManager.setup(module.getContext());
+			EclipseContextManager.setup(evlContext);
 		}
 
 		if (diagnosticVariables != null) {
@@ -260,15 +262,12 @@ public class EvlValidator implements EValidator {
 					context.get(diagnosticVariable),
 					EolAnyType.Instance
 				);
-				module.getContext().getFrameStack().put(variable);
+				evlContext.getFrameStack().put(variable);
 			}
 		}
 
 		try {
-			module.execute();
-			module.setUnsatisfiedConstraintFixer(module -> {});
-
-			for (UnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
+			for (UnsatisfiedConstraint unsatisfied : module.execute()) {
 				Object key = unsatisfied.getInstance();
 				Collection<UnsatisfiedConstraint> value = results.get(key);
 				if (value == null) {
@@ -286,8 +285,8 @@ public class EvlValidator implements EValidator {
 			}
 		}
 		finally {
-			module.getContext().dispose();
-			module.getContext().getModelRepository().dispose();
+			evlContext.dispose();
+			evlContext.getModelRepository().dispose();
 		}
 	}
 
