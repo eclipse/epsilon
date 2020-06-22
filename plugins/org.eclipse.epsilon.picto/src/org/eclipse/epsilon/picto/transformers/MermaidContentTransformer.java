@@ -11,7 +11,6 @@ package org.eclipse.epsilon.picto.transformers;
 
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.transformers.ViewContentTransformer;
 
 public class MermaidContentTransformer implements ViewContentTransformer {
 
@@ -29,8 +28,8 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
 		
 		String html = "<div>" +
-			//"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.2/mermaid.min.js\"></script>\n" + 
-			//"<script>\n" + "mermaid.initialize({startOnLoad:true});\n" + "</script>\n"+
+			"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.2/mermaid.min.js\"></script>\n" + 
+			"<script>\n" + "mermaid.initialize({startOnLoad:true});\n" + "</script>\n"+
 			"<div class=\"mermaid\">\n" + content.getText() + "</div></div>";
 		
 		return new ViewContent("svg", html, content.getFile(), content.getLayers(), content.getPatches());
