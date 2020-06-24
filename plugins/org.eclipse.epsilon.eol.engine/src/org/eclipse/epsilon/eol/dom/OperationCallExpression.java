@@ -93,6 +93,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 					default: throw npe;
 					case "isDefined": case "isUndefined": case "ifDefined": case "ifUndefined": {
 						targetObject = EolUndefined.INSTANCE;
+						break;
 					}
 				}
 			}

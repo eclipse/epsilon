@@ -11,6 +11,7 @@ package org.eclipse.epsilon.eol.engine.test.acceptance;
 
 import static org.junit.Assert.*;
 import org.eclipse.epsilon.eol.*;
+import org.eclipse.epsilon.eol.exceptions.EolNullPointerException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
 import org.junit.Test;
@@ -29,6 +30,12 @@ public class ExceptionTests {
 	@Before
 	public void setUp() throws Exception {
 		module = new EolModule();
+	}
+	
+	static int countLinesInEOLStackTrace(EolRuntimeException eox) {
+		assertNotNull(eox.getAst());
+		String[] lines = eox.getMessage().split("\\n\\t");
+		return lines.length;
 	}
 	
 	@Test
@@ -56,9 +63,53 @@ public class ExceptionTests {
 			fail("Expected "+EolUndefinedVariableException.class.getSimpleName());
 		}
 		catch (EolUndefinedVariableException eox) {
-			assertNotNull(eox.getAst());
-			String[] lines = eox.getMessage().split("\\n\\t");
-			assertEquals(9, lines.length);
+			assertEquals(9, countLinesInEOLStackTrace(eox));
+		}
+	}
+	
+	@Test
+	public void testNullNavigationWithFirstOrderOperation() throws Exception {
+		module.parse(
+				"var v = null; v->select(x | x.isDefined());"
+			);
+		try {
+			module.execute();
+			fail("Expected "+EolRuntimeException.class.getSimpleName());
+		}
+		catch (EolRuntimeException eox) {
+			assertEquals(5, countLinesInEOLStackTrace(eox));
+		}
+	}
+	
+	@Test
+	public void testNullNavigationWithOperation() throws Exception {
+		module.parse(
+			"var v = null; v.getClass();"
+		);
+		try {
+			module.execute();
+			fail("Expected "+EolRuntimeException.class.getSimpleName());
+		}
+		catch (EolRuntimeException eox) {
+			assertEquals(5, countLinesInEOLStackTrace(eox));
+		}
+	}
+	
+	@Test
+	public void testNullNavigationOnFirstOrderOperation() throws Exception {
+		module.parse(
+			"var s = Sequence{null, 0, 1, 2, null}->select(x | x.isDefined())->size(); \n"
+			+ "assertEquals(3, s); \n"
+			+ "s = select(x | x <> null)?.first?.getClass().getSimpleName(); \n"
+			+ "assertEquals('EolNoType', s); \n"
+			+ "null.select(x | false)?.getClass().getName();"
+		);
+		try {
+			module.execute();
+			fail("Expected "+EolNullPointerException.class.getSimpleName());
+		}
+		catch (EolNullPointerException eox) {
+			assertEquals(7, countLinesInEOLStackTrace(eox));
 		}
 	}
 }

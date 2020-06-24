@@ -16,6 +16,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.compile.m3.MetaClass;
 import org.eclipse.epsilon.eol.compile.m3.StructuralFeature;
+import org.eclipse.epsilon.eol.exceptions.EolNullPointerException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
@@ -53,7 +54,7 @@ public class PropertyCallExpression extends FeatureCallExpression {
 				return null;
 			}
 			else {
-				throw new EolRuntimeException("Called feature '" + propertyName + "' on undefined object", propertyNameExpression);
+				throw new EolNullPointerException(propertyName, propertyNameExpression);
 			}
 		}
 

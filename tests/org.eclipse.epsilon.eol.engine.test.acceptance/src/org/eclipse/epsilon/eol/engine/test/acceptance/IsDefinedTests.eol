@@ -78,3 +78,13 @@ operation ifUndefinedWorks() {
 	assert(res == 6);
 	assert(res.ifUndefined(3) == res);
 }
+
+@test
+operation isDefinedWorksWithNullNavigation() {
+	var x = null;
+	assert(x?.isUndefined() == null);
+	assert(x?.isDefined()?.isDefined() == null);
+	x = "null";
+	assert(x?.isDefined());
+	assert(x?.isUndefined()?.isDefined());
+}
