@@ -14,12 +14,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
 import org.eclipse.epsilon.picto.actions.CopyToClipboardAction;
@@ -29,6 +29,7 @@ import org.eclipse.epsilon.picto.actions.PrintAction;
 import org.eclipse.epsilon.picto.actions.SyncAction;
 import org.eclipse.epsilon.picto.actions.ViewContentsMenuAction;
 import org.eclipse.epsilon.picto.actions.ZoomAction;
+import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
 import org.eclipse.epsilon.picto.source.VerbatimSource;
@@ -460,6 +461,8 @@ public class PictoView extends ViewPart {
 	class ToggleVerbatimSourcesAction extends Action {
 		public ToggleVerbatimSourcesAction() {
 			super("Render verbatim sources", Action.AS_CHECK_BOX);
+			renderVerbatimSources = EpsilonCommonsPlugin.getDefault().getPreferenceStore().getBoolean(PictoPreferencePage.PROPERTY_RENDER_VERBATIM);
+			setChecked(renderVerbatimSources);
 		}
 		
 		@Override

@@ -14,6 +14,15 @@
           name="Picto">
     </view>
 </extension>
+	<extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="Epsilon"
+            class="org.eclipse.epsilon.picto.preferences.PictoPreferencePage"
+            id="org.eclipse.epsilon.picto.preferences.PictoPreferencePage"
+            name="Picto">
+      </page>
+   </extension>
     <extension
         point="org.eclipse.ui.handlers">
     <handler
