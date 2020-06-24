@@ -9,10 +9,12 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.engine.test.acceptance;
 
-import static org.junit.Assert.fail;
-import org.eclipse.epsilon.eol.EolModule;
+import static org.junit.Assert.*;
+import org.eclipse.epsilon.eol.*;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
 import org.junit.Test;
+import org.junit.Before;
 
 /**
  * Tests for exceptions, which can't be handled by EUnit.
@@ -22,9 +24,15 @@ import org.junit.Test;
  */
 public class ExceptionTests {
 
+	IEolModule module;
+	
+	@Before
+	public void setUp() throws Exception {
+		module = new EolModule();
+	}
+	
 	@Test
 	public void testUndefined() throws Exception {
-		EolModule module = new EolModule();
 		module.parse("uVar.npe();");
 		try {
 			module.execute();
@@ -35,4 +43,22 @@ public class ExceptionTests {
 		}
 	}
 	
+	@Test
+	public void testStackTraceIsPreserved() throws Exception {
+		module.parse(
+			"foo(); \n" + 
+			"operation foo() { \n" + 
+			"  foo.println(); \n" + 
+			"}"
+		);
+		try {
+			module.execute();
+			fail("Expected "+EolUndefinedVariableException.class.getSimpleName());
+		}
+		catch (EolUndefinedVariableException eox) {
+			assertNotNull(eox.getAst());
+			String[] lines = eox.getMessage().split("\\n\\t");
+			assertEquals(9, lines.length);
+		}
+	}
 }

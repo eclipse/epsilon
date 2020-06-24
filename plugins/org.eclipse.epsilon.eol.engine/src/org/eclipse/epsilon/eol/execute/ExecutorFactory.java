@@ -144,6 +144,9 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 		if (executionListeners != null) for (IExecutionListener listener : executionListeners) {
 			listener.finishedExecuting(moduleElement, result, context);
 		}
+		if (stackTraceManager != null) {
+			stackTraceManager.stackTrace.pop();
+		}
 	}
 	
 	/**
@@ -170,6 +173,7 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 		if (executionListeners != null) for (IExecutionListener listener : executionListeners) {
 			listener.finishedExecutingWithException(moduleElement, exception, context);
 		}
+
 		throw exception;
 	}
 	
@@ -181,9 +185,6 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 	 * @since 1.6
 	 */
 	protected void postExecuteFinally(ModuleElement moduleElement, IEolContext context) {
-		if (stackTraceManager != null) {
-			stackTraceManager.stackTrace.pop();
-		}
 		if (executionController != null) {
 			executionController.done(moduleElement, context);
 		}
