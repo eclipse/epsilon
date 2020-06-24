@@ -117,21 +117,18 @@ public class PropertyCallExpression extends FeatureCallExpression {
 				StructuralFeature structuralFeature = metaClass.getStructuralFeature(nameExpression.getName());
 				if (structuralFeature != null) {
 					if (structuralFeature.isMany()) {
-						EolCollectionType collectionType = null;
+						String collectionTypeName;
 						if (structuralFeature.isOrdered()) {
-							if (structuralFeature.isUnique())
-								collectionType = new EolCollectionType("OrderedSet");
-							else
-								collectionType = new EolCollectionType("Sequence");
+							collectionTypeName = structuralFeature.isUnique() ? "OrderedSet" : "Sequence";
 						}
 						else {
-							if (structuralFeature.isUnique())
-								collectionType = new EolCollectionType("Set");
-							else
-								collectionType = new EolCollectionType("Bag");
+							collectionTypeName = structuralFeature.isUnique() ? "Set" : "Bag";
+							if (structuralFeature.isConcurrent()) {
+								collectionTypeName = "Concurrent"+collectionTypeName;
+							}
 						}
-						collectionType.setContentType(structuralFeature.getType());
-						resolvedType = collectionType;
+						resolvedType = new EolCollectionType(collectionTypeName);
+						((EolCollectionType) resolvedType).setContentType(structuralFeature.getType());
 					}
 					else {
 						resolvedType = structuralFeature.getType();

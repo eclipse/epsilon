@@ -70,8 +70,8 @@ public class ExceptionTests {
 	@Test
 	public void testNullNavigationWithFirstOrderOperation() throws Exception {
 		module.parse(
-				"var v = null; v->select(x | x.isDefined());"
-			);
+			"var v = null; v->select(x | x.isDefined());"
+		);
 		try {
 			module.execute();
 			fail("Expected "+EolRuntimeException.class.getSimpleName());

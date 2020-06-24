@@ -14,13 +14,21 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public abstract class StructuralFeature extends NamedElement {
 	
-	protected boolean many, unique, ordered, changeable;
+	protected boolean many, unique, ordered, changeable, concurrent;
 	protected EolType type = EolAnyType.Instance;
 	
 	public EolType getType() {
 		return type;
 	}
 	
+	public boolean isConcurrent() {
+		return concurrent;
+	}
+
+	public void setConcurrent(boolean concurrent) {
+		this.concurrent = concurrent;
+	}
+
 	public void setType(EolType type) {
 		this.type = type;
 	}
@@ -56,5 +64,4 @@ public abstract class StructuralFeature extends NamedElement {
 	public void setChangeable(boolean changeable) {
 		this.changeable = changeable;
 	}
-	
 }

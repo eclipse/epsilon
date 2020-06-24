@@ -200,7 +200,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 			else if (name.equals("collect")) {
 				resolvedType = new EolCollectionType("Sequence", expression.getResolvedType());
 			}
-			else if (StringUtil.isOneOf(name, "exists", "forAll", "one", "none", "nMatch")) {
+			else if (StringUtil.isOneOf(name, "exists", "forAll", "one", "none", "nMatch, atLeastNMatch, atMostNMatch")) {
 				resolvedType = EolPrimitiveType.Boolean;
 			}
 			else if (name.equals("aggregate")) {
