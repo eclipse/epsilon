@@ -21,7 +21,7 @@ public class MarkdownContentTransformer implements ViewContentTransformer {
 	
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getFormat().equals("markdown");
+		return "markdown".equals(content.getFormat());
 	}
 
 	@Override
@@ -35,7 +35,10 @@ public class MarkdownContentTransformer implements ViewContentTransformer {
 		markupParser.setBuilder(builder);
 		markupParser.parse(content.getText());
 		
-		return new ViewContent("html", pictoView.getViewRenderer().getHtml(writer.toString()), content.getFile(), content.getLayers(), content.getPatches());
+		return new ViewContent(
+			"html", pictoView.getViewRenderer().getHtml(writer.toString()),
+			content.getFile(), content.getLayers(), content.getPatches()
+		);
 	}
 	
 	@Override

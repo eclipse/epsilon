@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,10 +41,8 @@ public class ViewTreeLabelProvider extends LabelProvider {
 		String iconName = contentTree.getIcon();
 		Image icon = iconCache.get(iconName);
 		
-		List<URI> baseUris = new ArrayList<>(contentTree.getBaseUris());
-		try {
-			baseUris.add(new URI("platform:/plugin/org.eclipse.epsilon.picto/icons/"));
-		} catch (URISyntaxException e) {}
+		java.util.Collection<java.net.URI> baseUris = new ArrayList<>(contentTree.getBaseUris());
+		baseUris.add(java.net.URI.create("platform:/plugin/org.eclipse.epsilon.picto/icons/"));
 		
 		if (icon == null) {
 			
@@ -56,10 +52,10 @@ public class ViewTreeLabelProvider extends LabelProvider {
 			}
 			else {
 				outerloop:
-				for (URI baseUri : baseUris) {
+				for (java.net.URI baseUri : baseUris) {
 					for (String extension : extensions) {
 						try {
-							URI iconUri = UriUtil.resolve(iconName + "." + extension, baseUri);
+							java.net.URI iconUri = UriUtil.resolve(iconName + "." + extension, baseUri);
 							icon = iconCache.get(iconUri.toString());
 							if (icon == null) {
 								icon = new Image(Display.getCurrent(), iconUri.toURL().openStream());

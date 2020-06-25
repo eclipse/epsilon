@@ -29,7 +29,7 @@ public class ViewContent {
 	protected String label;
 	protected List<Patch> patches = new ArrayList<>();
 	protected ViewContent next = undefined;
-	protected File file = null;
+	protected File file;
 	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx", null, Collections.emptyList(), Collections.emptyList());
 	
 	protected static List<ViewContentTransformer> viewContentTransformers;
