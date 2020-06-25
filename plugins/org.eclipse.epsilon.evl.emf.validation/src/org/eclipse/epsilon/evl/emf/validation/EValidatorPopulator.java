@@ -75,10 +75,10 @@ public class EValidatorPopulator implements IStartup {
 					// Use custom EvlValidator if provided: otherwise, use the default implementation
 					if(configurationElement.getAttribute("validator") != null) {
 						evlValidator = (EValidator) configurationElement.createExecutableExtension("validator");
-					} else {
-						evlValidator = new EvlValidator();
 					}
-					((EvlValidator) evlValidator).initialise(url.toURI(), modelName, ePackageUri, bundleId);
+					else {
+						evlValidator = new EvlValidator(url.toURI(), modelName, ePackageUri, bundleId);
+					}
 
 					// Add variables for propagating EMF Diagnostician context entries
 					IConfigurationElement[] diagnosticVariables = configurationElement.getChildren("diagnosticVariable");

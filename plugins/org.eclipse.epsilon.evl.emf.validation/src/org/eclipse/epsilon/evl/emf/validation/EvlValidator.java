@@ -60,8 +60,8 @@ public class EvlValidator implements EValidator {
 	protected String bundleId;
 	protected boolean showErrorDialog = true;
 	protected boolean logErrors = true;
-	protected List<ValidationProblemListener> problemListeners = new ArrayList<>();
-	protected DiagnosticChain diagnostics = null;
+	protected Collection<ValidationProblemListener> problemListeners = new ArrayList<>();
+	protected DiagnosticChain diagnostics;
 
 	/** Collection of all packages that are available to this validator */
 	protected Collection<EPackage> ePackages = new ArrayList<>();
@@ -86,17 +86,19 @@ public class EvlValidator implements EValidator {
 	}
 
 	public void initialise(URI source, String modelName, String ePackageUri, String bundleId) {
-		// Emulate old 4-arg constructor by only allowing initialisation once
+		// Emulate 4-arg constructor by only allowing initialisation once
 		if (this.source == null) {
 			this.source = source;
 			this.modelName = modelName;
 			this.ePackageUri = ePackageUri;
 			this.bundleId = bundleId;
 			ePackages.add(EPackage.Registry.INSTANCE.getEPackage(ePackageUri));
-		} else {
+		}
+		else {
 			Activator.getDefault().getLog().log(new Status(
 				IStatus.WARNING, Activator.PLUGIN_ID,
-				"Ignored duplicate initialisation of validator (" + source.toString() + ")."));
+				"Ignored duplicate initialisation of validator (" + source.toString() + ").")
+			);
 		}
 	}
 
@@ -146,7 +148,7 @@ public class EvlValidator implements EValidator {
 		
 		if (eObject.eResource() == null) return false;
 		
-		if(diagnostics != null) {
+		if (diagnostics != null) {
 			// A complete validation is performed, so clear old fixes
 			EvlMarkerResolutionGenerator.INSTANCE.removeFixesFor(eObject);
 		}
@@ -160,7 +162,7 @@ public class EvlValidator implements EValidator {
 				if (!(entry.getKey() instanceof EObject)) {
 					continue;
 				}
-				final EObject key = (EObject)entry.getKey();
+				final EObject key = (EObject) entry.getKey();
 				if (key.eResource() == eObject.eResource()) {
 					continue;
 				}
@@ -180,7 +182,7 @@ public class EvlValidator implements EValidator {
 	}
 
 	protected Diagnostic createDiagnostic(String msgPrefix, UnsatisfiedConstraint unsatisfied) {
-		int severity = 0;
+		int severity;
 
 		if (unsatisfied.getConstraint().isCritique()) {
 			if (unsatisfied.getConstraint().isInfo()) {
@@ -190,13 +192,13 @@ public class EvlValidator implements EValidator {
 				severity = Diagnostic.WARNING;
 			}
 		}
-		else severity = Diagnostic.ERROR;
-		String message = unsatisfied.getMessage();
-		int code = 0;
+		else {
+			severity = Diagnostic.ERROR;
+		}
 
-		BasicDiagnostic diagnostic = new BasicDiagnostic(severity, bundleId, code, msgPrefix + message, new Object[]{ unsatisfied.getInstance() });
-
-		return diagnostic;
+		return new BasicDiagnostic(severity, bundleId, 0,
+			msgPrefix + unsatisfied.getMessage(), new Object[]{unsatisfied.getInstance()}
+		);
 	}
 	
 	/**
@@ -360,7 +362,7 @@ public class EvlValidator implements EValidator {
 		return problemListeners.remove(listener);
 	}
 	
-	public interface ValidationProblemListener {
+	public static interface ValidationProblemListener {
 		
 		public void onParseProblems(IEvlModule module, List<ParseProblem> parseProblems);
 		
