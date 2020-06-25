@@ -50,22 +50,36 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 		else if (OperatingSystem.isUnix()) {
 			program = "/usr/bin/" + program;
 		}
+		/*else {
+			throw new UnsupportedOperationException(program + " is not supported on "+OperatingSystem.getOSFamily());
+		}*/
 		
 		ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-T" + imageType, temp.getAbsolutePath(), "-o", image.getAbsolutePath()});
 		pb.redirectError(log);
 		Process p = pb.start();
 		p.waitFor();
 		
+		File viewFile;
+		String format;
+		
 		if (image.exists()) {
-			return new ViewContent("svg", new String(Files.readAllBytes(image.toPath())), content.getFile(), content.getLayers(), content.getPatches());
+			viewFile = image;
+			format = "svg";
 		}
 		else {
-			return new ViewContent("exception", new String(Files.readAllBytes(log.toPath())), content.getFile(), content.getLayers(), content.getPatches());
+			viewFile = log;
+			format = "exception";
 		}
+		return new ViewContent(format, new String(Files.readAllBytes(viewFile.toPath())), content.getFile(), content.getLayers(), content.getPatches());
 	}
 	
 	protected File getTempDir() {
-		try { tempDir = Files.createTempDirectory("picto").toFile(); } catch (IOException e) {}
+		try {
+			tempDir = Files.createTempDirectory("picto").toFile();
+		}
+		catch (IOException iox) {
+			iox.printStackTrace();
+		}
 		return tempDir;
 	}
 	

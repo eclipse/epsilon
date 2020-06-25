@@ -172,7 +172,7 @@ public class PictoView extends ViewPart {
 					
 					if (editor != part && part instanceof IEditorPart) {
 						PictoSource source = getSource((IEditorPart) part);
-						if (source!=null) {
+						if (source != null) {
 							if (source instanceof VerbatimSource && !renderVerbatimSources) return;
 							render((IEditorPart) part);
 						}
@@ -414,9 +414,12 @@ public class PictoView extends ViewPart {
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (source != null) source.dispose();
-		if (editor != null)
+		if (source != null) {
+			source.dispose();
+		}
+		if (editor != null) {
 			editor.removePropertyListener(listener);
+		}
 	}
 
 	@Override

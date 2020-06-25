@@ -326,8 +326,10 @@ public class ViewTree {
 		cachedContent = null;
 	}
 	
-	public Set<URI> getBaseUris() {
-		if (parent != null) return parent.getBaseUris();
+	public Set<java.net.URI> getBaseUris() {
+		if (parent != null) {
+			return parent.getBaseUris();
+		}
 		return baseUris;
 	}
 

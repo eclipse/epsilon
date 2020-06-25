@@ -65,9 +65,15 @@ public class EmfaticSource extends ExternalMetadataSource {
 	@Override
 	public boolean supportsEditorType(IEditorPart editorPart) {
 		try {
-			Class.forName("org.eclipse.emf.emfatic.ui.editor.EmfaticEditor");
-		} catch (ClassNotFoundException e) { return false; }
-		return editorPart instanceof EmfaticEditor;
+			return Class.forName("org.eclipse.emf.emfatic.ui.editor.EmfaticEditor").isInstance(editorPart);
+		}
+		catch (ClassNotFoundException e) {
+			return false;
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override

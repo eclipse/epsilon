@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.source;
 
-import org.eclipse.epsilon.picto.source.VerbatimSource;
-
 public class MermaidSource extends VerbatimSource {
 
 	@Override
