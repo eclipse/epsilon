@@ -10,12 +10,10 @@
 package org.eclipse.epsilon.picto;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.swt.graphics.Point;
 
@@ -31,7 +29,7 @@ public class ViewTree {
 	protected Point scrollPosition = new Point(0, 0);
 	protected ViewContent cachedContent = null;
 	protected List<Layer> layers = new ArrayList<>();
-	protected Set<URI> baseUris = new LinkedHashSet<>();
+	protected Set<java.net.URI> baseUris = new LinkedHashSet<>();
 	protected Integer position = null;
 	
 	public ViewTree() {}
@@ -46,16 +44,10 @@ public class ViewTree {
 	}
 	
 	public ViewTree(ContentPromise promise, String format, String icon, List<Patch> patches, List<Layer> layers) {
-		super();
-		this.promise = promise;
-		this.format = format;
-		this.icon = icon;
-		this.patches = patches;
-		this.layers = layers;
+		this(promise, format, icon, null, patches, layers);
 	}
 	
 	public ViewTree(ContentPromise promise, String format, String icon, Integer position, List<Patch> patches, List<Layer> layers) {
-		super();
 		this.promise = promise;
 		this.format = format;
 		this.icon = icon;
@@ -71,8 +63,10 @@ public class ViewTree {
 			String name = path.get(0);
 			List<String> rest = path.subList(1, path.size());
 			for (ViewTree candidate : children) {
-				if (candidate.getName().equals(name)) {
+				String candidateName = candidate.getName();
+				if (candidateName != null && candidateName.equals(name)) {
 					child = candidate;
+					break;
 				}
 			}
 			
@@ -84,15 +78,19 @@ public class ViewTree {
 			child.add(rest, other);
 		}
 		else {
+			String firstPath = path.get(0);
+			
 			for (ViewTree candidate : children) {
-				if (candidate.getName() != null && candidate.getName().equals(path.get(0))) {
+				String candidateName = candidate.getName();
+				if (candidateName != null && candidateName.equals(firstPath)) {
 					child = candidate;
+					break;
 				}
 			}
 			
 			if (child == null) {
 				child = other;
-				child.setName(path.get(0));
+				child.setName(firstPath);
 				children.add(child);
 			}
 			else {
@@ -167,7 +165,7 @@ public class ViewTree {
 	}
 	
 	public List<ViewTree> getChildren() {
-		children.stream().forEach(c -> c.setParent(this));
+		children.forEach(c -> c.setParent(this));
 		return children;
 	}
 	
@@ -281,7 +279,7 @@ public class ViewTree {
 			if (content.length() > preferredLength) {
 				content = content.substring(0, preferredLength) + "...";
 			}
-			content = content.replace("\n", " ");
+			content = content.replace(System.lineSeparator(), " ");
 		}
 		s.append(String.format("%sViewTree(%s): %s\n", prefix, viewTree.getName(), content));
 		for (ViewTree child : viewTree.getChildren()) {

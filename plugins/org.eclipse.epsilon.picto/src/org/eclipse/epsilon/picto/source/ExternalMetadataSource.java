@@ -35,7 +35,9 @@ public abstract class ExternalMetadataSource extends EglPictoSource {
 	public Picto getRenderingMetadata(IFile file) {
 		if (file.exists()) {
 			Picto picto = getFromFlexmi(file);
-			if (picto == null) picto = getFromProperties(file);
+			if (picto == null) {
+				picto = getFromProperties(file);
+			}
 			return picto;
 		}
 		return null;
