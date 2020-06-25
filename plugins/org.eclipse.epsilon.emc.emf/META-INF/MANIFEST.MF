@@ -11,8 +11,7 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.ecore.change;visibility:=reexport,
  com.google.inject,
- org.eclipse.xsd,
- org.apache.commons.logging
+ org.eclipse.xsd
 Export-Package: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.emc.emf.m0,
  org.eclipse.epsilon.emc.emf.tools,

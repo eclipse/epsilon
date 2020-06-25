@@ -63,8 +63,6 @@
 		<unit id="org.apache.commons.csv.source" version="1.4.0.v20190617-1333"/>
 		<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
 		<unit id="org.apache.commons.lang3.source" version="3.1.0.v201403281430"/>
-		<unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>
-		<unit id="org.apache.commons.logging.source" version="1.1.1.v201101211721"/>
 		<unit id="org.apache.commons.math3" version="3.5.0.v20190611-1023"/>
 		<unit id="org.apache.commons.math3.source" version="3.5.0.v20190611-1023"/>
 		<unit id="org.dom4j" version="1.6.1.v20190321-1528"/>

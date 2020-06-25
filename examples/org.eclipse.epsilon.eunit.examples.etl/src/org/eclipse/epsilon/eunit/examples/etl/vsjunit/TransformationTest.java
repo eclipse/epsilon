@@ -26,6 +26,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.etl.EtlModule;
+import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.eunit.dt.cmp.emf.v3.EMFModelComparator;
 import org.junit.After;
 import org.junit.Before;
@@ -48,7 +49,7 @@ public class TransformationTest {
 	private EmfModel originalTree;
 	private EmfModel expectedGraph;
 	private EmfModel resultGraph;
-	private EtlModule etlModule;
+	private IEtlModule etlModule;
 
 	@Before
 	public void setup() throws Exception {
