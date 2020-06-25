@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.eol.execute.context;
 
 import static org.junit.Assert.*;
-
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.junit.Test;
 

@@ -35,14 +35,11 @@
 		<unit id="org.eclipse.emf.emfatic.feature.group" version="0.0.0"/>
 		<repository location="http://download.eclipse.org/emfatic/update"/>
 	</location>
-	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<unit id="org.eclipse.emf.compare.feature.group" version="0.0.0"/>
-		<unit id="org.eclipse.emf.compare.source.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="0.0.0"/>
-		<unit id="org.eclipse.emf.compare.ide.ui.source.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="0.0.0"/>
-		<unit id="org.eclipse.emf.compare.rcp.ui.source.feature.group" version="0.0.0"/>
-		<unit id="org.eclipse.emf.compare.uml2.source.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.emf.compare.uml2.feature.group" version="0.0.0"/>
 		<repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/3.3/R201911051515"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
@@ -52,31 +49,21 @@
 		<unit id="org.eclipse.gmf.tooling.runtime.feature.group" version="3.2.1.201409171321"/>
 		<repository location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
 	</location>
-	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<unit id="net.bytebuddy.byte-buddy" version="1.7.9.v20180420-1519"/>
 		<unit id="net.bytebuddy.byte-buddy-agent" version="1.7.9.v20180420-1519"/>
 		<unit id="org.antlr.runtime" version="3.5.2.v20200417-1535"/>
-		<unit id="org.antlr.runtime.source" version="3.5.2.v20200417-1535"/>
 		<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
-		<unit id="org.apache.commons.collections.source" version="3.2.2.v201511171945"/>
 		<unit id="org.apache.commons.csv" version="1.4.0.v20190617-1333"/>
-		<unit id="org.apache.commons.csv.source" version="1.4.0.v20190617-1333"/>
 		<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
-		<unit id="org.apache.commons.lang3.source" version="3.1.0.v201403281430"/>
 		<unit id="org.apache.commons.math3" version="3.5.0.v20190611-1023"/>
-		<unit id="org.apache.commons.math3.source" version="3.5.0.v20190611-1023"/>
 		<unit id="org.dom4j" version="1.6.1.v20190321-1528"/>
-		<unit id="org.dom4j.source" version="1.6.1.v20190321-1528"/>
 		<unit id="org.jdom" version="1.1.1.v201101151400"/>
 		<unit id="org.mockito" version="2.23.0.v20200310-1642"/>
-		<unit id="org.mockito.source" version="2.23.0.v20200310-1642"/>
 		<unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
 		<unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
-		<unit id="org.slf4j.api.source" version="1.7.2.v20121108-1250"/>
 		<unit id="org.slf4j.log4j" version="1.7.2.v20130115-1340"/>
-		<unit id="org.slf4j.log4j.source" version="1.7.2.v20130115-1340"/>
 		<unit id="org.apache.commons.cli" version="1.4.0.v20200417-1444"/>
-		<unit id="org.apache.commons.cli.source" version="1.4.0.v20200417-1444"/>
 		<unit id="org.apache.xmlbeans" version="2.6.0.v20200418-0047"/>
 		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
 	</location>
