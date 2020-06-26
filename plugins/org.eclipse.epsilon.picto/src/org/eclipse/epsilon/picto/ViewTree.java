@@ -43,6 +43,11 @@ public class ViewTree {
 		this.format = format;
 	}
 	
+	public ViewTree(File file, String format) {
+		this.promise = new StaticContentPromise(file);
+		this.format = format;
+	}
+	
 	public ViewTree(ContentPromise promise, String format, String icon, List<Patch> patches, List<Layer> layers) {
 		this(promise, format, icon, null, patches, layers);
 	}
