@@ -228,6 +228,22 @@ operation EClass getLabel() {
 		label += "</tr>";
 	}
 	
+	if (isLayerActive("operations")){
+		for (op in self.eOperations) {
+			var border = "";
+			if (loopCount == 1) border = "sides='T' border='1'";
+			label += "<tr>";
+			label += "<td " + border + "><img src='" + op.getIcon() + "'></img></td><td align='left' " + border + ">" + op.getLabel() + "</td>";
+			label += "</tr>";
+		}
+		
+		if (self.eOperations.isEmpty()){
+			label += "<tr>";
+			label += "<td sides='T' border='1'> </td><td sides='T' border='1'> </td>";
+			label += "</tr>";
+		}
+	}
+	
 	label += "</table>";
 	return label;
 }
@@ -256,6 +272,17 @@ operation EStructuralFeature getLabel() {
 
 operation EOperation getLabel() {
 	var label = self.name + "(" + self.eParameters.collect(p|p.getLabel()).concat(", ") + ")";
+	if (self.eType.isDefined()) {
+		label += " : " + self.eType.name;
+		if (self.isMany) {
+			label += "["+"*"+"]";
+		}
+	}
+	return label;
+}
+
+operation EParameter getLabel() {
+	var label = self.name;
 	if (self.eType.isDefined()) {
 		label += " : " + self.eType.name;
 		if (self.isMany) {
@@ -512,4 +539,3 @@ operation validate() {
 }
 
 %]
-

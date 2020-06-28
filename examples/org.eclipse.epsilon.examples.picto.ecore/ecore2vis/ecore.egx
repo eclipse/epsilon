@@ -34,7 +34,8 @@ rule ClassDiagram {
 			Map {"id"="referenceLabels", "title"="Reference labels", "active"=false},
 			Map {"id"="derived", "title"="Derived features", "active"=false},
 			Map {"id"="inherited", "title"="Inherited features", "active"=false},
-			Map {"id"="referencesToSelf", "title"="References to self", "active"=false}
+			Map {"id"="referencesToSelf", "title"="References to self", "active"=false},
+			Map {"id"="operations", "title"="Operations", "active"=false}
 		}
 	}
 	
@@ -77,7 +78,8 @@ rule EClass2ClassDiagram
 				Map {"id"="supertypes", "title"="Supertypes"},
 				Map {"id"="derived", "title"="Derived features", "active"=false},
 				Map {"id"="inherited", "title"="Inherited features", "active"=false},
-				Map {"id"="referencesToSelf", "title"="References to self", "active"=false}
+				Map {"id"="referencesToSelf", "title"="References to self", "active"=false},
+				Map {"id"="operations", "title"="Operations", "active"=false}
 			}
 		};
 	}

@@ -1,5 +1,5 @@
 #Comps DSL
-This is a simple component-connector DSL. <a href="javascript:showView('/Model/Readme (HTML)')">(HTML version)</a>
+This is a simple component-connector DSL. <a href="javascript:showView(['Model','Readme (HTML)'])">(HTML version)</a>
 
 ##The Connector class
 
