@@ -10,9 +10,12 @@
 package org.eclipse.epsilon.picto;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.transformers.ExceptionContentTransformer;
@@ -28,9 +31,10 @@ public class ViewContent {
 	protected boolean active;
 	protected String label;
 	protected List<Patch> patches = new ArrayList<>();
+	protected Set<URI> baseUris = new LinkedHashSet<>();
 	protected ViewContent next = undefined;
 	protected File file;
-	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx", null, Collections.emptyList(), Collections.emptyList());
+	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx", null, Collections.emptyList(), Collections.emptyList(), Collections.emptySet());
 	
 	protected static List<ViewContentTransformer> viewContentTransformers;
 	
@@ -43,13 +47,14 @@ public class ViewContent {
 		return viewContentTransformers;
 	}
 	
-	public ViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches) {
+	public ViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches, Set<URI> baseUris) {
 		super();
 		this.format = format;
 		this.text = text;
 		this.patches = patches;
 		this.layers = layers;
 		this.file = file;
+		this.baseUris = baseUris;
 		setLabel();
 	}
 	
@@ -116,6 +121,14 @@ public class ViewContent {
 		return layers;
 	}
 	
+	public void setBaseUris(Set<URI> baseUris) {
+		this.baseUris = baseUris;
+	}
+	
+	public Set<URI> getBaseUris() {
+		return baseUris;
+	}
+	
 	public File getFile() {
 		return file;
 	}
@@ -130,6 +143,6 @@ public class ViewContent {
 	}
 
 	public ViewContent getSourceContent(PictoView pictoView) {
-		return new ViewContent("text", text, file, layers, patches).getNext(pictoView);
+		return new ViewContent("text", text, file, layers, patches, baseUris).getNext(pictoView);
 	}
 }

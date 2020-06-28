@@ -38,7 +38,7 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
 			String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
-			return new ViewContent("svg", svg, content.getFile(), content.getLayers(), content.getPatches());
+			return new ViewContent("svg", svg, content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
 		}
 	}
 }

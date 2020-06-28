@@ -70,7 +70,7 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 			viewFile = log;
 			format = "exception";
 		}
-		return new ViewContent(format, new String(Files.readAllBytes(viewFile.toPath())), content.getFile(), content.getLayers(), content.getPatches());
+		return new ViewContent(format, new String(Files.readAllBytes(viewFile.toPath())), content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
 	}
 	
 	protected File getTempDir() {

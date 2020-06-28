@@ -52,8 +52,8 @@ public class GetImageOperationContributor extends OperationContributor {
 							Path temp = Files.createTempFile("picto", Paths.get(path).getFileName().toString());
 							Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
 							tempImagePath = temp.toAbsolutePath().toString();
+							cache.put(imageUri.toString(), tempImagePath);
 						}
-						cache.put(imageUri.toString(), tempImagePath);
 					}
 				}
 				return tempImagePath;

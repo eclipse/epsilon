@@ -309,10 +309,11 @@ public abstract class EglPictoSource implements PictoSource {
 			}
 			
 			if (transformationUri != null) {
-				Collection<URI> baseUris = viewTree.getBaseUris();
-				baseUris.add(transformationUri);
-				baseUris.add(transformationUri.resolve("./icons/"));
+				viewTree.getBaseUris().add(transformationUri);
+				viewTree.getBaseUris().add(transformationUri.resolve("./icons/"));
 			}
+			
+			viewTree.getBaseUris().add(new URI(modelFile.toURI().toString()));
 			
 			return viewTree;
 		}

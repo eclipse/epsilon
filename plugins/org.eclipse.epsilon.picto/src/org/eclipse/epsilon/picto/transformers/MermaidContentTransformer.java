@@ -32,7 +32,7 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 			"<script>\n" + "mermaid.initialize({startOnLoad:true});\n" + "</script>\n"+
 			"<div class=\"mermaid\">\n" + content.getText() + "</div></div>";
 		
-		return new ViewContent("svg", html, content.getFile(), content.getLayers(), content.getPatches());
+		return new ViewContent("svg", html, content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
 	}
 
 }

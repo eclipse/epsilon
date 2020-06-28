@@ -186,14 +186,14 @@ public class ViewTree {
 		if (cachedContent == null) {
 			
 			if (promise == null) {
-				cachedContent = new ViewContent(format, "", null, getLayers(), getPatches());
+				cachedContent = new ViewContent(format, "", null, getLayers(), getPatches(), getBaseUris());
 			}
 			else {
 				try {
 					File file = promise instanceof StaticContentPromise ? ((StaticContentPromise) promise).getFile() : null;
-					cachedContent = new ViewContent(format, promise.getContent(), file, getLayers(), getPatches());
+					cachedContent = new ViewContent(format, promise.getContent(), file, getLayers(), getPatches(), getBaseUris());
 				} catch (Exception e) {
-					cachedContent = new ViewContent("exception", e.getMessage(), null, getLayers(), getPatches());
+					cachedContent = new ViewContent("exception", e.getMessage(), null, getLayers(), getPatches(), getBaseUris());
 				}
 			}
 		}

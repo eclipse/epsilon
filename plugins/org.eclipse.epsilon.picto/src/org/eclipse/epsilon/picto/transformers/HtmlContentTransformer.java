@@ -10,8 +10,10 @@
 package org.eclipse.epsilon.picto.transformers;
 
 import java.io.File;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -75,7 +77,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 				}
 			}
 			
-			return new FinalViewContent("html", xmlHelper.getXml(document), content.getFile(), content.getLayers(), content.getPatches());
+			return new FinalViewContent("html", xmlHelper.getXml(document), content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
 		}
 		catch (Exception ex) {
 			return null;
@@ -121,8 +123,8 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	
 	class FinalViewContent extends ViewContent {
 
-		public FinalViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches) {
-			super(format, text, file, layers, patches);
+		public FinalViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches, Set<URI> baseUris) {
+			super(format, text, file, layers, patches, baseUris);
 		}
 		
 	}
