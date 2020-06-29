@@ -1,11 +1,7 @@
 package org.eclipse.epsilon.picto.transformers.elements;
 
 import java.io.InputStream;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -27,9 +23,9 @@ public class AbsolutePathElementTransformer extends AbstractHtmlElementTransform
 	}
 
 	@Override
-	public void transform(Element element) {
+	public void transform(Element element) throws Exception {
 		
-		Set<URI> baseUris = new LinkedHashSet<URI>(viewContent.getBaseUris());
+		Set<java.net.URI> baseUris = new LinkedHashSet<>(viewContent.getBaseUris());
 		if (viewContent.getFile() != null) {
 			baseUris.add(viewContent.getFile().toURI());
 		}
@@ -37,29 +33,24 @@ public class AbsolutePathElementTransformer extends AbstractHtmlElementTransform
 		String attributeValue = element.getAttribute(attributeName);
 		
 		if (attributeValue != null && !attributeValue.trim().isEmpty()) {
-			try {
-				URI uri = new URI(attributeValue);
-				if (!uri.isAbsolute()) {
-					for (URI baseUri : baseUris) {
-						URI fileUri = baseUri.resolve(attributeValue);
-						try (InputStream in = fileUri.toURL().openStream()){
-							if ("file".equals(fileUri.getScheme())) {
-								element.setAttribute(attributeName, fileUri.toString());
-							}
-							else {
-								Path temp = Files.createTempFile("picto", Paths.get(attributeValue).getFileName().toString());
-								Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
-								element.setAttribute(attributeName, temp.toAbsolutePath().toString());
-							}
-							break;
+			java.net.URI uri = java.net.URI.create(attributeValue);
+			if (!uri.isAbsolute()) {
+				for (java.net.URI baseUri : baseUris) {
+					java.net.URI fileUri = baseUri.resolve(attributeValue);
+					try (InputStream in = fileUri.toURL().openStream()) {
+						if ("file".equals(fileUri.getScheme())) {
+							element.setAttribute(attributeName, fileUri.toString());
 						}
-						catch (Exception ex) {}
+						else {
+							Path temp = Files.createTempFile("picto", Paths.get(attributeValue).getFileName().toString());
+							Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
+							element.setAttribute(attributeName, temp.toAbsolutePath().toString());
+						}
+						break;
 					}
 				}
 			}
-			catch (Exception ex) {}
 		}
-		
 	}
 
 }

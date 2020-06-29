@@ -7,8 +7,11 @@ import org.w3c.dom.Element;
 public interface HtmlElementTransformer {
 	
 	public String getXPath();
-	public void transform(Element element);
+	
+	public void transform(Element element) throws Exception;
+	
 	public void setPictoView(PictoView picto);
+	
 	public void setViewContent(ViewContent viewContent);
 	
 }
