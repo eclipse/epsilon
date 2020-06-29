@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Pinset Language Engine
+Bundle-Name: Pinset
 Bundle-SymbolicName: org.eclipse.epsilon.pinset.engine
 Automatic-Module-Name: org.eclipse.epsilon.pinset.engine
-Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 2.1.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.erl.engine
