@@ -10,7 +10,7 @@ import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
 
-public class MockEditor implements IEditorPart {
+public class MockIEditor implements IEditorPart {
 
 	@Override
 	public void addPropertyListener(IPropertyListener listener) {
@@ -24,19 +24,16 @@ public class MockEditor implements IEditorPart {
 
 	@Override
 	public IWorkbenchPartSite getSite() {
-
 		return null;
 	}
 
 	@Override
 	public String getTitle() {
-
 		return null;
 	}
 
 	@Override
 	public String getTitleToolTip() {
-
 		return null;
 	}
 
@@ -52,7 +49,6 @@ public class MockEditor implements IEditorPart {
 
 	@Override
 	public <T> T getAdapter(Class<T> adapter) {
-
 		return null;
 	}
 
@@ -68,31 +64,26 @@ public class MockEditor implements IEditorPart {
 
 	@Override
 	public boolean isDirty() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSaveAsAllowed() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSaveOnCloseNeeded() {
-
 		return false;
 	}
 
 	@Override
 	public IEditorInput getEditorInput() {
-
 		return null;
 	}
 
 	@Override
 	public IEditorSite getEditorSite() {
-
 		return null;
 	}
 
@@ -103,13 +94,11 @@ public class MockEditor implements IEditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Image getTitleImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

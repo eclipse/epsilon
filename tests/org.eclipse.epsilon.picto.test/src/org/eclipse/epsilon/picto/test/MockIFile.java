@@ -26,11 +26,11 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 
-public class MockFile implements IFile {
+public class MockIFile implements IFile {
 	
 	protected File file;
 	
-	public MockFile(File file) {
+	public MockIFile(File file) {
 		this.file = file;
 	}
 	

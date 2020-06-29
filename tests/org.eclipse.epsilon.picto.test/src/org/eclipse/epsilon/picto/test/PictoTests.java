@@ -1,7 +1,5 @@
 package org.eclipse.epsilon.picto.test;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
@@ -17,7 +15,6 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class PictoTests {
 	
@@ -34,26 +31,26 @@ public class PictoTests {
 	}
 	
 	protected ViewTree getViewTree(String path) throws Exception {
-		return new TestPictoSource(new File(path)).getViewTree(new MockEditor());
+		return new TestPictoSource(new File(path)).getViewTree(new MockIEditor());
 	}
 	
 	
 	class TestPictoSource extends StandalonePictoSource {
 		
-		protected File file = null;
+		protected MockIFile iFile = null;
 		
 		public TestPictoSource(File file) {
-			this.file = file;
+			this.iFile = new MockIFile(file);
 		}
 		
 		@Override
 		protected IFile waitForFile(IEditorPart editorPart) {
-			return new MockFile(file);
+			return iFile;
 		}
 		
 		@Override
 		protected IFile getFile(IEditorPart editorPart) {
-			return new MockFile(file);
+			return iFile;
 		}
 		
 		@Override
