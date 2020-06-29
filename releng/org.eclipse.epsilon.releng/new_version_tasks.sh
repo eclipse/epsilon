@@ -11,8 +11,7 @@ echo "archives before: " && ls $Archives | xargs
 
 echo "Moving $OldVersion...";
 mkdir $Archives/$OldVersion &&
-mv $Downloads/updates/$OldVersion/* $Archives/$OldVersion &&
-rm -rf $Downloads/updates/$OldVersion &&
+cp $Downloads/updates/$OldVersion/* $Archives/$OldVersion &&
 mv $Downloads/$OldVersion/* $Archives/$OldVersion &&
 rm -rf $Downloads/$OldVersion
 
@@ -20,7 +19,7 @@ cd $Downloads &&
 echo "Copying interim to $NewVersion" &&
 cp -r interim updates/$NewVersion
 if [ -e updates/epsilon-interim-site.zip]; then
-  mv updates/epsilon-interim-site.zip updates/epsilon-${$NewVersion}-site.zip
+  mv updates/epsilon-interim-site.zip updates/epsilon-${NewVersion}-site.zip
 fi
 declare -a NewFolders=("javadoc" "jars");
 for folder in "${NewFolders[@]}"; do
