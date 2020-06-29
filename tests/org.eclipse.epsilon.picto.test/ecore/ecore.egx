@@ -1,0 +1,15 @@
+pre {
+	"Hello world".println();
+}
+
+rule EClass2Dot
+	transform c : EClass {
+	
+	parameters : Map {
+		"format" = "graphviz-dot",
+		"path" = List{"Model", c.name}.println()
+	}
+	
+	template: "eclass2dot.egl"
+	
+}
