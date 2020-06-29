@@ -32,7 +32,7 @@ public class AbsolutePathElementTransformer extends AbstractHtmlElementTransform
 	}
 
 	@Override
-	public void transform(Element element) throws Exception {
+	public void transform(Element element) {
 		
 		Set<java.net.URI> baseUris = new LinkedHashSet<>(viewContent.getBaseUris());
 		if (viewContent.getFile() != null) {
@@ -42,22 +42,30 @@ public class AbsolutePathElementTransformer extends AbstractHtmlElementTransform
 		String attributeValue = element.getAttribute(attributeName);
 		
 		if (attributeValue != null && !attributeValue.trim().isEmpty()) {
-			java.net.URI uri = java.net.URI.create(attributeValue);
-			if (!uri.isAbsolute()) {
-				for (java.net.URI baseUri : baseUris) {
-					java.net.URI fileUri = baseUri.resolve(attributeValue);
-					try (InputStream in = fileUri.toURL().openStream()) {
-						if ("file".equals(fileUri.getScheme())) {
-							element.setAttribute(attributeName, fileUri.toString());
+			try {
+				java.net.URI uri = new java.net.URI(attributeValue);
+				if (!uri.isAbsolute()) {
+					for (java.net.URI baseUri : baseUris) {
+						java.net.URI fileUri = baseUri.resolve(attributeValue);
+						try (InputStream in = fileUri.toURL().openStream()){
+							if ("file".equals(fileUri.getScheme())) {
+								element.setAttribute(attributeName, fileUri.toString());
+							}
+							else {
+								Path temp = Files.createTempFile("picto", Paths.get(attributeValue).getFileName().toString());
+								Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
+								element.setAttribute(attributeName, temp.toAbsolutePath().toString());
+							}
+							break;
 						}
-						else {
-							Path temp = Files.createTempFile("picto", Paths.get(attributeValue).getFileName().toString());
-							Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
-							element.setAttribute(attributeName, temp.toAbsolutePath().toString());
+						catch (Exception ex) {
+							// Try the next one
 						}
-						break;
 					}
 				}
+			}
+			catch (Exception ex) {
+				// Ignored
 			}
 		}
 	}
