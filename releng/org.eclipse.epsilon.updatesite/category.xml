@@ -80,6 +80,11 @@
    </feature>
    <feature id="org.eclipse.epsilon.emc.csv.feature">
       <category name="Epsilon Spreadsheet Integration"/>
+   <feature url="features/org.eclipse.epsilon.pinset.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.pinset.feature" version="2.2.0.qualifier">
+      <category name="Pinset"/>
+   </feature>
+   <feature url="features/org.eclipse.epsilon.pinset.dt.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.pinset.dt.feature" version="2.2.0.qualifier">
+      <category name="Pinset Development Tools"/>
    </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
@@ -119,6 +124,16 @@
    <category-def name="Epsilon Spreadsheet Integration" label="Epsilon Spreadsheet Integration">
       <description>
          Support for managing spreadsheet models with languages of the Epsilon platform.
+      </description>
+   </category-def>
+   <category-def name="Pinset" label="Pinset">
+      <description>
+         DSL for dataset extraction from models
+      </description>
+   </category-def>
+   <category-def name="Pinset Development Tools" label="Pinset Development Tools">
+      <description>
+         Development tools for the Pinset language
       </description>
    </category-def>
    <repository-reference location="http://download.eclipse.org/emfatic/update" enabled="true" />
