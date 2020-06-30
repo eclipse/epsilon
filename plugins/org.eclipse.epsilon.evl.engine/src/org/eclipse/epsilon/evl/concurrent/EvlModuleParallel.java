@@ -13,11 +13,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
@@ -46,19 +44,11 @@ public abstract class EvlModuleParallel extends EvlModule {
 	@Override
 	protected abstract void checkConstraints() throws EolRuntimeException;
 	
-	/**
-	 * Does not look up the element in the context.
-	 */
-	@Override
-	public Constraint getConstraint(String constraintName, String contextName, Object modelElement, ModuleElement ast) throws EolRuntimeException {
-		return super.getConstraint(constraintName, contextName, null, ast);
-	}
-	
+
 	@Override
 	public IEvlContextParallel getContext() {
 		return (IEvlContextParallel) super.getContext();
 	}
-	
 	
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(8);
 	static {
