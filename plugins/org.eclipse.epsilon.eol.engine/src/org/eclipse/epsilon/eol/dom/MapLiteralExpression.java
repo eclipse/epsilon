@@ -24,7 +24,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentMap;
 
-public class MapLiteralExpression extends LiteralExpression {
+public class MapLiteralExpression extends LiteralExpression<Map<Object, Object>> {
 	
 	protected List<Entry<Expression, Expression>> keyValueExpressionPairs = new ArrayList<>();
 	protected String mapName;

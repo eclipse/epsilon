@@ -26,12 +26,12 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	
-	protected IExecutableModuleElement body = null;
-	protected Class<?> expectedResultClass = null;
+	protected IExecutableModuleElement body;
+	protected Class<? extends T> expectedResultClass;
 	protected String role = "";
 	protected String text = "";
 	
-	public ExecutableBlock(Class<?> expectedResultClass) {
+	public ExecutableBlock(Class<? extends T> expectedResultClass) {
 		this.expectedResultClass = expectedResultClass;
 	}
 	
@@ -168,7 +168,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 		return execute(context, inNewFrame, FrameType.UNPROTECTED, variables);
 	}
 	
-	protected Class<?> getExpectedResultClass() {
+	protected Class<? extends T> getExpectedResultClass() {
 		return expectedResultClass;
 	}
 	

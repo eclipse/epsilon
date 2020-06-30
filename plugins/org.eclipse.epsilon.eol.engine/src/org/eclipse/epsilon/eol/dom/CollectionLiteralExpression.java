@@ -27,7 +27,7 @@ import org.eclipse.epsilon.eol.types.EolSet;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentBag;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentSet;
 
-public class CollectionLiteralExpression extends LiteralExpression {
+public class CollectionLiteralExpression extends LiteralExpression<Collection<Object>> {
 	
 	protected String collectionType;
 	protected boolean range;
