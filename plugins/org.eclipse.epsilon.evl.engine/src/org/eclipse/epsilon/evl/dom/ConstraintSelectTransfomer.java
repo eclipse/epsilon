@@ -9,8 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dom;
 
-import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
@@ -102,7 +100,6 @@ public class ConstraintSelectTransfomer {
 	 * This method assumes that {@link #canBeTransformed(Constraint)} was checked
 	 * first, and that it returned <code>true</code>.
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ExecutableBlock<?> transformIntoSelect(Constraint constraint) {
 		assert canBeTransformed(constraint) : "The constraint is optimisable";
 
@@ -131,7 +128,7 @@ public class ConstraintSelectTransfomer {
 		// optimisedExpression.setToken(new CommonToken(Evl_EolParserRules.RETURN));
 
 		// Create the executable block
-		ExecutableBlock<?> newBlock = new ExecutableBlock(List.class);
+		ExecutableBlock<?> newBlock = new ExecutableBlock<>(java.util.Collection.class);
 		newBlock.setBody(optimisedExpression);
 		//newBlock.addChild(optimisedExpression);
 		//newBlock.build();
