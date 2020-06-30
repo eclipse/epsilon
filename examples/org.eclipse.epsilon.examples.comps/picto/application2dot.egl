@@ -43,19 +43,19 @@ operation Component toDot() {
 			<td border="1">
 				<table border="0" cellspacing="0" cellpadding="0" bgcolor="azure">
 					<tr>
-						<td>&nbsp;</td><td>&nbsp;</td><td cellpadding="2" align="right"><img src="[%=getIcon("component")%]"></img></td>
+						<td> </td><td> </td><td cellpadding="2" align="right"><img src="[%=getIcon("component")%]"></img></td>
 					</tr>
 					[%if(self.inPorts.size() > 0){%]
 					[%for (i in 0.to(self.inPorts.size()-1)){%]
 					<tr>
 						[%=getPortCell(self.inPorts, i)%]
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						<td>            </td>
 						[%=getPortCell(Sequence{self.outPort}, i)%]
 					</tr>
 					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<td> </td>
+						<td> </td>
+						<td> </td>
 					</tr>
 					[%}%]
 					[%}%]
