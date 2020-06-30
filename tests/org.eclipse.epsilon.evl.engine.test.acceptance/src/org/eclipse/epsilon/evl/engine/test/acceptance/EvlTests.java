@@ -84,6 +84,7 @@ public class EvlTests {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setFile(FileUtil.getFileStandalone(EvlAcceptanceTestUtil.modelsRoot+modelName, EvlAcceptanceTestUtil.class));
 		model.setName(FileUtil.removeExtension(model.getFile().getName()));
+		model.setConcurrent(true);
 		model.setCachingEnabled(false);
 		model.load();
 		return model;
@@ -163,6 +164,7 @@ public class EvlTests {
 		assertUnsatisfiedConstraints(1, null, "EolTest", context);
 		assertUnsatisfiedConstraints(0, "t_a", "GuardVariableInvisibleInBlock", context);
 		assertUnsatisfiedConstraints(0, "t_a", "NeverChecked", context);
+		assertUnsatisfiedConstraints(0, "t_a", "dependedOn", context);
 		assertUnsatisfiedConstraints(2, "t_b", "EolTest2", context);
 		assertUnsatisfiedConstraints(2, "t_b", "AlwaysFalse", context);
 		assertUnsatisfiedConstraints(0, "t_b", "AlwaysTrue", context);
@@ -174,6 +176,9 @@ public class EvlTests {
 		assertUnsatisfiedConstraints(2, "t_b", "RequiresContextlessLazy", context);
 		assertUnsatisfiedConstraints(2, "t_b", "InsaneLazyChain", context);
 		assertUnsatisfiedConstraints(2, "t_b", "duplicate", context);
+		assertUnsatisfiedConstraints(2, "t_b", "dependedOn", context);
+		assertUnsatisfiedConstraints(0, "t_b", "SatisfiesGuardAmbigious", context);
+		assertUnsatisfiedConstraints(2, "t_b", "SatisfiesCheckAmbigious", context);
 		assertUnsatisfiedConstraints(2, "t_c", "WrongType", context);
 		assertUnsatisfiedConstraints(0, "t_c", "AlwaysTrueOperation", context);
 		assertUnsatisfiedConstraints(2, "t_c", "AlwaysFalseOperation", context);
@@ -184,11 +189,13 @@ public class EvlTests {
 		assertUnsatisfiedConstraints(0, "t_c", "ExtendedPropertyCanBeAccessed", context);
 		assertUnsatisfiedConstraints(2, "t_c", "duplicate", context);
 		assertUnsatisfiedConstraints(0, "t_c", "duplicateTC", context);
+		assertUnsatisfiedConstraints(0, "t_c", "dependedOn", context);
 		assertUnsatisfiedConstraints(1, null, "LazyContextlessCallsLazy", context);
 		assertUnsatisfiedConstraints(1, null, "LazyContextlessDependedOn", context);
 		assertUnsatisfiedConstraints(0, null, "LazyContextlessNeverCalled", context);
 		assertUnsatisfiedConstraints(0, null, "ImportedOperationWithoutContext", context);
 		assertUnsatisfiedConstraints(1, null, "duplicate", context);
+		assertUnsatisfiedConstraints(0, null, "dependedOn", context);
 		
 		for (UnsatisfiedConstraint uc : context.getUnsatisfiedConstraints()) {
 			uc.getMessage();
@@ -260,7 +267,7 @@ public class EvlTests {
 			final int expectedInvalid = entry.getValue();
 
 			final ExecutableBlock<?> transformed = transformer.transformIntoSelect(constraintByName.get(constraintName));
-			final List<?> results = (List<?>) transformed.execute(module.getContext());
+			final Collection<?> results = (Collection<?>) transformed.execute(module.getContext());
 			assertEquals("Rule " + constraintName + " should find " + expectedInvalid + " invalid objects", expectedInvalid, results.size());
 		}
 	}

@@ -10,6 +10,12 @@ pre anotherPre {
 	preVar.printlnIf("sealed".isJavaKeyword());
 }
 
+post {
+	assert(preVar.isDefined() or EOL().isUndefined(), "preVar is undefined!");
+	printIfDefined(null);
+	assert(Thread.currentThread().getName().isDefined(), "No name for thread!");
+}
+
 @cached
 operation t_b foo(expr : Integer) : Boolean {
 	return expr <= 0;
@@ -260,14 +266,45 @@ context t_b {
 	}
 }
 
-post {
-	assert(preVar.isDefined() or EOL().isUndefined(), "preVar is undefined!");
-	printIfDefined(null);
-	assert(Thread.currentThread().getName().isDefined(), "No name for thread!");
+context t_a {
+	@lazy
+	constraint dependedOn {
+		check : false
+	}
+}
+
+context t_b {
+	@lazy
+	constraint dependedOn {
+		check : false
+	}
+}
+
+context t_c {
+	@lazy
+	constraint dependedOn {
+		check : false
+	}
+}
+
+@lazy
+constraint dependedOn {
+	check : false
 }
 
 post postDuplicate {
 	assertFalse(returnFalse());
+}
+
+context t_b {
+	constraint SatisfiesGuardAmbigious {
+		guard : self.satisfies("dependedOn")
+		check : self == null
+	}
+	constraint SatisfiesCheckAmbigious {
+		guard : self.isDefined() and self.isTypeOf(t_b)
+		check : self.satisfies("dependedOn")
+	}
 }
 
 post postDuplicate {
