@@ -7,3 +7,11 @@ operation testJavaEquality() {
 		assertEquals(true, false);
 	}
 }
+
+@test
+operation testNotEquals() {
+	assertFalse(1 == 0);
+	assertFalse(1 = 0);
+	assertTrue(1 <> 0);
+	assertTrue(1 != 0);
+}

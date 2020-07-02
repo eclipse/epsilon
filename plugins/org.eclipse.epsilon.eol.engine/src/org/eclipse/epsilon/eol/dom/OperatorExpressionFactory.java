@@ -20,7 +20,7 @@ public class OperatorExpressionFactory {
 				return new EqualsOperatorExpression();
 			case "==":
 				return new DoubleEqualsOperatorExpression();
-			case "<>":
+			case "<>": case "!=":
 				return new NotEqualsOperatorExpression();
 			case "+":
 				return new PlusOperatorExpression();

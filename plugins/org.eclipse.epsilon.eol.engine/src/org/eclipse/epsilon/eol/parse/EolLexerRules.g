@@ -59,8 +59,6 @@ ARROW : '->';
 
 NAVIGATION : '?.';
 
-ELVIS : '?:';
-
 BOOLEAN
 	:	'true' | 'false'
 	;

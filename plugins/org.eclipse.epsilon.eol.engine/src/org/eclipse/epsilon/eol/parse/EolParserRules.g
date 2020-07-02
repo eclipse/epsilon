@@ -405,7 +405,7 @@ logicalExpression
 	;
 
 relationalExpression
-	:	additiveExpression (((op='=='^|op='='^|op=ELVIS^) relationalExpression |
+	:	additiveExpression (((op='=='^|op='='^|op='!='^|op='?:'^) relationalExpression |
 	                      (op='>'^|op='<'^|op='>='^|op='<='^|op='<>'^) additiveExpression)
 		{$op.setType(OPERATOR);})*
 	;

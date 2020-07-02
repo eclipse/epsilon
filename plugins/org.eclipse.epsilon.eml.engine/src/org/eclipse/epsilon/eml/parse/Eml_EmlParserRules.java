@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eml.parse;
 
-// $ANTLR 3.1b1 EmlParserRules.g 2020-07-02 00:58:11
+// $ANTLR 3.1b1 EmlParserRules.g 2020-07-02 11:40:53
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -52,28 +52,27 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__144=144;
     public static final int T__143=143;
     public static final int T__146=146;
-    public static final int MODELDECLARATIONPARAMETER=79;
+    public static final int MODELDECLARATIONPARAMETER=78;
     public static final int T__145=145;
-    public static final int BREAKALL=45;
+    public static final int BREAKALL=44;
     public static final int T__140=140;
     public static final int T__142=142;
-    public static final int VAR=54;
-    public static final int MODELDECLARATIONPARAMETERS=78;
+    public static final int VAR=53;
+    public static final int MODELDECLARATIONPARAMETERS=77;
     public static final int T__141=141;
-    public static final int THROW=59;
-    public static final int ELVIS=13;
-    public static final int SpecialTypeName=20;
-    public static final int PARAMLIST=30;
-    public static final int EXPRLIST=60;
-    public static final int EXPRRANGE=61;
-    public static final int BREAK=44;
-    public static final int ELSE=37;
+    public static final int THROW=58;
+    public static final int SpecialTypeName=19;
+    public static final int PARAMLIST=29;
+    public static final int EXPRLIST=59;
+    public static final int EXPRRANGE=60;
+    public static final int BREAK=43;
+    public static final int ELSE=36;
     public static final int T__137=137;
     public static final int T__136=136;
-    public static final int FORMAL=29;
-    public static final int IF=36;
-    public static final int MultiplicativeExpression=63;
-    public static final int TYPE=71;
+    public static final int FORMAL=28;
+    public static final int IF=35;
+    public static final int MultiplicativeExpression=62;
+    public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
     public static final int T__133=133;
@@ -81,42 +80,43 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__135=135;
     public static final int T__134=134;
     public static final int T__131=131;
-    public static final int NewExpression=53;
+    public static final int NewExpression=52;
     public static final int T__130=130;
-    public static final int CASE=41;
-    public static final int Letter=21;
-    public static final int LINE_COMMENT=27;
+    public static final int CASE=40;
+    public static final int Letter=20;
+    public static final int LINE_COMMENT=26;
     public static final int T__129=129;
     public static final int T__126=126;
-    public static final int JavaIDDigit=23;
+    public static final int JavaIDDigit=22;
     public static final int T__125=125;
-    public static final int LAMBDAEXPR=70;
-    public static final int MAP=81;
+    public static final int LAMBDAEXPR=69;
+    public static final int MAP=80;
     public static final int T__128=128;
     public static final int T__127=127;
+    public static final int T__166=166;
     public static final int T__165=165;
     public static final int T__162=162;
     public static final int T__161=161;
-    public static final int MERGE=89;
+    public static final int MERGE=88;
     public static final int T__164=164;
-    public static final int MODELDECLARATION=74;
+    public static final int MODELDECLARATION=73;
     public static final int T__163=163;
-    public static final int EXPRESSIONINBRACKETS=65;
+    public static final int EXPRESSIONINBRACKETS=64;
     public static final int T__160=160;
-    public static final int TERNARY=38;
-    public static final int TRANSACTION=47;
+    public static final int TERNARY=37;
+    public static final int TRANSACTION=46;
     public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int ITEMSELECTOR=80;
-    public static final int COMMENT=26;
-    public static final int ModelElementType=51;
-    public static final int IMPORT=73;
-    public static final int DELETE=58;
+    public static final int ITEMSELECTOR=79;
+    public static final int COMMENT=25;
+    public static final int ModelElementType=50;
+    public static final int IMPORT=72;
+    public static final int DELETE=57;
     public static final int ARROW=11;
-    public static final int MapTypeName=19;
+    public static final int MapTypeName=18;
     public static final int T__159=159;
     public static final int T__158=158;
     public static final int T__155=155;
-    public static final int SPECIAL_ASSIGNMENT=32;
+    public static final int SPECIAL_ASSIGNMENT=31;
     public static final int T__154=154;
     public static final int T__157=157;
     public static final int T__156=156;
@@ -124,70 +124,71 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__150=150;
     public static final int T__153=153;
     public static final int T__152=152;
-    public static final int Annotation=28;
-    public static final int CONTINUE=46;
-    public static final int ENUMERATION_VALUE=72;
-    public static final int OPERATOR=64;
-    public static final int EMLMODULE=90;
+    public static final int Annotation=27;
+    public static final int CONTINUE=45;
+    public static final int ENUMERATION_VALUE=71;
+    public static final int OPERATOR=63;
+    public static final int EMLMODULE=89;
     public static final int EXPONENT=6;
-    public static final int STRING=16;
+    public static final int STRING=15;
     public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__149=149;
     public static final int T__91=91;
     public static final int T__100=100;
-    public static final int NAMESPACE=75;
+    public static final int NAMESPACE=74;
     public static final int T__92=92;
-    public static final int COLLECTION=48;
-    public static final int NEW=55;
-    public static final int EXTENDS=86;
+    public static final int COLLECTION=47;
+    public static final int NEW=54;
+    public static final int EXTENDS=85;
     public static final int T__93=93;
     public static final int T__102=102;
-    public static final int PRE=84;
+    public static final int PRE=83;
     public static final int T__94=94;
     public static final int T__101=101;
-    public static final int POST=85;
-    public static final int ALIAS=76;
-    public static final int DRIVER=77;
-    public static final int KEYVAL=82;
+    public static final int POST=84;
+    public static final int T__90=90;
+    public static final int ALIAS=75;
+    public static final int DRIVER=76;
+    public static final int KEYVAL=81;
     public static final int POINT_POINT=10;
-    public static final int GUARD=87;
+    public static final int GUARD=86;
     public static final int T__99=99;
-    public static final int TRANSFORM=88;
+    public static final int TRANSFORM=87;
     public static final int T__95=95;
-    public static final int HELPERMETHOD=33;
+    public static final int HELPERMETHOD=32;
     public static final int T__96=96;
     public static final int T__97=97;
-    public static final int StatementBlock=34;
+    public static final int StatementBlock=33;
     public static final int T__98=98;
-    public static final int ABORT=49;
-    public static final int StrangeNameLiteral=17;
-    public static final int FOR=35;
-    public static final int BLOCK=68;
-    public static final int PARAMETERS=52;
-    public static final int SpecialNameChar=22;
-    public static final int BOOLEAN=14;
-    public static final int NAME=24;
-    public static final int SWITCH=40;
-    public static final int FeatureCall=66;
+    public static final int ABORT=48;
+    public static final int StrangeNameLiteral=16;
+    public static final int FOR=34;
+    public static final int BLOCK=67;
+    public static final int PARAMETERS=51;
+    public static final int SpecialNameChar=21;
+    public static final int BOOLEAN=13;
+    public static final int NAME=23;
+    public static final int SWITCH=39;
+    public static final int FeatureCall=65;
     public static final int T__122=122;
     public static final int T__121=121;
     public static final int T__124=124;
     public static final int FLOAT=4;
     public static final int T__123=123;
     public static final int T__120=120;
-    public static final int NativeType=62;
+    public static final int NativeType=61;
     public static final int INT=8;
-    public static final int ANNOTATIONBLOCK=56;
-    public static final int RETURN=43;
-    public static final int KEYVALLIST=83;
-    public static final int FEATURECALL=69;
-    public static final int CollectionType=50;
+    public static final int ANNOTATIONBLOCK=55;
+    public static final int RETURN=42;
+    public static final int KEYVALLIST=82;
+    public static final int FEATURECALL=68;
+    public static final int CollectionType=49;
     public static final int T__119=119;
-    public static final int ASSIGNMENT=31;
+    public static final int ASSIGNMENT=30;
     public static final int T__118=118;
     public static final int T__115=115;
-    public static final int WS=25;
+    public static final int WS=24;
     public static final int EOF=-1;
     public static final int T__114=114;
     public static final int T__117=117;
@@ -196,21 +197,21 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__110=110;
     public static final int T__113=113;
     public static final int T__112=112;
-    public static final int EscapeSequence=15;
-    public static final int EOLMODULE=67;
-    public static final int CollectionTypeName=18;
+    public static final int EscapeSequence=14;
+    public static final int EOLMODULE=66;
+    public static final int CollectionTypeName=17;
     public static final int DIGIT=5;
-    public static final int EXECUTABLEANNOTATION=57;
+    public static final int EXECUTABLEANNOTATION=56;
     public static final int T__108=108;
     public static final int T__107=107;
-    public static final int WHILE=39;
+    public static final int WHILE=38;
     public static final int T__109=109;
     public static final int NAVIGATION=12;
     public static final int T__104=104;
     public static final int POINT=9;
     public static final int T__103=103;
     public static final int T__106=106;
-    public static final int DEFAULT=42;
+    public static final int DEFAULT=41;
     public static final int T__105=105;
 
     // delegates
@@ -286,7 +287,7 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            r=(Token)match(input,160,FOLLOW_160_in_mergeRule45); if (state.failed) return retval;
+            r=(Token)match(input,161,FOLLOW_161_in_mergeRule45); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             r_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(r);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(r_tree, root_0);
@@ -296,21 +297,21 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             rule_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(rule);
             adaptor.addChild(root_0, rule_tree);
             }
-            string_literal1=(Token)match(input,163,FOLLOW_163_in_mergeRule52); if (state.failed) return retval;
+            string_literal1=(Token)match(input,164,FOLLOW_164_in_mergeRule52); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_mergeRule55);
             formalParameter2=gEml.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter2.getTree());
-            string_literal3=(Token)match(input,164,FOLLOW_164_in_mergeRule57); if (state.failed) return retval;
+            string_literal3=(Token)match(input,165,FOLLOW_165_in_mergeRule57); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_mergeRule60);
             formalParameter4=gEml.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter4.getTree());
-            string_literal5=(Token)match(input,165,FOLLOW_165_in_mergeRule63); if (state.failed) return retval;
+            string_literal5=(Token)match(input,166,FOLLOW_166_in_mergeRule63); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameterList_in_mergeRule66);
             formalParameterList6=gEml.formalParameterList();
 
@@ -321,7 +322,7 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==159) ) {
+            if ( (LA1_0==160) ) {
                 alt1=1;
             }
             switch (alt1) {
@@ -340,12 +341,12 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             }
 
-            ob=(Token)match(input,96,FOLLOW_96_in_mergeRule74); if (state.failed) return retval;
+            ob=(Token)match(input,95,FOLLOW_95_in_mergeRule74); if (state.failed) return retval;
             // EmlParserRules.g:52:19: ( guard )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==158) ) {
+            if ( (LA2_0==159) ) {
                 alt2=1;
             }
             switch (alt2) {
@@ -370,7 +371,7 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, block9.getTree());
-            cb=(Token)match(input,97,FOLLOW_97_in_mergeRule84); if (state.failed) return retval;
+            cb=(Token)match(input,96,FOLLOW_96_in_mergeRule84); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               r.setType(MERGE);
             }
@@ -408,18 +409,18 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_160_in_mergeRule45 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_NAME_in_mergeRule50 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000800000000L});
-    public static final BitSet FOLLOW_163_in_mergeRule52 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_formalParameter_in_mergeRule55 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_164_in_mergeRule57 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_formalParameter_in_mergeRule60 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000002000000000L});
-    public static final BitSet FOLLOW_165_in_mergeRule63 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_formalParameterList_in_mergeRule66 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L,0x0000000080000000L});
-    public static final BitSet FOLLOW_extendz_in_mergeRule69 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_96_in_mergeRule74 = new BitSet(new long[]{0x00000000011D4110L,0x7FD2802200000000L,0x000000004E048000L});
-    public static final BitSet FOLLOW_guard_in_mergeRule77 = new BitSet(new long[]{0x00000000011D4110L,0x7FD2802200000000L,0x000000000E048000L});
-    public static final BitSet FOLLOW_block_in_mergeRule80 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
-    public static final BitSet FOLLOW_97_in_mergeRule84 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_161_in_mergeRule45 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_NAME_in_mergeRule50 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_164_in_mergeRule52 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_formalParameter_in_mergeRule55 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000002000000000L});
+    public static final BitSet FOLLOW_165_in_mergeRule57 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_formalParameter_in_mergeRule60 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000004000000000L});
+    public static final BitSet FOLLOW_166_in_mergeRule63 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_formalParameterList_in_mergeRule66 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x0000000100000000L});
+    public static final BitSet FOLLOW_extendz_in_mergeRule69 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L});
+    public static final BitSet FOLLOW_95_in_mergeRule74 = new BitSet(new long[]{0x00000000008EA110L,0x3FE9401100000000L,0x000000009C090000L});
+    public static final BitSet FOLLOW_guard_in_mergeRule77 = new BitSet(new long[]{0x00000000008EA110L,0x3FE9401100000000L,0x000000001C090000L});
+    public static final BitSet FOLLOW_block_in_mergeRule80 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
+    public static final BitSet FOLLOW_96_in_mergeRule84 = new BitSet(new long[]{0x0000000000000002L});
 
 }
