@@ -9,18 +9,17 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.actions;
 
+import org.eclipse.epsilon.picto.PictoPlugin;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.jface.action.Action;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 
-public class SyncAction extends Action {
+public class RefreshAction extends Action {
 	
 	protected PictoView pictoView;
 	
-	public SyncAction(PictoView pictoView) {
-		setText("Sync");
-		setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED));
+	public RefreshAction(PictoView pictoView) {
+		setText("Refresh");
+		setImageDescriptor(PictoPlugin.getDefault().getImageDescriptor("icons/refresh.gif"));
 		this.pictoView = pictoView;
 	}
 	

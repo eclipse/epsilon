@@ -26,7 +26,7 @@ import org.eclipse.epsilon.picto.actions.CopyToClipboardAction;
 import org.eclipse.epsilon.picto.actions.LayersMenuAction;
 import org.eclipse.epsilon.picto.actions.LockAction;
 import org.eclipse.epsilon.picto.actions.PrintAction;
-import org.eclipse.epsilon.picto.actions.SyncAction;
+import org.eclipse.epsilon.picto.actions.RefreshAction;
 import org.eclipse.epsilon.picto.actions.ViewContentsMenuAction;
 import org.eclipse.epsilon.picto.actions.ZoomAction;
 import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
@@ -212,7 +212,7 @@ public class PictoView extends ViewPart {
 		toolbar.add(new Separator());
 		toolbar.add(new CopyToClipboardAction(this));
 		toolbar.add(new PrintAction(viewRenderer));
-		toolbar.add(new SyncAction(this));
+		toolbar.add(new RefreshAction(this));
 		toolbar.add(new LockAction(this));
 		toolbar.add(hideTreeAction);
 		toolbar.add(new Separator());
