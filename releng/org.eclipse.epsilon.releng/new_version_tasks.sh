@@ -18,12 +18,13 @@ echo "Copying $InterimVersion to $NewVersion" &&
 mkdir $NewVersion &&
 cp -r $InterimVersion/* updates/$NewVersion
 if [ -e updates/epsilon-${InterimVersion}-site.zip ]; then
-  mv updates/epsilon-${InterimVersion}-site.zip updates/epsilon-${NewVersion}-site.zip
+  cp updates/epsilon-${InterimVersion}-site.zip updates/epsilon-${NewVersion}-site.zip
 fi
 declare -a NewFolders=("javadoc" "jars");
 for folder in "${NewFolders[@]}"; do
   if [ -d updates/$NewVersion/$folder ]; then
-    mv updates/$NewVersion/$folder $NewVersion/$folder
+    mv updates/$NewVersion/$folder $NewVersion/$folder &&
+    rm -rf updates/$NewVersion/$folder
   fi
 done
 
