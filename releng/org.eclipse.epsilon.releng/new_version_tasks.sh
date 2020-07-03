@@ -7,14 +7,15 @@ NewVersion=2.1
 OldVersion=2.0
 InterimVersion=interim
 
-echo "Moving $OldVersion...";
+echo "Moving $OldVersion..." &&
 mkdir -p $Archives/$OldVersion &&
-cp $Downloads/updates/$OldVersion/* $Archives/$OldVersion &&
+cp -r $Downloads/updates/$OldVersion/* $Archives/$OldVersion &&
 mv $Downloads/$OldVersion/* $Archives/$OldVersion &&
 rm -rf $Downloads/$OldVersion
 
 cd $Downloads &&
 echo "Copying $InterimVersion to $NewVersion" &&
+mkdir $NewVersion &&
 cp -r $InterimVersion updates/$NewVersion
 if [ -e updates/epsilon-${InterimVersion}-site.zip ]; then
   mv updates/epsilon-${InterimVersion}-site.zip updates/epsilon-${NewVersion}-site.zip
