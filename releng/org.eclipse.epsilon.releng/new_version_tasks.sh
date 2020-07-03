@@ -26,6 +26,7 @@ for folder in "${NewFolders[@]}"; do
   fi
 done
 
+cd updates &&
 ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
 
 #cd /home/data/httpd/download.eclipse.org/epsilon/temp

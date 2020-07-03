@@ -145,7 +145,7 @@ pipeline {
         }
       }
       stage('NEW VERSION') { 
-        // This stage should only be uncommented when creating a new release.
+        // This stage should only be uncommented when creating a new release!
         steps {
           lock('download-area') {
             sshagent (['projects-storage.eclipse.org-bot-ssh']) {
