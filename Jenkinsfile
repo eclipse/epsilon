@@ -144,7 +144,7 @@ pipeline {
           }
         }
       }
-      /*stage('NEW VERSION') { 
+      stage('NEW VERSION') { 
         // This stage should only be uncommented when creating a new release.
         steps {
           lock('download-area') {
@@ -153,7 +153,7 @@ pipeline {
             }
           }
         }
-      }*/
+      }
     }
     post {
       success {
