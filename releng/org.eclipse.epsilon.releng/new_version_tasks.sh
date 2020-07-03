@@ -16,7 +16,7 @@ rm -rf $Downloads/$OldVersion
 cd $Downloads &&
 echo "Copying $InterimVersion to $NewVersion" &&
 mkdir $NewVersion &&
-cp -r $InterimVersion updates/$NewVersion
+cp -r $InterimVersion/* updates/$NewVersion
 if [ -e updates/epsilon-${InterimVersion}-site.zip ]; then
   mv updates/epsilon-${InterimVersion}-site.zip updates/epsilon-${NewVersion}-site.zip
 fi
@@ -28,6 +28,7 @@ for folder in "${NewFolders[@]}"; do
 done
 
 cd updates &&
+rm -rf $NewVersion/interim &&
 ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
 
 #cd /home/data/httpd/download.eclipse.org/epsilon/temp
