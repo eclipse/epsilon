@@ -3,8 +3,8 @@ set -u
 Downloads=/home/data/httpd/download.eclipse.org/epsilon
 Archives=/home/data/httpd/archive.eclipse.org/epsilon
 
-NewVersion=2.1
-OldVersion=2.0
+NewVersion=2.2
+OldVersion=2.1
 InterimVersion=interim
 
 echo "Moving $OldVersion..." &&
