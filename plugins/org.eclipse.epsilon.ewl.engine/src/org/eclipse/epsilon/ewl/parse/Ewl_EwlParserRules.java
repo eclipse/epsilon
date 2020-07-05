@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ewl.parse;
 
-// $ANTLR 3.1b1 EwlParserRules.g 2020-07-02 11:40:52
+// $ANTLR 3.1b1 EwlParserRules.g 2020-07-05 21:27:27
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -93,6 +93,7 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int MAP=80;
     public static final int T__128=128;
     public static final int T__127=127;
+    public static final int T__165=165;
     public static final int T__162=162;
     public static final int T__161=161;
     public static final int T__164=164;
@@ -269,7 +270,7 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 alt1=1;
                 }
                 break;
-            case 162:
+            case 163:
                 {
                 alt1=2;
                 }
@@ -388,7 +389,7 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            wiz=(Token)match(input,162,FOLLOW_162_in_wizard72); if (state.failed) return retval;
+            wiz=(Token)match(input,163,FOLLOW_163_in_wizard72); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             wiz_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(wiz);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(wiz_tree, root_0);
@@ -403,7 +404,7 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==160) ) {
+            if ( (LA2_0==161) ) {
                 alt2=1;
             }
             switch (alt2) {
@@ -426,7 +427,7 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt3=2;
             int LA3_0 = input.LA(1);
 
-            if ( (LA3_0==163) ) {
+            if ( (LA3_0==164) ) {
                 alt3=1;
             }
             switch (alt3) {
@@ -449,7 +450,7 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt4=2;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==164) ) {
+            if ( (LA4_0==165) ) {
                 alt4=1;
             }
             switch (alt4) {
@@ -527,7 +528,7 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,163,FOLLOW_163_in_titleBlock110); if (state.failed) return retval;
+            c=(Token)match(input,164,FOLLOW_164_in_titleBlock110); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -589,7 +590,7 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            d=(Token)match(input,164,FOLLOW_164_in_doBlock129); if (state.failed) return retval;
+            d=(Token)match(input,165,FOLLOW_165_in_doBlock129); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             d_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(d);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(d_tree, root_0);
@@ -634,16 +635,16 @@ public class Ewl_EwlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final BitSet FOLLOW_annotationBlock_in_ewlModuleContent44 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_wizard_in_ewlModuleContent48 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_operationDeclaration_in_ewlModuleContent52 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_162_in_wizard72 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_163_in_wizard72 = new BitSet(new long[]{0x0000000000800000L});
     public static final BitSet FOLLOW_NAME_in_wizard75 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_96_in_wizard79 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000001900000000L});
-    public static final BitSet FOLLOW_guard_in_wizard82 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000001800000000L});
-    public static final BitSet FOLLOW_titleBlock_in_wizard85 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_96_in_wizard79 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000003200000000L});
+    public static final BitSet FOLLOW_guard_in_wizard82 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000003000000000L});
+    public static final BitSet FOLLOW_titleBlock_in_wizard85 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000002000000000L});
     public static final BitSet FOLLOW_doBlock_in_wizard88 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
     public static final BitSet FOLLOW_97_in_wizard93 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_163_in_titleBlock110 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
+    public static final BitSet FOLLOW_164_in_titleBlock110 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_titleBlock113 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_164_in_doBlock129 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
+    public static final BitSet FOLLOW_165_in_doBlock129 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
     public static final BitSet FOLLOW_statementBlock_in_doBlock132 = new BitSet(new long[]{0x0000000000000002L});
 
 }

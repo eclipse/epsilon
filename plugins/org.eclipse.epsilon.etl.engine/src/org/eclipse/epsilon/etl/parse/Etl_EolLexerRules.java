@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.etl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2020-07-02 11:40:46
+// $ANTLR 3.1b1 EolLexerRules.g 2020-07-05 21:27:23
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -72,7 +72,7 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=163;
+    public static final int Tokens=164;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -94,6 +94,7 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int T__162=162;
     public static final int T__161=161;
     public static final int MODELDECLARATION=73;
+    public static final int T__163=163;
     public static final int EXPRESSIONINBRACKETS=64;
     public static final int T__160=160;
     public static final int TERNARY=37;

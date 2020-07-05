@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2020-07-02 11:40:56
+// $ANTLR 3.1b1 EolLexerRules.g 2020-07-05 21:27:32
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -73,7 +73,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=170;
+    public static final int Tokens=171;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -165,6 +165,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int BLOCK=67;
     public static final int FLOCKMODULE=87;
     public static final int RETYPEPACKAGE=89;
+    public static final int T__170=170;
     public static final int PARAMETERS=51;
     public static final int SpecialNameChar=21;
     public static final int BOOLEAN=13;

@@ -384,7 +384,7 @@ assignmentStatement
 	@after {
 		$tree.getExtraTokens().add($sem);
 	}
-	:	logicalExpression ((normal=':='^|normal='+='^|normal='-='^|normal='*='^|normal='/='^)
+	:	logicalExpression ((normal=':='^|normal='+='^|normal='-='^|normal='*='^|normal='/='^|normal='?='^)
 		{normal.setType(ASSIGNMENT);} | special='::='^ {special.setType(SPECIAL_ASSIGNMENT);})
 		logicalExpression sem=';'!
 	;

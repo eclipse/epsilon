@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.erl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2020-07-02 11:40:45
+// $ANTLR 3.1b1 EolLexerRules.g 2020-07-05 21:27:21
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -72,7 +72,7 @@ public class Erl_EolLexerRules extends Lexer {
     public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=159;
+    public static final int Tokens=160;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -103,6 +103,7 @@ public class Erl_EolLexerRules extends Lexer {
     public static final int DELETE=57;
     public static final int ARROW=11;
     public static final int MapTypeName=18;
+    public static final int T__159=159;
     public static final int T__158=158;
     public static final int T__155=155;
     public static final int SPECIAL_ASSIGNMENT=31;

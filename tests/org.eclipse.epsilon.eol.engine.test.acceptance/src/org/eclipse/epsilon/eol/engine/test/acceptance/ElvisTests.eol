@@ -50,3 +50,17 @@ operation testChainedExpression() {
 	var c = f(1)?.getClass().getSimpleName() ?: f(e()).getClass();
 	assertEquals("Integer", c);
 }
+
+@test
+operation testShortcutAssignment() {
+	var result = null;
+	result ?= "success";
+	assertEquals("success", result);
+	result ?= "fail";
+	assertEquals("success", result);
+	result ?= e();
+	assertEquals("success", result);
+	var init;
+	init ?= result;
+	assertEquals(result, init);
+}

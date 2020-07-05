@@ -34,21 +34,29 @@ public class AssignmentStatement extends Statement {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
-		valueExpression = (Expression) module.createAst(cst.getSecondChild(), this);
-		
+		valueExpression = getValueExpression(cst, (Expression) module.createAst(cst.getSecondChild(), this));
+	}
+	
+	/**
+	 * 
+	 * @param cst
+	 * @return
+	 * @since 2.2
+	 */
+	protected Expression getValueExpression(AST cst, Expression expression) {
 		switch (cst.getText()) {
 			case "+=":
-				valueExpression = new PlusOperatorExpression(targetExpression, valueExpression);
-				break;
+				return new PlusOperatorExpression(targetExpression, expression);
 			case "-=":
-				valueExpression = new MinusOperatorExpression(targetExpression, valueExpression);
-				break;
+				return new MinusOperatorExpression(targetExpression, expression);
 			case "/=":
-				valueExpression = new DivOperatorExpression(targetExpression, valueExpression);
-				break;
+				return new DivOperatorExpression(targetExpression, expression);
 			case "*=":
-				valueExpression = new TimesOperatorExpression(targetExpression, valueExpression);
-				break;
+				return new TimesOperatorExpression(targetExpression, expression);
+			case "?=":
+				return new ElvisOperatorExpression(targetExpression, expression);
+			default:
+				return expression;
 		}
 	}
 	

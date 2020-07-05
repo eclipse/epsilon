@@ -116,7 +116,7 @@ public abstract class OperationContributor {
 	
 	/**
 	 * Clears the target and context.
-	 * @since 2.1
+	 * @since 2.2
 	 */
 	public void dispose() {
 		target.remove();
