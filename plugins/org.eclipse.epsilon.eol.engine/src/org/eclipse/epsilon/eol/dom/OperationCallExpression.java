@@ -116,81 +116,88 @@ public class OperationCallExpression extends FeatureCallExpression {
 		
 		// Operation contributor for model elements
 		OperationContributor operationContributor = null;
-		if (targetObject instanceof IOperationContributorProvider) {
-			operationContributor = ((IOperationContributorProvider) targetObject).getOperationContributor();
+		try {
+			if (targetObject instanceof IOperationContributorProvider) {
+				operationContributor = ((IOperationContributorProvider) targetObject).getOperationContributor();
+			}
+			else if (owningModel != null && owningModel instanceof IOperationContributorProvider) {
+				operationContributor = ((IOperationContributorProvider) owningModel).getOperationContributor();
+			}
+			
+			// Method contributors that use the unevaluated AST
+			ObjectMethod objectMethod = null;
+			
+			if (operationContributor != null) {
+				objectMethod = operationContributor
+					.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
+			}
+			if (objectMethod == null) {
+				objectMethod = context.getOperationContributorRegistry()
+					.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
+			}
+			
+			if (objectMethod != null) {
+				return wrap(objectMethod.execute(nameExpression, context, nameExpression)); 
+			}
+	
+			ArrayList<Object> parameterValues = new ArrayList<>(parameterExpressions.size());
+			
+			for (Expression parameter : parameterExpressions) {
+				parameterValues.add(executorFactory.execute(parameter, context));
+			}
+			
+			Object module = context.getModule();
+			// Execute user-defined operation (if isArrow() == false)
+			if (module instanceof IEolModule && !isArrow()) {
+				OperationList operations = ((IEolModule) module).getOperations();
+				Operation helper = operations.getOperation(targetObject, nameExpression, parameterValues, context);
+				if (helper != null) {
+					return helper.execute(targetObject, parameterValues, context);
+				}
+			}
+			
+			Object[] parameterValuesArray = parameterValues.toArray();
+			
+			// Method contributors that use the evaluated parameters
+			if (operationContributor != null) {
+				// Try contributors that override the context's operation contributor registry
+				objectMethod = operationContributor
+					.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context, true);
+			}
+			
+			if (objectMethod == null) {
+				objectMethod = context.getOperationContributorRegistry()
+					.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context);
+			}
+			
+			if (operationContributor != null && objectMethod == null) {
+				// Try contributors that do not override the context's operation contributor registry
+				objectMethod = operationContributor
+					.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context, false);
+			}
+			if (objectMethod != null) {
+				return wrap(objectMethod.execute(nameExpression, context, parameterValuesArray));
+			}
+	
+			// Execute user-defined operation (if isArrow() == true)
+			if (operation instanceof SimpleOperation) {
+				return ((SimpleOperation) operation).execute(targetObject, parameterValues, context, nameExpression);
+			}
+	
+			// Most likely a FirstOrderOperation or DynamicOperation
+			if (operation != null && targetObject != null && !parameterExpressions.isEmpty()) {
+				return operation.execute(targetObject, nameExpression, new ArrayList<>(0), parameterExpressions, context);
+			}
+			
+			// No operation found
+			throw new EolIllegalOperationException(targetObject, operationName, nameExpression, context.getPrettyPrinterManager());
 		}
-		else if (owningModel != null && owningModel instanceof IOperationContributorProvider) {
-			operationContributor = ((IOperationContributorProvider) owningModel).getOperationContributor();
-		}
-		
-		// Method contributors that use the unevaluated AST
-		ObjectMethod objectMethod = null;
-		
-		if (operationContributor != null) {
-			objectMethod = operationContributor
-				.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
-		}
-		if (objectMethod == null) {
-			objectMethod = context.getOperationContributorRegistry()
-				.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
-		}
-		
-		if (objectMethod != null) {
-			return wrap(objectMethod.execute(nameExpression, context, nameExpression)); 
-		}
-
-		ArrayList<Object> parameterValues = new ArrayList<>(parameterExpressions.size());
-		
-		for (Expression parameter : parameterExpressions) {
-			parameterValues.add(executorFactory.execute(parameter, context));
-		}
-		
-		Object module = context.getModule();
-		// Execute user-defined operation (if isArrow() == false)
-		if (module instanceof IEolModule && !isArrow()) {
-			OperationList operations = ((IEolModule) module).getOperations();
-			Operation helper = operations.getOperation(targetObject, nameExpression, parameterValues, context);
-			if (helper != null) {
-				return helper.execute(targetObject, parameterValues, context);
+		finally {
+			// Clean up ThreadLocal
+			if (operationContributor != null) {
+				operationContributor.dispose();
 			}
 		}
-		
-		Object[] parameterValuesArray = parameterValues.toArray();
-		
-		// Method contributors that use the evaluated parameters
-		if (operationContributor != null) {
-			// Try contributors that override the context's operation contributor registry
-			objectMethod = operationContributor
-				.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context, true);
-		}
-		
-		if (objectMethod == null) {
-			objectMethod = context.getOperationContributorRegistry()
-				.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context);
-		}
-		
-		if (operationContributor != null && objectMethod == null) {
-			// Try contributors that do not override the context's operation contributor registry
-			objectMethod = operationContributor
-				.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context, false);
-		}
-		
-		if (objectMethod != null) {
-			return wrap(objectMethod.execute(nameExpression, context, parameterValuesArray));
-		}
-
-		// Execute user-defined operation (if isArrow() == true)
-		if (operation instanceof SimpleOperation) {
-			return ((SimpleOperation) operation).execute(targetObject, parameterValues, context, nameExpression);
-		}
-
-		// Most likely a FirstOrderOperation or DynamicOperation
-		if (operation != null && targetObject != null && !parameterExpressions.isEmpty()) {
-			return operation.execute(targetObject, nameExpression, new ArrayList<>(0), parameterExpressions, context);
-		}
-		
-		// No operation found
-		throw new EolIllegalOperationException(targetObject, operationName, nameExpression, context.getPrettyPrinterManager());
 	}
 	
 	@Override

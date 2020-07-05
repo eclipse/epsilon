@@ -113,4 +113,13 @@ public abstract class OperationContributor {
 	protected IEolContext getContext() {
 		return context.get();
 	}
+	
+	/**
+	 * Clears the target and context.
+	 * @since 2.1
+	 */
+	public void dispose() {
+		target.remove();
+		context.remove();
+	}
 }
