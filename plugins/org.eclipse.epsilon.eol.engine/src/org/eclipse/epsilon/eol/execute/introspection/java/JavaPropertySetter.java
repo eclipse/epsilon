@@ -34,6 +34,7 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		ObjectMethod objectMethod = getMethodFor(target, property, value, context);
 		ModuleElement ast = context.getExecutorFactory().getActiveModuleElement();
 		if (objectMethod.method == null) {
+			objectMethod.dispose();
 			throw new EolIllegalPropertyException(target, property, ast, context);
 		}
 		objectMethod.execute(ast, context, value);

@@ -55,6 +55,7 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 		ObjectMethod objectMethod = getMethodFor(object, property, context);
 		ModuleElement ast = context.getExecutorFactory().getActiveModuleElement();
 		if (objectMethod.method == null) {
+			objectMethod.dispose();
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
 		return objectMethod.execute(ast, context);

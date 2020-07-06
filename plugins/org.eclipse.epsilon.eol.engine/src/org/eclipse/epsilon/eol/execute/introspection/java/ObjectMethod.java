@@ -70,9 +70,16 @@ public class ObjectMethod {
 			return ReflectionUtil.executeMethod(object, method, ast, parameters);
 		}
 		finally {
-			if (object instanceof OperationContributor) {
-				((OperationContributor) object).dispose();
-			}
+			dispose();
+		}
+	}
+	
+	/**
+	 * @since 2.2
+	 */
+	public void dispose() {
+		if (object instanceof OperationContributor) {
+			((OperationContributor) object).dispose();
 		}
 	}
 	
