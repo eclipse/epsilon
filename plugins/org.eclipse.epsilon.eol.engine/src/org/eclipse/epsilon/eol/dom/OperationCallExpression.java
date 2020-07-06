@@ -195,12 +195,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		finally {
 			// Clean up ThreadLocal
-			if (operationContributor == null && objectMethod != null) {
-				Object omTarget = objectMethod.getObject();
-				if (omTarget instanceof OperationContributor) {
-					operationContributor = (OperationContributor) omTarget;
-				}
-			}
 			if (operationContributor != null) {
 				operationContributor.dispose();
 			}

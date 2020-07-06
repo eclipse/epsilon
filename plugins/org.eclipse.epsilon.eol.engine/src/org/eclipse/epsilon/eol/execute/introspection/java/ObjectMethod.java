@@ -16,6 +16,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class ObjectMethod {
@@ -65,7 +66,11 @@ public class ObjectMethod {
 	}
 	
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
-		return ReflectionUtil.executeMethod(object, method, ast, parameters);
+		Object result = ReflectionUtil.executeMethod(object, method, ast, parameters);
+		if (object instanceof OperationContributor) {
+			((OperationContributor) object).dispose();
+		}
+		return result;
 	}
 	
 	/**
