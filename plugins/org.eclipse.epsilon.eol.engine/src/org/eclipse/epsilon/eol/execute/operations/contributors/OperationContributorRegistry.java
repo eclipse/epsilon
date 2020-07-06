@@ -99,7 +99,12 @@ public class OperationContributorRegistry {
 	protected Collection<OperationContributor> getOperationContributorsFor(Object target, IEolContext context) {
 		return stream().filter(oc -> {
 			oc.setContext(context);
-			return oc.contributesTo(target);
+			try {
+				return oc.contributesTo(target);
+			}
+			finally {
+				oc.dispose();
+			}
 		})
 		.collect(Collectors.toList());
 	}
