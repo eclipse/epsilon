@@ -66,11 +66,14 @@ public class ObjectMethod {
 	}
 	
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
-		Object result = ReflectionUtil.executeMethod(object, method, ast, parameters);
-		if (object instanceof OperationContributor) {
-			((OperationContributor) object).dispose();
+		try {
+			return ReflectionUtil.executeMethod(object, method, ast, parameters);
 		}
-		return result;
+		finally {
+			if (object instanceof OperationContributor) {
+				((OperationContributor) object).dispose();
+			}
+		}
 	}
 	
 	/**
