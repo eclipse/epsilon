@@ -21,7 +21,9 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 	
 	@Override
 	public boolean hasProperty(Object object, String property, IEolContext context) {
-		return getMethodFor(object, property, context).getMethod() != null;
+		try (ObjectMethod om = getMethodFor(object, property, context)) {
+			return om.getMethod() != null;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -52,12 +54,12 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 	
 	@Override
 	public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
-		ObjectMethod objectMethod = getMethodFor(object, property, context);
-		ModuleElement ast = context.getExecutorFactory().getActiveModuleElement();
-		if (objectMethod.method == null) {
-			objectMethod.dispose();
-			throw new EolIllegalPropertyException(object, property, ast, context);
+		try (ObjectMethod objectMethod = getMethodFor(object, property, context)) {
+			ModuleElement ast = context.getExecutorFactory().getActiveModuleElement();
+			if (objectMethod.method == null) {
+				throw new EolIllegalPropertyException(object, property, ast, context);
+			}
+			return objectMethod.execute(ast, context);
 		}
-		return objectMethod.execute(ast, context);
 	}
 }

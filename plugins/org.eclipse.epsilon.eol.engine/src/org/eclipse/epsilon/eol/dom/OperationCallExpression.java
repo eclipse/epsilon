@@ -78,6 +78,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 	}
 	
+	@SuppressWarnings("resource")
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object targetObject;
@@ -196,7 +197,10 @@ public class OperationCallExpression extends FeatureCallExpression {
 		finally {
 			// Clean up ThreadLocal
 			if (operationContributor != null) {
-				operationContributor.dispose();
+				operationContributor.close();
+			}
+			if (objectMethod != null) {
+				objectMethod.close();
 			}
 		}
 	}

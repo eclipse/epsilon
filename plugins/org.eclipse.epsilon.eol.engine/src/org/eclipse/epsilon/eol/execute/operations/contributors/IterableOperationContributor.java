@@ -502,13 +502,15 @@ public class IterableOperationContributor extends OperationContributor {
 	    
 	    Object head = originalSet.get(0);
 	    Set<Object> rest = new HashSet<>(originalSet.subList(1, originalSet.size())); 
-	    for (Set<Object> set : new IterableOperationContributor(rest).powerset()) {
-	    	Set<Object> newSet = new HashSet<>();
-	    	newSet.add(head);
-	    	newSet.addAll(set);
-	    	sets.add(newSet);
-	    	sets.add(set);
-	    }		
+	    try (IterableOperationContributor restOC = new IterableOperationContributor(rest)) {
+		    for (Set<Object> set : restOC.powerset()) {
+		    	Set<Object> newSet = new HashSet<>();
+		    	newSet.add(head);
+		    	newSet.addAll(set);
+		    	sets.add(newSet);
+		    	sets.add(set);
+		    }		
+	    }
 	    return sets;
 	}
 	

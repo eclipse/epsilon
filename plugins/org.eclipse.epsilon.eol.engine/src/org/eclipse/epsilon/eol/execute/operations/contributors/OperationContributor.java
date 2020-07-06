@@ -25,7 +25,7 @@ import org.eclipse.epsilon.eol.util.ReflectionUtil;
  * stateless, or if it contains state (i.e. fields)
  * then they are either immutable or ThreadLocal.
  */
-public abstract class OperationContributor {
+public abstract class OperationContributor implements AutoCloseable {
 	
 	private final ThreadLocal<Object> target = new ThreadLocal<>();
 	private final ThreadLocal<IEolContext> context = new ThreadLocal<>();
@@ -118,7 +118,8 @@ public abstract class OperationContributor {
 	 * Clears the target and context.
 	 * @since 2.2
 	 */
-	public void dispose() {
+	@Override
+	public void close() {
 		target.remove();
 		context.remove();
 	}

@@ -11,9 +11,8 @@ package org.eclipse.epsilon.eol.execute.introspection.java;
 
 import java.lang.reflect.Field;
 
-public class ObjectField {
+public class ObjectField extends DisposableObject {
 	
-	protected Object object;
 	protected Field field;
 	
 	public void setValue(Object value) throws Exception {

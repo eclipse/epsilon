@@ -75,8 +75,9 @@ public class OperationContributorRegistry {
 	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
 		for (OperationContributor c : getOperationContributorsFor(target, context)) {
 			ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, parameterExpressions, context);
-			if (objectMethod != null)
+			if (objectMethod != null) {
 				return objectMethod;
+			}
 		}
 		return null;
 	}
@@ -90,8 +91,9 @@ public class OperationContributorRegistry {
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
 		for (OperationContributor c : getOperationContributorsFor(target, context)) {
 			ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
-			if (objectMethod != null)
+			if (objectMethod != null) {
 				return objectMethod;
+			}
 		}
 		return null;
 	}
@@ -99,11 +101,8 @@ public class OperationContributorRegistry {
 	protected Collection<OperationContributor> getOperationContributorsFor(Object target, IEolContext context) {
 		return stream().filter(oc -> {
 			oc.setContext(context);
-			try {
-				return oc.contributesTo(target);
-			}
-			finally {
-				oc.dispose();
+			try (OperationContributor opContributor = oc) {
+				return opContributor.contributesTo(target);
 			}
 		})
 		.collect(Collectors.toList());

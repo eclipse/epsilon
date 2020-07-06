@@ -113,8 +113,9 @@ public class DynamicOperation extends AbstractOperation {
 		}
 		
 		// Finally, call the method with the resolved parameters
-		return new ObjectMethod(target, resolvedMethod)
-			.execute(operationNameExpression, context, candidateParameterValues);
+		try (ObjectMethod om = new ObjectMethod(target, resolvedMethod)) {
+			return om.execute(operationNameExpression, context, candidateParameterValues);
+		}
 	}
 	
 	static List<Parameter> normalizeParameters(List<Parameter> iterators) {

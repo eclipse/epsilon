@@ -16,12 +16,10 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
-public class ObjectMethod {
-	
-	protected Object object;
+public class ObjectMethod extends DisposableObject {
+
 	protected Method method;
 	
 	public ObjectMethod() {}
@@ -66,21 +64,7 @@ public class ObjectMethod {
 	}
 	
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
-		try {
-			return ReflectionUtil.executeMethod(object, method, ast, parameters);
-		}
-		finally {
-			dispose();
-		}
-	}
-	
-	/**
-	 * @since 2.2
-	 */
-	public void dispose() {
-		if (object instanceof OperationContributor) {
-			((OperationContributor) object).dispose();
-		}
+		return ReflectionUtil.executeMethod(object, method, ast, parameters);
 	}
 	
 	/**

@@ -25,12 +25,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Text;
 
 public class StringOperationContributor extends OperationContributor {
-
-	public static void main(String[] args) throws Exception {
-		StringOperationContributor sop = new StringOperationContributor();
-		sop.setTarget("M&S");
-		System.out.println(sop.escapeXml());
-	}
 	
 	@Override
 	public boolean contributesTo(Object target) {

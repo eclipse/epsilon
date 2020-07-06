@@ -31,13 +31,13 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 	
 	@Override
 	public void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException {
-		ObjectMethod objectMethod = getMethodFor(target, property, value, context);
-		ModuleElement ast = context.getExecutorFactory().getActiveModuleElement();
-		if (objectMethod.method == null) {
-			objectMethod.dispose();
-			throw new EolIllegalPropertyException(target, property, ast, context);
+		try (ObjectMethod objectMethod = getMethodFor(target, property, value, context)) {
+			ModuleElement ast = context.getExecutorFactory().getActiveModuleElement();
+			if (objectMethod.method == null) {
+				throw new EolIllegalPropertyException(target, property, ast, context);
+			}
+			objectMethod.execute(ast, context, value);
 		}
-		objectMethod.execute(ast, context, value);
 	}
 
 	@Override
