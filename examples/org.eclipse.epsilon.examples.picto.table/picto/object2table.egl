@@ -1,7 +1,7 @@
 [%import "objectUtils.eol";%]
 <html>
 <head>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 </head>
 <body>
 [%
@@ -15,8 +15,8 @@
 	</tr>
 [%for (feature in object.getFeatures()){%]
 	<tr pictoid="[%=feature.name%]">
-		<td>[%=feature.getIcon()%][%=feature.name%]</th>
-		<td>[%=feature.displayValue(object)%]</th>
+		<td>[%=feature.getIcon()%][%=feature.name%]</td>
+		<td>[%=feature.displayValue(object)%]</td>
 	</tr>
 [%}%]
 </table>
