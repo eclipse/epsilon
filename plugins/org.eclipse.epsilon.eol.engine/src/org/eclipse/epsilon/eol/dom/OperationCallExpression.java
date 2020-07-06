@@ -116,6 +116,10 @@ public class OperationCallExpression extends FeatureCallExpression {
 		
 		// Operation contributor for model elements
 		OperationContributor operationContributor = null;
+		
+		// Method contributors that use the unevaluated AST
+		ObjectMethod objectMethod = null;
+		
 		try {
 			if (targetObject instanceof IOperationContributorProvider) {
 				operationContributor = ((IOperationContributorProvider) targetObject).getOperationContributor();
@@ -123,9 +127,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 			else if (owningModel != null && owningModel instanceof IOperationContributorProvider) {
 				operationContributor = ((IOperationContributorProvider) owningModel).getOperationContributor();
 			}
-			
-			// Method contributors that use the unevaluated AST
-			ObjectMethod objectMethod = null;
 			
 			if (operationContributor != null) {
 				objectMethod = operationContributor
@@ -194,6 +195,12 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		finally {
 			// Clean up ThreadLocal
+			if (operationContributor == null && objectMethod != null) {
+				Object omTarget = objectMethod.getObject();
+				if (omTarget instanceof OperationContributor) {
+					operationContributor = (OperationContributor) omTarget;
+				}
+			}
 			if (operationContributor != null) {
 				operationContributor.dispose();
 			}
