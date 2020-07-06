@@ -80,6 +80,7 @@
    </feature>
    <feature id="org.eclipse.epsilon.emc.csv.feature">
       <category name="Epsilon Spreadsheet Integration"/>
+   </feature>
    <feature url="features/org.eclipse.epsilon.pinset.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.pinset.feature" version="2.2.0.qualifier">
       <category name="Pinset"/>
    </feature>
