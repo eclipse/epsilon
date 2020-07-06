@@ -66,9 +66,17 @@ public abstract class OperationContributor implements AutoCloseable {
 		}
 		
 		if (method != null) {
-			ObjectMethod objectMethod = new ObjectMethod(getReflectionTarget(target), method);
-			setTarget(target);
-			setContext(context);
+			Object reflectionTarget = getReflectionTarget(target);
+			ObjectMethod objectMethod = new ObjectMethod(reflectionTarget, method);
+
+			/*
+			 * If the reflection target is this contributor, then it will need to know about
+			 * the actual operand for the method and the intended context.
+			 */
+			if (reflectionTarget == this) {
+				setTarget(target);
+				setContext(context);
+			}
 			return objectMethod;
 		}
 		else return null;
