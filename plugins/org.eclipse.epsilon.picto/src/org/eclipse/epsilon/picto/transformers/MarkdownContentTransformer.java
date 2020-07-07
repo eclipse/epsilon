@@ -33,7 +33,24 @@ public class MarkdownContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		
+		return new ViewContent("html",
+			pictoView.getViewRenderer().getHtml(markdownToHtml(content.getText())),
+			content
+		);
+	}
+	
+	@Override
+	public String getLabel(ViewContent content) {
+		return "Markdown";
+	}
+	
+	/**
+	 * 
+	 * @param md
+	 * @return
+	 * @since 2.2
+	 */
+	public static String markdownToHtml(String md) {
 		List<org.commonmark.Extension> extensions = Arrays.asList(
 			TablesExtension.create(), 
 			YamlFrontMatterExtension.create(),
@@ -45,15 +62,9 @@ public class MarkdownContentTransformer implements ViewContentTransformer {
 		HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
 	
 		StringWriter writer = new StringWriter();
-		Node document = parser.parse(content.getText());
+		Node document = parser.parse(md);
 		renderer.render(document, writer);
-		String htmlText = pictoView.getViewRenderer().getHtml(writer.toString());
-		return new ViewContent("html", htmlText, content);
-	}
-	
-	@Override
-	public String getLabel(ViewContent content) {
-		return "Markdown";
+		return writer.toString();
 	}
 	
 }
