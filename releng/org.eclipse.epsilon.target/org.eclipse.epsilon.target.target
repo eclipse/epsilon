@@ -50,6 +50,14 @@
 		<repository location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<unit id="com.atlassian.commonmark" version="0.15.1.v20200707-1444"/>
+		<unit id="com.atlassian.commonmark-gfm-strikethrough" version="0.15.1.v20200707-1444"/>
+		<unit id="com.atlassian.commonmark-gfm-tables" version="0.15.1.v20200707-1444"/>
+		<unit id="com.atlassian.commonmark-heading-anchor" version="0.15.1.v20200707-1444"/>
+		<unit id="com.atlassian.commonmark-image-attributes" version="0.15.1.v20200707-1444"/>
+		<unit id="com.atlassian.commonmark-ins" version="0.15.1.v20200707-1444"/>
+		<unit id="com.atlassian.commonmark-task-list-items" version="0.15.1.v20200707-1444"/>
+		<unit id="com.atlassian.commonmark-yaml" version="0.15.1.v20200707-1444"/>
 		<unit id="net.bytebuddy.byte-buddy" version="1.7.9.v20180420-1519"/>
 		<unit id="net.bytebuddy.byte-buddy-agent" version="1.7.9.v20180420-1519"/>
 		<unit id="org.antlr.runtime" version="3.5.2.v20200417-1535"/>
@@ -65,7 +73,7 @@
 		<unit id="org.slf4j.log4j" version="1.7.2.v20130115-1340"/>
 		<unit id="org.apache.commons.cli" version="1.4.0.v20200417-1444"/>
 		<unit id="org.apache.xmlbeans" version="2.6.0.v20200418-0047"/>
-		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
+		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20200707174545/repository"/>
 	</location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>

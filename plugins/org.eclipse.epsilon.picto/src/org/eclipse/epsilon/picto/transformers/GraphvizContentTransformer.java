@@ -24,7 +24,7 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 	
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getFormat().startsWith("graphviz-");
+		return content.getFormat().toLowerCase().startsWith("graphviz-");
 	}
 
 	@Override

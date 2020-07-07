@@ -18,7 +18,7 @@ import java.util.Set;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
-
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
@@ -36,18 +36,19 @@ import org.w3c.dom.NodeList;
 public class HtmlContentTransformer implements ViewContentTransformer {
 	
 	protected List<HtmlElementTransformer> htmlElementTransformers = Arrays.asList(
-			new AbsolutePathElementTransformer("img",  "src"),
-			new AbsolutePathElementTransformer("link",  "href"),
-			new AbsolutePathElementTransformer("script",  "src"),
-			new AbsolutePathElementTransformer("a",  "href"),
-			new PictoViewElementTransformer(), 
-			new RenderCodeElementTransformer());
+		new AbsolutePathElementTransformer("img",  "src"),
+		new AbsolutePathElementTransformer("link",  "href"),
+		new AbsolutePathElementTransformer("script",  "src"),
+		new AbsolutePathElementTransformer("a",  "href"),
+		new PictoViewElementTransformer(), 
+		new RenderCodeElementTransformer()
+	);
 	
 	protected XmlHelper xmlHelper = new XmlHelper();
 	
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getFormat().equals("html");
+		return StringUtil.isOneOf(content.getFormat().toLowerCase(), "html", "htm");
 	}
 
 	@Override

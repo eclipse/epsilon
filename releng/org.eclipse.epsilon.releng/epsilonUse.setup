@@ -478,6 +478,8 @@
       <repository
           url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
       <repository
+          url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200707174545/repository"/>
+      <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
     </setupTask>
     <description>Latest version of Epsilon</description>

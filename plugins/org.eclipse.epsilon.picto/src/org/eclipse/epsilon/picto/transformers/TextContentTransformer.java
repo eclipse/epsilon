@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 
@@ -16,7 +17,7 @@ public class TextContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getFormat().equals("text");
+		return StringUtil.isOneOf(content.getFormat().toLowerCase(), "text", "txt");
 	}
 
 	@Override
@@ -28,7 +29,4 @@ public class TextContentTransformer implements ViewContentTransformer {
 	public String getLabel(ViewContent content) {
 		return "Text";
 	}
-	
-	
-
 }

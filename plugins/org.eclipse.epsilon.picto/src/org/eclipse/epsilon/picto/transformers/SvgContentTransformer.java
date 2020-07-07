@@ -19,7 +19,7 @@ public class SvgContentTransformer implements ViewContentTransformer {
 	
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getFormat().equals("svg");
+		return "svg".equalsIgnoreCase(content.getFormat());
 	}
 
 	@Override

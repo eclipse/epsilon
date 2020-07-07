@@ -47,6 +47,22 @@ public class ViewContent {
 		return viewContentTransformers;
 	}
 	
+	/**
+	 * 
+	 * @param format
+	 * @param text
+	 * @param other
+	 * @since 2.2
+	 */
+	public ViewContent(String format, String text, ViewContent other) {
+		this(format, text,
+			other.getFile(),
+			other.getLayers(),
+			other.getPatches(),
+			other.getBaseUris()
+		);
+	}
+	
 	public ViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches, Set<URI> baseUris) {
 		super();
 		this.format = format;

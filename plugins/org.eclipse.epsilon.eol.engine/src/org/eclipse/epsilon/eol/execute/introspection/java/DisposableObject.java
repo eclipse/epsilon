@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContribu
  * @author Sina Madani
  * @since 2.2
  */
-class DisposableObject implements AutoCloseable {
+abstract class DisposableObject implements AutoCloseable {
 
 	protected Object object;
 	

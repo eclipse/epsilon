@@ -18,7 +18,7 @@ public class ExceptionContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getFormat().equals("exception");
+		return content.getFormat().equalsIgnoreCase("exception");
 	}
 
 	@Override

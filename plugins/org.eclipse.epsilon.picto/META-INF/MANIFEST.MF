@@ -30,8 +30,14 @@ Require-Bundle: org.eclipse.epsilon.flexmi,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.epsilon.eol.dt,
- org.eclipse.mylyn.wikitext,
- org.eclipse.mylyn.wikitext.markdown
+ com.atlassian.commonmark,
+ com.atlassian.commonmark-gfm-strikethrough,
+ com.atlassian.commonmark-gfm-tables,
+ com.atlassian.commonmark-heading-anchor,
+ com.atlassian.commonmark-image-attributes,
+ com.atlassian.commonmark-ins,
+ com.atlassian.commonmark-task-list-items,
+ com.atlassian.commonmark-yaml
 Bundle-Activator: org.eclipse.epsilon.picto.PictoPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.picto,

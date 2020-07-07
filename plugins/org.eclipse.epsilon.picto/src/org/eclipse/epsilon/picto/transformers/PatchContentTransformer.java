@@ -27,7 +27,10 @@ public class PatchContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getPatches().stream().anyMatch(p -> p.getFormat()!= null && p.getFormat().equals(content.getFormat()));
+		String contentFormat = content.getFormat();
+		return content.getPatches()
+			.stream().map(Patch::getFormat)
+			.anyMatch(f -> f != null && f.equalsIgnoreCase(contentFormat));
 	}
 
 	@Override

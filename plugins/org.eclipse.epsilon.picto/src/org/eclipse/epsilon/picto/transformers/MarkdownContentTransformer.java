@@ -10,35 +10,45 @@
 package org.eclipse.epsilon.picto.transformers;
 
 import java.io.StringWriter;
-
+import java.util.Arrays;
+import java.util.List;
+import org.commonmark.ext.front.matter.YamlFrontMatterExtension;
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
+import org.commonmark.ext.gfm.tables.TablesExtension;
+import org.commonmark.ext.image.attributes.ImageAttributesExtension;
+import org.commonmark.ext.ins.InsExtension;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.mylyn.wikitext.markdown.MarkdownLanguage;
-import org.eclipse.mylyn.wikitext.parser.MarkupParser;
-import org.eclipse.mylyn.wikitext.parser.builder.HtmlDocumentBuilder;
 
 public class MarkdownContentTransformer implements ViewContentTransformer {
 	
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return "markdown".equals(content.getFormat());
+		return StringUtil.isOneOf(content.getFormat().toLowerCase(), "markdown", "md");
 	}
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
 		
-		MarkupParser markupParser = new MarkupParser();
-		markupParser.setMarkupLanguage(new MarkdownLanguage());
-		StringWriter writer = new StringWriter();
-		HtmlDocumentBuilder builder = new HtmlDocumentBuilder(writer, true);
-		builder.setEmitAsDocument(false);
-		markupParser.setBuilder(builder);
-		markupParser.parse(content.getText());
-		
-		return new ViewContent(
-			"html", pictoView.getViewRenderer().getHtml(writer.toString()),
-			content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris()
+		List<org.commonmark.Extension> extensions = Arrays.asList(
+			TablesExtension.create(), 
+			YamlFrontMatterExtension.create(),
+			InsExtension.create(),
+			ImageAttributesExtension.create(), 
+			StrikethroughExtension.create()
 		);
+		Parser parser = Parser.builder().extensions(extensions).build();
+		HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
+	
+		StringWriter writer = new StringWriter();
+		Node document = parser.parse(content.getText());
+		renderer.render(document, writer);
+		String htmlText = pictoView.getViewRenderer().getHtml(writer.toString());
+		return new ViewContent("html", htmlText, content);
 	}
 	
 	@Override
