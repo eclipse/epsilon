@@ -115,13 +115,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.emc.csv.dt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.epsilon.epl.dt"
          download-size="0"
          install-size="0"
@@ -179,13 +172,6 @@
 
    <plugin
          id="org.eclipse.epsilon.eunit.junit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.workflow.csv"
          download-size="0"
          install-size="0"
          version="0.0.0"

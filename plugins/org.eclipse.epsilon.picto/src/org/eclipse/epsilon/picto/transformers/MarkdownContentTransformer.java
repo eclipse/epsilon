@@ -60,7 +60,6 @@ public class MarkdownContentTransformer implements ViewContentTransformer {
 		);
 		Parser parser = Parser.builder().extensions(extensions).build();
 		HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
-	
 		StringWriter writer = new StringWriter();
 		Node document = parser.parse(md);
 		renderer.render(document, writer);
