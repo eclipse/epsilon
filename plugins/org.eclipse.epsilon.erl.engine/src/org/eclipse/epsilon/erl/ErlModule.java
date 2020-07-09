@@ -148,12 +148,12 @@ public class ErlModule extends EolModule implements IErlModule {
 		return declaredPre;
 	}
 	
-	protected void prepareExecution() throws EolRuntimeException {
+	public void prepareExecution() throws EolRuntimeException {
 		prepareContext();
 		execute(getPre(), getContext());
 	}
 	
-	protected void postExecution() throws EolRuntimeException {
+	public void postExecution() throws EolRuntimeException {
 		execute(getPost(), getContext());
 	}
 	
