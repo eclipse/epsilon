@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.swt.graphics.Point;
 
@@ -211,12 +212,26 @@ public class ViewTree {
 	
 	public List<ViewContent> getContents(PictoView pictoView) {
 		List<ViewContent> viewContents = new ArrayList<>();
-		ViewContent viewContent = getContent();
-		while (viewContent != null) {
-			viewContents.add(viewContent);
-			viewContent = viewContent.getNext(pictoView);
-		}
+		for (
+			ViewContent viewContent = getContent();
+			viewContent != null && viewContents.add(viewContent);
+			viewContent = viewContent.getNext(pictoView)
+		);
 		return viewContents;
+	}
+	
+	/**
+	 * Concatenates the result of {@link #getContents(PictoView)}
+	 * where each {@link ViewContent#getText()}) is separated by a new line.
+	 * 
+	 * @param pictoView
+	 * @return
+	 * @since 2.2
+	 */
+	public String getContentsText(PictoView pictoView) {
+		return getContents(pictoView).stream()
+			.map(ViewContent::getText)
+			.collect(Collectors.joining(System.lineSeparator()));
 	}
 	
 	public void setPromise(ContentPromise promise) {
