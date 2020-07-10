@@ -270,7 +270,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	 * @since 1.6
 	 */
 	@Override
-	protected void postExecution() throws EolRuntimeException {
+	public void postExecution() throws EolRuntimeException {
 		if (fixer != null) {
 			fixer.fix(this);
 		}

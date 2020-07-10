@@ -76,10 +76,10 @@ public class EtlModule extends ErlModule implements IEtlModule {
 			return new TransformationRule();
 		}
 		else if (cst.getType() == EtlParser.GUARD) {
-			return new ExecutableBlock<Boolean>(Boolean.class);
+			return new ExecutableBlock<>(Boolean.class);
 		}
 		else if (cst.getType() == EtlParser.BLOCK && cst.getParent() != null && cst.getParent().getType() == EtlParser.TRANSFORM) {
-			return new ExecutableBlock<Void>(Void.class);
+			return new ExecutableBlock<>(Void.class);
 		}
 		else if (cst.getType() == EtlParser.SPECIAL_ASSIGNMENT) {
 			return new EquivalentAssignmentStatement();
