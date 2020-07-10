@@ -36,4 +36,9 @@ public class ActionTests extends FlexmiTests {
 		assertWarning("Undefined variable", 9, "actions/model-with-actions.flexmi");
 	}
 	
+	@Test
+	public void testNameAndAction() throws Exception {
+		assertEval("EReference.all.first().name", "cs", "actions/name-and-action.flexmi");
+	}
+	
 }

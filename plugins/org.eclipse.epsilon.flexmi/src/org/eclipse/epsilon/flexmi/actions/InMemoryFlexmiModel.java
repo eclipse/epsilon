@@ -49,14 +49,20 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 		
 		@Override
 		public boolean hasProperty(Object object, String property, IEolContext context) {
+			if (property.startsWith("^")) return getChild(object, property.substring(1)) != null;
 			return getChild(object, property) != null || super.hasProperty(object, property, context);
 		}
 		
 		@Override
 		public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
-			EObject child = getChild(object, property);
-			if (child != null) return child;
-			return super.invoke(object, property, context);
+			if (property.startsWith("^")) return getChild(object, property.substring(1));
+			
+			if (super.hasProperty(object, property, context)) {
+				return super.invoke(object, property, context);
+			}
+			else {
+				return getChild(object, property);
+			}
 		}
 		
 		protected EObject getChild(Object container, String id) {
