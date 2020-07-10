@@ -48,10 +48,10 @@ public class EolSystem extends AbstractTool {
 	 * 
 	 * @param command
 	 * @return
-	 * @throws EolRuntimeException
+	 * @throws IOException 
 	 * @since 2.2
 	 */
-	public final String executeNative(String command) throws EolRuntimeException {
+	public static final String executeNative(String command) throws IOException {
 		return executeNative(command.split(" "));
 	}
 	
@@ -59,26 +59,21 @@ public class EolSystem extends AbstractTool {
 	 * 
 	 * @param commands
 	 * @return
-	 * @throws EolRuntimeException
+	 * @throws IOException 
 	 * @since 2.2
 	 */
-	protected String executeNative(String[] commands) throws EolRuntimeException {
-		try {
-			return OperatingSystem.executeCommand(commands);
-		}
-		catch (IOException ex) {
-			throw new EolRuntimeException(ex);
-		}
+	public static final String executeNative(String... commands) throws IOException {
+		return OperatingSystem.executeCommand(commands);
 	}
 	
 	/**
 	 * 
 	 * @param command
 	 * @return
-	 * @throws EolRuntimeException
+	 * @throws IOException 
 	 * @since 2.2
 	 */
-	public final Process executeNativeAsync(String command) throws EolRuntimeException {
+	public static final Process executeNativeAsync(String command) throws IOException {
 		return executeNativeAsync(command.split(" "));
 	}
 	
@@ -86,15 +81,10 @@ public class EolSystem extends AbstractTool {
 	 * 
 	 * @param commands
 	 * @return
-	 * @throws EolRuntimeException
+	 * @throws IOException 
 	 * @since 2.2
 	 */
-	protected Process executeNativeAsync(String[] commands) throws EolRuntimeException {
-		try {
-			return new ProcessBuilder(commands).start();
-		}
-		catch (IOException ex) {
-			throw new EolRuntimeException(ex);
-		}
+	public static final Process executeNativeAsync(String... commands) throws IOException {
+		return new ProcessBuilder(commands).start();
 	}
 }
