@@ -37,6 +37,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -76,6 +77,7 @@ public class PictoView extends ViewPart {
 	protected PictoSource source = null;
 	protected List<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
 	protected ViewTreeLabelProvider viewTreeLabelProvider;
+	protected FilteredViewTree filteredTree;
 	protected boolean renderVerbatimSources = false;
 	
 	@Override
@@ -90,7 +92,7 @@ public class PictoView extends ViewPart {
 				return wordMatches(viewTree.getName());
 			}
 		};
-		FilteredViewTree filteredTree = new FilteredViewTree(sashForm, SWT.MULTI | SWT.H_SCROLL
+		filteredTree = new FilteredViewTree(sashForm, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.BORDER, filter, true);
 		
 		treeViewer = filteredTree.getViewer();
@@ -214,7 +216,9 @@ public class PictoView extends ViewPart {
 		toolbar.add(new PrintAction(viewRenderer));
 		toolbar.add(new RefreshAction(this));
 		toolbar.add(new LockAction(this));
+		toolbar.add(new Separator());
 		toolbar.add(hideTreeAction);
+		toolbar.add(new MoveTreeAction());
 		toolbar.add(new Separator());
 		toolbar.add(new ViewContentsMenuAction(this));
 		
@@ -447,6 +451,43 @@ public class PictoView extends ViewPart {
 		@Override
 		public void run() {
 			setTreeViewerVisible(treeViewerShouldBeVisible);
+		}
+	}
+	
+	class MoveTreeAction extends Action {
+		
+		protected String position = "left";
+		
+		public MoveTreeAction() {
+			super();
+			setText(getText("right"));
+			setImageDescriptor(getImageDescriptor("right"));
+		}
+		
+		@Override
+		public void run() {
+			
+			if ("left".equals(position)) {
+				browserContainer.moveAbove(filteredTree);
+			}
+			else {
+				filteredTree.moveAbove(browserContainer);
+			}
+			
+			sashForm.layout(true);
+			
+			setText(getText(position));
+			setImageDescriptor(getImageDescriptor(position));
+			position = position.equalsIgnoreCase("left") ? "right" : "left";
+			
+		}
+		
+		protected String getText(String position) {
+			return "Move tree to the " + position;
+		}
+		
+		protected ImageDescriptor getImageDescriptor(String position) {
+			return PictoPlugin.getDefault().getImageDescriptor("icons/tree_" + position + ".png");
 		}
 	}
 	
