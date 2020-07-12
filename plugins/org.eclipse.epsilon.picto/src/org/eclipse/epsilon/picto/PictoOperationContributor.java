@@ -22,12 +22,12 @@ import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.types.EolNoType;
 
-public class GetImageOperationContributor extends OperationContributor {
+public class PictoOperationContributor extends OperationContributor {
 	
 	protected IEgxModule module;
 	protected static Map<String, String> cache = new HashMap<>();
 	
-	public GetImageOperationContributor(IEgxModule module) {
+	public PictoOperationContributor(IEgxModule module) {
 		this.module = module;
 	}
 	
@@ -36,7 +36,26 @@ public class GetImageOperationContributor extends OperationContributor {
 		return target == EolNoType.NoInstance;
 	}
 	
+	// For backwards compatibility
 	public String getImage(String path) {
+		return getFile(path);
+	}
+	
+	public String getURI(String path) {
+		return getURI(path, false);
+	}
+	
+	public String getURI(String path, boolean timestamp) {
+		try {
+			String uri = new File(getFile(path)).toURI().toString();
+			if (timestamp) uri += "?" + System.currentTimeMillis();
+			return uri;
+		}
+		catch (Exception ex) {}
+		return path;
+	}
+	
+	public String getFile(String path) {
 		if (module.getFile() != null) {
 			return new File(module.getFile().getParent(), path).getAbsolutePath();
 		}

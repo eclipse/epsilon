@@ -52,7 +52,7 @@ public class LazyEgxModule extends EgxModule {
 	protected Object processRules() throws EolRuntimeException {
 		IEgxContext context = getContext();
 		ExecutorFactory ef = context.getExecutorFactory();
-		context.getOperationContributorRegistry().add(new GetImageOperationContributor(this));
+		context.getOperationContributorRegistry().add(new PictoOperationContributor(this));
 		Collection<? extends GenerationRule> rules = getGenerationRules();
 		Collection<LazyGenerationRuleContentPromise> promises = new ArrayList<>(rules.size());
 		for (GenerationRule rule : rules) {
