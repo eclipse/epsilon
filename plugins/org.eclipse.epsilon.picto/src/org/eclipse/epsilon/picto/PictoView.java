@@ -22,7 +22,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
+import org.eclipse.epsilon.picto.actions.BackAction;
 import org.eclipse.epsilon.picto.actions.CopyToClipboardAction;
+import org.eclipse.epsilon.picto.actions.ForwardAction;
 import org.eclipse.epsilon.picto.actions.LayersMenuAction;
 import org.eclipse.epsilon.picto.actions.LockAction;
 import org.eclipse.epsilon.picto.actions.PrintAction;
@@ -72,13 +74,15 @@ public class PictoView extends ViewPart {
 	protected IEditorPart renderedEditor = null;
 	protected boolean locked = false;
 	protected ToggleTreeViewerAction hideTreeAction;
-	protected HashMap<IEditorPart, ViewTree> selectionHistory = new HashMap<>();
+	protected HashMap<IEditorPart, ViewTree> activeViewHistory = new HashMap<>();
 	protected ViewTree activeView = null;
 	protected PictoSource source = null;
 	protected List<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
 	protected ViewTreeLabelProvider viewTreeLabelProvider;
 	protected FilteredViewTree filteredTree;
 	protected boolean renderVerbatimSources = false;
+	protected CommandStack selectionCommandStack = new CommandStack();
+	protected boolean automatedSelection = false;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -100,14 +104,45 @@ public class PictoView extends ViewPart {
 		viewTreeLabelProvider = new ViewTreeLabelProvider();
 		treeViewer.setLabelProvider(viewTreeLabelProvider);
 		treeViewer.addSelectionChangedListener(event -> {
+			
 			ViewTree view = ((ViewTree)event.getStructuredSelection().getFirstElement());
 			if (view != null && view.getContent() != null) {
-				try {
-					selectionHistory.put(renderedEditor, view);
-					renderView(view);
-				} catch (Exception ex) {
-					viewRenderer.display(ex);
-				}
+				
+				activeViewHistory.put(renderedEditor, view);
+				
+				// If the selection happens as a result of undo/redo 
+				// we should not execute a new command
+				if (automatedSelection) return;
+				
+				selectionCommandStack.execute(new Command() {
+					
+					protected List<String> path = null;
+					
+					@Override
+					public void execute() {
+						
+						if (path == null) {
+							path = view.getPath();
+							try {
+								renderView(view);
+							} catch (Exception ex) {
+								viewRenderer.display(ex);
+							}
+						}
+						else {
+							try {
+								automatedSelection = true;
+								selectViewTree(path);
+								renderView(getViewTree().forPath(path));
+							} catch (Exception ex) {
+								viewRenderer.display(ex);
+							}
+							finally {
+								automatedSelection = false;
+							}
+						}
+					}
+				});
 			}
 		});
 		treeViewer.addDoubleClickListener(event -> filteredTree.clearFilterText());
@@ -122,17 +157,9 @@ public class PictoView extends ViewPart {
 					
 					Object[] pathArray = (Object[]) arguments[0];
 					String[] pathStringArray = Arrays.copyOf(pathArray, pathArray.length, String[].class);
-					List<String> pathList = new ArrayList<>(Arrays.asList(pathStringArray));
-					pathList.add(0, getViewTree().getName());
-					
-					ViewTree viewTree = getViewTree().forPath(pathList);
-					List<ViewTree> path = new ArrayList<>();
-					while (viewTree != null) {
-						path.add(0, viewTree);
-						viewTree = viewTree.getParent();
-					}
-					treeViewer.setSelection(new TreeSelection(new TreePath(path.toArray())));
-					treeViewer.refresh();
+					List<String> path = new ArrayList<>(Arrays.asList(pathStringArray));
+					path.add(0, getViewTree().getName());
+					selectViewTree(path);
 				}
 				throw new RuntimeException();
 			};
@@ -190,6 +217,7 @@ public class PictoView extends ViewPart {
 				if (!(workbenchPart instanceof IEditorPart)) return;
 				
 				IEditorPart editorPart = (IEditorPart) workbenchPart;
+				activeViewHistory.remove(editorPart);
 				
 				if (locked) {
 					if (editor == editorPart) editor = null;
@@ -206,6 +234,9 @@ public class PictoView extends ViewPart {
 		};
 		
 		IToolBarManager toolbar = getViewSite().getActionBars().getToolBarManager();
+		toolbar.add(new BackAction(this));
+		toolbar.add(new ForwardAction(this));
+		toolbar.add(new Separator());
 		toolbar.add(new ZoomAction(ZoomType.IN, viewRenderer));
 		toolbar.add(new ZoomAction(ZoomType.ACTUAL, viewRenderer));
 		toolbar.add(new ZoomAction(ZoomType.OUT, viewRenderer));
@@ -280,6 +311,16 @@ public class PictoView extends ViewPart {
 		browserContainer.setBorderVisible(visible);
 	}
 	
+	public void selectViewTree(List<String> path) {
+		ViewTree viewTree = getViewTree().forPath(path);
+		List<ViewTree> treePath = new ArrayList<>();
+		while (viewTree != null) {
+			treePath.add(0, viewTree);
+			viewTree = viewTree.getParent();
+		}
+		treeViewer.setSelection(new TreeSelection(new TreePath(treePath.toArray())));
+		treeViewer.refresh();
+	}
 	
 	public void renderEditorContent() {
 
@@ -290,6 +331,7 @@ public class PictoView extends ViewPart {
 			
 			boolean rerender = renderedEditor == editor;
 			renderedEditor = editor;
+			if (!rerender) selectionCommandStack = new CommandStack();
 			
 			final ViewTree viewTree = source.getViewTree(editor);
 			runInUIThread(new RunnableWithException() {
@@ -355,7 +397,7 @@ public class PictoView extends ViewPart {
 		} else {
 			
 			ViewTree selection = null;
-			ViewTree historicalView = selectionHistory.get(renderedEditor);
+			ViewTree historicalView = activeViewHistory.get(renderedEditor);
 			
 			if (historicalView != null) {
 				selection = viewTree.forPath(historicalView.getPath());
@@ -564,6 +606,10 @@ public class PictoView extends ViewPart {
 	
 	public void setViewRenderer(ViewRenderer viewRenderer) {
 		this.viewRenderer = viewRenderer;
+	}
+	
+	public CommandStack getSelectionCommandStack() {
+		return selectionCommandStack;
 	}
 
 }
