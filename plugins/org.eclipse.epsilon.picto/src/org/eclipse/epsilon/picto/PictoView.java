@@ -81,8 +81,7 @@ public class PictoView extends ViewPart {
 	protected ViewTreeLabelProvider viewTreeLabelProvider;
 	protected FilteredViewTree filteredTree;
 	protected boolean renderVerbatimSources = false;
-	protected CommandStack selectionCommandStack = new CommandStack();
-	protected boolean automatedSelection = false;
+	protected ViewTreeSelectionHistory viewTreeSelectionHistory = new ViewTreeSelectionHistory();
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -112,9 +111,9 @@ public class PictoView extends ViewPart {
 				
 				// If the selection happens as a result of undo/redo 
 				// we should not execute a new command
-				if (automatedSelection) return;
+				if (viewTreeSelectionHistory.isAutomatedSelection()) return;
 				
-				selectionCommandStack.execute(new Command() {
+				viewTreeSelectionHistory.execute(new Command() {
 					
 					protected List<String> path = null;
 					
@@ -131,14 +130,14 @@ public class PictoView extends ViewPart {
 						}
 						else {
 							try {
-								automatedSelection = true;
+								viewTreeSelectionHistory.setAutomatedSelection(true);
 								selectViewTree(path);
 								renderView(getViewTree().forPath(path));
 							} catch (Exception ex) {
 								viewRenderer.display(ex);
 							}
 							finally {
-								automatedSelection = false;
+								viewTreeSelectionHistory.setAutomatedSelection(false);
 							}
 						}
 					}
@@ -331,7 +330,7 @@ public class PictoView extends ViewPart {
 			
 			boolean rerender = renderedEditor == editor;
 			renderedEditor = editor;
-			if (!rerender) selectionCommandStack = new CommandStack();
+			if (!rerender) viewTreeSelectionHistory = new ViewTreeSelectionHistory();
 			
 			final ViewTree viewTree = source.getViewTree(editor);
 			runInUIThread(new RunnableWithException() {
@@ -608,8 +607,8 @@ public class PictoView extends ViewPart {
 		this.viewRenderer = viewRenderer;
 	}
 	
-	public CommandStack getSelectionCommandStack() {
-		return selectionCommandStack;
+	public ViewTreeSelectionHistory getViewTreeSelectionHistory() {
+		return viewTreeSelectionHistory;
 	}
 
 }

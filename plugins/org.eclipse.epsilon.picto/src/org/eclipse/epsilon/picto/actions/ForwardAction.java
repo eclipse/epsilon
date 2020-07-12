@@ -26,6 +26,6 @@ public class ForwardAction extends Action {
 	
 	@Override
 	public void run() {
-		if (pictoView.getSelectionCommandStack().canRedo()) pictoView.getSelectionCommandStack().redo();
+		if (pictoView.getViewTreeSelectionHistory().canGoForward()) pictoView.getViewTreeSelectionHistory().goForward();
 	}
 }

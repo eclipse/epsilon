@@ -26,6 +26,6 @@ public class BackAction extends Action {
 	
 	@Override
 	public void run() {
-		if (pictoView.getSelectionCommandStack().canUndo()) pictoView.getSelectionCommandStack().undo();
+		if (pictoView.getViewTreeSelectionHistory().canGoBack()) pictoView.getViewTreeSelectionHistory().goBack();
 	}
 }

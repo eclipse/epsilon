@@ -3,7 +3,7 @@ package org.eclipse.epsilon.picto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandStack {
+public class CommandHistory {
 	
 	protected List<Command> stack = new ArrayList<Command>();
 	protected int stackPointer = 0;
@@ -16,21 +16,21 @@ public class CommandStack {
 		stackPointer ++;
 	}
 	
-	public void undo() {
+	public void goBack() {
 		stackPointer--;
 		stack.get(stackPointer-1).execute();
 	}
 	
-	public boolean canUndo() {
+	public boolean canGoBack() {
 		return stackPointer > 1;
 	}
 	
-	public void redo() {
+	public void goForward() {
 		stack.get(stackPointer).execute();
 		stackPointer++;
 	}
 	
-	public boolean canRedo() {
+	public boolean canGoForward() {
 		return stackPointer < stack.size();
 	}
 	
