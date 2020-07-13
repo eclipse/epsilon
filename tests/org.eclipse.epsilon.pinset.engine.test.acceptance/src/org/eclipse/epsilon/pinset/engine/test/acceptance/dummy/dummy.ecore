@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dummy" nsURI="http://dummy.domainModels.flandm.unican.es" nsPrefix="dummy">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dummy" nsURI="pinsetdummy" nsPrefix="pinsetdummy">
   <eClassifiers xsi:type="ecore:EClass" name="A">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="en" eType="#//EnumExample"/>

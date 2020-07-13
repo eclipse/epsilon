@@ -50,4 +50,5 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.flock.engine.test.unit,
  org.eclipse.epsilon.flock.engine.test.acceptance,
  org.eclipse.epsilon.egl.engine.test.unit,
- org.eclipse.epsilon.picto.test
+ org.eclipse.epsilon.picto.test,
+ org.eclipse.epsilon.pinset.engine.test.acceptance

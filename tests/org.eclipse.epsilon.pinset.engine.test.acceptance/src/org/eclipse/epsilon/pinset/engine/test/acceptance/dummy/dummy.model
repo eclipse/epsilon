@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dummy="http://dummy.domainModels.flandm.unican.es">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dummy="pinsetdummy">
   <dummy:A xmi:id="_F_3oIJ4UEeeZuKyTD1F9-g">
     <ds xmi:id="_F_4PMp4UEeeZuKyTD1F9-g" name="d0"/>
     <ds xmi:id="_F_4PM54UEeeZuKyTD1F9-g" name="d1" m="1.0"/>

@@ -42,6 +42,7 @@ import org.eclipse.epsilon.flock.test.unit.FlockEngineUnitTestSuite;
 import org.eclipse.epsilon.hutn.test.*;
 import org.eclipse.epsilon.hutn.unparser.*;
 import org.eclipse.epsilon.hutn.xmi.test.*;
+import org.eclipse.epsilon.pinset.engine.test.acceptance.PinsetTestSuite;
 import org.eclipse.epsilon.workflow.test.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -87,7 +88,8 @@ import junit.framework.Test;
 	EmfTestSuite.class,
 	SpreadsheetDriverTestSuite.class,
 	CsvModelTestSuite.class,
-	FlexmiTestSuite.class
+	FlexmiTestSuite.class,
+	PinsetTestSuite.class
 })
 public class EpsilonJenkinsTestSuite {
 	public static Test suite() {

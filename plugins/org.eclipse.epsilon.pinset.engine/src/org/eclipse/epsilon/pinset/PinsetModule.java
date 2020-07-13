@@ -47,6 +47,7 @@ public class PinsetModule extends ErlModule {
 	public static final String FILL_NULLS_MODE = "mode";
 
 	protected List<DatasetRule> declaredDatasetRules = new ArrayList<DatasetRule>();
+	protected List<String> generatedDatasetFiles;
 	protected String outputFolder = "";
 	protected String separator = ",";
 	protected String extension = ".csv";
@@ -155,5 +156,15 @@ public class PinsetModule extends ErlModule {
 
 	public void setSilent(boolean silent) {
 		this.silent = silent;
+	}
+
+	public List<String> getGeneratedDatasetFiles() {
+		if (generatedDatasetFiles == null) {
+			generatedDatasetFiles = new ArrayList<>();
+			for (DatasetRule rule : declaredDatasetRules) {
+				generatedDatasetFiles.add(rule.getName() + extension);
+			}
+		}
+		return generatedDatasetFiles;
 	}
 }

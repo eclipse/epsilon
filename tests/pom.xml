@@ -50,6 +50,7 @@
     <module>org.eclipse.epsilon.hutn.test</module>
     <module>org.eclipse.epsilon.flexmi.test</module>
     <module>org.eclipse.epsilon.picto.test</module>
+    <module>org.eclipse.epsilon.pinset.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.hutn.test.acceptance</module>
     <module>org.eclipse.epsilon.hutn.test.dependencies</module>
     <module>org.eclipse.epsilon.hutn.test.dependencies.model</module>
