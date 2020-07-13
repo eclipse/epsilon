@@ -10,8 +10,10 @@
 package org.eclipse.epsilon.picto.plantuml;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.transformers.ViewContentTransformer;
@@ -24,7 +26,7 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getFormat().equals("plantuml");
+		return "plantuml".equalsIgnoreCase(content.getFormat());
 	}
 
 	@Override
@@ -39,6 +41,21 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
 			String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
 			return new ViewContent("svg", svg, content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
+		}
+	}
+	
+	/**
+	 * Converts PlantUML diagram to static SVG file.
+	 * 
+	 * @param plant The Plant UML description.
+	 * @return The location of the generated SVG.
+	 * @throws IOException If writing to file fails.
+	 */
+	public static Path plantumlToSvg(String plant) throws IOException {
+		SourceStringReader reader = new SourceStringReader(plant);
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
+			return Files.write(Files.createTempFile("plantuml", ".svg"), os.toByteArray());
 		}
 	}
 }

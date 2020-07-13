@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2020 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.picto;
 
 import java.util.ArrayList;
@@ -5,7 +14,7 @@ import java.util.List;
 
 public class CommandHistory {
 	
-	protected List<Command> stack = new ArrayList<Command>();
+	protected List<Command> stack = new ArrayList<>();
 	protected int stackPointer = 0;
 	protected boolean executing = false;
 	
@@ -13,7 +22,7 @@ public class CommandHistory {
 		stack = stack.subList(0, stackPointer);
 		command.execute();
 		stack.add(command);
-		stackPointer ++;
+		stackPointer++;
 	}
 	
 	public void goBack() {
