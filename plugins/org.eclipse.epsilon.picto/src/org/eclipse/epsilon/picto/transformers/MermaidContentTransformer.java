@@ -59,16 +59,16 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 				);
 			
 			String[] commands = {program+"", "-i", mmd+"", "-o", svgTmp+""};
-			if (EolSystem.executeNativeAsync(commands).waitFor() == 0) {
-				return svgTmp;
-			}
-			else {
+			int exitCode = EolSystem.executeNativeAsync(commands).waitFor();
+			if (exitCode != 0) {
 				throw new IOException(
 					"Failed to execute "+program
 					+ " with input path "+mmd
 					+ "and output path "+svgTmp
+					+ " (process returned "+exitCode
 				);
 			}
+			return svgTmp;
 		}
 		catch (InterruptedException ie) {
 			throw new IOException(ie);
