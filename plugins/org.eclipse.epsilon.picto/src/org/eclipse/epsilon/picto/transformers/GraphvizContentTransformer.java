@@ -9,18 +9,14 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 
 public class GraphvizContentTransformer implements ViewContentTransformer {
-	
-	protected File tempDir;
 	
 	@Override
 	public boolean canTransform(ViewContent content) {
@@ -37,12 +33,12 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 			imageType = parts[2];
 		}
 		
-		File temp = Files.createTempFile(getTempDir().toPath(), "picto-renderer", ".dot").toFile(); 
+		Path temp =
+			Files.createTempFile(Files.createTempDirectory("picto"), "picto-renderer", ".dot").toAbsolutePath(),
+			image = Paths.get(temp + "." + imageType).toAbsolutePath(),
+			log = Paths.get(temp + ".log").toAbsolutePath();
 		
-		File image = new File(temp.getAbsolutePath() + "." + imageType);
-		File log = new File(temp.getAbsolutePath() + ".log" );
-		
-		Files.write(Paths.get(temp.toURI()), content.getText().getBytes());
+		Files.write(temp, content.getText().getBytes());
 		
 		if (OperatingSystem.isMac()) {
 			program = "/usr/local/bin/" + program;
@@ -54,15 +50,14 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 			throw new UnsupportedOperationException(program + " is not supported on "+OperatingSystem.getOSFamily());
 		}*/
 		
-		ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-T" + imageType, temp.getAbsolutePath(), "-o", image.getAbsolutePath()});
-		pb.redirectError(log);
-		Process p = pb.start();
-		p.waitFor();
+		ProcessBuilder pb = new ProcessBuilder(program, "-T" + imageType, temp.toString(), "-o", image.toString());
+		pb.redirectError(log.toFile());
+		pb.start().waitFor();
 		
-		File viewFile;
+		Path viewFile;
 		String format;
 		
-		if (image.exists()) {
+		if (image.toFile().exists()) {
 			viewFile = image;
 			format = "svg";
 		}
@@ -70,17 +65,7 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 			viewFile = log;
 			format = "exception";
 		}
-		return new ViewContent(format, new String(Files.readAllBytes(viewFile.toPath())), content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
-	}
-	
-	protected File getTempDir() {
-		try {
-			tempDir = Files.createTempDirectory("picto").toFile();
-		}
-		catch (IOException iox) {
-			iox.printStackTrace();
-		}
-		return tempDir;
+		return new ViewContent(format, new String(Files.readAllBytes(viewFile)), content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
 	}
 	
 	@Override
