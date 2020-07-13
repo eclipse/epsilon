@@ -9,8 +9,8 @@
    </extension>
    <extension
          point="org.eclipse.epsilon.picto.viewContentTransformer">
-      <pictoSource
+      <viewContentTransformer
             class="org.eclipse.epsilon.picto.plantuml.PlantUmlContentTransformer">
-      </pictoSource>
+      </viewContentTransformer>
    </extension>
 </plugin>
