@@ -22,7 +22,7 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return "mermaid".equals(content.getFormat().toLowerCase());
+		return "mermaid".equalsIgnoreCase(content.getFormat());
 	}
 
 	@Override
