@@ -12,12 +12,10 @@ package org.eclipse.epsilon.picto.transformers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.egl.patch.Line;
 import org.eclipse.epsilon.egl.patch.TextBlock;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
@@ -70,16 +68,17 @@ public class PatchContentTransformer implements ViewContentTransformer {
 		try {
 			EolModule module = new EolModule();
 			module.parse("return " + patch.getApplies() + ";");
-			for (Layer layer : content.getLayers()) {
-				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(layer.getId(), layer.isActive()));
-			}
-			return (Boolean) module.execute();
+			module.getContext().getFrameStack().put(
+				content.getLayers().stream()
+					.collect(Collectors.toMap(Layer::getId, Layer::isActive)),
+				true
+			);
+			return (boolean) module.execute();
 		}
 		catch (Exception ex) {
 			LogUtil.log(ex);
 			return false;
 		}
-		
 	}
 	
 }

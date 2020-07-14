@@ -14,10 +14,10 @@ import org.eclipse.epsilon.picto.ViewContent;
 
 public interface ViewContentTransformer {
 	
-	public boolean canTransform(ViewContent content);
+	boolean canTransform(ViewContent content);
 	
-	public String getLabel(ViewContent content);
+	String getLabel(ViewContent content);
 	
-	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception;
-	
+	ViewContent transform(ViewContent content, PictoView pictoView) throws Exception;
+
 }

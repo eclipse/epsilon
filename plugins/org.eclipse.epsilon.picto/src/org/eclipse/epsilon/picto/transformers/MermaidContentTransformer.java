@@ -10,11 +10,9 @@
 package org.eclipse.epsilon.picto.transformers;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.eclipse.epsilon.common.util.OperatingSystem;
-import org.eclipse.epsilon.eol.tools.EolSystem;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 
@@ -37,42 +35,36 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 			"<script>\n" + "mermaid.initialize({startOnLoad:true});\n" + "</script>\n"+
 			"<div class=\"mermaid\">\n" + content.getText() + "</div></div>";
 		
-		return new ViewContent("svg", html, content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
+		return new ViewContent("svg", html, content);
 	}
 	
 	/**
 	 * 
 	 * @param mmd The Mermaid as plain text.
 	 * @return The created SVG.
-	 * @throws IOException
+	 * @throws IOException 
 	 */
-	public static Path mermaidToSvg(String mmd) throws IOException {
-		return mermaidToSvg(Files.write(Files.createTempFile("mermaid", ".mm"), mmd.getBytes()));
+	public static String mermaidToSvg(String mmd) throws IOException {
+		return mermaidToSvg(ExternalContentTransformation.createTempFile("mm", mmd.getBytes()));
 	}
 	
-	public static Path mermaidToSvg(Path mmd) throws IOException {
+	/**
+	 * 
+	 * @param mmd The Mermaid file.
+	 * @return The SVG as an XML string.
+	 * @throws IOException
+	 */
+	public static String mermaidToSvg(Path mmd) throws IOException {
 		Path svgTmp = mmd.getParent().resolve(mmd.getFileName()+".svg");
-		try {
-			Path program = Paths.get(System.getProperty("user.home"))
-				.resolve("node_modules").resolve(".bin").resolve(
-					OperatingSystem.isWindows() ? "mmdc.cmd" : "mmdc"
-				);
+		String program = Paths.get(System.getProperty("user.home"))
+			.resolve("node_modules").resolve(".bin").resolve(
+				OperatingSystem.isWindows() ? "mmdc.cmd" : "mmdc"
+			).toString();
 			
-			String[] commands = {program+"", "-i", mmd+"", "-o", svgTmp+""};
-			int exitCode = EolSystem.executeNativeAsync(commands).waitFor();
-			if (exitCode != 0) {
-				throw new IOException(
-					"Failed to execute "+program
-					+ " with input path "+mmd
-					+ "and output path "+svgTmp
-					+ " (process returned "+exitCode
-				);
-			}
-			return svgTmp;
-		}
-		catch (InterruptedException ie) {
-			throw new IOException(ie);
-		}
+		ExternalContentTransformation ect = new ExternalContentTransformation(
+			svgTmp, program, "-i", mmd, "-o", svgTmp
+		);
+		return new String(ect.call());
 	}
 	
 }

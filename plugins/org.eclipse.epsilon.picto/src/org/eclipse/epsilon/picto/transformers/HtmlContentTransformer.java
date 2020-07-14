@@ -122,7 +122,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 
 	}
 	
-	class FinalViewContent extends ViewContent {
+	final class FinalViewContent extends ViewContent {
 
 		public FinalViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches, Set<URI> baseUris) {
 			super(format, text, file, layers, patches, baseUris);
