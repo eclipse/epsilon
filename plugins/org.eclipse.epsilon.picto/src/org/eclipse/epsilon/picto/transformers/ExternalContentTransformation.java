@@ -12,7 +12,9 @@ package org.eclipse.epsilon.picto.transformers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 
 /**
@@ -24,6 +26,8 @@ import org.eclipse.epsilon.common.util.OperatingSystem;
 public class ExternalContentTransformation implements Runnable, Callable<byte[]> {
 
 	public final String program, args[];
+	
+	public Duration timeout = Duration.ofSeconds(30);
 	
 	protected Path logFile;
 	
@@ -72,14 +76,18 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 	}
 	
 	public int getResultCode() {
-		if (!hasRun) {
-			throw new IllegalStateException("Must run program first!");
-		}
+		screenRun();
 		return resultCode;
 	}
 	
+	protected void screenRun() throws IllegalStateException {
+		if (!hasRun) {
+			throw new IllegalStateException("Must run program first!");
+		}
+	}
+	
 	public byte[] getResult() throws IOException {
-		if (!hasRun) run();
+		screenRun();
 		Path result = exception == null && outputFile != null && outputFile.toFile().exists() ? outputFile : logFile;
 		return Files.readAllBytes(result);
 	}
@@ -97,6 +105,7 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 	
 	@Override
 	public byte[] call() throws IOException {
+		hasRun = false;
 		String[] programAndArgs = args != null ?
 			new String[args.length + 1] :
 			new String[]{program};
@@ -110,11 +119,15 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		logFile = createTempFile(".log", null);
 		pb.redirectError(logFile.toFile());
 		try {
-			resultCode = pb.start().waitFor();
+			Process process = pb.start();
+			if (process.waitFor(timeout != null ? timeout.toMillis() : Long.MAX_VALUE, TimeUnit.MILLISECONDS)) {
+				resultCode = process.exitValue();
+			}
 		}
 		catch (InterruptedException ie) {
 			throw new IOException(ie);
 		}
+		hasRun = true;
 		return getResult();
 	}
 	
