@@ -34,11 +34,11 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 	
 	protected int resultCode = Integer.MIN_VALUE;
 	
-	private boolean hasRun = false;
+	protected boolean hasRun = false;
+	
+	protected byte[] result;
 
-	public ExternalContentTransformation(Path outputFile, String program, Object... arguments) {
-		this.outputFile = outputFile;
-		
+	protected ExternalContentTransformation(String program, Object... arguments) {
 		if (arguments == null) {
 			this.args = new String[0];
 		}
@@ -48,6 +48,11 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		}
 		
 		this.program = program;
+	}
+	
+	public ExternalContentTransformation(Path outputFile, String program, Object... arguments) {
+		this(program, arguments);
+		this.outputFile = outputFile;
 	}
 	
 	/**
@@ -77,8 +82,17 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 	
 	public byte[] getResult() throws IOException {
 		screenRun();
-		Path result = exception == null && outputFile != null && outputFile.toFile().exists() ? outputFile : logFile;
-		return Files.readAllBytes(result);
+		Path resultFile = null;
+		if (exception == null && outputFile != null && outputFile.toFile().exists()) {
+			resultFile = outputFile;
+		}
+		else if (logFile != null && logFile.toFile().exists()) {
+			resultFile = logFile;
+		}
+		if (resultFile != null) {
+			result = Files.readAllBytes(resultFile);
+		}
+		return result;
 	}
 	
 	@Override
