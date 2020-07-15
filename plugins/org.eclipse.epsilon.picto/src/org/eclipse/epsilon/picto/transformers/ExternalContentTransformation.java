@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.epsilon.common.util.OperatingSystem;
 
 /**
  * Utility class for using external programs in transforming content.
@@ -25,17 +24,15 @@ import org.eclipse.epsilon.common.util.OperatingSystem;
  */
 public class ExternalContentTransformation implements Runnable, Callable<byte[]> {
 
-	public final String program, args[];
+	protected final String program, args[];
 	
-	public Duration timeout = Duration.ofSeconds(30);
+	protected Duration timeout = null;
 	
-	protected Path logFile;
-	
-	public final Path outputFile;
+	protected Path logFile, outputFile;
 	
 	private Exception exception;
 	
-	private int resultCode = Integer.MIN_VALUE;
+	protected int resultCode = Integer.MIN_VALUE;
 	
 	private boolean hasRun = false;
 
@@ -50,15 +47,7 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 			for (int i = 0; i < arguments.length; this.args[i] = ""+arguments[i++]);
 		}
 		
-		if (OperatingSystem.isMac()) {
-			this.program = "/usr/local/bin/" + program;
-		}
-		else if (OperatingSystem.isUnix()) {
-			this.program = "/usr/bin/" + program;
-		}
-		else {
-			this.program = program;
-		}
+		this.program = program;
 	}
 	
 	/**
@@ -133,5 +122,37 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 	
 	public Exception getException() {
 		return exception;
+	}
+
+	public Path getLogFile() {
+		return logFile;
+	}
+
+	public void setLogFile(Path logFile) {
+		this.logFile = logFile;
+	}
+
+	public Path getOutputFile() {
+		return outputFile;
+	}
+
+	public void setOutputFile(Path outputFile) {
+		this.outputFile = outputFile;
+	}
+
+	public Duration getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(Duration timeout) {
+		this.timeout = timeout;
+	}
+
+	public String getProgram() {
+		return program;
+	}
+
+	public String[] getArgs() {
+		return args;
 	}
 }
