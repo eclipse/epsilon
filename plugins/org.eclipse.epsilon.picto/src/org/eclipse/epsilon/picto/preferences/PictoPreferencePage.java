@@ -39,8 +39,9 @@ public class PictoPreferencePage extends PreferencePage implements IWorkbenchPre
 		
 		final Composite composite = new Composite(parent, SWT.FILL);
 		
-		final BooleanFieldEditor verbatimBooleanEditor = new BooleanFieldEditor(PROPERTY_RENDER_VERBATIM, "Render verbatim sources", composite);
 		final IntegerFieldEditor timeoutEditor = new IntegerFieldEditor(TIMEOUT, "Rendering timeout (sec)", composite);
+		final BooleanFieldEditor verbatimBooleanEditor = new BooleanFieldEditor(PROPERTY_RENDER_VERBATIM, "Render verbatim sources", composite);
+		
 		fieldEditors.add(verbatimBooleanEditor);
 		fieldEditors.add(timeoutEditor);
 		
