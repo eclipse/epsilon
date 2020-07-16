@@ -11,6 +11,8 @@ package org.eclipse.epsilon.picto.transformers;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 
@@ -36,6 +38,13 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 			image = ExternalContentTransformation.createTempFile(imageType, null);
 		
 		Files.write(temp, content.getText().getBytes());
+		
+		if (OperatingSystem.isMac()) {
+			program = "/usr/local/bin/" + program;
+		}
+		else if (OperatingSystem.isUnix()) {
+			program = "/usr/bin/" + program;
+		}
 		
 		ExternalContentTransformation ect = new ExternalContentTransformation(
 			image, program,
