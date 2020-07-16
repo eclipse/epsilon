@@ -137,6 +137,9 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 			if (process.waitFor(timeout != null ? timeout.toMillis() : Long.MAX_VALUE, TimeUnit.MILLISECONDS)) {
 				resultCode = process.exitValue();
 			}
+			else { // the process has timed out
+				return ("<html><body>Rendering the view timed out after " + timeout.getSeconds() + " seconds. You can increase the timeout threshold in the <a href=\"javascript:showPreferences()\">Picto preferences</a> page, and try to refresh the view.</body></html>").getBytes();
+			}
 		}
 		catch (InterruptedException ie) {
 			throw new IOException(ie);

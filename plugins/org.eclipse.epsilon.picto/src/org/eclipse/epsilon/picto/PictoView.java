@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -38,6 +39,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.jface.viewers.TreePath;
@@ -57,6 +59,7 @@ import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.dialogs.PatternFilter;
+import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.part.ViewPart;
 
 public class PictoView extends ViewPart {
@@ -172,6 +175,16 @@ public class PictoView extends ViewPart {
 					source.showElement(id, uri, editor);
 				}
 				throw new RuntimeException();
+			};
+		};
+		
+		new BrowserFunction(viewRenderer.getBrowser(), "showPreferences") {
+			public Object function(Object[] arguments) {
+				PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(
+					getSite().getShell(), PictoPreferencePage.ID,  
+					new String[] {PictoPreferencePage.ID}, null);
+				dialog.open();
+				return null;
 			};
 		};
 		

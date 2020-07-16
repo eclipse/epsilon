@@ -25,6 +25,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class PictoPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	
+	public static final String ID = "org.eclipse.epsilon.picto.preferences.PictoPreferencePage";
 	public static final String PROPERTY_RENDER_VERBATIM = "verbatim.sources";
 	public static final String TIMEOUT = "external.timeout";
 	public static final int DEFAULT_TIMEOUT = 60;
