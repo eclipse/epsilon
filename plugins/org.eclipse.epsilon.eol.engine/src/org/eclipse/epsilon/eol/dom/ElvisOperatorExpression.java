@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -31,7 +32,16 @@ public class ElvisOperatorExpression extends OperatorExpression {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		ExecutorFactory executorFactory = context.getExecutorFactory();
-		Object a = executorFactory.execute(firstOperand, context);
+		Object a;
+		try {
+			a = executorFactory.execute(firstOperand, context);
+		}
+		catch (EolUndefinedVariableException novar) {
+			if (firstOperand instanceof NameExpression) {
+				a = null;
+			}
+			else throw novar;
+		}
 		return a != null ? a : executorFactory.execute(secondOperand, context);
 	}
 }

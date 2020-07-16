@@ -64,3 +64,9 @@ operation testShortcutAssignment() {
 	init ?= result;
 	assertEquals(result, init);
 }
+
+@test
+operation testUndefinedVariable() {
+	var x = nonExistentVar ?: 9;
+	assertEquals(9, x);
+}
