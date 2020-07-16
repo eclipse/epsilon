@@ -51,7 +51,8 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 		SourceStringReader reader = new SourceStringReader(plant);
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
-			return new String(os.toByteArray(), Charset.forName("UTF-8"));
+			String rawOutput = new String(os.toByteArray(), Charset.forName("UTF-8"));
+			return rawOutput.replaceAll("<!--[\\s\\S]*?-->", "");
 		}
 	}
 	

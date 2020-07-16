@@ -27,7 +27,7 @@ public class PictoPreferencePage extends PreferencePage implements IWorkbenchPre
 	
 	public static final String PROPERTY_RENDER_VERBATIM = "verbatim.sources";
 	public static final String TIMEOUT = "external.timeout";
-	public static final Integer DEFAULT_TIMEOUT = 30;
+	public static final int DEFAULT_TIMEOUT = 60;
 	
 	protected final ArrayList<FieldEditor> fieldEditors = new ArrayList<>();
 	protected IPreferenceStore preferences = EpsilonCommonsPlugin.getDefault().getPreferenceStore();

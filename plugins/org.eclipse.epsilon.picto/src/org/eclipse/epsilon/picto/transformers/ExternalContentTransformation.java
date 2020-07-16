@@ -53,9 +53,12 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		
 		this.program = program;
 		
-		IPreferenceStore preferenceStore = EpsilonCommonsPlugin.getDefault().getPreferenceStore();
-		timeout = Duration.ofSeconds(preferenceStore.isDefault(PictoPreferencePage.TIMEOUT) ? 
-				PictoPreferencePage.DEFAULT_TIMEOUT : preferenceStore.getInt(PictoPreferencePage.TIMEOUT));
+		EpsilonCommonsPlugin plugin = EpsilonCommonsPlugin.getDefault();
+		if (plugin != null) {
+			IPreferenceStore preferenceStore = plugin.getPreferenceStore();
+			timeout = Duration.ofSeconds(preferenceStore.isDefault(PictoPreferencePage.TIMEOUT) ? 
+					PictoPreferencePage.DEFAULT_TIMEOUT : preferenceStore.getInt(PictoPreferencePage.TIMEOUT));
+		}
 	}
 	
 	public ExternalContentTransformation(Path outputFile, String program, Object... arguments) {
