@@ -16,6 +16,10 @@ import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
+import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
+import org.eclipse.jface.preference.IPreferenceStore;
+
 /**
  * Utility class for using external programs in transforming content.
  * 
@@ -48,6 +52,10 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		}
 		
 		this.program = program;
+		
+		IPreferenceStore preferenceStore = EpsilonCommonsPlugin.getDefault().getPreferenceStore();
+		timeout = Duration.ofSeconds(preferenceStore.isDefault(PictoPreferencePage.TIMEOUT) ? 
+				PictoPreferencePage.DEFAULT_TIMEOUT : preferenceStore.getInt(PictoPreferencePage.TIMEOUT));
 	}
 	
 	public ExternalContentTransformation(Path outputFile, String program, Object... arguments) {

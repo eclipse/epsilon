@@ -15,6 +15,7 @@ import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -25,6 +26,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class PictoPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	
 	public static final String PROPERTY_RENDER_VERBATIM = "verbatim.sources";
+	public static final String TIMEOUT = "external.timeout";
+	public static final Integer DEFAULT_TIMEOUT = 30;
 	
 	protected final ArrayList<FieldEditor> fieldEditors = new ArrayList<>();
 	protected IPreferenceStore preferences = EpsilonCommonsPlugin.getDefault().getPreferenceStore();
@@ -32,11 +35,14 @@ public class PictoPreferencePage extends PreferencePage implements IWorkbenchPre
 	@Override
 	protected Control createContents(Composite parent) {
 		
+		preferences.setDefault(TIMEOUT, DEFAULT_TIMEOUT);
+		
 		final Composite composite = new Composite(parent, SWT.FILL);
 		
 		final BooleanFieldEditor verbatimBooleanEditor = new BooleanFieldEditor(PROPERTY_RENDER_VERBATIM, "Render verbatim sources", composite);
-		
+		final IntegerFieldEditor timeoutEditor = new IntegerFieldEditor(TIMEOUT, "Rendering timeout (sec)", composite);
 		fieldEditors.add(verbatimBooleanEditor);
+		fieldEditors.add(timeoutEditor);
 		
 		for (FieldEditor fieldEditor : fieldEditors) {
 			fieldEditor.setPreferenceStore(preferences);
