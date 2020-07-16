@@ -9,21 +9,15 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
-import java.io.File;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.XmlHelper;
-import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.transformers.elements.AbsolutePathElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.HtmlElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.PictoViewElementTransformer;
@@ -78,7 +72,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 				}
 			}
 			
-			return new FinalViewContent("html", xmlHelper.getXml(document), content.getFile(), content.getLayers(), content.getPatches(), content.getBaseUris());
+			return new FinalViewContent("html", xmlHelper.getXml(document), content);
 		}
 		catch (Exception ex) {
 			return null;
@@ -86,7 +80,6 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	}
 	
 	protected void addZoom(Document document) {
-		
 		Element html, body;
 		Element root = document.getDocumentElement();
 		
@@ -104,7 +97,6 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 		}
 		
 		body.setAttribute("style", "zoom:${picto-zoom};" + body.getAttribute("style"));
-		
 	}
 	
 	protected Element getElementByName(Element parent, String name) {
@@ -122,12 +114,10 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 
 	}
 	
-	final class FinalViewContent extends ViewContent {
-
-		public FinalViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches, Set<URI> baseUris) {
-			super(format, text, file, layers, patches, baseUris);
+	static final class FinalViewContent extends ViewContent {
+		public FinalViewContent(String format, String text, ViewContent content) {
+			super(format, text, content);
 		}
-		
 	}
 	
 }

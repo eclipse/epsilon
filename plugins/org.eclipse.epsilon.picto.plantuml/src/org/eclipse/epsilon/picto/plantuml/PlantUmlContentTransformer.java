@@ -10,11 +10,14 @@
 package org.eclipse.epsilon.picto.plantuml;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
+import org.eclipse.epsilon.picto.transformers.ExternalContentTransformation;
 import org.eclipse.epsilon.picto.transformers.ViewContentTransformer;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
@@ -38,7 +41,7 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 	}
 	
 	/**
-	 * Converts PlantUML diagram to static SVG file.
+	 * Converts PlantUML diagram to SVG as a String.
 	 * 
 	 * @param plant The Plant UML description.
 	 * @return The generated SVG as an XML string.
@@ -50,5 +53,21 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
 			return new String(os.toByteArray(), Charset.forName("UTF-8"));
 		}
+	}
+	
+	/**
+	 * Converts PlantUML diagram to a temporary PNG file.
+	 * 
+	 * @param plant The Plant UML description.
+	 * @return The path to the generated PNG.
+	 * @throws IOException If writing to file fails.
+	 */
+	public static Path plantumlToPng(String plant) throws IOException {
+		SourceStringReader reader = new SourceStringReader(plant);
+		Path png = ExternalContentTransformation.createTempFile(".png", null);
+		try (FileOutputStream os = new FileOutputStream(png.toFile())) {
+			reader.outputImage(os, new FileFormatOption(FileFormat.PNG));
+		}
+		return png;
 	}
 }
