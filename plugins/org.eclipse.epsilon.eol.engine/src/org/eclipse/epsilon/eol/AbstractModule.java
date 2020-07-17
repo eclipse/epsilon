@@ -141,18 +141,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		List<CommonToken> comments = new ArrayList<>();
 		
 		if (stream.getTokens().isEmpty()) {
-			try {
-				Method fill = stream.getClass().getMethod("fill");
-				if (fill != null) try {
-					fill.invoke(stream);
-				}
-				catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-					throw new IllegalStateException(ex);
-				}
-			}
-			catch (NoSuchMethodException | SecurityException ex) {
-				// ANTLR 3.2 probably
-			}
+			stream.fill();
 		}
 		
 		for (Object t : stream.getTokens()) {
