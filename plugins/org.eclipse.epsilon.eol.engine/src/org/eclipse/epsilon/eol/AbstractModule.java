@@ -78,7 +78,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		return parse(uri, uri.toURL().openStream());
 	}
 
-	protected boolean invokeMainRule(List<CommonToken> multilineComments) throws Exception {
+	protected boolean invokeMainRule(List<CommonToken> comments) throws Exception {
 		EpsilonParseProblemManager.INSTANCE.reset();
 		AST cst = null;
 		
@@ -108,7 +108,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		
 		if (getParseProblems().isEmpty()) {
 			assignAnnotations(cst);
-			assignComments(cst, multilineComments);
+			assignComments(cst, comments);
 			//createAst(cst, null);
 			//assignAnnotations(ast);
 			//buildModel();
@@ -167,15 +167,16 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		    final Lexer lexer = createLexer(new ANTLRInputStream(noTabsStream));
 		    
 			final CommonTokenStream stream = new CommonTokenStream(lexer);
+			stream.fill();
 			
-			List<CommonToken> multilineComments = extractComments(stream);
+			List<CommonToken> comments = extractComments(stream);
 			
 			final EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri, this);
 
 			parser = createParser(stream);
 			parser.setDeepTreeAdaptor(adaptor);
 
-			return invokeMainRule(multilineComments);
+			return invokeMainRule(comments);
 		}
 		catch (Exception ex) {
 			parseProblems.add(new ParseProblem("Exception during parsing: " + ex.getLocalizedMessage(), ParseProblem.ERROR));

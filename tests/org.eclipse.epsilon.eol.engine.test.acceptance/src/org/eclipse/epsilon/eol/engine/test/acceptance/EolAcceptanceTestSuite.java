@@ -68,7 +68,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	AutoParallelOperationTests.class,
 	LambdaExpressionTests.class,
 	LambdaExpressionExceptionTest.class,
-	ParallelStreamTests.class
+	ParallelStreamTests.class,
+	CommentsTests.class
 })
 public class EolAcceptanceTestSuite {
 

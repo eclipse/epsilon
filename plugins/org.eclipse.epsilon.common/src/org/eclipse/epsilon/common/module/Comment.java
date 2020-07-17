@@ -31,4 +31,12 @@ public class Comment extends AbstractModuleElement {
 	public String toString() {
 		return text;
 	}
+	
+	public String getText() {
+		return text;
+	}
+	
+	public boolean isMultiline() {
+		return multiline;
+	}
 }
