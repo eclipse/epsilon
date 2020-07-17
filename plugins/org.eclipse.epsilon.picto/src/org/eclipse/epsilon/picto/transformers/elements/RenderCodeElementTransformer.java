@@ -18,7 +18,7 @@ public class RenderCodeElementTransformer extends ReplacingElementTransformer {
 	
 	@Override
 	public String getXPath() {
-		return "//pre[starts-with(@class,'language-render')]";
+		return "//code[starts-with(@class,'language-render')]";
 	}
 	
 	@Override
@@ -39,6 +39,10 @@ public class RenderCodeElementTransformer extends ReplacingElementTransformer {
 				lastContent = viewContent;
 				viewContent = viewContent.getNext(picto);
 			}
+		}
+		
+		if (element.getParentNode() != null && element.getParentNode().getNodeName().equalsIgnoreCase("pre")) {
+			element = (Element) element.getParentNode();
 		}
 		
 		if (svgContent != null) {
