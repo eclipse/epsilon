@@ -138,12 +138,20 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	protected List<CommonToken> extractComments(CommonTokenStream stream) {
 		List<CommonToken> comments = new ArrayList<>();
 		
+		List<?> tokens = stream.getTokens();
+		if (tokens.isEmpty()) {
+			stream.fill();
+			tokens = stream.getTokens();
+		}
+		
 		for (Object t : stream.getTokens()) {
 			CommonToken token = (CommonToken) t;
-			if (token.getType() == EolLexer.COMMENT || token.getType() == EolParser.LINE_COMMENT) {
+			int type = token.getType();
+			if (type == EolLexer.COMMENT || type == EolParser.LINE_COMMENT) {
 				comments.add(token);
 			}
 		}
+		
 		return comments;
 	}
 	
