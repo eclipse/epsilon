@@ -45,6 +45,7 @@ Export-Package: org.eclipse.epsilon.picto,
  org.eclipse.epsilon.picto.dom,
  org.eclipse.epsilon.picto.dom.impl,
  org.eclipse.epsilon.picto.dom.util,
+ org.eclipse.epsilon.picto.preferences,
  org.eclipse.epsilon.picto.source,
  org.eclipse.epsilon.picto.transformers,
  org.eclipse.epsilon.picto.transformers.elements
