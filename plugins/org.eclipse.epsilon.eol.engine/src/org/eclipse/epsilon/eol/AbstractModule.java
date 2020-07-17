@@ -109,9 +109,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		if (getParseProblems().isEmpty()) {
 			assignAnnotations(cst);
 			assignComments(cst, comments);
-			//createAst(cst, null);
-			//assignAnnotations(ast);
-			//buildModel();
 			createAst(cst, null);
 			return true;
 		}
@@ -126,12 +123,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		ModuleElement moduleElement = adapt(cst, parentAst);
 		if (moduleElement != null) {
 			moduleElement.setUri(cst.getUri());
-			//moduleElement.setFile(cst.getFile());
 			moduleElement.setModule(cst.getModule());
-			//try {
-			//	moduleElement.setBasename(cst.getBasename());
-			//}
-			//catch (Exception ex) {}
 			moduleElement.setRegion(cst.getRegion());
 			moduleElement.build(cst, this);
 			if (parentAst != null) {
@@ -165,12 +157,8 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		    ByteArrayInputStream noTabsStream = new ByteArrayInputStream(contents.replaceAll("\t", " ").getBytes());
 		    
 		    final Lexer lexer = createLexer(new ANTLRInputStream(noTabsStream));
-		    
 			final CommonTokenStream stream = new CommonTokenStream(lexer);
-			stream.fill();
-			
 			List<CommonToken> comments = extractComments(stream);
-			
 			final EpsilonTreeAdaptor adaptor = new EpsilonTreeAdaptor(uri, this);
 
 			parser = createParser(stream);
