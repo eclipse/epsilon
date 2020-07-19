@@ -94,8 +94,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 	
 	public synchronized String getXml() {
-		try {
-			StringWriter sw = new StringWriter();
+		try (StringWriter sw = new StringWriter()) {
 			Source xmlSource = new DOMSource(document);
 			Result result = new StreamResult(sw);
 	
@@ -172,7 +171,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 			if (parameters.size() == 1) {
 				Object param = parameters.iterator().next();
 				if (param instanceof Boolean) {
-					root = ((Boolean) param).booleanValue();
+					root = (boolean) param;
 				}
 			}
 			
@@ -225,7 +224,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	@Override
 	protected Collection<Element> getAllOfKindFromModel(String type) throws EolModelElementTypeNotFoundException {
-		return getAllOfType(type);
+		return getAllOfTypeFromModel(type);
 	}
 
 	@Override
@@ -233,25 +232,23 @@ public class PlainXmlModel extends CachedModel<Element> {
 		if (ELEMENT_TYPE.equals(type)) {
 			return allContents();
 		}
-		else {
-			Collection<Element> allOfType = null;
-			PlainXmlType plainXmlType = PlainXmlType.parse(type);
-			
-			if (plainXmlType == null) {
-				throw new EolModelElementTypeNotFoundException(this.getName(), type);
-			}
-			
-			if (allOfType == null) {
-				allOfType = new ArrayList<>();
-				for (Element e : allContents()) {
-					if (tagMatches(e, plainXmlType.getTagName())) {
-						allOfType.add(e);
-					}
-				}
-			}
-			
-			return allOfType;
+
+		PlainXmlType plainXmlType = PlainXmlType.parse(type);
+		
+		if (plainXmlType == null) {
+			throw new EolModelElementTypeNotFoundException(this.getName(), type);
 		}
+		
+		String tagName = plainXmlType.getTagName();
+		
+		Collection<Element> allOfType = new ArrayList<>();
+		for (Element e : allContents()) {
+			if (tagMatches(e, tagName)) {
+				allOfType.add(e);
+			}
+		}
+		
+		return allOfType;
 	}
 	
 	public synchronized boolean tagMatches(Element element, String name) {
@@ -370,7 +367,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 				if (this.file != null) {
 					document = documentBuilder.parse(this.file);
 				}
-				else if (this.uri != null){
+				else if (this.uri != null) {
 					document = documentBuilder.parse(this.uri);
 				}
 				else {

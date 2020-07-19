@@ -33,7 +33,7 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 	
 	protected Path logFile, outputFile;
 	
-	private Exception exception;
+	private IOException exception;
 	
 	protected int resultCode = Integer.MIN_VALUE;
 	
@@ -111,7 +111,7 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		try {
 			call();
 		}
-		catch (Exception ex) {
+		catch (IOException ex) {
 			this.exception = ex;
 		}
 		hasRun = true;
@@ -153,7 +153,7 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		return getResult();
 	}
 	
-	public Exception getException() {
+	public IOException getException() {
 		return exception;
 	}
 

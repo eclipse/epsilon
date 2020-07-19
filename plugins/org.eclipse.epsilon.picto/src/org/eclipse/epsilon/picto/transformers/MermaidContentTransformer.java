@@ -41,10 +41,20 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	/**
 	 * 
 	 * @param mmd The Mermaid as plain text.
-	 * @return The created SVG.
+	 * @return The SVG as an XML string.
 	 * @throws IOException 
 	 */
-	public static String mermaidToSvg(String mmd) throws IOException {
+	public static String mermaidToRawSvg(String mmd) throws IOException {
+		return mermaidToRawSvg(ExternalContentTransformation.createTempFile(".mm", mmd.getBytes()));
+	}
+	
+	/**
+	 * 
+	 * @param mmd The Mermaid as plain text.
+	 * @return The SVG as a file.
+	 * @throws IOException 
+	 */
+	public static Path mermaidToSvg(String mmd) throws IOException {
 		return mermaidToSvg(ExternalContentTransformation.createTempFile(".mm", mmd.getBytes()));
 	}
 	
@@ -54,17 +64,32 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	 * @return The SVG as an XML string.
 	 * @throws IOException
 	 */
-	public static String mermaidToSvg(Path mmd) throws IOException {
+	public static String mermaidToRawSvg(Path mmd) throws IOException {
+		return new String(mermaidToSvgImpl(mmd).call());
+	}
+	
+	/**
+	 * 
+	 * @param mmd The Mermaid file.
+	 * @return The path to the SVG file.
+	 * @throws IOException
+	 */
+	public static Path mermaidToSvg(Path mmd) throws IOException {
+		ExternalContentTransformation ect = mermaidToSvgImpl(mmd);
+		ect.call();
+		return ect.getOutputFile();
+	}
+	
+	protected static ExternalContentTransformation mermaidToSvgImpl(Path mmd) {
 		Path svgTmp = mmd.getParent().resolve(mmd.getFileName()+".svg");
 		String program = Paths.get(System.getProperty("user.home"))
 			.resolve("node_modules").resolve(".bin").resolve(
 				OperatingSystem.isWindows() ? "mmdc.cmd" : "mmdc"
 			).toString();
 			
-		ExternalContentTransformation ect = new ExternalContentTransformation(
+		return new ExternalContentTransformation(
 			svgTmp, program, "-i", mmd, "-o", svgTmp
 		);
-		return new String(ect.call());
 	}
 	
 }
