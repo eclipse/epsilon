@@ -34,8 +34,8 @@ import junit.framework.Test;
 	CommonDevelopmentToolsTestSuite.class,
 	EmfPluggedInTestSuite.class,
 	EugeniaTestSuite.class,
-	WorkflowPluggedInTestSuite.class,
-	PictoTestSuite.class
+	WorkflowPluggedInTestSuite.class/*,
+	PictoTestSuite.class*/
 })
 public class EpsilonPluggedInTestSuite {
 	public static Test suite() {
