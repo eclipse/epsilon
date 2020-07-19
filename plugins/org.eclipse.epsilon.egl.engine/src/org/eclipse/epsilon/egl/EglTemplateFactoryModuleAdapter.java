@@ -18,6 +18,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import org.eclipse.epsilon.common.module.Comment;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.module.ModuleMarker;
@@ -278,6 +280,11 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	public List<Statement> getPostOperationStatements() {
 		if (current == null) return null;
 		return current.module.getPostOperationStatements();
+	}
+
+	@Override
+	public List<Comment> getComments() {
+		return current.module.getComments();
 	}
 
 }

@@ -41,6 +41,7 @@ public abstract class AbstractModuleElement implements ModuleElement {
 		}
 	}
 	
+	@Override
 	public List<Comment> getComments() {
 		return comments;
 	}

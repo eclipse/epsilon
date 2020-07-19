@@ -39,4 +39,6 @@ public interface ModuleElement {
 	
 	IModule getModule();
 	
+	List<Comment> getComments();
+	
 }
