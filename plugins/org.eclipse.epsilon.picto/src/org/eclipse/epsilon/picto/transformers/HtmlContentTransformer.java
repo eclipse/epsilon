@@ -36,7 +36,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	protected List<HtmlElementTransformer> htmlElementTransformers;
 	
 	public HtmlContentTransformer() {
-		htmlElementTransformers = new ArrayList<HtmlElementTransformer>();
+		htmlElementTransformers = new ArrayList<>();
 		htmlElementTransformers.addAll(Arrays.asList(
 			new AbsolutePathElementTransformer("img",  "src"),
 			new AbsolutePathElementTransformer("link",  "href"),
@@ -76,8 +76,9 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 				htmlElementTransformer.setPictoView(pictoView);
 				htmlElementTransformer.setViewContent(content);
 				
-				NodeList nodeList = getElements(document, htmlElementTransformer.getXPath()); 			
-				for (int i = 0; i<nodeList.getLength(); i++) {
+				NodeList nodeList = getElements(document, htmlElementTransformer.getXPath());
+				int length = nodeList.getLength();
+				for (int i = 0; i < length; i++) {
 					htmlElementTransformer.transform((Element) nodeList.item(i));
 				}
 			}

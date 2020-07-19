@@ -31,7 +31,7 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
 		String html = "<div>" +
-			"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.2/mermaid.min.js\"></script>\n" + 
+			"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.6.0/mermaid.min.js\"></script>\n" + 
 			"<script>\n" + "mermaid.initialize({startOnLoad:true});\n" + "</script>\n"+
 			"<div class=\"mermaid\">\n" + content.getText() + "</div></div>";
 		
