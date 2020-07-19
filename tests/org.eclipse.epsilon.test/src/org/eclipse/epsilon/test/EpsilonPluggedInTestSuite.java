@@ -12,15 +12,17 @@
  */
 package org.eclipse.epsilon.test;
 
-import junit.framework.JUnit4TestAdapter;
-import junit.framework.Test;
 import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
+import org.eclipse.epsilon.picto.test.PictoTestSuite;
 import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaTestSuite;
 import org.eclipse.epsilon.workflow.test.WorkflowPluggedInTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
 /**
  * Test suite to be run as JUnit Plugged In test.
@@ -32,7 +34,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	CommonDevelopmentToolsTestSuite.class,
 	EmfPluggedInTestSuite.class,
 	EugeniaTestSuite.class,
-	WorkflowPluggedInTestSuite.class
+	WorkflowPluggedInTestSuite.class,
+	PictoTestSuite.class
 })
 public class EpsilonPluggedInTestSuite {
 	public static Test suite() {
