@@ -8,7 +8,7 @@
       license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/epsilon">
-      Flexmi is a reflextive and fuzzy XML-based concrete syntax for EMF models.
+      Reflective and fuzzy XML-based concrete syntax for EMF models.
    </description>
 
    <copyright>

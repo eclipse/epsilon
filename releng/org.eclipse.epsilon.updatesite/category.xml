@@ -67,10 +67,10 @@
       <category name="Epsilon Spreadsheet Integration"/>
    </feature>
    <feature url="features/org.eclipse.epsilon.flexmi.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.flexmi.feature" version="2.2.0.qualifier">
-      <category name="Flexmi"/>
+      <category name="Epsilon EMF Integration"/>
    </feature>
    <feature url="features/org.eclipse.epsilon.flexmi.dt.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.flexmi.dt.feature" version="2.2.0.qualifier">
-      <category name="Flexmi Development Tools"/>
+      <category name="Epsilon EMF Integration"/>
    </feature>
    <feature url="features/org.eclipse.epsilon.picto.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.picto.feature" version="2.2.0.qualifier">
       <category name="Picto"/>
@@ -94,16 +94,6 @@
    <category-def name="Epsilon EMF Integration" label="Epsilon EMF Integration">
       <description>
          Support for managing EMF-based models with languages of the Epsilon platform.
-      </description>
-   </category-def>
-   <category-def name="Flexmi" label="Flexmi">
-      <description>
-         Reflective and fuzzy XML-based concrete syntax for EMF models.
-      </description>
-   </category-def>
-   <category-def name="Flexmi Development Tools" label="Flexmi Development Tools">
-      <description>
-         Development tools for the Flexmi XML-based concrete syntax.
       </description>
    </category-def>
    <category-def name="Picto" label="Picto">

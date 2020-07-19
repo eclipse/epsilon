@@ -8,7 +8,7 @@
       license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/epsilon">
-      This feature provides development tools for Epsilon&apos;s Flexmi reflective XML-based syntax for EMF models.
+      This feature provides development tools for Epsilon's Flexmi reflective XML-based syntax for EMF models.
    </description>
 
    <copyright>
