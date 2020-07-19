@@ -74,8 +74,10 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 										}
 									}	
 								}
-								e.setAttribute(sourceAttribute, new IterableOperationContributor(referenceIds).concat(", "));
-								return;
+								try (IterableOperationContributor ic = new IterableOperationContributor(referenceIds)) {
+									e.setAttribute(sourceAttribute, ic.concat(", "));
+									return;
+								}
 							}
 							else {
 								if (value instanceof Element) {
