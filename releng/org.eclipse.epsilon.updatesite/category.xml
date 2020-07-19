@@ -7,7 +7,7 @@
       <category name="Epsilon Core"/>
    </feature>
    <feature url="features/org.eclipse.epsilon.core.dt.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.core.dt.feature" version="2.2.0.qualifier">
-      <category name="Epsilon Core Development Tools"/>
+      <category name="Epsilon Core"/>
    </feature>
    <feature url="features/org.eclipse.epsilon.emf.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.emf.feature" version="2.2.0.qualifier">
       <category name="Epsilon EMF Integration"/>
@@ -83,14 +83,10 @@
    </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
-         Parsers and execution engines for languages of the Epsilon platform.
+         Parsers, execution engines, development tools (editors, launch configurations, debuggers etc.) for languages of the Epsilon platform.
       </description>
    </category-def>
-   <category-def name="Epsilon Core Development Tools" label="Epsilon Core Development Tools">
-      <description>
-         Development tools (editors, launch configurations, debuggers etc.) for the languages of the Epsilon platform.
-      </description>
-   </category-def>
+   <category-def name="Epsilon Core Development Tools" label="Epsilon Core Development Tools"/>
    <category-def name="Epsilon EMF Integration" label="Epsilon EMF Integration">
       <description>
          Support for managing EMF-based models with languages of the Epsilon platform.
