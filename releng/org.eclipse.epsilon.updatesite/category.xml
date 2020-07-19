@@ -86,7 +86,6 @@
          Parsers, execution engines, development tools (editors, launch configurations, debuggers etc.) for languages of the Epsilon platform.
       </description>
    </category-def>
-   <category-def name="Epsilon Core Development Tools" label="Epsilon Core Development Tools"/>
    <category-def name="Epsilon EMF Integration" label="Epsilon EMF Integration">
       <description>
          Support for managing EMF-based models with languages of the Epsilon platform.
