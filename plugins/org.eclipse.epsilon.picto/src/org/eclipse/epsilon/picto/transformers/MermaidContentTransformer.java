@@ -45,7 +45,7 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	 * @throws IOException 
 	 */
 	public static String mermaidToRawSvg(String mmd) throws IOException {
-		return mermaidToRawSvg(ExternalContentTransformation.createTempFile(".mm", mmd.getBytes()));
+		return mermaidToRawSvg(ExternalContentTransformation.createTempFile("mm", mmd.getBytes()));
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	 * @throws IOException 
 	 */
 	public static Path mermaidToSvg(String mmd) throws IOException {
-		return mermaidToSvg(ExternalContentTransformation.createTempFile(".mm", mmd.getBytes()));
+		return mermaidToSvg(ExternalContentTransformation.createTempFile("mm", mmd.getBytes()));
 	}
 	
 	/**

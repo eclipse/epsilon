@@ -75,7 +75,7 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 	 * @throws IOException If the temp file couldn't be created.
 	 */
 	public static Path createTempFile(String extension, byte[] contents) throws IOException {
-		Path file = Files.createTempFile(Files.createTempDirectory("picto"), "picto-renderer", extension);
+		Path file = Files.createTempFile(Files.createTempDirectory("picto"), "picto-renderer", '.'+extension);
 		Path result = contents != null && contents.length > 0 ? Files.write(file, contents) : file;
 		return result.toAbsolutePath();
 	}
@@ -130,7 +130,7 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		}
 		
 		ProcessBuilder pb = new ProcessBuilder(programAndArgs);
-		logFile = createTempFile(".log", null);
+		logFile = createTempFile("log", null);
 		pb.redirectError(logFile.toFile());
 		try {
 			Process process = pb.start();
