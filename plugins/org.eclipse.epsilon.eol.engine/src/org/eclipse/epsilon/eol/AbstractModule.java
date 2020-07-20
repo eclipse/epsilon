@@ -140,7 +140,14 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	protected List<CommonToken> extractComments(CommonTokenStream stream) {
 		
 		List<CommonToken> comments = new ArrayList<>();
-		stream.fill();
+		
+		// stream is automatically filled in 3.2 but not in 3.5.2
+		// We'd like to be able to call stream.fill() to ensure it's
+		// filled before we start processing tokens, but fill()
+		// doesn't exist in 3.2. To support a wider range of ANTLR
+		// versions than just 3.5.2 we're calling toString() instead
+		// which has no effect in 3.2 but calls fill() in 3.5.2
+		if (stream.size() == 0) stream.toString();
 		
 		for (Object t : stream.getTokens()) {
 			CommonToken token = (CommonToken) t;
