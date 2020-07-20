@@ -39,8 +39,11 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 		return "Graphviz";
 	}
 	
+	public static Path graphvizToSvg(String program, String graphviz) throws IOException {
+		return graphvizToImage(program, graphviz, "svg");
+	}
 	
-	public static String graphvizToSvg(String program, String graphviz) throws IOException {
+	public static String graphvizToRawSvg(String program, String graphviz) throws IOException {
 		return new String(graphvizToImageImpl(program, graphviz, "svg").call());
 	}
 	

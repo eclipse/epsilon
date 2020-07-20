@@ -65,7 +65,7 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 	 */
 	public static Path plantumlToPng(String plant) throws IOException {
 		SourceStringReader reader = new SourceStringReader(plant);
-		Path png = ExternalContentTransformation.createTempFile(".png", null);
+		Path png = ExternalContentTransformation.createTempFile("png", null);
 		try (FileOutputStream os = new FileOutputStream(png.toFile())) {
 			reader.outputImage(os, new FileFormatOption(FileFormat.PNG));
 		}
