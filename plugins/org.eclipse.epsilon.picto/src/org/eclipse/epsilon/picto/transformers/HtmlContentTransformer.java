@@ -9,6 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -131,4 +133,92 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 		}
 	}
 	
+	
+	/**
+	 * Converts the HTML to the desired format using Pandoc.
+	 * 
+	 * @param html The raw HTML text.
+	 * @param outputExt The output file format.
+	 * @return The raw output of the file as a String.
+	 * @throws IOException If invoking Pandoc fails.
+	 */
+	public static String pandocRaw(String html, String outputExt) throws IOException {
+		Path htmlDocument = ExternalContentTransformation.createTempFile("html", html.getBytes());
+		ExternalContentTransformation ect = invokePandoc(htmlDocument, outputExt);
+		return new String(ect.call());
+	}
+	
+	/**
+	 * Converts the HTML to the desired format using Pandoc.
+	 * 
+	 * @param html The raw HTML text.
+	 * @param outputExt The output file format.
+	 * @return The output file.
+	 * @throws IOException If invoking Pandoc fails.
+	 */
+	public static Path pandoc(String html, String outputExt) throws IOException {
+		return pandoc(ExternalContentTransformation.createTempFile("html", html.getBytes()), outputExt);
+	}
+	
+	/**
+	 * Converts the HTML to the desired format using Pandoc.
+	 * 
+	 * @param document The HTML file.
+	 * @param outputExt The output file format.
+	 * @return The output file.
+	 * @throws IOException If invoking Pandoc fails.
+	 */
+	public static Path pandoc(Path document, String outputExt) throws IOException {
+		ExternalContentTransformation ect = invokePandoc(document, outputExt);
+		ect.call();
+		return ect.getOutputFile();
+	}
+	
+	/**
+	 * Converts the HTML to the desired format using Pandoc.
+	 * 
+	 * @param html The HTML file.
+	 * @param outputExt The output file format.
+	 * @return The transformation, prior to running it.
+	 * @throws IOException If invoking Pandoc fails.
+	 */
+	protected static ExternalContentTransformation invokePandoc(Path document, String outputExt) throws IOException {
+		Path htmlAbsolute = document.toAbsolutePath();
+		String fileName = htmlAbsolute.getFileName().toString();
+		fileName = fileName.substring(0, fileName.lastIndexOf('.')+1);
+		Path outputLocation = htmlAbsolute.getParent().resolve(fileName + outputExt);
+		return new ExternalContentTransformation(
+			outputLocation, "pandoc", "-o", outputLocation, htmlAbsolute
+		);
+	}
+	
+	/**
+	 * Converts HTML to PDF using wkhtmltopdf.
+	 * 
+	 * @param html The raw HTML text.
+	 * @return The output PDF file.
+	 * @throws IOException If invoking wkhtmltopdf fails.
+	 */
+	public static Path wkhtmltopdf(String html) throws IOException {
+		return wkhtmltopdf(ExternalContentTransformation.createTempFile("html", html.getBytes()));
+	}
+	
+	/**
+	 * Converts HTML to PDF using wkhtmltopdf.
+	 * 
+	 * @param html The HTML file.
+	 * @return The output PDF file.
+	 * @throws IOException If invoking wkhtmltopdf fails.
+	 */
+	public static Path wkhtmltopdf(Path document) throws IOException {
+		Path htmlAbsolute = document.toAbsolutePath();
+		String fileName = htmlAbsolute.getFileName().toString();
+		fileName = fileName.substring(0, fileName.lastIndexOf('.')+1);
+		Path pdfLocation = htmlAbsolute.getParent().resolve(fileName + "pdf");
+		ExternalContentTransformation ect = new ExternalContentTransformation(
+			pdfLocation, "wkhtmltopdf", document, pdfLocation
+		);
+		ect.call();
+		return pdfLocation;
+	}
 }
