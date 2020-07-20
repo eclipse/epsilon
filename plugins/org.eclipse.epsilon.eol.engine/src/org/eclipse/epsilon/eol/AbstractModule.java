@@ -138,22 +138,9 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	public abstract ModuleElement adapt(AST cst, ModuleElement parentAst);
 	
 	protected List<CommonToken> extractComments(CommonTokenStream stream) {
-		List<CommonToken> comments = new ArrayList<>();
 		
-		if (stream.getTokens().isEmpty()) {
-			try {
-				Method fill = stream.getClass().getMethod("fill");
-				if (fill != null) try {
-					fill.invoke(stream);
-				}
-				catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-					throw new IllegalStateException(ex);
-				}
-			}
-			catch (NoSuchMethodException | SecurityException ex) {
-				// ANTLR 3.2 probably
-			}
-		}
+		List<CommonToken> comments = new ArrayList<>();
+		stream.fill();
 		
 		for (Object t : stream.getTokens()) {
 			CommonToken token = (CommonToken) t;
