@@ -38,6 +38,8 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 		return new ViewContent("svg", html, content);
 	}
 	
+	
+	
 	/**
 	 * 
 	 * @param mmd The Mermaid as plain text.
@@ -50,38 +52,40 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	
 	/**
 	 * 
-	 * @param mmd The Mermaid as plain text.
-	 * @return The SVG as a file.
-	 * @throws IOException 
-	 */
-	public static Path mermaidToSvg(String mmd) throws IOException {
-		return mermaidToSvg(ExternalContentTransformation.createTempFile("mm", mmd.getBytes()));
-	}
-	
-	/**
-	 * 
 	 * @param mmd The Mermaid file.
 	 * @return The SVG as an XML string.
 	 * @throws IOException
 	 */
 	public static String mermaidToRawSvg(Path mmd) throws IOException {
-		return new String(mermaidToSvgImpl(mmd).call());
+		return new String(mermaid(mmd, "svg").call());
+	}
+	
+	/**
+	 * 
+	 * @param mmd The Mermaid as plain text.
+	 * @param ext The output file extension.
+	 * @return The image as a file.
+	 * @throws IOException 
+	 */
+	public static Path mermaidToImage(String mmd, String ext) throws IOException {
+		return mermaidToImage(ExternalContentTransformation.createTempFile("mm", mmd.getBytes()), ext);
 	}
 	
 	/**
 	 * 
 	 * @param mmd The Mermaid file.
-	 * @return The path to the SVG file.
-	 * @throws IOException
+	 * @param ext The output file extension.
+	 * @return The path to the output file.
+	 * @throws IOException If invoking the CLI tool goes wrong.
 	 */
-	public static Path mermaidToSvg(Path mmd) throws IOException {
-		ExternalContentTransformation ect = mermaidToSvgImpl(mmd);
+	public static Path mermaidToImage(Path mmd, String ext) throws IOException {
+		ExternalContentTransformation ect = mermaid(mmd, ext);
 		ect.call();
 		return ect.getOutputFile();
 	}
 	
-	protected static ExternalContentTransformation mermaidToSvgImpl(Path mmd) {
-		Path svgTmp = mmd.getParent().resolve(mmd.getFileName()+".svg");
+	protected static ExternalContentTransformation mermaid(Path mmd, String ext) {
+		Path svgTmp = mmd.getParent().resolve(mmd.getFileName()+"."+ext);
 		String program = Paths.get(System.getProperty("user.home"))
 			.resolve("node_modules").resolve(".bin").resolve(
 				OperatingSystem.isWindows() ? "mmdc.cmd" : "mmdc"

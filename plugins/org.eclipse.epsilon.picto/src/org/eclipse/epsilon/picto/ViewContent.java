@@ -56,15 +56,14 @@ public class ViewContent {
 	 */
 	public ViewContent(String format, String text, ViewContent other) {
 		this(format, text,
-			other.getFile(),
-			other.getLayers(),
-			other.getPatches(),
-			other.getBaseUris()
+			other != null ? other.getFile() : null,
+			other != null ? other.getLayers() : null,
+			other != null ? other.getPatches() : null,
+			other != null ? other.getBaseUris() : null
 		);
 	}
 	
 	public ViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches, Set<URI> baseUris) {
-		super();
 		this.format = format;
 		this.text = text;
 		this.patches = patches;

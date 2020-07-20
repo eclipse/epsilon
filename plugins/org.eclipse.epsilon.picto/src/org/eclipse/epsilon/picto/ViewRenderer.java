@@ -36,8 +36,9 @@ public class ViewRenderer {
 	
 	public Point getPrintableArea() {
 		return new Point(
-				((Double) browser.evaluate("return document.body.scrollWidth")).intValue(),
-				((Double) browser.evaluate("return document.body.scrollHeight")).intValue());
+			((Double) browser.evaluate("return document.body.scrollWidth")).intValue(),
+			((Double) browser.evaluate("return document.body.scrollHeight")).intValue()
+		);
 	}
 	
 	public void setScrollPosition(Point point) {
