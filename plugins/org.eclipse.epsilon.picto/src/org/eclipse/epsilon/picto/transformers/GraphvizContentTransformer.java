@@ -28,7 +28,7 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
 		String[] parts = content.getFormat().split("-");
 		String program = parts[1].trim();
-		ExternalContentTransformation ect = graphvizToImageImpl(program, content.getText(), "svg");
+		ExternalContentTransformation ect = graphviz(program, content.getText(), "svg");
 		String text = new String(ect.call());
 		String format = ect.getOutputFile().toFile().exists() ? "svg" : "exception";
 		return new ViewContent(format, text, content);
@@ -44,16 +44,16 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 	}
 	
 	public static String graphvizToRawSvg(String program, String graphviz) throws IOException {
-		return new String(graphvizToImageImpl(program, graphviz, "svg").call());
+		return new String(graphviz(program, graphviz, "svg").call());
 	}
 	
 	public static Path graphvizToImage(String program, String graphviz, String imageType) throws IOException {
-		ExternalContentTransformation ect = graphvizToImageImpl(program, graphviz, imageType);
+		ExternalContentTransformation ect = graphviz(program, graphviz, imageType);
 		ect.call();
 		return ect.getOutputFile();
 	}
 	
-	protected static ExternalContentTransformation graphvizToImageImpl(String program, String graphviz, String imageType) throws IOException {
+	protected static ExternalContentTransformation graphviz(String program, String graphviz, String imageType) throws IOException {
 		Path
 			temp = ExternalContentTransformation.createTempFile(null, null),
 			image = ExternalContentTransformation.createTempFile(imageType, null);
