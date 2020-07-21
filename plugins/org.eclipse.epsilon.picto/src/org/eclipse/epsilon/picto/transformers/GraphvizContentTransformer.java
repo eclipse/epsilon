@@ -66,6 +66,9 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 		else if (OperatingSystem.isUnix()) {
 			program = "/usr/bin/" + program;
 		}
+		else if (OperatingSystem.isWindows()) {
+			program += ".exe";
+		}
 		
 		return new ExternalContentTransformation(
 			image, program,

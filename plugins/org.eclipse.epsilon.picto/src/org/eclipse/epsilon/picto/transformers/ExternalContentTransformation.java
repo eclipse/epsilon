@@ -16,6 +16,7 @@ import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -75,7 +76,7 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 	 * @throws IOException If the temp file couldn't be created.
 	 */
 	public static Path createTempFile(String extension, byte[] contents) throws IOException {
-		Path file = Files.createTempFile(Files.createTempDirectory("picto"), "picto-renderer", '.'+extension);
+		Path file = FileUtil.createTempFile("picto-renderer", '.'+extension).toPath();
 		Path result = contents != null && contents.length > 0 ? Files.write(file, contents) : file;
 		return result.toAbsolutePath();
 	}
