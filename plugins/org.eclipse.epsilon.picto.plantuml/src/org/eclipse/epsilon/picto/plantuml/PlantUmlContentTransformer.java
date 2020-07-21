@@ -37,7 +37,7 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		return new ViewContent("svg", plantumlToSvg(content.getText()), content);
+		return new ViewContent("svg", plantumlToRawSvg(content.getText()), content);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 	 * @return The generated SVG as an XML string.
 	 * @throws IOException If writing to file fails.
 	 */
-	public static String plantumlToSvg(String plant) throws IOException {
+	public static String plantumlToRawSvg(String plant) throws IOException {
 		SourceStringReader reader = new SourceStringReader(plant);
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
