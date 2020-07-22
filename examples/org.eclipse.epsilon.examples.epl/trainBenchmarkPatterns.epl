@@ -51,7 +51,7 @@ pattern SwitchMonitored
 
 pattern SwitchSet
   route: Route,
-  semaphore: Semaphore from: route.entry.select(e | e.isDefined() and e.signal = 'GO'),
+  semaphore: Semaphore from: Sequence{route.entry}.select(e | e.isDefined() and e.signal = 'GO'),
   swP: SwitchPosition from: route.follows,
   sw: Switch from: swP.target.select(t | t.currentPosition <> swP.position)
 {
