@@ -68,22 +68,16 @@ public class FlockModule extends ErlModule implements IFlockModule {
 		switch(cst.getType()) {
 			case FlockParser.GUARD:
 				return new ExecutableBlock<>(Boolean.class);
-			
 			case FlockParser.DELETE:
 				return new Deletion();
-			
 			case FlockParser.RETYPE:
 				return new Retyping();
-			
 			case FlockParser.MIGRATE:
 				return new MigrateRule();
-				
 			case FlockParser.RETYPEPACKAGE:
 				return new PackageRetyping();
-			
 			case FlockParser.DELETEPACKAGE:
 				return new PackageDeletion();
-	
 			case FlockParser.BLOCK:
 				if (cst.getParent() != null && cst.getParent().getType() == FlockParser.MIGRATE)
 					return new ExecutableBlock<>(Void.class);
@@ -136,6 +130,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 		return getContext().execute(strategy);
 	}
 	
+	@Override
 	public MigrationStrategy getStrategy() {
 		return strategy;
 	}

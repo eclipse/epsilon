@@ -52,9 +52,9 @@ public class EwlModule extends EolModule implements IEwlModule {
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
-			case EwlParser.TITLE: return new ExecutableBlock<String>(String.class);
-			case EwlParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
-			case EwlParser.DO: return new ExecutableBlock<Void>(Void.class);
+			case EwlParser.TITLE: return new ExecutableBlock<>(String.class);
+			case EwlParser.GUARD: return new ExecutableBlock<>(Boolean.class);
+			case EwlParser.DO: return new ExecutableBlock<>(Void.class);
 			case EwlParser.WIZARD: return new Wizard();
 			default: return super.adapt(cst, parentAst);
 		}
@@ -108,6 +108,7 @@ public class EwlModule extends EolModule implements IEwlModule {
 		return applicableWizards;
 	}
 	
+	@Override
 	public List<Wizard> getWizards() {
 		return wizards;
 	}
