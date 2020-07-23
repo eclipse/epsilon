@@ -9,6 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.engine.test.acceptance.dom;
 
+import static org.junit.Assert.assertTrue;
+
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.AssignmentStatement;
 import org.eclipse.epsilon.eol.dom.CollectionLiteralExpression;
 import org.eclipse.epsilon.eol.dom.ExpressionStatement;
@@ -74,6 +77,14 @@ public class DomTests {
 						new NameExpression("x"), 
 						new StatementBlock(new ExpressionStatement(new OperationCallExpression(new NameExpression("i"), new NameExpression("println")))))
 		).execute(new EolContext());
+	}
+	
+	@Test
+	public void testIfStatementNoBracketsChildren() throws Exception {
+		EolModule module = new EolModule();
+		module.parse("if (true) var a = 0;");
+		IfStatement ifStatement = (IfStatement) module.getMain().getStatements().get(0);
+		assertTrue(ifStatement.getChildren().get(1) instanceof AssignmentStatement);
 	}
 	
 }
