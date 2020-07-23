@@ -25,6 +25,7 @@ import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dom.PlusOperatorExpression;
+import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.dom.VariableDeclaration;
@@ -85,6 +86,14 @@ public class DomTests {
 		module.parse("if (true) var a = 0;");
 		IfStatement ifStatement = (IfStatement) module.getMain().getStatements().get(0);
 		assertTrue(ifStatement.getChildren().get(1) instanceof AssignmentStatement);
+	}
+	
+	@Test
+	public void testIfStatementNoBracketsExpressionStatementChild() throws Exception {
+		EolModule module = new EolModule();
+		module.parse("if (true) 1.println();");
+		IfStatement ifStatement = (IfStatement) module.getMain().getStatements().get(0);
+		assertTrue(ifStatement.getChildren().get(1) instanceof ExpressionStatement);
 	}
 	
 }

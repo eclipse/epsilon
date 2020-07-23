@@ -21,7 +21,9 @@ public abstract class Statement extends AbstractExecutableModuleElement {
 			return new StatementBlock((Statement) element);
 		}
 		else if (element instanceof Expression) {
-			return new StatementBlock(new ExpressionStatement((Expression) element));
+			ExpressionStatement expressionStatement = new ExpressionStatement((Expression) element);
+			expressionStatement.setParent(this);
+			return new StatementBlock(expressionStatement);
 		}
 		else throw new IllegalArgumentException(element + " was expected to be a StatementBlock, Statement or Expression but instead it is " + element);
 	}
