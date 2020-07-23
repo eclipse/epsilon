@@ -11,10 +11,9 @@ package org.eclipse.epsilon.eol.dt.editor.outline;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.Operation;
@@ -26,11 +25,13 @@ public class EolModuleContentProvider extends ModuleContentProvider {
 	public List<ModuleElement> getVisibleChildren(ModuleElement moduleElement) {
 		List<ModuleElement> visible = new ArrayList<>();
 		
-		if (moduleElement.getClass() == EolModule.class) {
-			EolModule module = (EolModule) moduleElement;
+		if (moduleElement instanceof IEolModule) {
+			IEolModule module = (IEolModule) moduleElement;
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
-			if (module.getMain() != null) visible.add(module.getMain());
+			if (module.getMain() != null) {
+				visible.add(module.getMain());
+			}
 			visible.addAll(module.getDeclaredOperations());
 		}
 		else if (moduleElement instanceof Import) {

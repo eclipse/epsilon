@@ -11,7 +11,6 @@ package org.eclipse.epsilon.epl.dt.editor.outline;
 
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.dom.Pattern;
 import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleContentProvider;
@@ -22,7 +21,7 @@ public class EplModuleContentProvider extends ErlModuleContentProvider {
 	public List<ModuleElement> getVisibleChildren(ModuleElement moduleElement) {
 		List<ModuleElement> visible = super.getVisibleChildren(moduleElement);
 		
-		if (moduleElement.getClass() == EplModule.class) {
+		if (moduleElement instanceof IEplModule) {
 			IEplModule module = (IEplModule) moduleElement;
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());

@@ -10,10 +10,9 @@
 package org.eclipse.epsilon.ewl.dt.editor.outline;
 
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleContentProvider;
-import org.eclipse.epsilon.ewl.EwlModule;
+import org.eclipse.epsilon.ewl.IEwlModule;
 
 public class EwlModuleContentProvider extends EolModuleContentProvider {
 	
@@ -21,8 +20,8 @@ public class EwlModuleContentProvider extends EolModuleContentProvider {
 	public List<ModuleElement> getVisibleChildren(ModuleElement moduleElement) {
 		List<ModuleElement> visible = super.getVisibleChildren(moduleElement);
 		
-		if (moduleElement.getClass() == EwlModule.class) {
-			EwlModule module = (EwlModule) moduleElement;
+		if (moduleElement instanceof IEwlModule) {
+			IEwlModule module = (IEwlModule) moduleElement;
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
 			visible.addAll(module.getWizards());

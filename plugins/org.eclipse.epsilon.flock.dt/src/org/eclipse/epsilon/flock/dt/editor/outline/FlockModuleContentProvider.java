@@ -12,7 +12,7 @@ package org.eclipse.epsilon.flock.dt.editor.outline;
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleContentProvider;
-import org.eclipse.epsilon.flock.FlockModule;
+import org.eclipse.epsilon.flock.IFlockModule;
 
 public class FlockModuleContentProvider extends ErlModuleContentProvider {
 	
@@ -20,8 +20,8 @@ public class FlockModuleContentProvider extends ErlModuleContentProvider {
 	public List<ModuleElement> getVisibleChildren(ModuleElement moduleElement) {
 		List<ModuleElement> visible = super.getVisibleChildren(moduleElement);
 		
-		if (moduleElement.getClass() == FlockModule.class) {
-			FlockModule module = (FlockModule) moduleElement;
+		if (moduleElement instanceof IFlockModule) {
+			IFlockModule module = (IFlockModule) moduleElement;
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
 			visible.addAll(module.getDeclaredPre());
