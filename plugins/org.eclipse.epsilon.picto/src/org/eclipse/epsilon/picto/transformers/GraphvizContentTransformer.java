@@ -10,9 +10,7 @@
 package org.eclipse.epsilon.picto.transformers;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
@@ -55,10 +53,8 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 	
 	protected static ExternalContentTransformation graphviz(String program, String graphviz, String imageType) throws IOException {
 		Path
-			temp = ExternalContentTransformation.createTempFile(null, null),
+			temp = ExternalContentTransformation.createTempFile(program, graphviz.getBytes()),
 			image = ExternalContentTransformation.createTempFile(imageType, null);
-	
-		Files.write(temp, graphviz.getBytes());
 		
 		if (OperatingSystem.isMac()) {
 			program = "/usr/local/bin/" + program;

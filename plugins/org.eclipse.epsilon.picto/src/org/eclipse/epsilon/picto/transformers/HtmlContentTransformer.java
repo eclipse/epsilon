@@ -139,12 +139,13 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	 * 
 	 * @param html The raw HTML text.
 	 * @param outputExt The output file format.
+	 * @param additionalArgs Other arguments to pass to Pandoc.
 	 * @return The raw output of the file as a String.
 	 * @throws IOException If invoking Pandoc fails.
 	 */
-	public static String pandocRaw(String html, String outputExt) throws IOException {
+	public static String pandocRaw(String html, String outputExt, Object... additionalArgs) throws IOException {
 		Path htmlDocument = ExternalContentTransformation.createTempFile("html", html.getBytes());
-		ExternalContentTransformation ect = invokePandoc(htmlDocument, outputExt);
+		ExternalContentTransformation ect = invokePandoc(htmlDocument, outputExt, additionalArgs);
 		return new String(ect.call());
 	}
 	
@@ -153,11 +154,12 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	 * 
 	 * @param html The raw HTML text.
 	 * @param outputExt The output file format.
+	 * @param additionalArgs Other arguments to pass to Pandoc.
 	 * @return The output file.
 	 * @throws IOException If invoking Pandoc fails.
 	 */
-	public static Path pandoc(String html, String outputExt) throws IOException {
-		return pandoc(ExternalContentTransformation.createTempFile("html", html.getBytes()), outputExt);
+	public static Path pandoc(String html, String outputExt, Object... additionalArgs) throws IOException {
+		return pandoc(ExternalContentTransformation.createTempFile("html", html.getBytes()), outputExt, additionalArgs);
 	}
 	
 	/**
@@ -165,11 +167,12 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	 * 
 	 * @param document The HTML file.
 	 * @param outputExt The output file format.
+	 * @param additionalArgs Other arguments to pass to Pandoc.
 	 * @return The output file.
 	 * @throws IOException If invoking Pandoc fails.
 	 */
-	public static Path pandoc(Path document, String outputExt) throws IOException {
-		ExternalContentTransformation ect = invokePandoc(document, outputExt);
+	public static Path pandoc(Path document, String outputExt, Object... additionalArgs) throws IOException {
+		ExternalContentTransformation ect = invokePandoc(document, outputExt, additionalArgs);
 		ect.call();
 		return ect.getOutputFile();
 	}
@@ -179,17 +182,27 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	 * 
 	 * @param html The HTML file.
 	 * @param outputExt The output file format.
+	 * @param additionalArgs Other arguments to pass to Pandoc.
 	 * @return The transformation, prior to running it.
 	 * @throws IOException If invoking Pandoc fails.
 	 */
-	protected static ExternalContentTransformation invokePandoc(Path document, String outputExt) throws IOException {
+	protected static ExternalContentTransformation invokePandoc(Path document, String outputExt, Object... additionalArgs) throws IOException {
 		Path htmlAbsolute = document.toAbsolutePath();
 		String fileName = htmlAbsolute.getFileName().toString();
 		fileName = fileName.substring(0, fileName.lastIndexOf('.')+1);
 		Path outputLocation = htmlAbsolute.getParent().resolve(fileName + outputExt);
-		return new ExternalContentTransformation(
-			outputLocation, "pandoc", "-o", outputLocation, htmlAbsolute
-		);
+		Object[] basicArgs = {"-o", outputLocation, htmlAbsolute}, allArgs;
+		if (additionalArgs != null && additionalArgs.length > 0) {
+			allArgs = new Object[basicArgs.length + additionalArgs.length];
+			for (int i = 0; i < allArgs.length; i++) {
+				allArgs[i] = i < basicArgs.length ? basicArgs[i] : additionalArgs[i - basicArgs.length];
+			}
+		}
+		else {
+			allArgs = basicArgs;
+		}
+		
+		return new ExternalContentTransformation(outputLocation, "pandoc", allArgs);
 	}
 	
 	/**
