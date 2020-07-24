@@ -259,7 +259,7 @@ public class EmgModule extends EplModule implements IEmgModule {
 				namedCreatedObjects.put(instancesListName, classes);
 		}
 		for (int i = 0; i < instances; i++) {
-			List<Object> paramObj = null;
+			List<Object> paramObj = Collections.emptyList();
 			if (paramAnotation != null) {
 				List<Object> annotationValues = operation.getAnnotationsValues(paramAnotation, context);
 				paramObj = (List<Object>) annotationValues.get(0);
