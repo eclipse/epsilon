@@ -26,6 +26,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -390,8 +391,8 @@ public class PlainXmlModel extends CachedModel<Element> {
 		
 		String filePath = properties.getProperty(PlainXmlModel.PROPERTY_FILE);
 		
-		if (filePath != null && filePath.trim().length() > 0) {
-			file = new File(resolver.resolve(filePath));
+		if (!StringUtil.isEmpty(filePath)) {
+			file = new File(resolver != null ? resolver.resolve(filePath) : filePath);
 		}
 		else {
 			uri = properties.getProperty(PlainXmlModel.PROPERTY_URI);

@@ -9,7 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-public class EolReadOnlyPropertyException extends EolRuntimeException{
+public class EolReadOnlyPropertyException extends EolRuntimeException {
 	
 	//TODO: Add functionality here and add to the PropertySetters
 	

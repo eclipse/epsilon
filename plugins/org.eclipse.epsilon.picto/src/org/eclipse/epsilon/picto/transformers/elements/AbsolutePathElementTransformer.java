@@ -47,7 +47,7 @@ public class AbsolutePathElementTransformer extends AbstractHtmlElementTransform
 				if (!uri.isAbsolute()) {
 					for (java.net.URI baseUri : baseUris) {
 						java.net.URI fileUri = baseUri.resolve(attributeValue);
-						try (InputStream in = fileUri.toURL().openStream()){
+						try (InputStream in = fileUri.toURL().openStream()) {
 							if ("file".equals(fileUri.getScheme())) {
 								element.setAttribute(attributeName, fileUri.toString());
 							}
