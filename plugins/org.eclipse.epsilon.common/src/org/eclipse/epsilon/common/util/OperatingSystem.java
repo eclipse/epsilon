@@ -83,10 +83,10 @@ public enum OperatingSystem {
 		StringBuilder processOutput = new StringBuilder();
 
         try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            String readLine;
-            while ((readLine = processOutputReader.readLine()) != null) {
-                processOutput.append(readLine + System.lineSeparator());
-            }
+        	for (String line;
+            	(line = processOutputReader.readLine()) != null;
+            	processOutput.append(line + System.lineSeparator())
+            );
             try {
 				process.waitFor();
 			}

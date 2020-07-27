@@ -27,7 +27,8 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 		String[] parts = content.getFormat().split("-");
 		String program = parts[1].trim();
 		ExternalContentTransformation ect = graphviz(program, content.getText(), "svg");
-		String text = new String(ect.call());
+		ect.run();
+		String text = new String(ect.getResult());
 		String format = ect.getOutputFile().toFile().exists() ? "svg" : "exception";
 		return new ViewContent(format, text, content);
 	}

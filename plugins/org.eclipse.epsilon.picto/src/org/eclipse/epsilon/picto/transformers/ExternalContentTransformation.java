@@ -9,7 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -29,18 +31,13 @@ import org.eclipse.jface.preference.IPreferenceStore;
 public class ExternalContentTransformation implements Runnable, Callable<byte[]> {
 
 	protected final String program, args[];
-	
 	protected Duration timeout = null;
-	
 	protected Path logFile, outputFile;
-	
 	private IOException exception;
-	
 	protected int resultCode = Integer.MIN_VALUE;
-	
 	protected boolean hasRun = false;
-	
 	protected byte[] result;
+	protected String processOutput;
 
 	protected ExternalContentTransformation(String program, Object... arguments) {
 		if (arguments == null) {
@@ -135,22 +132,38 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		pb.redirectError(logFile.toFile());
 		try {
 			Process process = pb.start();
-			if (process.waitFor(timeout != null ? timeout.toMillis() : Long.MAX_VALUE, TimeUnit.MILLISECONDS)) {
-				resultCode = process.exitValue();
-			}
-			else if (timeout != null) { // the process has timed out
-				return ("<html><body>"
-					+ "Rendering the view timed out after " + timeout.getSeconds() + " seconds."
-					+ "You can increase the timeout threshold in the <a href=\"javascript:showPreferences()\">"
-					+ "Picto preferences</a> page, and try to refresh the view."
-					+ "</body></html>"
-				).getBytes();
+			try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+				
+				StringBuilder output = new StringBuilder();
+	            for (String readLine;
+	            	(readLine = processOutputReader.readLine()) != null;
+	            	output.append(readLine + System.lineSeparator())
+	            );
+	            
+				if (process.waitFor(timeout != null ? timeout.toMillis() : Long.MAX_VALUE, TimeUnit.MILLISECONDS)) {
+					resultCode = process.exitValue();
+				}
+				else if (timeout != null) { // the process has timed out
+					return ("<html><body>"
+						+ "Rendering the view timed out after " + timeout.getSeconds() + " seconds."
+						+ "You can increase the timeout threshold in the <a href=\"javascript:showPreferences()\">"
+						+ "Picto preferences</a> page, and try to refresh the view."
+						+ "</body></html>"
+					).getBytes();
+				}
+				
+				this.processOutput = output.toString();
 			}
 		}
 		catch (InterruptedException ie) {
 			throw new IOException(ie);
 		}
 		hasRun = true;
+		
+		if (resultCode != 0) {
+			throw new IOException("Program "+program+" exited with "+resultCode);
+		}
+		
 		return getResult();
 	}
 	
@@ -188,5 +201,15 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 
 	public String[] getArgs() {
 		return args;
+	}
+	
+	/**
+	 * 
+	 * @return The stdout of the invoked program.
+	 * @throws IllegalStateException If the program hasn't been run yet.
+	 */
+	public String getProcessOutput() {
+		screenRun();
+		return processOutput;
 	}
 }

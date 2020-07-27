@@ -85,14 +85,14 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	}
 	
 	protected static ExternalContentTransformation mermaid(Path mmd, String ext) {
-		Path svgTmp = mmd.getParent().resolve(mmd.getFileName()+"."+ext);
+		Path imgTmp = mmd.getParent().resolve(mmd.getFileName()+"."+ext);
 		String program = Paths.get(System.getProperty("user.home"))
 			.resolve("node_modules").resolve(".bin").resolve(
 				OperatingSystem.isWindows() ? "mmdc.cmd" : "mmdc"
 			).toString();
 			
 		return new ExternalContentTransformation(
-			svgTmp, program, "-i", mmd, "-o", svgTmp
+			imgTmp, program, "-i", mmd, "-o", imgTmp
 		);
 	}
 	

@@ -229,7 +229,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 		fileName = fileName.substring(0, fileName.lastIndexOf('.')+1);
 		Path pdfLocation = htmlAbsolute.getParent().resolve(fileName + "pdf");
 		ExternalContentTransformation ect = new ExternalContentTransformation(
-			pdfLocation, "wkhtmltopdf", document, pdfLocation
+			pdfLocation, "wkhtmltopdf", "--enable-local-file-access", document, pdfLocation
 		);
 		ect.call();
 		return pdfLocation;
