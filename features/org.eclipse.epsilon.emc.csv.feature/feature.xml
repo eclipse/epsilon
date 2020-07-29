@@ -19,10 +19,6 @@
    </copyright>
    
    <includes id="org.eclipse.epsilon.core.feature" version="2.2.0.qualifier"/>
-
-   <url>
-      <discovery label="Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200707174545/repository"/>
-   </url>
    
    <plugin
          id="org.eclipse.epsilon.emc.csv"
