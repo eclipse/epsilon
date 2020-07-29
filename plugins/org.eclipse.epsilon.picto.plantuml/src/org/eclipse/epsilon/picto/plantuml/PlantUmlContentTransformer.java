@@ -57,10 +57,11 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 	}
 	
 	/**
-	 * Converts PlantUML diagram to a temporary PNG file.
+	 * Converts PlantUML diagram to a temporary image file.
 	 * 
 	 * @param plant The Plant UML description.
-	 * @return The path to the generated PNG.
+	 * @param imageExt The file extension (and therefore type) of the image.
+	 * @return The path to the generated image.
 	 * @throws IOException If writing to file fails.
 	 */
 	public static Path plantumlToImage(String plant, String imageExt) throws IOException {
