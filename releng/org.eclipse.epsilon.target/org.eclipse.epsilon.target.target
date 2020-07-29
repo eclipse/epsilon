@@ -60,7 +60,7 @@
 		<unit id="com.atlassian.commonmark-yaml" version="0.15.1.v20200707-1444"/>
 		<unit id="net.bytebuddy.byte-buddy" version="1.7.9.v20180420-1519"/>
 		<unit id="net.bytebuddy.byte-buddy-agent" version="1.7.9.v20180420-1519"/>
-		<unit id="org.antlr.runtime" version="3.5.2.v20200417-1535"/>
+		<unit id="org.antlr.runtime" version="3.5.2.v20200724-1452"/>
 		<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
 		<unit id="org.apache.commons.csv" version="1.4.0.v20190617-1333"/>
 		<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
