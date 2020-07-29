@@ -24,6 +24,8 @@ import javax.xml.transform.sax.SAXSource;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.flexmi.FlexmiDiagnostic;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.templates.Template;
@@ -142,13 +144,21 @@ public class PseudoSAXParser {
 			else if (key.equalsIgnoreCase("import")) {
 				try {
 					URI importedURI = URI.createURI(value).resolve(uri);
-					if (resource.getResourceSet().getResource(importedURI, false) == null) {
-						Resource importedResource = resource.getResourceSet().createResource(importedURI);
+					Resource importedResource = resource.getResourceSet().getResource(importedURI, false);
+					if (importedResource == null) {
+						importedResource = resource.getResourceSet().createResource(importedURI);
 						if (!importedResource.isLoaded()) importedResource.load(null);
 						if (importedResource instanceof FlexmiResource) {
 							((FlexmiResource) importedResource).setImportedFrom(resource);
 						}
 					}
+					else if (!resource.getResourceSet().getResources().contains(importedResource)){
+						// e.g. importing a metamodel in the EPackage.Registry
+						Resource copy = new ResourceImpl(importedURI);
+						copy.getContents().addAll(EcoreUtil.copyAll(importedResource.getContents()));
+						resource.getResourceSet().getResources().add(copy);
+					}
+					
 				}
 				catch (Exception ex) {
 					resource.getWarnings().add(new FlexmiDiagnostic(ex.getMessage(), uri, resource.getLineNumber(processingInstruction)));					

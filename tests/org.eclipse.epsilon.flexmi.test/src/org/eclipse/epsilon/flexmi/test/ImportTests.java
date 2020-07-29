@@ -33,6 +33,11 @@ public class ImportTests extends FlexmiTests {
 	}
 	
 	@Test
+	public void testImportEcore() throws Exception {
+		assertEval("EAttribute.all.selectOne(a|a.name='a').eType.name", "EString", "include/import-ecore.flexmi");
+	}
+	
+	@Test
 	public void testUnresolvedReferenceWarning() throws Exception {
 		// FIXME What do we really want for an invalid file? non-existent or corrupted?
 		//assertEquals(loadResource("import/invalid-main.flexmi").getWarnings().size(), 1);
