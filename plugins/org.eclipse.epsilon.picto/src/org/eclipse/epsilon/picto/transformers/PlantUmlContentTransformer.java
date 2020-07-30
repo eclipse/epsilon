@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.picto.plantuml;
+package org.eclipse.epsilon.picto.transformers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -17,8 +17,6 @@ import java.nio.file.Path;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.transformers.ExternalContentTransformation;
-import org.eclipse.epsilon.picto.transformers.ViewContentTransformer;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;

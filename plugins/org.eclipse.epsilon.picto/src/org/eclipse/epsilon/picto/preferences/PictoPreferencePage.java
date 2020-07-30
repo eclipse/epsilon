@@ -62,16 +62,10 @@ public class PictoPreferencePage extends PreferencePage implements IWorkbenchPre
 	}
 	
 	@Override
-	protected void performApply() {
-		
-	}
-	
-	@Override
 	public boolean performOk() {
 		for (FieldEditor fieldEditor : fieldEditors) {
 			fieldEditor.store();
 		}
-		
 		return true;
 	}
 

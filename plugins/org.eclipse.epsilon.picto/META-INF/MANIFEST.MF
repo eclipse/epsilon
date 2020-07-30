@@ -37,7 +37,8 @@ Require-Bundle: org.eclipse.epsilon.flexmi,
  com.atlassian.commonmark-image-attributes,
  com.atlassian.commonmark-ins,
  com.atlassian.commonmark-task-list-items,
- com.atlassian.commonmark-yaml
+ com.atlassian.commonmark-yaml,
+ net.sourceforge.plantuml
 Bundle-Activator: org.eclipse.epsilon.picto.PictoPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.picto,

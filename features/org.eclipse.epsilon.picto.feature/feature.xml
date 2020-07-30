@@ -8,7 +8,7 @@
       license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/epsilon">
-      Picto is a tool for visualising models using HTML, SVG and Graphviz through model-to-text transformation.
+      Picto is a tool for visualising models using Markdown, HTML, SVG and Graphviz through model-to-text transformation.
    </description>
 
    <copyright>
@@ -22,20 +22,6 @@
 
    <plugin
          id="org.eclipse.epsilon.picto"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.picto.plantuml"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.sourceforge.plantuml"
          download-size="0"
          install-size="0"
          version="0.0.0"

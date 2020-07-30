@@ -7,9 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.picto.plantuml;
-
-import org.eclipse.epsilon.picto.source.VerbatimSource;
+package org.eclipse.epsilon.picto.source;
 
 public class PlantUmlSource extends VerbatimSource {
 
