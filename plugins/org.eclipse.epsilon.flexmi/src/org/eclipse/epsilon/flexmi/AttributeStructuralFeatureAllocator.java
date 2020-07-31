@@ -38,10 +38,13 @@ public class AttributeStructuralFeatureAllocator {
 	public Map<Node, EStructuralFeature> allocate(NamedNodeMap attributes, List<EStructuralFeature> structuralFeatures) {
 
 		final int attrLen = attributes.getLength();
-		List<String> attributeNames = new ArrayList<>(attrLen);
+		Map<String, String> attributeNamesMap = new HashMap<>();
 		for (int i = 0; i < attrLen; i++) {
-			attributeNames.add(attributes.item(i).getNodeName());
+			// use only the latest apparition of an attribute (expression or not)
+			String nodeName = attributes.item(i).getNodeName();
+			attributeNamesMap.put(removePrefix(nodeName), nodeName);
 		}
+		List<String> attributeNames = new ArrayList<>(attributeNamesMap.values());
 		
 		List<String> structuralFeatureNames = new ArrayList<>(structuralFeatures.size());
 		for (EStructuralFeature feature : structuralFeatures) {
