@@ -41,15 +41,14 @@
 
 <extension point="org.eclipse.ui.preferencePages">
     <page
+    	category="Epsilon"
         class="org.eclipse.epsilon.flexmi.dt.preferences.FlexmiRootPreferencePage"
         id="org.eclipse.epsilon.flexmi.dt.preferences"
-        name="Flexmi">
-    </page>
+        name="Flexmi"/>
     <page
         category="org.eclipse.epsilon.flexmi.dt.preferences"
         class="org.eclipse.epsilon.flexmi.dt.preferences.FlexmiSyntaxColoringPreferencePage"
         id="org.eclipse.epsilon.flexmi.dt.preferences.coloring"
-        name="Syntax Coloring">
-    </page>
+        name="Syntax Coloring"/>
  </extension>
 </plugin>

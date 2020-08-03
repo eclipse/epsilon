@@ -83,12 +83,10 @@ public class GenerateXMIAction implements IObjectActionDelegate {
 			// Collect all EClasses of all model elements
 			// so that we can use them above to decide if the XMI
 			// resource will have XMI IDs or not
-			Iterator<EObject> it = flexmiResource.getAllContents();
-			while (it.hasNext()) {
-				eClasses.add(it.next().eClass());
-			}
+			for (Iterator<EObject> it = flexmiResource.getAllContents(); it.hasNext(); eClasses.add(it.next().eClass()));
 			
-			Resource xmiResource = xmiResourceSet.createResource(URI.createPlatformResourceURI(flexmiFile.getFullPath().toOSString() + ".xmi"));
+			URI resourceURI = URI.createPlatformResourceURI(flexmiFile.getFullPath().toOSString() + ".xmi", false);
+			Resource xmiResource = xmiResourceSet.createResource(resourceURI);
 			xmiResource.getContents().addAll(EcoreUtil.copyAll(flexmiResource.getContents()));
 			xmiResource.save(null);
 			flexmiFile.getParent().refreshLocal(1, new NullProgressMonitor());

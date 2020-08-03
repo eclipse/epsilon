@@ -33,11 +33,12 @@ public class PictoPreferencePage extends PreferencePage implements IWorkbenchPre
 	protected final ArrayList<FieldEditor> fieldEditors = new ArrayList<>();
 	protected IPreferenceStore preferences = EpsilonCommonsPlugin.getDefault().getPreferenceStore();
 	
+	public PictoPreferencePage() {
+		preferences.setDefault(TIMEOUT, DEFAULT_TIMEOUT);
+	}
+	
 	@Override
 	protected Control createContents(Composite parent) {
-		
-		preferences.setDefault(TIMEOUT, DEFAULT_TIMEOUT);
-		
 		final Composite composite = new Composite(parent, SWT.FILL);
 		
 		final IntegerFieldEditor timeoutEditor = new IntegerFieldEditor(TIMEOUT, "Rendering timeout (sec)", composite);

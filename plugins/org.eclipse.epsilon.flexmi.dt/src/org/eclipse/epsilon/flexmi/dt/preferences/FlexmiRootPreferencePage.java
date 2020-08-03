@@ -20,7 +20,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class FlexmiRootPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
-
+	
 	public FlexmiRootPreferencePage() {
 		noDefaultAndApplyButton();
 	}
