@@ -76,9 +76,10 @@ public class ViewContent {
 	}
 	
 	protected void setLabel() {
-		for (ViewContentTransformer viewContentTransformer : getViewContentTransformers()) {
-			if (viewContentTransformer.canTransform(this)) this.label = viewContentTransformer.getLabel(this);
-		}
+		getViewContentTransformers().stream()
+			.filter(vct -> vct.canTransform(this))
+			.findAny()
+			.ifPresent(vct -> this.label = vct.getLabel(this));
 	}
 	
 	public String getFormat() {
