@@ -10,13 +10,11 @@
 package org.eclipse.epsilon.picto;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.transformers.ExceptionContentTransformer;
 import org.eclipse.epsilon.picto.transformers.PatchContentTransformer;
@@ -27,11 +25,11 @@ public class ViewContent {
 	
 	protected String format;
 	protected String text;
-	protected List<Layer> layers = new ArrayList<>();
+	protected List<Layer> layers;
 	protected boolean active;
 	protected String label;
-	protected List<Patch> patches = new ArrayList<>();
-	protected Set<URI> baseUris = new LinkedHashSet<>();
+	protected List<Patch> patches;
+	protected Set<java.net.URI> baseUris;
 	protected ViewContent next = undefined;
 	protected File file;
 	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx", null, Collections.emptyList(), Collections.emptyList(), Collections.emptySet());
@@ -57,13 +55,17 @@ public class ViewContent {
 	public ViewContent(String format, String text, ViewContent other) {
 		this(format, text,
 			other != null ? other.getFile() : null,
-			other != null ? other.getLayers() : null,
-			other != null ? other.getPatches() : null,
-			other != null ? other.getBaseUris() : null
+			other != null ? other.getLayers() : new ArrayList<>(),
+			other != null ? other.getPatches() : new ArrayList<>(),
+			other != null ? other.getBaseUris() : new LinkedHashSet<>()
 		);
 	}
 	
-	public ViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches, Set<URI> baseUris) {
+	public ViewContent(String format, String text) {
+		this(format, text, null, Collections.emptyList(), Collections.emptyList(), Collections.emptySet());
+	}
+	
+	public ViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches, Set<java.net.URI> baseUris) {
 		this.format = format;
 		this.text = text;
 		this.patches = patches;
@@ -88,11 +90,9 @@ public class ViewContent {
 	}
 	
 	public ViewContent getFinal(PictoView pictoView) {
-		ViewContent final_ = this;
-		while (final_.getNext(pictoView) != null) {
-			final_ = final_.getNext(pictoView);
-		}
-		return final_;
+		ViewContent finalView = this;
+		for (ViewContent temp; (temp = finalView.getNext(pictoView)) != null; finalView = temp);
+		return finalView;
 	}
 	
 	public ViewContent getNext(PictoView pictoView) {
@@ -101,7 +101,8 @@ public class ViewContent {
 				if (viewContentTransformer.canTransform(this)) {
 					try {
 						next = viewContentTransformer.transform(this, pictoView);
-					} catch (Exception e) {
+					}
+					catch (Exception e) {
 						next = new ExceptionContentTransformer().getViewContent(e, pictoView);
 					}
 					break;
@@ -128,19 +129,11 @@ public class ViewContent {
 		return patches;
 	}
 	
-	public void setPatches(List<Patch> patches) {
-		this.patches = patches;
-	}
-	
 	public List<Layer> getLayers() {
 		return layers;
 	}
 	
-	public void setBaseUris(Set<URI> baseUris) {
-		this.baseUris = baseUris;
-	}
-	
-	public Set<URI> getBaseUris() {
+	public Set<java.net.URI> getBaseUris() {
 		return baseUris;
 	}
 	
