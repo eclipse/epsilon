@@ -18,18 +18,15 @@ public class StaticContentPromise implements ContentPromise {
 	protected File file;
 	
 	public StaticContentPromise(String content) {
-		super();
 		this.content = content;
 	}
 	
 	public StaticContentPromise(String content, File file) {
-		super();
 		this.content = content;
 		this.file = file;
 	}
 	
 	public StaticContentPromise(File file) {
-		super();
 		this.file = file;
 	}
 	

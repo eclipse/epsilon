@@ -10,9 +10,7 @@
 package org.eclipse.epsilon.picto.source;
 
 public class PlantUmlSource extends VerbatimSource {
-
-	public PlantUmlSource() {}
-
+	
 	@Override
 	public String getFormat() {
 		return "plantuml";
