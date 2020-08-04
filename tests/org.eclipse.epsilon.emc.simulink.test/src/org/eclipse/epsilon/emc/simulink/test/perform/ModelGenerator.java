@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2020 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.emc.simulink.test.perform;
 
 import java.io.File;
@@ -48,15 +57,14 @@ public class ModelGenerator {
 	public void generate() throws EolModelLoadingException, IOException {
 		model.load();
 		EolEvaluator eolEvaluator = new EolEvaluator(model);
-		eolEvaluator.setVariable("val", new Double(Math.pow(base, modelId)).intValue());
+		eolEvaluator.setVariable("val", Double.valueOf(Math.pow(base, modelId)).intValue());
 		eolEvaluator.execute(readEol());
 		model.dispose();
 	}
 	
 	public static void main(String[] args) {
 		System.out.println("Starting Generation");
-		int max = 5;
-		for (int i=1; i<=max; i++) {
+		for (int max = 5, i = 1; i <= max; i++) {
 			try {
 				new ModelGenerator(i).generate();
 			} catch (EolModelLoadingException e) {
