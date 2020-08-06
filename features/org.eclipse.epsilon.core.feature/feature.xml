@@ -18,6 +18,10 @@
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
 
+   <url>
+      <discovery label="Orbit (2020-06)" url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200727174946/repository"/>
+   </url>
+
    <plugin
          id="org.eclipse.epsilon.ecl.engine"
          download-size="0"
