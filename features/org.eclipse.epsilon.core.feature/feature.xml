@@ -21,7 +21,7 @@
    <url>
       <discovery label="Epsilon (Stable)" url="http://download.eclipse.org/epsilon/updates"/>
       <discovery label="Epsilon (Interim)" url="http://download.eclipse.org/epsilon/interim"/>
-      <discovery label="Orbit (2020-06)" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
+      <discovery label="Orbit (2020-06)" url="http://download.eclipse.org/tools/orbit/downloads/drops/S20200727174946/repository"/>
    </url>
 
    <plugin
