@@ -7,7 +7,6 @@ target-plain
 /tests/org.eclipse.epsilon.egl.engine.test.dependencies/dependencies.jar
 /plugins/org.eclipse.epsilon.ewl.emf/org.eclipse.epsilon.ewl.emf.jar
 /releng/org.eclipse.epsilon.updatesite/*.jar
-/releng/org.eclipse.epsilon.updatesite.interim/*.jar
 
 # Ignore IntelliJ files
 *.iml
