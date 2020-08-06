@@ -614,8 +614,8 @@ public class FileUtil {
 			else {
 				// check if posix permissions given; if not use default
 				boolean hasPermissions = false;
-				for (int i = 0; i < attrs.length; i++) {
-					if (attrs[i].name().equals("posix:permissions")) {
+				for (FileAttribute<?> attr : attrs) {
+					if ("posix:permissions".equals(attr.name())) {
 						hasPermissions = true;
 						break;
 					}

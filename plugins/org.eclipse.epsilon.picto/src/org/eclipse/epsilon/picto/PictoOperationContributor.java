@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
-import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Files;
@@ -18,14 +17,16 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.types.EolNoType;
+import org.eclipse.epsilon.picto.transformers.ExternalContentTransformation;
 
 public class PictoOperationContributor extends OperationContributor {
 	
 	protected IEgxModule module;
-	protected static Map<String, String> cache = new HashMap<>();
+	protected static Map<java.net.URI, Path> cache = new HashMap<>();
 	
 	public PictoOperationContributor(IEgxModule module) {
 		this.module = module;
@@ -38,7 +39,7 @@ public class PictoOperationContributor extends OperationContributor {
 	
 	// For backwards compatibility
 	public String getImage(String path) {
-		return getFile(path);
+		return getFile(path).toString();
 	}
 	
 	public String getURI(String path) {
@@ -47,7 +48,7 @@ public class PictoOperationContributor extends OperationContributor {
 	
 	public String getURI(String path, boolean timestamp) {
 		try {
-			String uri = new File(getFile(path)).toURI().toString();
+			String uri = getFile(path).toUri().toString();
 			if (timestamp) uri += "?" + System.currentTimeMillis();
 			return uri;
 		}
@@ -55,29 +56,28 @@ public class PictoOperationContributor extends OperationContributor {
 		return path;
 	}
 	
-	public String getFile(String path) {
+	public Path getFile(String path) {
 		if (module.getFile() != null) {
-			return new File(module.getFile().getParent(), path).getAbsolutePath();
+			return Paths.get(module.getFile().getParent(), path).toAbsolutePath();
 		}
 		else if (module.getUri() != null) {
 			try {
 				URI imageUri = module.getUri().resolve(path);
 
-				String tempImagePath = null;
+				Path tempImagePath;
 				synchronized (cache) {
-					tempImagePath = cache.get(imageUri.toString());
-					if (tempImagePath == null) {
-						try (InputStream in = imageUri.toURL().openStream()) {
-							Path temp = Files.createTempFile("picto", Paths.get(path).getFileName().toString());
-							Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
-							tempImagePath = temp.toAbsolutePath().toString();
-							cache.put(imageUri.toString(), tempImagePath);
-						}
+					tempImagePath = cache.get(imageUri);
+					if (tempImagePath == null) try (InputStream in = imageUri.toURL().openStream()) {
+						String extension = FileUtil.getExtension(path);
+						Path temp = ExternalContentTransformation.createTempFile(extension);
+						Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
+						cache.put(imageUri, tempImagePath = temp.toAbsolutePath());
 					}
 				}
 				return tempImagePath;
-			} catch (Exception e) {}
+			}
+			catch (Exception e) {}
 		}
-		return path;
+		return Paths.get(path);
 	}
 }

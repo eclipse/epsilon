@@ -114,7 +114,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	
 	protected Element getElementByName(Element parent, String name) {
 		NodeList nodeList = parent.getChildNodes();
-		for (int i=0;i<nodeList.getLength();i++) {
+		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 			if (node.getNodeName().equalsIgnoreCase(name)) return (Element) node;
 		}

@@ -13,7 +13,8 @@ import java.io.InputStream;
 import java.nio.file.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
+import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.picto.transformers.ExternalContentTransformation;
 import org.w3c.dom.Element;
 
 public class AbsolutePathElementTransformer extends AbstractHtmlElementTransformer {
@@ -52,7 +53,8 @@ public class AbsolutePathElementTransformer extends AbstractHtmlElementTransform
 								element.setAttribute(attributeName, fileUri.toString());
 							}
 							else {
-								Path temp = Files.createTempFile("picto", Paths.get(attributeValue).getFileName().toString());
+								String extension = FileUtil.getExtension(attributeValue);
+								Path temp = ExternalContentTransformation.createTempFile(extension);
 								Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
 								element.setAttribute(attributeName, temp.toAbsolutePath().toString());
 							}
