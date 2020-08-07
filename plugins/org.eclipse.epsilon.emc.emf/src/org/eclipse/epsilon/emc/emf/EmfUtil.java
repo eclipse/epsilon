@@ -139,6 +139,20 @@ public class EmfUtil {
 		}
 	}
 	
+	public static EPackage toEPackage(Object o) {
+		if (o instanceof EPackage) {
+			return (EPackage) o;
+		}
+		else if (o instanceof EPackage.Descriptor) {
+			return ((EPackage.Descriptor) o).getEPackage();
+		}
+		else throw new ClassCastException(o + " is not an EPackage");
+	}
+	
+	public static boolean isEPackageOrDescriptor(Object o) {
+		return o instanceof EPackage || o instanceof EPackage.Descriptor;
+	}
+	
 	public static EPackage getTopEPackage(EObject object) {
 		return getTopEPackage(object.eClass().getEPackage());
 	}

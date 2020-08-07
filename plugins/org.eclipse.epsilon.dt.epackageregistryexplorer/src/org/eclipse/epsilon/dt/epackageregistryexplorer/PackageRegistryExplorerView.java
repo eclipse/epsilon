@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -306,14 +307,12 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 			ePackageRegistryValues.addAll(EPackage.Registry.INSTANCE.values());
 			
 			for (Object o : ePackageRegistryValues) {
-				if (o instanceof EPackage) {
-					ePackages.add((EPackage)o);
-				}
-				else if (o instanceof EPackage.Descriptor) {
+				
+				if (EmfUtil.isEPackageOrDescriptor(o)) {
 					try {
-						ePackages.add(((EPackage.Descriptor) o).getEPackage());
+						ePackages.add(EmfUtil.toEPackage(o));
 					}
-					catch (Exception ex) { 
+					catch (Exception ex) {
 						// Problematic package descriptor - ignore
 					}
 				}
