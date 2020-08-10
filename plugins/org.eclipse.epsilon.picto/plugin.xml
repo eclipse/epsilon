@@ -98,13 +98,4 @@
             class="org.eclipse.epsilon.picto.transformers.PlantUmlContentTransformer">
       </viewContentTransformer>
    </extension>
-   <extension
-         point="org.eclipse.epsilon.picto.htmlElementTransformer">
-      <htmlElementTransformer
-            class="org.eclipse.epsilon.picto.transformers.elements.AbsolutePathElementTransformer">
-      </htmlElementTransformer>
-      <htmlElementTransformer
-            class="org.eclipse.epsilon.picto.transformers.elements.RenderCodeElementTransformer">
-      </htmlElementTransformer>
-   </extension>
 </plugin>
