@@ -51,6 +51,25 @@ public class SimulinkPort extends SimulinkElement {
 		}
 	}
 	
+	public SimulinkLine link(SimulinkPort other) throws EolRuntimeException {
+		String parent = (String) getProperty("Parent");
+		String parentPath = new SimulinkBlock(parent, (SimulinkModel) model, getEngine()).getParentPath();
+		try {
+			Double line = (Double) engine.evalWithResult("add_line('?',?,?);", parentPath,  this.getHandle(), other.getHandle());
+			return new SimulinkLine((SimulinkModel) model, getEngine(), line);
+		} catch (MatlabException e) {
+			throw e.toEolRuntimeException();
+		}
+	}
+	
+	public void unlink(SimulinkPort other) throws EolRuntimeException {
+		try {
+			engine.eval("delete_line('?',?,?);", this.getHandle(), other.getHandle());
+		} catch (MatlabException e) {
+			throw e.toEolRuntimeException();
+		}
+	}
+	
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		return false;

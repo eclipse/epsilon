@@ -16,7 +16,7 @@ import org.junit.Test;
 
 public class ExampleTests extends AbstractSimulinkTest {
 
-	private static final String ROOT = "examples/";
+	private static final String ROOT = "example_scripts/";
 
 	@Before
 	public void reset() {
@@ -36,6 +36,11 @@ public class ExampleTests extends AbstractSimulinkTest {
 	@Test
 	public void testCreateSimpleSimulation() {
 		eolResourceFile = ROOT + "createSimpleSimulation.eol";
+	}
+	
+	@Test
+	public void testLinkPortsWithStringNames() {
+		eolResourceFile = ROOT + "linkStringPorts.eol";
 	}
 
 	@Test
