@@ -25,6 +25,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.actions.Action;
 import org.eclipse.epsilon.flexmi.actions.ActionMap;
 import org.eclipse.epsilon.flexmi.actions.FeatureComputation;
@@ -505,12 +506,22 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	public void handleVarAttribute(String attribute, VariableDeclarationType type, NamedNodeMap attributes, EObject eObject) {
 		
-		// Find the _var attribute, create a variable declaration and remove it from the node
+		// Find the :var/:global/:local attribute, create a variable declaration and remove it from the node
 		Node varAttribute = attributes.getNamedItem(Template.PREFIX + attribute);
 		if (varAttribute != null) {
+			
 			for (String variable : varAttribute.getNodeValue().split(",")) {
-				actionMap.addAction(eObject, new VariableDeclaration(eObject, variable.trim(), type));
+				VariableDeclaration variableDeclaration = new VariableDeclaration(eObject, variable.trim(), type);
+				if (type == VariableDeclarationType.GLOBAL) {
+					try {
+						variableDeclaration.perform(this);
+					} catch (Exception e) {}
+				}
+				else {
+					actionMap.addAction(eObject, variableDeclaration);
+				}
 			}
+			
 			attributes.removeNamedItem(varAttribute.getNodeName());
 		}
 	}
