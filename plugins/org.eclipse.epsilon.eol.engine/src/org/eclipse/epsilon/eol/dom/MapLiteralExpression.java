@@ -72,9 +72,17 @@ public class MapLiteralExpression<K, V> extends LiteralExpression<Map<K, V>> {
 		}
 		
 		ExecutorFactory executorFactory = context.getExecutorFactory();
+		boolean tuple = isTuple();
 		
 		for (Entry<Expression, Expression> keyValueExpressionPair : keyValueExpressionPairs) {
-			final K key = (K) executorFactory.execute(keyValueExpressionPair.getKey(), context);
+			final Expression keyExpr = keyValueExpressionPair.getKey();
+			final K key;
+			if (tuple && keyExpr instanceof NameExpression) {
+				key = (K) ((NameExpression) keyExpr).getName();
+			}
+			else {
+				key = (K) executorFactory.execute(keyExpr, context);
+			}
 			final V val = (V) executorFactory.execute(keyValueExpressionPair.getValue(), context);
 			map.put(key, val);
 		}

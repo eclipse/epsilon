@@ -24,6 +24,8 @@ operation testCorrectTypes() {
 	assertTrue(c.getClass().getName().endsWith("Bag"));
 	c = new Map;
 	assertTrue(c.getClass().getName().endsWith("Map"));
+	c = new Tuple;
+	assertTrue(c.getClass().getName().endsWith("Tuple"));
 	c = new ConcurrentMap;
 	assertTrue(c.getClass().getName().endsWith("ConcurrentMap"));
 	c = new ConcurrentSet;
@@ -424,6 +426,32 @@ operation testMapLiteralWithCollectionKeys() {
 	var m := Map { s = "me!" };
 	assertEquals(1, m.size());
 	assertEquals("me!", m.get(s));
+}
+
+@test
+operation testTupleProperty() {
+	var t = new Tuple;
+	t.prop1 = "a value";
+	t.p2 = null;
+	t.CustomProperty = 2.2;
+	assertEquals("a value", t.prop1);
+	assertEquals(2.2, t.CustomProperty);
+	assertEquals(null, t.prop2);
+}
+
+@test
+operation testTupleConstructor() {
+	var t = new Tuple(prop1=1, fieldX = "Y", sp= "a str", components=Sequence{0..9});
+	assertEquals(1, t.prop1);
+	assertEquals("Y", t.fieldX);
+	assertEquals(10, t.components.size());
+}
+
+@test
+operation testTupleLiteral() {
+	var t = Tuple {bag=Bag{null, 0, "a str", true, 0.1}, map=Map{"a"=1,"b"=2}};
+	assertEquals(5, t.bag.size());
+	assertEquals(2, t.map.get("b"));
 }
 
 @test

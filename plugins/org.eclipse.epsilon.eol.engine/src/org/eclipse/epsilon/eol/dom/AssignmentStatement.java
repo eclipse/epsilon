@@ -84,9 +84,14 @@ public class AssignmentStatement extends Statement {
 			}
 		}
 		else {
-			Object targetExpressionResult = targetExpression instanceof NameExpression ?
-				((NameExpression) targetExpression).execute(context, true) :
-				executorFactory.execute(targetExpression, context);
+			Object targetExpressionResult;
+			if (targetExpression instanceof NameExpression) {
+				NameExpression ne = (NameExpression) targetExpression;
+				targetExpressionResult = ne.execute(context, true);
+			}
+			else {
+				targetExpressionResult = executorFactory.execute(targetExpression, context);
+			}
 			
 			if (targetExpressionResult instanceof Variable) {
 				Variable variable = (Variable) targetExpressionResult;
