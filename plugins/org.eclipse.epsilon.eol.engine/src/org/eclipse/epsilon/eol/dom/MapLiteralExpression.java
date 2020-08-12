@@ -14,7 +14,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
@@ -22,9 +21,10 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolMap;
+import org.eclipse.epsilon.eol.types.EolTuple;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentMap;
 
-public class MapLiteralExpression extends LiteralExpression<Map<Object, Object>> {
+public class MapLiteralExpression<K, V> extends LiteralExpression<Map<K, V>> {
 	
 	protected List<Entry<Expression, Expression>> keyValueExpressionPairs = new ArrayList<>();
 	protected String mapName;
@@ -35,10 +35,12 @@ public class MapLiteralExpression extends LiteralExpression<Map<Object, Object>>
 	 * @return
 	 * @since 2.1
 	 */
-	public static Map<Object, Object> createMap(String mapName) {
+	@SuppressWarnings("unchecked")
+	public static <K, V> Map<K, V> createMap(String mapName) {
 		switch (mapName) {
 			case "Map": return new EolMap<>();
 			case "ConcurrentMap": return new EolConcurrentMap<>();
+			case "Tuple": return (Map<K, V>) new EolTuple();
 			default: return null;
 		}
 	}
@@ -61,9 +63,10 @@ public class MapLiteralExpression extends LiteralExpression<Map<Object, Object>>
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public Map<Object, Object> execute(IEolContext context) throws EolRuntimeException {
-		final Map<Object, Object> map = createMap(mapName);
+	public Map<K, V> execute(IEolContext context) throws EolRuntimeException {
+		final Map<K, V> map = createMap(mapName);
 		if (map == null) {
 			throw new EolRuntimeException("Unknown map type: "+mapName);
 		}
@@ -71,8 +74,8 @@ public class MapLiteralExpression extends LiteralExpression<Map<Object, Object>>
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
 		for (Entry<Expression, Expression> keyValueExpressionPair : keyValueExpressionPairs) {
-			final Object key = executorFactory.execute(keyValueExpressionPair.getKey(), context);
-			final Object val = executorFactory.execute(keyValueExpressionPair.getValue(), context);
+			final K key = (K) executorFactory.execute(keyValueExpressionPair.getKey(), context);
+			final V val = (V) executorFactory.execute(keyValueExpressionPair.getValue(), context);
 			map.put(key, val);
 		}
 		

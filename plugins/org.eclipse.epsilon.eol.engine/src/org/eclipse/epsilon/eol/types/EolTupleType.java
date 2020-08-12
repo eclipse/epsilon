@@ -38,12 +38,12 @@ public class EolTupleType extends EolType {
 	}
 
 	@Override
-	public Object createInstance() throws EolRuntimeException {
+	public EolTuple createInstance() throws EolRuntimeException {
 		return createInstance(null);
 	}
 
 	@Override
-	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
+	public EolTuple createInstance(List<Object> parameters) throws EolRuntimeException {
 		EolTuple tuple = new EolTuple();
 		if (parameters != null) for (Object param : parameters) {
 			String key = null; Object value = null;

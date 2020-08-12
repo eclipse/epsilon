@@ -27,7 +27,7 @@ import org.eclipse.epsilon.eol.types.EolSet;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentBag;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentSet;
 
-public class CollectionLiteralExpression extends LiteralExpression<Collection<Object>> {
+public class CollectionLiteralExpression<T> extends LiteralExpression<Collection<T>> {
 	
 	protected String collectionType;
 	protected boolean range;
@@ -74,7 +74,7 @@ public class CollectionLiteralExpression extends LiteralExpression<Collection<Ob
 	 * @return
 	 * @since 2.1
 	 */
-	public static Collection<Object> createCollection(String collectionType) {
+	public static <T> Collection<T> createCollection(String collectionType) {
 		switch (collectionType) {
 			case "Sequence": case "List":
 				return new EolSequence<>();
@@ -93,9 +93,10 @@ public class CollectionLiteralExpression extends LiteralExpression<Collection<Ob
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Object> execute(IEolContext context) throws EolRuntimeException {
-		Collection<Object> collection = createCollection(collectionType);
+	public Collection<T> execute(IEolContext context) throws EolRuntimeException {
+		Collection<T> collection = createCollection(collectionType);
 		if (collection == null) {
 			throw new EolRuntimeException("Unknown collection type: "+collectionType);
 		}
@@ -113,12 +114,12 @@ public class CollectionLiteralExpression extends LiteralExpression<Collection<Ob
 				int s = (int) rangeStart, e = (int) rangeEnd;
 				if (s > e) {
 					for (int i = s; i >= e; i--) {
-						collection.add(i);
+						collection.add((T) (Integer) i);
 					}
 				}
 				else {
 					for (int i = s; i <= e; i++) {
-						collection.add(i);
+						collection.add((T) (Integer) i);
 					}
 				}
 			}
@@ -134,7 +135,7 @@ public class CollectionLiteralExpression extends LiteralExpression<Collection<Ob
 		}
 		else {
 			for (Expression parameterExpression : parameterExpressions) {
-				collection.add(executorFactory.execute(parameterExpression, context));
+				collection.add((T) executorFactory.execute(parameterExpression, context));
 			}
 		}
 

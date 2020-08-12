@@ -235,28 +235,17 @@ public class EolModule extends AbstractModule implements IEolModule {
 			case EolParser.Annotation: return new SimpleAnnotation();
 			case EolParser.EXECUTABLEANNOTATION: return new ExecutableAnnotation();
 			case EolParser.ANNOTATIONBLOCK: return new AnnotationBlock();
-			case EolParser.COLLECTION: {
+			case EolParser.COLLECTION: case EolParser.MAP: {
+				boolean isMap = cst.getType() == EolParser.MAP;
 				String typeName = cst.getText();
-				if (CollectionLiteralExpression.createCollection(typeName) != null) {
-					return new CollectionLiteralExpression();
-				}
-				else if (MapLiteralExpression.createMap(typeName) != null) {
-					return new MapLiteralExpression();
-				}
-				else {
-					getParseProblems().add(new ParseProblem("Unknown collection type: "+typeName, this));
-				}
-			}
-			case EolParser.MAP: {
-				String typeName = cst.getText();
-				if (MapLiteralExpression.createMap(typeName) != null) {
-					return new MapLiteralExpression();
+				if (isMap && MapLiteralExpression.createMap(typeName) != null) {
+					return new MapLiteralExpression<>();
 				}
 				else if (CollectionLiteralExpression.createCollection(typeName) != null) {
-					return new CollectionLiteralExpression();
+					return new CollectionLiteralExpression<>();
 				}
 				else {
-					getParseProblems().add(new ParseProblem("Unknown map type: "+typeName, this));
+					getParseProblems().add(new ParseProblem("Unknown "+(isMap ? "collection" : "map")+" type: "+typeName, this));
 				}
 			}
 			case EolParser.TYPE: return new TypeExpression();

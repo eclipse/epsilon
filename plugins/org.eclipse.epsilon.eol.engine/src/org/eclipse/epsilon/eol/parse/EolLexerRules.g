@@ -78,7 +78,7 @@ CollectionTypeName
 	;
 	
 MapTypeName
-	:	'Map'|'ConcurrentMap'
+	:	'Map'|'ConcurrentMap'|'Tuple'
 	;
 	
 SpecialTypeName
