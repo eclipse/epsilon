@@ -23,7 +23,7 @@ public class KatexSource extends VerbatimSource {
 
 	@Override
 	public String getFileExtension() {
-		return "html";
+		return "tex";
 	}
 
 }

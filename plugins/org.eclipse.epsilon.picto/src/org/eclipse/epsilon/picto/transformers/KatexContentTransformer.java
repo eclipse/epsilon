@@ -9,6 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 
@@ -40,5 +42,25 @@ public class KatexContentTransformer implements ViewContentTransformer {
 			"<script>katex.render(\""+content.getText()+"\", document.getElementById(\""+id+"\"), {throwOnError: false});</script></div>";
 		
 		return new ViewContent("html", html, content);
+	}
+	
+	/**
+	 * Converts KaTeX notation in the given file to HTML.
+	 * 
+	 * @param katex The file containing KaTeX.
+	 * @return The generated HTML file.
+	 * @throws IOException If invoking KaTeX CLI is unsuccessful.
+	 */
+	public static Path katexToHtml(Path katex) throws IOException {
+		ExternalContentTransformation ect = katex(katex);
+		ect.call();
+		return ect.getOutputFile();
+	}
+	
+	protected static ExternalContentTransformation katex(Path katex) {
+		Path imgTmp = katex.getParent().resolve(katex.getFileName()+".html");	
+		return new ExternalContentTransformation(
+			imgTmp, "npx", "katex", "-i", katex, "-o", imgTmp
+		);
 	}
 }
