@@ -82,6 +82,15 @@ public class MapLiteralExpression<K, V> extends LiteralExpression<Map<K, V>> {
 		return map;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 2.2
+	 */
+	public boolean isTuple() {
+		return "Tuple".equals(mapName);
+	}
+	
 	@Override
 	public void compile(IEolCompilationContext context) {
 		// TODO Auto-generated method stub

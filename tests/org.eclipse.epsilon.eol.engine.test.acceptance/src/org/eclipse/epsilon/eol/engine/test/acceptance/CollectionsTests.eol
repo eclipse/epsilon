@@ -5,6 +5,7 @@ operation testInit() {
 	OrderedSet{};
 	Bag{};
 	Map{};
+	Tuple{};
 	ConcurrentMap{};
 	ConcurrentSet{};
 	ConcurrentBag{};

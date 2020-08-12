@@ -28,7 +28,7 @@ public abstract class TypeInitialiser extends Expression {
 	
 	protected Object initialiseType(EolType type, List<Expression> parameters, IEolContext context, boolean createIfNonPrimitive) throws EolRuntimeException {
 		
-		if (type instanceof EolPrimitiveType || type instanceof EolCollectionType || type instanceof EolMapType || type instanceof EolTupleType) {
+		if (type instanceof EolPrimitiveType || type instanceof EolCollectionType || type instanceof EolMapType) {
 			return type.createInstance();
 		}
 		else if (createIfNonPrimitive) {
@@ -40,21 +40,16 @@ public abstract class TypeInitialiser extends Expression {
 			
 			ExecutorFactory executorFactory = context.getExecutorFactory();
 			
-			ArrayList<Object> parameterValues = new ArrayList<>();
+			final ArrayList<Object> parameterValues = new ArrayList<>();
 			for (Expression parameter : parameters) {
-				if (!(parameter.getClass() == EqualsOperatorExpression.class)) {
+				if (parameter.getClass() != EqualsOperatorExpression.class) {
 					parameterValues.add(executorFactory.execute(parameter, context));
 				}
 			}
 			
 			Object instance = null;
 			
-			if (parameterValues.isEmpty()) {
-				instance = type.createInstance();
-			}
-			else {
-				instance = type.createInstance(parameterValues);
-			}
+			instance = parameterValues.isEmpty() ? type.createInstance() : type.createInstance(parameterValues);
 			
 			for (Expression parameter : parameters) {
 				if (parameter.getClass() == EqualsOperatorExpression.class) {
@@ -82,6 +77,9 @@ public abstract class TypeInitialiser extends Expression {
 				}
 			}
 			return instance;
+		}
+		else if (type instanceof EolTupleType) {
+			return type.createInstance();
 		}
 		return null;
 	}
