@@ -11,8 +11,6 @@ package org.eclipse.epsilon.common.dt.launching.extensions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;

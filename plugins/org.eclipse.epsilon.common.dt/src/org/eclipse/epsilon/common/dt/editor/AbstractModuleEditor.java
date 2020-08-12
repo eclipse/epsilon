@@ -171,7 +171,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		return new ArrayList<>(Arrays.asList(
 			"String", "Boolean", "Integer", "Real",
 			"Any", "Map", "Collection", "Bag", "Sequence",
-			"Set", "OrderedSet", "Native", "List",
+			"Set", "OrderedSet", "Native", "List", "Tuple",
 			"ConcurrentSet", "ConcurrentBag", "ConcurrentMap")
 		);
 	}
@@ -402,7 +402,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			// Create markers for parse problems
 			for (ParseProblem problem : module.getParseProblems()) {
 				Map<String, Object> attr = new HashMap<>();
-				attr.put(IMarker.LINE_NUMBER, new Integer(problem.getLine()));
+				attr.put(IMarker.LINE_NUMBER, problem.getLine());
 				attr.put(IMarker.MESSAGE, problem.getReason());				
 				int markerSeverity;
 				if (problem.getSeverity() == ParseProblem.ERROR) {
