@@ -16,6 +16,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -89,7 +90,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 			try {
 				targetObject = executorFactory.execute(targetExpression, context);
 			}
-			catch (EolUndefinedVariableException npe) {
+			catch (EolUndefinedVariableException | EolIllegalPropertyException npe) {
 				switch (operationName) {
 					default: throw npe;
 					case "isDefined": case "isUndefined": case "ifDefined": case "ifUndefined": {
