@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -635,15 +637,30 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected List<EClass> getAllSubtypes(EClass eClass) {
+
 		List<EClass> allSubtypes = allSubtypesCache.get(eClass);
 		if (allSubtypes == null) {
-			allSubtypes = new ArrayList<>();
-			for (EClass candidate : getAllConcreteEClasses()) {
-				if (candidate.getEAllSuperTypes().contains(eClass)) {
-					allSubtypes.add(candidate);
-				}
+			// use all EcorePackage concrete classes (EObject does not appear as Ecore supertype)
+			if (eClass.getName().equals("EObject")
+					&& eClass.getEPackage().getNsURI().equals(EcorePackage.eINSTANCE.getNsURI())) {
+
+				allSubtypes = eClass.getEPackage().getEClassifiers()
+						.stream()
+						.filter(ecl -> ecl instanceof EClass && !((EClass) ecl).isAbstract())
+						.map(ecl -> (EClass) ecl)
+						.collect(Collectors.toList());
 			}
-			if (!eClass.isAbstract()) allSubtypes.add(eClass);
+			// search for concrete subclasses the conventional way
+			else {
+				allSubtypes = new ArrayList<>();
+				for (EClass candidate : getAllConcreteEClasses()) {
+					if (candidate.getEAllSuperTypes().contains(eClass)) {
+						allSubtypes.add(candidate);
+					}
+				}
+				if (!eClass.isAbstract())
+					allSubtypes.add(eClass);
+			}
 			allSubtypesCache.put(eClass, allSubtypes);
 		}
 		return allSubtypes;
