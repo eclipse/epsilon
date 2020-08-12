@@ -11,6 +11,8 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.Collection;
 import java.util.Map;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 /**
@@ -34,6 +36,17 @@ public class EolTuple extends EolMap<String, Object> {
 		if (variables != null) for (Variable v : variables) {
 			put(v.getName(), v.getValue());
 		}
+	}
+	
+	public boolean hasProperty(String property) {
+		return containsKey(property);
+	}
+	
+	public Object getOrThrow(String property, IEolContext context) throws EolIllegalPropertyException {
+		if (!containsKey(property)) {
+			throw new EolIllegalPropertyException(this, property, context);
+		}
+		return get(property);
 	}
 	
 	public Object put(Variable variable) {

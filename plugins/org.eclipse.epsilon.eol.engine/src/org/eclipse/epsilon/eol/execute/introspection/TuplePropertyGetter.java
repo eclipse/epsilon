@@ -9,9 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import java.util.Map;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.types.EolTuple;
 
 /**
  * 
@@ -22,9 +22,9 @@ public class TuplePropertyGetter extends AbstractPropertyGetter {
 	
 	@Override
 	public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
-		if (!(object instanceof Map)) {
+		if (!(object instanceof EolTuple)) {
 			throw new IllegalArgumentException("Cannot get tuple property "+property+" on "+object);
 		}
-		return ((Map<?,?>) object).get(property);
+		return ((EolTuple) object).getOrThrow(property, context);
 	}
 }

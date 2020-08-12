@@ -436,7 +436,7 @@ operation testTupleProperty() {
 	t.CustomProperty = 2.2;
 	assertEquals("a value", t.prop1);
 	assertEquals(2.2, t.CustomProperty);
-	assertEquals(null, t.prop2);
+	assertEquals(null, t.p2);
 }
 
 @test
