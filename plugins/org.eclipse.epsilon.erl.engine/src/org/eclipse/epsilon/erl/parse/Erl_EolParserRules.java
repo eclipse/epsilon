@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.erl.parse;
 
-// $ANTLR 3.1b1 EolParserRules.g 2020-07-05 21:27:21
+// $ANTLR 3.1b1 EolParserRules.g 2020-08-12 13:05:30
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -1297,7 +1297,7 @@ public class Erl_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
 
             // AST REWRITE
-            // elements: typeName, NAME
+            // elements: NAME, typeName
             // token labels: 
             // rule labels: retval
             // token list labels: 
