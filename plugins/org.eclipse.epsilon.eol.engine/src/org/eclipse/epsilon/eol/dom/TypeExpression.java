@@ -27,6 +27,7 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
+import org.eclipse.epsilon.eol.types.EolTupleType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 public class TypeExpression extends Expression {
@@ -147,6 +148,8 @@ public class TypeExpression extends Expression {
 				return new EolCollectionType(name);
 			case "Nothing": case "None":
 				return EolNoType.Instance;
+			case "Tuple":
+				return new EolTupleType();
 			default:
 				return null;
 		}

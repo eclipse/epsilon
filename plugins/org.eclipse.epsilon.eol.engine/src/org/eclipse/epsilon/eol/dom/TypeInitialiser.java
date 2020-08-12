@@ -21,13 +21,14 @@ import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolMapType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
+import org.eclipse.epsilon.eol.types.EolTupleType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 public abstract class TypeInitialiser extends Expression {
 	
 	protected Object initialiseType(EolType type, List<Expression> parameters, IEolContext context, boolean createIfNonPrimitive) throws EolRuntimeException {
 		
-		if (type instanceof EolPrimitiveType || type instanceof EolCollectionType || type instanceof EolMapType) {
+		if (type instanceof EolPrimitiveType || type instanceof EolCollectionType || type instanceof EolMapType || type instanceof EolTupleType) {
 			return type.createInstance();
 		}
 		else if (createIfNonPrimitive) {

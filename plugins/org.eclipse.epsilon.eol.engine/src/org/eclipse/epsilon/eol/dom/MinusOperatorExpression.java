@@ -29,8 +29,10 @@ public class MinusOperatorExpression extends EagerOperatorExpression {
 		if (o1 instanceof Number && o2 instanceof Number){
 			return NumberUtil.subtract((Number) o1, (Number) o2);
 		}
-		else if (o1 instanceof Collection && o2 instanceof Collection){
-			return new IterableOperationContributor((Collection<?>) o1).excludingAll((Collection<?>) o2);
+		else if (o1 instanceof Collection && o2 instanceof Collection) {
+			try (IterableOperationContributor ioc = new IterableOperationContributor((Collection<?>) o1)) {
+				return ioc.excludingAll((Collection<?>) o2);
+			}
 		}
 		return null;
 	}

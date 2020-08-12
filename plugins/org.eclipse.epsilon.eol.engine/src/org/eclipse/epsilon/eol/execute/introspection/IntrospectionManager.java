@@ -13,6 +13,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolTuple;
 
 public class IntrospectionManager {
 	
@@ -20,29 +21,30 @@ public class IntrospectionManager {
 	protected IPropertySetter defaultPropertySetter = new JavaPropertySetter();
 	
 	public IPropertySetter getPropertySetterFor(Object instance, String property, IEolContext context) {
-		final IPropertySetter propertySetter;
 		if (property.startsWith("~")) {
-			propertySetter = new ExtendedPropertySetter();
+			return new ExtendedPropertySetter();
+		}
+		else if (instance instanceof EolTuple) {
+			return new TuplePropertySetter();
 		}
 		else {
 			IModel knowsModel = getModelThatKnowsAboutProperty(instance, property, context);
-			propertySetter = knowsModel != null ? knowsModel.getPropertySetter() : defaultPropertySetter;
+			return knowsModel != null ? knowsModel.getPropertySetter() : defaultPropertySetter;
 		}
-		return propertySetter;
 	}
 	
 	public IPropertyGetter getPropertyGetterFor(Object instance, String property, IEolContext context) {
-		final IPropertyGetter propertyGetter;
 		
 		if (property.startsWith("~")) {
-			propertyGetter = new ExtendedPropertyGetter();
+			return new ExtendedPropertyGetter();
+		}
+		else if (instance instanceof EolTuple) {
+			return new TuplePropertyGetter();
 		}
 		else { 
 			IModel knowsModel = getModelThatKnowsAboutProperty(instance, property, context);
-			propertyGetter = knowsModel != null ? knowsModel.getPropertyGetter() : defaultPropertyGetter;
+			return knowsModel != null ? knowsModel.getPropertyGetter() : defaultPropertyGetter;
 		}
-		
-		return propertyGetter;
 	}
 	
 	public boolean isModelBasedProperty(Object instance, String property, IEolContext context) {
@@ -51,8 +53,9 @@ public class IntrospectionManager {
 	
 	public static IModel getModelThatKnowsAboutProperty(Object instance, String property, IEolContext context) {
 		for (IModel model : context.getModelRepository().getModels()) {
-			if (model.knowsAboutProperty(instance, property))
+			if (model.knowsAboutProperty(instance, property)) {
 				return model;
+			}
 		}
 		return null;
 	}

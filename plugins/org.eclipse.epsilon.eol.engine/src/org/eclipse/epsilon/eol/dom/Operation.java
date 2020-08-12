@@ -151,7 +151,9 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			returnTypeName = " : " + returnTypeExpression.getName();
 		}
 		
-		return getName() + "(" + new IterableOperationContributor(formalParameters).concat(", ") + ")" + returnTypeName + contextTypeName;
+		try (IterableOperationContributor ioc = new IterableOperationContributor(formalParameters)) {
+			return getName() + "(" + ioc.concat(", ") + ")" + returnTypeName + contextTypeName;
+		}
 	}
 
 	public boolean isCached() {

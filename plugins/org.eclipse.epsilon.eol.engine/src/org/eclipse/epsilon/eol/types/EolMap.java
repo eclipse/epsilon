@@ -23,8 +23,17 @@ public class EolMap<K, V> implements Map<K, V> {
 	
 	protected Map<K, V> wrapped;
 	
+	/**
+	 * 
+	 * @param mapImpl
+	 * @since 2.2
+	 */
+	protected EolMap(Map<K, V> mapImpl) {
+		this.wrapped = mapImpl;
+	}
+	
 	public EolMap() {
-		this.wrapped = new java.util.HashMap<>();
+		this(new java.util.HashMap<>());
 	}
 
 	@Override
