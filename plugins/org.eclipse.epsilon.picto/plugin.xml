@@ -60,6 +60,7 @@
       <pictoSource class="org.eclipse.epsilon.picto.source.MermaidSource"/>
       <pictoSource class="org.eclipse.epsilon.picto.source.PlantUmlSource"/>
       <pictoSource class="org.eclipse.epsilon.picto.source.KatexSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.MathjaxSource"/>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -101,6 +102,9 @@
       </viewContentTransformer>
       <viewContentTransformer
             class="org.eclipse.epsilon.picto.transformers.KatexContentTransformer">
+      </viewContentTransformer>
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.MathjaxContentTransformer">
       </viewContentTransformer>
    </extension>
 </plugin>

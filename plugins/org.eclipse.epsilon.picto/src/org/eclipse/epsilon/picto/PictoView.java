@@ -126,7 +126,8 @@ public class PictoView extends ViewPart {
 							path = view.getPath();
 							try {
 								renderView(view);
-							} catch (Exception ex) {
+							}
+							catch (Exception ex) {
 								viewRenderer.display(ex);
 							}
 						}
@@ -135,7 +136,8 @@ public class PictoView extends ViewPart {
 								viewTreeSelectionHistory.setAutomatedSelection(true);
 								selectViewTree(path);
 								renderView(getViewTree().forPath(path));
-							} catch (Exception ex) {
+							}
+							catch (Exception ex) {
 								viewRenderer.display(ex);
 							}
 							finally {
@@ -196,11 +198,7 @@ public class PictoView extends ViewPart {
 		setTreeViewerVisible(false);
 		
 		IEditorPart activeEditor = getSite().getPage().getActiveEditor();
-		if (activeEditor != null && supports(activeEditor)) {
-			render(activeEditor);
-		} else {
-			render(null);
-		}
+		render(activeEditor != null && supports(activeEditor) ? activeEditor : null);
 
 		final PartListener partListener = new PartListener() {
 			
