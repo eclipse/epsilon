@@ -28,11 +28,16 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		String html = "<div>\n" +
-			"<div class=\"mermaid\">\n" + content.getText() + "\n</div>\n" +
-			"<script src=\"https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js\"></script>\n" + 
-			"<script>mermaid.initialize({startOnLoad:true});</script>\n</div>";
-		
+		String html = null, mmd = content.getText();
+		try {
+			html = mermaidToRawSvg(mmd);
+		}
+		catch (IOException iox) {
+			html = "<div>\n" +
+				"<div class=\"mermaid\">\n" + mmd + "\n</div>\n" +
+				"<script src=\"https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js\"></script>\n" + 
+				"<script>mermaid.initialize({startOnLoad:true});</script>\n</div>";
+		}
 		return new ViewContent("svg", html, content);
 	}
 	

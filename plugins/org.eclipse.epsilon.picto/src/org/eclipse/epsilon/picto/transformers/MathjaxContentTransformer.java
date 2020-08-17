@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.picto.transformers;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.picto.PictoView;
@@ -34,7 +35,12 @@ public class MathjaxContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		String html = "<div>" +
+		String html = null, tex = content.getText();
+		try {
+			html = texToRawSvg(tex);
+		}
+		catch (IOException iox) {
+			html = "<div>" +
 			"<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n" +
 			"<script>\n" + 
 			"MathJax = {\n" + 
@@ -46,11 +52,24 @@ public class MathjaxContentTransformer implements ViewContentTransformer {
 			"  }\n" + 
 			"};\n</script>\n"+
 			"<script src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script>\n" +
-			"<p>"+content.getText()+"</p></div>";
+			"<p>"+tex+"</p></div>";
+		}
 		
-		return new ViewContent("html", html, content);
+		return new ViewContent("svg", html, content);
 	}
 	
+	
+	/**
+	 * Converts TeX math to SVG as String.
+	 * 
+	 * @param tex The tex
+	 * @return The SVG as string
+	 * @throws IOException If converison fails.
+	 * @see #tex2svg(String)
+	 */
+	public static String texToRawSvg(String tex) throws IOException {
+		return new String(Files.readAllBytes(tex2svg(tex)));
+	}
 	
 	/**
 	 * Converts the TeX math to SVG file.
