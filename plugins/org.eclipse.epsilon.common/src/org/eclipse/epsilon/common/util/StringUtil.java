@@ -147,4 +147,16 @@ public class StringUtil {
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @param inputStream
+	 * @return
+	 * @since 2.2
+	 */
+	public static String inputStreamToString(java.io.InputStream inputStream) {
+	    try (java.util.Scanner s = new java.util.Scanner(inputStream).useDelimiter("\\A")) {
+	    	return s.hasNext() ? s.next() : "";
+	    }
+	}
 }
