@@ -28,10 +28,10 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		String html = "<div>" +
-			"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.6.0/mermaid.min.js\"/>\n" + 
-			"<script>\n" + "mermaid.initialize({startOnLoad:true});\n" + "</script>\n"+
-			"<div class=\"mermaid\">\n" + content.getText() + "</div></div>";
+		String html = "<div>\n" +
+			"<div class=\"mermaid\">\n" + content.getText() + "\n</div>\n" +
+			"<script src=\"https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js\"></script>\n" + 
+			"<script>mermaid.initialize({startOnLoad:true});</script>\n</div>";
 		
 		return new ViewContent("svg", html, content);
 	}

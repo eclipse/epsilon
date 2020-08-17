@@ -44,9 +44,8 @@ public class MathjaxContentTransformer implements ViewContentTransformer {
 			"  svg: {\n" + 
 			"    fontCache: 'global'\n" + 
 			"  }\n" + 
-			"};\n" + 
-			"</script>\n"+
-			"<script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script>\n" +
+			"};\n</script>\n"+
+			"<script src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script>\n" +
 			"<p>"+content.getText()+"</p></div>";
 		
 		return new ViewContent("html", html, content);
