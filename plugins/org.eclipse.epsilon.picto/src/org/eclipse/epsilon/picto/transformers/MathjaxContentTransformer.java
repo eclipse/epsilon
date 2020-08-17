@@ -70,6 +70,6 @@ public class MathjaxContentTransformer implements ViewContentTransformer {
 	protected static ExternalContentTransformation convertTex(String tex, Path output) {
 		String program = "tex2" + FileUtil.getExtension(output.getFileName().toString());
 		program = ExternalContentTransformation.resolveNodeProgram(program);
-		return new ExternalContentTransformation(output, program, tex, ">", output);
+		return new ExternalContentTransformation(output, program, tex.trim(), ">", output);
 	}
 }

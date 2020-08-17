@@ -53,7 +53,7 @@ public class KatexContentTransformer implements ViewContentTransformer {
 	 * @throws IOException If invoking KaTeX CLI is unsuccessful.
 	 */
 	public static Path katexToHtml(String katex) throws IOException {
-		Path input = ExternalContentTransformation.createTempFile("tex", katex.getBytes());
+		Path input = ExternalContentTransformation.createTempFile("tex", katex.trim().getBytes());
 		return katexToHtml(input);
 	}
 	
