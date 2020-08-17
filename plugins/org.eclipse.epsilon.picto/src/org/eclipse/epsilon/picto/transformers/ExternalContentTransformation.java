@@ -14,11 +14,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -76,6 +78,18 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		Path file = FileUtil.createTempFile("picto-renderer"+System.currentTimeMillis(), '.'+extension).toPath();
 		Path result = contents != null && contents.length > 0 ? Files.write(file, contents) : file;
 		return result.toAbsolutePath();
+	}
+	
+	/**
+	 * 
+	 * @param program The Node.js program name.
+	 * @return The absolute path of the command needed to invoke the program.
+	 */
+	public static String resolveNodeProgram(String program) {
+		return Paths.get(System.getProperty("user.home"))
+			.resolve("node_modules").resolve(".bin").resolve(
+				OperatingSystem.isWindows() ? program+".cmd" : program
+			).toString();
 	}
 	
 	public int getResultCode() {

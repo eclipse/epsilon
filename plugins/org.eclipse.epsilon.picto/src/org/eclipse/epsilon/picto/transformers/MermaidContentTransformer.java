@@ -11,8 +11,6 @@ package org.eclipse.epsilon.picto.transformers;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 
@@ -85,11 +83,7 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 	
 	protected static ExternalContentTransformation mermaid(Path mmd, String ext) {
 		Path imgTmp = mmd.getParent().resolve(mmd.getFileName()+"."+ext);
-		String program = Paths.get(System.getProperty("user.home"))
-			.resolve("node_modules").resolve(".bin").resolve(
-				OperatingSystem.isWindows() ? "mmdc.cmd" : "mmdc"
-			).toString();
-			
+		String program = ExternalContentTransformation.resolveNodeProgram("mmdc");
 		return new ExternalContentTransformation(
 			imgTmp, program, "-i", mmd, "-o", imgTmp
 		);

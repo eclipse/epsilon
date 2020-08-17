@@ -9,6 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 
@@ -47,5 +50,26 @@ public class MathjaxContentTransformer implements ViewContentTransformer {
 			"<p>"+content.getText()+"</p></div>";
 		
 		return new ViewContent("html", html, content);
+	}
+	
+	
+	/**
+	 * Converts the TeX math to SVG file.
+	 * 
+	 * @param tex The mathematics.
+	 * @return The path of the generated SVG.
+	 * @throws IOException If the conversion goes wrong.
+	 */
+	public static Path tex2svg(String tex) throws IOException {
+		Path output = ExternalContentTransformation.createTempFile("svg");
+		ExternalContentTransformation ect = convertTex(tex, output);
+		ect.call();
+		return output;
+	}
+	
+	protected static ExternalContentTransformation convertTex(String tex, Path output) {
+		String program = "tex2" + FileUtil.getExtension(output.getFileName().toString());
+		program = ExternalContentTransformation.resolveNodeProgram(program);
+		return new ExternalContentTransformation(output, program, tex, ">", output);
 	}
 }

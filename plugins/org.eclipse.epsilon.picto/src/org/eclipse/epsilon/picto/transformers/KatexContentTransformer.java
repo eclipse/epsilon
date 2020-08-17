@@ -44,6 +44,19 @@ public class KatexContentTransformer implements ViewContentTransformer {
 		return new ViewContent("html", html, content);
 	}
 	
+	
+	/**
+	 * Converts KaTeX notation to HTML.
+	 * 
+	 * @param katex The KaTeX as string.
+	 * @return The generated HTML file.
+	 * @throws IOException If invoking KaTeX CLI is unsuccessful.
+	 */
+	public static Path katexToHtml(String katex) throws IOException {
+		Path input = ExternalContentTransformation.createTempFile("tex", katex.getBytes());
+		return katexToHtml(input);
+	}
+	
 	/**
 	 * Converts KaTeX notation in the given file to HTML.
 	 * 
@@ -58,9 +71,10 @@ public class KatexContentTransformer implements ViewContentTransformer {
 	}
 	
 	protected static ExternalContentTransformation katex(Path katex) {
-		Path imgTmp = katex.getParent().resolve(katex.getFileName()+".html");	
+		Path imgTmp = katex.getParent().resolve(katex.getFileName()+".html");
+		String program = ExternalContentTransformation.resolveNodeProgram("katex");
 		return new ExternalContentTransformation(
-			imgTmp, "npx", "katex", "-i", katex, "-o", imgTmp
+			imgTmp, program, "-i", katex, "-o", imgTmp
 		);
 	}
 }
