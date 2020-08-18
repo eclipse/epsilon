@@ -25,7 +25,6 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
 import org.apache.poi.poifs.crypt.Decryptor;
 import org.apache.poi.poifs.crypt.EncryptionInfo;
-import org.apache.poi.poifs.crypt.EncryptionMode;
 import org.apache.poi.poifs.crypt.Encryptor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -285,7 +284,7 @@ public class ExcelModel extends SpreadsheetModel {
 	private void encryptFile() throws Exception {
 		if (!StringUtil.isEmpty(this.password) && this.getIsXlsxFile()) {
 			final POIFSFileSystem fs = new POIFSFileSystem();
-			final EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+			final EncryptionInfo info = new EncryptionInfo(fs);
 
 			final Encryptor enc = info.getEncryptor();
 			enc.confirmPassword(this.password);
