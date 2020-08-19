@@ -29,25 +29,4 @@ work with Microsoft Excel Spreadsheet models in Epsilon.
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="org.apache.poi_3.10.1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.poi.ooxml.schemas_3.10.1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.poi.ooxml_3.10.1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>
