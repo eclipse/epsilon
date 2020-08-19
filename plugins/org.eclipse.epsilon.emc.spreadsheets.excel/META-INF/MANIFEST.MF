@@ -11,11 +11,11 @@ Require-Bundle: org.eclipse.epsilon.emc.spreadsheets;visibility:=reexport,
  org.apache.poi.ooxml;bundle-version="4.0.0";visibility:=reexport,
  org.apache.poi;bundle-version="4.0.0";visibility:=reexport,
  org.apache.xmlbeans;bundle-version="3.1.0";visibility:=reexport,
- org.apache.commons.collections4;visibility:=reexport,
+ org.apache.commons.collections4;bundle-version="4.4.0";visibility:=reexport,
  org.apache.commons.compress;bundle-version="1.19.0";visibility:=reexport,
  org.apache.commons.math3;bundle-version="3.6.1";visibility:=reexport,
  org.apache.commons.codec;bundle-version="1.14.0";visibility:=reexport,
- org.apache.commons.logging;bundle-version="1.2.0";visibility:=reexport,
- org.apache.logging.log4j;visibility:=reexport,
- com.github.virtuald.curvesapi;visibility:=reexport
+ org.apache.commons.logging;bundle-version="1.2.0";resolution:=optional;visibility:=reexport,
+ org.apache.logging.log4j;bundle-version="1.2.17";resolution:=optional;visibility:=reexport,
+ com.github.virtuald.curvesapi;bundle-version="1.6.0";visibility:=reexport
 Automatic-Module-Name: org.eclipse.epsilon.emc.spreadsheets.excel
