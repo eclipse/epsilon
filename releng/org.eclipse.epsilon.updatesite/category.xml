@@ -108,7 +108,7 @@
    </category-def>
    <category-def name="Epsilon GMF Integration" label="Epsilon GMF Integration">
       <description>
-         Support for developing GMF-based editors (Eugenia), and for refactoring models in GMF-based editors using the Epsilon Wizard Language.
+         Support for developing GMF-based editors (EuGENia), and for refactoring models in GMF-based editors using the Epsilon Wizard Language.
       </description>
    </category-def>
    <category-def name="Human Usable Textual Notation (HUTN)" label="Human Usable Textual Notation (HUTN)">
@@ -121,7 +121,7 @@
          Support for managing spreadsheet models with languages of the Epsilon platform.
       </description>
    </category-def>
-   <repository-reference location="http://download.eclipse.org/tools/orbit/downloads/drops/S20200727174946/repository" enabled="true" />
+   <repository-reference location="http://download.eclipse.org/tools/orbit/downloads/drops/S20200817205214/repository" enabled="true" />
    <repository-reference location="http://download.eclipse.org/emfatic/update" enabled="true" />
    <repository-reference location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases" enabled="true" />
 </site>
