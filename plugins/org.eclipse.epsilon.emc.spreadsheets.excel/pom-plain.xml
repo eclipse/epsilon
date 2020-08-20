@@ -59,7 +59,7 @@
     <dependency>
       <groupId>com.github.virtuald</groupId>
       <artifactId>curvesapi</artifactId>
-  </dependency>
+    </dependency>
   
   </dependencies>
 
