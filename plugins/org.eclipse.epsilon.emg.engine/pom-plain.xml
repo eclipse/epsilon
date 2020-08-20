@@ -22,7 +22,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
-      <artifactId>math3</artifactId>
+      <artifactId>commons-math3</artifactId>
     </dependency>
   </dependencies>
 
