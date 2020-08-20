@@ -4,8 +4,8 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
-  <artifactId>org.eclipse.epsilon.eol.engine</artifactId>
-  <name>Eclipse Epsilon Model Generator Engine</name>
+  <artifactId>org.eclipse.epsilon.emg.dt</artifactId>
+  <name>Eclipse Epsilon Model Generator Developer Tools</name>
 
   <parent>
     <groupId>org.eclipse.epsilon</groupId>
@@ -17,21 +17,13 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.eol.engine</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.erl.engine</artifactId>
+      <artifactId>org.eclipse.epsilon.emg.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.epl.engine</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>math3</artifactId>
+      <artifactId>org.eclipse.epsilon.epl.dt</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 

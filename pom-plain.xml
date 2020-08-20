@@ -179,6 +179,7 @@
     <!-- Workflow component -->
     <module>plugins/org.eclipse.epsilon.ecl.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.egl.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.emg.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.eml.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.eol.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.epl.dt/pom-plain.xml</module>
