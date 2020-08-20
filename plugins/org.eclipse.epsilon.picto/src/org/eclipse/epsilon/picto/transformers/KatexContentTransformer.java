@@ -35,13 +35,11 @@ public class KatexContentTransformer implements ViewContentTransformer {
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
 		String id = "katex-"+System.currentTimeMillis();
 		String html = "<div>" +
-			"<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js\"></script>\n" + 
-			"<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js\"" + 
-			"onload=\"renderMathInElement(document.body);\"></script>\n" +
+			"<script src=\"https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js\"></script>\n" +
 			"<div id=\""+id+"\"></div>\n" +
 			"<script>katex.render(\""+content.getText()+"\", document.getElementById(\""+id+"\"), {throwOnError: false});</script></div>";
 		
-		return new ViewContent("html", html, content);
+		return new ViewContent("svg", html, content);
 	}
 	
 	
