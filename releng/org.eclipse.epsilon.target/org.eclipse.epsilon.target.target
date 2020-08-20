@@ -62,6 +62,7 @@
 		<unit id="com.google.gdata" version="1.47.1.v20200819-2030"/>
 		<unit id="net.bytebuddy.byte-buddy" version="1.7.9.v20180420-1519"/>
 		<unit id="net.bytebuddy.byte-buddy-agent" version="1.7.9.v20180420-1519"/>
+		<unit id="net.sourceforge.plantuml" version="1.2019.0.v20200820-1243"/>
 		<unit id="org.antlr.runtime" version="3.5.2.v20200724-1452"/>
 		<unit id="org.apache.commons.cli" version="1.4.0.v20200417-1444"/>
 		<unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>

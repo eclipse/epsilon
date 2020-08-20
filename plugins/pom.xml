@@ -12,7 +12,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>net.sourceforge.plantuml</module>
     <module>org.eclipse.epsilon.antlr.postprocessor</module>
     <module>org.eclipse.epsilon.antlr.postprocessor.model</module>
     <module>org.eclipse.epsilon.common</module>
