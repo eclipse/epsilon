@@ -12,7 +12,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>com.google.gdata_1.47.1</module>
     <module>net.sourceforge.plantuml</module>
     <module>org.eclipse.epsilon.antlr.postprocessor</module>
     <module>org.eclipse.epsilon.antlr.postprocessor.model</module>

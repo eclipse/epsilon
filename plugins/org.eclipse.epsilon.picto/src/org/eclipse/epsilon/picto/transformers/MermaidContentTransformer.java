@@ -33,10 +33,10 @@ public class MermaidContentTransformer implements ViewContentTransformer {
 			html = mermaidToRawSvg(mmd);
 		}
 		catch (IOException iox) {
-			html = "<div>\n" +
-				"<div class=\"mermaid\">\n" + mmd + "\n</div>\n" +
+			html = "<div>" +
 				"<script src=\"https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js\"></script>\n" + 
-				"<script>mermaid.initialize({startOnLoad:true});</script>\n</div>";
+				"<script>mermaid.initialize({startOnLoad:true});</script>" +
+				"<div class=\"mermaid\">\n" + mmd + "\n</div></div>";
 		}
 		return new ViewContent("svg", html, content);
 	}

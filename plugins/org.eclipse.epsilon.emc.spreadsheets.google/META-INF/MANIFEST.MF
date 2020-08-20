@@ -7,6 +7,6 @@ Bundle-Vendor: Eclipse Modeling Project
 Export-Package: org.eclipse.epsilon.emc.spreadsheets.google
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.emc.spreadsheets;visibility:=reexport,
- com.google.gdata_1.47.1;bundle-version="1.47.1";visibility:=reexport,
+ com.google.gdata;bundle-version="1.47.1";visibility:=reexport,
  com.google.guava;bundle-version="18.0.0"
 Automatic-Module-Name: org.eclipse.epsilon.emc.spreadsheets.google

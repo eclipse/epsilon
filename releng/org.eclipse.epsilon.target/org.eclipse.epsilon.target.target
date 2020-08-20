@@ -51,6 +51,7 @@
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<unit id="com.github.virtuald.curvesapi" version="1.6.0.v20200807-0931"/>
+		<unit id="com.google.gdata" version="1.47.1.v20200819-2030"/>
 		<unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
 		<unit id="org.apache.commons.collections4" version="4.4.0.v20200420-1700"/>
 		<unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
@@ -63,7 +64,7 @@
 		<unit id="org.apache.poi.ooxml.schemas" version="4.1.1.v20200818-0106"/>
 		<unit id="org.apache.santuario.xmlsec" version="2.2.0.v20200818-1422"/>
 		<unit id="org.apache.xmlbeans" version="3.1.0.v20200817-1535"/>
-		<repository location="http://ci.eclipse.org/orbit/job/gerrit-orbit-recipes/1407/artifact/releng/repository/target/repository"/>
+		<repository location="http://ci.eclipse.org/orbit/job/gerrit-orbit-recipes/1417/artifact/releng/repository/target/repository"/>
 	</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<unit id="com.atlassian.commonmark" version="0.15.1.v20200707-1444"/>
