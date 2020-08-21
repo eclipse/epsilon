@@ -43,6 +43,7 @@ Bundle-Activator: org.eclipse.epsilon.picto.PictoPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.picto,
  org.eclipse.epsilon.picto.actions,
+ org.eclipse.epsilon.picto.browser,
  org.eclipse.epsilon.picto.dom,
  org.eclipse.epsilon.picto.dom.impl,
  org.eclipse.epsilon.picto.dom.util,

@@ -32,7 +32,7 @@ public class FilteredViewTree extends FilteredTree {
 	}
 	
 	public void clearFilterText() {
-		if (filterText != null && !filterText.getText().equals("")) {
+		if (filterText != null && !filterText.getText().isEmpty()) {
 			clearText();
 		}
 	}

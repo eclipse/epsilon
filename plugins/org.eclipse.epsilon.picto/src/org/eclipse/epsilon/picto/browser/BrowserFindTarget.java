@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.picto;
+package org.eclipse.epsilon.picto.browser;
 
 import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.swt.browser.Browser;
