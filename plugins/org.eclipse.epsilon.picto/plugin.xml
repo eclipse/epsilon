@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="pictoSource" name="Picto Source" schema="schema/pictoSource.exsd"/>
+   <extension-point id="browserFunction" name="Picto Browser Function" schema="schema/browserFunction.exsd"/>
    <extension-point id="viewContentTransformer" name="Picto View Content Transformer" schema="schema/viewContentTransformer.exsd"/>
    <extension-point id="htmlElementTransformer" name="HTML Element Transformer" schema="schema/htmlElementTransformer.exsd"/>
 <extension
@@ -102,5 +103,17 @@
       <viewContentTransformer
             class="org.eclipse.epsilon.picto.transformers.MathjaxContentTransformer">
       </viewContentTransformer>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.picto.browserFunction">
+      <browserFunction
+            class="org.eclipse.epsilon.picto.browser.ShowViewBrowserFunction">
+      </browserFunction>
+      <browserFunction
+            class="org.eclipse.epsilon.picto.browser.ShowElementBrowserFunction">
+      </browserFunction>
+      <browserFunction
+            class="org.eclipse.epsilon.picto.browser.ShowPreferencesBrowserFunction">
+      </browserFunction>
    </extension>
 </plugin>

@@ -10,11 +10,10 @@
 package org.eclipse.epsilon.picto;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -31,6 +30,8 @@ import org.eclipse.epsilon.picto.actions.PrintAction;
 import org.eclipse.epsilon.picto.actions.RefreshAction;
 import org.eclipse.epsilon.picto.actions.ViewContentsMenuAction;
 import org.eclipse.epsilon.picto.actions.ZoomAction;
+import org.eclipse.epsilon.picto.browser.BrowserFunctionExtensionPointManager;
+import org.eclipse.epsilon.picto.browser.PictoBrowserFunction;
 import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
@@ -39,7 +40,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.jface.viewers.TreePath;
@@ -59,7 +59,6 @@ import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.dialogs.PatternFilter;
-import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.part.ViewPart;
 
 public class PictoView extends ViewPart {
@@ -79,7 +78,8 @@ public class PictoView extends ViewPart {
 	protected HashMap<IEditorPart, ViewTree> activeViewHistory = new HashMap<>();
 	protected ViewTree activeView = null;
 	protected PictoSource source = null;
-	protected List<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
+	protected Collection<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
+	protected Collection<PictoBrowserFunction> browserFunctions = new BrowserFunctionExtensionPointManager().getExtensions();
 	protected ViewTreeLabelProvider viewTreeLabelProvider;
 	protected FilteredViewTree filteredTree;
 	protected boolean renderVerbatimSources = false;
@@ -97,8 +97,10 @@ public class PictoView extends ViewPart {
 				return wordMatches(viewTree.getName());
 			}
 		};
-		filteredTree = new FilteredViewTree(sashForm, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.BORDER, filter, true);
+		filteredTree = new FilteredViewTree(sashForm,
+			SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER,
+			filter, true
+		);
 		
 		treeViewer = filteredTree.getViewer();
 		treeViewer.setContentProvider(new ViewTreeContentProvider());
@@ -106,7 +108,7 @@ public class PictoView extends ViewPart {
 		treeViewer.setLabelProvider(viewTreeLabelProvider);
 		treeViewer.addSelectionChangedListener(event -> {
 			
-			ViewTree view = ((ViewTree)event.getStructuredSelection().getFirstElement());
+			ViewTree view = ((ViewTree) event.getStructuredSelection().getFirstElement());
 			if (view != null && view.getContent() != null) {
 				
 				activeViewHistory.put(renderedEditor, view);
@@ -153,42 +155,15 @@ public class PictoView extends ViewPart {
 		browserContainer = new BrowserContainer(sashForm, SWT.NONE);
 		viewRenderer = new ViewRenderer(new Browser(browserContainer, SWT.NONE));
 		
-		new BrowserFunction(viewRenderer.getBrowser(), "showView") {
-			public Object function(Object[] arguments) {
-				
-				if (arguments.length == 1 && arguments[0] instanceof Object[]) {
-					
-					Object[] pathArray = (Object[]) arguments[0];
-					String[] pathStringArray = Arrays.copyOf(pathArray, pathArray.length, String[].class);
-					List<String> path = new ArrayList<>(Arrays.asList(pathStringArray));
-					path.add(0, getViewTree().getName());
-					selectViewTree(path);
+		Browser browser = viewRenderer.getBrowser();
+		for (PictoBrowserFunction pbf : browserFunctions) {
+			new BrowserFunction(browser, pbf.getName()) {
+				public Object function(Object[] arguments) {
+					pbf.accept(PictoView.this, arguments);
+					return null;
 				}
-				throw new RuntimeException();
 			};
-		};
-		
-		new BrowserFunction(viewRenderer.getBrowser(), "showElement") {
-			public Object function(Object[] arguments) {
-				if (arguments.length == 2) {
-					String id = arguments[0] + "";
-					String uri = arguments[1] + "";
-					PictoSource source = getSource(editor);
-					source.showElement(id, uri, editor);
-				}
-				throw new RuntimeException();
-			};
-		};
-		
-		new BrowserFunction(viewRenderer.getBrowser(), "showPreferences") {
-			public Object function(Object[] arguments) {
-				PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(
-					getSite().getShell(), PictoPreferencePage.ID,  
-					new String[] {PictoPreferencePage.ID}, null);
-				dialog.open();
-				return null;
-			};
-		};
+		}
 		
 		sashFormWeights = new int[] {20, 80};
 		sashForm.setSashWidth(2);
@@ -215,8 +190,7 @@ public class PictoView extends ViewPart {
 							render((IEditorPart) part);
 						}
 					}
-				});
-				
+				});	
 			}
 
 			@Override
@@ -235,7 +209,8 @@ public class PictoView extends ViewPart {
 				
 				if (editorPart == PictoView.this) {
 					getSite().getPage().removePartListener(this);
-				} else if (editor == editorPart) {
+				}
+				else if (editor == editorPart) {
 					Display.getCurrent().asyncExec(() -> render(null));
 				}
 					
@@ -271,14 +246,15 @@ public class PictoView extends ViewPart {
 	}
 
 	public void render(IEditorPart editor) {
-		
 		if (editor == null) {
 			setTreeViewerVisible(false);
 			viewRenderer.nothingToRender();
 			this.editor = null;
-		} else {
-			if (this.editor != null)
+		}
+		else {
+			if (this.editor != null) {
 				this.editor.removePropertyListener(listener);
+			}
 			this.editor = editor;
 			editor.addPropertyListener(listener);
 			
@@ -370,7 +346,8 @@ public class PictoView extends ViewPart {
 						renderView(new ViewTree(viewRenderer.getVerbatim(ex.getMessage()), "html"));
 					}
 				});
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 			LogUtil.log(ex);
@@ -379,7 +356,8 @@ public class PictoView extends ViewPart {
 	
 	public void runInUIThread(RunnableWithException runnable) throws Exception {
 		Display.getDefault().syncExec(runnable);
-		if (runnable.getException() != null) throw runnable.getException();
+		Exception ex = runnable.getException();
+		if (ex != null) throw ex;
 	}
 	
 	protected void setViewTree(ViewTree newViewTree, boolean rerender) throws Exception {
@@ -403,8 +381,8 @@ public class PictoView extends ViewPart {
 			else {
 				viewRenderer.nothingToRender();
 			}
-		} else {
-			
+		}
+		else {
 			ViewTree selection = null;
 			ViewTree historicalView = activeViewHistory.get(renderedEditor);
 			
@@ -510,14 +488,12 @@ public class PictoView extends ViewPart {
 		protected String position = "left";
 		
 		public MoveTreeAction() {
-			super();
 			setText(getText("right"));
 			setImageDescriptor(getImageDescriptor("right"));
 		}
 		
 		@Override
 		public void run() {
-			
 			if ("left".equals(position)) {
 				browserContainer.moveAbove(filteredTree);
 			}
@@ -578,6 +554,15 @@ public class PictoView extends ViewPart {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 2.2
+	 */
+	public PictoSource getSource() {
+		return getSource(editor);
 	}
 	
 	@SuppressWarnings("unchecked")

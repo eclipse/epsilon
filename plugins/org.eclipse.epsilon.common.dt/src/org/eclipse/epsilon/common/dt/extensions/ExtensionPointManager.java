@@ -41,7 +41,8 @@ public abstract class ExtensionPointManager<T> {
 			for (IConfigurationElement element : extensionPoint.getConfigurationElements()) {
 				try {
 					extensions.add(parse(element));
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					handleParseException(e);
 				}
 			}			
