@@ -31,7 +31,9 @@ import org.eclipse.epsilon.picto.actions.RefreshAction;
 import org.eclipse.epsilon.picto.actions.ViewContentsMenuAction;
 import org.eclipse.epsilon.picto.actions.ZoomAction;
 import org.eclipse.epsilon.picto.browser.BrowserFunctionExtensionPointManager;
+import org.eclipse.epsilon.picto.browser.BrowserScriptExtensionPointManager;
 import org.eclipse.epsilon.picto.browser.PictoBrowserFunction;
+import org.eclipse.epsilon.picto.browser.PictoBrowserScript;
 import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
@@ -80,6 +82,7 @@ public class PictoView extends ViewPart {
 	protected PictoSource source = null;
 	protected Collection<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
 	protected Collection<PictoBrowserFunction> browserFunctions = new BrowserFunctionExtensionPointManager().getExtensions();
+	protected Collection<PictoBrowserScript> browserScripts = new BrowserScriptExtensionPointManager().getExtensions();
 	protected ViewTreeLabelProvider viewTreeLabelProvider;
 	protected FilteredViewTree filteredTree;
 	protected boolean renderVerbatimSources = false;
@@ -163,6 +166,10 @@ public class PictoView extends ViewPart {
 					return null;
 				}
 			};
+		}
+		
+		for (PictoBrowserScript pbs : browserScripts) {
+			browser.execute(pbs.apply(this));
 		}
 		
 		sashFormWeights = new int[] {20, 80};
