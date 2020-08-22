@@ -70,7 +70,7 @@ public class ViewRenderer {
 	}
 	
 	public String getHtml(String content) {
-		return "<html><body>" + content + "</body></html>";
+		return "<html><head></head><body>" + content + "</body></html>";
 	}
 	
 	public String getVerbatim(String content) {

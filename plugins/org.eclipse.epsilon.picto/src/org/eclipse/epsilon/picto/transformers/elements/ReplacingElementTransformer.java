@@ -22,8 +22,12 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 	
 	protected XmlHelper xmlHelper = new XmlHelper();
 	
-	protected void replace(Element element, ViewContent viewContent, boolean svgContent) {
-		if (svgContent) try {
+	protected final void replace(Element element, ViewContent viewContent) {
+		replace(element, viewContent, true);
+	}
+	
+	protected void replace(Element element, ViewContent viewContent, boolean inSameWindow) {
+		if (inSameWindow) try {
 			Document document = xmlHelper.parse(viewContent.getText());
 			Element svg = document.getDocumentElement();
 			element.getOwnerDocument().importNode(svg, true);

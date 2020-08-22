@@ -43,21 +43,21 @@ public class XmlHelper {
 	}
 	
 	public String getXml(Document document) {
-		try {
-			StringWriter writer = new StringWriter();
+		try (StringWriter writer = new StringWriter()) {
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(new DOMSource(document.getDocumentElement()), result);
 			return writer.toString();
 		}
-		catch (Exception ex) { throw new RuntimeException(ex); }
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 	
 	public String escapeHtml(String html) {
-		try {
+		try (StringWriter writer = new StringWriter()) {
 			Document document = documentBuilder.newDocument();
 			Text text = document.createTextNode(html);
 			DOMSource source = new DOMSource(text);
-			StringWriter writer = new StringWriter();
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(source, result);
 			return writer.toString();

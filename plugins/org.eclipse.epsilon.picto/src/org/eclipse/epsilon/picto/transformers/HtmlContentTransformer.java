@@ -39,7 +39,8 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			new AbsolutePathElementTransformer("script",  "src"),
 			new AbsolutePathElementTransformer("a",  "href"),
 			new PictoViewElementTransformer(), 
-			new RenderCodeElementTransformer()
+			new RenderCodeElementTransformer(),
+			new KatexAutorenderHeadAppender()
 		));
 		htmlElementTransformers.addAll(new HtmlElementTransformerExtensionPointManager().getExtensions());
 	}
@@ -79,7 +80,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 				}
 			}
 			
-			return new FinalViewContent("html", xmlHelper.getXml(document), content);
+			return new FinalViewContent("html", "<!DOCTYPE html>"+xmlHelper.getXml(document), content);
 		}
 		catch (Exception ex) {
 			return null;
