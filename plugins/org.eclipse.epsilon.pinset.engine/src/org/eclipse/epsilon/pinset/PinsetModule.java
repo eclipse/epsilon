@@ -29,6 +29,7 @@ import org.eclipse.epsilon.pinset.columnGenerators.Grid;
 import org.eclipse.epsilon.pinset.columnGenerators.NestedFrom;
 import org.eclipse.epsilon.pinset.columnGenerators.Properties;
 import org.eclipse.epsilon.pinset.columnGenerators.Reference;
+import org.eclipse.epsilon.pinset.output.Persistence;
 import org.eclipse.epsilon.pinset.parse.PinsetLexer;
 import org.eclipse.epsilon.pinset.parse.PinsetParser;
 
@@ -46,13 +47,13 @@ public class PinsetModule extends ErlModule {
 	public static final String FILL_NULLS_MEAN = "mean";
 	public static final String FILL_NULLS_MODE = "mode";
 
-	protected List<DatasetRule> declaredDatasetRules = new ArrayList<DatasetRule>();
-	protected List<String> generatedDatasetFiles;
+	protected List<DatasetRule> datasetRules = new ArrayList<DatasetRule>();
 	protected String outputFolder = "";
 	protected String separator = ",";
 	protected String extension = ".csv";
 	protected String prefix = "";
 	protected boolean silent = false;
+	protected boolean persistDatasets = true;
 
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
@@ -80,7 +81,7 @@ public class PinsetModule extends ErlModule {
 		super.build(cst, module);
 
 		for (AST processRuleAst : AstUtil.getChildren(cst, PinsetParser.DATASET)) {
-			declaredDatasetRules.add((DatasetRule) module.createAst(processRuleAst, this));
+			datasetRules.add((DatasetRule) module.createAst(processRuleAst, this));
 		}
 	}
 
@@ -108,14 +109,18 @@ public class PinsetModule extends ErlModule {
 
 	@Override
 	protected Object processRules() throws EolRuntimeException {
-		for (DatasetRule datasetRule : declaredDatasetRules) {
+		for (DatasetRule datasetRule : datasetRules) {
 			datasetRule.execute(context);
+			if (persistDatasets) {
+				Persistence.persist(datasetRule.getDataset(), getFilePath(datasetRule), getSeparator());
+				datasetRule.dispose();
+			}
 		}
 		return null;
 	}
 
-	public List<DatasetRule> getDeclaredDatasetRules() {
-		return declaredDatasetRules;
+	public List<DatasetRule> getDatasetRules() {
+		return datasetRules;
 	}
 
 	public void setOutputFolder(String attribute) {
@@ -124,6 +129,16 @@ public class PinsetModule extends ErlModule {
 
 	public String getOutputFolder() {
 		return outputFolder;
+	}
+
+	public String getFilePath(DatasetRule rule) {
+		return String.format("%s/%s",
+				getOutputFolder(), getFileName(rule));
+	}
+
+	public String getFileName(DatasetRule rule) {
+		return String.format("%s%s%s",
+				getPrefix(), rule.getName(), getExtension());
 	}
 
 	public String getSeparator() {
@@ -158,13 +173,10 @@ public class PinsetModule extends ErlModule {
 		this.silent = silent;
 	}
 
-	public List<String> getGeneratedDatasetFiles() {
-		if (generatedDatasetFiles == null) {
-			generatedDatasetFiles = new ArrayList<>();
-			for (DatasetRule rule : declaredDatasetRules) {
-				generatedDatasetFiles.add(rule.getName() + extension);
-			}
-		}
-		return generatedDatasetFiles;
+	/**
+	 * Set whether the datasets must be persisted into output files or not
+	 */
+	public void persistDatasets(boolean persistDatasets) {
+		this.persistDatasets = persistDatasets;
 	}
 }

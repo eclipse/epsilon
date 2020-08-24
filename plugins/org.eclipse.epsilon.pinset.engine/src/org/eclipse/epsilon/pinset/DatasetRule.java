@@ -34,7 +34,6 @@ import org.eclipse.epsilon.pinset.columnGenerators.Grid;
 import org.eclipse.epsilon.pinset.columnGenerators.NestedFrom;
 import org.eclipse.epsilon.pinset.columnGenerators.Properties;
 import org.eclipse.epsilon.pinset.columnGenerators.Reference;
-import org.eclipse.epsilon.pinset.output.Persistence;
 import org.eclipse.epsilon.pinset.parse.PinsetParser;
 
 /**
@@ -50,6 +49,7 @@ public class DatasetRule extends AnnotatableModuleElement {
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected IExecutableModuleElement fromBlock = null;
 	protected List<ColumnGenerator> generators = new ArrayList<ColumnGenerator>();
+	protected Dataset dataset;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -142,12 +142,7 @@ public class DatasetRule extends AnnotatableModuleElement {
 			oElements = (Collection<?>) result;
 		}
 		initialiseGenerators(context, getter);
-		Dataset dataset = new Dataset();
-		List<String> columnNames = new ArrayList<String>();
-		for (ColumnGenerator generator : generators) {
-			initialise(generator, context, getter);
-			columnNames.addAll(generator.getNames());
-		}
+		dataset = new Dataset();
 		dataset.setColumnNames(getColumnNames());
 		for (Object oElem : oElements) {
 			if (!isIncluded(oElem, context, parameter.getName())) {
@@ -156,7 +151,6 @@ public class DatasetRule extends AnnotatableModuleElement {
 			dataset.addColumnValues(getRowValues(context, oElem));
 		}
 		postProcess(context, dataset);
-		Persistence.persist(dataset, getFilePath(), ((PinsetModule) module).getSeparator());
 	}
 
 	private void postProcess(IEolContext context, Dataset dataset)
@@ -235,12 +229,6 @@ public class DatasetRule extends AnnotatableModuleElement {
 		return columnNames;
 	}
 
-	private String getFilePath() {
-		return ((PinsetModule) module).getOutputFolder()
-				+ "/" + ((PinsetModule) module).getPrefix() + name +
-				((PinsetModule) module).getExtension();
-	}
-
 	private void initialiseGenerators(IEolContext context,
 			IPropertyGetter getter) {
 		for (ColumnGenerator generator : generators) {
@@ -283,5 +271,13 @@ public class DatasetRule extends AnnotatableModuleElement {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Dataset getDataset() {
+		return dataset;
+	}
+
+	public void dispose() {
+		dataset = null;
 	}
 }

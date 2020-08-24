@@ -42,7 +42,7 @@ public class PinsetModuleContentProvider extends EolModuleContentProvider {
 			PinsetModule module = (PinsetModule) moduleElement;
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
-			visible.addAll(module.getDeclaredDatasetRules());
+			visible.addAll(module.getDatasetRules());
 			visible.addAll(module.getDeclaredOperations());
 		}
 

@@ -25,7 +25,7 @@ public class PinsetDummyTests extends PinsetTests {
 	@Test
 	public void testDummy() throws Exception {
 		PinsetModule module = new PinsetModule();
-		module.setOutputFolder(getTempDir());
+		module.persistDatasets(false);
 		module.parse(getFile("dummy.pinset"));
 		if (!module.getParseProblems().isEmpty()) {
 			System.err.println("The following errors were identified");
@@ -39,7 +39,7 @@ public class PinsetDummyTests extends PinsetTests {
 				loadModel("M", "dummy.model", "pinsetdummy", true, false));
 		module.execute();
 
-		assertEquivalent(module.getGeneratedDatasetFiles(), module.getOutputFolder());
+		assertEquivalent(module);
 	}
 
 }

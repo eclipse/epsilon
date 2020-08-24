@@ -13,14 +13,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.pinset.DatasetRule;
+import org.eclipse.epsilon.pinset.PinsetModule;
 
 public class PinsetTests {
 
@@ -52,18 +52,15 @@ public class PinsetTests {
 		EmfUtil.register(URI.createFileURI(getFullPath(path, currentClass)), EPackage.Registry.INSTANCE);
 	}
 
-	protected String getTempDir() throws IOException {
-		return Files.createTempDirectory("pinset").toString();
-	}
+	protected void assertEquivalent(PinsetModule module) throws Exception {
 
-	protected void assertEquivalent(List<String> generatedDatasetFiles, String resultFolder) throws Exception {
-
-		for (String datasetFile : generatedDatasetFiles) {
+		for (DatasetRule datasetRule : module.getDatasetRules()) {
+			String generatedFile = module.getFileName(datasetRule);
 			String expectedDataset = FileUtil.getFileContents(
-					getFile(String.format("expected/%s", datasetFile)));
-			String resultDataset = FileUtil.getFileContents(
-					new File(String.format("%s/%s", resultFolder, datasetFile)));
-			assertTrue(datasetFile, expectedDataset.equals(resultDataset));
+					getFile(String.format("expected/%s", generatedFile)));
+			String resultDataset = datasetRule.getDataset().toString(module.getSeparator());
+			assertTrue(generatedFile, expectedDataset.equals(resultDataset));
+			datasetRule.dispose();
 		}
 
 	}

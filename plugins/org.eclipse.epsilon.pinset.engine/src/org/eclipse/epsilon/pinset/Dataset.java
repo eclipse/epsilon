@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Dataset.
@@ -68,5 +69,18 @@ public class Dataset {
 			ValueWrapper wrapper = wrappersIt.next();
 			colValuesByName.get(colName).add(wrapper);
 		}
+	}
+
+	public String toString(String separator) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.join(separator, getColumnNames()));
+		sb.append("\n");
+		for (List<ValueWrapper> wrappers : getRows()) {
+			sb.append(String.join(separator, wrappers.stream()
+					.map(w -> w.toString())
+					.collect(Collectors.toList())));
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 }
