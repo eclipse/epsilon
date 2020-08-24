@@ -42,10 +42,6 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 					e.setAttribute(p.getProperty(), p.cast(String.valueOf(value)) + "");
 					return;
 				}
-				else if (p.isText()) {
-					e.setTextContent(p.cast(String.valueOf(value)) + "");
-					return;
-				}
 				else if (p.isReference()) {
 					String sourceTag = e.getTagName();
 					

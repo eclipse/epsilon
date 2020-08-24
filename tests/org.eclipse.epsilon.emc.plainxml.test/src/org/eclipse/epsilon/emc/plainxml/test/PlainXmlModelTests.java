@@ -29,8 +29,8 @@ public class PlainXmlModelTests {
 		model.setXml(
 			"<?xml version='1.0'?>" + newline() +
 			"<library>" + newline() +
-				"<book name='b1' pages='212' authors='a1,a2' editor='e1'/>" + newline() + 
-				"<book name='b1' pages='122' editor='e2'/>" + newline() + 
+				"<book name='b1' pages='212' authors='a1,a2' editor='e1' text='b1-text'/>" + newline() + 
+				"<book name='b1' pages='122' editor='e2'>b2-text</book>" + newline() + 
 				"<book name='b3' pages='351' editor='e3'/>" + newline() + 
 				"<author name='a1'/>" + newline() + 
 				"<author name='a2'/>" + newline() +
@@ -60,6 +60,16 @@ public class PlainXmlModelTests {
 	@Test
 	public void testStringAttribute() {
 		assertEquals(evaluator.evaluate("t_book.all.first().a_name"), "b1");
+	}
+	
+	@Test
+	public void testTextAttribute() {
+		assertEquals("b1-text", evaluator.evaluate("t_book.all.first().a_text"));
+	}
+	
+	@Test
+	public void testText() {
+		assertEquals("b2-text", evaluator.evaluate("t_book.all.second().text"));
 	}
 	
 	@Test

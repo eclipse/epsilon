@@ -13,7 +13,6 @@ public class PlainXmlProperty {
 	
 	protected boolean many;
 	protected PlainXmlPropertyType type;
-	protected boolean text;
 	protected String property;
 	protected PlainXmlPropertyDataType dataType;
 	
@@ -25,14 +24,7 @@ public class PlainXmlProperty {
 			property.startsWith("d_") || property.startsWith("s_")) {
 			
 			p.dataType = p.dataTypeFor(property.charAt(0) + "");
-			
-			if (property.substring(2).equals("text")) {
-				p.type = PlainXmlPropertyType.Text;
-			}
-			else {
-				p.type = PlainXmlPropertyType.Attribute;
-			}
-			
+			p.type = PlainXmlPropertyType.Attribute;
 			p.many = false;
 			
 		} else if (property.startsWith("e_")) {
@@ -124,10 +116,6 @@ public class PlainXmlProperty {
 
 	public boolean isElement() {
 		return type == PlainXmlPropertyType.Element;
-	}
-	
-	public boolean isText() {
-		return text;
 	}
 	
 	public boolean isMany() {

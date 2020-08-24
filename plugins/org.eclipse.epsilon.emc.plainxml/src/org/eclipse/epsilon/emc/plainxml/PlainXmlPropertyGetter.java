@@ -62,11 +62,9 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 			PlainXmlProperty p = PlainXmlProperty.parse(property);
 			
 			if (p != null) {
+				
 				if (p.isAttribute()) {
 					return p.cast(e.getAttribute(p.getProperty()));
-				}
-				else if (p.isText()) {
-					return p.cast(e.getTextContent());
 				}
 				else if (p.isReference()) {
 					

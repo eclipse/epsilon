@@ -13,7 +13,6 @@ public enum PlainXmlPropertyType {
 	
 	Attribute,
 	Reference,
-	Text,
 	Element
 	
 }
