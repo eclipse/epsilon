@@ -27,11 +27,12 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 	}
 	
 	protected void replace(Element element, ViewContent viewContent, boolean inSameWindow) {
+		Document owner = element.getOwnerDocument();
 		if (inSameWindow) try {
 			Document document = xmlHelper.parse(viewContent.getText());
 			Element svg = document.getDocumentElement();
-			element.getOwnerDocument().importNode(svg, true);
-			element.getOwnerDocument().adoptNode(svg);
+			owner.importNode(svg, true);
+			owner.adoptNode(svg);
 			element.getParentNode().replaceChild(svg, element);
 			
 			NamedNodeMap attributes = element.getAttributes();
@@ -43,13 +44,13 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 			return;
 		}
 		catch (Exception e) {
-			element.getOwnerDocument().renameNode(element, element.getNamespaceURI(), "b");
+			owner.renameNode(element, element.getNamespaceURI(), "b");
 			element.setTextContent(e.getMessage());
 			return;
 		}
 		else try {
 			Path tmp = ExternalContentTransformation.createTempFile("html", viewContent.getText().getBytes());
-			element.getOwnerDocument().renameNode(element, element.getNamespaceURI(), "iframe");
+			owner.renameNode(element, element.getNamespaceURI(), "iframe");
 			element.setAttribute("src", tmp.toAbsolutePath().toString());
 		}
 		catch (Exception ex) {

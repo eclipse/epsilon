@@ -127,16 +127,6 @@
          Support for managing spreadsheet models with languages of the Epsilon platform.
       </description>
    </category-def>
-   <category-def name="Pinset" label="Pinset">
-      <description>
-         DSL for dataset extraction from models
-      </description>
-   </category-def>
-   <category-def name="Pinset Development Tools" label="Pinset Development Tools">
-      <description>
-         Development tools for the Pinset language
-      </description>
-   </category-def>
    <repository-reference location="http://download.eclipse.org/emfatic/update" enabled="true" />
    <repository-reference location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases" enabled="true" />
    <repository-reference location="http://download.eclipse.org/tools/orbit/downloads/drops/I20200820175500/repository" enabled="true" />
