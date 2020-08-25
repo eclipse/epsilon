@@ -146,6 +146,7 @@
     <module>plugins/org.eclipse.epsilon.evl.engine/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.ewl.engine/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.flock.engine/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.pinset/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.profiling/pom-plain.xml</module>
 
     <!-- EMF component -->
@@ -186,6 +187,7 @@
     <module>plugins/org.eclipse.epsilon.erl.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.etl.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.evl.dt/pom-plain.xml</module>
+    <module>plugins/org.eclipse.epsilon.pinset.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.workflow/pom-plain.xml</module>
 
     <!-- Workflow EMF component -->
