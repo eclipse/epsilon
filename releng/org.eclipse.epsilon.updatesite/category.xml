@@ -81,12 +81,6 @@
    <feature id="org.eclipse.epsilon.emc.csv.feature">
       <category name="Epsilon Spreadsheet Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.pinset.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.pinset.feature" version="2.2.0.qualifier">
-      <category name="Pinset"/>
-   </feature>
-   <feature url="features/org.eclipse.epsilon.pinset.dt.feature_2.2.0.qualifier.jar" id="org.eclipse.epsilon.pinset.dt.feature" version="2.2.0.qualifier">
-      <category name="Pinset Development Tools"/>
-   </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
          Parsers, execution engines, development tools (editors, launch configurations, debuggers etc.) for languages of the Epsilon platform.
