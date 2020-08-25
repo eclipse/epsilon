@@ -33,7 +33,7 @@ public class PinsetEditor extends EolEditor {
 
 	@Override
 	public List<String> getKeywords() {
-		List<String> keywords = new ArrayList<String>();
+		List<String> keywords = new ArrayList<>();
 		keywords.add("pre");
 		keywords.add("post");
 		keywords.add("dataset");

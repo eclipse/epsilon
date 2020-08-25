@@ -18,6 +18,8 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -31,8 +33,7 @@ import org.eclipse.epsilon.pinset.parse.PinsetParser;
  * @author Alfonso de la Vega
  * @since 2.1
  */
-public class Grid extends AnnotatableModuleElement
-		implements ColumnGenerator {
+public class Grid extends AnnotatableModuleElement implements ColumnGenerator {
 
 	private static final String KEY_VARNAME = "key";
 
@@ -58,8 +59,8 @@ public class Grid extends AnnotatableModuleElement
 		isSilent = this.hasAnnotation(PinsetModule.SILENT_ANNOTATION);
 	}
 
-	public List<String> getNames()
-			throws EolRuntimeException {
+	@Override
+	public List<String> getNames() throws EolRuntimeException {
 		if (headers == null) {
 			initHeaders();
 		}
@@ -68,7 +69,7 @@ public class Grid extends AnnotatableModuleElement
 
 	private void initHeaders() throws EolRuntimeException {
 		initKeys(context);
-		headers = new ArrayList<String>();
+		headers = new ArrayList<>();
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, headerBlock);
 		for (Object key : keys) {
 			context.getFrameStack().put(
@@ -96,17 +97,18 @@ public class Grid extends AnnotatableModuleElement
 		}
 	}
 
-	public List<Object> getValues(Object obj)
-			throws EolRuntimeException {
+	@Override
+	public List<Object> getValues(Object obj) throws EolRuntimeException {
 		initKeys(context);
-		List<Object> values = new ArrayList<Object>();
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyBlock);
+		List<Object> values = new ArrayList<>();
+		FrameStack frameStack = context.getFrameStack();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		frameStack.enterLocal(FrameType.UNPROTECTED, bodyBlock);
 		for (Object key : keys) {
-			context.getFrameStack().put(
-					Variable.createReadOnlyVariable(KEY_VARNAME, key));
+			frameStack.put(Variable.createReadOnlyVariable(KEY_VARNAME, key));
 			Object value = null;
 			try {
-				value = context.getExecutorFactory().execute(bodyBlock, context);
+				value = executorFactory.execute(bodyBlock, context);
 			}
 			catch (EolRuntimeException e) {
 				if (!isSilent) {
@@ -115,7 +117,7 @@ public class Grid extends AnnotatableModuleElement
 			}
 			values.add(ReturnValueParser.obtainValue(value));
 		}
-		context.getFrameStack().leaveLocal(bodyBlock);
+		frameStack.leaveLocal(bodyBlock);
 		return values;
 	}
 

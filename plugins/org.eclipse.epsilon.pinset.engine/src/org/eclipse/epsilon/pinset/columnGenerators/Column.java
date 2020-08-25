@@ -17,6 +17,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.pinset.PinsetModule;
@@ -28,13 +29,11 @@ import org.eclipse.epsilon.pinset.ReturnValueParser;
  * @author Alfonso de la Vega
  * @since 2.1
  */
-public class Column extends AnnotatableModuleElement
-		implements ColumnGenerator {
+public class Column extends AnnotatableModuleElement implements ColumnGenerator {
 
 	protected String name;
 	protected IExecutableModuleElement block;
 	protected boolean isSilent = false;
-
 	protected IEolContext context;
 
 	public void setName(String name) {
@@ -52,11 +51,12 @@ public class Column extends AnnotatableModuleElement
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
-		name = (String) cst.getFirstChild().getText();
+		name = cst.getFirstChild().getText();
 		block = (IExecutableModuleElement) module.createAst(cst.getSecondChild(), this);
 		isSilent = this.hasAnnotation(PinsetModule.SILENT_ANNOTATION);
 	}
 
+	@Override
 	public List<String> getNames() {
 		return Arrays.asList(getName());
 	}
@@ -65,13 +65,14 @@ public class Column extends AnnotatableModuleElement
 		return name;
 	}
 
+	@Override
 	public List<Object> getValues(Object elem) throws EolRuntimeException {
 		return Arrays.asList(getValue(elem));
 	}
 
-	private Object getValue(Object obj)
-			throws EolRuntimeException {
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, block);
+	private Object getValue(Object obj) throws EolRuntimeException {
+		FrameStack frameStack = context.getFrameStack();
+		frameStack.enterLocal(FrameType.UNPROTECTED, block);
 		Object res = null;
 		try {
 			res = context.getExecutorFactory().execute(block, context);
@@ -81,7 +82,7 @@ public class Column extends AnnotatableModuleElement
 				throw e;
 			}
 		}
-		context.getFrameStack().leaveLocal(block);
+		frameStack.leaveLocal(block);
 		return ReturnValueParser.obtainValue(res);
 	}
 

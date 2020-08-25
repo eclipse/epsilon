@@ -30,7 +30,7 @@ public class ReturnValueParser {
 	}
 
 	public static List<Object> getValues(List<Object> elements) {
-		List<Object> res = new ArrayList<Object>();
+		List<Object> res = new ArrayList<>();
 		for (Object elem : elements) {
 			res.add(obtainValue(elem));
 		}

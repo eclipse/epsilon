@@ -3,12 +3,6 @@ package org.eclipse.epsilon.pinset.parse;
 // $ANTLR 3.1b1 EolParserRules.g 2020-06-29 12:42:03
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
 import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
@@ -242,15 +236,19 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return PinsetParser.tokenNames; }
-    public String getGrammarFileName() { return "EolParserRules.g"; }
+    @Override
+	public String[] getTokenNames() { return PinsetParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "EolParserRules.g"; }
 
 
 
@@ -262,7 +260,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class operationDeclarationOrAnnotationBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start operationDeclarationOrAnnotationBlock
@@ -350,7 +349,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class modelDeclaration_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelDeclaration
@@ -473,8 +473,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(MODELDECLARATION);
+              		retval.tree.getExtraTokens().add(sem);
+              		retval.tree.getToken().setType(MODELDECLARATION);
               	
             }
         }
@@ -492,7 +492,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class modelAlias_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelAlias
@@ -587,7 +588,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class modelDriver_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelDriver
@@ -648,7 +650,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class modelDeclarationParameters_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelDeclarationParameters
@@ -749,8 +752,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(MODELDECLARATIONPARAMETERS);
+              		retval.tree.getExtraTokens().add(cb);
+              		retval.tree.getToken().setType(MODELDECLARATIONPARAMETERS);
               	
             }
         }
@@ -768,7 +771,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class modelDeclarationParameter_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelDeclarationParameter
@@ -836,7 +840,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class operationDeclaration_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start operationDeclaration
@@ -873,11 +878,11 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            set16=(Token)input.LT(1);
-            set16=(Token)input.LT(1);
+            set16=input.LT(1);
+            set16=input.LT(1);
             if ( (input.LA(1)>=108 && input.LA(1)<=109) ) {
                 input.consume();
-                if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(set16), root_0);
+                if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(set16), root_0);
                 state.errorRecovery=false;state.failed=false;
             }
             else {
@@ -994,8 +999,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cp);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(HELPERMETHOD);
+              		retval.tree.getExtraTokens().add(cp);
+              		retval.tree.getToken().setType(HELPERMETHOD);
               	
             }
         }
@@ -1013,7 +1018,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class importStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start importStatement
@@ -1064,7 +1070,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -1082,7 +1088,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class block_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start block
@@ -1149,7 +1156,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
                 // EolParserRules.g:165:5: ^( BLOCK ( statement )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(BLOCK, "BLOCK"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(BLOCK, "BLOCK"), root_1);
 
                 // EolParserRules.g:165:13: ( statement )*
                 while ( stream_statement.hasNext() ) {
@@ -1175,7 +1182,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -1193,7 +1200,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class statementBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statementBlock
@@ -1238,8 +1246,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(s); 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(e);
+              		retval.tree.getExtraTokens().add(s); 
+              		retval.tree.getExtraTokens().add(e);
               	
             }
         }
@@ -1257,7 +1265,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class formalParameter_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start formalParameter
@@ -1332,7 +1341,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
                 // EolParserRules.g:181:6: ^( FORMAL NAME ( typeName )? )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(FORMAL, "FORMAL"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(FORMAL, "FORMAL"), root_1);
 
                 adaptor.addChild(root_1, stream_NAME.nextNode());
                 // EolParserRules.g:181:20: ( typeName )?
@@ -1377,7 +1386,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class formalParameterList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start formalParameterList
@@ -1458,7 +1468,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
                 // EolParserRules.g:189:5: ^( PARAMLIST ( formalParameter )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(PARAMLIST, "PARAMLIST"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(PARAMLIST, "PARAMLIST"), root_1);
 
                 // EolParserRules.g:189:17: ( formalParameter )*
                 while ( stream_formalParameter.hasNext() ) {
@@ -1484,7 +1494,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -1502,7 +1512,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class executableAnnotation_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start executableAnnotation
@@ -1532,7 +1543,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             d_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(d);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(d_tree, root_0);
             }
-            x=(Token)input.LT(1);
+            x=input.LT(1);
             matchAny(input); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             x_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(x);
@@ -1572,7 +1583,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class annotation_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start annotation
@@ -1659,7 +1671,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class annotationBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start annotationBlock
@@ -1747,7 +1760,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
                 // EolParserRules.g:206:5: ^( ANNOTATIONBLOCK ( annotation )+ )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(ANNOTATIONBLOCK, "ANNOTATIONBLOCK"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(ANNOTATIONBLOCK, "ANNOTATIONBLOCK"), root_1);
 
                 if ( !(stream_annotation.hasNext()) ) {
                     throw new RewriteEarlyExitException();
@@ -1775,7 +1788,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -1793,7 +1806,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class typeName_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start typeName
@@ -1894,7 +1908,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(TYPE);
+              		retval.tree.getToken().setType(TYPE);
               	
             }
         }
@@ -1912,7 +1926,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class specialType_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start specialType
@@ -1963,9 +1978,9 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(s); 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(e);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(TYPE);
+              		retval.tree.getExtraTokens().add(s); 
+              		retval.tree.getExtraTokens().add(e);
+              		retval.tree.getToken().setType(TYPE);
               	
             }
         }
@@ -1983,7 +1998,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class pathName_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start pathName
@@ -2105,7 +2121,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class packagedType_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start packagedType
@@ -2192,7 +2209,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class collectionType_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start collectionType
@@ -2223,11 +2241,11 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            set40=(Token)input.LT(1);
-            set40=(Token)input.LT(1);
+            set40=input.LT(1);
+            set40=input.LT(1);
             if ( (input.LA(1)>=CollectionTypeName && input.LA(1)<=MapTypeName) ) {
                 input.consume();
-                if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(set40), root_0);
+                if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(set40), root_0);
                 state.errorRecovery=false;state.failed=false;
             }
             else {
@@ -2377,9 +2395,9 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(op); 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cp);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(TYPE);
+              		retval.tree.getExtraTokens().add(op); 
+              		retval.tree.getExtraTokens().add(cp);
+              		retval.tree.getToken().setType(TYPE);
               	
             }
         }
@@ -2397,7 +2415,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class statement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statement
@@ -2471,7 +2490,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class statementA_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statementA
@@ -2641,7 +2661,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class statementB_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statementB
@@ -2838,7 +2859,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class statementOrStatementBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statementOrStatementBlock
@@ -2926,7 +2948,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class expressionOrStatementBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionOrStatementBlock
@@ -3017,7 +3040,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class ifStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start ifStatement
@@ -3122,7 +3146,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class elseStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start elseStatement
@@ -3164,7 +3189,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(e);
+              		retval.tree.getExtraTokens().add(e);
               	
             }
         }
@@ -3182,7 +3207,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class switchStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start switchStatement
@@ -3313,7 +3339,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class caseStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start caseStatement
@@ -3427,7 +3454,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class defaultStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start defaultStatement
@@ -3533,7 +3561,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class forStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start forStatement
@@ -3620,7 +3649,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class whileStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start whileStatement
@@ -3696,7 +3726,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class returnStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start returnStatement
@@ -3765,7 +3796,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -3783,7 +3814,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class throwStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start throwStatement
@@ -3852,7 +3884,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -3870,7 +3902,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class deleteStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start deleteStatement
@@ -3939,7 +3972,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -3957,7 +3990,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class breakStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start breakStatement
@@ -4001,7 +4035,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4019,7 +4053,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class breakAllStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start breakAllStatement
@@ -4063,7 +4098,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4081,7 +4116,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class continueStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start continueStatement
@@ -4125,7 +4161,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4143,7 +4179,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class abortStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start abortStatement
@@ -4187,7 +4224,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4205,7 +4242,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class transactionStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start transactionStatement
@@ -4325,7 +4363,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class assignmentStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start assignmentStatement
@@ -4518,7 +4557,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4536,7 +4575,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class expressionStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionStatement
@@ -4629,7 +4669,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4647,7 +4687,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class logicalExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start logicalExpression
@@ -4820,10 +4861,10 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             	            state._fsp--;
             	            if (state.failed) return retval;
             	            if ( state.backtracking==0 ) adaptor.addChild(root_0, relationalExpression108.getTree());
-            	            set109=(Token)input.LT(1);
+            	            set109=input.LT(1);
             	            if ( input.LA(1)==112||input.LA(1)==121 ) {
             	                input.consume();
-            	                if ( state.backtracking==0 ) adaptor.addChild(root_0, (org.eclipse.epsilon.common.parse.AST)adaptor.create(set109));
+            	                if ( state.backtracking==0 ) adaptor.addChild(root_0, adaptor.create(set109));
             	                state.errorRecovery=false;state.failed=false;
             	            }
             	            else {
@@ -4884,7 +4925,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class relationalExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start relationalExpression
@@ -5140,7 +5182,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class additiveExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start additiveExpression
@@ -5272,7 +5315,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class multiplicativeExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start multiplicativeExpression
@@ -5404,7 +5448,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class unaryExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start unaryExpression
@@ -5521,7 +5566,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class shortcutOperatorExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start shortcutOperatorExpression
@@ -5638,7 +5684,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class postfixExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start postfixExpression
@@ -5690,11 +5737,11 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             	case 1 :
             	    // EolParserRules.g:432:28: ( NAVIGATION | POINT | ARROW ) fc= featureCall (is= '[' logicalExpression ']' )*
             	    {
-            	    set122=(Token)input.LT(1);
-            	    set122=(Token)input.LT(1);
+            	    set122=input.LT(1);
+            	    set122=input.LT(1);
             	    if ( input.LA(1)==POINT||(input.LA(1)>=ARROW && input.LA(1)<=NAVIGATION) ) {
             	        input.consume();
-            	        if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(set122), root_0);
+            	        if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(set122), root_0);
             	        state.errorRecovery=false;state.failed=false;
             	    }
             	    else {
@@ -5785,7 +5832,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class itemSelectorExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start itemSelectorExpression
@@ -5882,7 +5930,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class featureCall_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start featureCall
@@ -5956,7 +6005,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class simpleFeatureCall_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start simpleFeatureCall
@@ -6035,7 +6085,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class parameterList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start parameterList
@@ -6145,7 +6196,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
                 // EolParserRules.g:458:6: ^( PARAMETERS ( logicalExpression )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(PARAMETERS, "PARAMETERS"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(PARAMETERS, "PARAMETERS"), root_1);
 
                 // EolParserRules.g:458:19: ( logicalExpression )*
                 while ( stream_logicalExpression.hasNext() ) {
@@ -6171,9 +6222,9 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(op);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cp);
+              		retval.tree.setImaginary(true);
+              		retval.tree.getExtraTokens().add(op);
+              		retval.tree.getExtraTokens().add(cp);
               	
             }
         }
@@ -6191,7 +6242,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class complexFeatureCall_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start complexFeatureCall
@@ -6431,8 +6483,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(op);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cp);
+              		retval.tree.getExtraTokens().add(op);
+              		retval.tree.getExtraTokens().add(cp);
               	
             }
         }
@@ -6450,7 +6502,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class lambdaExpressionInBrackets_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start lambdaExpressionInBrackets
@@ -6554,8 +6607,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             if ( state.backtracking==0 ) {
 
               		lop.setType(LAMBDAEXPR);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(lop);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(lcp);
+              		retval.tree.getExtraTokens().add(lop);
+              		retval.tree.getExtraTokens().add(lcp);
               	
             }
         }
@@ -6573,7 +6626,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class lambdaExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start lambdaExpression
@@ -6674,7 +6728,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(lt);
+              		retval.tree.getExtraTokens().add(lt);
               	
             }
         }
@@ -6692,7 +6746,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class newExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start newExpression
@@ -6782,7 +6837,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class variableDeclarationExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start variableDeclarationExpression
@@ -6938,8 +6994,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             if ( state.backtracking==0 ) {
 
               		String txt = n != null ? "new" : v.getText();
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setText(txt);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(VAR);
+              		retval.tree.getToken().setText(txt);
+              		retval.tree.getToken().setType(VAR);
               	
             }
         }
@@ -6957,7 +7013,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class literalSequentialCollection_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start literalSequentialCollection
@@ -7029,8 +7086,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+              		retval.tree.getExtraTokens().add(ob);
+              		retval.tree.getExtraTokens().add(cb);
               	
             }
         }
@@ -7048,7 +7105,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class expressionRange_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionRange
@@ -7118,7 +7176,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class expressionList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionList
@@ -7199,7 +7258,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
                 // EolParserRules.g:521:5: ^( EXPRLIST ( logicalExpression )+ )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(EXPRLIST, "EXPRLIST"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(EXPRLIST, "EXPRLIST"), root_1);
 
                 if ( !(stream_logicalExpression.hasNext()) ) {
                     throw new RewriteEarlyExitException();
@@ -7227,7 +7286,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -7245,7 +7304,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class expressionListOrRange_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionListOrRange
@@ -7319,7 +7379,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class literalMapCollection_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start literalMapCollection
@@ -7391,8 +7452,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+              		retval.tree.getExtraTokens().add(ob);
+              		retval.tree.getExtraTokens().add(cb);
               	
             }
         }
@@ -7410,7 +7471,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class keyvalExpressionList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start keyvalExpressionList
@@ -7491,7 +7553,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
                 // EolParserRules.g:542:5: ^( KEYVALLIST ( keyvalExpression )+ )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(KEYVALLIST, "KEYVALLIST"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(KEYVALLIST, "KEYVALLIST"), root_1);
 
                 if ( !(stream_keyvalExpression.hasNext()) ) {
                     throw new RewriteEarlyExitException();
@@ -7519,7 +7581,7 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -7537,7 +7599,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class keyvalExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start keyvalExpression
@@ -7607,7 +7670,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class primitiveExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start primitiveExpression
@@ -7809,7 +7873,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class logicalExpressionInBrackets_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start logicalExpressionInBrackets
@@ -7861,9 +7926,9 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.getExtraTokens().add(ob);
+              		retval.tree.getExtraTokens().add(cb);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -7881,7 +7946,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class literal_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start literal
@@ -7902,10 +7968,10 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            set173=(Token)input.LT(1);
+            set173=input.LT(1);
             if ( input.LA(1)==FLOAT||input.LA(1)==INT||input.LA(1)==BOOLEAN||input.LA(1)==STRING ) {
                 input.consume();
-                if ( state.backtracking==0 ) adaptor.addChild(root_0, (org.eclipse.epsilon.common.parse.AST)adaptor.create(set173));
+                if ( state.backtracking==0 ) adaptor.addChild(root_0, adaptor.create(set173));
                 state.errorRecovery=false;state.failed=false;
             }
             else {
@@ -8773,10 +8839,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA22_special;
             this.transition = DFA22_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "258:3: ( (op= '(' tn= typeName ( ',' tn= typeName )* cp= ')' ) | (op= '<' tn= typeName ( ',' tn= typeName )* cp= '>' ) )?";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -8888,10 +8956,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA23_special;
             this.transition = DFA23_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "263:1: statement : ( statementA | statementB );";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -8985,10 +9055,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA24_special;
             this.transition = DFA24_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "267:1: statementA : ( assignmentStatement | expressionStatement | forStatement | ifStatement | whileStatement | switchStatement | returnStatement | breakStatement );";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9237,10 +9309,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA37_special;
             this.transition = DFA37_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "379:21: ( NAME ( ',' NAME )* )?";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9326,10 +9400,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA40_special;
             this.transition = DFA40_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "396:4: ( ( postfixExpression op= '=' logicalExpression ) | logicalExpression )";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9533,10 +9609,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA46_special;
             this.transition = DFA46_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "()* loopback of 408:23: ( (op= '==' relationalExpression | op= '=' relationalExpression | (op= '>' | op= '<' | op= '>=' | op= '<=' | op= '<>' ) additiveExpression ) )*";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9718,7 +9796,8 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA58_special;
             this.transition = DFA58_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "442:1: featureCall : ( simpleFeatureCall | complexFeatureCall );";
         }
     }
@@ -9791,10 +9870,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA72_special;
             this.transition = DFA72_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "498:29: ( ':' (n= 'new' )? t= typeName ( parameterList )? )?";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9971,10 +10052,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA75_special;
             this.transition = DFA75_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "524:1: expressionListOrRange : ( expressionRange | expressionList );";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -10212,10 +10295,12 @@ public class Pinset_EolParserRules extends org.eclipse.epsilon.common.parse.Epsi
             this.special = DFA78_special;
             this.transition = DFA78_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "551:1: primitiveExpression : ( literalSequentialCollection | literalMapCollection | literal | featureCall | collectionType | pathName | specialType | logicalExpressionInBrackets | newExpression | variableDeclarationExpression );";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {

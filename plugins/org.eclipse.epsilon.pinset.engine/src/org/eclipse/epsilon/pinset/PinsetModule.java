@@ -47,7 +47,7 @@ public class PinsetModule extends ErlModule {
 	public static final String FILL_NULLS_MEAN = "mean";
 	public static final String FILL_NULLS_MODE = "mode";
 
-	protected List<DatasetRule> datasetRules = new ArrayList<DatasetRule>();
+	protected List<DatasetRule> datasetRules = new ArrayList<>();
 	protected String outputFolder = "";
 	protected String separator = ",";
 	protected String extension = ".csv";
@@ -58,20 +58,20 @@ public class PinsetModule extends ErlModule {
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
-		case PinsetParser.DATASET:
-			return new DatasetRule();
-		case PinsetParser.GUARD:
-			return new ExecutableBlock<Boolean>(Boolean.class);
-		case PinsetParser.COLUMN:
-			return new Column();
-		case PinsetParser.PROPERTIES:
-			return new Properties();
-		case PinsetParser.REFERENCE:
-			return new Reference();
-		case PinsetParser.GRID:
-			return new Grid();
-		case PinsetParser.NESTEDFROM:
-			return new NestedFrom();
+			case PinsetParser.DATASET:
+				return new DatasetRule();
+			case PinsetParser.GUARD:
+				return new ExecutableBlock<>(Boolean.class);
+			case PinsetParser.COLUMN:
+				return new Column();
+			case PinsetParser.PROPERTIES:
+				return new Properties();
+			case PinsetParser.REFERENCE:
+				return new Reference();
+			case PinsetParser.GRID:
+				return new Grid();
+			case PinsetParser.NESTEDFROM:
+				return new NestedFrom();
 		}
 		return super.adapt(cst, parentAst);
 	}

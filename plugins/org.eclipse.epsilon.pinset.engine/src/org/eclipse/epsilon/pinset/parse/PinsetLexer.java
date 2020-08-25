@@ -45,9 +45,6 @@ package org.eclipse.epsilon.pinset.parse;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 public class PinsetLexer extends Lexer {
     public static final int T__144=144;
@@ -241,7 +238,8 @@ public class PinsetLexer extends Lexer {
         super(input,state);
         gEolLexerRules = new Pinset_EolLexerRules(input, state, this);
     }
-    public String getGrammarFileName() { return "Pinset__.g"; }
+    @Override
+	public String getGrammarFileName() { return "Pinset__.g"; }
 
     // $ANTLR start T__100
     public final void mT__100() throws RecognitionException {
@@ -1902,7 +1900,8 @@ public class PinsetLexer extends Lexer {
     }
     // $ANTLR end T__179
 
-    public void mTokens() throws RecognitionException {
+    @Override
+	public void mTokens() throws RecognitionException {
         // Pinset__.g:1:8: ( T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | T__177 | T__178 | T__179 | EolLexerRules. Tokens )
         int alt1=81;
         alt1 = dfa1.predict(input);
@@ -3026,7 +3025,8 @@ public class PinsetLexer extends Lexer {
             this.special = DFA1_special;
             this.transition = DFA1_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "1:1: Tokens : ( T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | T__177 | T__178 | T__179 | EolLexerRules. Tokens );";
         }
     }

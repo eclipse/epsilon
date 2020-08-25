@@ -87,7 +87,7 @@ public class PostProcessing {
 	}
 
 	private static Object mode(List<ValueWrapper> wrappers) {
-		HashMap<Object, Integer> counts = new HashMap<Object, Integer>();
+		HashMap<Object, Integer> counts = new HashMap<>();
 		Object mode = null;
 		int maxCount = 0;
 		for (ValueWrapper wrapper : wrappers) {

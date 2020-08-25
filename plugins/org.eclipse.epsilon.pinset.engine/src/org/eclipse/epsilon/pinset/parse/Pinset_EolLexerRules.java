@@ -3,11 +3,6 @@ package org.eclipse.epsilon.pinset.parse;
 // $ANTLR 3.1b1 EolLexerRules.g 2020-06-29 12:42:04
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
  * All rights reserved. This program and the accompanying materials
@@ -238,7 +233,8 @@ public class Pinset_EolLexerRules extends Lexer {
 
         this.gPinset = gPinset;
     }
-    public String getGrammarFileName() { return "EolLexerRules.g"; }
+    @Override
+	public String getGrammarFileName() { return "EolLexerRules.g"; }
 
     // $ANTLR start DIGIT
     public final void mDIGIT() throws RecognitionException {
@@ -1542,7 +1538,8 @@ public class Pinset_EolLexerRules extends Lexer {
     }
     // $ANTLR end Annotation
 
-    public void mTokens() throws RecognitionException {
+    @Override
+	public void mTokens() throws RecognitionException {
         // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | NAVIGATION | BOOLEAN | STRING | StrangeNameLiteral | CollectionTypeName | MapTypeName | SpecialTypeName | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
         int alt21=16;
         alt21 = dfa21.predict(input);
@@ -1762,7 +1759,8 @@ public class Pinset_EolLexerRules extends Lexer {
             this.special = DFA14_special;
             this.transition = DFA14_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "76:1: CollectionTypeName : ( 'Bag' | 'Sequence' | 'Set' | 'OrderedSet' | 'Collection' | 'List' | 'ConcurrentBag' | 'ConcurrentSet' );";
         }
     }
@@ -1965,7 +1963,8 @@ public class Pinset_EolLexerRules extends Lexer {
             this.special = DFA21_special;
             this.transition = DFA21_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | NAVIGATION | BOOLEAN | STRING | StrangeNameLiteral | CollectionTypeName | MapTypeName | SpecialTypeName | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";
         }
     }

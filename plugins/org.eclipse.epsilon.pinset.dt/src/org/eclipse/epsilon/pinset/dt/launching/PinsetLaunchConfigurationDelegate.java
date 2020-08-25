@@ -58,6 +58,7 @@ public class PinsetLaunchConfigurationDelegate extends EpsilonLaunchConfiguratio
 		return new PinsetDebugger();
 	}
 
+	@Override
 	public String getLanguage() {
 		return "Pinset";
 	}

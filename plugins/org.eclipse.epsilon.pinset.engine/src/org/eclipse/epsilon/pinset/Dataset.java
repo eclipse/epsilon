@@ -28,9 +28,9 @@ public class Dataset {
 	private Map<String, List<ValueWrapper>> colValuesByName;
 
 	public Dataset() {
-		columnNames = new ArrayList<String>();
-		rowsList = new ArrayList<List<ValueWrapper>>();
-		colValuesByName = new HashMap<String, List<ValueWrapper>>();
+		columnNames = new ArrayList<>();
+		rowsList = new ArrayList<>();
+		colValuesByName = new HashMap<>();
 	}
 
 	public List<String> getColumnNames() {
@@ -57,7 +57,7 @@ public class Dataset {
 	 * They MUST be given in the same order as the column names were.
 	 */
 	public void addColumnValues(List<Object> values) {
-		List<ValueWrapper> wrappers = new ArrayList<ValueWrapper>();
+		List<ValueWrapper> wrappers = new ArrayList<>();
 		for (Object value : values) {
 			wrappers.add(new ValueWrapper(value));
 		}
@@ -73,13 +73,14 @@ public class Dataset {
 
 	public String toString(String separator) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.join(separator, getColumnNames()));
-		sb.append("\n");
+		sb.append(String.join(separator, getColumnNames())).append("\n");
 		for (List<ValueWrapper> wrappers : getRows()) {
-			sb.append(String.join(separator, wrappers.stream()
-					.map(w -> w.toString())
-					.collect(Collectors.toList())));
-			sb.append("\n");
+			sb.append(
+				wrappers.stream()
+					.map(Object::toString)
+					.collect(Collectors.joining(separator))
+			)
+			.append("\n");
 		}
 		return sb.toString();
 	}

@@ -46,7 +46,7 @@ public class RenderCodeElementTransformer extends ReplacingElementTransformer {
 		}
 		
 		if (svgContent != null) {
-			replace(element, svgContent, true);
+			replace(element, svgContent);
 		}
 		else {
 			replace(element, lastContent, false);

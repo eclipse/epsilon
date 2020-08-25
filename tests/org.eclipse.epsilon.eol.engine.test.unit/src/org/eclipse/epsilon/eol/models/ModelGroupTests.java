@@ -127,8 +127,7 @@ public class ModelGroupTests {
 		m2.load();
 		
 		EolModule module = new EolModule();
-		module.getContext().getModelRepository().addModel(m1);
-		module.getContext().getModelRepository().addModel(m2);
+		module.getContext().getModelRepository().addModels(m1, m2);
 		
 		module.parse("return Sequence{"
 				+ "Xml!t_foo.all.class.simpleName, "

@@ -4,12 +4,6 @@ package org.eclipse.epsilon.pinset.parse;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
 import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
@@ -254,20 +248,25 @@ public class PinsetParser extends org.eclipse.epsilon.common.parse.EpsilonParser
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return PinsetParser.tokenNames; }
-    public String getGrammarFileName() { return "Pinset.g"; }
+    @Override
+	public String[] getTokenNames() { return PinsetParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "Pinset.g"; }
 
 
     public static class pinsetModule_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start pinsetModule
@@ -373,7 +372,7 @@ public class PinsetParser extends org.eclipse.epsilon.common.parse.EpsilonParser
                 // Pinset.g:103:6: ^( PINSETMODULE ( importStatement )* ( pinsetModuleContent )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(PINSETMODULE, "PINSETMODULE"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(PINSETMODULE, "PINSETMODULE"), root_1);
 
                 // Pinset.g:103:21: ( importStatement )*
                 while ( stream_importStatement.hasNext() ) {
@@ -418,7 +417,8 @@ public class PinsetParser extends org.eclipse.epsilon.common.parse.EpsilonParser
 
     public static class pinsetModuleContent_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start pinsetModuleContent

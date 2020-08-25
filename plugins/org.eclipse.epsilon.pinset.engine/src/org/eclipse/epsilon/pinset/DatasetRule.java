@@ -48,14 +48,14 @@ public class DatasetRule extends AnnotatableModuleElement {
 	protected Parameter parameter;
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected IExecutableModuleElement fromBlock = null;
-	protected List<ColumnGenerator> generators = new ArrayList<ColumnGenerator>();
+	protected List<ColumnGenerator> generators = new ArrayList<>();
 	protected Dataset dataset;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
-		name = (String) cst.getFirstChild().getText();
+		name = cst.getFirstChild().getText();
 		parameter = (Parameter) module.createAst(cst.getSecondChild(), this);
 		guardBlock = (ExecutableBlock<Boolean>) module.createAst(
 				AstUtil.getChild(cst, PinsetParser.GUARD), this);
@@ -202,7 +202,7 @@ public class DatasetRule extends AnnotatableModuleElement {
 
 	private List<Object> getRowValues(IEolContext context, Object oElem)
 			throws EolRuntimeException {
-		List<Object> rowValues = new ArrayList<Object>();
+		List<Object> rowValues = new ArrayList<>();
 		context.getFrameStack().enterLocal(FrameType.PROTECTED, this);
 		context.getFrameStack().put(
 				Variable.createReadOnlyVariable(parameter.getName(), oElem));
@@ -222,7 +222,7 @@ public class DatasetRule extends AnnotatableModuleElement {
 	}
 
 	private List<String> getColumnNames() throws EolRuntimeException {
-		List<String> columnNames = new ArrayList<String>();
+		List<String> columnNames = new ArrayList<>();
 		for (ColumnGenerator generator : generators) {
 			columnNames.addAll(generator.getNames());
 		}

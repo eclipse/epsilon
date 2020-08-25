@@ -50,6 +50,7 @@ public class PinsetOutputConfigurationTab
 	protected Text folderPath;
 	protected Button silentExecutionButton;
 
+	@Override
 	public void createControl(Composite parent) {
 
 		FillLayout parentLayout = new FillLayout();

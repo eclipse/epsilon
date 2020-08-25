@@ -3,12 +3,6 @@ package org.eclipse.epsilon.pinset.parse;
 // $ANTLR 3.1b1 ErlParserRules.g 2020-06-29 12:42:03
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
 import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
@@ -242,20 +236,25 @@ public class Pinset_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsi
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return PinsetParser.tokenNames; }
-    public String getGrammarFileName() { return "ErlParserRules.g"; }
+    @Override
+	public String[] getTokenNames() { return PinsetParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "ErlParserRules.g"; }
 
 
     public static class erlModuleContent_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start erlModuleContent
@@ -391,7 +390,8 @@ public class Pinset_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class pre_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start pre
@@ -477,7 +477,8 @@ public class Pinset_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class post_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start post
@@ -563,7 +564,8 @@ public class Pinset_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class guard_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start guard
@@ -625,7 +627,8 @@ public class Pinset_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsi
 
     public static class extendz_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start extendz

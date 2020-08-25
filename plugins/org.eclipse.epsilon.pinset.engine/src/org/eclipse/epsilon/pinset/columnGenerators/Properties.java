@@ -28,10 +28,9 @@ import org.eclipse.epsilon.pinset.parse.PinsetParser;
  * @author Alfonso de la Vega
  * @since 2.1
  */
-public class Properties extends AnnotatableModuleElement
-		implements ColumnGenerator {
-	protected List<String> properties = new ArrayList<String>();
-	protected List<String> columnNames = new ArrayList<String>();
+public class Properties extends AnnotatableModuleElement implements ColumnGenerator {
+	protected List<String> properties = new ArrayList<>();
+	protected List<String> columnNames = new ArrayList<>();
 	protected IPropertyGetter getter;
 	protected IEolContext context;
 
@@ -53,13 +52,14 @@ public class Properties extends AnnotatableModuleElement
 		}
 	}
 
+	@Override
 	public List<String> getNames() {
 		return columnNames;
 	}
 
-	public List<Object> getValues(Object elem)
-			throws EolRuntimeException {
-		List<Object> res = new ArrayList<Object>();
+	@Override
+	public List<Object> getValues(Object elem) throws EolRuntimeException {
+		List<Object> res = new ArrayList<>();
 		for (String prop : properties) {
 			res.add(ReturnValueParser.obtainValue(getter.invoke(elem, prop, context)));
 		}

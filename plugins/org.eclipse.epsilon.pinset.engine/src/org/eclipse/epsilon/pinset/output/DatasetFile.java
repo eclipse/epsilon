@@ -36,7 +36,7 @@ public class DatasetFile {
 	}
 
 	public void rowRecord(List<ValueWrapper> wrappers) {
-		List<String> records = new ArrayList<String>();
+		List<String> records = new ArrayList<>(wrappers.size());
 		for (ValueWrapper wrapper : wrappers) {
 			records.add(wrapper.toString());
 		}

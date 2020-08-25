@@ -42,7 +42,7 @@ public class PictoViewElementTransformer extends ReplacingElementTransformer {
 					.findAny().orElse(null);
 				
 				if (svgContent != null) {
-					replace(element, svgContent, true);
+					replace(element, svgContent);
 				}
 				else {
 					replace(element, contents.get(contents.size() - 1), false);

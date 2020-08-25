@@ -3,12 +3,6 @@ package org.eclipse.epsilon.pinset.parse;
 // $ANTLR 3.1b1 PinsetParserRules.g 2020-06-29 12:42:03
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
 import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
@@ -246,20 +240,25 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return PinsetParser.tokenNames; }
-    public String getGrammarFileName() { return "PinsetParserRules.g"; }
+    @Override
+	public String[] getTokenNames() { return PinsetParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "PinsetParserRules.g"; }
 
 
     public static class datasetRule_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start datasetRule
@@ -431,8 +430,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
             }
             if ( state.backtracking==0 ) {
 
-                  ((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-                  ((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+                  retval.tree.getExtraTokens().add(ob);
+                  retval.tree.getExtraTokens().add(cb);
                 
             }
         }
@@ -450,7 +449,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class columnGenerator_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start columnGenerator
@@ -672,7 +672,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class nestedFrom_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start nestedFrom
@@ -804,7 +805,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class nameslist_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start nameslist
@@ -891,7 +893,7 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
             }
             if ( state.backtracking==0 ) {
 
-                  ((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+                  retval.tree.getExtraTokens().add(cb);
                 
             }
         }
@@ -909,7 +911,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class aliasedName_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start aliasedName
@@ -990,7 +993,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class properties_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start properties
@@ -1052,7 +1056,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class reference_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start reference
@@ -1121,7 +1126,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class column_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start column
@@ -1190,7 +1196,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class grid_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start grid
@@ -1269,8 +1276,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
             }
             if ( state.backtracking==0 ) {
 
-                  ((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-                  ((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+                  retval.tree.getExtraTokens().add(ob);
+                  retval.tree.getExtraTokens().add(cb);
                 
             }
         }
@@ -1288,7 +1295,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class gkeys_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start gkeys
@@ -1350,7 +1358,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class header_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start header
@@ -1412,7 +1421,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class gbody_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start gbody
@@ -1474,7 +1484,8 @@ public class Pinset_PinsetParserRules extends org.eclipse.epsilon.common.parse.E
 
     public static class from_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start from

@@ -28,18 +28,18 @@ import org.eclipse.epsilon.pinset.parse.PinsetParser;
  * @author Alfonso de la Vega
  * @since 2.1
  */
-public class Reference extends AnnotatableModuleElement
-		implements ColumnGenerator {
+public class Reference extends AnnotatableModuleElement implements ColumnGenerator {
+	
 	protected String name;
-	protected List<String> columnNames = new ArrayList<String>();
-	protected List<String> properties = new ArrayList<String>();
+	protected List<String> columnNames = new ArrayList<>();
+	protected List<String> properties = new ArrayList<>();
 	protected IPropertyGetter getter;
 	protected IEolContext context;
 
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
-		name = (String) cst.getFirstChild().getText();
+		name = cst.getFirstChild().getText();
 		List<AST> aliasedNames =
 				AstUtil.getChild(cst, PinsetParser.NAMESLIST).getChildren();
 		for (AST aliasedName : aliasedNames) {
@@ -55,17 +55,19 @@ public class Reference extends AnnotatableModuleElement
 		}
 	}
 
+	@Override
 	public List<String> getNames() {
 		return columnNames;
 	}
 
+	@Override
 	public List<Object> getValues(Object o)
 			throws EolRuntimeException {
-		List<Object> res = new ArrayList<Object>();
+		List<Object> res = new ArrayList<>();
 		Object refObject = getter.invoke(o, name);
 		if (refObject == null) {
 			// No object present in reference, blank for all columns
-			for (int i = 0; i < properties.size(); i++) {
+			for (@SuppressWarnings("unused") String element : properties) {
 				res.add(null);
 			}
 		}
