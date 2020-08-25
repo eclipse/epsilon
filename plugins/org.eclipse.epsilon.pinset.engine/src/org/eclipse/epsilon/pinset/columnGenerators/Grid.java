@@ -70,30 +70,30 @@ public class Grid extends AnnotatableModuleElement implements ColumnGenerator {
 	private void initHeaders() throws EolRuntimeException {
 		initKeys(context);
 		headers = new ArrayList<>();
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, headerBlock);
+		FrameStack frameStack = context.getFrameStack();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		frameStack.enterLocal(FrameType.UNPROTECTED, headerBlock);
 		for (Object key : keys) {
-			context.getFrameStack().put(
-					Variable.createReadOnlyVariable(KEY_VARNAME, key));
-			Object result = ReturnValueParser.obtainValue(
-					context.getExecutorFactory().execute(headerBlock, context));
+			frameStack.put(Variable.createReadOnlyVariable(KEY_VARNAME, key));
+			Object result = ReturnValueParser.obtainValue(executorFactory.execute(headerBlock, context));
 			if (result == null) {
-				throw new EolRuntimeException(String.format(
-						"There has been a problem when generating a header for key %s",
-						key));
+				throw new EolRuntimeException(
+					String.format("There has been a problem when generating a header for key %s", key)
+				);
 			}
 			String header = "" + result;
 			headers.add(header.trim().replaceAll("\\s+", "_"));
 		}
-		context.getFrameStack().leaveLocal(headerBlock);
+		frameStack.leaveLocal(headerBlock);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void initKeys(IEolContext context) throws EolRuntimeException {
 		if (keys == null) {
-			context.getFrameStack().enterLocal(FrameType.PROTECTED, keysBlock);
-			keys = (List<Object>) ReturnValueParser.obtainValue(
-					context.getExecutorFactory().execute(keysBlock, context));
-			context.getFrameStack().leaveLocal(keysBlock);
+			FrameStack frameStack = context.getFrameStack();
+			frameStack.enterLocal(FrameType.PROTECTED, keysBlock);
+			keys = (List<Object>) ReturnValueParser.obtainValue(context.getExecutorFactory().execute(keysBlock, context));
+			frameStack.leaveLocal(keysBlock);
 		}
 	}
 

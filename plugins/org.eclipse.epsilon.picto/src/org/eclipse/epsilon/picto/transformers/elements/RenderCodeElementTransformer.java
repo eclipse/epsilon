@@ -9,8 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers.elements;
 
-import java.util.Collections;
-
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.w3c.dom.Element;
 
@@ -26,13 +25,14 @@ public class RenderCodeElementTransformer extends ReplacingElementTransformer {
 		
 		String text = element.getChildNodes().item(0).getTextContent();
 		String format = element.getAttribute("class").substring("language-render-".length());
-		ViewContent viewContent = new ViewContent(format, text, null, Collections.emptyList(), Collections.emptyList(), Collections.emptySet());
-		ViewContent svgContent = null;
-		ViewContent lastContent = null;
+		ViewContent imageContent = null, lastContent = null;
 		
-		while (viewContent != null) {
-			if ("svg".equals(viewContent.getFormat())) {
-				svgContent = viewContent;
+		// TODO: Why specifically search for SVG and if not found, render in an iframe?
+		// Whatever the reason, it seems non-generic. I've changed to support other images too,
+		// since I don't see why SVGs are treated differently
+		for (ViewContent viewContent = new ViewContent(format, text); viewContent != null; ) {
+			if (StringUtil.isOneOf(viewContent.getFormat().toLowerCase(), "svg", "png", "jpg")) {
+				imageContent = viewContent;
 				break;
 			}
 			else {
@@ -45,11 +45,12 @@ public class RenderCodeElementTransformer extends ReplacingElementTransformer {
 			element = (Element) element.getParentNode();
 		}
 		
-		if (svgContent != null) {
-			replace(element, svgContent);
+		if (imageContent != null) {
+			replace(element, imageContent);
 		}
 		else {
-			replace(element, lastContent, false);
+			replace(element, lastContent);
+			//replace(element, lastContent, true);
 		}
 	}
 }

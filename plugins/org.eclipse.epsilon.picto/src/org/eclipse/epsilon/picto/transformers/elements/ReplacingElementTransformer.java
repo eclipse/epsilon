@@ -23,12 +23,20 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 	protected XmlHelper xmlHelper = new XmlHelper();
 	
 	protected final void replace(Element element, ViewContent viewContent) {
-		replace(element, viewContent, true);
+		replace(element, viewContent, false);
 	}
 	
-	protected void replace(Element element, ViewContent viewContent, boolean inSameWindow) {
+	protected void replace(Element element, ViewContent viewContent, boolean iframe) {
 		Document owner = element.getOwnerDocument();
-		if (inSameWindow) try {
+		if (iframe) try {
+			Path tmp = ExternalContentTransformation.createTempFile("html", viewContent.getText().getBytes());
+			owner.renameNode(element, element.getNamespaceURI(), "iframe");
+			element.setAttribute("src", tmp.toAbsolutePath().toString());
+		}
+		catch (Exception ex) {
+			// Ignore
+		}
+		else try {
 			Document document = xmlHelper.parse(viewContent.getText());
 			Element svg = document.getDocumentElement();
 			owner.importNode(svg, true);
@@ -47,14 +55,6 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 			owner.renameNode(element, element.getNamespaceURI(), "b");
 			element.setTextContent(e.getMessage());
 			return;
-		}
-		else try {
-			Path tmp = ExternalContentTransformation.createTempFile("html", viewContent.getText().getBytes());
-			owner.renameNode(element, element.getNamespaceURI(), "iframe");
-			element.setAttribute("src", tmp.toAbsolutePath().toString());
-		}
-		catch (Exception ex) {
-			// Ignore
 		}
 	}
 	

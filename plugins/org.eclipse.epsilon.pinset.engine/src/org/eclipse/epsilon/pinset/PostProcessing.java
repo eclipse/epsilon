@@ -32,15 +32,8 @@ public class PostProcessing {
 		MEAN, MODE, VALUE
 	};
 
-	public static void normalize(List<ValueWrapper> values, Number value)
-			throws RuntimeException, EolRuntimeException {
-		double normValue;
-		if (value != null) {
-			normValue = value.doubleValue();
-		}
-		else {
-			normValue = max(values);
-		}
+	public static void normalize(List<ValueWrapper> values, Number value) throws EolRuntimeException {
+		double normValue = value != null ? value.doubleValue() : max(values);
 		for (ValueWrapper wrapper : values) {
 			if (wrapper.get() != null) {
 				wrapper.set(((Number) wrapper.get()).doubleValue() / normValue);
@@ -48,14 +41,12 @@ public class PostProcessing {
 		}
 	}
 
-	private static double max(List<ValueWrapper> values)
-			throws EolRuntimeException {
+	private static double max(List<ValueWrapper> values) throws EolRuntimeException {
 		double max = Double.MIN_VALUE;
 		for (ValueWrapper wrapper : values) {
 			if (wrapper.get() != null) {
 				if (!(wrapper.get() instanceof Number)) {
-					throw new EolRuntimeException(
-							"Cannot calculate mean over non-numeric elements");
+					throw new EolRuntimeException("Cannot calculate mean over non-numeric elements");
 				}
 				double value = ((Number) wrapper.get()).doubleValue();
 				if (value > max) {
