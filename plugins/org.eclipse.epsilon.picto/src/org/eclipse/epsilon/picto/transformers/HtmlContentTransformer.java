@@ -40,7 +40,8 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			new AbsolutePathElementTransformer("a",  "href"),
 			new PictoViewElementTransformer(), 
 			new RenderCodeElementTransformer(),
-			new KatexAutorenderHeadAppender()
+			new KatexAutorenderHeadAppender(),
+			new MermaidRendererHeadAppender()
 		));
 		htmlElementTransformers.addAll(new HtmlElementTransformerExtensionPointManager().getExtensions());
 	}
