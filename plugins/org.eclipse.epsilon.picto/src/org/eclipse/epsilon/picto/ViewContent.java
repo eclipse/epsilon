@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.transformers.ExceptionContentTransformer;
 import org.eclipse.epsilon.picto.transformers.PatchContentTransformer;
@@ -153,5 +154,14 @@ public class ViewContent {
 
 	public ViewContent getSourceContent(PictoView pictoView) {
 		return new ViewContent("text", text, file, layers, patches, baseUris).getNext(pictoView);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 2.2
+	 */
+	public boolean isImage() {
+		return StringUtil.isOneOf(getFormat().toLowerCase(), "svg", "png", "bmp", "gif", "jpg", "tif", "jpeg", "tiff");
 	}
 }
