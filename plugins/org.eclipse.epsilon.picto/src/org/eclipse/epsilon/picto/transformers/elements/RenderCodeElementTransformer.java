@@ -16,14 +16,18 @@ public class RenderCodeElementTransformer extends ReplacingElementTransformer {
 	
 	@Override
 	public String getXPath() {
-		return "//code[starts-with(@class,'language-render')]";
+		return "//code[starts-with(@class,'language-')]";
 	}
 	
 	@Override
 	public void transform(Element element) {
 		
 		String text = element.getChildNodes().item(0).getTextContent();
-		String format = element.getAttribute("class").substring("language-render-".length());
+		String format = element.getAttribute("class").substring("language-".length());
+		String render = "render-";
+		if (format.startsWith(render)) {
+			format = format.substring(render.length());
+		}
 		ViewContent lastContent = null;
 		boolean iframe = true;
 
