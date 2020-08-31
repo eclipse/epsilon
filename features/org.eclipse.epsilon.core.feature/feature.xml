@@ -19,7 +19,7 @@
    </copyright>
 
    <url>
-      <discovery label="Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/I20200820175500/repository"/>
+      <discovery label="Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20200831200620/repository"/>
    </url>
 
     <plugin

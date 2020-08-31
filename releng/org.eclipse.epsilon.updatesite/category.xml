@@ -123,5 +123,5 @@
    </category-def>
    <repository-reference location="http://download.eclipse.org/emfatic/update" enabled="true" />
    <repository-reference location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases" enabled="true" />
-   <repository-reference location="http://download.eclipse.org/tools/orbit/downloads/drops/I20200820175500/repository" enabled="true" />
+   <repository-reference location="http://download.eclipse.org/tools/orbit/downloads/drops/R20200831200620/repository" enabled="true" />
 </site>
