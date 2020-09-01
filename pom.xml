@@ -119,6 +119,7 @@
         <artifactId>target-platform-configuration</artifactId>
         <version>${tycho.version}</version>
         <configuration>
+          <targetDefinitionIncludeSource>ignore</targetDefinitionIncludeSource>
           <executionEnvironment>JavaSE-${java.version}</executionEnvironment>
           <target>
             <artifact>
