@@ -27,6 +27,10 @@
         <version>${tycho.version}</version>
         <configuration>
           <includeAllDependencies>false</includeAllDependencies>
+          <keepNonXzIndexFiles>false</keepNonXzIndexFiles>
+          <compress>false</compress>
+          <xzCompress>true</xzCompress>
+          <createArtifactRepository>true</createArtifactRepository>
         </configuration>
       </plugin>
     </plugins>
