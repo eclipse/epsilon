@@ -28,7 +28,7 @@
         <configuration>
           <includeAllDependencies>false</includeAllDependencies>
           <keepNonXzIndexFiles>false</keepNonXzIndexFiles>
-          <compress>false</compress>
+          <compress>true</compress>
           <xzCompress>true</xzCompress>
           <createArtifactRepository>true</createArtifactRepository>
         </configuration>
