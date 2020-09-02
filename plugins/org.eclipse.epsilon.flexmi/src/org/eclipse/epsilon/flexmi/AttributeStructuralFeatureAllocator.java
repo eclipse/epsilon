@@ -24,17 +24,7 @@ import org.w3c.dom.Node;
 public class AttributeStructuralFeatureAllocator {
 	
 	protected StringSimilarityProvider stringSimilarityProvider = new CachedStringSimilarityProvider(new DefaultStringSimilarityProvider());
-	
-	public static void main(String[] args) {
-		Map<String, String> allocation = new AttributeStructuralFeatureAllocator().allocate(
-			new ArrayList<>(Arrays.asList("department", "end", "name", "number", "reason", "start", "workorder")),
-			new ArrayList<>(Arrays.asList("name", "department", "number", "reason", "startDate", "endDate", "date", "workorder"))
-		);
-		for (Map.Entry<?, ?> entry : allocation.entrySet()) {
-			System.out.println(entry.getKey() + "->" + entry.getValue());
-		}
-	}
-	
+		
 	public Map<Node, EStructuralFeature> allocate(NamedNodeMap attributes, List<EStructuralFeature> structuralFeatures) {
 
 		final int attrLen = attributes.getLength();
@@ -163,18 +153,6 @@ public class AttributeStructuralFeatureAllocator {
 		
 		public AllocationTree getParent() {
 			return parent;
-		}
-		
-		public void print() {
-			print(-1);
-		}
-		
-		protected void print(int indentation) {
-			for (int i = 0; i < indentation; i++) { System.out.print("\t"); }
-			if (allocation != null) System.out.println(allocation.getValue() + "->" + allocation.getSlot());
-			for (AllocationTree child : getChildren()) {
-				child.print(indentation + 1);
-			}
 		}
 		
 		public boolean isLeaf() {

@@ -15,24 +15,48 @@
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-packaging-plugin</artifactId>
+        <artifactId>tycho-p2-repository-plugin</artifactId>
         <version>${tycho.version}</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+          </execution>
+        </executions>
         <configuration>
-          <archiveSite>true</archiveSite>
+          <includeAllDependencies>false</includeAllDependencies>
+          <compress>false</compress>
+          <xzCompress>false</xzCompress>
+          <skipArchive>true</skipArchive>
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-p2-repository-plugin</artifactId>
-        <version>${tycho.version}</version>
-        <configuration>
-          <includeAllDependencies>false</includeAllDependencies>
-          <keepNonXzIndexFiles>false</keepNonXzIndexFiles>
-          <compress>true</compress>
-          <xzCompress>true</xzCompress>
-          <createArtifactRepository>true</createArtifactRepository>
-        </configuration>
+        <groupId>org.codehaus.gmaven</groupId>
+        <artifactId>groovy-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <source>releng/org.eclipse.epsilon.updatesite/patch-content-xml.groovy</source>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
+      <!--plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-packaging-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <archiveSite>true</archiveSite>
+        </configuration>
+      </plugin-->
     </plugins>
   </build>
 </project>

@@ -728,10 +728,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		else return Collections.emptyList(); 
 	}
 	
-	protected boolean isTemplateElement(Element element) {
-		return objectStack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName());
-	}
-	
 	public FrameStack getFrameStack() {
 		return frameStack;
 	}

@@ -64,7 +64,7 @@ public class PlainXmlModelTests {
 	
 	@Test
 	public void testTextAttribute() {
-		assertEquals("b1-text", evaluator.evaluate("t_book.all.first().a_text"));
+		assertEquals("b1-text", evaluator.evaluate("t_book.all.first().getAttribute('text')"));
 	}
 	
 	@Test
