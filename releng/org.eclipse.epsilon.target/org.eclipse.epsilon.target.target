@@ -29,7 +29,7 @@
 		<unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.xtext.runtime.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="0.0.0"/>
-		<repository location="http://download.eclipse.org/releases/2020-03"/>
+		<repository location="http://download.eclipse.org/releases/2020-06"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.emf.emfatic.feature.group" version="0.0.0"/>
