@@ -21,9 +21,5 @@ references.@size = (references.@size as Integer) * 2
 
 new XmlNodePrinter(new PrintWriter(new FileWriter(patchedContentXml))).print(document)
 
-for (repository in references.repository) {
-	println repository.@uri
-}
-
 // Zip the update site (see pom.xml for context)
 ZipUtil.pack(new File("releng/org.eclipse.epsilon.updatesite/target/repository"), new File("releng/org.eclipse.epsilon.updatesite/target/org.eclipse.epsilon.updatesite.zip"));
