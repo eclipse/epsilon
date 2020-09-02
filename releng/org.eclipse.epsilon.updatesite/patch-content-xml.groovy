@@ -1,5 +1,5 @@
 File contentXml = new File("releng/org.eclipse.epsilon.updatesite/target/repository/content.xml")
-def patchedContentXml = new File("releng/org.eclipse.epsilon.updatesite/target/repository/content-patched.xml")
+def patchedContentXml = new File("releng/org.eclipse.epsilon.updatesite/target/repository/content.xml")
 
 def document = new XmlParser().parse(contentXml)
 def references = document.references[0]
