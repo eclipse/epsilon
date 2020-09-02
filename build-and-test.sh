@@ -1,17 +1,17 @@
 # Build
-# mvn -T 1C clean install
+mvn -T 1C clean install
 
 # Plugged-In tests
-# mvn -f tests/org.eclipse.epsilon.test verify -P plugged
+mvn -f tests/org.eclipse.epsilon.test verify -P plugged
 
 # Full test suite
-# mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit
+mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit
 
 # Build standalone Maven artifacts without Tycho
 # mvn -B -T 1C -f pom-plain.xml compile
 
 # Build update site
-mvn -f releng verify -P updatesite
+# mvn -f releng verify -P updatesite
 
 # Bump versions (replace X.Y.Z with appropriate numbers)
 #mvn versions:set-property -Dproperty=epsilon.version -DnewVersion=X.Y.Z-SNAPSHOT
