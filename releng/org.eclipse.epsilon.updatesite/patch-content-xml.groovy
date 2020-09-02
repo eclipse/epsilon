@@ -1,3 +1,5 @@
+import org.zeroturnaround.zip.ZipUtil
+
 File contentXml = new File("releng/org.eclipse.epsilon.updatesite/target/repository/content.xml")
 def patchedContentXml = new File("releng/org.eclipse.epsilon.updatesite/target/repository/content.xml")
 
@@ -19,3 +21,5 @@ new XmlNodePrinter(new PrintWriter(new FileWriter(patchedContentXml))).print(doc
 for (repository in references.repository) {
 	println repository.@uri
 }
+
+ZipUtil.pack(new File("releng/org.eclipse.epsilon.updatesite/target/repository"), new File("releng/org.eclipse.epsilon.updatesite/target/org.eclipse.epsilon.updatesite.zip"));

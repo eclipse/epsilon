@@ -32,6 +32,14 @@
       <plugin>
         <groupId>org.codehaus.gmaven</groupId>
         <artifactId>groovy-maven-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.zeroturnaround</groupId>
+            <artifactId>zt-zip</artifactId>
+            <version>1.13</version>
+            <type>jar</type>
+          </dependency>
+        </dependencies>
         <executions>
           <execution>
             <phase>package</phase>
