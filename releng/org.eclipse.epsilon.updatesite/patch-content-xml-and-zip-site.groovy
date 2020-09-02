@@ -1,5 +1,8 @@
 import org.zeroturnaround.zip.ZipUtil
 
+// Add copies of all referenced <repository> elements with type=1
+// See https://www.eclipse.org/lists/epsilon-dev/msg00522.html for context
+
 File contentXml = new File("releng/org.eclipse.epsilon.updatesite/target/repository/content.xml")
 def patchedContentXml = new File("releng/org.eclipse.epsilon.updatesite/target/repository/content.xml")
 
@@ -22,4 +25,5 @@ for (repository in references.repository) {
 	println repository.@uri
 }
 
+// Zip the update site (see pom.xml for context)
 ZipUtil.pack(new File("releng/org.eclipse.epsilon.updatesite/target/repository"), new File("releng/org.eclipse.epsilon.updatesite/target/org.eclipse.epsilon.updatesite.zip"));

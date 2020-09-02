@@ -13,6 +13,11 @@
 
   <build>
     <plugins>
+
+      <!--
+      Ideally we'd want to be able to run the assemble-repository goal of tycho-p2-repository-plugin first, Groovy next (to add the missing references to content.xml) and the archive-repository goal of tycho-p2-repository-plugin to create a zip archive of the update site. I've tried to achieve this with Maven <executions> but without much success. Therefore, I've turned skipArchive to true and zipped the update site using Groovy.
+      -->
+
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-repository-plugin</artifactId>
@@ -47,7 +52,7 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <source>releng/org.eclipse.epsilon.updatesite/patch-content-xml.groovy</source>
+              <source>releng/org.eclipse.epsilon.updatesite/patch-content-xml-and-zip-site.groovy</source>
             </configuration>
           </execution>
         </executions>
