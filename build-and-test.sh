@@ -14,9 +14,10 @@ mvn -f tests/org.eclipse.epsilon.test surefire:test -P unit
 # mvn -f releng verify -P updatesite
 
 # Bump versions (replace X.Y.Z with appropriate numbers)
-#mvn versions:set-property -Dproperty=epsilon.version -DnewVersion=X.Y.Z-SNAPSHOT
 #mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=X.Y.Z-SNAPSHOT
+#mvn versions:set-property -Dproperty=epsilon.version -DnewVersion=X.Y.Z-SNAPSHOT
 #mvn -f pom-plain.xml versions:set -DnewVersion=X.Y.Z-SNAPSHOT
+# Remember to manually bump the MANIFEST.MF of o.e.e.target and o.e.e.test
 
 # Query project version
 #mvn help:evaluate -Dexpression=project.version -q -DforceStdout 

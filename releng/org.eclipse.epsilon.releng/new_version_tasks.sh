@@ -2,33 +2,31 @@ set -eu
 
 Downloads=/home/data/httpd/download.eclipse.org/epsilon
 Archives=/home/data/httpd/archive.eclipse.org/epsilon
-
+UpdatesName=updates
+JavadocsName=javadocs
+InterimVersion=interim
+InterimJavadocs=$InterimVersion-$JavadocsName
 NewVersion=2.2
 OldVersion=2.1
-InterimVersion=interim
 
 echo "Moving $OldVersion..." &&
 mkdir -p $Archives/$OldVersion &&
-cp -r $Downloads/updates/$OldVersion/* $Archives/$OldVersion &&
+cp -r $Downloads/$UpdatesName/$OldVersion/* $Archives/$OldVersion &&
 mv $Downloads/$OldVersion/* $Archives/$OldVersion &&
 rm -rf $Downloads/$OldVersion
 
 cd $Downloads &&
-echo "Copying $InterimVersion to $NewVersion" &&
-mkdir $NewVersion &&
-cp -r $InterimVersion/* updates/$NewVersion
-if [ -e updates/$NewVersion/epsilon-${InterimVersion}-site.zip ]; then
-  mv updates/$NewVersion/epsilon-${InterimVersion}-site.zip updates/$NewVersion/epsilon-${NewVersion}-site.zip
-fi
-declare -a NewFolders=("javadoc" "jars");
-for folder in "${NewFolders[@]}"; do
-  if [ -d updates/$NewVersion/$folder ]; then
-    mv updates/$NewVersion/$folder $NewVersion/$folder &&
-    rm -rf updates/$NewVersion/$folder
-  fi
-done
-
-cd updates &&
+echo "Copying update site..." &&
+mkdir -p $UpdatesName/$NewVersion &&
+cp -r $InterimVersion/* $UpdatesName/$NewVersion
+if [ -e $UpdatesName/$NewVersion/epsilon-${InterimVersion}-site.zip ]; then
+  mv $UpdatesName/$NewVersion/epsilon-${InterimVersion}-site.zip $UpdatesName/$NewVersion/epsilon-${NewVersion}-site.zip
+fi &&
+echo "Copying $JavadocsName..." &&
+mkdir -p $NewVersion/$JavadocsName &&
+cp -r $InterimJavadocs/* $NewVersion/$JavadocsName &&
+echo "Adding $NewVersion to composite..." &&
+cd $UpdatesName &&
 rm -rf $NewVersion/interim &&
 ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
 
