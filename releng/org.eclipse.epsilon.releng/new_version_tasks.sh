@@ -1,4 +1,4 @@
-set -u
+set -eu
 
 Downloads=/home/data/httpd/download.eclipse.org/epsilon
 Archives=/home/data/httpd/archive.eclipse.org/epsilon
