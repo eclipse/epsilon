@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.emc.spreadsheets.google.dt.feature"
       label="EMC Google Spreadsheet Driver Development Tools"
-      version="2.2.0.qualifier"
+      version="2.3.0.qualifier"
       provider-name="Eclipse Modeling Project"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
@@ -19,8 +19,8 @@ work with Google Spreadsheet models.
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
    
-   <includes id="org.eclipse.epsilon.core.dt.feature" version="2.2.0.qualifier"/>
-   <includes id="org.eclipse.epsilon.emc.spreadsheets.google.feature" version="2.2.0.qualifier"/>
+   <includes id="org.eclipse.epsilon.core.dt.feature" version="2.3.0.qualifier"/>
+   <includes id="org.eclipse.epsilon.emc.spreadsheets.google.feature" version="2.3.0.qualifier"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.spreadsheets.google.dt"
