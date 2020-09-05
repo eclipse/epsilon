@@ -121,6 +121,7 @@ pipeline {
               anyOf {
                 changeset comparator: 'REGEXP', pattern: "${plainTriggers}"
                 expression { return currentBuild.number == 1 }
+                branch 'maven-*'
               }
             }
             steps {
@@ -129,12 +130,15 @@ pipeline {
           }
           stage('Deploy to OSSRH') {
             when {
-              allOf {
-                branch 'master'
-                anyOf {
-                  changeset comparator: 'REGEXP', pattern: "${plainTriggers}"
-                  expression { return currentBuild.number == 1 }
+              anyOf {
+                allOf {
+                   branch 'master'
+                   anyOf {
+                     changeset comparator: 'REGEXP', pattern: "${plainTriggers}"
+                     expression { return currentBuild.number == 1 }
+                   }
                 }
+                branch 'maven-*'
               }
             }
             environment {
