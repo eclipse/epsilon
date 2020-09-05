@@ -18,7 +18,11 @@ def baseTriggers = "${plainTriggers}|(pom\\.xml)|(Jenkinsfile)"
 def updateTriggers = "${baseTriggers}|(standalone\\/.*)|(features\\/.*)|(releng\\/.*(target|updatesite)\\/.*)"
 
 pipeline {
-    agent any
+    agent {
+      kubernetes {
+        label 'migration'
+      }
+    }
     options {
       disableConcurrentBuilds()
       buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '14', numToKeepStr: ''))
@@ -32,11 +36,6 @@ pipeline {
     }
     stages {
       stage('Main') {
-        agent {
-          kubernetes {
-            label 'migration'
-          }
-        }
         stages {
           stage('Build') {
             when {
