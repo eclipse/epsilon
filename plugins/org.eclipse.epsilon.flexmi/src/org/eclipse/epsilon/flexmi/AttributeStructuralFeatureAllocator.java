@@ -71,31 +71,32 @@ public class AttributeStructuralFeatureAllocator {
 				result.put(value, slot);
 			}
 		}
-		
-		AllocationTree tree = new AllocationTree();
-		tree.allocate(values, slots);
-		
-		int bestSimilarity = -1;
-		AllocationTree bestAllocation = null;
-		for (AllocationTree leaf : tree.getLeafs()) {
-			int similarity = 0;
-			for (Allocation allocation : leaf.getAllAllocations()) {
-				similarity += stringSimilarityProvider.getSimilarity(allocation.getSlot(), removePrefix(allocation.getValue()));
+
+		if (!values.isEmpty()) {
+			AllocationTree tree = new AllocationTree();
+			tree.allocate(values, slots);
+
+			int bestSimilarity = -1;
+			AllocationTree bestAllocation = null;
+			for (AllocationTree leaf : tree.getLeafs()) {
+				int similarity = 0;
+				for (Allocation allocation : leaf.getAllAllocations()) {
+					similarity += stringSimilarityProvider.getSimilarity(allocation.getSlot(), removePrefix(allocation.getValue()));
+				}
+				if (similarity > bestSimilarity) {
+					bestAllocation = leaf;
+					bestSimilarity = similarity;
+				}
 			}
-			if (similarity > bestSimilarity) {
-				bestAllocation = leaf;
-				bestSimilarity = similarity;
+
+			if (bestAllocation != null) {
+				for (Allocation allocation : bestAllocation.getAllAllocations()) {
+					result.put(allocation.getValue(), allocation.getSlot());
+				}
 			}
 		}
-		
-		
-		if (bestAllocation != null) {
-			for (Allocation allocation : bestAllocation.getAllAllocations()) {
-				result.put(allocation.getValue(), allocation.getSlot());
-			}
-		}
+
 		return result;
-		
 	}
 	
 	protected String removePrefix(String str) {
@@ -121,21 +122,24 @@ public class AttributeStructuralFeatureAllocator {
 		}
 		
 		public void allocate(List<String> values, List<String> slots) {
-
-			for (String value : values) {
+			if (!values.isEmpty()) {
+				String value = values.get(0);
 				for (String slot : slots) {
 					AllocationTree child = new AllocationTree(this);
 					child.setAllocation(new Allocation(slot, value));
 				}
-			}
-			
-			for (AllocationTree childTree : getChildren()) {
-				List<String> newSlots = new ArrayList<>(slots);
-				newSlots.remove(childTree.getAllocation().getSlot());
 				
 				List<String> newValues = new ArrayList<>(values);
-				newValues.remove(childTree.getAllocation().getValue());
-				childTree.allocate(newValues, newSlots);
+				newValues.remove(value);
+
+				if (!newValues.isEmpty()) { // for optimisation purposes
+					for (AllocationTree childTree : getChildren()) {
+						List<String> newSlots = new ArrayList<>(slots);
+						newSlots.remove(childTree.getAllocation().getSlot());
+
+						childTree.allocate(newValues, newSlots);
+					}
+				}
 			}
 		}
 		
@@ -174,11 +178,13 @@ public class AttributeStructuralFeatureAllocator {
 		
 		public List<Allocation> getAllAllocations() {
 			List<Allocation> allAllocations = new ArrayList<>();
-			if (allocation != null) allAllocations.add(allocation);
-			
-			for (AllocationTree parent = this.parent; parent != null; parent = parent.getParent()) {
-				allAllocations.addAll(parent.getAllAllocations());
+
+			for (AllocationTree tree = this; tree != null; tree = tree.getParent()) {
+				if (tree.getAllocation() != null) {
+					allAllocations.add(tree.getAllocation());
+				}
 			}
+
 			return Collections.unmodifiableList(allAllocations);
 		}
 		
