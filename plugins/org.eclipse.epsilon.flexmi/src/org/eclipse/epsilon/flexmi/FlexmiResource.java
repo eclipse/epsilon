@@ -27,7 +27,6 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.actions.Action;
 import org.eclipse.epsilon.flexmi.actions.ActionMap;
 import org.eclipse.epsilon.flexmi.actions.FeatureComputation;
@@ -539,7 +538,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		handleVarAttribute("local", VariableDeclarationType.LOCAL, attributes, eObject);
 		handleVarAttribute("global", VariableDeclarationType.GLOBAL, attributes, eObject);
 		
-		Map<Node, EStructuralFeature> allocation = new AttributeStructuralFeatureAllocator().allocate(attributes, eStructuralFeatures);
+		Map<Node, EStructuralFeature> allocation =
+				new AttributeStructuralFeatureAllocator(eObject.eClass()).allocate(attributes, eStructuralFeatures);
 		
 		for (Node attribute : allocation.keySet()) {
 			String name = attribute.getNodeName();
