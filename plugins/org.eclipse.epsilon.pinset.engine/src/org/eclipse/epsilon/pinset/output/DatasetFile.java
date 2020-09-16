@@ -28,7 +28,9 @@ public class DatasetFile {
 	protected String separator = ",";
 
 	public DatasetFile(String path) throws FileNotFoundException {
-		pw = new PrintWriter(new File(path));
+		File file = new File(path);
+		file.getParentFile().mkdirs();
+		pw = new PrintWriter(file);
 	}
 
 	public void headerRecord(List<String> columnNames) {

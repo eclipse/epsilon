@@ -128,6 +128,9 @@ public class PinsetModule extends ErlModule {
 	}
 
 	public String getOutputFolder() {
+		if (outputFolder.equals("") && getSourceFile() != null) {
+			outputFolder = getSourceFile().getParent();
+		}
 		return outputFolder;
 	}
 

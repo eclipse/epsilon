@@ -9,17 +9,17 @@
  *********************************************************************/
 package org.eclipse.epsilon.pinset.dt.launching;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
+import static org.eclipse.epsilon.pinset.dt.launching.tabs.PinsetSourceConfigurationTab.*;
+
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.pinset.PinsetModule;
-import org.eclipse.epsilon.pinset.dt.launching.tabs.PinsetOutputConfigurationTab;
+
 
 /**
  * PinsetLaunchConfigurationDelegate.
@@ -34,17 +34,10 @@ public class PinsetLaunchConfigurationDelegate extends EpsilonLaunchConfiguratio
 		PinsetModule module = new PinsetModule();
 		if (configuration != null) {
 			try {
-				IFile file =
-						ResourcesPlugin.getWorkspace()
-								.getRoot()
-								.getFile(new Path(configuration.getAttribute(
-										PinsetOutputConfigurationTab.OUTPUT_FOLDER,
-										PinsetOutputConfigurationTab.DEFAULT_OUTPUT_FOLDER)));
-				String outputFolder = file.getRawLocation().toOSString();
-				module.setOutputFolder(outputFolder);
-				module.setSilent(configuration.getAttribute(
-						PinsetOutputConfigurationTab.SILENT_EXECUTION,
-						PinsetOutputConfigurationTab.DEFAULT_SILENT_EXECUTION));
+				if (configuration.getAttribute(GENERATE_TO, GENERATE_TO_DEFAULT_FOLDER) == GENERATE_TO_CUSTOM_FOLDER) {
+					module.setOutputFolder(EclipseUtil.getWorkspaceContainerAbsolutePath(
+							configuration.getAttribute(OUTPUT_FOLDER, "")));
+				}
 			}
 			catch (CoreException e) {
 				e.printStackTrace();
