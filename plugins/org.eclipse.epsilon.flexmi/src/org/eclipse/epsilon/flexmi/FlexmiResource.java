@@ -170,11 +170,14 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	@Override
 	public EObject getEObject(String uriFragment) {
-		EObject eObject = super.getEObject(uriFragment);
-		if (eObject == null && uriFragment.indexOf(".") > -1) {
+		if (getIntrinsicIDToEObjectMap().containsKey(uriFragment)) {
+			return getIntrinsicIDToEObjectMap().get(uriFragment);
+		}
+		else if (fullyQualifiedIDs.containsKey(uriFragment)) {
+			// prevents a full model sweep
 			return fullyQualifiedIDs.get(uriFragment);
 		}
-		return eObject;
+		return super.getEObject(uriFragment);
 	}
 	
 	@Override
@@ -407,7 +410,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	@Override
 	public void endDocument(Document document) {
 		resolveReferences();
-		
+
 		for (EObject content : getContents()) {
 			performActions(content);
 		}
