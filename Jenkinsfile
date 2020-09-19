@@ -42,6 +42,7 @@ pipeline {
               anyOf {
                 changeset comparator: 'REGEXP', pattern: "${updateTriggers}|(tests\\/.*)"
                 expression { return currentBuild.number == 1 }
+                triggeredBy 'UserIdCause'
               }
             } 
             steps {
@@ -53,6 +54,7 @@ pipeline {
               anyOf {
                 changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(tests\\/.*)"
                 expression { return currentBuild.number == 1 }
+                triggeredBy 'UserIdCause'
               }
             }
             steps {
@@ -67,6 +69,7 @@ pipeline {
               anyOf {
                 changeset comparator: 'REGEXP', pattern: "${baseTriggers}"
                 expression { return currentBuild.number == 1 }
+                triggeredBy 'UserIdCause'
               }
             }
             steps {
@@ -80,6 +83,7 @@ pipeline {
                 anyOf {
                   changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
                   expression { return currentBuild.number == 1 }
+                  triggeredBy 'UserIdCause'
                 }
               }
             }
@@ -122,6 +126,7 @@ pipeline {
                 changeset comparator: 'REGEXP', pattern: "${plainTriggers}"
                 expression { return currentBuild.number == 1 }
                 branch 'maven-*'
+                triggeredBy 'UserIdCause'
               }
             }
             steps {
@@ -136,6 +141,7 @@ pipeline {
                    anyOf {
                      changeset comparator: 'REGEXP', pattern: "${plainTriggers}"
                      expression { return currentBuild.number == 1 }
+                     triggeredBy 'UserIdCause'
                    }
                 }
                 branch 'maven-*'
