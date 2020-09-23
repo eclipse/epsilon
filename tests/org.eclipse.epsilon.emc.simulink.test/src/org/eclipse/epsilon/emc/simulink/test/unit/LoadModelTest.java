@@ -15,14 +15,19 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.epsilon.emc.simulink.common.test.AssumeMatlabInstalled;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.eol.EolModule;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -59,6 +64,7 @@ public class LoadModelTest {
 	@BeforeClass
 	public static void setup(){
 		version = installation.getVersion();
+		
 	}
 	
 	private static Iterable<Object[]> data;
@@ -112,8 +118,28 @@ public class LoadModelTest {
 	
 	private SimulinkModel model;
 	
-	private static File getFile(String fileName, String workdir) {
-		return new File( ( workdir.equals("") ? RESOURCES : workdir) + File.separator + fileName + ".slx");
+	private File file;
+	private File testoutput = new File("testOutput");
+	
+	private File getFile(String fileName, String workdir) throws IOException {
+		File original = new File( ( workdir.equals("") ? RESOURCES : workdir) + File.separator + fileName + ".slx");
+		
+		// Ensure temporary dir destination is available
+		if (!testoutput.exists()) {			
+			testoutput.mkdir();
+		}
+		// Compute temporary destination of the file
+		Path destination = testoutput.toPath().toAbsolutePath().resolve(original.getParentFile().getName()).resolve(original.getName());
+		
+		// Ensure the working directory exists
+		File parent = destination.getParent().toFile();
+		if (!parent.exists()) parent.mkdir();
+		
+		// If the original file exists, copy it to destination
+		if (readOnLoad && original.exists()) {
+			Files.copy(original.toPath(), destination);
+		}
+		return destination.toFile();
 	}
 	
 	@Rule
@@ -129,12 +155,18 @@ public class LoadModelTest {
 		
 		model = new SimulinkModel();
 
-		File file = getFile(fileName, workdir);
-		model.setFile(file);
-		
-		if (!workdir.equals("")) {			
-			model.setWorkingDir(new File(workdir));
+		try {
+			file = getFile(fileName, workdir);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			cleanup();
+			fail("Problems copying file to temp location");
 		}
+		model.setFile(file);
+		if (!workdir.equals("")) {			
+			model.setWorkingDir(file.getParentFile());
+		}
+		
 		model.setReadOnLoad(readOnLoad);
 		model.setStoredOnDisposal(storeOnDisposal);
 		//model.setOpenOnLoad(openOnLoad);
@@ -149,6 +181,7 @@ public class LoadModelTest {
 			String engine = ENGINE_JAR.path(version);
 			model.setEngineJarPath(engine);
 		} catch (Exception e) {
+			cleanup();
 			fail("Error setting MATLAB Configuration");
 		}
 		try {
@@ -161,15 +194,17 @@ public class LoadModelTest {
 			try {			
 				eolModule.parse("\"hi\".println();");
 			} catch (Exception e) {
+				cleanup();
 				fail("Parsing failed");
 			}	
 			try {
 				eolModule.getContext().getModelRepository().addModel(model);
 				eolModule.execute();
 			} catch (Exception e) {
+				cleanup();
 				fail("Couldn't go on with eol");
 			} finally {
-				eolModule = null;
+				eolModule = null;				
 			}
 			assertTrue(true);
 		} catch (Exception e) {
@@ -182,17 +217,30 @@ public class LoadModelTest {
 				
 			} catch (MatlabException e) {
 				e.printStackTrace();
+				cleanup();
 			}
 			model = null;
 		}
-		
+	}
 	
+	@After
+	public void deleteCreated() {
+		cleanup();
+	}
+
+	private void cleanup() {
+		try {
+			FileUtils.deleteDirectory(testoutput);
+			testoutput.delete();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@AfterClass
 	public static void deleteNonExisting() {
-		getFile(notExisting, RESOURCES).delete();
-		getFile(notExisting, WITH_SPACES).delete();
+		//getFile(notExisting, RESOURCES).delete();
+		//getFile(notExisting, WITH_SPACES).delete();
 	}
 	
 

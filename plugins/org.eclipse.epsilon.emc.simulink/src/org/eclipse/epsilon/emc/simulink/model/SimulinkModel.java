@@ -100,6 +100,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 					try {
 						engine.eval(LOAD_SYSTEM, file.getAbsolutePath());
 					} catch (Exception e) {
+						System.out.println("Model file does not exist. Creating new model in specified location: " + file.getAbsolutePath());
 						try {
 							engine.eval(NEW_SYSTEM, getSimulinkModelName());
 						} catch (Exception ex) {
