@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -24,8 +23,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
 
 public class ExcelWorksheet extends SpreadsheetWorksheet {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExcelWorksheet.class);
-
+	
 	protected ExcelModel model;
 	protected Sheet sheet;
 
@@ -47,15 +45,12 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 	}
 
 	private void writeHeaderRow() {
-		LOGGER.debug("Inside writeHeaderRow() method");
-		LOGGER.debug("Header columns: " + this.getHeader().getColumns());
-
+		
 		final Row row = this.sheet.createRow(this.getHeaderRowIndex());
 		final ExcelRow headerRow = new ExcelRow(this, row);
 
 		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
 			if (!StringUtil.isEmpty(column.getName())) {
-				LOGGER.debug("Writing header column with name '" + column.getName() + "'");
 				row.createCell(column.getIndex());
 				headerRow.overwriteCellValue(column, column.getName());
 			}
@@ -64,7 +59,6 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 
 	@Override
 	protected void loadHeader() {
-		LOGGER.debug("Inside loadHeader() method");
 		super.checkThatWorksheetExists();
 
 		if (this.sheet.getPhysicalNumberOfRows() > 0) {
@@ -74,7 +68,6 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 				final Cell headerCell = it.next();
 				final ExcelColumn excelColumn = new ExcelColumn(this, headerCell.getColumnIndex());
 				final String columnName = excelRow.getVisibleCellValue(excelColumn);
-				LOGGER.debug("Adding column to header; name: '" + columnName + "'");
 				super.addColumn(headerCell.getColumnIndex(), columnName);
 			}
 		}
@@ -87,7 +80,6 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 
 	@Override
 	public List<SpreadsheetRow> getRows() {
-		LOGGER.debug("Inside getRows() method");
 		final List<SpreadsheetRow> rows = new ArrayList<>();
 		final int numOfRows = this.sheet.getPhysicalNumberOfRows();
 		for (int i = this.getFirstRowIndex(); i <= numOfRows; i++) {
@@ -101,8 +93,6 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 
 	@Override
 	public SpreadsheetRow insertRow(final Map<SpreadsheetColumn, String> values) {
-		LOGGER.debug("Inside insertRow() method");
-		LOGGER.debug("Values: " + values);
 		final int newRowIndex = this.sheet.getPhysicalNumberOfRows() + 1;
 		final Row row = sheet.createRow(newRowIndex);
 		for (final Map.Entry<SpreadsheetColumn, String> entry : values.entrySet()) {
@@ -111,14 +101,11 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 		}
 
 		final ExcelRow excelRow = new ExcelRow(this, row);
-		LOGGER.debug("Created row: " + excelRow);
 		return excelRow;
 	}
 
 	@Override
 	public void removeRow(final SpreadsheetRow row) {
-		LOGGER.debug("Inside removeRow() method");
-		LOGGER.debug("Row: " + row);
 		if (row != null) {
 			final ExcelRow excelRow = (ExcelRow) row;
 			final int rowIndex = excelRow.row.getRowNum();

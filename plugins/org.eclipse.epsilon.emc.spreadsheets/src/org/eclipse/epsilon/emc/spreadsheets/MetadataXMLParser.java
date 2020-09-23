@@ -11,9 +11,8 @@ package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -27,7 +26,6 @@ import org.w3c.dom.NodeList;
  * @author Martins Francis
  */
 public class MetadataXMLParser implements ISpreadsheetMetadata {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MetadataXMLParser.class);
 	private final Document xml;
 
 	public MetadataXMLParser(final Document xml) {
@@ -63,7 +61,6 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 	private void validateWorksheetMetadata(final SpreadsheetWorksheetMetadata worksheet) {
 		if (StringUtil.isEmpty(worksheet.name)) {
 			String message = "A worksheet is missing its name in the configuration file";
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 	}
@@ -120,7 +117,6 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 	private void validateColumnMetadata(final SpreadsheetColumnMetadata columnMetadata) {
 		if (StringUtil.isEmpty(columnMetadata.index) && StringUtil.isEmpty(columnMetadata.name)) {
 			String message = "Column is missing both index and name in the configuration file";
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 	}
@@ -161,7 +157,6 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 		}
 
 		if (message != null) {
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 	}

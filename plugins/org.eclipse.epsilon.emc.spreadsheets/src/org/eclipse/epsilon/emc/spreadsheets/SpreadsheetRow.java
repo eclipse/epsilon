@@ -12,9 +12,6 @@ package org.eclipse.epsilon.emc.spreadsheets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.epsilon.common.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class represents a row of a worksheet. A row must always belong to a
@@ -23,14 +20,12 @@ import org.slf4j.LoggerFactory;
  * @author Martins Francis
  */
 public abstract class SpreadsheetRow {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetRow.class);
-
+	
 	protected SpreadsheetWorksheet worksheet;
 
 	public SpreadsheetRow(final SpreadsheetWorksheet worksheet) {
 		if (worksheet == null) {
 			final String message = "Row must belong to a worksheet";
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 		this.worksheet = worksheet;
@@ -70,13 +65,11 @@ public abstract class SpreadsheetRow {
 	protected void validateColumn(final SpreadsheetColumn column) {
 		if (column == null) {
 			final String message = "Column must not be null";
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 
 		if (column.getWorksheet() != this.worksheet) {
 			final String message = "Column is from another worksheet";
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 	}

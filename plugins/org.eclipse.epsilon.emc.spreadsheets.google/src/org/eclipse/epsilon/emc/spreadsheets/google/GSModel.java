@@ -16,9 +16,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.common.util.StringUtil;
@@ -35,10 +37,9 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
 import com.google.gdata.client.spreadsheet.SpreadsheetQuery;
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.PlainTextConstruct;
@@ -51,8 +52,7 @@ import com.google.gdata.data.spreadsheet.WorksheetEntry;
 import com.google.gdata.util.ServiceException;
 
 public class GSModel extends SpreadsheetModel {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GSModel.class);
-
+	
 	/*
 	 * Public identifiers used for receiving parameters from Epsilon Development
 	 * Tools
@@ -190,9 +190,6 @@ public class GSModel extends SpreadsheetModel {
 
 	@Override
 	protected void loadSpreadsheet() throws Exception {
-		LOGGER.debug("Loading spreadsheet '" + this.spreadsheetName + "'...");
-		LOGGER.debug("Authenticating...");
-
 		this.spreadsheetService = new SpreadsheetService("EpsilonGSModel_" + this.name);
 		this.spreadsheetService.setUserCredentials(this.username, this.password);
 
@@ -209,20 +206,15 @@ public class GSModel extends SpreadsheetModel {
 		if (spreadsheets == null || spreadsheets.isEmpty()) {
 			throw new IllegalArgumentException("Could not find spreadsheet with name '" + this.spreadsheetName + "'");
 		}
-		else if (spreadsheets.size() > 1) {
-			LOGGER.warn("Found multiple spreadsheets - selecting the first one from the list");
-		}
 		this.spreadsheetEntry = spreadsheets.get(0);
 
 		this.loadWorksheets();
 	}
 
 	private void loadWorksheets() throws Exception {
-		LOGGER.debug("Loading worksheets...");
 		final List<WorksheetEntry> worksheetEntries = this.spreadsheetEntry.getWorksheets();
 		for (final WorksheetEntry worksheetEntry : worksheetEntries) {
 			final GSWorksheet worksheet = new GSWorksheet(this, worksheetEntry, true);
-			LOGGER.debug("Loaded worksheet with name '" + worksheet.getName() + "'");
 			this.addWorksheet(worksheet);
 		}
 	}

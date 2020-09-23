@@ -79,11 +79,10 @@
 		<unit id="org.apache.poi.ooxml.schemas" version="4.1.1.v20200820-1148"/>
 		<unit id="org.apache.santuario.xmlsec" version="2.2.0.v20200818-1422"/>
 		<unit id="org.apache.xmlbeans" version="3.1.0.v20200817-1535"/>
+		<unit id="javax.xml.stream" version="1.0.1.v201004272200"/>
 		<unit id="org.jdom" version="1.1.1.v201101151400"/>
 		<unit id="org.mockito" version="2.23.0.v20200310-1642"/>
 		<unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
-		<unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
-		<unit id="org.slf4j.log4j" version="1.7.2.v20130115-1340"/>
 		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20200831200620/repository"/>
 	</location>
 </locations>

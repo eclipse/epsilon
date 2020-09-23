@@ -9,8 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets.excel.dt;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -20,8 +18,7 @@ import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.equinox.security.storage.StorageException;
 
 public class SecureExcelModel extends ExcelModel {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SecureExcelModel.class);
-
+	
 	@Override
 	public void load(final StringProperties properties, final IRelativePathResolver resolver)
 		throws EolModelLoadingException {
@@ -32,7 +29,6 @@ public class SecureExcelModel extends ExcelModel {
 			super.load(properties, resolver);
 		}
 		catch (Exception e) {
-			LOGGER.debug(e.getMessage());
 			throw new EolModelLoadingException(e, this);
 		}
 	}
@@ -48,13 +44,11 @@ public class SecureExcelModel extends ExcelModel {
 			}
 			else {
 				final String message = "Equinox Security could not find password for '" + fileName + "'";
-				LOGGER.error(message);
 				throw new RuntimeException(message);
 			}
 		}
 		else {
 			final String message = "Equinox Security was unable to create secure preferences using default location";
-			LOGGER.error(message);
 			throw new RuntimeException(message);
 		}
 	}

@@ -21,12 +21,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GSModelConfigurationDialog.class);
-
+	
 	@Override
 	protected String getModelName() {
 		return "Google Spreadsheet";
@@ -118,7 +115,6 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 			}
 			catch (StorageException e) {
 				final String message = "Unable to retrieve the password from Equinox Security vault";
-				LOGGER.error(message);
 				throw new RuntimeException(message);
 			}
 
@@ -140,7 +136,6 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 		}
 		catch (StorageException e1) {
 			final String message = "Equinox Security was unable to store the Google account password";
-			LOGGER.error(message);
 			throw new RuntimeException(message);
 		}
 

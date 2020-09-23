@@ -10,8 +10,6 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This ENUM enlists the various data types supported, namely String, Integer,
@@ -22,9 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public enum SpreadsheetDataType {
 	STRING, INTEGER, BOOLEAN, DOUBLE, FLOAT;
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetDataType.class);
-
+	
 	/**
 	 * Converts the given String representation of a data type to the corresponding
 	 * internal representation. If it cannot be converted, then
@@ -89,7 +85,6 @@ public enum SpreadsheetDataType {
 			return SpreadsheetDataType.getDefaultDTValue(dataType);
 		}
 		catch (Exception e) {
-			LOGGER.warn(e.getMessage());
 			return SpreadsheetDataType.getDefaultDTValue(dataType);
 		}
 	}

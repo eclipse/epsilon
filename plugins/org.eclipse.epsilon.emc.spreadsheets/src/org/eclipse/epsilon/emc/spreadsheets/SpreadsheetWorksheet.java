@@ -9,14 +9,19 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class represents a worksheet. Worksheets are assumed to be valid only if
@@ -28,8 +33,7 @@ import org.slf4j.LoggerFactory;
  * @author Martins Francis
  */
 public abstract class SpreadsheetWorksheet {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetWorksheet.class);
-
+	
 	protected SpreadsheetModel model;
 	protected SpreadsheetWorksheetHeader header;
 	protected boolean existsInSpreadsheet;
@@ -40,7 +44,6 @@ public abstract class SpreadsheetWorksheet {
 	public SpreadsheetWorksheet(final SpreadsheetModel model, final String name, final boolean existsInSpreadsheet) {
 		if (StringUtil.isEmpty(name)) {
 			String message = "Worksheet must have a name";
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 
@@ -273,7 +276,6 @@ public abstract class SpreadsheetWorksheet {
 			}
 			else {
 				final String message = String.format("Column id '%s' is unknown", entry.getKey());
-				LOGGER.error(message);
 				throw new IllegalArgumentException(message);
 			}
 		}
@@ -342,7 +344,6 @@ public abstract class SpreadsheetWorksheet {
 		final List<SpreadsheetRow> rows = SpreadsheetUtils.extractAllRowsFromObject(value);
 		if (rows == null || rows.isEmpty()) {
 			final String message = "At least one row must be provided when writing to a referencing cell";
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 
@@ -412,7 +413,6 @@ public abstract class SpreadsheetWorksheet {
 	 * @throws EolRuntimeException
 	 */
 	public void deleteRow(final SpreadsheetRow row) throws EolRuntimeException {
-		LOGGER.debug("Deleting row");
 		final boolean rowBelongsToThisWorksheet = row.getWorksheet() == this;
 		if (rowBelongsToThisWorksheet) {
 			Collection<? extends SpreadsheetReference> worksheetTargetRefs = this.model.getReferencesByTarget(this);
@@ -428,7 +428,6 @@ public abstract class SpreadsheetWorksheet {
 		}
 		else {
 			final String message = "Row " + row + " does not belong to worksheet " + this;
-			LOGGER.error(message);
 			throw new EolRuntimeException(message);
 		}
 	}
@@ -473,7 +472,6 @@ public abstract class SpreadsheetWorksheet {
 	protected void checkThatWorksheetExists() throws IllegalStateException {
 		if (this.getDoesNotExistInSpreadsheet()) {
 			final String message = this.getNonexistentWorksheetMessage();
-			LOGGER.error(message);
 			throw new IllegalStateException(message);
 		}
 	}

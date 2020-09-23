@@ -9,7 +9,15 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
@@ -23,8 +31,6 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.ISearchableModel;
 import org.eclipse.epsilon.eol.models.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class enables spreadsheets to be viewed as models in Epsilon.
@@ -32,8 +38,7 @@ import org.slf4j.LoggerFactory;
  * @author Martins Francis
  */
 public abstract class SpreadsheetModel extends Model implements ISearchableModel {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetModel.class);
-
+	
 	protected List<SpreadsheetWorksheet> worksheets;
 	protected List<SpreadsheetReference> references;
 	protected boolean isLoaded;
@@ -61,17 +66,11 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 * @param worksheet
 	 */
 	public void addWorksheet(final SpreadsheetWorksheet worksheet) {
-		LOGGER.debug("Inside addWorksheet() method");
-		LOGGER.debug("Worksheet: " + worksheet);
-
 		if (worksheet != null) {
 			if (worksheet.getModel() == this) {
 				final boolean ignoreWorksheet = worksheet.getName()
 					.startsWith(SpreadsheetConstants.WORKSHEET_IGNORE_CHARS);
-				if (ignoreWorksheet) {
-					LOGGER.warn("\t(!) Ignoring worksheet '" + worksheet.getName() + "'");
-				}
-				else {
+				if (!ignoreWorksheet) {
 					this.worksheets.add(worksheet);
 				}
 			}
@@ -98,14 +97,9 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 
 	@Override
 	public void load() throws EolModelLoadingException {
-		LOGGER.debug("Inside load() method");
 		try {
 			this.loadSpreadsheet();
 			this.loadConfigurationFile();
-
-			LOGGER.debug("Spreadsheet Model '" + this.name + "' has been loaded");
-			LOGGER.debug("Worksheets: " + this.getWorksheets().size());
-			LOGGER.debug("References: " + this.getReferences().size());
 		}
 		catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
@@ -142,18 +136,15 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 * The purpose of this method is to load the configuration file
 	 */
 	protected void loadConfigurationFile() throws Exception {
-		LOGGER.debug("Inside loadConfigurationFile() method");
 		if (this.isMetadataConfigurationDefined()) {
 			final ISpreadsheetMetadata metadata = this.getSpreadsheetMetadata();
 			for (final SpreadsheetWorksheetMetadata worksheet : metadata.getWorksheetMetadata()) {
 				this.loadWorksheetFromConfigurationFile(metadata, worksheet);
 			}
-			LOGGER.debug("WORKSHEETS: " + this.getWorksheets());
-
+			
 			for (SpreadsheetReferenceMetadata reference : metadata.getReferenceMetadata()) {
 				this.loadReferenceFromConfigurationFile(reference);
 			}
-			LOGGER.debug("REFERENCES: " + this.getReferences());
 		}
 	}
 
@@ -164,8 +155,6 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 
 	protected void loadWorksheetFromConfigurationFile(final ISpreadsheetMetadata metadata,
 		final SpreadsheetWorksheetMetadata worksheetMetadata) throws Exception {
-		LOGGER.debug("Inside loadWorksheetFromConfigurationFile() method");
-		LOGGER.debug("Loading worksheet '" + worksheetMetadata.getName() + "'...");
 		SpreadsheetWorksheet worksheet = this.getWorksheetByType(worksheetMetadata.getName());
 		boolean createWorksheetInSpreadsheet = false;
 		if (worksheet == null) {
@@ -176,8 +165,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 			else {
 				createWorksheetInSpreadsheet = SpreadsheetConstants.DEFAULT_WORKSHEET_CREATE_ON_LOAD;
 			}
-			LOGGER.debug("Create worksheet? " + createWorksheetInSpreadsheet);
-
+			
 			worksheet = this.createWorksheet(worksheetMetadata);
 			this.addWorksheet(worksheet);
 		}
@@ -199,15 +187,12 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 		throws Exception;
 
 	protected void loadColumnsFromMetadata(final ISpreadsheetMetadata metadata, final SpreadsheetWorksheet worksheet) {
-		LOGGER.debug("Inside loadColumnsFromConfigurationFile() method");
-		LOGGER.debug("Worksheet name: '" + worksheet.getName() + "'");
 		for (final SpreadsheetColumnMetadata column : metadata.getColumnMetadata(worksheet.getName())) {
 			worksheet.addColumn(column);
 		}
 	}
 
 	protected void loadReferenceFromConfigurationFile(final SpreadsheetReferenceMetadata referenceMetadata) {
-		LOGGER.debug("Inside loadReferenceFromConfigurationFile() method");
 		final SpreadsheetReference reference = new SpreadsheetReference(this, referenceMetadata);
 		this.addReference(reference);
 	}
@@ -227,9 +212,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 			try {
 				rows.addAll(this.getAllOfType(worksheet.getName()));
 			}
-			catch (EolModelElementTypeNotFoundException e) {
-				LOGGER.error("Failed getting rows from worksheet '" + worksheet.getName() + "': " + e);
-			}
+			catch (EolModelElementTypeNotFoundException e) {}
 		}
 		return rows;
 	}
@@ -239,12 +222,8 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 */
 	@Override
 	public List<SpreadsheetRow> getAllOfType(final String type) throws EolModelElementTypeNotFoundException {
-		LOGGER.debug("Inside getAllOfType() method");
-		LOGGER.debug("Type: " + type);
-
 		final SpreadsheetWorksheet worksheet = this.getWorksheetByType(type);
 		if (worksheet == null) {
-			LOGGER.error("Unknown worksheet '" + type + "'");
 			throw new EolModelElementTypeNotFoundException(this.name, type);
 		}
 		else {

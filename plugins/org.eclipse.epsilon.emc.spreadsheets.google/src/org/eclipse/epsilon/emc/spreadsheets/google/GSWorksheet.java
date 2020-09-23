@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
@@ -25,8 +26,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import com.google.gdata.data.spreadsheet.CellEntry;
 import com.google.gdata.data.spreadsheet.CellFeed;
 import com.google.gdata.data.spreadsheet.ListEntry;
@@ -35,8 +35,6 @@ import com.google.gdata.data.spreadsheet.WorksheetEntry;
 import com.google.gdata.util.ServiceException;
 
 public class GSWorksheet extends SpreadsheetWorksheet {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GSWorksheet.class);
-
 	private GSModel model;
 	private WorksheetEntry worksheetEntry;
 	private ListFeed listFeed;
@@ -89,7 +87,6 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 				for (final CellEntry headerCell : headerRow.getEntries()) {
 					final String name = headerCell.getCell().getValue();
 					if (!StringUtil.isEmpty(name)) {
-						LOGGER.debug("Adding column with name: '" + name + "' to the header");
 						int i = headerCell.getCell().getCol();
 						super.addColumn(i - getColumnOffset(), name);
 						this.headerInWorksheetIsEmpty = false;
@@ -118,7 +115,6 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 
 	private void writeValueInFirstCellIfHeaderIsEmpty() throws Exception {
 		if (this.headerInWorksheetIsEmpty) {
-			LOGGER.debug("Header is empty.. writing default value to first cell");
 			this.writeHeaderCell(1, GSConstants.DEFAULT_COLUMN_VALUE);
 			super.addColumn(0, GSConstants.DEFAULT_COLUMN_VALUE);
 			this.headerInWorksheetIsEmpty = false;
@@ -157,7 +153,6 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 
 	@Override
 	public List<SpreadsheetRow> getRows() {
-		LOGGER.debug("*** Reading Rows");
 		this.checkThatWorksheetExists();
 		if (this.rows == null) {
 			try {
@@ -178,7 +173,6 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 
 	@Override
 	protected SpreadsheetRow insertRow(final Map<SpreadsheetColumn, String> values) {
-		LOGGER.debug("*** Inserting Row: " + values);
 		this.checkThatWorksheetExists();
 		try {
 			ListEntry listEntry = new ListEntry();
@@ -202,7 +196,6 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 
 	@Override
 	public void removeRow(final SpreadsheetRow row) {
-		LOGGER.debug("*** Removing Row");
 		this.checkThatWorksheetExists();
 		try {
 			final int rowIndex = new ArrayList<>(this.rows).indexOf(row);
@@ -266,7 +259,6 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 	protected void createInSpreadsheet() {
 		try {
 			if (!super.existsInSpreadsheet) {
-				LOGGER.debug("Creating worksheet '" + this.worksheetEntry.getTitle().getPlainText() + "'");
 				this.worksheetEntry = this.model.insertWorksheet(this.worksheetEntry);
 				super.existsInSpreadsheet = true;
 				this.writeHeader();
@@ -297,8 +289,6 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 			return;
 		}
 
-		LOGGER.debug("Loading Google ids for '" + this.getName() + "'... ");
-
 		try {
 			this.hasGoogleIdsSet = true;
 			final int maxColIndex = this.getHeader().getColumns().last().getIndex() + this.getColumnOffset();
@@ -308,9 +298,6 @@ public class GSWorksheet extends SpreadsheetWorksheet {
 			final GSRow temporaryRow = this.loadGoogleColumnIds(rowIndex, maxColIndex);
 			this.rows.add(temporaryRow);
 			this.removeRow(temporaryRow);
-
-			LOGGER.debug("<< done");
-			LOGGER.debug(this.toString());
 		}
 		catch (Exception e) {
 			e.printStackTrace();

@@ -8,8 +8,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets.excel.dt;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel;
@@ -24,8 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDialog {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExcelModelConfigurationDialog.class);
-
+	
 	@Override
 	protected String getModelName() {
 		return "Microsoft Excel Spreadsheet";
@@ -117,7 +114,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 			}
 			catch (StorageException e) {
 				final String message = "Unable to retrieve the password from Equinox Security vault";
-				LOGGER.error(message);
+				//LOGGER.error(message);
 				throw new RuntimeException(message);
 			}
 		}
@@ -137,7 +134,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 		}
 		catch (StorageException e) {
 			final String message = "Equinox Security was unable to store the Microsoft Excel File password";
-			LOGGER.error(message);
+			//LOGGER.error(message);
 			throw new RuntimeException(message);
 		}
 	}

@@ -16,12 +16,9 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.equinox.security.storage.StorageException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SecureGSModel extends GSModel {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SecureGSModel.class);
-
+	
 	@Override
 	public void load(final StringProperties properties, final IRelativePathResolver resolver)
 		throws EolModelLoadingException {
@@ -29,7 +26,6 @@ public class SecureGSModel extends GSModel {
 			final String password = this.loadPassword(properties);
 			if (password == null) {
 				final String message = "Password may not be null";
-				LOGGER.error(message);
 				throw new Exception(message);
 			}
 
@@ -38,7 +34,6 @@ public class SecureGSModel extends GSModel {
 			super.load(properties, resolver);
 		}
 		catch (Exception e) {
-			LOGGER.debug(e.getMessage());
 			throw new EolModelLoadingException(e, this);
 		}
 	}
@@ -54,13 +49,11 @@ public class SecureGSModel extends GSModel {
 			}
 			else {
 				final String message = "Equinox Security could not find Google account password for '" + username + "'";
-				LOGGER.error(message);
 				throw new RuntimeException(message);
 			}
 		}
 		else {
 			final String message = "Equinox Security was unable to create secure preferences using default location";
-			LOGGER.error(message);
 			throw new RuntimeException(message);
 		}
 	}

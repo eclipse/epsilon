@@ -10,9 +10,8 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.Objects;
+
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class represents a column of a worksheet. Each column must belong to a
@@ -22,8 +21,7 @@ import org.slf4j.LoggerFactory;
  * @author Martins Francis
  */
 public abstract class SpreadsheetColumn {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetColumn.class);
-
+	
 	protected SpreadsheetWorksheet worksheet;
 	protected int index;
 	protected String name;
@@ -62,7 +60,6 @@ public abstract class SpreadsheetColumn {
 		}
 
 		if (message != null) {
-			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 	}
