@@ -14,12 +14,15 @@ import java.util.List;
 
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class EglTemplate extends DynamicTemplate {
+
+	protected EglTemplateFactoryModuleAdapter module;
 
 	public EglTemplate(Element element, FlexmiResource resource, URI uri) {
 		super(element, resource, uri);
@@ -28,15 +31,26 @@ public class EglTemplate extends DynamicTemplate {
 	@Override
 	public List<Element> getApplication(Element call) {
 		try {
-			EglTemplateFactoryModuleAdapter module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
-			module.parse(content.getTextContent().trim(), uri);
-			if (!module.getParseProblems().isEmpty()) throw new RuntimeException(module.getParseProblems().get(0).toString());
-			
+			if (module == null) {
+				module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
+				module.parse(content.getTextContent().trim(), uri);
+				if (!module.getParseProblems().isEmpty())
+					throw new RuntimeException(module.getParseProblems().get(0).toString());
+			}
+
+			module.getContext().getFrameStack().enterLocal(FrameType.UNPROTECTED, module);
+
 			prepareModule(module, call);
 			
 			String xml = "<?xml version=\"1.0\"?><root>" + (module.execute() + "").trim() + "</root>";
 			Document document = Xml.parse(xml);
 			replaceSlots(call, document.getDocumentElement());
+
+			module.getContext().getFrameStack().leaveLocal(module);
+
+			// reset for next template application
+			module.getCurrentTemplate().reset();
+
 			return Xml.getChildren(document.getDocumentElement());
 			
 		} catch (Exception e) {
