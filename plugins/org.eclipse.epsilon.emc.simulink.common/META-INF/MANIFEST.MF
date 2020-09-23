@@ -8,7 +8,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.slf4j.api;visibility:=reexport,
  org.eclipse.epsilon.common,
- org.apache.commons.collections;visibility:=reexport
+ org.apache.commons.collections;visibility:=reexport,
+ org.eclipse.epsilon.profiling;visibility:=reexport
 Export-Package: org.eclipse.epsilon.emc.simulink.engine,
  org.eclipse.epsilon.emc.simulink.exception,
  org.eclipse.epsilon.emc.simulink.introspection.java,

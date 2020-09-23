@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.test.perform;
 
-import static org.eclipse.epsilon.emc.simulink.common.test.MatlabEngineSetupEnum.ENGINE_JAR;
-import static org.eclipse.epsilon.emc.simulink.common.test.MatlabEngineSetupEnum.LIBRARY_PATH;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -29,13 +27,11 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.epsilon.emc.simulink.common.test.AssumeMatlabInstalled;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -53,21 +49,17 @@ public class PerformanceExperiment {
 	protected SimulinkModel model;
 	protected EolModule eolModule;
 	protected Long duration;
+	protected Long comms;
+
 	
 	/** SETUP */
-	protected static int maxModels = 3;
+	protected static int maxModels = 4;
 	protected static int totalQueries = 8; 
 	protected static int maxIterations = 20;
 	protected static int warmupIterations = 5; 
-	
-	@ClassRule
-	public static AssumeMatlabInstalled installation = new AssumeMatlabInstalled();
-	
+		
 	@BeforeClass
 	public static void setup() throws Exception{
-		String version = installation.getVersion();
-		path = LIBRARY_PATH.path(version);
-		engine = ENGINE_JAR.path(version);
 		String pattern = "yyyy-MM-dd-hh:mm:ss";
 		String dateOfExperiment = new SimpleDateFormat(pattern).format(new Date());
 		resultsFile = root.resolve("results").resolve(String.format("results-%s.csv", dateOfExperiment)).toFile();
@@ -109,7 +101,7 @@ public class PerformanceExperiment {
 	public Integer iteration;
 	
 	protected static String[] getHeaders() {
-		return Arrays.asList("queryId", "modelId", "optimisation", "iteration", "duration(nanosec)","elements").toArray(new String[0]);
+		return Arrays.asList("queryId", "modelId", "optimisation", "iteration", "duration(nanosec)","comms(nanosec)", "elements").toArray(new String[0]);
 	}
 	
 	@Rule
@@ -121,8 +113,10 @@ public class PerformanceExperiment {
 		
 		/** Prepare */
 		loadModel();
+		model.getEngine().resetTimer();
 		parseAndPopulateScript();
 
+		System.out.println("Executing");
 		/** Start timer */
 		duration = System.nanoTime();
 	}
@@ -131,13 +125,15 @@ public class PerformanceExperiment {
 	public void deleteNonExisting() throws IOException {
 		/** Stop timer */
 		duration = System.nanoTime() - duration;
-		
+		/** API communication cost */
+		comms = model.getEngine().getStopWatch().getElapsed(TimeUnit.NANOSECONDS);
+		//System.out.println(model.getEngine().getStream().toString());
 		/** Results */
 		if (iteration >= 0) {			
 			int elements = ((Double) Math.pow(4, modelId)).intValue();
-			writeResults(resultsFile, queryId, modelId, optimisation, iteration, duration, elements);
+			writeResults(resultsFile, queryId, modelId, optimisation, iteration, duration, comms, elements);
 		}
-		
+		System.out.println("Done with execution, disposing");
 		/** Dispose */
 		dispose();
 	}
@@ -146,7 +142,6 @@ public class PerformanceExperiment {
 	public void execution() {
 		try {
 			eolModule.execute();
-			TimeUnit.MILLISECONDS.sleep(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -159,25 +154,34 @@ public class PerformanceExperiment {
 	
 	protected void loadModel() throws Exception{
 		model = new SimulinkModel();
+		model.setName("M");
 
-		model.setFile(getModel(modelId));
+		File file = getModel(modelId);
+		model.setFile(file);
+		model.setWorkingDir(file.getParentFile());
 		
 		model.setReadOnLoad(true);
 		model.setStoredOnDisposal(false);
 		model.setOpenOnLoad(false);
 		model.setCloseOnDispose(true);
 		model.setCachingEnabled(false);
-		
-		model.setName("M");
-		model.setLibraryPath(path);
-		model.setEngineJarPath(engine);
-		
+		model.setTrackApi(true);
+		model.setEnableTryCatch(false);
+			
 		model.setFindOptimisationEnabled(optimisation);
 		model.setFollowLinks(false);
 		model.setIncludeCommented(false);
 		model.setLookUnderMasks("none");
-		
-		model.load();
+		model.setConcurrent(false);
+
+		try {			
+			System.out.println("Loading Model");
+			model.load();
+			System.out.println("Done loading");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 	protected void parseAndPopulateScript() throws Exception {
@@ -192,7 +196,7 @@ public class PerformanceExperiment {
 	}
 	
 	protected File getModel(Integer id){
-		return root.resolve("models").resolve(String.format("Model%s.slx", id)).toFile();
+		return root.resolve("models").resolve(String.format("Model%s.slx", id)).toFile().getAbsoluteFile();
 	}
 	
 	protected String getScript(Integer id) throws IOException {

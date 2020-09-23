@@ -35,6 +35,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelElement> implements IGenericSimulinkModel {
 
@@ -52,6 +53,8 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public static final String PROPERTY_ENABLE_TRY_CATCH = "tryCatch";
 	public static final String PROPERTY_CURRENT_SIMULINK_PROJECT= "use_current_project";
 	public static final String PROPERTY_ENGINE_POOL_SIZE = "engine_max_pool_size";
+	public static final String PROPERTY_TRACK_API = "track_API";
+
 	public static final String ENV_MATLAB_PATH = ENV_PREFIX + PROPERTY_MATLAB_PATH;
 	public static final String ENV_LIBRARY_PATH = ENV_PREFIX + PROPERTY_LIBRARY_PATH;
 	public static final String ENV_ENGINE_JAR_PATH = ENV_PREFIX + PROPERTY_ENGINE_JAR_PATH;
@@ -67,9 +70,10 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected boolean useCurrentProject = false;
 	protected boolean openOnLoad = false;
 	protected boolean closeOnDispose = false;
-	protected boolean enableTryCatch = false;
+	protected boolean enableTryCatch = true;
 	protected Integer enginePoolSize = 2;
-	
+	boolean trackApi = false;
+
 	protected File workingDir = null;
 	protected List<String> paths = new ArrayList<>();
 
@@ -85,6 +89,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			
 			if (isUseCurrentProject()) {
 				engine = MatlabEnginePool.getInstance().getEngineForProject("current");
+				engine.trackApi(trackApi);
 				engine.enableTryCatch(isEnableTryCatch());
 				engine.addModel(this);
 			} else {
@@ -99,6 +104,8 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			}
 			if (engine == null) {				
 				engine = MatlabEnginePool.getInstance().getMatlabEngine();
+				engine.enableTryCatch(isEnableTryCatch());
+				engine.trackApi(trackApi);
 			}
 			if (!isUseCurrentProject() && getProject() == null) {
 				if ((getWorkingDir() != null && getWorkingDir().exists())) {
@@ -201,6 +208,16 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	@Override
 	public void setMatlabPath(String matlabPath) {
 		this.matlabPath = matlabPath;
+	}
+	
+	@Override
+	public void setTrackApi(boolean track){
+		this.trackApi = track;
+	}
+	
+	@Override
+	public boolean isTrackApi() {
+		return trackApi;
 	}
 	
 	/*

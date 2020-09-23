@@ -9,43 +9,47 @@
  ******************************************************************************/
 package org.eclipse.epsilon.profiling;
 
+import java.util.concurrent.TimeUnit;
+
 public class Stopwatch {
 	
-	protected long lastPauseTime, startTime, pauseDuration;
+	protected long lastPauseTime;
+	protected long startTime;
+	protected long pauseDuration;
 	protected boolean paused;
 	
 	public Stopwatch() {
-		startTime = System.currentTimeMillis();
+		startTime = System.nanoTime();
 		paused = false;
 		pause();
 	}
 	
 	public synchronized void pause() {
 		if (!paused) {
-			lastPauseTime = System.currentTimeMillis();
+			lastPauseTime = System.nanoTime();
 			paused = true;
 		}
-		//else {
-		//	throw new IllegalStateException("The stopwatch is already paused");
-		//}
 	}
 	
 	public synchronized void resume() {
 		if (paused) {
-			pauseDuration += System.currentTimeMillis() - lastPauseTime;
+			pauseDuration += System.nanoTime() - lastPauseTime;
 			paused = false;
 		}
-		//else {
-		//	throw new IllegalStateException("The stopwatch is not paused");
-		//}
 	}
 	
 	public long getElapsed() {
+		return getElapsed(TimeUnit.MILLISECONDS);
+	}
+	
+	public long getElapsed(TimeUnit unit) {
+		long time;
 		if (paused) {
-			return lastPauseTime - pauseDuration - startTime;
+			time = lastPauseTime - pauseDuration - startTime;
 		}
 		else {
-			return System.currentTimeMillis() - pauseDuration - startTime;
+			time = System.nanoTime() - pauseDuration - startTime;
 		}
+		return TimeUnit.NANOSECONDS.convert(time, unit);
 	}
 }

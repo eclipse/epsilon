@@ -73,4 +73,8 @@ public interface IGenericSimulinkModel extends IModel {
 
 	Boolean isOpenOnLoad();
 
+	void setTrackApi(boolean track);
+
+	boolean isTrackApi();
+
 }
