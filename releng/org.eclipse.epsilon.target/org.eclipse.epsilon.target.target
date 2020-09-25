@@ -76,9 +76,9 @@
 		<unit id="org.apache.logging.log4j" version="2.8.2.v20200818-1118"/>
 		<unit id="org.apache.poi" version="4.1.1.v20200604-1524"/>
 		<unit id="org.apache.poi.ooxml" version="4.1.1.v20200820-1148"/>
-		<unit id="org.apache.poi.ooxml.schemas" version="4.1.1.v20200820-1148"/>
+		<unit id="org.apache.poi.ooxml.schemas" version="4.1.1.v20200922-2105"/>
 		<unit id="org.apache.santuario.xmlsec" version="2.2.0.v20200818-1422"/>
-		<unit id="org.apache.xmlbeans" version="3.1.0.v20200817-1535"/>
+		<unit id="org.apache.xmlbeans" version="3.1.0.v20200922-1359"/>
 		<unit id="javax.xml.stream" version="1.0.1.v201004272200"/>
 		<unit id="org.jdom" version="1.1.1.v201101151400"/>
 		<unit id="org.mockito" version="2.23.0.v20200310-1642"/>
