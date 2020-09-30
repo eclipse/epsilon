@@ -50,6 +50,6 @@ public class Stopwatch {
 		else {
 			time = System.nanoTime() - pauseDuration - startTime;
 		}
-		return TimeUnit.NANOSECONDS.convert(time, unit);
+		return unit.convert(time, TimeUnit.NANOSECONDS);
 	}
 }
