@@ -83,7 +83,7 @@
 		<unit id="org.jdom" version="1.1.1.v201101151400"/>
 		<unit id="org.mockito" version="2.23.0.v20200310-1642"/>
 		<unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
-		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20200924225421/repository"/>
+		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20201001115532/repository"/>
 	</location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
