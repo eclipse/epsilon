@@ -476,7 +476,7 @@
       <repository
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
-          url="http://download.eclipse.org/tools/orbit/downloads/drops/I20201001115532/repository"/>
+          url="http://download.eclipse.org/tools/orbit/downloads/drops/S20201005193535/repository"/>
       <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
     </setupTask>
