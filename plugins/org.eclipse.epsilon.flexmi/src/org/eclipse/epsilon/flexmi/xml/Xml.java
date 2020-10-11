@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.xml;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,7 +114,7 @@ public class Xml {
 		document.setStrictErrorChecking(false);
 		SAXParser saxParser = saxParserFactory.newSAXParser();
 		XMLReader xmlReader = saxParser.getXMLReader();
-		transformer.transform(new SAXSource(new LocationRecorder(xmlReader,document), new InputSource(new StringInputStream(xml))), new DOMResult(document));
+		transformer.transform(new SAXSource(new LocationRecorder(xmlReader,document), new InputSource(new ByteArrayInputStream(xml.getBytes()))), new DOMResult(document));
 		return document;
 	}
 	

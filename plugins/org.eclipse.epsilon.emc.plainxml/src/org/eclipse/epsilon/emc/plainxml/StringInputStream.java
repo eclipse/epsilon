@@ -18,7 +18,7 @@ public class StringInputStream extends InputStream {
     protected int    charOffset = 0;
     protected int    available;
     protected String str;
-
+    
     public StringInputStream(String s) {
         str       = s;
         available = s.length() * 2;
