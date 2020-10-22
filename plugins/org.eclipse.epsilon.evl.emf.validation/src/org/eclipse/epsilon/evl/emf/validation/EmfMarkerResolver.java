@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -82,15 +83,16 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 		}		
 	}
 	
-	protected String getElementResourceLocation(IMarker marker) {		
-		final String location = getAbsoluteElementId(marker).split("#")[0];
+    protected String getElementResourceLocation(IMarker marker) {
+           final String location = getAbsoluteElementId(marker).split("#")[0];
 
-		if (location.startsWith("platform:/resource")) {
-			return location.split("platform:/resource")[1];
-		} else {
-			return location;
-		}
-	}
+           URI uri = URI.createURI(location);     
+           if (uri.isPlatform()) {
+                  return uri.toPlatformString(true);
+           } else {
+                  return location;
+           }
+    }
 	
 	public String getRelativeElementId(IMarker marker) {
 		String[] parts = getAbsoluteElementId(marker).split("#");
