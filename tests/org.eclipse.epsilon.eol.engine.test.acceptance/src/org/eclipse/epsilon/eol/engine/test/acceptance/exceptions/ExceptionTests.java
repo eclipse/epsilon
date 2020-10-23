@@ -124,7 +124,7 @@ public class ExceptionTests {
 		}
 		catch (EolUndefinedVariableException eox) {
 			assertEquals("bar", eox.getVariableName());
-			assertEquals(1, countLinesInEOLStackTrace(eox));	// FIXME TODO This shouldn't be 1
+			assertEquals(9, countLinesInEOLStackTrace(eox));
 		}
 	}
 }
