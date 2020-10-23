@@ -7,9 +7,10 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.eol.engine.test.acceptance;
+package org.eclipse.epsilon.eol.engine.test.acceptance.exceptions;
 
 import static org.junit.Assert.*;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.*;
 import org.eclipse.epsilon.eol.exceptions.EolNullPointerException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -110,6 +111,20 @@ public class ExceptionTests {
 		}
 		catch (EolNullPointerException eox) {
 			assertEquals(7, countLinesInEOLStackTrace(eox));
+		}
+	}
+	
+	@Test
+	public void testStackTraceOnImportedModule() throws Exception {
+		FileUtil.getFileStandalone("b.eol", ExceptionTests.class);
+		module.parse(FileUtil.getFileStandalone("a.eol", ExceptionTests.class));
+		try {
+			module.execute();
+			fail("Expected "+EolUndefinedVariableException.class.getSimpleName());
+		}
+		catch (EolUndefinedVariableException eox) {
+			assertEquals("bar", eox.getVariableName());
+			assertEquals(1, countLinesInEOLStackTrace(eox));	// FIXME TODO This shouldn't be 1
 		}
 	}
 }

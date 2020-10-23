@@ -16,6 +16,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 import org.eclipse.epsilon.eol.engine.test.acceptance.dom.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.equalityStatement.*;
+import org.eclipse.epsilon.eol.engine.test.acceptance.exceptions.ExceptionTests;
 import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.lambda.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.nested.*;
