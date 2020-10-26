@@ -76,7 +76,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	protected ModelOperationContributor simulinkOperationContributor;
 
 	protected boolean useCurrentSimulinkModel = false;
-	protected boolean findOptimisationEnabled = false;
+	protected boolean findOptimisationEnabled = true;
 	@Deprecated
 	protected boolean showInMatlabEditor = false;
 	protected double handle = -1;
