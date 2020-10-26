@@ -38,6 +38,7 @@ public class MatlabEngineTests {
 	public void testEvalNoCommandEnd() {
 		try {
 			engine.eval("a = 2 + 2");
+			engine.flush();
 			assertEquals(4.0, engine.getVariable("a"));
 		}catch (MatlabException e) {
 			fail(e.getMessage());
@@ -48,6 +49,7 @@ public class MatlabEngineTests {
 	public void testEvalSemiColonEnd() {
 		try {
 			engine.eval("b = 2 + 2;");
+			engine.flush();
 			assertEquals(4.0, engine.getVariable("b"));
 		} catch (MatlabException e) {
 			fail(e.getMessage());
@@ -58,6 +60,7 @@ public class MatlabEngineTests {
 	public void testEvalLineBreak() {
 		try {
 			engine.eval("c = 2 + 2\n");
+			engine.flush();
 			assertEquals(4.0, engine.getVariable("c"));
 		} catch (MatlabException e) {
 			fail(e.getMessage());
@@ -68,6 +71,7 @@ public class MatlabEngineTests {
 	public void testRuntimeException() {
 		try {
 			engine.eval("d  2 + 2");
+			engine.flush();
 			fail("did not crash");
 		} catch (MatlabException e) {
 			assertTrue(true);

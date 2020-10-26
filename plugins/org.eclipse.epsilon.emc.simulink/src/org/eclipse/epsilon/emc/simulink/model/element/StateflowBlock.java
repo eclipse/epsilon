@@ -298,6 +298,7 @@ public class StateflowBlock extends SimulinkModelElement {
 	public boolean deleteElementInModel() throws EolRuntimeException { 
 		try {
 			engine.eval(DELETE_SF, StateflowUtil.getBlockHandle(this));
+			engine.flush();
 			return true;
 		} catch (MatlabException e) {
 			return false;

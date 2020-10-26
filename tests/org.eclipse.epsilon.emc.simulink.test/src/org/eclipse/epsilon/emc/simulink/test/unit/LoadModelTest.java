@@ -214,7 +214,7 @@ public class LoadModelTest {
 			model.dispose();
 			try {
 				model.getEngine().eval("close_system('?')", model.getSimulinkModelName());
-				
+				model.getEngine().flush();
 			} catch (MatlabException e) {
 				e.printStackTrace();
 				cleanup();

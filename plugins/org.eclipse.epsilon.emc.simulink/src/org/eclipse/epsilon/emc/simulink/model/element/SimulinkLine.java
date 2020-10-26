@@ -75,6 +75,7 @@ public class SimulinkLine extends SimulinkElement {
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		try {
 			engine.eval(DELETE_LINE, getHandle());
+			engine.flush();
 			return true;
 		} catch (MatlabException e) {
 			return false;

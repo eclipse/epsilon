@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
@@ -44,8 +45,6 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public static final String PROPERTY_MATLAB_PATH = "matlab_path";
 	public static final String PROPERTY_LIBRARY_PATH = "library_path";
 	public static final String PROPERTY_ENGINE_JAR_PATH = "engine_jar_path";
-	//public static final String PROPERTY_MUST_CONNECT = "must_connect";
-	//public static final String PROPERTY_ENGINE_SHARED_SESSION_NAME = "engine_session_to_connect_to";
 	public static final String PROPERTY_SIMULINK_PROJECT= "project";
 	public static final String PROPERTY_OPEN_ON_LOAD= "openOnLoad";
 	public static final String PROPERTY_CLOSE_ON_DISPOSE = "closeOnDispose";
@@ -63,8 +62,6 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected String libraryPath;
 	protected String engineJarPath;
 	protected MatlabEngine engine;
-	//protected Boolean mustConnect = false;
-	//protected String engineSharedSessionName = "";
 	protected File simulinkProject;
 	protected boolean useCurrentProject = false;
 	protected boolean openOnLoad = false;
@@ -79,6 +76,16 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public AbstractSimulinkModel() {
 		propertyGetter = new SimulinkPropertyGetter();
 		propertySetter = new SimulinkPropertySetter();
+	}
+	
+	public void flush() throws EolRuntimeException {
+		if (engine != null) {
+			try {				
+				engine.flush();
+			} catch (Exception e) {
+				throw new EolRuntimeException(e);
+			}
+		}
 	}
 	
 	@Override
@@ -110,6 +117,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 				if ((getWorkingDir() != null && getWorkingDir().exists())) {
 					try {
 						engine.eval("cd '?';", getWorkingDir());
+						engine.flush();
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}

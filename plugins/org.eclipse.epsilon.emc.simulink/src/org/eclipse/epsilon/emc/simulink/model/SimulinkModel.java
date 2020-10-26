@@ -99,6 +99,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 					//String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
 					try {
 						engine.eval(LOAD_SYSTEM, file.getAbsolutePath());
+						engine.flush();
 					} catch (Exception e) {
 						System.out.println("Model file does not exist. Creating new model in specified location: " + file.getAbsolutePath());
 						try {
@@ -117,6 +118,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 				if (isOpenOnLoad()) {
 					try {						
 						engine.eval(OPEN_SYSTEM, getSimulinkModelName());
+						engine.flush();
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
@@ -133,6 +135,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	protected void closeMatlabModel() {
 		try {			
 			engine.eval("bdclose('?');", getSimulinkModelName());
+			engine.flush();
 		} catch (Exception e) {
 			System.err.println("Unable to close model");
 		}
@@ -344,6 +347,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	public boolean store(String location) {
 		try {
 			engine.eval(SAVE_SYSTEM, getSimulinkModelName(), location);
+			engine.flush();
 			return true;
 		} catch (Exception e) {
 			return false;

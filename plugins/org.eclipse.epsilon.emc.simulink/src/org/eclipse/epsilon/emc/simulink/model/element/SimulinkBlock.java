@@ -102,6 +102,7 @@ public class SimulinkBlock extends SimulinkElement {
 	public SimulinkModelElement inspect() throws EolRuntimeException {
 		try {
 			engine.eval(INSPECT_HANDLE, handle);
+			engine.flush();
 			return this;
 		} catch (MatlabException e) {
 			throw e.toEolRuntimeException();
@@ -112,6 +113,7 @@ public class SimulinkBlock extends SimulinkElement {
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		try {
 			engine.eval(DELETE_BLOCK, getHandle());
+			engine.flush();
 			return true;
 		} catch (MatlabException e) {
 			throw e.toEolRuntimeException();
@@ -124,6 +126,7 @@ public class SimulinkBlock extends SimulinkElement {
 		try {
 			engine.eval("sf = sfroot();" + "block = sf.find('Path','?','-isa','Stateflow.EMChart');"
 					+ "block.Script = sprintf('?');", getPath(), script);
+			engine.flush();
 		} catch (MatlabException e) {
 			throw e.toEolRuntimeException();
 		}
@@ -179,6 +182,7 @@ public class SimulinkBlock extends SimulinkElement {
 		try {
 			engine.eval(command, getHandle(), other.getHandle(), create ? CREATE : DELETE, getParentPath(), outPort,
 					inPort);
+			engine.flush();
 		} catch (MatlabException ex) {
 			throw ex.toEolRuntimeException();
 		}
