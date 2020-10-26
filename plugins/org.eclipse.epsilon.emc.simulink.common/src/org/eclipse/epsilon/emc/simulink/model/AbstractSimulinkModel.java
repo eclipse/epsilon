@@ -20,7 +20,6 @@ import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
-import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertyGetter;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
@@ -140,8 +139,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			closeMatlabModel();
 		}
 		try {
+			engine.flush();
 			engine.release(this);
-		} catch (MatlabRuntimeException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

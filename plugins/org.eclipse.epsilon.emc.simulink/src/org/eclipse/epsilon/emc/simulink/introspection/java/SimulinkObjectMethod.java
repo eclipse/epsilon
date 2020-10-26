@@ -54,7 +54,7 @@ public class SimulinkObjectMethod extends ObjectMethod {
 					return new EolRuntimeException(e.getMessage());
 				}
 			} else {
-				return new EolRuntimeException(e.getMessage());
+				return null;
 			}
 		}
 	}
