@@ -1,6 +1,6 @@
 @test
 operation testAdd() {
-	assertEquals(1+1, 2);
+	assertEquals(1 + 1, 2);
 }
 
 @test
@@ -25,7 +25,7 @@ operation equalRealNumbers() {
 
 @test
 operation testAddNegative() {
-	assertEquals(1+(-2), -1);
+	assertEquals(1 + (-2), -1);
 }
 
 @test
@@ -45,37 +45,37 @@ operation testFloatEqualsDouble() {
 
 @test
 operation testConvertStringToReal() {
-	assertEquals('2.0'.asReal(), 2.0f);
+	assertEquals("2.0".asReal(), 2.0f);
 }
 
 @test
 operation testMultiply() {
-	assertEquals(2*4, 8);
+	assertEquals(2 * 4, 8);
 }
 
 @test
 operation testMultiplyWithFloat() {
-	assertEquals(3*0.5, 1.5);
+	assertEquals(3 * 0.5, 1.5);
 }
 
 @test
 operation testDivide() {
-	assertEquals(2/4, 0);
+	assertEquals(2 / 4, 0);
 }
 
 @test
 operation testDivideWithFloatResult() {
-	assertEquals(2/4.0, 0.5);
+	assertEquals(2 / 4.0, 0.5);
 }
 
 @test
 operation testDivideByZero() {
-	assertError(1/0);
+	assertError(1 / 0);
 }
 
 @test
 operation testDivideString() {
-	assertError('foo'/2);
+	assertError("foo" / 2);
 }
 
 @test
@@ -90,12 +90,12 @@ operation textMax() {
 
 @test
 operation testIntegerTo() {
-	assertEquals(1.to(5), Sequence{1,2,3,4,5});
+	assertEquals(1.to(5), Sequence{1, 2, 3, 4, 5});
 }
 
 @test
 operation testIntegerToReverse() {
-	assertEquals(5.to(1), Sequence{5,4,3,2,1});
+	assertEquals(5.to(1), Sequence{5, 4, 3, 2, 1});
 }
 
 @test
@@ -112,18 +112,18 @@ operation testPow() {
 
 @test
 operation testIota() {
-	assertEquals(0.iota(10, 2), Sequence{0,2,4,6,8,10});
-	assertEquals(0.iota(10, 3), Sequence{0,3,6,9});
+	assertEquals(0.iota(10, 2), Sequence{0, 2, 4, 6, 8, 10});
+	assertEquals(0.iota(10, 3), Sequence{0, 3, 6, 9});
 	assertError(0.iota(10, 0));
 }
 
 @test
 operation testLog() {
 	assertEquals(1.log(), 0);
-	assertEquals(2.log().asString().substring(0,4), "0.69");
+	assertEquals(2.log().asString().substring(0, 4), "0.69");
 }
 
 @test
 operation testLog10() {
-    assertEquals(10.log10(), 1);
+	assertEquals(10.log10(), 1);
 }

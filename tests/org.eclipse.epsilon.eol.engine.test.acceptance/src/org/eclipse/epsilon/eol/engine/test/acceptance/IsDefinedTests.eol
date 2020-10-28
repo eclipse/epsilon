@@ -10,22 +10,22 @@ operation nullIsUndefined() {
 
 @test
 operation nonEmptyStringIsDefined() {
-	assert('foo'.isDefined());
+	assert("foo".isDefined());
 }
 
 @test
 operation nonEmptyStringIsNotUndefined() {
-	assert(not 'foo'.isUndefined());
+	assert(not "foo".isUndefined());
 }
 
 @test
 operation emptyStringIsNotDefined() {
-	assert(not ''.isDefined());
+	assert(not "".isDefined());
 }
 
 @test
 operation emptyStringIsUndefined() {
-	assert(''.isUndefined());
+	assert("".isUndefined());
 }
 
 @test

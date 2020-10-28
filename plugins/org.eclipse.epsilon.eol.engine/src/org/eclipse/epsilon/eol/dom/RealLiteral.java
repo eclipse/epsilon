@@ -16,7 +16,10 @@ import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 
 public class RealLiteral extends LiteralExpression<Number> {
-		
+	
+	protected boolean doublePrecision = false;
+	protected String text = "";
+	
 	public RealLiteral() {
 		super();
 	}
@@ -28,19 +31,22 @@ public class RealLiteral extends LiteralExpression<Number> {
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
+		setText(cst.getText());
+	}
+	
+	public void setText(String text) {
 		
-		String text = "";
-		boolean doublePrecision = false;
-		if (cst.getText().endsWith("f")) {
-			text = cst.getText().substring(0, cst.getText().length() - 1);
+		this.text = text;
+		
+		if (text.endsWith("f")) {
+			text = text.substring(0, text.length() - 1);
 			doublePrecision = false;
 		}
-		else if (cst.getText().endsWith("d")) {
-			text = cst.getText().substring(0, cst.getText().length() - 1);
+		else if (text.endsWith("d")) {
+			text = text.substring(0, text.length() - 1);
 			doublePrecision = true;		
 		}
 		else {
-			text = cst.getText();
 			doublePrecision = false;			
 		}
 		
@@ -57,7 +63,17 @@ public class RealLiteral extends LiteralExpression<Number> {
 		resolvedType = EolPrimitiveType.Real;
 	}
 	
+	public String getText() {
+		return text;
+	}
+	
+	public boolean isDoublePrecision() {
+		return doublePrecision;
+	}
+	
 	public void accept(IEolVisitor visitor) {
 		visitor.visit(this);
 	}
+	
+	
 }

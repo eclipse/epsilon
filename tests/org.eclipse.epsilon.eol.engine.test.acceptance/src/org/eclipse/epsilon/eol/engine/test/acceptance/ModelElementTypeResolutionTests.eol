@@ -39,9 +39,9 @@ operation noWarningsWhenUsingAQualifiedReferenceToATypeThatIsAvailableInMoreThan
 
 @test
 operation warningListsAllModelsThatHaveTheAmbiguousType() {
-	modelManager.createInMemoryEmfModel("Premier",  "http://www.eclipse.org/emf/2002/Ecore");
+	modelManager.createInMemoryEmfModel("Premier", "http://www.eclipse.org/emf/2002/Ecore");
 	modelManager.createInMemoryEmfModel("Deuxieme", "ecoreLite");
-	modelManager.createInMemoryEmfModel("Troisieme",  "fruits");
+	modelManager.createInMemoryEmfModel("Troisieme", "fruits");
 	modelManager.createInMemoryEmfModel("Quatrieme", "http://www.eclipse.org/emf/2002/Ecore");
 	
 	// EClass is a valid type for First, Second and Fourth, so issue a warning

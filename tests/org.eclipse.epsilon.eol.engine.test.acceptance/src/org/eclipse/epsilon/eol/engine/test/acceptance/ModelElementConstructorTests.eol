@@ -8,12 +8,7 @@ operation testNamedParametersInModelElementConstructor() {
 	modelManager.createInMemoryEmfModel("M", "http://www.eclipse.org/emf/2002/Ecore");
 	
 	// EClass is a valid type for both First and Second, so issue a warning
-	var x = new EClass(
-		name = "c1", 
-		eSuperTypes = Sequence {
-			new EClass (name = "c2")
-		}
-	);
+	var x = new EClass(name = "c1", eSuperTypes = Sequence{new EClass(name = "c2")});
 	
 	assertEquals("c1", x.name);
 	assertEquals(1, x.eSuperTypes.size());
@@ -25,6 +20,6 @@ operation testNamedParametersInModelElementConstructor() {
 operation testNoParametersModelElementConstructor() {
 	modelManager.createInMemoryEmfModel("M", "http://www.eclipse.org/emf/2002/Ecore");
 	
-	var x = new EClass();
+	var x = new EClass;
 	assertEquals(M, x.owningModel);
 }

@@ -31,7 +31,7 @@ operation testIncrementExtendedProperty() {
 @test
 operation testDecrementVariable() {
 	var i : Integer;
-	i := 2;
+	i = 2;
 	i--;
 	assertEquals(1, i);
 }

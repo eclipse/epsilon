@@ -16,6 +16,8 @@ import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public class IntegerLiteral extends LiteralExpression<Number> {
 	
+	protected String text = "";
+	
 	public IntegerLiteral() {
 		super();
 	}
@@ -27,8 +29,12 @@ public class IntegerLiteral extends LiteralExpression<Number> {
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
-		String text = cst.getText();
-
+		setText(cst.getText());
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+	
 		/*
 		 * int range is -2,147,483,648 to 2,147,483,647, but the INT token in
 		 * EolLexerRules.g does not include the leading '-', so anything over 10
@@ -36,7 +42,7 @@ public class IntegerLiteral extends LiteralExpression<Number> {
 		 * clearly a long value.
 		 */
 		if (text.endsWith("l") || text.length() > 10) {
-			text = cst.getText().substring(0, text.length() - 1);
+			text = text.substring(0, text.length() - 1);
 			value = Long.parseLong(text);
 		}
 		else {
@@ -51,6 +57,10 @@ public class IntegerLiteral extends LiteralExpression<Number> {
 				value = Long.parseLong(text);
 			}
 		}
+	}
+	
+	public String getText() {
+		return text;
 	}
 	
 	@Override

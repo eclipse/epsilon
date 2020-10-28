@@ -36,11 +36,25 @@ public class UnparserTests {
 				"AnnotatedOperationTests.eol",
 				"BooleanTests.eol",
 				"BuiltInVariablesTests.eol",
-				"CllectionPropertyTests.eol"/*
-				"CollectionsTests.eol",
-				"ComparisonTests.eol"*/);
+				"CllectionPropertyTests.eol",
+				/*"CollectionsTests.eol",*/
+				"ComparisonTests.eol",
+				"CreateDeleteTests.eol",
+				"EqualityTests.eol",
+				"IsDefinedTests.eol",
+				"IterableTests.eol",
+				"MathTests.eol",
+				"ModelElementConstructorTests.eol",
+				"ModelElementTypeResolutionTests.eol",
+				"OperationOrderTests.eol",
+				"PostfixOperatorTests.eol",
+				"ReturnTypeTests.eol"/*,
+				"SafeNavigationTests.eol",
+				"ScopeTests.eol"*/
+				);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	protected void testEolFiles(Class clazz, String... fileNames) throws Exception {
 		for (String fileName : fileNames) {
 			testEolFile(fileName, clazz);

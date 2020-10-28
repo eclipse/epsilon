@@ -160,4 +160,12 @@ public class CollectionLiteralExpression<T> extends LiteralExpression<Collection
 	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
 	}
+	
+	public boolean isRange() {
+		return range;
+	}
+	
+	public void setRange(boolean range) {
+		this.range = range;
+	}
 }

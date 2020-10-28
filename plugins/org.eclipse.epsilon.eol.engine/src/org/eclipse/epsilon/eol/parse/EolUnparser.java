@@ -163,7 +163,12 @@ public class EolUnparser implements IEolVisitor {
 		while (li.hasNext()) {
 			li.next().accept(this);
 			if (li.hasNext()) {
-				comma();
+				if (collectionLiteralExpression.isRange()) {
+					buffer.append("..");
+				}
+				else {
+					comma();
+				}
 			}
 		}
 		buffer.append("}");
@@ -310,7 +315,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(IntegerLiteral integerLiteral) {
-		buffer.append(integerLiteral.getValue());
+		buffer.append(integerLiteral.getText());
 	}
 
 	@Override
@@ -410,7 +415,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(NotEqualsOperatorExpression notEqualsOperatorExpression) {
-		printBinaryOperatorExpression(notEqualsOperatorExpression, "<>");
+		printBinaryOperatorExpression(notEqualsOperatorExpression, notEqualsOperatorExpression.getOperator() != null ? notEqualsOperatorExpression.getOperator() : "<>");
 	}
 
 	@Override
@@ -478,7 +483,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(PostfixOperatorExpression postfixOperatorExpression) {
-		postfixOperatorExpression.accept(this);
+		postfixOperatorExpression.getFirstOperand().accept(this);
 		buffer.append(postfixOperatorExpression.isIncrease() ? "++" : "--");
 	}
 
@@ -492,7 +497,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(RealLiteral realLiteral) {
-		buffer.append(realLiteral.getValue());
+		buffer.append(realLiteral.getText());
 	}
 
 	@Override
