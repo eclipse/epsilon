@@ -150,9 +150,12 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(Case case_) {
-		buffer.append("case ");
-		case_.getCondition().accept(this);
-		buffer.append(":");
+		if (case_.getCondition() != null) {
+			buffer.append("case ");
+			case_.getCondition().accept(this);
+		}
+		else buffer.append("default");
+		buffer.append(": ");
 		case_.getBody().accept(this);
 	}
 
@@ -547,7 +550,16 @@ public class EolUnparser implements IEolVisitor {
 	public void visit(SwitchStatement switchStatement) {
 		buffer.append("switch (");
 		switchStatement.getConditionExpression().accept(this);
-		buffer.append(")");
+		buffer.append(") {");
+		newline();
+		indentation++;
+		switchStatement.getCases().forEach(c -> { indent(); c.accept(this); newline();});
+		if (switchStatement.getDefault() != null) {
+			indent(); switchStatement.getDefault().accept(this); newline();
+		}
+		indentation--;
+		indent();
+		buffer.append("}");
 		
 	}
 
@@ -593,6 +605,7 @@ public class EolUnparser implements IEolVisitor {
 		while (li.hasNext()) {
 			li.next().accept(this);
 			if (li.hasNext()) comma();
+			else space();
 		}
 		transactionStatement.getBody().accept(this);
 	}

@@ -24,13 +24,13 @@ operation testOperationCall() {
 @test
 operation testChainedOperationCalls() {
 	var number = 3.14159d;
-	var result = number?.asString().substring(0,1).asInteger();
+	var result = number?.asString().substring(0, 1).asInteger();
 	assertEquals(3, result);
-	result = number?.asString()?.substring(0,1)?.asInteger();
+	result = number?.asString()?.substring(0, 1)?.asInteger();
 	assertEquals(3, result);
 	result = null?.getClass()?.getSimpleName();
 	assertEquals(null, result);
-	assertEquals(3.14?.asString(), number.asString()?.substring(0,4));
+	assertEquals(3.14?.asString(), number.asString()?.substring(0, 4));
 }
 
 @test
@@ -43,7 +43,7 @@ operation testPropertyCallChain() {
 
 @test
 operation testWithTernary() {
-	var result = x?.isDefined() ? x?.getClass() : System?.class.getName().length() >= 5 ? 1 else 0;
+	var result = x?.isDefined() ? x?.getClass() : System?.class.getName().length() >= 5 ? 1 : 0;
 	assertEquals(1, result);
 }
 
@@ -81,12 +81,12 @@ operation testInComparisonOperator() {
 
 @test
 operation testFirstOrderOperationCall() {
-	var result = Sequence{0..10}->select(i | i?.mod(2) == 0)->size();
+	var result = Sequence{0..10}->select(i|i?.mod(2) == 0)->size();
 	assertEquals(6, result);
-	var result = Sequence{0, null, 1, null, 2}->select(i | i?.mod(2) == 0)?.size();
+	var result = Sequence{0, null, 1, null, 2}->select(i|i?.mod(2) == 0)?.size();
 	assertEquals(2, result);
-	result = Bag{}?.collect(i | i?.returnsNullAny?.neverCalled.npe)?.size;
+	result = Bag{}?.collect(i|i?.returnsNullAny?.neverCalled.npe)?.size;
 	assertEquals(0, result);
-	result = null?.select(x | true or x.npe)?.getClass();
+	result = null?.select(x|true or x.npe)?.getClass();
 	assertEquals(null, result);
 }

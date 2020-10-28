@@ -1,76 +1,76 @@
 @test
 operation testStringsEqual() {
-	assertEquals('foo','foo');
+	assertEquals("foo", "foo");
 }
 
 @test
 operation testTrim() {
-	assertEquals(' foo '.trim(), 'foo');
+	assertEquals(" foo ".trim(), "foo");
 }
 
 @test
 operation testSplit() {
-	assertEquals('foo,bar,buz'.split(',').size(), 3);
+	assertEquals("foo,bar,buz".split(",").size(), 3);
 }
 
 @test
 operation testConvertBoolean() {
-	assertEquals(true.asString(), 'true');
+	assertEquals(true.asString(), "true");
 }
 
 @test
 operation testAsCharSequence() {
-	assertEquals('abc'.toCharSequence().size(), 3);
+	assertEquals("abc".toCharSequence().size(), 3);
 }
 
 @test
 operation testAsSequence() {
-	assertEquals('abc'.asSequence().size(), 1);
+	assertEquals("abc".asSequence().size(), 1);
 }
 
 @test
 operation testNotEmptyStringIsDefined() {
-	assertEquals(''.isDefined(), false);
+	assertEquals("".isDefined(), false);
 }
 
 @test
 operation testSize() {
-	assertEquals('abc'.size(), 1);
+	assertEquals("abc".size(), 1);
 }
 
 @test
 operation testLength() {
-	assertEquals('abc'.length(), 3);
+	assertEquals("abc".length(), 3);
 }
 
 @test
 operation testConcat() {
-	assertEquals('abc'.concat('def'), 'abcdef');
+	assertEquals("abc".concat("def"), "abcdef");
 }
 
 @test
 operation testStartsWith() {
-	assertEquals('abcd'.startsWith('ab'), true);
+	assertEquals("abcd".startsWith("ab"), true);
 }
 
 @test
 operation testEndsWith() {
-	assertEquals('abcd'.endsWith('cd'), true);
+	assertEquals("abcd".endsWith("cd"), true);
 }
 
 @test
 operation testSubstring() {
-	assertEquals('abcd'.substring(2), 'cd');
+	assertEquals("abcd".substring(2), "cd");
 }
 
 @test
 operation testSubstring2() {
-	assertEquals('abcdef'.substring(2,5), 'cde');
+	assertEquals("abcdef".substring(2, 5), "cde");
 }
 
 @test
 operation testIsSubstringOf() {
-	assertEquals('ab'.isSubstringOf('abcd'), true);
+	assertEquals("ab".isSubstringOf("abcd"), true);
 }
 
 @test
@@ -80,12 +80,12 @@ operation testSplit() {
 
 @test
 operation testReplace1() {
-	assertEquals("aaa".replace("a","b"), "bbb");
+	assertEquals("aaa".replace("a", "b"), "bbb");
 }
 
 @test
 operation testReplace2() {
-	assertEquals("xyz".replace(".","-"), "---");
+	assertEquals("xyz".replace(".", "-"), "---");
 }
 
 @test

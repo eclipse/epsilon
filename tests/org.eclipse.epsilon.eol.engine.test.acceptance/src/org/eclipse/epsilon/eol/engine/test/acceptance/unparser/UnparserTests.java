@@ -37,7 +37,7 @@ public class UnparserTests {
 				"BooleanTests.eol",
 				"BuiltInVariablesTests.eol",
 				"CllectionPropertyTests.eol",
-				/*"CollectionsTests.eol",*/
+				"CollectionsTests.eol",
 				"ComparisonTests.eol",
 				"CreateDeleteTests.eol",
 				"EqualityTests.eol",
@@ -48,9 +48,13 @@ public class UnparserTests {
 				"ModelElementTypeResolutionTests.eol",
 				"OperationOrderTests.eol",
 				"PostfixOperatorTests.eol",
-				"ReturnTypeTests.eol"/*,
+				"ReturnTypeTests.eol",
 				"SafeNavigationTests.eol",
-				"ScopeTests.eol"*/
+				"ScopeTests.eol",
+				"StringTests.eol",
+				"SwitchTests.eol",
+				"TransactionTests.eol",
+				"TypeConversionTests.eol"
 				);
 	}
 	

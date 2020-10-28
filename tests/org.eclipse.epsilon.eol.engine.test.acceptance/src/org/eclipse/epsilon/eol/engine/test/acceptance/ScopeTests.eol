@@ -36,10 +36,14 @@ operation testSwitchScope() {
 
 operation doSwitch(s) {
 	switch (s) {
-		case "1": var a = 6;
-		case "3": var i = s+9;
-		assertEquals(i, "39");
-		return;
+		case "1": {
+			var a = 6;
+		}
+		case "3": {
+			var i = s + 9;
+			assertEquals(i, "39");
+			return;
+		}
 	}
 	assertFalse(a.isDefined());
 }
