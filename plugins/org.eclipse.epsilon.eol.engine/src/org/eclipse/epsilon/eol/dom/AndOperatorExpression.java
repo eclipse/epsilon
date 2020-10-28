@@ -41,4 +41,7 @@ public class AndOperatorExpression extends OperatorExpression {
 		throw new EolRuntimeException("Operator 'and' applies only to operands of type Boolean", this);
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

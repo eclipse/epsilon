@@ -30,4 +30,8 @@ public class AnnotationBlock extends AbstractModuleElement {
 	public List<Annotation> getAnnotations() {
 		return annotations;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

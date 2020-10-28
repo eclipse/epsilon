@@ -34,4 +34,7 @@ public class XorOperatorExpression extends OperatorExpression {
 		}
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

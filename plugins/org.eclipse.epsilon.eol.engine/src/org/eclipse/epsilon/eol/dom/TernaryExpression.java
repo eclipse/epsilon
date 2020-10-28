@@ -56,4 +56,16 @@ public class TernaryExpression extends OperatorExpression {
 		}
 		return executorFactory.execute(((boolean) condition) ? secondOperand : thirdOperand, context);
 	}
+	
+	public Expression getThirdOperand() {
+		return thirdOperand;
+	}
+	
+	public void setThirdOperand(Expression thirdOperand) {
+		this.thirdOperand = thirdOperand;
+	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

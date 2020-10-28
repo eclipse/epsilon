@@ -34,4 +34,6 @@ public abstract class Annotation extends AbstractModuleElement implements ICompi
 	
 	public abstract Object getValue(IEolContext context) throws EolRuntimeException;
 	
+	public abstract void accept(IEolVisitor visitor);
+	
 }

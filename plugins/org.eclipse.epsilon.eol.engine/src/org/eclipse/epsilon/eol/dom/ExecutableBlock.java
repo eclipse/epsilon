@@ -176,4 +176,8 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	public void compile(IEolCompilationContext context) {
 		// TODO Auto-generated method stub
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

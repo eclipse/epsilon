@@ -103,4 +103,20 @@ public class MapLiteralExpression<K, V> extends LiteralExpression<Map<K, V>> {
 	public void compile(IEolCompilationContext context) {
 		// TODO Auto-generated method stub
 	}
+	
+	public String getMapName() {
+		return mapName;
+	}
+	
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
+	}
+	
+	public List<Entry<Expression, Expression>> getKeyValueExpressionPairs() {
+		return keyValueExpressionPairs;
+	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

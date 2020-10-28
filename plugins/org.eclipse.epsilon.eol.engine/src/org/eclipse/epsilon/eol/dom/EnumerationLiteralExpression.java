@@ -43,4 +43,7 @@ public class EnumerationLiteralExpression extends LiteralExpression<Object> {
 		// TODO Auto-generated method stub
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

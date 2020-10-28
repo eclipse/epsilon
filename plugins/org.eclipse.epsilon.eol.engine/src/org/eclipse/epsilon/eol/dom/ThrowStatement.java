@@ -54,4 +54,7 @@ public class ThrowStatement extends Statement {
 		thrown.compile(context);
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

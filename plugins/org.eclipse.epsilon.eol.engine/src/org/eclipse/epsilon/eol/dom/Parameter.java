@@ -115,4 +115,8 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	public boolean isExplicitlyTyped() {
 		return typeExpression != null;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

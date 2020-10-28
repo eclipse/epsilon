@@ -59,4 +59,7 @@ public class ReturnStatement extends Statement {
 		this.returnedExpression = returnedExpression;
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

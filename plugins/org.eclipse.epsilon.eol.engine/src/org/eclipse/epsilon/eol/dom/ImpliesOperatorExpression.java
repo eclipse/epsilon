@@ -41,4 +41,7 @@ public class ImpliesOperatorExpression extends OperatorExpression {
 		throw new EolRuntimeException("Operator 'implies' applies only to operands of type Boolean", this);
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

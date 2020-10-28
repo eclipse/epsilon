@@ -44,4 +44,8 @@ public class Case extends AbstractModuleElement {
 	public void setBody(StatementBlock body) {
 		this.body = body;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

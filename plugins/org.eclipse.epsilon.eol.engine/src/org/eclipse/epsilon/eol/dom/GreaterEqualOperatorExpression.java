@@ -31,4 +31,7 @@ public class GreaterEqualOperatorExpression extends EagerOperatorExpression {
 		) || EolObjectComparator.equals(o1, o2);
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -65,4 +65,8 @@ public class NewInstanceExpression extends TypeInitialiser {
 		return parameterExpressions;
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
+	
 }

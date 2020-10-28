@@ -31,4 +31,7 @@ public class NotOperatorExpression extends OperatorExpression {
 		}
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

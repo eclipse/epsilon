@@ -164,4 +164,8 @@ public class ForStatement extends Statement {
 	public void setBodyStatementBlock(StatementBlock bodyStatementBlock) {
 		this.bodyStatementBlock = bodyStatementBlock;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

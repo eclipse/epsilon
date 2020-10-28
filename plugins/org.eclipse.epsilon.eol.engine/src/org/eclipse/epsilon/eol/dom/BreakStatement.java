@@ -30,4 +30,15 @@ public class BreakStatement extends Statement {
 	@Override
 	public void compile(IEolCompilationContext context) {}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
+	
+	public boolean isAll() {
+		return all;
+	}
+	
+	public void setAll(boolean all) {
+		this.all = all;
+	}
 }

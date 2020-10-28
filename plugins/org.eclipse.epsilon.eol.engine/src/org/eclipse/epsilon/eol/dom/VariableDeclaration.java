@@ -142,4 +142,8 @@ public class VariableDeclaration extends TypeInitialiser {
 	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -175,4 +175,8 @@ public class TypeExpression extends Expression {
 	public StringLiteral getNativeType() {
 		return nativeType;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -41,4 +41,8 @@ public class ModelDeclarationParameter extends AbstractModuleElement {
 		this.value = value;
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
+	
 }

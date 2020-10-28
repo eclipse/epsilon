@@ -23,4 +23,7 @@ public abstract class Expression extends AbstractExecutableModuleElement {
 	public boolean hasResolvedType() {
 		return resolvedType != null && resolvedType != EolAnyType.Instance;
 	}
+	
+	public abstract void accept(IEolVisitor visitor);
+	
 }

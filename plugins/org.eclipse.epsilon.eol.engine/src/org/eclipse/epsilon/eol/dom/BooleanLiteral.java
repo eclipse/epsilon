@@ -39,4 +39,8 @@ public class BooleanLiteral extends LiteralExpression<Boolean> {
 	public void compile(IEolCompilationContext context) {
 		resolvedType = EolPrimitiveType.Boolean;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

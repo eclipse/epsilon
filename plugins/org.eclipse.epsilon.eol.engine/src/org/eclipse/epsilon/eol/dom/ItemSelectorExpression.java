@@ -69,4 +69,23 @@ public class ItemSelectorExpression extends Expression {
 		
 	}
 	
+	public Expression getTargetExpression() {
+		return targetExpression;
+	}
+	
+	public void setTargetExpression(Expression targetExpression) {
+		this.targetExpression = targetExpression;
+	}
+	
+	public Expression getIndexExpression() {
+		return indexExpression;
+	}
+	
+	public void setIndexExpression(Expression indexExpression) {
+		this.indexExpression = indexExpression;
+	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

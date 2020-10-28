@@ -240,4 +240,8 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	public List<Expression> getExpressions() {
 		return expressions;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

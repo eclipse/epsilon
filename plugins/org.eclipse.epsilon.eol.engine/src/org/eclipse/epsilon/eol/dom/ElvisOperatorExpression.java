@@ -44,4 +44,8 @@ public class ElvisOperatorExpression extends OperatorExpression {
 		}
 		return a != null ? a : executorFactory.execute(secondOperand, context);
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

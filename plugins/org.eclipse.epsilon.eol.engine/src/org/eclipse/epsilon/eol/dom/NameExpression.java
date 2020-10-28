@@ -149,4 +149,8 @@ public class NameExpression extends Expression {
 	public String toString() {
 		return getClass().getSimpleName()+": name="+name+", isTypeName="+isTypeName;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

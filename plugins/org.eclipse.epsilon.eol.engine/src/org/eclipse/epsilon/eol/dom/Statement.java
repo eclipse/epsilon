@@ -28,4 +28,6 @@ public abstract class Statement extends AbstractExecutableModuleElement {
 		else throw new IllegalArgumentException(element + " was expected to be a StatementBlock, Statement or Expression but instead it is " + element);
 	}
 	
+	public abstract void accept(IEolVisitor visitor);
+	
 }

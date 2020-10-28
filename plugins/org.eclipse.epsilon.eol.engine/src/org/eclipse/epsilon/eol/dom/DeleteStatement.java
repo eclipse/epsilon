@@ -64,4 +64,7 @@ public class DeleteStatement extends Statement {
 		expression.compile(context);
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -54,4 +54,7 @@ public class ExecutableAnnotation extends Annotation implements IExecutableModul
 		expression.compile(context);
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -29,4 +29,7 @@ public class GreaterThanOperatorExpression extends EagerOperatorExpression {
 		return false;
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

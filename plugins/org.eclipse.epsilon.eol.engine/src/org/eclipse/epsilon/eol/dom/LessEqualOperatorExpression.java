@@ -30,5 +30,8 @@ public class LessEqualOperatorExpression extends EagerOperatorExpression {
 				&& NumberUtil.lessThan((Number) o1, (Number) o2)
 		) || EolObjectComparator.equals(o1, o2);
 	}
-
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

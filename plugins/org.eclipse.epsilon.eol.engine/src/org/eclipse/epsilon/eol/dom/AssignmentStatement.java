@@ -138,4 +138,8 @@ public class AssignmentStatement extends Statement {
 	public void setValueExpression(Expression valueExpression) {
 		this.valueExpression = valueExpression;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

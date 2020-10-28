@@ -134,4 +134,7 @@ public class Import extends AbstractModuleElement {
 		}
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

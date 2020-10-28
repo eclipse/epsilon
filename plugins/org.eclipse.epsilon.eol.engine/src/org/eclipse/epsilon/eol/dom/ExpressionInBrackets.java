@@ -43,4 +43,8 @@ public class ExpressionInBrackets extends Expression {
 		expression.compile(context);
 		resolvedType = expression.getResolvedType();
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

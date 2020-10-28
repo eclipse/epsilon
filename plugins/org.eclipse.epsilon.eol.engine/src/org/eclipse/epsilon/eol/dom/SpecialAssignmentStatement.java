@@ -10,5 +10,9 @@
 package org.eclipse.epsilon.eol.dom;
 
 public class SpecialAssignmentStatement extends AssignmentStatement {
-
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
+	
 }

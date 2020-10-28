@@ -84,4 +84,6 @@ public abstract class TypeInitialiser extends Expression {
 		return null;
 	}
 	
+	public abstract void accept(IEolVisitor visitor);
+	
 }

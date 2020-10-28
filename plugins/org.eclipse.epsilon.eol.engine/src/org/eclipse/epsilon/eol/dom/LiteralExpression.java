@@ -36,4 +36,7 @@ public abstract class LiteralExpression<T> extends Expression {
 	public T execute(IEolContext context) throws EolRuntimeException {
 		return getValue();
 	}
+	
+	public abstract void accept(IEolVisitor visitor);
+	
 }

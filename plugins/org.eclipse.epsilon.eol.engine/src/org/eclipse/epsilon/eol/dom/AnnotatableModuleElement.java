@@ -137,4 +137,9 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 		
 		return values;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		//TODO: Make this abstract
+	};
+	
 }

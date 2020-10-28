@@ -44,5 +44,24 @@ public class PostfixOperatorExpression extends OperatorExpression {
 		executorFactory.execute(assignmentStatement, context);
 		return executorFactory.execute(firstOperand, context);
 	}
-
+	
+	public boolean isIncrease() {
+		return increase;
+	}
+	
+	public void setIncrease(boolean increase) {
+		this.increase = increase;
+	}
+	
+	public AssignmentStatement getAssignmentStatement() {
+		return assignmentStatement;
+	}
+	
+	public void setAssignmentStatement(AssignmentStatement assignmentStatement) {
+		this.assignmentStatement = assignmentStatement;
+	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

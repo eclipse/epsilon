@@ -141,4 +141,7 @@ public abstract class FeatureCallExpression extends Expression {
 	public boolean isNullSafe() {
 		return safe;
 	}
+	
+	public abstract void accept(IEolVisitor visitor);
+	
 }

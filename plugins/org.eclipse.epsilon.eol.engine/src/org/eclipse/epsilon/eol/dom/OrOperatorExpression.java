@@ -42,4 +42,7 @@ public class OrOperatorExpression extends OperatorExpression {
 		throw new EolRuntimeException("Operator 'or' applies only to operands of type Boolean", this);
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

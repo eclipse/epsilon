@@ -24,4 +24,7 @@ public class ContinueStatement extends Statement {
 	@Override
 	public void compile(IEolCompilationContext context) {}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

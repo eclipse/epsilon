@@ -86,4 +86,8 @@ public class ComplexOperationCallExpression extends FeatureCallExpression {
 	public void setComplexParameters(LinkedHashMap<Expression, List<Parameter>> complexParameters) {
 		this.complexParameters = complexParameters;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

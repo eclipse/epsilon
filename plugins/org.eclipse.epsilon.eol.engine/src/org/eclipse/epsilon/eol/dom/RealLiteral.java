@@ -57,4 +57,7 @@ public class RealLiteral extends LiteralExpression<Number> {
 		resolvedType = EolPrimitiveType.Real;
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

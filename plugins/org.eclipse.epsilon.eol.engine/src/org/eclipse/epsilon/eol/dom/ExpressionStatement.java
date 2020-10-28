@@ -44,4 +44,8 @@ public class ExpressionStatement extends Statement {
 	public void compile(IEolCompilationContext context) {
 		expression.compile(context);
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

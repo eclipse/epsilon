@@ -58,4 +58,8 @@ public class IntegerLiteral extends LiteralExpression<Number> {
 		resolvedType = EolPrimitiveType.Integer;
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
+	
 }

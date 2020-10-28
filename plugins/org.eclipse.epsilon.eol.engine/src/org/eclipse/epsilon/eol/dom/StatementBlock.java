@@ -82,4 +82,8 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 	public String toString() {
 		return "{...}";
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

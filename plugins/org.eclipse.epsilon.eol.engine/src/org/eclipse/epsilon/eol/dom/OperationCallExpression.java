@@ -225,4 +225,8 @@ public class OperationCallExpression extends FeatureCallExpression {
 	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

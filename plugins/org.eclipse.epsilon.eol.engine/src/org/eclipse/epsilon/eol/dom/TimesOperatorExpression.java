@@ -28,4 +28,8 @@ public class TimesOperatorExpression extends EagerOperatorExpression {
 		}
 		return 0;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

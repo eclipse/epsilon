@@ -124,5 +124,9 @@ public class WhileStatement extends Statement {
 	
 	public void setBodyStatementBlock(StatementBlock bodyStatementBlock) {
 		this.bodyStatementBlock = bodyStatementBlock;
-	}	
+	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

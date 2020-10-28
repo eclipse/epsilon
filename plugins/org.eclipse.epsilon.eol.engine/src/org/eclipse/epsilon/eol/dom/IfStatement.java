@@ -111,4 +111,8 @@ public class IfStatement extends Statement {
 	public void setElseStatementBlock(StatementBlock elseStatementBlock) {
 		this.elseStatementBlock = elseStatementBlock;
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

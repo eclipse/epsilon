@@ -29,4 +29,7 @@ public class NegativeOperatorExpression extends EagerOperatorExpression {
 		return o1;
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

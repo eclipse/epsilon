@@ -60,4 +60,7 @@ public class SimpleAnnotation extends Annotation {
 		return getValue();
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

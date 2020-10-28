@@ -37,4 +37,7 @@ public class MinusOperatorExpression extends EagerOperatorExpression {
 		return null;
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

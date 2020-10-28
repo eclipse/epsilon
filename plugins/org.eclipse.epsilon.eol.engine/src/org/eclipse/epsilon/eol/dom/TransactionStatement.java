@@ -117,4 +117,7 @@ public class TransactionStatement extends Statement {
 		// TODO Auto-generated method stub
 	}
 	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }

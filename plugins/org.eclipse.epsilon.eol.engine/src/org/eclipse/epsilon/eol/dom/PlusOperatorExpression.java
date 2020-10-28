@@ -39,4 +39,8 @@ public class PlusOperatorExpression extends EagerOperatorExpression {
 		PrettyPrinterManager prettyPrinterManager = context.getPrettyPrinterManager();	
 		return prettyPrinterManager.print(o1) + prettyPrinterManager.print(o2);
 	}
+	
+	public void accept(IEolVisitor visitor) {
+		visitor.visit(this);
+	}
 }
