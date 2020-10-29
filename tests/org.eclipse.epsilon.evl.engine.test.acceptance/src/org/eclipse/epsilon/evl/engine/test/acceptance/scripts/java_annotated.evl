@@ -2,58 +2,6 @@ pre {
 	var THREADS = Native("java.lang.Runtime").getRuntime().availableProcessors();
 }
 
-operation InfixExpression operatorIsEquality() : Boolean {
-	return self.operator == InfixExpressionKind#EQUALS or self.operator == InfixExpressionKind#NOT_EQUALS;
-}
-
-operation Modifier isLocal() : Boolean {
-	return self.visibility == VisibilityKind#private or self.visibility == VisibilityKind#none;
-}
-
-operation AbstractTypeDeclaration implements(type : String) {
-	return self.superInterfaces.exists(si | si.type.name == type);
-}
-
-@cached
-operation AbstractTypeDeclaration getMethods() : Collection {
-	return self.bodyDeclarations.select(bd | bd.isKindOf(MethodDeclaration));
-}
-
-operation ClassDeclaration hasEquals() : Boolean {
-	return self.getMethods().exists(method |
-			method.name == "equals" and
-			method.parameters.size() == 1 and
-			method.parameters.first().type.type.name == "Object" and
-			method.thrownExceptions.isEmpty() and
-			method.modifier.isDefined() and
-			method.modifier.visibility == VisibilityKind#public and
-			method.returnType.type.isTypeOf(PrimitiveTypeBoolean)
-	);
-}
-
-operation ClassDeclaration hasHashcode() : Boolean {
-	return self.getMethods().exists(method |
-			method.name == "hashCode" and
-			method.parameters.isEmpty() and
-			method.thrownExceptions.isEmpty() and
-			method.modifier.isDefined() and
-			method.modifier.visibility == VisibilityKind#public and
-			method.returnType.type.isTypeOf(PrimitiveTypeInt)
-	);
-}
-
-operation ClassDeclaration hasCompareTo() : Boolean {
-	return self.getMethods().exists(method | 
-			method.name == "compareTo" and
-			method.parameters.size() == 1 and
-			method.parameters.first().type.type.name == "Object" and
-			method.modifier.isDefined() and
-			method.modifier.visibility == VisibilityKind#public and
-			method.thrownExceptions.isEmpty() and
-			method.returnType.type.isTypeOf(PrimitiveTypeInt)
-	);
-}
-
 $parallel self.size() > THREADS
 context MethodInvocation {
 	guard: self.method.isDefined()
@@ -195,4 +143,56 @@ context NamedElement {
 			self.name <> "assert" and
 			self.name <> "enum"
 	}
+}
+
+operation InfixExpression operatorIsEquality() : Boolean {
+	return self.operator == InfixExpressionKind#EQUALS or self.operator == InfixExpressionKind#NOT_EQUALS;
+}
+
+operation Modifier isLocal() : Boolean {
+	return self.visibility == VisibilityKind#private or self.visibility == VisibilityKind#none;
+}
+
+operation AbstractTypeDeclaration implements(type : String) {
+	return self.superInterfaces.exists(si | si.type.name == type);
+}
+
+@cached
+operation AbstractTypeDeclaration getMethods() : Collection {
+	return self.bodyDeclarations.select(bd | bd.isKindOf(MethodDeclaration));
+}
+
+operation ClassDeclaration hasEquals() : Boolean {
+	return self.getMethods().exists(method |
+			method.name == "equals" and
+			method.parameters.size() == 1 and
+			method.parameters.first().type.type.name == "Object" and
+			method.thrownExceptions.isEmpty() and
+			method.modifier.isDefined() and
+			method.modifier.visibility == VisibilityKind#public and
+			method.returnType.type.isTypeOf(PrimitiveTypeBoolean)
+	);
+}
+
+operation ClassDeclaration hasHashcode() : Boolean {
+	return self.getMethods().exists(method |
+			method.name == "hashCode" and
+			method.parameters.isEmpty() and
+			method.thrownExceptions.isEmpty() and
+			method.modifier.isDefined() and
+			method.modifier.visibility == VisibilityKind#public and
+			method.returnType.type.isTypeOf(PrimitiveTypeInt)
+	);
+}
+
+operation ClassDeclaration hasCompareTo() : Boolean {
+	return self.getMethods().exists(method | 
+			method.name == "compareTo" and
+			method.parameters.size() == 1 and
+			method.parameters.first().type.type.name == "Object" and
+			method.modifier.isDefined() and
+			method.modifier.visibility == VisibilityKind#public and
+			method.thrownExceptions.isEmpty() and
+			method.returnType.type.isTypeOf(PrimitiveTypeInt)
+	);
 }

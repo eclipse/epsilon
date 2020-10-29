@@ -270,4 +270,17 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 			Objects.equals(this.getTypeName(), cc.getTypeName()) &&
 			this.constraints.size() == cc.constraints.size();
 	}
+	
+	public void accept(IEvlVisitor visitor) {
+		visitor.visit(this);
+	}
+	
+	public ExecutableBlock<Boolean> getGuardBlock() {
+		return guardBlock;
+	}
+	
+	public void setGuardBlock(ExecutableBlock<Boolean> guardBlock) {
+		this.guardBlock = guardBlock;
+	}
+	
 }

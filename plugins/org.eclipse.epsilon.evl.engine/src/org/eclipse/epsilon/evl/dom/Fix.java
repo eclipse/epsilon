@@ -48,4 +48,32 @@ public class Fix extends AbstractModuleElement {
 		}
 		else return true;
 	}
+	
+	public void accept(IEvlVisitor visitor) {
+		visitor.visit(this);
+	}
+	
+	public ExecutableBlock<Boolean> getGuardBlock() {
+		return guardBlock;
+	}
+	
+	public void setGuardBlock(ExecutableBlock<Boolean> guardBlock) {
+		this.guardBlock = guardBlock;
+	}
+	
+	public ExecutableBlock<String> getTitleBlock() {
+		return titleBlock;
+	}
+	
+	public void setTitleBlock(ExecutableBlock<String> titleBlock) {
+		this.titleBlock = titleBlock;
+	}
+	
+	public ExecutableBlock<Void> getBodyBlock() {
+		return bodyBlock;
+	}
+	
+	public void setBodyBlock(ExecutableBlock<Void> bodyBlock) {
+		this.bodyBlock = bodyBlock;
+	}
 }

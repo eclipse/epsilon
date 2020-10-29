@@ -21,7 +21,7 @@ import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.lambda.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.nested.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.recording.*;
-import org.eclipse.epsilon.eol.engine.test.acceptance.unparser.UnparserTests;
+import org.eclipse.epsilon.eol.engine.test.acceptance.unparser.EolUnparserTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -72,7 +72,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	LambdaExpressionExceptionTest.class,
 	ParallelStreamTests.class,
 	CommentsTests.class,
-	UnparserTests.class
+	EolUnparserTests.class
 })
 public class EolAcceptanceTestSuite {
 

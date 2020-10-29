@@ -23,4 +23,8 @@ public class Pre extends NamedStatementBlockRule {
 		return ts;
 	}
 	
+	public void accept(IErlVisitor visitor) {
+		visitor.visit(this);
+	}
+	
 }

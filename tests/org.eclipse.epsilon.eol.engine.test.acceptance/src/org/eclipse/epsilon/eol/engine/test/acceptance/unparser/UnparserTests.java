@@ -9,69 +9,36 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.parse.EolUnparser;
-import org.junit.Test;
 
-public class UnparserTests {
-	
-	@Test
-	public void testEcore2GMF() throws Exception {
-		testEolFile("ECore2GMF.eol", UnparserTests.class);
-	}
-	
-	@Test
-	public void testFormatting() throws Exception {
-		testEolFile("Formatting.eol", UnparserTests.class);
-	}
-	
-	@Test
-	public void testElvis() throws Exception {
-		testEolFile("ElvisTestsNoShortcut.eol", UnparserTests.class);
-	}
-	
-	@Test
-	public void testExistingEolTests() throws Exception {
-		testEolFiles(EolAcceptanceTestSuite.class,
-				"AnnotatedOperationTests.eol",
-				"BooleanTests.eol",
-				"BuiltInVariablesTests.eol",
-				"CllectionPropertyTests.eol",
-				"CollectionsTests.eol",
-				"ComparisonTests.eol",
-				"CreateDeleteTests.eol",
-				"EqualityTests.eol",
-				"IsDefinedTests.eol",
-				"IterableTests.eol",
-				"MathTests.eol",
-				"ModelElementConstructorTests.eol",
-				"ModelElementTypeResolutionTests.eol",
-				"OperationOrderTests.eol",
-				"PostfixOperatorTests.eol",
-				"ReturnTypeTests.eol",
-				"SafeNavigationTests.eol",
-				"ScopeTests.eol",
-				"StringTests.eol",
-				"SwitchTests.eol",
-				"TransactionTests.eol",
-				"TypeConversionTests.eol"
-				);
-	}
+public abstract class UnparserTests {
+
+	public abstract EolModule createModule();
+	public abstract EolUnparser createUnparser();
 	
 	@SuppressWarnings("rawtypes")
-	protected void testEolFiles(Class clazz, String... fileNames) throws Exception {
+	protected void test(Class clazz, String... fileNames) throws Exception {
 		for (String fileName : fileNames) {
-			testEolFile(fileName, clazz);
+			test(fileName, clazz);
 		}
 	}
 	
 	@SuppressWarnings("rawtypes")
-	protected void testEolFile(String fileName, Class clazz) throws Exception {
-		EolModule module = new EolModule();
+	protected void test(String fileName, Class clazz) throws Exception {
+		EolModule module = createModule();
 		File file = FileUtil.getFileStandalone(fileName, clazz);
 		module.parse(file);
-		assertEquals(stripCommentsAndEmptyLines(file), stripCommentsAndEmptyLines(new EolUnparser().unparse(module)));
+	
+		String fileContents = stripCommentsAndEmptyLines(file);
+		String unparserOutput = stripCommentsAndEmptyLines(createUnparser().unparse(module));
 		
+		if (!removeWhitespace(fileContents).equals(removeWhitespace(unparserOutput))) {
+			assertEquals(fileContents, unparserOutput);
+		}
+	}
+	
+	protected String removeWhitespace(String str) {
+		return str.replaceAll("\\s+","");
 	}
 	
 	protected String stripCommentsAndEmptyLines(File file) throws Exception {
@@ -93,4 +60,5 @@ public class UnparserTests {
 		}
 		return buffer.toString();
 	}
+	
 }

@@ -1,9 +1,3 @@
-@cached
-operation AbstractTypeDeclaration getPublicMethods() : Collection {
-    return self.bodyDeclarations.select(bd | bd.isKindOf(MethodDeclaration) and 
-        bd.modifier.isDefined() and bd.modifier.visibility == VisibilityKind#public);
-}
-
 $parallel self.getPublicMethods().size() > 5
 context ClassDeclaration {
 	constraint hasEquals {
@@ -24,4 +18,10 @@ context ClassDeclaration {
 			method.returnType.type.isTypeOf(PrimitiveTypeInt)
 		)
 	}
+}
+
+@cached
+operation AbstractTypeDeclaration getPublicMethods() : Collection {
+    return self.bodyDeclarations.select(bd | bd.isKindOf(MethodDeclaration) and 
+        bd.modifier.isDefined() and bd.modifier.visibility == VisibilityKind#public);
 }

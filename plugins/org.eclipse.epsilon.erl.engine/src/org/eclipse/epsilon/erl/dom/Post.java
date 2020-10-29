@@ -23,4 +23,7 @@ public class Post extends NamedStatementBlockRule {
 		return ts;
 	}
 	
+	public void accept(IErlVisitor visitor) {
+		visitor.visit(this);
+	}
 }

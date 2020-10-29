@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.AbortStatement;
 import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
+import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.AnnotationBlock;
 import org.eclipse.epsilon.eol.dom.AssignmentStatement;
 import org.eclipse.epsilon.eol.dom.BooleanLiteral;
@@ -83,10 +84,14 @@ public class EolUnparser implements IEolVisitor {
 		
 		module.getImports().stream().forEach(i -> {i.accept(this); newline();});
 		module.getModelDelcarations().stream().forEach(md -> {md.accept(this); newline();});
-		module.getMain().accept(this);
+		unparseMain();
 		module.getOperations().stream().forEach(o -> {newline(); o.accept(this);});
 		
 		return buffer.toString();
+	}
+	
+	protected void unparseMain() {
+		module.getMain().accept(this);
 	}
 	
 	protected void newline() {
@@ -108,7 +113,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(AndOperatorExpression andOperatorExpression) {
-		printBinaryOperatorExpression(andOperatorExpression, "and");
+		unparseBinaryOperatorExpression(andOperatorExpression, "and");
 	}
 
 	@Override
@@ -124,10 +129,7 @@ public class EolUnparser implements IEolVisitor {
 		buffer.append(";");
 	}
 
-	@Override
-	public void visit(AnnotationBlock annotationBlock) {
-		annotationBlock.getAnnotations().forEach(a -> {a.accept(this); newline();});
-	}
+
 
 	@Override
 	public void visit(AssignmentStatement assignmentStatement) {
@@ -189,12 +191,12 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(DivOperatorExpression divOperatorExpression) {
-		printBinaryOperatorExpression(divOperatorExpression, "/");
+		unparseBinaryOperatorExpression(divOperatorExpression, "/");
 	}
 
 	@Override
 	public void visit(DoubleEqualsOperatorExpression doubleEqualsOperatorExpression) {
-		printBinaryOperatorExpression(doubleEqualsOperatorExpression, "==");
+		unparseBinaryOperatorExpression(doubleEqualsOperatorExpression, "==");
 	}
 
 	@Override
@@ -211,16 +213,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(EqualsOperatorExpression equalsOperatorExpression) {
-		printBinaryOperatorExpression(equalsOperatorExpression, "=");
-	}
-
-	@Override
-	public void visit(ExecutableAnnotation executableAnnotation) {
-		buffer.append("$" + executableAnnotation.getName());
-		if (executableAnnotation.getExpression() != null) {
-			space();
-			executableAnnotation.getExpression().accept(this);
-		}
+		unparseBinaryOperatorExpression(equalsOperatorExpression, "=");
 	}
 
 	@Override
@@ -231,23 +224,23 @@ public class EolUnparser implements IEolVisitor {
 	@Override
 	public void visit(ExpressionInBrackets expressionInBrackets) {
 		buffer.append("(");
-		print(expressionInBrackets.getExpression());
+		unparse(expressionInBrackets.getExpression());
 		buffer.append(")");
 	}
 
 	@Override
 	public void visit(ExpressionStatement expressionStatement) {
-		print(expressionStatement.getExpression());
+		unparse(expressionStatement.getExpression());
 		semicolon();
 	}
 	
-	protected void print(Expression expression) {
+	protected void unparse(Expression expression) {
 		if (expression != null) expression.accept(this);
 	}
 	
 	@Override
 	public void visit(FirstOrderOperationCallExpression operationCallExpression) {
-		print(operationCallExpression.getTargetExpression());
+		unparse(operationCallExpression.getTargetExpression());
 		arrowOrDot(operationCallExpression);
 		buffer.append(operationCallExpression.getName() + "(");
 		ListIterator<Parameter> pi = operationCallExpression.getParameters().listIterator();
@@ -278,18 +271,18 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(GreaterEqualOperatorExpression greaterEqualOperatorExpression) {
-		printBinaryOperatorExpression(greaterEqualOperatorExpression, ">=");
+		unparseBinaryOperatorExpression(greaterEqualOperatorExpression, ">=");
 	}
 
 	@Override
 	public void visit(GreaterThanOperatorExpression greaterThanOperatorExpression) {
-		printBinaryOperatorExpression(greaterThanOperatorExpression, ">");
+		unparseBinaryOperatorExpression(greaterThanOperatorExpression, ">");
 	}
 
 	@Override
 	public void visit(IfStatement ifStatement) {
 		buffer.append("if (");
-		print(ifStatement.getConditionExpression());
+		unparse(ifStatement.getConditionExpression());
 		buffer.append(") ");
 		ifStatement.getThenStatementBlock().accept(this);
 		if (ifStatement.getElseStatementBlock() != null) {
@@ -308,7 +301,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(ImpliesOperatorExpression impliesOperatorExpression) {
-		printBinaryOperatorExpression(impliesOperatorExpression, "implies");
+		unparseBinaryOperatorExpression(impliesOperatorExpression, "implies");
 	}
 
 	@Override
@@ -331,12 +324,12 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(LessEqualOperatorExpression lessEqualOperatorExpression) {
-		printBinaryOperatorExpression(lessEqualOperatorExpression, "<=");
+		unparseBinaryOperatorExpression(lessEqualOperatorExpression, "<=");
 	}
 
 	@Override
 	public void visit(LessThanOperatorExpression lessThanOperatorExpression) {
-		printBinaryOperatorExpression(lessThanOperatorExpression, "<");
+		unparseBinaryOperatorExpression(lessThanOperatorExpression, "<");
 	}
 
 	@Override
@@ -356,7 +349,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(MinusOperatorExpression minusOperatorExpression) {
-		printBinaryOperatorExpression(minusOperatorExpression, "-");
+		unparseBinaryOperatorExpression(minusOperatorExpression, "-");
 	}
 
 	@Override
@@ -398,7 +391,7 @@ public class EolUnparser implements IEolVisitor {
 	@Override
 	public void visit(NegativeOperatorExpression negativeOperatorExpression) {
 		buffer.append("-");
-		print(negativeOperatorExpression.getFirstOperand());
+		unparse(negativeOperatorExpression.getFirstOperand());
 	}
 
 	@Override
@@ -418,7 +411,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(NotEqualsOperatorExpression notEqualsOperatorExpression) {
-		printBinaryOperatorExpression(notEqualsOperatorExpression, notEqualsOperatorExpression.getOperator() != null ? notEqualsOperatorExpression.getOperator() : "<>");
+		unparseBinaryOperatorExpression(notEqualsOperatorExpression, notEqualsOperatorExpression.getOperator() != null ? notEqualsOperatorExpression.getOperator() : "<>");
 	}
 
 	@Override
@@ -429,7 +422,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(Operation operation) {
-		if (operation.getAnnotationBlock() != null) operation.getAnnotationBlock().accept(this);
+		unparseAnnotations(operation);
 		buffer.append("operation ");
 		if (operation.getContextTypeExpression() != null) {
 			operation.getContextTypeExpression().accept(this);
@@ -453,7 +446,7 @@ public class EolUnparser implements IEolVisitor {
 	@Override
 	public void visit(OperationCallExpression operationCallExpression) {
 		if (operationCallExpression.getTargetExpression() != null) {
-			print(operationCallExpression.getTargetExpression());
+			unparse(operationCallExpression.getTargetExpression());
 			arrowOrDot(operationCallExpression);
 		}
 		buffer.append(operationCallExpression.getName() + "(");
@@ -467,7 +460,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(OrOperatorExpression orOperatorExpression) {
-		printBinaryOperatorExpression(orOperatorExpression, "or");
+		unparseBinaryOperatorExpression(orOperatorExpression, "or");
 	}
 
 	@Override
@@ -481,7 +474,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(PlusOperatorExpression plusOperatorExpression) {
-		printBinaryOperatorExpression(plusOperatorExpression, "+");
+		unparseBinaryOperatorExpression(plusOperatorExpression, "+");
 	}
 
 	@Override
@@ -514,12 +507,25 @@ public class EolUnparser implements IEolVisitor {
 	}
 
 	@Override
+	public void visit(AnnotationBlock annotationBlock) {
+		annotationBlock.getAnnotations().forEach(a -> {indent(); a.accept(this); newline();});
+	}
+	
+	@Override
 	public void visit(SimpleAnnotation simpleAnnotation) {
 		buffer.append("@" + simpleAnnotation.getName());
 		if (simpleAnnotation.getValue() != null) {
 			buffer.append(" " + simpleAnnotation.getValue());
 		}
-		newline();
+	}
+	
+	@Override
+	public void visit(ExecutableAnnotation executableAnnotation) {
+		buffer.append("$" + executableAnnotation.getName());
+		if (executableAnnotation.getExpression() != null) {
+			space();
+			executableAnnotation.getExpression().accept(this);
+		}
 	}
 
 	@Override
@@ -543,9 +549,14 @@ public class EolUnparser implements IEolVisitor {
 	
 	@Override
 	public void visit(StringLiteral stringLiteral) {
-		buffer.append("\"" + stringLiteral.getValue().replace("\\", "\\\\") + "\"");
+		buffer.append("\"" + escape(stringLiteral.getValue()) + "\"");
 	}
-
+	
+	public static String escape(String s) {
+		return s.replace("\\", "\\\\").replace("\t", "\\t").replace("\b", "\\b").replace("\n", "\\n")
+				.replace("\r", "\\r").replace("\f", "\\f").replace("\"", "\\\"");
+	}
+	
 	@Override
 	public void visit(SwitchStatement switchStatement) {
 		buffer.append("switch (");
@@ -584,10 +595,10 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(TimesOperatorExpression timesOperatorExpression) {
-		printBinaryOperatorExpression(timesOperatorExpression, "*");
+		unparseBinaryOperatorExpression(timesOperatorExpression, "*");
 	}
 	
-	protected void printBinaryOperatorExpression(OperatorExpression operatorExpression, String operator) {
+	protected void unparseBinaryOperatorExpression(OperatorExpression operatorExpression, String operator) {
 		operatorExpression.getFirstOperand().accept(this);
 		buffer.append(" " + operator + " ");
 		operatorExpression.getSecondOperand().accept(this);
@@ -642,14 +653,20 @@ public class EolUnparser implements IEolVisitor {
 	@Override
 	public void visit(WhileStatement whileStatement) {
 		buffer.append("while (");
-		print(whileStatement.getConditionExpression());
+		unparse(whileStatement.getConditionExpression());
 		buffer.append(")");
 		whileStatement.getBodyStatementBlock().accept(this);
 	}
 
 	@Override
 	public void visit(XorOperatorExpression xorOperatorExpression) {
-		printBinaryOperatorExpression(xorOperatorExpression, "xor");
+		unparseBinaryOperatorExpression(xorOperatorExpression, "xor");
+	}
+	
+	protected void unparseAnnotations(AnnotatableModuleElement annotatableModuleElement) {
+		if (annotatableModuleElement.getAnnotationBlock() != null) {
+			annotatableModuleElement.getAnnotationBlock().accept(this);
+		}
 	}
 	
 }

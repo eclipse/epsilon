@@ -30,7 +30,7 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 public class Constraint extends NamedRule implements IExecutableModuleElementParameter {
 	
 	protected boolean isCritique = false;
-	protected List<Fix> fixes;
+	protected List<Fix> fixes = new ArrayList<Fix>();
 	protected ConstraintContext constraintContext;
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected ExecutableBlock<Boolean> checkBlock;
@@ -260,5 +260,37 @@ public class Constraint extends NamedRule implements IExecutableModuleElementPar
 		return
 			Objects.equals(this.constraintContext, constraint.constraintContext) &&
 			Objects.equals(this.isCritique, constraint.isCritique);
+	}
+	
+	public ExecutableBlock<Boolean> getGuardBlock() {
+		return guardBlock;
+	}
+	
+	public void setGuardBlock(ExecutableBlock<Boolean> guardBlock) {
+		this.guardBlock = guardBlock;
+	}
+	
+	public ExecutableBlock<Boolean> getCheckBlock() {
+		return checkBlock;
+	}
+	
+	public void setCheckBlock(ExecutableBlock<Boolean> checkBlock) {
+		this.checkBlock = checkBlock;
+	}
+	
+	public ExecutableBlock<String> getMessageBlock() {
+		return messageBlock;
+	}
+	
+	public void setMessageBlock(ExecutableBlock<String> messageBlock) {
+		this.messageBlock = messageBlock;
+	}
+	
+	public List<Fix> getFixes() {
+		return fixes;
+	}
+	
+	public void accept(IEvlVisitor visitor) {
+		visitor.visit(this);
 	}
 }

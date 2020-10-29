@@ -8,13 +8,6 @@ pre allNamedElements {
 	}
 }
 
-operation Recipe removeFromDependencies() {
-	var recipesWithDependencies = Recipe.allInstances().select(recp | recp.dependencies.isDefined() and recp.dependencies.notEmpty());
-	for (recp in recipesWithDependencies) {
-		recp.dependencies.remove(self);
-	}
-}
-
 context Recipe {
 	constraint cannotUseItself {
 		guard: self.dependencies.isDefined()
@@ -87,8 +80,9 @@ context InstructionSet {
 				var fixed = self.instruction.reject(instr : String | instr.length() < 3);
 				for (inst : String in fixed) {
 					inst = inst.firstToUpperCase();
-					if (inst.endsWith(".") or inst.endsWith("!"))
+					if (inst.endsWith(".") or inst.endsWith("!")) {
 						continue;
+					}
 					inst = inst+".";
 				}
 				self.instruction = fixed;
@@ -118,5 +112,12 @@ context NamedElement {
 				self.name = self.name+" ("+self.type().name+")";
 			}
 		}
+	}
+}
+
+operation Recipe removeFromDependencies() {
+	var recipesWithDependencies = Recipe.allInstances().select(recp | recp.dependencies.isDefined() and recp.dependencies.notEmpty());
+	for (recp in recipesWithDependencies) {
+		recp.dependencies.remove(self);
 	}
 }
