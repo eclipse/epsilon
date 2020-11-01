@@ -73,7 +73,7 @@ rule EClass2ClassDiagram
 				Map {"id"="constraintNames", "title"="Constraint names"},
 				Map {"id"="features", "title"="Features"},
 				Map {"id"="inlineReferences", "title"="Inline references"},
-				Map {"id"="referenceLabels", "title"="Reference labels"},
+				Map {"id"="referenceLabels", "title"="Reference labels", "active"=false},
 				Map {"id"="subtypes", "title"="Subtypes", "active"=false},
 				Map {"id"="supertypes", "title"="Supertypes"},
 				Map {"id"="derived", "title"="Derived features", "active"=false},
