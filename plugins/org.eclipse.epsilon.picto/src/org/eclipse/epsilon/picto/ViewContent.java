@@ -78,7 +78,7 @@ public class ViewContent {
 	
 	protected void setLabel() {
 		getViewContentTransformers().stream()
-			.filter(vct -> vct.canTransform(this))
+			.filter(vct -> vct.canTransform(this) && !(vct instanceof PatchContentTransformer))
 			.findAny()
 			.ifPresent(vct -> this.label = vct.getLabel(this));
 	}
