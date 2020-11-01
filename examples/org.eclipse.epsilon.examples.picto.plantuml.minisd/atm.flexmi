@@ -32,7 +32,7 @@
 					</block>
 				</alt>
 			</block>
-			<block title="Pin invalid">
+			<block title="PIN invalid">
 				<int from="ATM" to="Customer" msg="Try again"/>
 			</block>
 		</alt>

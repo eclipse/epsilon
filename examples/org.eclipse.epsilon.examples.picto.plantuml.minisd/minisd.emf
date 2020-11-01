@@ -18,10 +18,6 @@ class Block extends Step {
 	val Step[*] steps;
 }
 
-class Loop extends Block {
-	
-}
-
 class Alt extends Step {
 	attr String title;
 	val Block[*] blocks;
