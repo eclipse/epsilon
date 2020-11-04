@@ -7,5 +7,15 @@
             class="org.eclipse.epsilon.examples.staticanalysis.eol.EolVariableNameChecker">
       </moduleValidator>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.eol.dt.launchConfigurationExtension">
+      <launchConfigurationExtension
+            listener="org.eclipse.epsilon.examples.staticanalysis.eol.EolHelloWorldInjector">
+      </launchConfigurationExtension>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.eol.dt.launchConfigurationExtension">
+      <launchConfigurationExtension></launchConfigurationExtension>
+   </extension>
 
 </plugin>
