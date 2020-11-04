@@ -32,6 +32,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 	protected Button openOnLoadCheckbox;
 	protected Button closeOnDisposeCheckbox;
 	protected Button tryCatchCheckbox;
+	protected Button reduceExchangesCheckbox;
 	protected Button browseModelFile;
 	protected Text projectFileText;
 	protected Text modelFileText;
@@ -125,6 +126,13 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		currentProjectCheckbox.setToolTipText("If selected, disregards any specified project file and instead calls an open project in the shared MATLAB session.");
 		currentProjectCheckbox.setLayoutData(buttonData);
 		
+		Label reduceExchangesLabel = new Label(groupContent, SWT.NONE);
+		reduceExchangesLabel.setText("Reduce MATLAB exchanges: ");
+		reduceExchangesLabel.setToolTipText("You must ensure to call the flush method of the model at the end of the program execution");
+		
+		reduceExchangesCheckbox = new Button(groupContent, SWT.CHECK);
+		reduceExchangesCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		reduceExchangesCheckbox.setSelection(false);
 		
 		/*isSharedButton.addSelectionListener(new SelectionListener() {
 			
@@ -245,6 +253,9 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		if (tryCatchCheckbox != null) {
 			tryCatchCheckbox.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_ENABLE_TRY_CATCH, true));
 		}
+		if (reduceExchangesCheckbox != null) {
+			reduceExchangesCheckbox.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_REDUCE_EXCHANGES,false));
+		}
 		
 		/*if (isSharedButton != null) {
 			isSharedButton.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_MUST_CONNECT, false));
@@ -273,6 +284,9 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		if (tryCatchCheckbox != null) {
 			properties.put(AbstractSimulinkModel.PROPERTY_ENABLE_TRY_CATCH, tryCatchCheckbox.getSelection() + "");			
 		}
+		if (reduceExchangesCheckbox != null) {
+			properties.put(AbstractSimulinkModel.PROPERTY_REDUCE_EXCHANGES, reduceExchangesCheckbox.getSelection() + "");
+		}
 		/*if (isSharedButton != null) {
 			properties.put(AbstractSimulinkModel.PROPERTY_MUST_CONNECT, isSharedButton.getSelection() + "");
 		}
@@ -296,6 +310,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		projectFileText.setEnabled(true);
 		projectFileText.setEditable(true);
 		projectFileBrowser.setEnabled(true);
+		reduceExchangesCheckbox.setEnabled(false);
 	}
 	
 	protected void enableOnSelect(Button source, Text targetText) {

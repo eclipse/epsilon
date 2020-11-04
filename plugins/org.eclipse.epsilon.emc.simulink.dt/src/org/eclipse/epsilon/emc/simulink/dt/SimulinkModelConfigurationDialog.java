@@ -102,7 +102,7 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		
 		enableFindOptimisationsCheckbox = new Button(engineGroup, SWT.CHECK);
 		enableFindOptimisationsCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		enableFindOptimisationsCheckbox.setSelection(false);
+		enableFindOptimisationsCheckbox.setSelection(true);
 				
 		engineGroup.layout();
 		engineGroup.pack();

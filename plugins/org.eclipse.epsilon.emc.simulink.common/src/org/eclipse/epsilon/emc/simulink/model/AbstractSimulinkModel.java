@@ -51,6 +51,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public static final String PROPERTY_CURRENT_SIMULINK_PROJECT= "use_current_project";
 	public static final String PROPERTY_ENGINE_POOL_SIZE = "engine_max_pool_size";
 	public static final String PROPERTY_TRACK_API = "track_API";
+	public static final String PROPERTY_REDUCE_EXCHANGES = "reduce_matlab_exchanges";
 
 	public static final String ENV_MATLAB_PATH = ENV_PREFIX + PROPERTY_MATLAB_PATH;
 	public static final String ENV_LIBRARY_PATH = ENV_PREFIX + PROPERTY_LIBRARY_PATH;
@@ -71,6 +72,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 
 	protected File workingDir = null;
 	protected List<String> paths = new ArrayList<>();
+	protected boolean reduceExchanges = false;
 
 	public AbstractSimulinkModel() {
 		propertyGetter = new SimulinkPropertyGetter();
@@ -116,7 +118,6 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 				if ((getWorkingDir() != null && getWorkingDir().exists())) {
 					try {
 						engine.eval("cd '?';", getWorkingDir());
-						engine.flush();
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -126,7 +127,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			for (String path : getPaths()) {
 				engine.eval("addpath ?", path);
 			}
-
+			engine.setReduceExchanges(reduceExchanges);
 		}
 		catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
@@ -139,7 +140,13 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			closeMatlabModel();
 		}
 		try {
-			engine.flush();
+			if (isReduceExchanges()) {
+				 if (!engine.isEvalCommandQueueEmpty()) {
+					 throw new IllegalStateException("There were MATLAB commands that were not submitted during the execution! \n "
+					 		+ "When enabling the \"reduce MATLAB exchanges\" option in the Simulink model, you must ensure to call the `ModelName.flush()` "
+					 		+ "method in the model at the end of the execution, e.g. within a post{} block.");
+				 }
+			}
 			engine.release(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -397,6 +404,8 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		setOpenOnLoad(properties.getBooleanProperty(PROPERTY_OPEN_ON_LOAD, false));
 		setCloseOnDispose(properties.getBooleanProperty(PROPERTY_CLOSE_ON_DISPOSE, false));
 		setEnableTryCatch(properties.getBooleanProperty(PROPERTY_ENABLE_TRY_CATCH, true));
+		setReduceExchanges(properties.getBooleanProperty(PROPERTY_REDUCE_EXCHANGES, reduceExchanges));
+		
 		//setMustConnect(properties.getBooleanProperty(PROPERTY_MUST_CONNECT, false));
 		//setEngineSharedSessionName(properties.getProperty(PROPERTY_ENGINE_SHARED_SESSION_NAME, ""));
 		//setEnginePoolSize(properties.getIntegerProperty(PROPERTY_CURRENT_SIMULINK_PROJECT, 2));
@@ -451,5 +460,13 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		libraryPath = allPaths[1];
 		engineJarPath = allPaths[2];
 		return MatlabEnginePool.resolve(libraryPath, engineJarPath);
+	}
+
+	public boolean isReduceExchanges() {
+		return reduceExchanges;
+	}
+
+	public void setReduceExchanges(boolean reduceExchanges) {
+		this.reduceExchanges = reduceExchanges;
 	}
 }

@@ -100,6 +100,8 @@ public class MatlabEngine {
 	protected StringBuilder sb;
 	protected Stopwatch stopWatch;
 
+	private boolean reduceExchanges;
+
 	public boolean isDisconnected() throws Exception{
 		Field declaredField = engine_class.getDeclaredField("fDisconnected");
 		declaredField.setAccessible(true);
@@ -349,7 +351,20 @@ public class MatlabEngine {
 		if (sb !=null) {
 			sb.append("%eval").append(NL).append(cmd).append(NL);
 		}
-		evalCommandQueue.append(cmd);
+		if (isReduceExchanges()) {
+			evalCommandQueue.append(cmd);
+		} else {
+			try {
+				start();
+				evalMethod.invoke(engine, cmd);
+			} catch (InvocationTargetException e) {
+				throw new MatlabException(e);
+			} catch (ReflectiveOperationException | IllegalArgumentException e) {
+				throw new EpsilonSimulinkInternalException(e);
+			} finally {
+				stop();
+			}
+		}
 	}
 	
 	public Future<Void> evalAsync(String cmd) throws MatlabException {
@@ -360,7 +375,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			if (sb !=null) {
 				sb.append("%evalAsync").append(NL).append(cmd).append(NL);
@@ -384,7 +399,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			if (sb !=null) {
 				sb.append("%getVariable").append(NL).append(variable).append(NL);
@@ -438,7 +453,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			Object[] processInputObject = processInputObject(handles);
 			start();
@@ -465,7 +480,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			Object[] processInputObject = processInputObject(handles);
 			start();
@@ -487,7 +502,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			Object[] processInputObject = processInputObject(handles);
 			start();
@@ -511,7 +526,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			Object[] processInputObject = processInputObject(handles);
 			start();
@@ -533,7 +548,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			Object processInputObject = processInputObject(value);
 			start();
@@ -555,7 +570,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			start();
 			fevalAsyncMethod.invoke(engine, function, handles);
@@ -576,7 +591,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			start();
 			closeMethod.invoke(engine);
@@ -597,7 +612,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			start();
 			quitMethod.invoke(engine);
@@ -618,7 +633,7 @@ public class MatlabEngine {
 				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		flush();
+		if (isReduceExchanges()) flush();
 		try {
 			start();
 			disconnectMethod.invoke(engine);
@@ -636,20 +651,38 @@ public class MatlabEngine {
 	 * @throws MatlabException
 	 */
 	public void flush() throws MatlabException {
-		String cmd = evalCommandQueue.toString();
-		try {
-			if (!cmd.isEmpty()) {				
-				start();
-				evalMethod.invoke(engine, cmd);
+		if (isReduceExchanges()) {
+			
+			String cmd = evalCommandQueue.toString();
+			try {
+				if (!cmd.isEmpty()) {				
+					start();
+					evalMethod.invoke(engine, cmd);
+				}
+			} catch (InvocationTargetException e) {
+				throw new MatlabException(e);
+			} catch (ReflectiveOperationException | IllegalArgumentException e) {
+				throw new EpsilonSimulinkInternalException(e);
+			} finally {
+				stop();
+				evalCommandQueue = new StringBuilder();
 			}
-		} catch (InvocationTargetException e) {
-			throw new MatlabException(e);
-		} catch (ReflectiveOperationException | IllegalArgumentException e) {
-			throw new EpsilonSimulinkInternalException(e);
-		} finally {
-			stop();
-			evalCommandQueue = new StringBuilder();
 		}
+	}
+	
+	public boolean isEvalCommandQueueEmpty(){
+		return evalCommandQueue.toString().isEmpty();
+	}
+
+	/**
+	 * @param reduceExchanges
+	 */
+	public void setReduceExchanges(boolean reduceExchanges) {
+		this.reduceExchanges = reduceExchanges;
+	}
+
+	public boolean isReduceExchanges() {
+		return reduceExchanges;
 	}
 	
 }

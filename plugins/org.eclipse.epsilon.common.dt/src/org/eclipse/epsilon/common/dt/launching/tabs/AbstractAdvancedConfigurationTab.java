@@ -119,10 +119,8 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		System.out.println("advanced performApply");
 		configuration.setAttribute(IMPL_NAME, modulesDropDown.getText());
 		if (moduleConfig != null) {
-			System.out.println("moduleConfig performApply");
 			moduleConfig.performApply(configuration);
 		}
 	}
