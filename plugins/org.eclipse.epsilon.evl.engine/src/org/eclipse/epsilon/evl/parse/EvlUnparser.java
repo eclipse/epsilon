@@ -1,3 +1,12 @@
+/*********************************************************************
+ * Copyright (c) 2020 The University of York.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.evl.parse;
 
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
@@ -14,7 +23,7 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 	
 	@Override
 	protected void unparseRules() {
-		((EvlModule) module).getDeclaredConstraintContexts().stream().forEach(c -> {c.accept(this); newline();});
+		((EvlModule) module).getDeclaredConstraintContexts().forEach(c -> {c.accept(this); newline();});
 	}
 	
 	public String unparse(EvlModule module) {
@@ -32,13 +41,13 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 			newline();
 			indentation++;
 			print("guard", constraintContext.getGuardBlock());
-			constraintContext.getConstraints().stream().forEach(c -> {c.accept(this); newline();});
+			constraintContext.getConstraints().forEach(c -> {c.accept(this); newline();});
 			indentation--;
 			buffer.append("}");
 			newline();
 		}
 		else {
-			constraintContext.getConstraints().stream().forEach(c -> {c.accept(this); newline();});
+			constraintContext.getConstraints().forEach(c -> {c.accept(this); newline();});
 		}
 	}
 
@@ -58,7 +67,7 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 		print("check", constraint.getCheckBlock());
 		print("message", constraint.getMessageBlock());
 		
-		constraint.getFixes().stream().forEach(f -> f.accept(this));
+		constraint.getFixes().forEach(f -> f.accept(this));
 		
 		indentation--;
 		newline();

@@ -1,13 +1,14 @@
+/*********************************************************************
+ * Copyright (c) 2020 The University of York.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.eol.engine.test.acceptance.unparser;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.List;
-
-import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.parse.EolUnparser;
