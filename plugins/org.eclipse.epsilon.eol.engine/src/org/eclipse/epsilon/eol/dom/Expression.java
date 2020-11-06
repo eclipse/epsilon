@@ -20,6 +20,10 @@ public abstract class Expression extends AbstractExecutableModuleElement {
 		return resolvedType;
 	}
 	
+	public void setResolvedType(EolType resolvedType) {
+		this.resolvedType = resolvedType;
+	}
+	
 	public boolean hasResolvedType() {
 		return resolvedType != null && resolvedType != EolAnyType.Instance;
 	}
