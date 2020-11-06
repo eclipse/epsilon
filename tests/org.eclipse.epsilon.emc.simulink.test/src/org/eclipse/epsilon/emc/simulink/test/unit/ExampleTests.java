@@ -76,5 +76,11 @@ public class ExampleTests extends AbstractSimulinkTest {
 		eolResourceFile = ROOT + "queryFeedbackController.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 	}
+	
+	@Test
+	public void testMaskProperties() {
+		eolResourceFile = ROOT + "mask.eol";
+		modelFile = FileUtils.getModelFile("masks.slx");
+	}
 
 }

@@ -84,7 +84,21 @@ public abstract class SimulinkElement extends SimulinkModelElement {
 	@Override
 	public Object getProperty(String property) throws EolRuntimeException {
 		try {
-			return engine.evalWithSetupAndResult(HANDLE, GET_HANDLE_PROPERTY, getHandle(), property);
+			String command = ""
+					+ "handle = ?; "
+					+ "property = '?';"
+					+ "try\n" + 
+					"        result = get_param(handle,property);\n" + 
+					"    catch ME\n" + 
+					"        if contains(ME.message, '(mask)');\n" + 
+					"            maskParams = get_param(handle,'MaskPrompts');\n" +
+					"			 [tf,idx] = ismember(maskParams,property);\n" + 
+					"			 maskVal = get_param(handle,'MaskValues');\n" +
+					"			 result = maskVal{:,idx};\n" + 
+					"        end\n" + 
+					"    end";
+			engine.eval(command, getHandle(), property);
+			return engine.getVariable("result");
 		} catch (MatlabException e) {
 			throw e.toEolRuntimeException();
 		}
@@ -100,8 +114,24 @@ public abstract class SimulinkElement extends SimulinkModelElement {
 			} else {
 				escaped = "'" + escaped + "'";
 			}
-			String cmd = "handle = ?; set_param(handle, '?', " + escaped + ");";
-			engine.eval(cmd, this.getHandle(), property, value);
+			String stringValue = String.valueOf(value);
+			String command = ""
+					+ "handle = ?; "
+					+ "property = '?';"
+					+ "value = "+escaped+";"
+					+ "stringValue = '?';"
+					+ "try\n" + 
+					"        set_param(handle,property,value);\n" + 
+					"    catch ME\n" + 
+					"        if contains(ME.message, '(mask)')\n" + 
+					"            maskParams = get_param(handle,'MaskPrompts');\n" + 
+					"            [tf,idx] = ismember(maskParams,property);\n" + 
+					"            maskVal = get_param(handle,'MaskValues');\n" + 
+					"            maskVal{:,idx} = char(stringValue);\n" + 
+					"            set_param(handle,'MaskValues',maskVal);\n" +
+					"        end\n" + 
+					"    end";
+			engine.eval(command, getHandle(), property, value, stringValue);
 		} catch (MatlabException ex) {
 			throw ex.toEolRuntimeException();
 		}
