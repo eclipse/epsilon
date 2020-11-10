@@ -112,8 +112,40 @@ public class EolUnparser implements IEolVisitor {
 	}
 	
 	protected void space() {
-		buffer.append(" ");
+		buffer.append(' ');
 	}
+	
+	protected void startCurlybrace() {
+		buffer.append('{');
+	}
+	
+	protected void endCurlybrace() {
+		buffer.append('}');
+	}
+	
+	protected void plusIndentationAndAppend() {
+		++indentation;
+		indent();
+	}
+	
+	protected void minusIndentationAndAppend() {
+		--indentation;
+		indent();
+	}
+	
+	protected void spaceCurlybraceNewlineIndent() {
+		space();
+		startCurlybrace();
+		newline();
+		plusIndentationAndAppend();
+	}
+	
+	protected void newlineUnindentCurlybrace() {
+		newline();
+		minusIndentationAndAppend();
+		endCurlybrace();
+	}
+	
 	
 	@Override
 	public void visit(AbortStatement abortStatement) {

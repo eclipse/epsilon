@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.parse;
 
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.parse.EolUnparser;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.IErlVisitor;
@@ -46,6 +47,16 @@ public abstract class ErlUnparser extends EolUnparser implements IErlVisitor {
 		buffer.append(label + " ");
 		if (preOrPost.getName() != null) buffer.append(preOrPost.getName() + " ");
 		preOrPost.getBody().accept(this);
+	}
+	
+	protected void print(String role, ExecutableBlock<?> executableBlock) {
+		if (executableBlock != null) {
+			newline();
+			indent();
+			buffer.append(role);
+			executableBlock.accept(this);
+			newline();
+		}
 	}
 	
 }
