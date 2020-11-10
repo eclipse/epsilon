@@ -54,9 +54,13 @@ public abstract class ErlUnparser extends EolUnparser implements IErlVisitor {
 			newline();
 			indent();
 			buffer.append(role);
+			space();
 			executableBlock.accept(this);
 			newline();
 		}
 	}
 	
+	protected void printGuard(ExecutableBlock<Boolean> guardBlock) {
+		print("guard", guardBlock);
+	}
 }

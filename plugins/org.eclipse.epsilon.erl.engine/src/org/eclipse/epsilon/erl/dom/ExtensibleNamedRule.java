@@ -27,7 +27,7 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	protected List<NameExpression> superRulesIdentifiers = new ArrayList<>();	
 	protected List<ExtensibleNamedRule> superRules = new ArrayList<>();
 	protected List<ExtensibleNamedRule> allSuperRules = new ArrayList<>();
-	protected Boolean isGreedy, isAbstract, isLazy;
+	protected Boolean isGreedy, isAbstract, isLazy, isParallel;
 	protected Map<Parameter, Collection<?>> ofTypeCache = new HashMap<>();
 	protected Map<Parameter, Collection<?>> ofKindCache = new HashMap<>();
 	
@@ -60,6 +60,22 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 			}
 		}
 		return instances;
+	}
+	
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 2.3
+	 */
+	public boolean isParallel(IEolContext context) throws EolRuntimeException {
+		if (isParallel == null) synchronized (this) {
+			if (isParallel == null) {
+				isParallel = getBooleanAnnotationValue("parallel", context);
+			}
+		}
+		return isParallel;
 	}
 	
 	public boolean isGreedy(IEolContext context) throws EolRuntimeException {

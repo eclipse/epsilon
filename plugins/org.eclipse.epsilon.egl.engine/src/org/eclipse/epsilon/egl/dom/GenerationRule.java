@@ -106,7 +106,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 			}
 		}
 	}
-
+	
 	public Collection<?> getAllElements(IEolContext context) throws EolRuntimeException {
 		if (sourceParameter != null) {
 			if (domainBlock == null) {
@@ -236,5 +236,110 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	@Override
 	public AST getSuperRulesAst(AST cst) {
 		return null;
+	}
+	
+	public void accept(IEgxVisitor visitor) {
+		visitor.visit(this);
+	}
+	
+	/**
+	 * Gets the parameter bound to the "transform" part, if {@link #hasTransformSource()} == true.
+	 * 
+	 * @return The part following "transform", or <code>null</code> if absent.
+	 * @since 2.3
+	 */
+	public Parameter getTransformSource() {
+		return sourceParameter;
+	}
+	
+	/**
+	 * Used to determine whether this rule operates over a collection of model elements.
+	 * 
+	 * @return <code>true</code> if the rule has a "transform" part.
+	 * @since 2.3
+	 */
+	public boolean hasTransformSource() {
+		return sourceParameter != null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<? extends Collection<?>> getDomainBlock() {
+		return domainBlock;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<String> getTargetBlock() {
+		return targetBlock;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<String> getTemplateBlock() {
+		return templateBlock;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<Boolean> getGuardBlock() {
+		return guardBlock;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<Boolean> getOverwriteBlock() {
+		return overwriteBlock;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<Boolean> getMergeBlock() {
+		return mergeBlock;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<?> getPreBlock() {
+		return preBlock;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<?> getPostBlock() {
+		return postBlock;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public ExecutableBlock<EolMap<String, ?>> getParametersBlock() {
+		return parametersBlock;
 	}
 }
