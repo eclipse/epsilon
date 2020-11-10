@@ -26,10 +26,6 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 		((EvlModule) module).getDeclaredConstraintContexts().forEach(c -> {c.accept(this); newline();});
 	}
 	
-	public String unparse(EvlModule module) {
-		return super.unparse(module);
-	}
-	
 	@Override
 	public void visit(ConstraintContext constraintContext) {
 		if (constraintContext.getTypeExpression() != null) {
@@ -74,16 +70,6 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 		indent();
 		buffer.append("}");
 		
-	}
-	
-	protected void print(String role, ExecutableBlock<?> executableBlock) {
-		if (executableBlock != null) {
-			newline();
-			indent();
-			buffer.append(role);
-			executableBlock.accept(this);
-			newline();
-		}
 	}
 	
 	@Override

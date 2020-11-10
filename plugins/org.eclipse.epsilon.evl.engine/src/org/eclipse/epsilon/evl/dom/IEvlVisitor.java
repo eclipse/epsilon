@@ -9,9 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.dom;
 
-import org.eclipse.epsilon.eol.dom.IEolVisitor;
+import org.eclipse.epsilon.erl.dom.IErlVisitor;
 
-public interface IEvlVisitor extends IEolVisitor {
+public interface IEvlVisitor extends IErlVisitor {
 
 	public void visit(ConstraintContext constraintContext);
 
