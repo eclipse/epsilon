@@ -93,8 +93,9 @@ public abstract class SimulinkElement extends SimulinkModelElement {
 					"        if contains(ME.message, '(mask)');\n" + 
 					"            maskParams = get_param(handle,'MaskPrompts');\n" +
 					"			 [tf,idx] = ismember(maskParams,property);\n" + 
+					"            idx = find(idx==1);\n" + 
 					"			 maskVal = get_param(handle,'MaskValues');\n" +
-					"			 result = maskVal{:,idx};\n" + 
+					"			 result = maskVal{1,idx};\n" + 
 					"        end\n" + 
 					"    end";
 			engine.eval(command, getHandle(), property);
@@ -126,8 +127,9 @@ public abstract class SimulinkElement extends SimulinkModelElement {
 					"        if contains(ME.message, '(mask)')\n" + 
 					"            maskParams = get_param(handle,'MaskPrompts');\n" + 
 					"            [tf,idx] = ismember(maskParams,property);\n" + 
+					"            idx = find(idx==1);\n" + 
 					"            maskVal = get_param(handle,'MaskValues');\n" + 
-					"            maskVal{:,idx} = char(stringValue);\n" + 
+					"            maskVal{1,idx} = char(stringValue);\n" + 
 					"            set_param(handle,'MaskValues',maskVal);\n" +
 					"        end\n" + 
 					"    end";
