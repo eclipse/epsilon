@@ -22,11 +22,11 @@ import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.flexmi.FlexmiParser;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
-import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
+import org.eclipse.epsilon.flexmi.xml.FlexmiXmlParser;
 import org.w3c.dom.Document;
 import org.yaml.snakeyaml.Yaml;
 
-public class FlexmiYamlParser extends PseudoSAXParser {
+public class FlexmiYamlParser extends FlexmiXmlParser {
 	
 	public static void main(String[] args) throws Exception {
 		

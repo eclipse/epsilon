@@ -38,7 +38,7 @@ import org.w3c.dom.ProcessingInstruction;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-public class PseudoSAXParser implements FlexmiParser {
+public class FlexmiXmlParser implements FlexmiParser {
 	
 	protected FlexmiResource resource;
 	protected URI uri;
@@ -103,7 +103,7 @@ public class PseudoSAXParser implements FlexmiParser {
 					URI includedURI = URI.createURI(value).resolve(uri);
 					InputStream includedInputStream = resource.getResourceSet().getURIConverter().createInputStream(includedURI);
 					resource.startProcessingFragment(includedURI);
-					new PseudoSAXParser().parse(resource, includedURI, includedInputStream, handler, false);
+					new FlexmiXmlParser().parse(resource, includedURI, includedInputStream, handler, false);
 					resource.endProcessingFragment();
 				}
 				catch (Exception ex) {

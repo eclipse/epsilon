@@ -36,8 +36,8 @@ import org.eclipse.epsilon.flexmi.actions.VariableDeclaration;
 import org.eclipse.epsilon.flexmi.actions.VariableDeclaration.VariableDeclarationType;
 import org.eclipse.epsilon.flexmi.templates.Template;
 import org.eclipse.epsilon.flexmi.xml.Location;
-import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
-import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser.Handler;
+import org.eclipse.epsilon.flexmi.xml.FlexmiXmlParser;
+import org.eclipse.epsilon.flexmi.xml.FlexmiXmlParser.Handler;
 import org.eclipse.epsilon.flexmi.yaml.FlexmiYamlParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -172,6 +172,11 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected FlexmiParser createParser(BufferedInputStream inputStream) {
+		if (isXml(inputStream)) return new FlexmiXmlParser();
+		else return new FlexmiYamlParser();
+	}
+	
+	protected boolean isXml(BufferedInputStream inputStream) {
 		try {
 			int next;
 			inputStream.mark(Integer.MAX_VALUE);
@@ -179,13 +184,15 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				char ch = (char) next;
 				if (!Character.isWhitespace(ch)) {
 					inputStream.reset();
-					if (ch == '<') break;
-					else return new FlexmiYamlParser();
+					if (ch == '<') return true;
+					else return false;
 				}
 			}
+			return false;
 		}
-		catch (Exception ex) {}
-		return new PseudoSAXParser();
+		catch (Exception ex) {
+			return false;
+		}
 	}
 	
 	@Override
