@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.flexmi.FlexmiDiagnostic;
+import org.eclipse.epsilon.flexmi.FlexmiParser;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.templates.Template;
 import org.eclipse.epsilon.flexmi.templates.TemplateFactory;
@@ -37,7 +38,7 @@ import org.w3c.dom.ProcessingInstruction;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-public class PseudoSAXParser {
+public class PseudoSAXParser implements FlexmiParser {
 	
 	protected FlexmiResource resource;
 	protected URI uri;
@@ -48,19 +49,8 @@ public class PseudoSAXParser {
 	
 	public void parse(FlexmiResource resource, URI uri, InputStream inputStream, Handler handler, boolean processDocument) throws Exception  {
 		
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-
-		DocumentBuilder docBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document document = docBuilder.newDocument();
-		document.setStrictErrorChecking(false);
+		Document document = parse(inputStream);
 		
-		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-		SAXParser saxParser = saxParserFactory.newSAXParser();
-		XMLReader xmlReader = saxParser.getXMLReader();
-		
-		transformer.transform(new SAXSource(new LocationRecorder(xmlReader,document), new InputSource(inputStream)), new DOMResult(document));
 		this.resource = resource;
 		this.uri = uri;
 		
@@ -82,48 +72,27 @@ public class PseudoSAXParser {
 		visit(document, handler);
 		if (processDocument) handler.endDocument(document);
 	}
+	
+	protected Document parse(InputStream inputStream) throws Exception {
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
 
+		DocumentBuilder docBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document document = docBuilder.newDocument();
+		document.setStrictErrorChecking(false);
+		
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		SAXParser saxParser = saxParserFactory.newSAXParser();
+		XMLReader xmlReader = saxParser.getXMLReader();
+		
+		transformer.transform(new SAXSource(new LocationRecorder(xmlReader,document), new InputSource(inputStream)), new DOMResult(document));
+		return document;
+	}
+	
 	protected void visit(Node node, Handler handler) throws Exception {
 		Template template = null;
-		
-		if (node instanceof Element) {
-			Element element = (Element) node;
-			if (!isFlexmiRootNode(element)) {
-				String templateName = element.getNodeName();
-				
-				for (Node attribute : Xml.getAttributes(element)) {
-					if (attribute.getNodeName().endsWith("_")) {
-						try {
-							URI external = URI.createFileURI(attribute.getNodeValue()).resolve(uri);
-							try (Scanner scanner = new Scanner(new URL(external.toString()).openStream())) {
-								attribute.setNodeValue(scanner.useDelimiter("\\Z").next().trim());
-							}
-						}
-						catch (Exception ex) {
-							resource.getWarnings().add(new FlexmiDiagnostic(ex.getMessage(), uri, resource.getLineNumber(element)));
-						}
-					}
-				}
-				
-				for (Resource resource : this.resource.getResourceSet().getResources()) {
-					if (resource instanceof FlexmiResource) {
-						template = ((FlexmiResource) resource).getTemplate(templateName);
-						if (template != null) {
-							// ((FlexmiResource) resource).startProcessingFragment(resource.getURI());
-							for (Element applicationElement : template.apply(element)) {
-								visit(applicationElement, handler);
-							}
-							break;
-							// ((FlexmiResource) resource).endProcessingFragment();
-						}
-					}
-				}
-				
-				if (template == null) {
-					handler.startElement(element);
-				}			
-			}
-		}
+
 		if (node instanceof ProcessingInstruction) {
 			ProcessingInstruction processingInstruction = (ProcessingInstruction) node;
 			String key = processingInstruction.getTarget();
@@ -166,6 +135,44 @@ public class PseudoSAXParser {
 			}
 			else {
 				handler.processingInstruction((ProcessingInstruction) node);
+			}
+		}
+		else if (node instanceof Element) {
+			Element element = (Element) node;
+			if (!isFlexmiRootNode(element)) {
+				String templateName = element.getNodeName();
+				
+				for (Node attribute : Xml.getAttributes(element)) {
+					if (attribute.getNodeName().endsWith("_")) {
+						try {
+							URI external = URI.createFileURI(attribute.getNodeValue()).resolve(uri);
+							try (Scanner scanner = new Scanner(new URL(external.toString()).openStream())) {
+								attribute.setNodeValue(scanner.useDelimiter("\\Z").next().trim());
+							}
+						}
+						catch (Exception ex) {
+							resource.getWarnings().add(new FlexmiDiagnostic(ex.getMessage(), uri, resource.getLineNumber(element)));
+						}
+					}
+				}
+				
+				for (Resource resource : this.resource.getResourceSet().getResources()) {
+					if (resource instanceof FlexmiResource) {
+						template = ((FlexmiResource) resource).getTemplate(templateName);
+						if (template != null) {
+							// ((FlexmiResource) resource).startProcessingFragment(resource.getURI());
+							for (Element applicationElement : template.apply(element)) {
+								visit(applicationElement, handler);
+							}
+							break;
+							// ((FlexmiResource) resource).endProcessingFragment();
+						}
+					}
+				}
+				
+				if (template == null) {
+					handler.startElement(element);
+				}			
 			}
 		}
 		

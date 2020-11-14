@@ -9,25 +9,12 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.test;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import org.junit.Test;
 
-@RunWith(Suite.class)
-@SuiteClasses({ 
-	StandaloneTests.class,
-	ImportTests.class,
-	IncludeTests.class,
-	IncludeImportTests.class,
-	TemplateTests.class,
-	AllocatorTests.class,
-	IdTests.class,
-	CompsTests.class,
-	PropogenTests.class,
-	ActionTests.class,
-	ExternalTests.class,
-	FlexmiYamlTests.class
-})
-public class FlexmiTestSuite {
-
+public class FlexmiYamlTests extends FlexmiTests {
+	
+	@Test
+	public void testEmptyClasses() throws Exception {
+		assertEval("EClass.all.size()", 2, "yaml/empty-classes.yaml");
+	}
 }

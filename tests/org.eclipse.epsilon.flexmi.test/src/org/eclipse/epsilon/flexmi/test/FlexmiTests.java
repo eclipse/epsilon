@@ -39,7 +39,7 @@ public abstract class FlexmiTests {
 	
 	protected FlexmiResource loadResource(String filename) throws Exception {
 		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("flexmi", new FlexmiResourceFactory());
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
 		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(), EcorePackage.eINSTANCE);
 		File resourceFile;
 		try {
@@ -56,7 +56,7 @@ public abstract class FlexmiTests {
 	
 	protected FlexmiResource loadResource(String filename, String... metamodels) throws Exception {
 		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("flexmi", new FlexmiResourceFactory());
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
 		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(), EcorePackage.eINSTANCE);
 		
 		for (String metamodel : metamodels) {
@@ -75,10 +75,22 @@ public abstract class FlexmiTests {
 		return resource;
 	}
 	
+	protected boolean yamlModelExists(String modelFileName) {
+		if (modelFileName.endsWith(".yaml")) return false;
+		return FlexmiTestSuite.class.getResourceAsStream("models/" + getYamlModelFileName(modelFileName)) != null;
+	}
+	
+	protected String getYamlModelFileName(String modelFileName) {
+		return modelFileName.replace(".flexmi", ".yaml");
+	}
+	
 	protected void assertEval(String expression, Object result, String modelFileName) throws Exception {
 		InMemoryEmfModel model = new InMemoryEmfModel(loadResource(modelFileName));
 		EolEvaluator evaluator = new EolEvaluator(model);
 		assertEquals(result, evaluator.evaluate(expression));
+		if (yamlModelExists(modelFileName)) {
+			assertEval(expression, result, getYamlModelFileName(modelFileName));
+		}
 	}
 	
 	protected void assertWarning(String message, int line, String modelFileName) throws Exception {
@@ -90,5 +102,8 @@ public abstract class FlexmiTests {
 		FlexmiResource resource = loadResource(model, metamodels);
 		for (Diagnostic d : resource.getWarnings()) System.out.println(d.getMessage());
 		assertEquals(0, resource.getWarnings().size());
+		if (yamlModelExists(model)) {
+			assertNoWarnings(getYamlModelFileName(model), metamodels);
+		}
 	}
 }

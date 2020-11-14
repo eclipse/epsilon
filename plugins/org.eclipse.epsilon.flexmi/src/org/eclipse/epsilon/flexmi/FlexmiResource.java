@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +38,7 @@ import org.eclipse.epsilon.flexmi.templates.Template;
 import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser.Handler;
+import org.eclipse.epsilon.flexmi.yaml.FlexmiYamlParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -165,7 +167,25 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		allSubtypesCache.clear();
 		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 		
-		new PseudoSAXParser().parse(this, inputStream, this);
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+		createParser(bufferedInputStream).parse(this, bufferedInputStream, this);
+	}
+	
+	protected FlexmiParser createParser(BufferedInputStream inputStream) {
+		try {
+			int next;
+			inputStream.mark(Integer.MAX_VALUE);
+			while((next = inputStream.read()) != -1){
+				char ch = (char) next;
+				if (!Character.isWhitespace(ch)) {
+					inputStream.reset();
+					if (ch == '<') break;
+					else return new FlexmiYamlParser();
+				}
+			}
+		}
+		catch (Exception ex) {}
+		return new PseudoSAXParser();
 	}
 	
 	@Override
