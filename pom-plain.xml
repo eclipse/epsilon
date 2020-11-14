@@ -676,7 +676,14 @@ same version of EMF / other bits always.
         <artifactId>uml</artifactId>
         <version>5.0.0-v20140602-0749</version>
       </dependency>
-
+	  
+	  <!-- SnakeYAML -->
+	  <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>1.14</version>
+      </dependency>
+      
     </dependencies>
   </dependencyManagement>
 
