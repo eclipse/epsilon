@@ -4,5 +4,5 @@ directory, open a terminal, navigate to this directory and type:
 ant -lib ./
 
 [1] http://ant.apache.org
-[2] http://www.eclipse.org/epsilon/download (JARs section)
+[2] hhttps://archive.eclipse.org/epsilon/1.5/jars/
  
