@@ -237,6 +237,11 @@ operation testBagEquals() {
 }
 
 @test
+operation testBagEqualsDifferentOrder() {
+	assertTrue(Bag{1, 2} == Bag{2, 1});
+}
+
+@test
 operation testReorderedSetEquals() {
 	assertEquals(Set{1, 2, 3}, Set{2, 1, 3});
 }
