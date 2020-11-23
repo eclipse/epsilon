@@ -234,6 +234,13 @@ operation testIncludingSize() {
 @test
 operation testBagEquals() {
 	assertNotEquals(Bag{1, 1, 2}, Bag{1, 2, 2});
+	assertEquals(Bag{null}, Bag{null});
+	assertEquals(Bag{}, Bag{});
+	assertNotEquals(Bag{null}, Bag{});
+	assertEquals(Bag{0, null}, Bag{null, 0});
+	assertEquals(Bag{0, null}, Bag{0, null});
+	assertEquals(Bag{0, 1}, Bag{1, 0});
+	assertNotEquals(Bag{0, 1}, Bag{0, 1, null});
 }
 
 @test

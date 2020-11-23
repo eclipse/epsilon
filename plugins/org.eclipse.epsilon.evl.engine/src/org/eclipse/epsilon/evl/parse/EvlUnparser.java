@@ -32,14 +32,10 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 			unparseAnnotations(constraintContext);
 			buffer.append("context ");
 			constraintContext.getTypeExpression().accept(this);
-			buffer.append(" {");
-			newline();
-			newline();
-			indentation++;
+			spaceCurlybraceNewlineIndent();
 			print("guard", constraintContext.getGuardBlock());
 			constraintContext.getConstraints().forEach(c -> {c.accept(this); newline();});
-			indentation--;
-			buffer.append("}");
+			newlineUnindentCurlybrace();
 			newline();
 		}
 		else {
@@ -54,10 +50,7 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 		buffer.append(constraint.isCritique() ? "critique" : "constraint");
 		space();
 		buffer.append(constraint.getName());
-		space();
-		buffer.append("{");
-		newline();
-		indentation++;
+		spaceCurlybraceNewlineIndent();
 		
 		print("guard", constraint.getGuardBlock());
 		print("check", constraint.getCheckBlock());
@@ -65,11 +58,7 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 		
 		constraint.getFixes().forEach(f -> f.accept(this));
 		
-		indentation--;
-		newline();
-		indent();
-		buffer.append("}");
-		
+		newlineUnindentCurlybrace();
 	}
 	
 	@Override
@@ -93,10 +82,7 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 		print("guard", fix.getGuardBlock());
 		print("title", fix.getTitleBlock());
 		print("do", fix.getBodyBlock());
-		indentation--;
-		indent();
-		buffer.append("}");
-		newline();
+		newlineUnindentCurlybrace();
 	}
 
 }

@@ -9,9 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.engine.test.acceptance.unparser;
 
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.engine.test.acceptance.unparser.UnparserTests;
-import org.eclipse.epsilon.eol.parse.EolUnparser;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestSuite;
 import org.eclipse.epsilon.evl.parse.EvlUnparser;
@@ -30,12 +28,12 @@ public class EvlUnparserTests extends UnparserTests {
 	}
 	
 	@Override
-	public EolModule createModule() {
+	public EvlModule createModule() {
 		return new EvlModule();
 	}
 
 	@Override
-	public EolUnparser createUnparser() {
+	public EvlUnparser createUnparser() {
 		return new EvlUnparser();
 	}
 

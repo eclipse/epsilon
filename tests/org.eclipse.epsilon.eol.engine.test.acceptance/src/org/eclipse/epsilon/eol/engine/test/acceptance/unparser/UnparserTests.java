@@ -25,15 +25,13 @@ public abstract class UnparserTests {
 	public abstract EolModule createModule();
 	public abstract EolUnparser createUnparser();
 	
-	@SuppressWarnings("rawtypes")
-	protected void test(Class clazz, String... fileNames) throws Exception {
+	protected void test(Class<?> clazz, String... fileNames) throws Exception {
 		for (String fileName : fileNames) {
 			test(fileName, clazz);
 		}
 	}
 	
-	@SuppressWarnings("rawtypes")
-	protected void test(String fileName, Class clazz) throws Exception {
+	protected void test(String fileName, Class<?> clazz) throws Exception {
 		EolModule module = createModule();
 		File file = FileUtil.getFileStandalone(fileName, clazz);
 		module.parse(file);

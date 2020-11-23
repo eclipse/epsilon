@@ -9,20 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class EolObjectComparator {
-	
-	protected static Comparator<Object> comparator = new Comparator<Object>() {
-		@Override
-		public int compare(Object o1, Object o2) {
-			return String.valueOf(o1).compareTo(String.valueOf(o2));
-		}
-	};
 	
 	public static boolean equals(Object o1, Object o2) {
 		if (o1 == null && o2 == null) return true;
@@ -36,19 +25,21 @@ public class EolObjectComparator {
 			Collection<?> c1 = (Collection<?>) o1;
 			Collection<?> c2 = (Collection<?>) o2;
 		
+			if (c1.size() != c2.size()) return false;
+			
 			if (EolCollectionType.Bag.isType(c1) && EolCollectionType.Bag.isType(c2)) {
 				List<Object> l1 = new ArrayList<>(c1);
 				List<Object> l2 = new ArrayList<>(c2);
+				
+				Comparator<Object> comparator = (e1, e2) -> String.valueOf(e1).compareTo(String.valueOf(e2));
 				
 				Collections.sort(l1, comparator);
 				Collections.sort(l2, comparator);
 				
 				return l1.equals(l2);
 			}
-		
 		}
 		
 		return o1.equals(o2);
 	}
-	
 }
