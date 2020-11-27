@@ -37,7 +37,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			new AbsolutePathElementTransformer("img",  "src"),
 			new AbsolutePathElementTransformer("link",  "href"),
 			new AbsolutePathElementTransformer("script",  "src"),
-			new AbsolutePathElementTransformer("a",  "href"),
+			new AbsoluteLinkElementTransformer("a",  "href"),
 			new PictoViewElementTransformer(), 
 			new RenderCodeElementTransformer(),
 			new KatexAutorenderHeadAppender(),

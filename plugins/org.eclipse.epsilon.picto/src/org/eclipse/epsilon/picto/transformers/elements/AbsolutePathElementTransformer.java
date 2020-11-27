@@ -42,7 +42,7 @@ public class AbsolutePathElementTransformer extends AbstractHtmlElementTransform
 		
 		String attributeValue = element.getAttribute(attributeName);
 		
-		if (attributeValue != null && !attributeValue.trim().isEmpty()) {
+		if (isValidAttribute(attributeValue)) { 
 			try {
 				java.net.URI uri = new java.net.URI(attributeValue);
 				if (!uri.isAbsolute()) {
@@ -70,6 +70,10 @@ public class AbsolutePathElementTransformer extends AbstractHtmlElementTransform
 				// Ignored
 			}
 		}
+	}
+	
+	protected boolean isValidAttribute(String attributeValue) {
+		return attributeValue != null && !attributeValue.trim().isEmpty();
 	}
 
 }
