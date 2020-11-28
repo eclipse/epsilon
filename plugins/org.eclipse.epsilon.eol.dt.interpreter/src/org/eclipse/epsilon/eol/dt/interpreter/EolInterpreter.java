@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 2008 The University of York.
+* Copyright (c) 2020 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.dt.interpreter;
 
 import java.util.List;
 import java.util.concurrent.Callable;
-
 import org.eclipse.acceleo.ui.interpreter.language.AbstractLanguageInterpreter;
 import org.eclipse.acceleo.ui.interpreter.language.CompilationResult;
 import org.eclipse.acceleo.ui.interpreter.language.EvaluationContext;
@@ -24,10 +23,14 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditorSourceViewerConf
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
-import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
+/**
+ * 
+ * @since 2.3
+ */
 public class EolInterpreter extends AbstractLanguageInterpreter {
 	
 	public void configureSourceViewer(SourceViewer viewer) {
@@ -37,57 +40,51 @@ public class EolInterpreter extends AbstractLanguageInterpreter {
 	
 	@Override
 	public Callable<CompilationResult> getCompilationTask(InterpreterContext context) {
-		return new Callable<CompilationResult>() {
-			@Override
-			public CompilationResult call() throws Exception {
-				EolModule module = new EolModule();
-				try {
-					module.parse(context.getExpression());
-					if (!module.getParseProblems().isEmpty()) {
-						return new CompilationResult(new Status(IStatus.ERROR, this.getClass(), 
-								module.getParseProblems().get(0).toString()));
-					}
-					return new CompilationResult(IStatus.OK);
-				}
-				catch (Exception ex) {
+		return () -> {
+			EolModule module = new EolModule();
+			try {
+				module.parse(context.getExpression());
+				if (!module.getParseProblems().isEmpty()) {
 					return new CompilationResult(new Status(IStatus.ERROR, this.getClass(), 
-								module.getParseProblems().get(0).toString()));
+							module.getParseProblems().get(0).toString()));
 				}
+				return new CompilationResult(IStatus.OK);
+			}
+			catch (Exception ex) {
+				return new CompilationResult(new Status(IStatus.ERROR, this.getClass(), 
+							module.getParseProblems().get(0).toString()));
 			}
 		};
 	}
 	
 	@Override
 	public Callable<EvaluationResult> getEvaluationTask(EvaluationContext context) {
-		return new Callable<EvaluationResult>() {
-			@Override
-			public EvaluationResult call() throws Exception {
-
-				EolModule module = new EolModule();
-				module.parse(context.getExpression());
+		return () -> {
+			EolModule module = new EolModule();
+			module.parse(context.getExpression());
+			FrameStack frameStack = module.getContext().getFrameStack();
+			
+			List<EObject> eObjects = context.getTargetEObjects();
+			if (eObjects.isEmpty()) {
+				frameStack.put("self", null);
+			}
+			else {
+				module.getContext().getModelRepository().addModel(new InMemoryEmfModel(eObjects.get(0).eResource()));
 				
-				List<EObject> eObjects = context.getTargetEObjects();
-				if (eObjects.isEmpty()) {
-					module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", null));
+				if (eObjects.size() == 1) {
+					frameStack.put("self", eObjects.get(0));
 				}
 				else {
-					module.getContext().getModelRepository().addModel(new InMemoryEmfModel(eObjects.get(0).eResource()));
-					
-					if (eObjects.size() == 1) {
-						module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObjects.get(0)));
-					}
-					else {
-						module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObjects));
-					}
+					frameStack.put("self", eObjects);
 				}
-				
-				for (org.eclipse.acceleo.ui.interpreter.view.Variable variable : context.getVariables()) {
-					module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(variable.getName(), variable.getValue()));
-				}
-				
-				Object result = module.execute();
-				return new EvaluationResult(result);
 			}
+			
+			for (org.eclipse.acceleo.ui.interpreter.view.Variable variable : context.getVariables()) {
+				frameStack.put(variable.getName(), variable.getValue());
+			}
+			
+			Object result = module.execute();
+			return new EvaluationResult(result);
 		};
 	}
 

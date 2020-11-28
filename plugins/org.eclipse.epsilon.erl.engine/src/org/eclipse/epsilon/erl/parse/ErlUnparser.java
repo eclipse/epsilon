@@ -10,6 +10,9 @@
 package org.eclipse.epsilon.erl.parse;
 
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.parse.EolUnparser;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.IErlVisitor;
@@ -31,6 +34,19 @@ public abstract class ErlUnparser extends EolUnparser implements IErlVisitor {
 	}
 	
 	protected abstract void unparseRules();
+	
+	@Override
+	public void visit(ExecutableBlock<?> executableBlock) {
+		IExecutableModuleElement body = executableBlock.getBody();
+		if (body instanceof StatementBlock) {
+			space();
+			((StatementBlock) body).accept(this);
+		}
+		else if (body instanceof Expression) {
+			buffer.append(": ");
+			((Expression) body).accept(this);
+		}
+	}
 	
 	@Override
 	public void visit(Post post) {

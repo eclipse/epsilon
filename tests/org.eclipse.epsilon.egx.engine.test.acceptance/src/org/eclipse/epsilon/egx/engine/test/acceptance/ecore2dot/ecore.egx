@@ -3,41 +3,41 @@ pre {
 }
 
 rule All2Dot {
+	template : "ecore2dot.egl"
 	parameters : Map {
 		"classes" = EClass.all, 
 		"format" = "graphviz-dot",
 		"path" = List{"Model", "(All classes)"},
 		"icon" = "diagram-ff0000"
 	}
-	template: "ecore2dot.egl"
-	target: outputRoot+"ecoredot.txt"
+	target : outputRoot+"ecoredot.txt"
 }
 
 rule Ecore23D {
+	template : "ecore23d.egl"
 	parameters : Map {
 		"classes" = EClass.all, 
 		"format" = "html",
 		"path" = List{"Model", "3D inheritance"},
 		"icon" = "diagram-fffbd7"
 	}
-	template: "ecore23d.egl"
-	target: outputRoot+"ecore23d.txt"
+	target : outputRoot+"ecore23d.txt"
 }
 
 rule Ecore2Barchart {
+	template : "stats.egl"
 	parameters : Map {
 		"classes" = EClass.all, 
 		"format" = "html",
 		"path" = List{"Model", "Stats"},
 		"icon" = "barchart"
 	}
-	template: "stats.egl"
-	target: outputRoot+"barchart.txt"
+	target : outputRoot+"barchart.txt"
 }
 
 @parallel
-rule EClass2Dot 
-	transform c : EClass {
+rule EClass2Dot transform c : EClass {
+	template : "eclass2dot.egl"
 	parameters {
 		var classes = Set{c};
 		classes.addAll(c.eReferences.eType);
@@ -50,6 +50,5 @@ rule EClass2Dot
 			"icon" = "diagram-fffbd7"
 		};
 	}
-	template: "eclass2dot.egl"
-	target: outputRoot+c.name+"_eclassdot.txt"
+	target : outputRoot+c.name+"_eclassdot.txt"
 }

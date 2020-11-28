@@ -26,7 +26,7 @@ public class EgxUnparser extends ErlUnparser implements IEgxVisitor {
 		unparseAnnotations(rule);
 		buffer.append("rule ").append(rule.getName());
 		if (rule.getTransformSource() != null) {
-			buffer.append("transform ").append(rule.getTransformSource());
+			buffer.append(" transform ").append(rule.getTransformSource());
 			if (rule.getDomainBlock() != null) {
 				buffer.append(" in : ").append(rule.getDomainBlock().getText());
 			}
@@ -44,5 +44,4 @@ public class EgxUnparser extends ErlUnparser implements IEgxVisitor {
 		
 		newlineUnindentCurlybrace();
 	}
-	
 }

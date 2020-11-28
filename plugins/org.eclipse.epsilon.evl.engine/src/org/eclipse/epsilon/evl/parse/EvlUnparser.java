@@ -9,9 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.parse;
 
-import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.dom.Expression;
-import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.erl.parse.ErlUnparser;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -59,18 +56,6 @@ public class EvlUnparser extends ErlUnparser implements IEvlVisitor {
 		constraint.getFixes().forEach(f -> f.accept(this));
 		
 		newlineUnindentCurlybrace();
-	}
-	
-	@Override
-	public void visit(ExecutableBlock<?> executableBlock) {
-		if (executableBlock.getBody() instanceof StatementBlock) {
-			space();
-			((StatementBlock) executableBlock.getBody()).accept(this);
-		}
-		else {
-			buffer.append(": ");
-			((Expression) executableBlock.getBody()).accept(this);
-		}
 	}
 	
 	@Override
