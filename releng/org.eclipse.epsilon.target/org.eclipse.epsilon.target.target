@@ -86,6 +86,10 @@
 		<unit id="org.yaml.snakeyaml" version="0.0.0"/>
 		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20201005193535/repository"/>
 	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<repository location="https://download.eclipse.org/acceleo/updates/releases/3.7/"/>
+		<unit id="org.eclipse.acceleo.ui.interpreter.feature.group" version="0.0.0"/>
+	</location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 <launcherArgs>

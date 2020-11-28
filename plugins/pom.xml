@@ -66,6 +66,7 @@
     <module>org.eclipse.epsilon.eml.engine</module>
     <module>org.eclipse.epsilon.eol.cli</module>
     <module>org.eclipse.epsilon.eol.dt</module>
+    <module>org.eclipse.epsilon.eol.dt.interpreter</module>
     <module>org.eclipse.epsilon.eol.engine</module>
     <module>org.eclipse.epsilon.eol.tools</module>
     <module>org.eclipse.epsilon.epl.dt</module>
