@@ -87,7 +87,8 @@ public class EglTask extends ExportableModuleTask {
 		if (templateFactory instanceof EglFileGeneratingTemplateFactory && outputRoot != null) {
 			try {
 				((EglFileGeneratingTemplateFactory) templateFactory).setOutputRoot(outputRoot.getAbsolutePath());
-			} catch (EglRuntimeException e) {
+			}
+			catch (EglRuntimeException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -173,9 +174,9 @@ public class EglTask extends ExportableModuleTask {
 	public void setTemplateFactoryType(Class<? extends EglTemplateFactory> templateFactoryType) {
 		if (EglTemplateFactory.class.isAssignableFrom(templateFactoryType)) {
 			this.templateFactoryType = templateFactoryType;
-		
-		} else {
-			throw new BuildException("The templateFactoryType parameter must be class that subtypes org.eclipse.epsilon.egl.EglTemplateFactory.");
+		}
+		else {
+			throw new BuildException("The templateFactoryType parameter must be class that subtypes "+EglTemplateFactory.class.getName());
 		}
 	}
 	

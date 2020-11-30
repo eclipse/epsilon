@@ -12,13 +12,14 @@ package org.eclipse.epsilon.workflow.tasks;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eml.EmlModule;
 import org.eclipse.epsilon.eml.IEmlModule;
+import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EmlTask extends ExecutableModuleTask {
 
-	protected String useMatchTrace = null;
-	protected String exportMergeTrace = null;
-	protected String exportTransformationTrace = null;
+	protected String useMatchTrace;
+	protected String exportMergeTrace;
+	protected String exportTransformationTrace;
 	
 	public String getExportMergeTrace() {
 		return exportMergeTrace;
@@ -51,27 +52,27 @@ public class EmlTask extends ExecutableModuleTask {
 
 	@Override
 	protected void examine() throws Exception {
+		IEmlContext context = ((IEmlModule) module).getContext();
 		if (exportTransformationTrace != null) {
-			getProjectStackFrame().put(exportTransformationTrace,
-					((EmlModule) module).getContext().getTransformationTrace());
+			getProjectStackFrame().put(exportTransformationTrace, context.getTransformationTrace());
 		}
 		if (exportMergeTrace != null) {
-			getProjectStackFrame().put(exportMergeTrace,
-					((EmlModule) module).getContext().getMergeTrace());
+			getProjectStackFrame().put(exportMergeTrace, context.getMergeTrace());
 		}
 	}
 
 	@Override
 	protected void initialize() throws Exception {
-		IEmlModule emlModule = (EmlModule) module;
+		IEmlContext context = ((IEmlModule) module).getContext();
 		
 		if (useMatchTrace != null) {
 			Variable v = getProjectStackFrame().get(useMatchTrace);
-			Object matchTraceImpl = v.getValue();
-			if (matchTraceImpl instanceof MatchTrace) {
-				emlModule.getContext().setMatchTrace(((MatchTrace) matchTraceImpl).getReduced());
+			if (v != null) {
+				Object matchTraceImpl = v.getValue();
+				if (matchTraceImpl instanceof MatchTrace) {
+					context.setMatchTrace(((MatchTrace) matchTraceImpl).getReduced());
+				}
 			}
 		}
-	
 	}
 }

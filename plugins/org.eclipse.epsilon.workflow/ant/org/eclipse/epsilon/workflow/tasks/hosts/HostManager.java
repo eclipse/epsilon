@@ -10,11 +10,12 @@
 package org.eclipse.epsilon.workflow.tasks.hosts;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HostManager {
 	
 	protected static Host host = null;
-	protected static ArrayList<Host> supportedHosts = new ArrayList<>();
+	protected static final ArrayList<Host> supportedHosts = new ArrayList<>();
 	
 	public static Host getHost() {
 		if (host == null) {
@@ -40,7 +41,7 @@ public class HostManager {
 		return new DefaultHost();
 	}
 	
-	public static ArrayList<Host> getSupportedHosts() {
+	public static List<Host> getSupportedHosts() {
 		return supportedHosts;
 	}
 	

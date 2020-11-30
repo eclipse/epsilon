@@ -50,6 +50,12 @@
       <artifactId>org.eclipse.epsilon.evl.dt</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>org.eclipse.epsilon.pinset.dt</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
 
     <dependency>
       <groupId>${project.groupId}</groupId>

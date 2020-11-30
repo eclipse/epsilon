@@ -126,7 +126,6 @@
 
   <modules>
     <!-- core component -->
-    <module>plugins/org.eclipse.epsilon.common.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.common/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.ecl.engine/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.egl.engine/pom-plain.xml</module>
@@ -178,6 +177,7 @@
     <module>plugins/org.eclipse.epsilon.antlr.postprocessor.model/pom-plain.xml</module>
 
     <!-- Workflow component -->
+    <module>plugins/org.eclipse.epsilon.common.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.ecl.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.egl.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.emg.dt/pom-plain.xml</module>
@@ -189,8 +189,6 @@
     <module>plugins/org.eclipse.epsilon.evl.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.pinset.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.workflow/pom-plain.xml</module>
-
-    <!-- Workflow EMF component -->
     <module>plugins/org.eclipse.epsilon.emf.dt/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.workflow.emf/pom-plain.xml</module>
 

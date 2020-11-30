@@ -23,11 +23,11 @@ import org.eclipse.epsilon.common.dt.console.EolRuntimeExceptionHyperlinkListene
 import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
-import org.eclipse.epsilon.ecl.EclModule;
+import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.dt.launching.EclDebugger;
-import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.dt.debug.EgxDebugger;
-import org.eclipse.epsilon.eml.EmlModule;
+import org.eclipse.epsilon.eml.IEmlModule;
 import org.eclipse.epsilon.eml.dt.launching.EmlDebugger;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
@@ -37,11 +37,13 @@ import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.dt.launching.EplDebugger;
-import org.eclipse.epsilon.etl.EtlModule;
+import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.dt.launching.EtlDebugger;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
-import org.eclipse.epsilon.evl.EvlModule;
+import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.launching.EvlDebugger;
+import org.eclipse.epsilon.pinset.PinsetModule;
+import org.eclipse.epsilon.pinset.dt.launching.PinsetDebugger;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IOConsole;
@@ -104,20 +106,30 @@ public class EclipseHost implements Host {
 	}
 	
 	private Object createDebugger(IEolModule module) {
-		if (module instanceof EclModule) {
+		if (module instanceof IEclModule) {
 			return new EclDebugger();
-		} else if (module instanceof IEplModule) {
+		}
+		else if (module instanceof IEplModule) {
 			return new EplDebugger();
-		} else if (module instanceof EmlModule) {
+		}
+		else if (module instanceof IEmlModule) {
 			return new EmlDebugger();
-		} else if (module instanceof EtlModule) {
+		}
+		else if (module instanceof IEtlModule) {
 			return new EtlDebugger();
-		} else if (module instanceof EvlModule) {
+		}
+		else if (module instanceof IEvlModule) {
 			return new EvlDebugger();
-		} else if (module instanceof EgxModule) {
+		}
+		else if (module instanceof IEgxModule) {
 			return new EgxDebugger();
 		}
-		else return new EolDebugger();
+		else if (module instanceof PinsetModule) {
+			return new PinsetDebugger();
+		}
+		else {
+			return new EolDebugger();
+		}
 	}
 
 	@Override

@@ -26,7 +26,9 @@ Require-Bundle: org.eclipse.ant.core,
  org.eclipse.epsilon.profiling,
  org.eclipse.epsilon.epl.engine,
  org.eclipse.epsilon.epl.dt,
- org.eclipse.epsilon.emc.hutn;resolution:=optional
+ org.eclipse.epsilon.emc.hutn;resolution:=optional,
+ org.eclipse.epsilon.pinset.engine,
+ org.eclipse.epsilon.pinset.dt
 Export-Package: org.eclipse.epsilon.workflow.tasks,
  org.eclipse.epsilon.workflow.tasks.hosts,
  org.eclipse.epsilon.workflow.tasks.nestedelements,
