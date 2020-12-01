@@ -123,6 +123,6 @@
    </category-def>
    <repository-reference location="http://download.eclipse.org/emfatic/update" enabled="true" />
    <repository-reference location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases" enabled="true" />
-   <repository-reference location="http://download.eclipse.org/releases/2020-06" enabled="true" />
-   <repository-reference location="http://download.eclipse.org/tools/orbit/downloads/drops/S20201005193535/repository" enabled="true" />
+   <repository-reference location="http://download.eclipse.org/releases/2020-09" enabled="true" />
+   <repository-reference location="http://download.eclipse.org/tools/orbit/downloads/drops/R20201130205003/repository" enabled="true" />
 </site>
