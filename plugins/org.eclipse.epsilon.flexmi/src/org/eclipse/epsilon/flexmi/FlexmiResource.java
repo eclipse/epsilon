@@ -176,7 +176,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		else return new FlexmiYamlParser();
 	}
 	
-	protected boolean isXml(BufferedInputStream inputStream) {
+	public static boolean isXml(BufferedInputStream inputStream) {
 		try {
 			int next;
 			inputStream.mark(Integer.MAX_VALUE);

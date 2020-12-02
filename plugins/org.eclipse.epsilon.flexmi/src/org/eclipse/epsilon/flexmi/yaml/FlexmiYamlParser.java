@@ -59,7 +59,6 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 	protected Document parse(InputStream inputStream) throws Exception {
 		Yaml yaml = new Yaml();
 		YamlDocument document = new YamlDocument(yaml.compose(new InputStreamReader(inputStream)));
-		System.out.println(document.toXml());
 		return document;
 	}
 	

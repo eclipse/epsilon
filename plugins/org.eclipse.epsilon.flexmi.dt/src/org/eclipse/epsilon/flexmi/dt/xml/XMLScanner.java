@@ -7,9 +7,10 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.flexmi.dt;
+package org.eclipse.epsilon.flexmi.dt.xml;
 
 import org.eclipse.jface.text.rules.*;
+import org.eclipse.epsilon.flexmi.dt.FlexmiHighlightingManager;
 import org.eclipse.jface.text.*;
 
 public class XMLScanner extends RuleBasedScanner {

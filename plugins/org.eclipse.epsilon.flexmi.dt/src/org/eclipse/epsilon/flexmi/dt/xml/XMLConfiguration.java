@@ -7,8 +7,9 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.flexmi.dt;
+package org.eclipse.epsilon.flexmi.dt.xml;
 
+import org.eclipse.epsilon.flexmi.dt.FlexmiHighlightingManager;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.TextAttribute;

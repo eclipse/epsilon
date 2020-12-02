@@ -9,7 +9,10 @@ Require-Bundle: org.eclipse.jface.text,
  org.eclipse.epsilon.emc.emf;resolution:=optional,
  org.eclipse.epsilon.common.dt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.eclipse.epsilon.flexmi.dt
+Export-Package: org.eclipse.epsilon.flexmi.dt,
+ org.eclipse.epsilon.flexmi.dt.preferences,
+ org.eclipse.epsilon.flexmi.dt.xml,
+ org.eclipse.epsilon.flexmi.dt.yaml
 Automatic-Module-Name: org.eclipse.epsilon.flexmi.dt
 Bundle-Activator: org.eclipse.epsilon.flexmi.dt.FlexmiPlugin
 Bundle-ActivationPolicy: lazy
