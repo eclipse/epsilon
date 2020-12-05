@@ -18,6 +18,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.SAXSource;
@@ -27,6 +28,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.flexmi.FlexmiDiagnostic;
+import org.eclipse.epsilon.flexmi.FlexmiParseException;
 import org.eclipse.epsilon.flexmi.FlexmiParser;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.templates.Template;
@@ -36,6 +38,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 public class FlexmiXmlParser implements FlexmiParser {
@@ -43,8 +46,23 @@ public class FlexmiXmlParser implements FlexmiParser {
 	protected FlexmiResource resource;
 	protected URI uri;
 	
-	public void parse(FlexmiResource resource, InputStream inputStream, Handler handler) throws Exception {
-		parse(resource, resource.getURI(), inputStream, handler, true);
+	public void parse(FlexmiResource resource, InputStream inputStream, Handler handler) throws FlexmiParseException {
+		try {
+			parse(resource, resource.getURI(), inputStream, handler, true);
+		} catch (Exception e) {
+			if (e instanceof SAXParseException) {
+				throw new FlexmiParseException(e, ((SAXParseException) e).getLineNumber());
+			}
+			else if (e instanceof TransformerException && e.getCause() instanceof SAXParseException) {
+				throw new FlexmiParseException(e, ((SAXParseException) e.getCause()).getLineNumber());
+			}
+			else if (e instanceof FlexmiParseException) {
+				throw (FlexmiParseException) e;
+			}
+			else {
+				throw new FlexmiParseException(e);
+			}
+		}
 	}
 	
 	public void parse(FlexmiResource resource, URI uri, InputStream inputStream, Handler handler, boolean processDocument) throws Exception  {

@@ -138,11 +138,12 @@ public class YamlMappingRule implements IPredicateRule {
 				return Token.UNDEFINED;
 			}
 			if (c == ':') {
+				// Commented out so that - task:\n is also syntax highlighted
 			    /* check if we got a space afterwards. If not its part of the key!*/
-			    c = (char) slider.moveForward();
-			    if (Character.isWhitespace(c)) {
+			    //c = (char) slider.moveForward();
+			    //if (Character.isWhitespace(c)) {
 			        return getSuccessToken();
-			    }
+			    //}
 			}
 		} while (true);
 	}

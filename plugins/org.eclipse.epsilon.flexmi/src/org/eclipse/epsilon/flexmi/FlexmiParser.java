@@ -6,6 +6,6 @@ import org.eclipse.epsilon.flexmi.xml.FlexmiXmlParser.Handler;
 
 public interface FlexmiParser {
 	
-	public void parse(FlexmiResource resource, InputStream inputStream, Handler handler) throws Exception;
+	public void parse(FlexmiResource resource, InputStream inputStream, Handler handler) throws FlexmiParseException;
 	
 }

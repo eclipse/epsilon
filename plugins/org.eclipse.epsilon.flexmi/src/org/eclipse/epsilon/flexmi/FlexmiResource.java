@@ -126,15 +126,17 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	@Override
 	protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException {
-		try {
-			doLoadImpl(inputStream, options);
-		}
-		catch (IOException ioException) {
-			throw ioException;
-		}
-		catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
+		getContents().clear();
+		unresolvedReferences.clear();
+		objectStack.clear();
+		importedEolModules.clear();
+		operations.clear();
+		eClassCache.clear();
+		allSubtypesCache.clear();
+		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
+		
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+		createParser(bufferedInputStream).parse(this, bufferedInputStream, this);
 	}
 	
 	@Override
@@ -155,20 +157,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		else {
 			fullyQualifiedIDs.put(id, eObject);
 		}
-	}
-	
-	public void doLoadImpl(InputStream inputStream, Map<?, ?> options) throws Exception {
-		getContents().clear();
-		unresolvedReferences.clear();
-		objectStack.clear();
-		importedEolModules.clear();
-		operations.clear();
-		eClassCache.clear();
-		allSubtypesCache.clear();
-		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
-		
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-		createParser(bufferedInputStream).parse(this, bufferedInputStream, this);
 	}
 	
 	protected FlexmiParser createParser(BufferedInputStream inputStream) {

@@ -11,6 +11,7 @@ package org.eclipse.epsilon.flexmi.dt;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,9 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
+import org.eclipse.epsilon.flexmi.FlexmiParseException;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.epsilon.flexmi.dt.xml.XMLConfiguration;
@@ -205,7 +208,7 @@ public class FlexmiEditor extends TextEditor {
 		}
 		
 		code = code.replaceAll("\t", "  ");
-		SAXParseException parseException = null;
+		FlexmiParseException parseException = null;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		
@@ -215,18 +218,13 @@ public class FlexmiEditor extends TextEditor {
 			resource = (FlexmiResource) resourceSet.createResource(URI.createFileURI(file.getLocation().toOSString()));
 			resource.load(new ByteArrayInputStream(code.getBytes()), null);
 		}
-		catch (Exception ex) {
-				
-				if (ex instanceof RuntimeException) {
-					if (ex.getCause() instanceof TransformerException) {
-						if (ex.getCause().getCause() instanceof SAXParseException) {
-							parseException = (SAXParseException) ex.getCause().getCause();
-						}
-					}
-				}
-				else {
-					ex.printStackTrace();
-				}
+		catch (IOException ex) {
+			if (ex instanceof FlexmiParseException) {
+				parseException = (FlexmiParseException) ex;
+			}
+			else {
+				LogUtil.log(ex);
+			}
 		}
 		
 		final String markerType = "org.eclipse.epsilon.flexmi.dt.problemmarker";

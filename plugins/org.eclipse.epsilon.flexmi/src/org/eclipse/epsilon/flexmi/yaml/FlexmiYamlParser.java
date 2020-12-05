@@ -19,12 +19,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.flexmi.FlexmiParseException;
 import org.eclipse.epsilon.flexmi.FlexmiParser;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.epsilon.flexmi.xml.FlexmiXmlParser;
 import org.w3c.dom.Document;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.scanner.ScannerException;
 
 public class FlexmiYamlParser extends FlexmiXmlParser {
 	
@@ -58,8 +60,13 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 	@Override
 	protected Document parse(InputStream inputStream) throws Exception {
 		Yaml yaml = new Yaml();
-		YamlDocument document = new YamlDocument(yaml.compose(new InputStreamReader(inputStream)));
-		return document;
+		try {
+			YamlDocument document = new YamlDocument(yaml.compose(new InputStreamReader(inputStream)));
+			return document;
+		}
+		catch (ScannerException ex) {
+			throw new FlexmiParseException(ex, ex.getContextMark().getLine() + 1);
+		}
 	}
 	
 }

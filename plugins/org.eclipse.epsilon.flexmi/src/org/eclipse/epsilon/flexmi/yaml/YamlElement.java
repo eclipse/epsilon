@@ -12,6 +12,7 @@ package org.eclipse.epsilon.flexmi.yaml;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.yaml.base.BaseElement;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
@@ -27,14 +28,16 @@ public class YamlElement extends BaseElement implements YamlNode {
 	protected YamlNodeList children = new YamlNodeList();
 	protected YamlAttributes attributes = new YamlAttributes();
 	protected String name;
+	protected ScalarNode nameNode;
 	protected org.w3c.dom.Node parentNode = null;
 	
 	public YamlElement(String name) {
 		this.name = name;
 	}
 	
-	public YamlElement(String name, Node node) {
-		this.name = name;
+	public YamlElement(ScalarNode nameNode, Node node) {
+		if (nameNode != null) this.name = nameNode.getValue();
+		this.nameNode = nameNode;
 		this.node = node;
 		
 		List<Node> childNodes = new ArrayList<Node>();
@@ -66,7 +69,7 @@ public class YamlElement extends BaseElement implements YamlNode {
 						}
 					}
 					else {
-						YamlElement child = new YamlElement(keyNode.getValue(), tuple.getValueNode());
+						YamlElement child = new YamlElement(keyNode, tuple.getValueNode());
 						children.add(child);
 						child.setParentNode(this);
 					}
@@ -116,5 +119,14 @@ public class YamlElement extends BaseElement implements YamlNode {
 	@Override
 	public String getAttribute(String name) {
 		return attributes.get(name);
+	}
+	
+	@Override
+	public Object getUserData(String key) {
+		if (Location.ID.equals(key) && nameNode!=null && nameNode.getStartMark()!=null) {
+			return new Location(nameNode.getStartMark().getLine()+1, nameNode.getStartMark().getColumn(), 
+					nameNode.getEndMark().getLine()+1, nameNode.getEndMark().getColumn());
+		}
+		return super.getUserData(key);
 	}
 }
