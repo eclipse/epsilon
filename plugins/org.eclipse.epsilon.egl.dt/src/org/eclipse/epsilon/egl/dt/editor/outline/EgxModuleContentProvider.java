@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.dt.editor.outline;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.egl.IEgxModule;
@@ -22,6 +23,7 @@ public class EgxModuleContentProvider extends ErlModuleContentProvider {
 		
 		if (moduleElement instanceof IEgxModule) {
 			IEgxModule module = (IEgxModule) moduleElement;
+			visible = new ArrayList<>();
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
 			visible.addAll(module.getDeclaredPre());

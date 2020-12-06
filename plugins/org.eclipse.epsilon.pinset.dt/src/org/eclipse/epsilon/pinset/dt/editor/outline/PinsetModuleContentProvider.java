@@ -9,6 +9,7 @@
  *********************************************************************/
 package org.eclipse.epsilon.pinset.dt.editor.outline;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
@@ -40,6 +41,7 @@ public class PinsetModuleContentProvider extends EolModuleContentProvider {
 
 		if (moduleElement.getClass() == PinsetModule.class) {
 			PinsetModule module = (PinsetModule) moduleElement;
+			visible = new ArrayList<>();
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
 			visible.addAll(module.getDatasetRules());

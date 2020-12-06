@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.dt.editor.outline;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleContentProvider;
@@ -23,6 +24,7 @@ public class EvlModuleContentProvider extends ErlModuleContentProvider {
 		
 		if (moduleElement instanceof IEvlModule) {
 			IEvlModule module = (IEvlModule) moduleElement;
+			visible = new ArrayList<>();
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
 			visible.addAll(module.getDeclaredPre());

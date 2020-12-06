@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.dt.editor.outline;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.egl.IEglModule;
@@ -23,6 +24,7 @@ public class EglModuleContentProvider extends EolModuleContentProvider {
 		
 		if (moduleElement instanceof IEglModule) {
 			IEglModule module = (IEglModule) moduleElement;
+			visible = new ArrayList<>();
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
 			visible.addAll(module.getCurrentTemplate().getModule().getMarkers());
