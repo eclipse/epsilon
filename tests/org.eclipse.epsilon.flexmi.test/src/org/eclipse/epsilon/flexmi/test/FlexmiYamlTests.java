@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.test;
 
+import org.eclipse.epsilon.flexmi.FlexmiParseException;
 import org.junit.Test;
 
 public class FlexmiYamlTests extends FlexmiTests {
@@ -17,4 +18,15 @@ public class FlexmiYamlTests extends FlexmiTests {
 	public void testEmptyClasses() throws Exception {
 		assertEval("EClass.all.size()", 2, "yaml/empty-classes.yaml");
 	}
+	
+	@Test(expected = FlexmiParseException.class)
+	public void testInvalidYaml() throws Exception {
+		assertEval("EClass.all.size()", 2, "yaml/invalid.yaml");
+	}
+	
+	@Test
+	public void testListOfSuperclasses() throws Exception {
+		assertEval("EClass.all.first().eSuperTypes.first().name", "C1", "yaml/list-of-superclasses.yaml");
+	}
+	
 }

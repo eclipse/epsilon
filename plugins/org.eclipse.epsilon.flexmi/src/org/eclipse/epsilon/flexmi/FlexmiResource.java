@@ -263,10 +263,16 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					return;
 				}
 				else if (element.getAttributes().getLength() == 0 && element.getChildNodes().getLength() == 1 && element.getFirstChild() instanceof Text) {
-					EAttribute eAttribute = (EAttribute) eNamedElementForName(name, parent.eClass().getEAllAttributes());
+					EStructuralFeature eStructuralFeature = (EStructuralFeature) eNamedElementForName(name, parent.eClass().getEAllStructuralFeatures());
 					
-					if (eAttribute != null) {
-						setEAttributeValue(parent, eAttribute, name, element.getTextContent().trim());
+					if (eStructuralFeature instanceof EAttribute) {
+						setEAttributeValue(parent, (EAttribute) eStructuralFeature, name, element.getTextContent().trim());
+						eObjectTraceManager.trace(parent, getCurrentURI(), getLineNumber(element));
+						objectStack.push(null);
+						return;
+					}
+					else if (eStructuralFeature instanceof EReference){
+						unresolvedReferences.add(new UnresolvedReference(parent, getCurrentURI(), (EReference) eStructuralFeature, name, element.getTextContent().trim(), getLineNumber(element)));
 						eObjectTraceManager.trace(parent, getCurrentURI(), getLineNumber(element));
 						objectStack.push(null);
 						return;

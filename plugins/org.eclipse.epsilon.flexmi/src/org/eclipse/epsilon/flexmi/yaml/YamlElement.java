@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.yaml.base.BaseElement;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -29,10 +30,18 @@ public class YamlElement extends BaseElement implements YamlNode {
 	protected YamlAttributes attributes = new YamlAttributes();
 	protected String name;
 	protected ScalarNode nameNode;
+	protected String text;
 	protected org.w3c.dom.Node parentNode = null;
 	
 	public YamlElement(String name) {
 		this.name = name;
+	}
+	
+	public YamlElement(ScalarNode nameNode, String text) {
+		if (nameNode != null) this.name = nameNode.getValue();
+		this.nameNode = nameNode;
+		this.text = text;
+		children.add(new YamlText(text));
 	}
 	
 	public YamlElement(ScalarNode nameNode, Node node) {
@@ -69,9 +78,21 @@ public class YamlElement extends BaseElement implements YamlNode {
 						}
 					}
 					else {
-						YamlElement child = new YamlElement(keyNode, tuple.getValueNode());
-						children.add(child);
-						child.setParentNode(this);
+						
+						if (tuple.getValueNode() instanceof SequenceNode && 
+								((SequenceNode) tuple.getValueNode()).getValue().stream().allMatch(n -> n instanceof ScalarNode)) {
+							for (Node sequenceNode : ((SequenceNode) tuple.getValueNode()).getValue()) {
+								
+								YamlElement child = new YamlElement(keyNode, ((ScalarNode) sequenceNode).getValue());
+								children.add(child);
+								child.setParentNode(this);
+							}
+						}
+						else {
+							YamlElement child = new YamlElement(keyNode, tuple.getValueNode());
+							children.add(child);
+							child.setParentNode(this);
+						}
 					}
 				}
 			}
@@ -119,6 +140,17 @@ public class YamlElement extends BaseElement implements YamlNode {
 	@Override
 	public String getAttribute(String name) {
 		return attributes.get(name);
+	}
+	
+	@Override
+	public String getTextContent() throws DOMException {
+		return text;
+	}
+	
+	@Override
+	public org.w3c.dom.Node getFirstChild() {
+		if (children.isEmpty()) return null;
+		else return children.get(0);
 	}
 	
 	@Override

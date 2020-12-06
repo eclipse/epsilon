@@ -65,10 +65,6 @@ public abstract class FlexmiTests {
 			);
 		}
 		
-		for (Object ePackage : resourceSet.getPackageRegistry().values()) {
-			System.out.println(ePackage);
-		}
-		
 		File resourceFile = FileUtil.getFileStandalone("models/" + filename, FlexmiTestSuite.class);
 		FlexmiResource resource = (FlexmiResource) resourceSet.createResource(URI.createURI(resourceFile.toURI().toString()));
 		resource.load(null);
