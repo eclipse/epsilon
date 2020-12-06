@@ -19,11 +19,10 @@ public class EmlModuleContentProvider extends EtlModuleContentProvider {
 	
 	@Override
 	public List<ModuleElement> getVisibleChildren(ModuleElement moduleElement) {
-		List<ModuleElement> visible = super.getVisibleChildren(moduleElement);
 		
 		if (moduleElement instanceof IEmlModule) {
 			IEmlModule module = (IEmlModule) moduleElement;
-			visible = new ArrayList<>();
+			List<ModuleElement> visible = new ArrayList<>();
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
 			visible.addAll(module.getDeclaredPre());
@@ -31,9 +30,11 @@ public class EmlModuleContentProvider extends EtlModuleContentProvider {
 			visible.addAll(module.getDeclaredMergeRules());
 			visible.addAll(module.getDeclaredPost());
 			visible.addAll(module.getDeclaredOperations());
+			return visible;
 		}
-		
-		return visible;
+		else {
+			return super.getVisibleChildren(moduleElement);
+		}
 	}
 	
 }

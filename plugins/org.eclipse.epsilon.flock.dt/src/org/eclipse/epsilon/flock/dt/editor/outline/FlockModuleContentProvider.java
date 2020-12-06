@@ -19,20 +19,21 @@ public class FlockModuleContentProvider extends ErlModuleContentProvider {
 	
 	@Override
 	public List<ModuleElement> getVisibleChildren(ModuleElement moduleElement) {
-		List<ModuleElement> visible = super.getVisibleChildren(moduleElement);
 		
 		if (moduleElement instanceof IFlockModule) {
 			IFlockModule module = (IFlockModule) moduleElement;
-			visible = new ArrayList<>();
+			List<ModuleElement> visible = new ArrayList<>();
 			visible.addAll(module.getImports());
 			visible.addAll(module.getDeclaredModelDeclarations());
 			visible.addAll(module.getDeclaredPre());
 			visible.addAll(module.getStrategy().getTypeMappingsAndRules());
 			visible.addAll(module.getDeclaredPost());
 			visible.addAll(module.getDeclaredOperations());
+			return visible;
 		}
-		
-		return visible;
+		else {
+			return super.getVisibleChildren(moduleElement);
+		}
 	}
 	
 }
