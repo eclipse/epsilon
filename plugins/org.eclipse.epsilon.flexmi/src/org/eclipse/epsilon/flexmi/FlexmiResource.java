@@ -71,6 +71,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Map<EObject, List<EObject>> orderedChildren = new HashMap<>();
 	protected Collection<Operation> operations = new ArrayList<>();
 	protected FlexmiResource importedFrom = null;
+	protected FlexmiFlavour flavour = FlexmiFlavour.XML;
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -136,7 +137,13 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 		
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-		createParser(bufferedInputStream).parse(this, bufferedInputStream, this);
+		FlexmiParser parser = createParser(bufferedInputStream);
+		flavour = parser.getFlavour();
+		parser.parse(this, bufferedInputStream, this);
+	}
+	
+	public FlexmiFlavour getFlavour() {
+		return flavour;
 	}
 	
 	@Override
@@ -159,7 +166,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		}
 	}
 	
-	protected FlexmiParser createParser(BufferedInputStream inputStream) {
+	public FlexmiParser createParser(BufferedInputStream inputStream) {
 		if (isXml(inputStream)) return new FlexmiXmlParser();
 		else return new FlexmiYamlParser();
 	}

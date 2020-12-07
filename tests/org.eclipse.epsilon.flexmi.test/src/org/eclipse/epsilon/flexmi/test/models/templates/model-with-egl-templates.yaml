@@ -1,0 +1,51 @@
+- ?nsuri: http://www.eclipse.org/emf/2002/Ecore
+
+- package:
+  - name: p1
+  - t1
+  
+- package:
+  - name: p2
+  - t2
+
+- package:
+  - name: p3
+  - t3:
+    - n: 5
+    - abstract: true
+  
+- package:
+  - name: p4
+  - t3:
+    - n: 5
+    - abstract: true
+
+- :template:
+  - name: t1
+  - content:
+    - language: EGL
+    - script: |-
+        [%for (i in 1.to(10)){%]
+        - class:
+          - name: C[%=i%]
+        [%}%]
+
+- :template:
+  - name: t2
+  - content:
+    - language: EGL
+    - script: |-
+        - class:
+          - name: C[%=11%]
+
+- :template:
+  - name: t3
+  - parameter:
+    - name: n
+  - content:
+    - language: EGL
+    - script: |-
+       [%for (i in 1.to(n.asInteger())){%]
+       - class:
+         - name: C[%=i%]
+       [%}%]

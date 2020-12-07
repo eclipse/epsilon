@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.flexmi.FlexmiFlavour;
 import org.eclipse.epsilon.flexmi.FlexmiParseException;
 import org.eclipse.epsilon.flexmi.FlexmiParser;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
@@ -77,7 +78,7 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Document parse(InputStream inputStream) throws Exception {
+	public Document parse(InputStream inputStream) throws Exception {
 		Yaml yaml = new Yaml();
 		try {
 			Document document = toDocument(yaml.compose(new InputStreamReader(inputStream)));
@@ -86,6 +87,11 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 		catch (ScannerException ex) {
 			throw new FlexmiParseException(ex, ex.getContextMark().getLine() + 1);
 		}
+	}
+	
+	@Override
+	public FlexmiFlavour getFlavour() {
+		return FlexmiFlavour.YAML;
 	}
 	
 	protected Document toDocument(Node node) throws Exception {

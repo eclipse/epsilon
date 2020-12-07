@@ -53,7 +53,9 @@ public class XmlTemplate extends Template {
 			
 			if (!Xml.getChildren(call).isEmpty()) {
 				for (Element child : Xml.getChildren(call)) {
-					slot.getParentNode().insertBefore(child.cloneNode(true), slot);
+					Node clonedNode = child.cloneNode(true);
+					slot.getOwnerDocument().adoptNode(clonedNode);
+					slot.getParentNode().insertBefore(clonedNode, slot);
 				}
 			}
 			slot.getParentNode().removeChild(slot);

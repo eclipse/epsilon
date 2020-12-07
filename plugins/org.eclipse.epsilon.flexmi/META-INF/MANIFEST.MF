@@ -17,7 +17,6 @@ Export-Package: org.eclipse.epsilon.flexmi,
  org.eclipse.epsilon.flexmi.actions,
  org.eclipse.epsilon.flexmi.templates,
  org.eclipse.epsilon.flexmi.xml,
- org.eclipse.epsilon.flexmi.yaml,
- org.eclipse.epsilon.flexmi.yaml.base
+ org.eclipse.epsilon.flexmi.yaml
 Automatic-Module-Name: org.eclipse.epsilon.flexmi
 Bundle-Vendor: Eclipse Modeling Project
