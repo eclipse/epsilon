@@ -37,4 +37,9 @@ public abstract class DynamicTemplate extends XmlTemplate {
 		}
 	}
 	
+	protected String getScript() {
+		if (content.hasAttribute("script")) return content.getAttribute("script");
+		else return content.getTextContent().trim();
+	}
+	
 }

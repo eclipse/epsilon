@@ -33,7 +33,7 @@ public class EglTemplate extends DynamicTemplate {
 		try {
 			if (module == null) {
 				module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
-				module.parse(content.getTextContent().trim(), uri);
+				module.parse(getScript(), uri);
 				if (!module.getParseProblems().isEmpty())
 					throw new RuntimeException(module.getParseProblems().get(0).toString());
 			}
@@ -44,6 +44,7 @@ public class EglTemplate extends DynamicTemplate {
 			
 			String xml = "<?xml version=\"1.0\"?><root>" + (module.execute() + "").trim() + "</root>";
 			Document document = Xml.parse(xml);
+			
 			replaceSlots(call, document.getDocumentElement());
 
 			module.getContext().getFrameStack().leaveLocal(module);

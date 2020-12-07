@@ -29,7 +29,7 @@ public class EolTemplate extends DynamicTemplate {
 	public List<Element> getApplication(Element call) {
 		try {
 			EolModule module = new EolModule();
-			module.parse(content.getTextContent().trim(), new File(uri));
+			module.parse(getScript(), new File(uri));
 			prepareModule(module, call);
 			
 			PlainXmlModel model = new PlainXmlModel();
