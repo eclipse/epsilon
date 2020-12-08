@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class FlexmiParseException extends IOException {
 	
-	protected int lineNumber;
+	protected int lineNumber = 1;
 	
 	public FlexmiParseException(Throwable t) {
 		super(t);

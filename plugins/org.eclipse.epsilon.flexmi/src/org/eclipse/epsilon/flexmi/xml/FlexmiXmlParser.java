@@ -60,6 +60,9 @@ public class FlexmiXmlParser implements FlexmiParser {
 			else if (e instanceof FlexmiParseException) {
 				throw (FlexmiParseException) e;
 			}
+			else if (e instanceof RuntimeException && e.getCause() instanceof FlexmiParseException) {
+				throw (FlexmiParseException) e.getCause();
+			}
 			else {
 				throw new FlexmiParseException(e);
 			}

@@ -85,7 +85,10 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 			return document;
 		}
 		catch (ScannerException ex) {
-			throw new FlexmiParseException(ex, ex.getContextMark().getLine() + 1);
+			int line = 0;
+			if (ex.getProblemMark() != null) line = ex.getProblemMark().getLine();
+			if (ex.getContextMark() != null) line = ex.getContextMark().getLine();
+			throw new FlexmiParseException(ex, line + 1);
 		}
 	}
 	
