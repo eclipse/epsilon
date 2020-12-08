@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.commons.lang3.text.StrLookup;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
+import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -38,6 +39,7 @@ public class XmlTemplate extends Template {
 		}
 		
 		for (Element applicationElement : application) {
+			applicationElement.setUserData(Location.ID, call.getUserData(Location.ID), null);
 			replaceParameters(applicationElement, call);
 		}
 		
@@ -54,6 +56,7 @@ public class XmlTemplate extends Template {
 			if (!Xml.getChildren(call).isEmpty()) {
 				for (Element child : Xml.getChildren(call)) {
 					Node clonedNode = child.cloneNode(true);
+					clonedNode.setUserData(Location.ID, child.getUserData(Location.ID), null);
 					slot.getOwnerDocument().adoptNode(clonedNode);
 					slot.getParentNode().insertBefore(clonedNode, slot);
 				}

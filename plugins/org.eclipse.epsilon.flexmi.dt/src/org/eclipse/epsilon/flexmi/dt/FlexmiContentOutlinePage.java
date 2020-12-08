@@ -9,6 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.dt;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.URI;
@@ -107,11 +109,11 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
 			try {
 				if (selection instanceof TextSelection) {
 					TextSelection textSelection = (TextSelection) selection;
-					EObject eObject = editor.getResource().getEObjectTraceManager().getEObject(URI.createFileURI(editor.getFile().getLocation().toOSString()), textSelection.getStartLine()+1);
+					List<EObject> eObjects = editor.getResource().getEObjectTraceManager().getEObjects(URI.createFileURI(editor.getFile().getLocation().toOSString()), textSelection.getStartLine()+1);
 					
-					if (eObject != null) {
+					if (!eObjects.isEmpty()) {
 						externalSelectionChange = true;
-						getTreeViewer().setSelection(new StructuredSelection(eObject), true);
+						getTreeViewer().setSelection(new StructuredSelection(eObjects), true);
 						externalSelectionChange = false;
 					}
 				}
