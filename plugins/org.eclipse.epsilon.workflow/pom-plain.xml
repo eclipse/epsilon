@@ -17,42 +17,47 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.ecl.dt</artifactId>
+      <artifactId>org.eclipse.epsilon.ecl.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.egl.dt</artifactId>
+      <artifactId>org.eclipse.epsilon.egl.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.eml.dt</artifactId>
+      <artifactId>org.eclipse.epsilon.egl.traceability.fine</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.eol.dt</artifactId>
+      <artifactId>org.eclipse.epsilon.eml.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.epl.dt</artifactId>
+      <artifactId>org.eclipse.epsilon.eol.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.etl.dt</artifactId>
+      <artifactId>org.eclipse.epsilon.epl.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.evl.dt</artifactId>
+      <artifactId>org.eclipse.epsilon.etl.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.pinset.dt</artifactId>
+      <artifactId>org.eclipse.epsilon.evl.engine</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>org.eclipse.epsilon.pinset.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
     
