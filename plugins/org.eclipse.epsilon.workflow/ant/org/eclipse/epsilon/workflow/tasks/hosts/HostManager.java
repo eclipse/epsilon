@@ -30,7 +30,9 @@ public class HostManager {
 	
 	protected static Host createHost() {
 		try {
-			supportedHosts.add(new EclipseHost());
+			Host eclipseHost = (Host)
+				Class.forName(HostManager.class.getPackage().getName() + ".EclipseHost").newInstance();
+			supportedHosts.add(eclipseHost);
 		}
 		catch (Throwable t) {}
 		
