@@ -26,7 +26,6 @@ Require-Bundle: org.apache.ant;visibility:=reexport,
  org.eclipse.epsilon.profiling;visibility:=reexport,
  org.eclipse.epsilon.epl.engine;visibility:=reexport,
  org.eclipse.epsilon.epl.dt,
- org.eclipse.epsilon.emc.hutn;resolution:=optional,
  org.eclipse.epsilon.pinset.engine;visibility:=reexport,
  org.eclipse.epsilon.pinset.dt
 Export-Package: org.eclipse.epsilon.workflow.tasks,
