@@ -50,7 +50,7 @@
 								<xslt
 									style="../org.eclipse.epsilon.workflow/pluginxml2tasksxml.xslt"
 									in="plugin.xml"
-									out="src/org/eclipse/epsilon/workflow/tasks/csv/tasks.xml" />
+									out="ant/org/eclipse/epsilon/workflow/tasks/csv/tasks.xml" />
 							</target>
 						</configuration>
 					</execution>

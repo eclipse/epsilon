@@ -36,4 +36,8 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <sourceDirectory>ant</sourceDirectory>
+  </build>
+
 </project>
