@@ -127,8 +127,11 @@ public class EclipseHost implements Host {
 		else if (module instanceof PinsetModule) {
 			return new PinsetDebugger();
 		}
-		else {
+		else if (module != null) {
 			return new EolDebugger();
+		}
+		else {
+			return null;
 		}
 	}
 

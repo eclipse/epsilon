@@ -31,10 +31,13 @@ public class HostManager {
 	protected static Host createHost() {
 		try {
 			Host eclipseHost = (Host)
-				Class.forName(HostManager.class.getPackage().getName() + ".EclipseHost").newInstance();
+				Class.forName(HostManager.class.getPackage().getName() + ".EclipseHost")
+					.getConstructor().newInstance();
 			supportedHosts.add(eclipseHost);
 		}
-		catch (Throwable t) {}
+		catch (Throwable t) {
+			// Means we're not running in Eclipse
+		}
 		
 		for (Host host : supportedHosts) {
 			if (host.isRunning()) return host;
