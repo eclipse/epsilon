@@ -1,7 +1,7 @@
 <project default="default">
 	<target name="default">
 		
-		<xslt style="../org.eclipse.epsilon.workflow/pluginxml2tasksxml.xslt" in="plugin.xml" out="src/org/eclipse/epsilon/workflow/tasks/csv/tasks.xml"/>		
+		<xslt style="../org.eclipse.epsilon.workflow/pluginxml2tasksxml.xslt" in="plugin.xml" out="ant/org/eclipse/epsilon/workflow/tasks/csv/tasks.xml"/>		
 		
 		<echo>Building ANT EMF jar</echo>
 		<mkdir dir="lib"/>
