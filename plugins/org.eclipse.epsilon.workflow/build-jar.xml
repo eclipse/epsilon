@@ -17,6 +17,7 @@
 			<fileset dir="../org.eclipse.epsilon.etl.engine/bin"/>
 			<fileset dir="../org.eclipse.epsilon.evl.engine/bin"/>
 			<fileset dir="../org.eclipse.epsilon.erl.engine/bin"/>
+			<fileset dir="../org.eclipse.epsilon.pinset.engine/bin"/>
 			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor/bin"/>
 			<fileset dir="../org.eclipse.epsilon.antlr.postprocessor.model/bin"/>
 			<fileset dir="../org.eclipse.epsilon.common/bin"/>
