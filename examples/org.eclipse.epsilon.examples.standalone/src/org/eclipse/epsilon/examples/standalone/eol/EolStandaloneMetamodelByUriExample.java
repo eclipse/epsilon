@@ -33,7 +33,7 @@ public class EolStandaloneMetamodelByUriExample extends EpsilonStandaloneExample
 	@Override
 	public List<IModel> getModels() throws Exception {
 		EmfUtil.register(URI.createURI(getFileURI("models/Tree.ecore").toString()), EPackage.Registry.INSTANCE);
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>(1);
 		models.add(createEmfModelByURI("Model", "models/Tree.xmi", "TreeDsl", true, true));
 		return models;
 	}

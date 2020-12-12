@@ -18,6 +18,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -50,27 +51,22 @@ public abstract class EpsilonStandaloneExample {
 		module = createModule();
 		module.parse(getFileURI(getSource()));
 		
-		if (module.getParseProblems().size() > 0) {
+		Collection<?> parseProblems = module.getParseProblems();
+		if (!parseProblems.isEmpty()) {
 			System.err.println("Parse errors occured...");
-			for (ParseProblem problem : module.getParseProblems()) {
-				System.err.println(problem.toString());
-			}
+			parseProblems.forEach(System.err::println);
 			return;
 		}
 		
-		for (IModel model : getModels()) {
-			module.getContext().getModelRepository().addModel(model);
-		}
-		
-		for (Variable parameter : parameters) {
-			module.getContext().getFrameStack().put(parameter);
-		}
+		IEolContext context = module.getContext();
+		context.getModelRepository().addModels(getModels());
+		context.getFrameStack().put(parameters);
 		
 		preProcess();
 		result = execute(module);
 		postProcess();
 		
-		module.getContext().getModelRepository().dispose();
+		context.getModelRepository().dispose();
 	}
 	
 	public Collection<Variable> getParameters() {
