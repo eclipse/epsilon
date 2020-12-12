@@ -4,7 +4,6 @@
     <property name="ivy.version" value="2.5.0"/>
     <property name="ivy.jar.dir" value="${basedir}/ivy"/>
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
-    <property name="osgi.platform" value="cocoa.macosx.x86_64"/>
     
     <target name="go" depends="install-epsilon">
         <epsilon.eol>
@@ -30,10 +29,10 @@
         <ivy:cleancache/>
         <ivy:settings file="ivysettings.xml" />
         <ivy:cachepath organisation="org.eclipse.epsilon" module="org.eclipse.epsilon.workflow" revision="${epsilon.version}"
-                       pathid="lib.path.id" inline="true" conf="compile"/>
-        <taskdef classpathref="lib.path.id" resource="org/eclipse/epsilon/workflow/tasks/tasks.xml"/>
-        <ivy:cachepath organisation="org.eclipse.epsilon" module="org.eclipse.epsilon.workflow.emf" revision="${epsilon.version}"
                        pathid="lib.path.id" inline="true"/>
+        <taskdef classpathref="lib.path.id" resource="org/eclipse/epsilon/workflow/tasks/tasks.xml"/>
+        <!--ivy:cachepath organisation="org.eclipse.epsilon" module="org.eclipse.epsilon.workflow.emf" revision="${epsilon.version}"
+                       pathid="lib.path.id" inline="true"/-->
                        
         
     </target>
