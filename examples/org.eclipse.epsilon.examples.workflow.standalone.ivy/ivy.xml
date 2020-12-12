@@ -1,0 +1,10 @@
+<ivy-module version="2.0">
+    <info organisation="" module="" />
+    <configurations>
+        <conf name="binaries" />
+    </configurations>
+    <dependencies>
+        <!--dependency org="org.eclipse.epsilon" name="org.eclipse.epsilon.workflow" rev="2.3.0-SNAPSOT" conf="binaries->default" /-->
+        <dependency org="org.eclipse.epsilon" name="org.eclipse.epsilon.workflow.emf" rev="2.3.0-SNAPSHOT" conf="binaries->default" />
+    </dependencies>
+</ivy-module>

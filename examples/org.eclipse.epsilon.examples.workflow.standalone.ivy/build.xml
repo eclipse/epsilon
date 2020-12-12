@@ -6,8 +6,14 @@
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
     
     <target name="go" depends="install-epsilon">
+        <epsilon.emf.loadModel name="Library" modelfile="library.model" metamodelfile="library.ecore"/>
+        <epsilon.xml.loadModel name="Tree" file="tree.xml"/>
+        
         <epsilon.eol>
-            "Hello Epsilon!".println();
+            Tree!t_tree.all.println();
+            Library!Writer.all.println();
+            <model ref="Tree"/>
+            <model ref="Library"/>
         </epsilon.eol>
     </target>
 
@@ -26,15 +32,43 @@
     </target>
 
     <target name="install-epsilon" depends="install-ivy">
-        <ivy:cleancache/>
+        <!--ivy:cleancache/-->
         <ivy:settings file="ivysettings.xml" />
-        <ivy:cachepath organisation="org.eclipse.epsilon" module="org.eclipse.epsilon.workflow" revision="${epsilon.version}"
-                       pathid="lib.path.id" inline="true"/>
-        <taskdef classpathref="lib.path.id" resource="org/eclipse/epsilon/workflow/tasks/tasks.xml"/>
-        <!--ivy:cachepath organisation="org.eclipse.epsilon" module="org.eclipse.epsilon.workflow.emf" revision="${epsilon.version}"
+        <!--ivy:cachepath organisation="org.eclipse.epsilon" module="org.eclipse.epsilon.workflow" revision="${epsilon.version}"
                        pathid="lib.path.id" inline="true"/-->
-                       
+
+        <ivy:retrieve conf="binaries" pattern="lib/[conf]/[artifact](-[classifier]).[ext]"/>
+
+        <path id="lib.path">
+            <fileset dir="lib/binaries" includes="*.jar"/>
+        </path>
+
+        <!--taskdef resource="org/eclipse/epsilon/workflow/tasks/tasks.xml" classpathref="lib.path" loaderref="lib.path.loader"/-->
+
+        <taskdef name="epsilon.eol" classname="org.eclipse.epsilon.workflow.tasks.EolTask" classpathref="lib.path" loaderref="lib.path.loader"/>
+        <taskdef name="epsilon.xml.loadModel" classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel" classpathref="lib.path" loaderref="lib.path.loader"/>
+        <taskdef name="epsilon.emf.loadModel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModelTask" classpathref="lib.path" loaderref="lib.path.loader"/>
+        <!--taskdef name="epsilon.emf.loadRegisteredMetamodel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredMetaModelTask" classpathref="lib.path.id"/>
+        <taskdef name="epsilon.emf.loadXmlModel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadXmlModelTask" classpathref="lib.path.id"/-->
+
+        <!--ivy:cachepath organisation="org.eclipse.epsilon" module="org.eclipse.epsilon.workflow" revision="${epsilon.version}" pathid="lib.path.id" inline="true"/>
+
+        <taskdef classpathref="lib.path.id" resource="org/eclipse/epsilon/workflow/tasks/tasks.xml"/-->
+
+
+        <!--
+        <ivy:cachepath organisation="org.eclipse.epsilon" module="org.eclipse.epsilon.workflow.emf" revision="${epsilon.version}"
+                       pathid="lib.path.id" inline="true"/>
+
+        <taskdef name="epsilon.eol" classname="org.eclipse.epsilon.workflow.tasks.EolTask" classpathref="lib.path.id"/>
+        <taskdef name="epsilon.xml.loadModel" classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel" classpathref="lib.path.id"/>
         
+
+        <taskdef name="epsilon.emf.loadModel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModelTask" classpathref="lib.path.id"/>
+        <taskdef name="epsilon.emf.loadRegisteredMetamodel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredMetaModelTask" classpathref="lib.path.id"/>
+        <taskdef name="epsilon.emf.loadXmlModel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadXmlModelTask" classpathref="lib.path.id"/>
+        -->
+
     </target>
 
 </project>
