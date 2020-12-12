@@ -89,7 +89,7 @@ public class YamlMappingRule implements IPredicateRule {
 				boolean hyphenAlreadyInPrefix = prefixSb.indexOf("-") != -1;
 				boolean possibleListEntry = cb == '-' && !hyphenAlreadyInPrefix;
 				prefixSb.append(cb);
-				if (cb == ' ' || possibleListEntry) {
+				if (cb == ' ' || cb == '\t' || possibleListEntry) {
 					slider.moveBack(); /*
 										 * go one step back - so position of
 										 * former space
