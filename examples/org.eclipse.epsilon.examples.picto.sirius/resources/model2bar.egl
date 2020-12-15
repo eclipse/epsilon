@@ -15,7 +15,7 @@
 		new Chart(document.getElementById("chart"), {
 		    type: 'bar',
 		    data: {
-		      labels: ["Men", "Woman"],
+		      labels: ["Men", "Women"],
 		      datasets: [{
 		        label: "Family",
 		        backgroundColor: ["#add8e6","#e8c3b9"],
