@@ -102,6 +102,14 @@
 
   <build>
     <sourceDirectory>ant</sourceDirectory>
+	<resources>
+	    <resource>
+	        <directory>ant</directory>
+	        <includes>
+	          <include>**/*.xml</include>
+	        </includes>
+	  </resource>
+	</resources>
   </build>
 
 </project>
