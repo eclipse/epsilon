@@ -18,9 +18,9 @@
     </target>
 
     <target name="download-ivy" unless="skip.download">
-        <mkdir dir="${ivy.jar.dir}"/>
+        <!--mkdir dir="${ivy.jar.dir}"/>
         <get src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar"
-             dest="${ivy.jar.file}" usetimestamp="true"/>
+             dest="${ivy.jar.file}" usetimestamp="true"/-->
     </target>
 
     <target name="install-ivy" depends="download-ivy">
@@ -43,11 +43,13 @@
             <fileset dir="lib/binaries" includes="*.jar"/>
         </path>
 
-        <!--taskdef resource="org/eclipse/epsilon/workflow/tasks/tasks.xml" classpathref="lib.path" loaderref="lib.path.loader"/-->
+        <taskdef classpathref="lib.path" resource="org/eclipse/epsilon/workflow/tasks/tasks.xml" loaderref="lib.path.loader"/>
+        <taskdef classpathref="lib.path" resource="org/eclipse/epsilon/workflow/tasks/emf/tasks.xml" loaderref="lib.path.loader"/>
 
-        <taskdef name="epsilon.eol" classname="org.eclipse.epsilon.workflow.tasks.EolTask" classpathref="lib.path" loaderref="lib.path.loader"/>
+        <!--taskdef name="epsilon.eol" classname="org.eclipse.epsilon.workflow.tasks.EolTask" classpathref="lib.path" loaderref="lib.path.loader"/>
         <taskdef name="epsilon.xml.loadModel" classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel" classpathref="lib.path" loaderref="lib.path.loader"/>
         <taskdef name="epsilon.emf.loadModel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadEmfModelTask" classpathref="lib.path" loaderref="lib.path.loader"/>
+        <taskdef name="epsilon.emf.register" classname="org.eclipse.epsilon.workflow.tasks.emf.RegisterTaskStandalone" classpathref="lib.path" loaderref="lib.path.loader"/-->
         <!--taskdef name="epsilon.emf.loadRegisteredMetamodel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadRegisteredMetaModelTask" classpathref="lib.path.id"/>
         <taskdef name="epsilon.emf.loadXmlModel" classname="org.eclipse.epsilon.workflow.tasks.emf.LoadXmlModelTask" classpathref="lib.path.id"/-->
 
