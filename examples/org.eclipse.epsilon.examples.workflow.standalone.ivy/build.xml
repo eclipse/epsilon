@@ -1,5 +1,7 @@
 <project default="run-epsilon" xmlns:ivy="antlib:org.apache.ivy.ant">
 
+    <!-- This part of the build file runs our Epsilon tasks -->
+
     <target name="run-epsilon" depends="setup-epsilon">
         <epsilon.emf.loadModel name="Library" modelfile="library.model" metamodelfile="library.ecore"/>
         
@@ -11,7 +13,7 @@
         </epsilon.eol>
     </target>
 
-    <!-- This part of the build file downloads Ivy, fetches the Epsilon jars and sets up the Epsilon ANT tasks -->
+    <!-- The rest of the build file downloads Ivy, fetches the Epsilon jars and sets up the Epsilon ANT tasks -->
 
     <property name="ivy.version" value="2.5.0"/>
     <property name="ivy.jar.dir" value="${basedir}/ivy"/>
