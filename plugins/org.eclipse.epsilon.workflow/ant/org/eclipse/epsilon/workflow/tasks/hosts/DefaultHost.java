@@ -18,7 +18,7 @@ import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 
-public final class DefaultHost implements Host {
+public class DefaultHost implements Host {
 
 	@Override
 	public boolean isRunning() {

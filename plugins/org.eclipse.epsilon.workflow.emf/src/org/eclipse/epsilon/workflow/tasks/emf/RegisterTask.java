@@ -17,8 +17,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emf.dt.EmfRegistryManager;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
-import org.eclipse.epsilon.workflow.tasks.hosts.DefaultHost;
-import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 
 public class RegisterTask extends EpsilonTask {
 	
@@ -33,7 +31,7 @@ public class RegisterTask extends EpsilonTask {
 		
 		try {
 			EmfUtil.register(file, EPackage.Registry.INSTANCE);
-			if (permanently && !(HostManager.getHost() instanceof DefaultHost)) {
+			if (permanently) {
 			    // Map the absolute path to this file to an IFile
 			    IFile[] workspaceFiles = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI());
 			    if (workspaceFiles.length == 0) {
