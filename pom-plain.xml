@@ -691,6 +691,7 @@ same version of EMF / other bits always.
 
         <configuration>
           <compilerId>eclipse</compilerId>
+          <failOnError>false</failOnError>       
         </configuration>
         <dependencies>
           <dependency>
