@@ -92,6 +92,11 @@ public abstract class EglPictoSource implements PictoSource {
 			IEolContext context = module.getContext();
 			context.getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 			
+			FrameStack fs = context.getFrameStack();
+			for (Parameter customParameter : renderingMetadata.getParameters()) {
+				fs.put(new Variable(customParameter.getName(), getValue(customParameter), EolAnyType.Instance));
+			}
+			
 			URI transformationUri = null;
 			
 			if (renderingMetadata.getTransformation() != null) {			
@@ -149,7 +154,7 @@ public abstract class EglPictoSource implements PictoSource {
 							customView.getParameters().add(createParameter("activeLayers", customView.getLayers()));
 						}
 						
-						FrameStack fs = context.getFrameStack();
+						
 						for (Parameter customViewParameter : customView.getParameters()) {
 							fs.put(new Variable(customViewParameter.getName(), getValue(customViewParameter), EolAnyType.Instance));
 						}
