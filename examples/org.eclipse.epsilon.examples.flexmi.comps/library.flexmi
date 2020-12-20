@@ -14,15 +14,15 @@
 
 	<:template name="nary_operator">
 		<parameter name="n"/>
-		<parameter name="in"/>
-		<parameter name="out"/>
+		<parameter name="intype"/>
+		<parameter name="outtype"/>
 		<content language="EGL">
 			<![CDATA[
 			<comp>
 				[%for (i in 1.to(n.asInteger())){%]
-				<in name="in[%=i%]" type="${in}"/>
+				<in name="in[%=i%]" type="${intype}"/>
 				[%}%]
-				<out name="result" type="${out}"/>
+				<out name="result" type="${outtype}"/>
 			</comp>
 			]]>
 		</content>

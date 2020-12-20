@@ -17,7 +17,7 @@
 	
 	<nary_operator name="Max" 
 		action="result = in1 &lt; in2 ? in2 : in1" 
-		in="float" out="float" n="2"/>
+		intype="float" outtype="float" n="2"/>
 	
 	<con :from="slc.location" :to="sld.location"/>
 	<con :from="sld.speedLimit" :to="slc.Max.in1"/>

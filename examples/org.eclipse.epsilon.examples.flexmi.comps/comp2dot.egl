@@ -72,7 +72,7 @@ operation comps::Component toDot() {
 			</td>
 		</tr>
 		<tr>
-			<td cellpadding="5" href="javascript:top.showView('/[%=self.getPath().concat("/")%]')">[%=self.name%]</td>
+			<td cellpadding="5" href="javascript:top.showView([[%=self.getPath().collect(i|"'" + i + "'").concat(", ")%]])">[%=self.name%]</td>
 		</tr>
 	</table>
 	>];
