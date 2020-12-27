@@ -1,7 +1,3 @@
-operation Book isValid() : Boolean {
-  return self.isbn.isDefined() and self.isbn.length() == 13;
-}
-
 pre {
   var outDirLib : String = "../libraries/";
   var libFileSizes = new Map;
@@ -13,12 +9,12 @@ rule Lib2XML transform lib : Library {
     var eligibleBooks = lib.books.select(b | b.isValid());
     var isBigLibrary = eligibleBooks.size() > 9000;
   }
-  merge : isBigLibrary
   overwrite : not isBigLibrary
+  merge : isBigLibrary
   template {
     var libTemplate = "rel/path/to/Lib2XML";
     if (isBigLibrary) {
-      libTemplate += "_minified";
+      libTemplate = libTemplate + "_minified";
     }
     return libTemplate+".egl";
   }
@@ -30,9 +26,9 @@ rule Lib2XML transform lib : Library {
   target {
     var outFile = outDirLib + lib.name;
     if (isBigLibrary) {
-      outFile += "_compact";
+      outFile = outFile + "_compact";
     }
-    return outFile+".xml";
+    return outFile + ".xml";
   }
   post {
     libFileSizes.put(generated.getName(), generated.length());
@@ -40,15 +36,19 @@ rule Lib2XML transform lib : Library {
 }
 
 rule AuthorsAndBooks {
+  template : "AuthorsAndBooks.egl"
   parameters : Map {
     "authors" = Authors.allInstances(),
     "books" = Book.allInstances()
   }
-  template : "AuthorsAndBooks.egl"
   target : "AllAuthorsBooks.txt"
 }
 
 post {
   libFileSizes.println();
     ("Total: "+libFileSizes.values().sum()).println();
+}
+
+operation Book isValid() : Boolean {
+  return self.isbn.isDefined() and self.isbn.length() == 13;
 }

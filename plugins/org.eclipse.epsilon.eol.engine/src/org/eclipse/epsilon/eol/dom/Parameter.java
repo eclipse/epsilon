@@ -74,7 +74,7 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	
 	@Override
 	public String toString() {
-		return getName() + ":" + getTypeName();
+		return getName() + " : " + getTypeName();
 	}
 	
 	public EolType getType(IEolContext context) throws EolRuntimeException {

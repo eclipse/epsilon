@@ -9,76 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.parse;
 
-import java.util.ListIterator;
+import java.util.Iterator;
 import java.util.Map.Entry;
-
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.dom.AbortStatement;
-import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
-import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
-import org.eclipse.epsilon.eol.dom.AnnotationBlock;
-import org.eclipse.epsilon.eol.dom.AssignmentStatement;
-import org.eclipse.epsilon.eol.dom.BooleanLiteral;
-import org.eclipse.epsilon.eol.dom.BreakStatement;
-import org.eclipse.epsilon.eol.dom.Case;
-import org.eclipse.epsilon.eol.dom.CollectionLiteralExpression;
-import org.eclipse.epsilon.eol.dom.ComplexOperationCallExpression;
-import org.eclipse.epsilon.eol.dom.ContinueStatement;
-import org.eclipse.epsilon.eol.dom.DeleteStatement;
-import org.eclipse.epsilon.eol.dom.DivOperatorExpression;
-import org.eclipse.epsilon.eol.dom.DoubleEqualsOperatorExpression;
-import org.eclipse.epsilon.eol.dom.ElvisOperatorExpression;
-import org.eclipse.epsilon.eol.dom.EnumerationLiteralExpression;
-import org.eclipse.epsilon.eol.dom.EqualsOperatorExpression;
-import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
-import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.dom.Expression;
-import org.eclipse.epsilon.eol.dom.ExpressionInBrackets;
-import org.eclipse.epsilon.eol.dom.ExpressionStatement;
-import org.eclipse.epsilon.eol.dom.FeatureCallExpression;
-import org.eclipse.epsilon.eol.dom.FirstOrderOperationCallExpression;
-import org.eclipse.epsilon.eol.dom.ForStatement;
-import org.eclipse.epsilon.eol.dom.GreaterEqualOperatorExpression;
-import org.eclipse.epsilon.eol.dom.GreaterThanOperatorExpression;
-import org.eclipse.epsilon.eol.dom.IEolVisitor;
-import org.eclipse.epsilon.eol.dom.IfStatement;
-import org.eclipse.epsilon.eol.dom.ImpliesOperatorExpression;
-import org.eclipse.epsilon.eol.dom.Import;
-import org.eclipse.epsilon.eol.dom.IntegerLiteral;
-import org.eclipse.epsilon.eol.dom.ItemSelectorExpression;
-import org.eclipse.epsilon.eol.dom.LessEqualOperatorExpression;
-import org.eclipse.epsilon.eol.dom.LessThanOperatorExpression;
-import org.eclipse.epsilon.eol.dom.MapLiteralExpression;
-import org.eclipse.epsilon.eol.dom.MinusOperatorExpression;
-import org.eclipse.epsilon.eol.dom.ModelDeclaration;
-import org.eclipse.epsilon.eol.dom.ModelDeclarationParameter;
-import org.eclipse.epsilon.eol.dom.NameExpression;
-import org.eclipse.epsilon.eol.dom.NegativeOperatorExpression;
-import org.eclipse.epsilon.eol.dom.NewInstanceExpression;
-import org.eclipse.epsilon.eol.dom.NotEqualsOperatorExpression;
-import org.eclipse.epsilon.eol.dom.NotOperatorExpression;
-import org.eclipse.epsilon.eol.dom.Operation;
-import org.eclipse.epsilon.eol.dom.OperationCallExpression;
-import org.eclipse.epsilon.eol.dom.OperatorExpression;
-import org.eclipse.epsilon.eol.dom.OrOperatorExpression;
-import org.eclipse.epsilon.eol.dom.Parameter;
-import org.eclipse.epsilon.eol.dom.PlusOperatorExpression;
-import org.eclipse.epsilon.eol.dom.PostfixOperatorExpression;
-import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
-import org.eclipse.epsilon.eol.dom.RealLiteral;
-import org.eclipse.epsilon.eol.dom.ReturnStatement;
-import org.eclipse.epsilon.eol.dom.SimpleAnnotation;
-import org.eclipse.epsilon.eol.dom.StatementBlock;
-import org.eclipse.epsilon.eol.dom.StringLiteral;
-import org.eclipse.epsilon.eol.dom.SwitchStatement;
-import org.eclipse.epsilon.eol.dom.TernaryExpression;
-import org.eclipse.epsilon.eol.dom.ThrowStatement;
-import org.eclipse.epsilon.eol.dom.TimesOperatorExpression;
-import org.eclipse.epsilon.eol.dom.TransactionStatement;
-import org.eclipse.epsilon.eol.dom.TypeExpression;
-import org.eclipse.epsilon.eol.dom.VariableDeclaration;
-import org.eclipse.epsilon.eol.dom.WhileStatement;
-import org.eclipse.epsilon.eol.dom.XorOperatorExpression;
+import org.eclipse.epsilon.eol.dom.*;
 
 public class EolUnparser implements IEolVisitor {
 	
@@ -205,7 +139,7 @@ public class EolUnparser implements IEolVisitor {
 	@Override
 	public void visit(CollectionLiteralExpression<?> collectionLiteralExpression) {
 		buffer.append(collectionLiteralExpression.getCollectionType() + "{");
-		ListIterator<Expression> li = collectionLiteralExpression.getParameterExpressions().listIterator();
+		Iterator<Expression> li = collectionLiteralExpression.getParameterExpressions().iterator();
 		while (li.hasNext()) {
 			li.next().accept(this);
 			if (li.hasNext()) {
@@ -284,14 +218,14 @@ public class EolUnparser implements IEolVisitor {
 		unparse(operationCallExpression.getTargetExpression());
 		arrowOrDot(operationCallExpression);
 		buffer.append(operationCallExpression.getName() + "(");
-		ListIterator<Parameter> pi = operationCallExpression.getParameters().listIterator();
+		Iterator<Parameter> pi = operationCallExpression.getParameters().iterator();
 		while (pi.hasNext()) {
 			pi.next().accept(this);
 			if (pi.hasNext()) comma();
 		}
 		if (!operationCallExpression.getExpressions().isEmpty()) {
 			buffer.append("|");
-			ListIterator<Expression> ei = operationCallExpression.getExpressions().listIterator();
+			Iterator<Expression> ei = operationCallExpression.getExpressions().iterator();
 			while (ei.hasNext()) {
 				ei.next().accept(this);
 				if (ei.hasNext()) comma();
@@ -375,9 +309,8 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(MapLiteralExpression<?, ?> mapLiteralExpression) {
-		buffer.append(mapLiteralExpression.getMapName());
-		buffer.append("{");
-		ListIterator<Entry<Expression, Expression>> li = mapLiteralExpression.getKeyValueExpressionPairs().listIterator();
+		buffer.append(mapLiteralExpression.getMapName()).append(" {");
+		Iterator<Entry<Expression, Expression>> li = mapLiteralExpression.getKeyValueExpressionPairs().iterator();
 		while (li.hasNext()) {
 			Entry<Expression, Expression> next = li.next();
 			next.getKey().accept(this);
@@ -399,7 +332,7 @@ public class EolUnparser implements IEolVisitor {
 		modelDeclaration.getNameExpression().accept(this);
 		if (!modelDeclaration.getAliasNameExpressions().isEmpty()) {
 			buffer.append(" alias ");
-			ListIterator<NameExpression> li = modelDeclaration.getAliasNameExpressions().listIterator();
+			Iterator<NameExpression> li = modelDeclaration.getAliasNameExpressions().iterator();
 			while (li.hasNext()) {
 				li.next().accept(this);
 				if (li.hasNext()) comma();
@@ -408,7 +341,7 @@ public class EolUnparser implements IEolVisitor {
 		buffer.append(" driver ");
 		modelDeclaration.getDriverNameExpression().accept(this);
 		buffer.append(" {");
-		ListIterator<ModelDeclarationParameter> li = modelDeclaration.getModelDeclarationParameters().listIterator();
+		Iterator<ModelDeclarationParameter> li = modelDeclaration.getModelDeclarationParameters().iterator();
 		while (li.hasNext()) {
 			li.next().accept(this);
 			if (li.hasNext()) comma();
@@ -441,7 +374,7 @@ public class EolUnparser implements IEolVisitor {
 		newInstanceExpression.getTypeExpression().accept(this);
 		if (!newInstanceExpression.getParameterExpressions().isEmpty()) {
 			buffer.append("(");
-			ListIterator<Expression> li = newInstanceExpression.getParameterExpressions().listIterator();
+			Iterator<Expression> li = newInstanceExpression.getParameterExpressions().iterator();
 			while (li.hasNext()) {
 				li.next().accept(this);
 				if (li.hasNext()) comma();
@@ -470,7 +403,7 @@ public class EolUnparser implements IEolVisitor {
 			space();
 		}
 		buffer.append(operation.getName() + "(");
-		ListIterator<Parameter> li = operation.getFormalParameters().listIterator();
+		Iterator<Parameter> li = operation.getFormalParameters().iterator();
 		while (li.hasNext()) {
 			li.next().accept(this);
 			if (li.hasNext()) comma();
@@ -491,7 +424,7 @@ public class EolUnparser implements IEolVisitor {
 			arrowOrDot(operationCallExpression);
 		}
 		buffer.append(operationCallExpression.getName() + "(");
-		ListIterator<Expression> li = operationCallExpression.getParameterExpressions().listIterator();
+		Iterator<Expression> li = operationCallExpression.getParameterExpressions().iterator();
 		while (li.hasNext()) {
 			li.next().accept(this);
 			if (li.hasNext()) comma();
@@ -653,7 +586,7 @@ public class EolUnparser implements IEolVisitor {
 	@Override
 	public void visit(TransactionStatement transactionStatement) {
 		buffer.append("transaction ");
-		ListIterator<NameExpression> li = transactionStatement.getModelNames().listIterator();
+		Iterator<NameExpression> li = transactionStatement.getModelNames().iterator();
 		while (li.hasNext()) {
 			li.next().accept(this);
 			if (li.hasNext()) comma();
@@ -672,7 +605,7 @@ public class EolUnparser implements IEolVisitor {
 		}
 		else if (!typeExpression.getParameterTypeExpressions().isEmpty()) {
 			buffer.append("(");
-			ListIterator<TypeExpression> li = typeExpression.getParameterTypeExpressions().listIterator();
+			Iterator<TypeExpression> li = typeExpression.getParameterTypeExpressions().iterator();
 			while (li.hasNext()) {
 				li.next().accept(this);
 				if (li.hasNext()) comma();

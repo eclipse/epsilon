@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.parse;
 
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
@@ -61,7 +62,10 @@ public abstract class ErlUnparser extends EolUnparser implements IErlVisitor {
 	protected void unparsePreAndPost(String label, NamedStatementBlockRule preOrPost) {
 		unparseAnnotations(preOrPost);
 		buffer.append(label + " ");
-		if (preOrPost.getName() != null) buffer.append(preOrPost.getName() + " ");
+		String name = preOrPost.getName();
+		if (!StringUtil.isEmpty(name)) {
+			buffer.append(name + " ");
+		}
 		preOrPost.getBody().accept(this);
 	}
 	
