@@ -172,7 +172,12 @@ public class MetadataXMLParser implements ISpreadsheetMetadata {
 	}
 
 	private String getValueFromNode(final NamedNodeMap nodeMap, final String elementName) {
-		final Node node = nodeMap.getNamedItem(elementName);
+		Node node = nodeMap.getNamedItem(elementName);
+		
+		if (node == null) {
+			node = nodeMap.getNamedItem(elementName.toLowerCase());
+		}
+		
 		String value = null;
 		if (node != null) {
 			value = node.getNodeValue();

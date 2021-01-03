@@ -28,6 +28,7 @@ import org.eclipse.epsilon.emc.spreadsheets.delete.DeleteReferencedRowTest;
 import org.eclipse.epsilon.emc.spreadsheets.delete.DeleteRowTest;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModelTest;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelRowTest;
+import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelEolTests;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelWorksheetTest;
 import org.eclipse.epsilon.emc.spreadsheets.google.find.GSFindTest;
 import org.eclipse.epsilon.emc.spreadsheets.google.load.LoadExistingWorksheetTest;
@@ -72,7 +73,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	CascadeUpdatesCellsManyToManyPropertySetterTest.class, CascadeUpdatesCellsManyToNotManyPropertySetterTest.class,
 	CascadeUpdatesCellsNotManyPropertySetterTest.class, CascadeUpdatesCellsNotManyToManyPropertySetterTest.class,
 	PlainTextCellPropertySetterTest.class, ReferencedCellPropertySetterTest.class,
-	ReferencingCellPropertySetterTest.class, GetAllContentsTest.class, GetAllOfTypeTest.class, GetTypeOfTest.class })
+	ReferencingCellPropertySetterTest.class, GetAllContentsTest.class, GetAllOfTypeTest.class, GetTypeOfTest.class,
+	ExcelEolTests.class})
 public class SpreadsheetDriverTestSuite {
 
 	public static Test suite() {

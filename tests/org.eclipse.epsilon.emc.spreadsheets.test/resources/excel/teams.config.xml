@@ -1,0 +1,14 @@
+<spreadsheet>
+  <worksheet name="Student">
+    <column name="mark" datatype="integer"/>
+    <column name="repeatsYear" datatype="boolean"/>
+    <column name="average" datatype="double"/>
+    <column name="conflicts" many="true"/>
+  </worksheet>
+  <worksheet name="Team">
+  	<column name="id" datatype="integer"/>  
+  	<column name="mark" datatype="integer"/>
+  </worksheet>
+  <reference source="Student->team" target="Team->id"/>
+  <reference source="Student->conflicts" target="Student->email" many="true"/>  
+</spreadsheet>

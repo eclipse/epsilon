@@ -66,7 +66,7 @@ public enum SpreadsheetDataType {
 				return String.valueOf(value);
 			}
 			else if (dataType == SpreadsheetDataType.INTEGER) {
-				return Integer.parseInt(String.valueOf(value));
+				return new Double(String.valueOf(value)).intValue();
 			}
 			else if (dataType == SpreadsheetDataType.BOOLEAN) {
 				return Boolean.parseBoolean(String.valueOf(value));
@@ -87,8 +87,37 @@ public enum SpreadsheetDataType {
 		catch (Exception e) {
 			return SpreadsheetDataType.getDefaultDTValue(dataType);
 		}
-	}
+	} 
 
+	public static Object coerceColumnValue(final SpreadsheetDataType dataType, final Object value) {
+		try {
+			if (dataType == SpreadsheetDataType.STRING) {
+				return String.valueOf(value);
+			}
+			else if (dataType == SpreadsheetDataType.INTEGER) {
+				return new Double(String.valueOf(value)).intValue();
+			}
+			else if (dataType == SpreadsheetDataType.BOOLEAN) {
+				return Boolean.parseBoolean(String.valueOf(value));
+			}
+			else if (dataType == SpreadsheetDataType.DOUBLE) {
+				return Double.parseDouble(String.valueOf(value));
+			}
+			else if (dataType == SpreadsheetDataType.FLOAT) {
+				return Float.parseFloat(String.valueOf(value));
+			}
+			else {
+				throw new Exception("Unknown data type: '" + dataType + "'");
+			}
+		}
+		catch (NumberFormatException e) {
+			return coerceColumnValue(dataType, SpreadsheetDataType.getDefaultDTValue(dataType));
+		}
+		catch (Exception e) {
+			return coerceColumnValue(dataType, SpreadsheetDataType.getDefaultDTValue(dataType));
+		}
+	} 
+	
 	/**
 	 * Returns the default value of the given SpreadsheetDataType. If an unknown
 	 * data type is given, then SpreadsheetConstants.DEFAULT_DT_VALUE is returned

@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets.propertygetter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
@@ -130,7 +131,7 @@ public class PropertyGetterReferencingCellManyTest {
 		Object referencedObjects = getter.invoke(referencingRow, col, null);
 		assertTrue(referencedObjects instanceof List);
 		List<?> referencedObjectList = (List<?>) referencedObjects;
-		assertTrue(referencedObjectList.size() == 0);
+		assertEquals(0, referencedObjectList.size());
 	}
 
 	@SuppressWarnings("unused")

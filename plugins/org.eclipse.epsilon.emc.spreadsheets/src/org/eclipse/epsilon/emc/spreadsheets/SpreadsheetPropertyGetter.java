@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -90,11 +92,11 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter {
 		}
 	}
 
-	private List<Object> getValuesFromReferencingCell(final SpreadsheetRow row, final SpreadsheetColumn column) {
+	private Object getValuesFromReferencingCell(final SpreadsheetRow row, final SpreadsheetColumn column) {
 		final Set<Object> rowsToReturn = new LinkedHashSet<>();
 		final List<String> cellValues = row.getAllVisibleCellValues(column);
+		final Set<SpreadsheetReference> references = row.getReferencesBySource(column);
 		if (cellValues != null && !cellValues.isEmpty()) {
-			final Set<SpreadsheetReference> references = row.getReferencesBySource(column);
 			for (final SpreadsheetReference reference : references) {
 				final SpreadsheetWorksheet referencedWorksheet = reference.getReferencedWorksheet();
 				final SpreadsheetColumn referencedColumn = reference.getReferencedColumn();
@@ -104,17 +106,37 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter {
 					if (reference.isMany()) {
 						rowsToReturn.addAll(referencedRows);
 					}
-					else if (referencedRows != null && !referencedRows.isEmpty()) {
-						rowsToReturn.add(referencedRows.get(0));
+					else {
+						if (referencedRows != null && !referencedRows.isEmpty()) {
+							rowsToReturn.add(referencedRows.get(0));
+						}
+						//else {
+						//	rowsToReturn.add(null);
+						//}
 					}
 				}
-			}
+			}	
 		}
-		return new ArrayList<>(rowsToReturn);
+		
+		// If all references are single, return a single
+		// object (or null) instead of a collection
+		if (references.stream().allMatch(r -> !r.isMany() && !r.getReferencingColumn().isMany())) {
+			if (rowsToReturn.isEmpty()) return null;
+			else return rowsToReturn.iterator().next();
+		}
+		else {
+			return new ArrayList<>(rowsToReturn);
+		}
 	}
 
 	private Object getVisibleValuesFromCell(final SpreadsheetRow row, final SpreadsheetColumn column) {
-		List<Object> returnObjects = new ArrayList<>(row.getAllVisibleCellValues(column));
+		List<String> visibleCellValues = row.getAllVisibleCellValues(column);
+		
+		if (visibleCellValues.isEmpty() && !column.isMany()) visibleCellValues.add("");
+		
+		List<Object> returnObjects = visibleCellValues.stream().
+			map(v -> column.getDataType() == null ? v : SpreadsheetDataType.coerceColumnValue(column.getDataType(), v)).collect(Collectors.toList());
+		
 		if (column.isMany()) {
 			return returnObjects;
 		}

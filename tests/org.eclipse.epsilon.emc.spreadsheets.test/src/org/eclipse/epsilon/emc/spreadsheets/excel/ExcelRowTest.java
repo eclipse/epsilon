@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets.excel;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -125,7 +126,7 @@ public class ExcelRowTest {
 	public void testReadBlank() {
 		try {
 			String value = testReadType(5);
-			assertTrue(value == null);
+			assertEquals("", value);
 		}
 		catch (Exception e) {
 			fail(e.getMessage());

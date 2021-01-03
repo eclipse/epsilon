@@ -57,7 +57,7 @@ public class SpreadsheetPropertyGetterTest {
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
 		Object response = getter.invoke(row, columnName, null);
 
-		assertNull(response);
+		assertEquals("", response);
 	}
 
 	@Test
