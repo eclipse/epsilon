@@ -75,6 +75,7 @@ public class EValidatorPopulator implements IStartup {
 					// Use custom EvlValidator if provided: otherwise, use the default implementation
 					if(configurationElement.getAttribute("validator") != null) {
 						evlValidator = (EValidator) configurationElement.createExecutableExtension("validator");
+						((EvlValidator) evlValidator).initialise(url.toURI(), modelName, ePackageUri, bundleId);
 					}
 					else {
 						evlValidator = new EvlValidator(url.toURI(), modelName, ePackageUri, bundleId);
