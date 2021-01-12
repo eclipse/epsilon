@@ -253,8 +253,7 @@ public class Constraint extends NamedRule implements IExecutableModuleElementPar
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) return true;
-		if (!super.equals(other))
-			 return false;
+		if (!super.equals(other)) return false;
 		
 		Constraint constraint = (Constraint) other;
 		return

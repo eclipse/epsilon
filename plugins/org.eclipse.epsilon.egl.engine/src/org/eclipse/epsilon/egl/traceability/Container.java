@@ -68,24 +68,15 @@ public abstract class Container extends Content<Template> {
 	
 	@Override
 	public int hashCode() {
-		int result = 17;
-		result += 37 * name.hashCode();
-		result += 37 * result + Objects.hashCode(uri);
-		result += 37 * contents.hashCode();
-		return result;
+		return Objects.hash(name, uri, contents);
 	}
 	
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		
-		sb.append(name);
-		
+		final StringBuilder sb = new StringBuilder(name);
 		if (!contents.isEmpty()) {
-			sb.append(' ');
-			sb.append(contents);
+			sb.append(' ').append(contents);
 		}
-		
 		return sb.toString();
 	}
 }

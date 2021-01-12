@@ -27,10 +27,12 @@ public abstract class RuleAtom<T extends IExecutableModuleElementParameter> {
 
 	public final T rule;
 	public final Object element;
+	protected int hashCode;
 	
 	public RuleAtom(T construct, Object modelElement) {
 		this.rule = construct;
 		this.element = modelElement;
+		this.hashCode = Objects.hash(rule, element);
 	}
 	
 	public Object execute(IErlContext context) throws EolRuntimeException {
@@ -48,7 +50,7 @@ public abstract class RuleAtom<T extends IExecutableModuleElementParameter> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(rule, element);
+		return hashCode;
 	}
 	
 	@Override

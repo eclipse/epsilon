@@ -40,10 +40,6 @@ public abstract class NamedRule extends AnnotatableModuleElement {
 		return nameExpression;
 	}
 	
-	public void setNameExpression(NameExpression nameExpression) {
-		this.nameExpression = nameExpression;
-	}
-	
 	@Override
 	public String toString() {
 		return getName();

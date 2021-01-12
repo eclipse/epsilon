@@ -146,10 +146,6 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 		return typeExpression;
 	}
 	
-	public void setTypeExpression(TypeExpression typeExpression) {
-		this.typeExpression = typeExpression;
-	}
-	
 	public Collection<?> getAllOfSourceType(IEolContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		return getType(context).getAllOfType();
 	}
