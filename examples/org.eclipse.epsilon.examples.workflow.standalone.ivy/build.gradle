@@ -15,7 +15,7 @@ dependencies {
 }
 
 task setupEpsilonTasks {
-	// Load the core Epsilon tasks
+	// Set up the core Epsilon tasks
 	ant.taskdef(resource: 'org/eclipse/epsilon/workflow/tasks/tasks.xml', 
 		classpath: configurations.epsilon.asPath, loaderref: 'epsilon')
 	// Set up the Epsilon EMF tasks
