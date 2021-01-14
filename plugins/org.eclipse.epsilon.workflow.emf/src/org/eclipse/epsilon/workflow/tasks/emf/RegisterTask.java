@@ -25,6 +25,7 @@ public class RegisterTask extends EpsilonTask {
 	
 	@Override
 	public void executeImpl() throws BuildException {
+		ResourceFactoryRegistryManager.configure();
 		if (!file.exists()) {
 			fail("File " + file.getAbsolutePath() + " doesn't exist", null);
 		}

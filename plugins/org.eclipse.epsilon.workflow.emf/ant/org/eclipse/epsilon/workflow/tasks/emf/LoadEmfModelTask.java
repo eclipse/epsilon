@@ -13,10 +13,12 @@ package org.eclipse.epsilon.workflow.tasks.emf;
 
 import java.io.File;
 import org.apache.tools.ant.BuildException;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 
 public class LoadEmfModelTask extends EpsilonTask {
@@ -36,7 +38,9 @@ public class LoadEmfModelTask extends EpsilonTask {
 	
 	@Override
 	public void executeImpl() throws BuildException {
+		ResourceFactoryRegistryManager.configure();
 		final EmfModel model = createEmfModel();
+		
 		final StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
 		properties.put(EmfModel.PROPERTY_ALIASES, alias + "");
