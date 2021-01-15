@@ -21,13 +21,17 @@
             <configuration>
               <target>
                 <!-- Set up the core Epsilon tasks -->
-                <taskdef resource="org/eclipse/epsilon/workflow/tasks/tasks.xml" classpathref="maven.plugin.classpath" loaderref="epsilon"/>
+                <taskdef 
+                  resource="org/eclipse/epsilon/workflow/tasks/tasks.xml"/>
                 
                 <!-- Set up the Epsilon EMF tasks -->
-                <taskdef resource="org/eclipse/epsilon/workflow/tasks/emf/tasks.xml" classpathref="lib.path" loaderref="epsilon"/>
+                <taskdef 
+                  resource="org/eclipse/epsilon/workflow/tasks/emf/tasks.xml"/>
 
                 <!-- Load the library.model EMF model -->
-                <epsilon.emf.loadModel name="Library" modelfile="library.model" metamodelfile="library.ecore"/>
+                <epsilon.emf.loadModel name="Library" 
+                  modelfile="library.model" 
+                  metamodelfile="library.ecore"/>
 
                 <!-- Run library.eol against it -->
                 <epsilon.eol src="library.eol">
