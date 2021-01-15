@@ -1,5 +1,5 @@
 # Build
-mvn -T 1C clean install
+mvn -T 1C clean verify
 
 # Plugged-In tests
 mvn -f tests/org.eclipse.epsilon.test verify -P plugged
