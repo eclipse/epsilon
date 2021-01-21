@@ -62,6 +62,7 @@
       <pictoSource class="org.eclipse.epsilon.picto.source.MermaidSource"/>
       <pictoSource class="org.eclipse.epsilon.picto.source.PlantUmlSource"/>
       <pictoSource class="org.eclipse.epsilon.picto.source.MathjaxSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.CsvSource"/>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -103,6 +104,9 @@
       </viewContentTransformer>
       <viewContentTransformer
             class="org.eclipse.epsilon.picto.transformers.MathjaxContentTransformer">
+      </viewContentTransformer>
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.CsvContentTransformer">
       </viewContentTransformer>
    </extension>
    <extension

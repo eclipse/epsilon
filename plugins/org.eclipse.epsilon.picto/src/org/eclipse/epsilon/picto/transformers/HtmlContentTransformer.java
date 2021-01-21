@@ -41,7 +41,8 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			new PictoViewElementTransformer(), 
 			new RenderCodeElementTransformer(),
 			new KatexAutorenderHeadAppender(),
-			new MermaidRendererHeadAppender()
+			new MermaidRendererHeadAppender(),
+			new MetroHeadAppender()
 		));
 		htmlElementTransformers.addAll(new HtmlElementTransformerExtensionPointManager().getExtensions());
 	}
