@@ -91,7 +91,7 @@ public class Grid extends AnnotatableModuleElement implements ColumnGenerator {
 	private void initKeys(IEolContext context) throws EolRuntimeException {
 		if (keys == null) {
 			FrameStack frameStack = context.getFrameStack();
-			frameStack.enterLocal(FrameType.PROTECTED, keysBlock);
+			frameStack.enterLocal(FrameType.UNPROTECTED, keysBlock);
 			keys = (List<Object>) ReturnValueParser.obtainValue(context.getExecutorFactory().execute(keysBlock, context));
 			frameStack.leaveLocal(keysBlock);
 		}

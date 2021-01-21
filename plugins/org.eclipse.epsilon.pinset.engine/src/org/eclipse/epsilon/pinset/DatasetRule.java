@@ -131,7 +131,7 @@ public class DatasetRule extends AnnotatableModuleElement {
 			oElements = ((EolModelElementType) parameterType).getAllOfKind();
 		}
 		else {
-			context.getFrameStack().enterLocal(FrameType.PROTECTED, fromBlock);
+			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, fromBlock);
 			Object result = ReturnValueParser.obtainValue(
 					context.getExecutorFactory().execute(fromBlock, context));
 			context.getFrameStack().leaveLocal(fromBlock);
@@ -203,7 +203,7 @@ public class DatasetRule extends AnnotatableModuleElement {
 	private List<Object> getRowValues(IEolContext context, Object oElem)
 			throws EolRuntimeException {
 		List<Object> rowValues = new ArrayList<>();
-		context.getFrameStack().enterLocal(FrameType.PROTECTED, this);
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
 		context.getFrameStack().put(
 				Variable.createReadOnlyVariable(parameter.getName(), oElem));
 		for (ColumnGenerator generator : generators) {
