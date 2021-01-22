@@ -17,6 +17,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.epsilon.common.module.Comment;
@@ -285,6 +286,11 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	@Override
 	public List<Comment> getComments() {
 		return current.module.getComments();
+	}
+	
+	@Override
+	public Map<String, Object> getData() {
+		return current.getModule().getData();
 	}
 
 }

@@ -13,7 +13,9 @@ package org.eclipse.epsilon.common.module;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
@@ -27,6 +29,7 @@ public abstract class AbstractModuleElement implements ModuleElement {
 	protected URI uri;
 	protected IModule module;
 	protected Region region = new Region();
+	protected LinkedHashMap<String, Object> data = new LinkedHashMap<>();
 	
 	@Override
 	public void build(AST cst, IModule module) {
@@ -119,6 +122,11 @@ public abstract class AbstractModuleElement implements ModuleElement {
 		}
 		
 		return str;
+	}
+	
+	@Override
+	public Map<String, Object> getData() {
+		return data;
 	}
 	
 	/**

@@ -12,6 +12,8 @@ package org.eclipse.epsilon.common.module;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
+
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 
@@ -40,5 +42,7 @@ public interface ModuleElement {
 	IModule getModule();
 	
 	List<Comment> getComments();
+	
+	Map<String, Object> getData();
 	
 }
