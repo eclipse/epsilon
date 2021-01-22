@@ -26,9 +26,9 @@ public class EolUnparser implements IEolVisitor {
 		buffer = new StringBuffer();
 		
 		module.getImports().stream().forEach(i -> {i.accept(this); newline();});
-		module.getModelDelcarations().stream().forEach(md -> {md.accept(this); newline();});
+		module.getDeclaredModelDeclarations().stream().forEach(md -> {md.accept(this); newline();});
 		unparseMain();
-		module.getOperations().stream().forEach(o -> {newline(); o.accept(this);});
+		module.getDeclaredOperations().stream().forEach(o -> {newline(); o.accept(this);});
 		
 		return buffer.toString();
 	}
