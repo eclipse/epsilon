@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.EglTemplate;
@@ -29,6 +30,8 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.pinset.DatasetRule;
+import org.eclipse.epsilon.pinset.PinsetModule;
 
 public class LazyEgxModule extends EgxModule {
 	
@@ -153,7 +156,46 @@ public class LazyEgxModule extends EgxModule {
 		@Override
 		public String getContent() throws Exception {
 			if (templateUri == null) return "";
-			
+
+			if (templateUri.toString().endsWith(".pinset")) {
+				PinsetModule module = new PinsetModule();
+				module.setContext(context);
+				module.persistDatasets(false);
+				module.parse(templateUri);
+
+				String ruleName = null;
+				for (Variable variable : variables) {
+					if (variable.getName().equalsIgnoreCase("pinsetrule")) {
+						ruleName = "" + variable.getValue();
+						break;
+					}
+				}
+
+				DatasetRule rule = null;
+				if (ruleName != null) {
+					rule = module.getDatasetRule(ruleName);
+					if (rule == null) {
+						throw new RuntimeException("Pinset rule \"" + ruleName + "\" not found");
+					}
+				}
+				else {
+					rule = module.getDatasetRules().get(0);
+				}
+
+				context.getFrameStack().enterLocal(FrameType.PROTECTED, module,
+						variables.toArray(new Variable[variables.size()]));
+
+				module.preExecution();
+				rule.execute(module.getContext());
+
+				context.getFrameStack().leaveLocal(module);
+
+				String content = rule.getDataset().toString(module.getSeparator());
+				rule.dispose();
+
+				return content;
+			}
+
 			EglTemplate template = null;
 			if (templateCache == null || (template = templateCache.get(templateUri)) == null) {
 				template = templateFactory.load(templateUri);

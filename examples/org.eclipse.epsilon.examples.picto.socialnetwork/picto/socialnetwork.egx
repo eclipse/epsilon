@@ -38,6 +38,19 @@ rule Person2Graphviz
 	
 }
 
+rule Persons2Table {
+
+	template : "persons2table.pinset"
+
+	parameters : Map {
+		"path" = Sequence{"Stats"},
+		"icon" = "table",
+		"format" = "csv"
+		
+		// ,"pinsetrule" = "otherStats"
+	}
+}
+
 @lazy
 rule Persons2Graphviz {
 

@@ -119,8 +119,21 @@ public class PinsetModule extends ErlModule {
 		return null;
 	}
 
+	public void preExecution() throws EolRuntimeException {
+		execute(getPre(), getContext());
+	}
+
 	public List<DatasetRule> getDatasetRules() {
 		return datasetRules;
+	}
+
+	public DatasetRule getDatasetRule(String ruleName) {
+		for (DatasetRule rule : datasetRules) {
+			if (rule.getName().equalsIgnoreCase(ruleName)) {
+				return rule;
+			}
+		}
+		return null;
 	}
 
 	public void setOutputFolder(String attribute) {
