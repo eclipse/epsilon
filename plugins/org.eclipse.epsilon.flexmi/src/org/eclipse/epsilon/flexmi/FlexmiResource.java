@@ -635,6 +635,13 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			}
 			else {
 				if (Object.class.getName().equals(eAttribute.getEAttributeType().getInstanceClassName())) return value;
+				
+				// If a boolean attribute is missing a value, assume it is true
+				if (value != null && value.trim().isEmpty() && (eAttribute.getEAttributeType().getInstanceClass() == boolean.class 
+						|| eAttribute.getEAttributeType().getInstanceClass() == Boolean.class)) {
+					return true;
+				}
+				
 				return eAttribute.getEAttributeType().getEPackage().getEFactoryInstance().createFromString(eAttribute.getEAttributeType(), value);
 			}
 		}
