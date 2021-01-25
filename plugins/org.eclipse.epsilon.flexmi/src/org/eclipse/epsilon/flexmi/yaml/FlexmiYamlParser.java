@@ -150,6 +150,8 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 								
 								Element child = document.createElement(keyNode.getValue());
 								child.setTextContent(((ScalarNode) sequenceNode).getValue());
+								child.setUserData(Location.ID,  new Location(sequenceNode.getStartMark().getLine()+1, sequenceNode.getStartMark().getColumn(), 
+										sequenceNode.getEndMark().getLine()+1, sequenceNode.getEndMark().getColumn()), null);
 								element.appendChild(child);
 							}
 						}
