@@ -1,43 +1,43 @@
 operation Any isDiagram() {
-	return self.eClass().isAnnotatedAs("gmf.diagram");
+	return self.eClass().isAnnotatedAs("picto.diagram");
 }
 
 operation Any isNode() {
-	return self.eClass().isAnnotatedAs("gmf.node");
+	return self.eClass().isAnnotatedAs("picto.node");
 }
 
 operation Any isLink() {
-	return self.eClass().isAnnotatedAs("gmf.link");
+	return self.eClass().isAnnotatedAs("picto.link");
 }
 
 operation Any getTitle() {
-	var attr = self.eClass().getAnnotationValue("gmf.diagram", "title");
+	var attr = self.eClass().getAnnotationValue("picto.diagram", "title");
 	return self.eGet(self.eClass().getEStructuralFeature(attr));
 }
 
 operation Any getLabel() {
-	var ann = self.isNode() ? "gmf.node" : "gmf.link";
+	var ann = self.isNode() ? "picto.node" : "picto.link";
 	var attr = self.eClass().getAnnotationValue(ann, "label");
 	return self.eGet(self.eClass().getEStructuralFeature(attr));
 }
 
 operation Any getSource() {
-	var ref = self.eClass().getAnnotationValue("gmf.link", "source");
+	var ref = self.eClass().getAnnotationValue("picto.link", "source");
 	return self.eGet(self.eClass().getEStructuralFeature(ref));
 }
 
 operation Any getTarget() {
-	var ref = self.eClass().getAnnotationValue("gmf.link", "target");
+	var ref = self.eClass().getAnnotationValue("picto.link", "target");
 	return self.eGet(self.eClass().getEStructuralFeature(ref));
 }
 
 operation Any getColor() {
-	var ann = self.isNode() ? "gmf.node" : "gmf.link";
+	var ann = self.isNode() ? "picto.node" : "picto.link";
 	return self.eClass().getAnnotationValue(ann, "color");
 }
 
 operation Any getShape() {
-	return self.eClass().getAnnotationValue("gmf.node", "shape");
+	return self.eClass().getAnnotationValue("picto.node", "shape");
 }
 
 operation Any isAnnotatedAs(name: String) : Boolean {
