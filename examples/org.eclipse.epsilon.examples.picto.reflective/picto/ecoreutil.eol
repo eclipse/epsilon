@@ -1,0 +1,80 @@
+operation Any isDiagram() {
+	return self.eClass().isAnnotatedAs("gmf.diagram");
+}
+
+operation Any isNode() {
+	return self.eClass().isAnnotatedAs("gmf.node");
+}
+
+operation Any isLink() {
+	return self.eClass().isAnnotatedAs("gmf.link");
+}
+
+operation Any getTitle() {
+	var attr = self.eClass().getAnnotationValue("gmf.diagram", "title");
+	return self.eGet(self.eClass().getEStructuralFeature(attr));
+}
+
+operation Any getLabel() {
+	var ann = self.isNode() ? "gmf.node" : "gmf.link";
+	var attr = self.eClass().getAnnotationValue(ann, "label");
+	return self.eGet(self.eClass().getEStructuralFeature(attr));
+}
+
+operation Any getSource() {
+	var ref = self.eClass().getAnnotationValue("gmf.link", "source");
+	return self.eGet(self.eClass().getEStructuralFeature(ref));
+}
+
+operation Any getTarget() {
+	var ref = self.eClass().getAnnotationValue("gmf.link", "target");
+	return self.eGet(self.eClass().getEStructuralFeature(ref));
+}
+
+operation Any getColor() {
+	var ann = self.isNode() ? "gmf.node" : "gmf.link";
+	return self.eClass().getAnnotationValue(ann, "color");
+}
+
+operation Any getShape() {
+	return self.eClass().getAnnotationValue("gmf.node", "shape");
+}
+
+operation Any isAnnotatedAs(name: String) : Boolean {
+	return self.getAnnotation(name).isDefined();
+}
+
+operation Any getAnnotationValue(name: String, detail: String) : Any {
+	var ann = self.eAnnotations.selectOne(a|a.source = name);
+	var det;
+
+	if (ann.isDefined()) {
+		det = ann.details.selectOne(d|d.key = detail);
+	}
+
+	if (det.isDefined()) {
+		return det.value;
+	}
+	else if (self.eClass().name = "EClass") {
+		for (s in self.eSuperTypes) {
+			var sann = s.getAnnotationValue(name, detail);
+			if (sann.isDefined()) {
+				return sann;
+			}
+		}
+	}
+	return det;	
+}
+
+operation Any getAnnotation(name : String) : Any {
+	var ann = self.eAnnotations.selectOne(a|a.source = name);
+	
+	if (self.eClass().name = "EClass" and ann.isUndefined()) {
+		for (s in self.eSuperTypes) {
+			var sann = s.getAnnotation(name);
+			if (sann.isDefined()) return sann;
+		}
+	}
+	
+	return ann;
+}

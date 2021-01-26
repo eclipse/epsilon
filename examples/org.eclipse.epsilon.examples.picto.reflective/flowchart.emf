@@ -1,0 +1,31 @@
+package flowchart;
+
+@gmf.diagram(title="name")
+class Flowchart {
+   attr String name;
+   val Node[*] nodes;
+   val Transition[*] transitions;
+}
+
+abstract class Node {
+   attr String name;
+   ref Transition[*]#source outgoing;
+   ref Transition[*]#target incoming;
+}
+
+@gmf.link(label="name", source="from", target="to")
+class Transition {
+   attr String name;
+   ref Node from;
+   ref Node to;
+}
+
+@gmf.node(label="name", color="azure")
+class Action extends Node {
+   
+}
+
+@gmf.node(label="name", color="wheat", shape="diamond")
+class Decision extends Node {
+   
+}
