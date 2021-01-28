@@ -125,6 +125,16 @@ public class ViewContent {
 		return previous;
 	}
 	
+	public List<ViewContent> getAllPrevious() {
+		List<ViewContent> allPrevious = new ArrayList<>();
+		ViewContent p = previous;
+		while (p != null) {
+			allPrevious.add(previous);
+			p = p.getPrevious();
+		}
+		return allPrevious;
+	}
+	
 	public boolean isActive() {
 		return active;
 	}

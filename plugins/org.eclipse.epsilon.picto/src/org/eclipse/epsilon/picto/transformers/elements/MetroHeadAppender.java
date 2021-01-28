@@ -22,6 +22,11 @@ public class MetroHeadAppender extends AppendingElementTransformer {
 	
 	@Override
 	protected void append(Element root, Document document) throws DOMException {
+		
+		// Only applicable for CSV views
+		if (viewContent.getAllPrevious().stream().
+			noneMatch(vc -> "csv".equals(vc.getFormat()))) return;
+		
 		String cdn = "https://cdn.metroui.org.ua/v4/";
 
 		Element css = document.createElement("link");
