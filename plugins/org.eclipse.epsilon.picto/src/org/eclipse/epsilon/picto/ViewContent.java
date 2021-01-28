@@ -104,7 +104,7 @@ public class ViewContent {
 				if (viewContentTransformer.canTransform(this)) {
 					try {
 						next = viewContentTransformer.transform(this, pictoView);
-						next.setPrevious(this);
+						if (next != null) next.setPrevious(this);
 					}
 					catch (Exception e) {
 						next = new ExceptionContentTransformer().getViewContent(e, pictoView);
