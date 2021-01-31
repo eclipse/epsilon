@@ -2,8 +2,5 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Epsilon User Guide" topic="index.html">
-   <topic href="documentation.html" label="Documentation">
-   </topic>
-   <topic href="help.html" label="Getting help">
-   </topic>
+   <topic label="Contents" href="index.html"/>
 </toc>
