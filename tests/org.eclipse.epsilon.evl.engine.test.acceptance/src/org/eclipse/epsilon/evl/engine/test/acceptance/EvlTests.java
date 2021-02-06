@@ -341,4 +341,16 @@ public class EvlTests {
 		assertUnsatisfiedConstraints(1, "t_c", "TerminateOnFailWithAnnotation");
 		assertUnsatisfiedConstraints(0, "t_c", "NeverCheckedAfterTerminate");
 	}
+	
+	@Test
+	public void testExecuteReturn() throws Exception {
+		PlainXmlModel model = new PlainXmlModel();
+		model.setXml("<tree/>");
+		model.load();
+		EvlModule module = new EvlModule();
+		module.parse("context t_tree { constraint test { check: false }}");
+		module.getContext().getModelRepository().addModel(model);
+		assertEquals(1, module.execute().size());
+	}
+	
 }
