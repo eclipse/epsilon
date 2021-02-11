@@ -192,7 +192,7 @@ public abstract class AbstractEplModule extends ErlModule implements IEplModule 
 			}
 			while (repeatWhileMatchesFound && (		// If in iterative mode, terminate when:
 				!matchModel.allContents().isEmpty()	// 	the match model is empty
-				|| loops == maxLoops				// 	or when the maximum number of specified iterations is reached.
+				&& (loops < maxLoops || maxLoops == -1) // 	or when the maximum number of specified iterations is reached.
 			));
 		}
 		catch (Exception ex) {

@@ -15,11 +15,15 @@ import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 
 public class EplTask extends ExecutableModuleTask {
 	
+	protected int maxLoops = -1;
+	protected boolean repeatWhileMatches;
 	protected String exportAs = null;
 	
 	@Override
 	protected void initialize() {
-		
+		IEplModule module = (IEplModule) this.module;
+		module.setMaxLoops(maxLoops);
+		module.setRepeatWhileMatches(repeatWhileMatches);
 	}
 
 	@Override
@@ -38,19 +42,19 @@ public class EplTask extends ExecutableModuleTask {
 	}
 	
 	public int getMaxLoops() {
-		return ((IEplModule) module).getMaxLoops();
+		return maxLoops;
 	}
 	
 	public void setMaxLoops(int maxLoops) {
-		((IEplModule) module).setMaxLoops(maxLoops);
+		this.maxLoops = maxLoops;
 	}
 	
 	public boolean isRepeatWhileMatches() {
-		return ((IEplModule) module).isRepeatWhileMatches();
+		return repeatWhileMatches;
 	}
 	
 	public void setRepeatWhileMatches(boolean repeatWhileMatches) {
-		((IEplModule) module).setRepeatWhileMatches(repeatWhileMatches);
+		this.repeatWhileMatches = repeatWhileMatches;
 	}
 	
 	public String getExportAs() {

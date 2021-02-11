@@ -24,9 +24,11 @@ import java.util.stream.Stream;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.dom.NoMatch;
 import org.eclipse.epsilon.epl.execute.PatternMatch;
@@ -172,4 +174,55 @@ public class EplTests {
 		//assertNumberOfMatches(?, "OptionalCardinality");			// TODO: implement
 		//assertNumberOfMatches(?, "KitchenSink");					// TODO: implement
 	}
+	
+	
+	@Test
+	public void testOneLoop() throws Exception {
+		testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); delete t; } }", 1, 1);
+	}
+	
+	@Test
+	public void testTwoMaxLoops() throws Exception {
+		testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); } }", 2, 2);
+	}
+	
+	@Test(expected = EolInternalException.class)
+	public void testInfiniteLoop() throws Exception {
+		testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); } }", -1, 0);
+	}
+	
+	public void testRepeatWhileMatches(String epl, int maxLoops, int expectedLoops) throws Exception {
+		
+		PlainXmlModel model = new PlainXmlModel();
+		model.setXml("<tree/>");
+		model.load();
+		
+		EplModule module = new EplModule();
+		module.setRepeatWhileMatches(true);
+		module.setMaxLoops(maxLoops);
+		
+		module.parse(epl);
+		Counter counter = new Counter();
+		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("counter", counter));
+		module.getContext().getModelRepository().addModel(model);
+		module.execute();
+		
+		assertEquals(expectedLoops, counter.getCount());
+	}
+	
+	class Counter {
+		
+		protected int count;
+		
+		public void increment() throws InfiniteLoopException {
+			count++;
+			if (count > 5) throw new InfiniteLoopException();
+		}
+		
+		public int getCount() {
+			return count;
+		}
+	}
+	
+	class InfiniteLoopException extends Exception {};
 }
