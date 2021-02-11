@@ -14,8 +14,7 @@ import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.launching.tabs.EpsilonLaunchConfigurationTabContributor;
 import org.eclipse.epsilon.common.dt.launching.tabs.EpsilonLaunchConfigurationTabGroup;
 
-public class ProfilingTabContributor implements
-		EpsilonLaunchConfigurationTabContributor {
+public class ProfilingTabContributor implements EpsilonLaunchConfigurationTabContributor {
 
 	public ProfilingTabContributor() {
 		

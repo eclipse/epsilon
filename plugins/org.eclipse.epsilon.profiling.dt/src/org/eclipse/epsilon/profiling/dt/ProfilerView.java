@@ -9,12 +9,16 @@
  ******************************************************************************/
 package org.eclipse.epsilon.profiling.dt;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.erl.execute.control.RuleProfiler;
 import org.eclipse.epsilon.profiling.IProfilerListener;
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilerTarget;
@@ -45,13 +49,14 @@ import org.eclipse.ui.part.ViewPart;
 
 public class ProfilerView extends ViewPart implements IProfilerListener{
 
-	protected final int ORDER_COLUMN = 0;
-	protected final int TARGET_COLUMN = 1;
-	protected final int CPU_COLUMN = 3;
-	protected final int TIMES_COLUMN = 2;
-	protected final int AVG_COLUMN = 4;
+	protected static final int ORDER_COLUMN = 0;
+	protected static final int TARGET_COLUMN = 1;
+	protected static final int TIMES_COLUMN = 2;
+	protected static final int CPU_COLUMN = 3;
+	protected static final int AVG_COLUMN = 4;
 	
 	private TableViewer targetsViewer;
+	private TableViewer rulesViewer;
 	private TreeViewer detailsViewer;
 	protected OverviewViewer overviewViewer;
 	private CTabFolder folder;
@@ -62,19 +67,6 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	protected boolean showAggregatedWork = true;
 	protected List<ProfilerTargetSummary> targetSummaries = new ArrayList<>();
 	protected List<ProfilerTarget> rootTargets = new ArrayList<>();
-	
-	class ViewContentProvider implements IStructuredContentProvider {
-		@Override
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-		}
-		@Override
-		public void dispose() {
-		}
-		@Override
-		public Object[] getElements(Object parent) {
-			return targetSummaries.toArray();
-		}
-	}
 	
 	class DetailsViewerContentProvider implements ITreeContentProvider {
 
@@ -101,21 +93,16 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 				List<ProfilerTarget> temp = children;
 				children = new ArrayList<>();
 				children.addAll(temp);
-				Collections.sort(children, new Comparator<ProfilerTarget>() {
-
-					@Override
-					public int compare(ProfilerTarget o1, ProfilerTarget o2) {
-						if (o1.getWorked(showAggregatedWork) > o2.getWorked(showAggregatedWork)) {
-							return -1;
-						}
-						else if (o2.getWorked(showAggregatedWork) > o1.getWorked(showAggregatedWork)) {
-							return 1;
-						}
-						else {
-							return 0;
-						}
+				Collections.sort(children, (o1, o2) -> {
+					if (o1.getWorked(showAggregatedWork) > o2.getWorked(showAggregatedWork)) {
+						return -1;
 					}
-					
+					else if (o2.getWorked(showAggregatedWork) > o1.getWorked(showAggregatedWork)) {
+						return 1;
+					}
+					else {
+						return 0;
+					}
 				});
 			}
 			return children.toArray();
@@ -133,7 +120,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		
 	}
 	
-	class DetailsViewerLabelProvider extends LabelProvider implements ITableLabelProvider{
+	class DetailsViewerLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -164,41 +151,8 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		
 	}
 	
-	class TargetsViewerLabelProvider extends LabelProvider implements ITableLabelProvider {
-
-		@Override
-		public String getColumnText(Object obj, int index) {
-			
-			ProfilerTargetSummary summary = (ProfilerTargetSummary) obj;
-			
-			if (index == ORDER_COLUMN) {
-				//return Profiler.INSTANCE.getTargetNames().indexOf(obj.toString()) + "";
-				return summary.getIndex() + "";
-			}
-			else if (index == TARGET_COLUMN) {
-				//return obj.toString();
-				return summary.getName();
-			}
-			else if (index == CPU_COLUMN){
-				//long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
-				//return cpuTime + "";
-				return showAggregatedWork ? summary.getExecutionTime().getAggregate() + "" : summary.getExecutionTime().getIndividual() + "";
-			}
-			else if (index == TIMES_COLUMN){
-				//long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
-				//return "" + numberOfTimes;
-				return summary.getExecutionCount() + "";
-			}
-			else if (index == AVG_COLUMN) {
-				long executionTime = showAggregatedWork ? summary.getExecutionTime().getAggregate() : summary.getExecutionTime().getIndividual();
-				//long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
-				//long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
-				return "" + ((double)executionTime) / summary.getExecutionCount() ;
-			}
-			else {
-				return ""; //CollectionUtil.toString(Profiler.INSTANCE.getTargetHistory(obj.toString()));
-			}
-		}
+	class ViewerLabelProvider extends LabelProvider implements ITableLabelProvider {
+		
 		@Override
 		public Image getColumnImage(Object obj, int index) {
 			Image image = null;
@@ -217,6 +171,57 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		public Image getImage(Object obj) {
 			return PlatformUI.getWorkbench().
 					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+		}
+		
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			return Objects.toString(element);
+		}
+	}
+	
+	class RulesViewerLabelProvider extends ViewerLabelProvider {
+		
+		@Override
+		public String getColumnText(Object element, int index) {
+			@SuppressWarnings("unchecked")
+			Map.Entry<?, Duration> entry = (Map.Entry<?, Duration>) element;
+			if (index == 0) {
+				return entry.getKey().toString();
+			}
+			return ""+entry.getValue().toMillis();//BenchmarkUtils.formatDuration(entry.getValue());
+		}
+	}
+	
+	class TargetsViewerLabelProvider extends ViewerLabelProvider {
+
+		@Override
+		public String getColumnText(Object obj, int index) {
+			
+			ProfilerTargetSummary summary = (ProfilerTargetSummary) obj;
+			
+			switch (index) {
+				case ORDER_COLUMN:
+					//return Profiler.INSTANCE.getTargetNames().indexOf(obj.toString()) + "";
+					return summary.getIndex() + "";
+				case TARGET_COLUMN:
+					//return obj.toString();
+					return summary.getName();
+				case CPU_COLUMN:
+					//long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
+					//return cpuTime + "";
+					return showAggregatedWork ? summary.getExecutionTime().getAggregate() + "" : summary.getExecutionTime().getIndividual() + "";
+				case TIMES_COLUMN:
+					//long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
+					//return "" + numberOfTimes;
+					return summary.getExecutionCount() + "";
+				case AVG_COLUMN:
+					long executionTime = showAggregatedWork ? summary.getExecutionTime().getAggregate() : summary.getExecutionTime().getIndividual();
+					//long numberOfTimes = Profiler.INSTANCE.getExecutionCount(obj.toString());
+					//long cpuTime = Profiler.INSTANCE.getTotalTime(obj.toString(), showAggregatedWork);
+					return "" + ((double)executionTime) / summary.getExecutionCount() ;
+				default:
+					return ""; //CollectionUtil.toString(Profiler.INSTANCE.getTargetHistory(obj.toString()));
+			}
 		}
 	}
 
@@ -255,8 +260,13 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		targetsViewerItem.setControl(targetsViewer.getControl());
 		//detailsViewerItem.setControl(new PlotComposite(folder,SWT.NONE));
 		detailsViewerItem.setControl(detailsViewer.getControl());
-		folder.setSelection(overviewItem);
 		
+		CTabItem rulesViewerItem = new CTabItem(folder,SWT.NONE);
+		rulesViewerItem.setText("Rules");
+		createRulesTable();
+		rulesViewerItem.setControl(rulesViewer.getControl());
+		
+		folder.setSelection(overviewItem);
 		//hookContextMenu();
 		contributeToActionBars();
 	}
@@ -313,42 +323,89 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		
 		detailsViewer.getTree().setHeaderVisible(true);
 		detailsViewer.getTree().setLinesVisible(true);
-		
 	}
 	
 	protected void createTargetsTable() {
-		
 		targetsViewer = new TableViewer(folder, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-		targetsViewer.setContentProvider(new ViewContentProvider());
+		targetsViewer.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+			}
+			@Override
+			public void dispose() {
+			}
+			@Override
+			public Object[] getElements(Object parent) {
+				return targetSummaries.toArray();
+			}
+		});
+		
 		targetsViewer.setLabelProvider(new TargetsViewerLabelProvider());
 		//targetsViewer.setSorter(new ProfilerTargetSorter());
 		targetsViewer.setInput(getViewSite());
-		
-		TableColumn column = new LongTableColumn(targetsViewer, SWT.FULL_SELECTION);
-	    column.setText("");
-	    column.setWidth(20);
 	    
+		TableColumn column = new LongTableColumn(targetsViewer, SWT.FULL_SELECTION);
+	    column.setText("");	// Order column
+	    column.setWidth(20);
+		
 	    column = new StringTableColumn(targetsViewer, SWT.FULL_SELECTION);
 	    column.setText("Target");
-	    column.setWidth(80);
+	    column.setWidth(300);
 	    
 	    column = new LongTableColumn(targetsViewer, SWT.FULL_SELECTION);
 	    column.setText("# Times Executed");
-	    column.setWidth(115);
+	    column.setWidth(135);
 	    
 	    column = new LongTableColumn(targetsViewer, SWT.FULL_SELECTION);
 	    column.setText("Total Execution Time");
-	    column.setWidth(125);
+	    column.setWidth(195);
 	    
 	    column = new DoubleTableColumn(targetsViewer, SWT.FULL_SELECTION);
 	    column.setText("Average Execution Time");
-	    column.setWidth(135);
+	    column.setWidth(195);
 	    
 	    targetsViewer.getTable().setHeaderVisible(true);
 	    targetsViewer.getTable().setLinesVisible(true);
-	   
 	}
 
+	
+	protected void createRulesTable() {
+		rulesViewer = new TableViewer(folder, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+		rulesViewer.setContentProvider(new IStructuredContentProvider() {
+			@Override
+			public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+			}
+			@Override
+			public void dispose() {
+			}
+			@Override
+			public Object[] getElements(Object parent) {
+				IEolContext context = Profiler.INSTANCE.getContext();
+				if (context == null) return new Object[0];
+				
+				return ((RuleProfiler) context.getExecutorFactory().getExecutionController())
+					.getExecutionTimes().entrySet().stream()
+					.sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+					.toArray();
+			}
+		});
+		rulesViewer.setLabelProvider(new RulesViewerLabelProvider());
+		rulesViewer.setInput(getViewSite());
+		
+		TableColumn column;
+	    
+	    column = new StringTableColumn(rulesViewer, SWT.FULL_SELECTION);
+	    column.setText("Rule Name");
+	    column.setWidth(400);
+	    
+	    column = new LongTableColumn(rulesViewer, SWT.FULL_SELECTION);
+	    column.setText("Total CPU Time (ms)");
+	    column.setWidth(250);
+
+	    rulesViewer.getTable().setHeaderVisible(true);
+	    //rulesViewer.getTable().setLinesVisible(true);
+	}
+	
 	private void contributeToActionBars() {
 		IActionBars bars = getViewSite().getActionBars();
 		fillLocalToolBar(bars.getToolBarManager());
@@ -395,8 +452,15 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 			
 			overviewViewer.setProfilerOverview(Profiler.INSTANCE.getOverview());
 			
-			targetsViewer.refresh();
-			detailsViewer.refresh();
+			if (targetsViewer != null) {
+				targetsViewer.refresh();
+			}
+			if (detailsViewer != null) {
+				detailsViewer.refresh();
+			}
+			if (rulesViewer != null) {
+				rulesViewer.refresh();
+			}
 		});
 	}
 

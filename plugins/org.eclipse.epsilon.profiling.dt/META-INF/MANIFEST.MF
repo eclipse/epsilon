@@ -5,9 +5,8 @@ Bundle-SymbolicName: org.eclipse.epsilon.profiling.dt;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.profiling.dt.Activator
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.eclipse.epsilon.common.dt,
- org.eclipse.epsilon.profiling,
- org.eclipse.epsilon.eol.dt,
+Require-Bundle: org.eclipse.epsilon.profiling,
+ org.eclipse.epsilon.erl.dt,
  org.eclipse.ui.forms
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.profiling.dt

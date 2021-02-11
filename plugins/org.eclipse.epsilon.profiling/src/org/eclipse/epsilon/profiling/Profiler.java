@@ -15,15 +15,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class Profiler {
 	
 	protected Collection<IProfilerListener> listeners = new ArrayList<>();
-	public static Profiler INSTANCE = new Profiler();
+	public static final Profiler INSTANCE = new Profiler();
 	protected ProfilerTarget root, activeTarget;
 	protected Stopwatch stopwatch;
 	protected Map<String, Long> targets;
 	protected List<String> targetNames;
+	protected IEolContext context;
+	
 	
 	public Profiler() {
 		stopwatch = new Stopwatch();
@@ -149,9 +152,8 @@ public class Profiler {
 			summary.setName(targetName);
 			summary.setExecutionCount(getExecutionCount(targetName));
 			summary.setExecutionTime(executionTimes.get(targetName));
-			summary.setIndex(i);
+			summary.setIndex(i++);
 			summaries.add(summary);
-			i++;
 		}
 		return summaries;
 	}
@@ -176,12 +178,12 @@ public class Profiler {
 	
 	public boolean isRunning(String targetName) {
 		ProfilerTarget target = activeTarget;
-		while (target.getParent() != null) {
-			if (target.getName().compareTo(targetName) == 0) {
+		while (target != null) {
+			if (target.getName().equals(targetName)) {
 				return true;
 			}
 			else {
-				target=target.getParent();
+				target = target.getParent();
 			}
 		}
 		return false;
@@ -192,6 +194,7 @@ public class Profiler {
 		activeTarget = root;
 		targets = new HashMap<>();
 		targetNames = new ArrayList<>();
+		context = null;
 	}
 	
 	public void addListener(IProfilerListener listener) {
@@ -212,5 +215,23 @@ public class Profiler {
 	
 	public ProfilerTarget getRoot() {
 		return root;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public IEolContext getContext() {
+		return context;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @since 2.3
+	 */
+	public void setContext(IEolContext context) {
+		this.context = context;
 	}
 }

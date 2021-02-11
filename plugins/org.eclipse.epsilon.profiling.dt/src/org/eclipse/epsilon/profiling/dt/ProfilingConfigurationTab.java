@@ -25,10 +25,15 @@ import org.eclipse.swt.widgets.Composite;
 
 public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab {
 	
-	private Button enableProfilerButton = null;
-	private Button resetProfilerButton = null;
-	private Button fineGrainedProfilingButton = null;
-	private Button profileModelLoadingButton = null;
+	private Button enableProfilerButton;
+	private Button resetProfilerButton;
+	private Button fineGrainedProfilingButton;
+	private Button profileModelLoadingButton;
+	
+	public static final String PROFILING_ENABLED = "profiling_enabled";
+	public static final String RESET_PROFILER = "reset_profiler";
+	public static final String FINE_GRAINED_PROFILING = "fine_grained_profiling";
+	public static final String PROFILE_MODEL_LOADING = "profile_model_loading";
 	
 	@Override
 	public void createControl(Composite parent) {
@@ -43,11 +48,9 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab {
 		
 		enableProfilerButton = createCheckbox(control, "Enable profiling", null);
 		resetProfilerButton = createCheckbox(control, "Reset profiler before launch", enableProfilerButton);
-		resetProfilerButton.setEnabled(false);
 		fineGrainedProfilingButton = createCheckbox(control, "Fine-grained profiling", enableProfilerButton);
-		fineGrainedProfilingButton.setEnabled(false);
 		profileModelLoadingButton = createCheckbox(control, "Profile model loading", enableProfilerButton);
-		profileModelLoadingButton.setEnabled(false);
+		profileModelLoadingButton.setSelection(enableProfilerButton.getSelection());
 		
 		control.pack();
 		control.layout();
@@ -64,10 +67,10 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab {
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			boolean profilerEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
-			boolean resetProfiler = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, false);
-			boolean fineGrainedProfiling = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, false);
-			boolean profileModelLoading = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILE_MODEL_LOADING, false);
+			boolean profilerEnabled = configuration.getAttribute(PROFILING_ENABLED, false);
+			boolean resetProfiler = configuration.getAttribute(RESET_PROFILER, false);
+			boolean fineGrainedProfiling = configuration.getAttribute(FINE_GRAINED_PROFILING, false);
+			boolean profileModelLoading = configuration.getAttribute(PROFILE_MODEL_LOADING, false);
 			enableProfilerButton.setSelection(profilerEnabled);
 			resetProfilerButton.setSelection(resetProfiler);
 			fineGrainedProfilingButton.setSelection(fineGrainedProfiling);
@@ -79,19 +82,19 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab {
 			
 			canSave();
 			updateLaunchConfigurationDialog();
-		} catch (CoreException e) {
+		}
+		catch (CoreException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, enableProfilerButton.getSelection());
-		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, resetProfilerButton.getSelection());
-		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, fineGrainedProfilingButton.getSelection());
-		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.PROFILE_MODEL_LOADING, profileModelLoadingButton.getSelection());
-		
-		
+		boolean pEnabled = enableProfilerButton.getSelection();
+		configuration.setAttribute(PROFILING_ENABLED, pEnabled);
+		configuration.setAttribute(RESET_PROFILER, pEnabled && resetProfilerButton.getSelection());
+		configuration.setAttribute(FINE_GRAINED_PROFILING, pEnabled && fineGrainedProfilingButton.getSelection());
+		configuration.setAttribute(PROFILE_MODEL_LOADING, pEnabled && profileModelLoadingButton.getSelection());
 	}
 
 	@Override
@@ -105,7 +108,7 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab {
 	}
 	
 	@Override
-	public boolean canSave(){
+	public boolean canSave() {
 		setErrorMessage(null);
 		return true;
 	}
@@ -121,7 +124,6 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab {
 				
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					button.setSelection(parentCheckBox.getSelection());
 					button.setEnabled(parentCheckBox.getSelection());
 				}
 				

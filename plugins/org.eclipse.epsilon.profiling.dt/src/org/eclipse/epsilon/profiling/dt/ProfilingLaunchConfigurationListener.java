@@ -16,32 +16,29 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegateListener;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilingExecutionListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-public class ProfilingLaunchConfigurationListener implements
-		EpsilonLaunchConfigurationDelegateListener {
+public class ProfilingLaunchConfigurationListener implements EpsilonLaunchConfigurationDelegateListener {
 	
 	protected boolean profilingEnabled = false;
 	protected boolean resetProfiler = false;
 	protected boolean fineGrainedProfiling = false;
 	protected boolean profileModelLoading = false;
 	
-	public ProfilingLaunchConfigurationListener() {
-		
-	}
 
 	@Override
 	public void aboutToParse(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor progressMonitor,
 			IEolModule module) throws CoreException {
 		
-		profilingEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
-		resetProfiler = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, false);
-		fineGrainedProfiling = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.FINE_GRAINED_PROFILING, false);
-		profileModelLoading = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILE_MODEL_LOADING, false);
+		profilingEnabled = configuration.getAttribute(ProfilingConfigurationTab.PROFILING_ENABLED, false);
+		resetProfiler = configuration.getAttribute(ProfilingConfigurationTab.RESET_PROFILER, false);
+		fineGrainedProfiling = configuration.getAttribute(ProfilingConfigurationTab.FINE_GRAINED_PROFILING, false);
+		profileModelLoading = configuration.getAttribute(ProfilingConfigurationTab.PROFILE_MODEL_LOADING, profilingEnabled);
 		
 		if (profilingEnabled && profileModelLoading) {
 			if (resetProfiler) {
@@ -50,6 +47,7 @@ public class ProfilingLaunchConfigurationListener implements
 			Profiler.INSTANCE.start("Model loading");
 		}
 		
+		Profiler.INSTANCE.setContext(module.getContext());
 	}
 
 	@Override
@@ -59,19 +57,21 @@ public class ProfilingLaunchConfigurationListener implements
 		
 		
 		if (profilingEnabled) {
-			
 			if (profileModelLoading) {
 				Profiler.INSTANCE.stop();
 			}
-			
 			if (resetProfiler && !profileModelLoading) {
 				Profiler.INSTANCE.reset();
 			}
 			
+			IEolContext context = module.getContext();
+			Profiler.INSTANCE.setContext(context);
+			context.setProfilingEnabled(true);
+			
 			Profiler.INSTANCE.start(configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, ""));
 			
 			if (fineGrainedProfiling) {
-				module.getContext().getExecutorFactory().addExecutionListener(new ProfilingExecutionListener());
+				context.getExecutorFactory().addExecutionListener(new ProfilingExecutionListener());
 			}
 		}
 	}
@@ -87,21 +87,15 @@ public class ProfilingLaunchConfigurationListener implements
 			
 			Profiler.INSTANCE.refresh();
 			
-			Display.getDefault().asyncExec(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
+			Display.getDefault().asyncExec(() -> {
+				try {
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.epsilon.profiling.dt.ProfilerView");
-					}
-					catch (Exception ex) {ex.printStackTrace();}
 				}
-				
+				catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			});
 		}
-		
 	}
-	
-	
 
 }
