@@ -178,12 +178,20 @@ public class EplTests {
 	
 	@Test
 	public void testOneLoop() throws Exception {
-		testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); delete t; } }", 1, 1);
+		PatternMatchModel m = testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); delete t; } }", 1, 1);
+		assertEquals(1, m.getMatches().size());
+	}
+	
+	@Test
+	public void testNoMatchesInLastLoop() throws Exception {
+		PatternMatchModel m = testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); delete t; } }", 2, 1);
+		assertEquals(0, m.getMatches().size());
 	}
 	
 	@Test
 	public void testTwoMaxLoops() throws Exception {
-		testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); } }", 2, 2);
+		PatternMatchModel m = testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); } }", 2, 2);
+		assertEquals(1, m.getMatches().size());
 	}
 	
 	@Test(expected = EolInternalException.class)
@@ -191,7 +199,7 @@ public class EplTests {
 		testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); } }", -1, 0);
 	}
 	
-	public void testRepeatWhileMatches(String epl, int maxLoops, int expectedLoops) throws Exception {
+	public PatternMatchModel testRepeatWhileMatches(String epl, int maxLoops, int expectedLoops) throws Exception {
 		
 		PlainXmlModel model = new PlainXmlModel();
 		model.setXml("<tree/>");
@@ -205,9 +213,10 @@ public class EplTests {
 		Counter counter = new Counter();
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("counter", counter));
 		module.getContext().getModelRepository().addModel(model);
-		module.execute();
+		PatternMatchModel patternMatchModel = (PatternMatchModel) module.execute();
 		
 		assertEquals(expectedLoops, counter.getCount());
+		return patternMatchModel;
 	}
 	
 	class Counter {

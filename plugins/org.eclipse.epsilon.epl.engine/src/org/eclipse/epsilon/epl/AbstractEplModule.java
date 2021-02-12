@@ -284,11 +284,23 @@ public abstract class AbstractEplModule extends ErlModule implements IEplModule 
 	 * @return The set of pattern matches added to the model.
 	 */
 	protected Set<PatternMatch> matchPatterns(int level, PatternMatchModel model) throws EolRuntimeException {
+		
+		// Keep track of the matches identified during this pattern matching loop
+		Set<PatternMatch> currentLoopMatches = new LinkedHashSet<>();
+		
 		for (Pattern pattern : getPatterns()) {
 			if (pattern.getLevel() == level) {
-				model.addMatches(match(pattern));
+				Collection<PatternMatch> matches = match(pattern);
+				currentLoopMatches.addAll(matches);
+				model.addMatches(matches);
 			}
 		}
+		
+		// When pattern matching is over, discard old matches and keep
+		// only those identified during this loop
+		model.getMatches().clear();
+		model.getMatches().addAll(currentLoopMatches);
+		
 		return model.getMatches();
 	}
 	
