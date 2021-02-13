@@ -668,7 +668,7 @@ same version of EMF / other bits always.
 	  <dependency>
         <groupId>org.yaml</groupId>
         <artifactId>snakeyaml</artifactId>
-        <version>1.14</version>
+        <version>1.27</version>
       </dependency>
       
     </dependencies>
