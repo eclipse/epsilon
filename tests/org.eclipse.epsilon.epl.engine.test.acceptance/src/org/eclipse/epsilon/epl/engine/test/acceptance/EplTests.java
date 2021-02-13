@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -175,7 +176,6 @@ public class EplTests {
 		//assertNumberOfMatches(?, "KitchenSink");					// TODO: implement
 	}
 	
-	
 	@Test
 	public void testOneLoop() throws Exception {
 		PatternMatchModel m = testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); delete t; } }", 1, 1);
@@ -199,13 +199,23 @@ public class EplTests {
 		testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); } }", -1, 0);
 	}
 	
+	@Test
+	public void testCountMatches() throws Exception {
+		PatternMatchModel m = testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); } }", "<tree><tree/></tree>", 1, 2);
+		assertEquals(2, m.getAllOfType("P").size());
+	}
+	
 	public PatternMatchModel testRepeatWhileMatches(String epl, int maxLoops, int expectedLoops) throws Exception {
+		return testRepeatWhileMatches(epl, "<tree/>", maxLoops, expectedLoops);
+	}
+	
+	public PatternMatchModel testRepeatWhileMatches(String epl, String xml, int maxLoops, int expectedLoops) throws Exception {
 		
 		PlainXmlModel model = new PlainXmlModel();
-		model.setXml("<tree/>");
+		model.setXml(xml);
 		model.load();
 		
-		EplModule module = new EplModule();
+		module = moduleGetter.get();
 		module.setRepeatWhileMatches(true);
 		module.setMaxLoops(maxLoops);
 		

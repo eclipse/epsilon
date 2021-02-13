@@ -45,6 +45,7 @@ public class PatternMatchModel extends Model {
 		matches.clear();
 		componentMap.values().forEach(Set::clear);
 		componentMap.clear();
+		matchMap.values().forEach(Collection::clear);
 	}
 	
 	/**
@@ -61,7 +62,6 @@ public class PatternMatchModel extends Model {
 		String patternName = match.getPattern().getName();
 		Collection<PatternMatch> matchMapMatches = matchMap.get(patternName);
 		matchMapMatches.add(match);
-		matchMap.put(patternName, matchMapMatches);
 		matches.add(match);
 		
 		StringOperationContributor stringOps = new StringOperationContributor();
