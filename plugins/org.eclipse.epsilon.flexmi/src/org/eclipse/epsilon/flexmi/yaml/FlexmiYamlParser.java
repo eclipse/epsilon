@@ -40,6 +40,7 @@ import org.eclipse.epsilon.flexmi.xml.Location;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.ProcessingInstruction;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -82,6 +83,7 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 		Yaml yaml = new Yaml();
 		try {
 			Document document = toDocument(yaml.compose(new InputStreamReader(inputStream)));
+			System.out.println(toXml(document));
 			return document;
 		}
 		catch (ScannerException ex) {
@@ -143,7 +145,7 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 						}
 					}
 					else {
-						
+						// Sequences of primitive values
 						if (tuple.getValueNode() instanceof SequenceNode && 
 								((SequenceNode) tuple.getValueNode()).getValue().stream().allMatch(n -> n instanceof ScalarNode && !isSlot((ScalarNode) n))) {
 							for (Node sequenceNode : ((SequenceNode) tuple.getValueNode()).getValue()) {
@@ -152,6 +154,16 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 								child.setTextContent(((ScalarNode) sequenceNode).getValue());
 								child.setUserData(Location.ID,  new Location(sequenceNode.getStartMark().getLine()+1, sequenceNode.getStartMark().getColumn(), 
 										sequenceNode.getEndMark().getLine()+1, sequenceNode.getEndMark().getColumn()), null);
+								element.appendChild(child);
+							}
+						}
+						// Sequences (arrays) of nodes
+						else if (tuple.getValueNode() instanceof SequenceNode && 
+								((SequenceNode) tuple.getValueNode()).getFlowStyle() == FlowStyle.FLOW) {
+							
+							System.out.println();
+							for (Node sequenceNode : ((SequenceNode) tuple.getValueNode()).getValue()) {
+								Element child = toElement(document, keyNode, sequenceNode);
 								element.appendChild(child);
 							}
 						}

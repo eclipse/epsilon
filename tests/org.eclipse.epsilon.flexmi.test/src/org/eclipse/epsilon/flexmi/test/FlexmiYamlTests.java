@@ -29,4 +29,9 @@ public class FlexmiYamlTests extends FlexmiTests {
 		assertEval("EClass.all.first().eSuperTypes.first().name", "C1", "yaml/list-of-superclasses.yaml");
 	}
 	
+	@Test
+	public void testArray() throws Exception {
+		assertEval("EClass.all.size()", 2, "yaml/array.yaml");
+	}
+	
 }
