@@ -1,1 +1,3 @@
-*-kitchensink.jar
+ivy
+lib
+.gradle
