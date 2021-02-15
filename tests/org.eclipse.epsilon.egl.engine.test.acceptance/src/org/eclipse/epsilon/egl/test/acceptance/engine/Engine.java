@@ -9,15 +9,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.test.acceptance.engine;
 
+import static org.eclipse.epsilon.common.util.FileUtil.getFileStandalone;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Collection;
-import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import static org.eclipse.epsilon.common.util.FileUtil.getFileStandalone;
 
-import org.eclipse.epsilon.egl.exceptions.EglParseException;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
@@ -66,17 +66,11 @@ public class Engine {
 		AcceptanceTestUtil.test(OO2JavaImportEglProgram, OO2JavaExpected, Model.OOInstance);
 	}
 
-	@Test (expected=EglParseException.class)
 	public void testBadImport() throws Exception {
-		try {
-			AcceptanceTestUtil.run(NonExistentImport);
-			final Collection<ParseProblem> problems = AcceptanceTestUtil.getParseProblems();
-			assertEquals(1, problems.size());
-			assertTrue(problems.iterator().next().getReason().contains("NonExistent.egl"));
-		}
-		catch (EglParseException ex) {
-			throw ex;
-		}
+		AcceptanceTestUtil.run(NonExistentImport);
+		final Collection<ParseProblem> problems = AcceptanceTestUtil.getParseProblems();
+		assertEquals(1, problems.size());
+		assertTrue(problems.iterator().next().getReason().contains("NonExistent.egl"));	
 	}
 
 	@Test (expected=EglRuntimeException.class)

@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
@@ -21,7 +22,6 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.exceptions.EglParseException;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
@@ -154,6 +154,11 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		
 		if (templateCache == null || (eglTemplate = templateCache.get(templateUri)) == null) {
 			eglTemplate = templateFactory.load(templateUri);
+			
+			if (!eglTemplate.getParseProblems().isEmpty()) {
+				throw new EolRuntimeException("Parse error(s) in " + templateUri, templateBlock);
+			}
+				
 			if (templateCache != null) {
 				templateCache.put(templateUri, eglTemplate);
 			}
@@ -172,24 +177,19 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		final String target = targetBlock != null ? targetBlock.execute(context, false) : null;
 		
 		Object generated;
-		try {
-			if (eglTemplate instanceof EglPersistentTemplate && target != null) {
-				if (getBooleanAnnotationValue("patch", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
-					generated = ((EglFileGeneratingTemplate) eglTemplate).patch(target);
-				}
-				else if (getBooleanAnnotationValue("append", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
-					generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
-				}
-				else {
-					generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
-				}
+		if (eglTemplate instanceof EglPersistentTemplate && target != null) {
+			if (getBooleanAnnotationValue("patch", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
+				generated = ((EglFileGeneratingTemplate) eglTemplate).patch(target);
+			}
+			else if (getBooleanAnnotationValue("append", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
+				generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
 			}
 			else {
-				generated = eglTemplate.process();
+				generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
 			}
 		}
-		catch (EglParseException ex) {
-			throw new EolRuntimeException("Parse error(s) in " + templateUri, templateBlock);
+		else {
+			generated = eglTemplate.process();
 		}
 		
 		context.getInvokedTemplates().add(eglTemplate.getTemplate());
