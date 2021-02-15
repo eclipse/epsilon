@@ -382,7 +382,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		Resource model = resourceSet.createResource(modelUri);
 		if (this.readOnLoad) {
 			try {
-				model.load(null);
+				model.load(getResourceLoadOptions());
 				if (expand) {
 					EcoreUtil.resolveAll(model);
 				}
@@ -674,9 +674,11 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public boolean store() {
 		if (modelImpl == null) return false;
 		try {
-			Map<String, Boolean> options = null;
+			Map<Object, Object> options = getResourceStoreOptions();
 			if (!metamodelFileUris.isEmpty()) {
-				options = new HashMap<>();
+				if (options == null) {
+					options = new HashMap<>();
+				}
 				options.put(XMLResource.OPTION_SCHEMA_LOCATION, true);
 			}
 			modelImpl.save(options);

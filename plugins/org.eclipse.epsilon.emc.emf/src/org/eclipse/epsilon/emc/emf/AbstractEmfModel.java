@@ -71,6 +71,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	protected boolean expand = true;
 	protected EPackage.Registry registry;
 	Map<String, EClass> eClassCache;
+
+	// Null by default but allows the user to override this.
+	protected Map<Object, Object> resourceLoadOptions = null;
+	// Null by default but allows the user to override this.
+	protected Map<Object, Object> resourceStoreOptions = null;
+	
 	/**
 	 * @since 1.6
 	 */
@@ -629,5 +635,48 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	@Override
 	public boolean isLoaded() {
 		return modelImpl != null && modelImpl.isLoaded();
+	}
+
+	/**
+	 * @since 2.3.0
+	 */
+	public Map<Object, Object> getResourceLoadOptions(){
+		return resourceLoadOptions;
+	}
+	/**
+	 * @since 2.3.0
+	 */
+	public void setResourceLoadOptions(Map<Object, Object> options){
+		resourceLoadOptions = options;
+	}
+	/**
+	 * @since 2.3.0
+	 */
+	public Object putResourceLoadOption(Object key, Object value){
+		if (resourceLoadOptions == null) {
+			resourceLoadOptions = new HashMap<>();
+		}
+		return resourceLoadOptions.put(key, value);
+	}
+	/**
+	 * @since 2.3.0
+	 */
+	public Map<Object, Object> getResourceStoreOptions(){
+		return resourceStoreOptions;
+	}
+	/**
+	 * @since 2.3.0
+	 */
+	public void setResourceStoreOptions(Map<Object, Object> options){
+		resourceStoreOptions = options;
+	}
+	/**
+	 * @since 2.3.0
+	 */
+	public Object putResourceStoreOption(Object key, Object value){
+		if (resourceStoreOptions == null) {
+			resourceStoreOptions = new HashMap<>();
+		}
+		return resourceStoreOptions.put(key, value);
 	}
 }
