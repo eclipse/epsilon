@@ -27,7 +27,7 @@ public class EglRuntimeException extends EolRuntimeException {
 		super(ex.getReason(), ex.getAst());
 		
 		reason = ex.getReason();
-		cause  = ex;
+		cause  = null;
 		line   = ex.getAst().getRegion().getStart().getLine();
 		column = ex.getColumn();
 		ast    = ex.getAst();
