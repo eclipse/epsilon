@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -23,12 +24,14 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class ClosureOperation extends FirstOrderOperation {
 	
 	protected void closure(Collection<Object> closure, Collection<?> source, Parameter parameter, Expression expression, IEolContext context) throws EolRuntimeException {
 		FrameStack scope = context.getFrameStack();
 		ExecutorFactory executorFactory = context.getExecutorFactory();
+		EolType parameterType = parameter.getType(context);
 		
 		for (Object item : source) {
 			scope.enterLocal(FrameType.UNPROTECTED, expression, createIteratorVariable(item, parameter, context));
@@ -38,7 +41,9 @@ public class ClosureOperation extends FirstOrderOperation {
 				Collection<?> bodyCollection = CollectionUtil.asCollection(bodyResult);
 				for (Object result : bodyCollection) {
 					if (result != null && closure.add(result)) {
-						closure(closure, Collections.singletonList(result), parameter, expression, context);
+						if (parameterType == null || parameterType.isKind(result)) {
+							closure(closure, Collections.singletonList(result), parameter, expression, context);
+						}
 					}
 				}
 			}

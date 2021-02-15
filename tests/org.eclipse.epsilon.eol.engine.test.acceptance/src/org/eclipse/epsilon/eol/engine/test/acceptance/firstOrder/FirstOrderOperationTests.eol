@@ -258,3 +258,23 @@ operation testClosureMany() {
 	
 
 }
+
+@test
+operation testClosureIteratorType() {
+	var seq = Sequence{"1"};
+	assertEquals(Sequence{"2", "4", 3}, seq.closure(c:String|c.getChildren()));
+	assertEquals(Sequence{"2", "4", 3, 5, 6}, seq.closure(c|c.getChildren()));
+}
+
+operation Any getChildren() {
+	if (self == "1") {
+		return Sequence{"2", 3};
+	}
+	else if (self == "2") {
+		return "4";
+	}
+	else if (self == 3) {
+		return Sequence{5, 6};
+	}
+	return Sequence{};
+}
