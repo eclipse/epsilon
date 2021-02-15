@@ -21,6 +21,7 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
+import org.eclipse.epsilon.egl.exceptions.EglParseException;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
@@ -171,22 +172,28 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		final String target = targetBlock != null ? targetBlock.execute(context, false) : null;
 		
 		Object generated;
-		if (eglTemplate instanceof EglPersistentTemplate && target != null) {
-			if (getBooleanAnnotationValue("patch", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
-				generated = ((EglFileGeneratingTemplate) eglTemplate).patch(target);
-			}
-			else if (getBooleanAnnotationValue("append", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
-				generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
+		try {
+			if (eglTemplate instanceof EglPersistentTemplate && target != null) {
+				if (getBooleanAnnotationValue("patch", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
+					generated = ((EglFileGeneratingTemplate) eglTemplate).patch(target);
+				}
+				else if (getBooleanAnnotationValue("append", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
+					generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
+				}
+				else {
+					generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
+				}
 			}
 			else {
-				generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
+				generated = eglTemplate.process();
 			}
 		}
-		else {
-			generated = eglTemplate.process();
+		catch (EglParseException ex) {
+			throw new EolRuntimeException("Parse error(s) in " + templateUri, templateBlock);
 		}
 		
 		context.getInvokedTemplates().add(eglTemplate.getTemplate());
+		
 		
 		if (postBlock != null) {
 			frameStack.enterLocal(FrameType.UNPROTECTED, postBlock, Variable.createReadOnlyVariable("generated", generated));

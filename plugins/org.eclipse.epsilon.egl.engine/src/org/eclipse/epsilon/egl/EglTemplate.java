@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.egl.exceptions.EglParseException;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
@@ -77,6 +78,8 @@ public class EglTemplate {
 		for (ITemplateExecutionListener listener : listeners) {
 			listener.aboutToProcess(this);
 		}
+		
+		if (!module.getParseProblems().isEmpty()) throw new EglParseException();
 		
 		contents = Objects.toString(module.execute(this, formatter), "");
 		processed = true;
