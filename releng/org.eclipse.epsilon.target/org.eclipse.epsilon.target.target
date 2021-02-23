@@ -84,6 +84,8 @@
 		<unit id="org.mockito" version="2.23.0.v20200310-1642"/>
 		<unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
 		<unit id="org.yaml.snakeyaml" version="0.0.0"/>
+		<unit id="org.jsoup" version="1.7.2.v201411291515"/>
+		<unit id="org.jsoup.source" version="1.7.2.v201411291515"/>
 		<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20201130205003/repository"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">

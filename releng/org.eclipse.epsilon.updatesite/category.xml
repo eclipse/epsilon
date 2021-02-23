@@ -81,6 +81,12 @@
    <feature id="org.eclipse.epsilon.emc.csv.feature">
       <category name="Epsilon Spreadsheet Integration"/>
    </feature>
+   <feature url="features/org.eclipse.epsilon.emc.html.dt.feature_2.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.html.dt.feature" version="2.3.0.qualifier">
+      <category name="Epsilon HTML Integration"/>
+   </feature>
+   <feature url="features/org.eclipse.epsilon.emc.html.feature_2.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.html.feature" version="2.3.0.qualifier">
+      <category name="Epsilon HTML Integration"/>
+   </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
          Parsers, execution engines, development tools (editors, launch configurations, debuggers etc.) for languages of the Epsilon platform.
@@ -119,6 +125,11 @@
    <category-def name="Epsilon Spreadsheet Integration" label="Epsilon Spreadsheet Integration">
       <description>
          Support for managing spreadsheet models with languages of the Epsilon platform.
+      </description>
+   </category-def>
+   <category-def name="Epsilon HTML Integration" label="Epsilon HTML Integration">
+      <description>
+         Eclipse plugins that extend Epsilon&apos;s Model Connectivity (EMC) layer with support for managing HTML documents using languages of the Epsilon platform to perform activities such as code generation, HTML validation and transformation.
       </description>
    </category-def>
    <repository-reference location="http://download.eclipse.org/emfatic/update" enabled="true" />

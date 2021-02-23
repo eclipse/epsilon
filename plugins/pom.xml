@@ -39,6 +39,8 @@
     <module>org.eclipse.epsilon.emc.emf.virtual</module>
     <module>org.eclipse.epsilon.emc.graphml</module>
     <module>org.eclipse.epsilon.emc.graphml.dt</module>
+    <module>org.eclipse.epsilon.emc.html</module>
+    <module>org.eclipse.epsilon.emc.html.dt</module>
     <module>org.eclipse.epsilon.emc.hutn</module>
     <module>org.eclipse.epsilon.emc.hutn.dt</module>
     <module>org.eclipse.epsilon.emc.muddle</module>
