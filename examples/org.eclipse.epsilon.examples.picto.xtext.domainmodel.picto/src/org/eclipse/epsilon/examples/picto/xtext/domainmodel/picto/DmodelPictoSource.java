@@ -14,13 +14,6 @@ import org.eclipse.xtext.ui.workspace.WorkspaceLockAccess.Result;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 public class DmodelPictoSource extends EglPictoSource {
-
-	public DmodelPictoSource() {
-		
-	}
-
-	@Override
-	public void showElement(String id, String uri, IEditorPart editor) {}
 	
 	@Override
 	protected Picto getRenderingMetadata(IEditorPart editorPart) {
@@ -58,4 +51,7 @@ public class DmodelPictoSource extends EglPictoSource {
 			editorPart.getTitle().endsWith(".dmodel");
 	}
 	
+	@Override
+	public void showElement(String id, String uri, IEditorPart editor) {}
+
 }
