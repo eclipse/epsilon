@@ -9,12 +9,16 @@ digraph G {
 	[%=e.getNodeName()%][shape=none, margin=0, label=<[%=e.getLabel()%]>]
 [%}%]
 
-[%for (f in e.features.flatten().select(f|f.type.isTypeOf(Entity))){%]
+[%for (f in e.features.flatten().select(f|f.type.isTypeOf(Entity) and f.type <> e)){%]
 	[%=f.eContainer.getNodeName()%]->[%=f.type.getNodeName()%][arrowhead=[%=f.getArrow()%],arrowtail=none,tooltip="[%=f.name%]"];
 [%}%]
 
 [%if (e.superType.isDefined()){%]
 	[%=e.superType.getNodeName()%]->[%=e.getNodeName()%][arrowhead=none,arrowtail=empty,dir=back];
+[%}%]
+
+[%for (s in Entity.all.select(en|en.superType = e)){%]
+	[%=e.getNodeName()%]->[%=s.getNodeName()%][arrowhead=none,arrowtail=empty,dir=back];
 [%}%]
 
 }
@@ -76,6 +80,7 @@ operation getVisibleEntities() {
 	visibleEntities.add(e);
 	visibleEntities.addAll(e.features.select(f|f.type.isTypeOf(Entity)).collect(f|f.type));
 	if (e.superType.isDefined()) visibleEntities.add(e.superType);
+	visibleEntities.addAll(Entity.all.select(en|en.superType = e));
 	return visibleEntities;
 }
 
