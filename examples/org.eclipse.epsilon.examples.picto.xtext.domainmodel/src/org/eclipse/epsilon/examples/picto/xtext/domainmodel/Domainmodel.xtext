@@ -1,0 +1,9 @@
+grammar org.eclipse.epsilon.examples.picto.xtext.domainmodel.Domainmodel with org.eclipse.xtext.common.Terminals
+
+generate domainmodel "http://www.eclipse.org/epsilon/examples/picto/xtext/domainmodel/Domainmodel"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
