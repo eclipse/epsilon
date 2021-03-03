@@ -111,7 +111,6 @@ T__97=97
 StatementBlock=33
 T__98=98
 ABORT=48
-T__173=173
 StrangeNameLiteral=16
 T__172=172
 FOR=34
@@ -222,7 +221,6 @@ T__105=105
 'pre'=162
 '<'=112
 '++'=153
-'protectRegions'=173
 '>='=145
 'model'=94
 'var'=160
