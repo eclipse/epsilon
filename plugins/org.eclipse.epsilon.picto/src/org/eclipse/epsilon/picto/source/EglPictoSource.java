@@ -11,9 +11,18 @@ package org.eclipse.epsilon.picto.source;
 
 import java.io.File;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
@@ -38,7 +47,13 @@ import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
 import org.eclipse.epsilon.picto.ResourceLoadingException;
 import org.eclipse.epsilon.picto.StaticContentPromise;
 import org.eclipse.epsilon.picto.ViewTree;
-import org.eclipse.epsilon.picto.dom.*;
+import org.eclipse.epsilon.picto.dom.CustomView;
+import org.eclipse.epsilon.picto.dom.Model;
+import org.eclipse.epsilon.picto.dom.Parameter;
+import org.eclipse.epsilon.picto.dom.Patch;
+import org.eclipse.epsilon.picto.dom.Picto;
+import org.eclipse.epsilon.picto.dom.PictoFactory;
+import org.eclipse.epsilon.picto.dom.PictoPackage;
 import org.eclipse.ui.IEditorPart;
 
 public abstract class EglPictoSource implements PictoSource {
@@ -49,10 +64,10 @@ public abstract class EglPictoSource implements PictoSource {
 	@Override
 	public ViewTree getViewTree(IEditorPart editor) throws Exception {
 		
-		IFile iFile = waitForFile(editor);
-		if (iFile == null) return createEmptyViewTree();
+		IPath iPath = waitForPath(editor);
+		if (iPath == null) return createEmptyViewTree();
 		
-		File modelFile = new File(iFile.getLocation().toOSString());
+		File modelFile = new File(iPath.toOSString());
 		Resource resource;
 		ViewTree viewTree = new ViewTree();
 		
@@ -335,17 +350,17 @@ public abstract class EglPictoSource implements PictoSource {
 		return parameter;
 	}
 	
-	protected IFile waitForFile(IEditorPart editorPart) {
+	protected IPath waitForPath(IEditorPart editorPart) {
 		// TODO FIXME : Why is this not using wait / notify mechanism?
 		int attempts = 0;
 		int maxAttempts = 50;
-		IFile file = getFile(editorPart);
-		while (file == null && attempts < maxAttempts) {
+		IPath iPath = getPath(editorPart);
+		while (iPath == null && attempts < maxAttempts) {
 			try { Thread.sleep(100); } catch (InterruptedException e) {}
-			file = getFile(editorPart);
+			iPath = getPath(editorPart);
 			attempts++;
 		}
-		return file;
+		return iPath;
 	}
 	
 	protected ViewTree createEmptyViewTree() {
@@ -427,6 +442,11 @@ public abstract class EglPictoSource implements PictoSource {
 	protected abstract Picto getRenderingMetadata(IEditorPart editorPart);
 	
 	protected abstract Resource getResource(IEditorPart editorPart);
+	
+	public IPath getPath(IEditorPart editorPart) {
+		IFile iFile = getFile(editorPart);
+		return iFile != null ? iFile.getLocation() : null;
+	}
 	
 	protected abstract IFile getFile(IEditorPart editorPart);
 	

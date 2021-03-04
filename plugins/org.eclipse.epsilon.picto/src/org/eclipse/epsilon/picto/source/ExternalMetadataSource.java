@@ -28,6 +28,7 @@ public abstract class ExternalMetadataSource extends EglPictoSource {
 	@Override
 	public Picto getRenderingMetadata(IEditorPart editorPart) {
 		IFile file = getFile(editorPart);
+		if (file == null) return null;
 		IFile renderingMetadataFile = file.getParent().getFile(Path.fromPortableString(file.getName() + ".picto"));
 		return getRenderingMetadata(renderingMetadataFile);
 	}

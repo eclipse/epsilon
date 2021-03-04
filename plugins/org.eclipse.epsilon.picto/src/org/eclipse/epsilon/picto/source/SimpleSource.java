@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.picto.source;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.dom.PictoFactory;
@@ -25,7 +26,7 @@ public abstract class SimpleSource extends EglPictoSource {
 	@Override
 	protected Picto getRenderingMetadata(IEditorPart editorPart) {
 		Picto metadata = PictoFactory.eINSTANCE.createPicto();
-		metadata.setTransformation(getFile(editorPart).getLocation().toOSString());
+		metadata.setTransformation(getPath(editorPart).toOSString());
 		metadata.setFormat(getFormat());
 		return metadata;
 	}
@@ -37,9 +38,9 @@ public abstract class SimpleSource extends EglPictoSource {
 
 	@Override
 	protected boolean supportsEditorType(IEditorPart editorPart) {
-		IFile file = getFile(editorPart);
-		if (file == null) return false;
-		return file.getLocation().getFileExtension().equalsIgnoreCase(getFileExtension());
+		IPath iPath = getPath(editorPart);
+		if (iPath == null) return false;
+		return iPath.getFileExtension().equalsIgnoreCase(getFileExtension());
 	}
 
 	@Override

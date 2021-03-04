@@ -12,6 +12,7 @@ package org.eclipse.epsilon.picto.test;
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.picto.PictoView;
@@ -53,8 +54,8 @@ public class PictoTests {
 		}
 		
 		@Override
-		protected IFile waitForFile(IEditorPart editorPart) {
-			return iFile;
+		protected IPath waitForPath(IEditorPart editorPart) {
+			return iFile.getLocation();
 		}
 		
 		@Override

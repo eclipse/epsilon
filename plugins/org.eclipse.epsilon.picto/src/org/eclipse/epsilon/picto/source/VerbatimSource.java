@@ -11,7 +11,7 @@ package org.eclipse.epsilon.picto.source;
 
 import java.io.File;
 
-import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.epsilon.picto.ViewTree;
 import org.eclipse.ui.IEditorPart;
 
@@ -19,9 +19,9 @@ public abstract class VerbatimSource extends SimpleSource {
 	
 	@Override
 	public ViewTree getViewTree(IEditorPart editor) throws Exception {
-		IFile iFile = waitForFile(editor);
-		if (iFile == null) return createEmptyViewTree();
-		return new ViewTree(new File(iFile.getLocation().toOSString()), getFormat());
+		IPath iPath = waitForPath(editor);
+		if (iPath == null) return createEmptyViewTree();
+		return new ViewTree(new File(iPath.toOSString()), getFormat());
 	}
 	
 }

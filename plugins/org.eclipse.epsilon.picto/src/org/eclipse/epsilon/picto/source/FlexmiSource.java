@@ -12,7 +12,9 @@ package org.eclipse.epsilon.picto.source;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -50,12 +52,12 @@ public class FlexmiSource extends EglPictoSource {
 
 	@Override
 	public Resource getResource(IEditorPart editorPart) {	
-		IFile file = waitForFile(editorPart);
-		if (file == null) return null;
+		IPath iPath = waitForPath(editorPart);
+		if (iPath == null) return null;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
-		Resource resource = resourceSet.createResource(URI.createFileURI(file.getLocation().toOSString()));
+		Resource resource = resourceSet.createResource(URI.createFileURI(iPath.toOSString()));
 		try {
 			resource.load(null);
 			return resource;
