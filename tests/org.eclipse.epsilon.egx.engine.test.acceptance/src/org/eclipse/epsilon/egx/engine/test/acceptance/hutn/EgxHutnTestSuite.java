@@ -20,7 +20,8 @@ import junit.framework.Test;
 	Rule.class,
 	RulesAreTyped.class,
 	DomainTests.class,
-	TemplateAndTargetCanBeDynamic.class
+	TemplateAndTargetCanBeDynamic.class,
+	AppendTests.class
 })
 public class EgxHutnTestSuite {
 

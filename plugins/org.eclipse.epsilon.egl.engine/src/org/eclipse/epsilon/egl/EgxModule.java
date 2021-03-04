@@ -138,6 +138,8 @@ public class EgxModule extends ErlModule implements IEgxModule {
 			case EgxParser.OVERWRITE:
 			case EgxParser.GUARD:
 			case EgxParser.MERGE:
+			case EgxParser.APPEND:
+			case EgxParser.PATCH:	
 				return new ExecutableBlock<>(Boolean.class);
 			case EgxParser.PRE:
 			case EgxParser.POST: {

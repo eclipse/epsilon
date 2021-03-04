@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2021-03-03 21:27:28
+// $ANTLR 3.1b1 EolLexerRules.g 2021-03-04 19:03:33
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -59,7 +59,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int T__141=141;
     public static final int THROW=58;
     public static final int SpecialTypeName=19;
-    public static final int EGXMODULE=93;
+    public static final int EGXMODULE=95;
     public static final int PARAMLIST=29;
     public static final int EXPRLIST=59;
     public static final int EXPRRANGE=60;
@@ -73,7 +73,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=173;
+    public static final int Tokens=177;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -126,6 +126,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int T__150=150;
     public static final int T__153=153;
     public static final int T__152=152;
+    public static final int APPEND=94;
     public static final int Annotation=27;
     public static final int CONTINUE=45;
     public static final int ENUMERATION_VALUE=71;
@@ -143,7 +144,6 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int EXTENDS=85;
     public static final int T__102=102;
     public static final int PRE=83;
-    public static final int T__94=94;
     public static final int T__101=101;
     public static final int POST=84;
     public static final int ALIAS=75;
@@ -153,15 +153,18 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int GUARD=86;
     public static final int T__99=99;
     public static final int TEMPLATE=89;
-    public static final int T__95=95;
     public static final int HELPERMETHOD=32;
     public static final int T__96=96;
     public static final int T__97=97;
     public static final int StatementBlock=33;
     public static final int T__98=98;
+    public static final int T__176=176;
     public static final int ABORT=48;
+    public static final int T__173=173;
     public static final int StrangeNameLiteral=16;
     public static final int T__172=172;
+    public static final int T__175=175;
+    public static final int T__174=174;
     public static final int FOR=34;
     public static final int BLOCK=67;
     public static final int T__171=171;
@@ -169,6 +172,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int PARAMETERS=51;
     public static final int SpecialNameChar=21;
     public static final int BOOLEAN=13;
+    public static final int PATCH=93;
     public static final int NAME=23;
     public static final int SWITCH=39;
     public static final int T__169=169;

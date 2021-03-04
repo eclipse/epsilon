@@ -46,7 +46,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	protected Parameter sourceParameter;
 	protected ExecutableBlock<Collection<?>> domainBlock;
 	protected ExecutableBlock<String> targetBlock, templateBlock;
-	protected ExecutableBlock<Boolean> guardBlock, overwriteBlock, mergeBlock;
+	protected ExecutableBlock<Boolean> guardBlock, overwriteBlock, mergeBlock, appendBlock, patchBlock;
 	protected ExecutableBlock<?> preBlock, postBlock;
 	protected ExecutableBlock<EolMap<String, ?>> parametersBlock;
 	
@@ -64,6 +64,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		preBlock = (ExecutableBlock<?>) module.createAst(AstUtil.getChild(cst, EgxParser.PRE), this);
 		overwriteBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.OVERWRITE), this);
 		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
+		appendBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.APPEND), this);
+		patchBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.PATCH), this);
 		templateBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TEMPLATE), this);
 		parametersBlock = (ExecutableBlock<EolMap<String, ?>>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
 		targetBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TARGET), this);
@@ -83,6 +85,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 			EgxParser.PRE,
 			EgxParser.OVERWRITE,
 			EgxParser.MERGE,
+			EgxParser.APPEND,
+			EgxParser.PATCH,
 			EgxParser.TEMPLATE,
 			EgxParser.PARAMETERS,
 			EgxParser.TARGET,
@@ -94,6 +98,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 			"pre",
 			"overwrite",
 			"merge",
+			"append",
+			"patch",
 			"template",
 			"parameters",
 			"target",
@@ -145,6 +151,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		
 		final boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
 		final boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);			
+		final boolean append = (appendBlock == null) ? false : appendBlock.execute(context, false);			
+		final boolean patch = (patchBlock == null) ? false : patchBlock.execute(context, false);			
 		final String templateName = (templateBlock == null) ? "" : templateBlock.execute(context, false);
 		final EglTemplateFactory templateFactory = context.getTemplateFactory();
 		final Map<URI, EglTemplate> templateCache = context.getTemplateCache();
@@ -178,10 +186,10 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		
 		Object generated;
 		if (eglTemplate instanceof EglPersistentTemplate && target != null) {
-			if (getBooleanAnnotationValue("patch", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
+			if ((getBooleanAnnotationValue("patch", context) || patch) && eglTemplate instanceof EglFileGeneratingTemplate) {
 				generated = ((EglFileGeneratingTemplate) eglTemplate).patch(target);
 			}
-			else if (getBooleanAnnotationValue("append", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
+			else if ((getBooleanAnnotationValue("append", context) || append) && eglTemplate instanceof EglFileGeneratingTemplate) {
 				generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
 			}
 			else {
