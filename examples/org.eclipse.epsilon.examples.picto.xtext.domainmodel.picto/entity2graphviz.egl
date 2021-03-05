@@ -25,11 +25,18 @@ digraph G {
 
 [%
 operation Entity getLabel() {
+	
+	var onClick = "top.showView(['Model','" + self.name + "'])";
+	
+	if (self == e) {
+		onClick = "top.showElement('" + self.id + "', '" + self.eResource.uri + "')";
+	}
+	
 	var label = "<table cellspacing='0' cellborder='0' cellpadding='1' bgcolor='" + self.getColour() + "'>";
 	label += "<tr><td sides='B' colspan='2' border='1' cellpadding='0'>" + 
 		"<table border='0' cellspacing='0' cellborder='0'>" + 
 		"<tr><td align='right' valign='middle'><img src='" + self.getIcon()+ "'></img></td>" + 
-		"<td align='left' valign='middle' href=\"javascript:top.showView(['Model','" + self.name + "'])\" tooltip='Go'>" + self.name + " </td></tr></table></td></tr>";
+		"<td align='left' valign='middle' href=\"javascript:" + onClick + "\" tooltip='Go'>" + self.name + " </td></tr></table></td></tr>";
 	
 	label += "<tr><td></td><td></td></tr>";
 	

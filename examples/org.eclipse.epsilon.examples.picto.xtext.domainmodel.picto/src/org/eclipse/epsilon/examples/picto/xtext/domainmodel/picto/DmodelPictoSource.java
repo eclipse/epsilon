@@ -5,9 +5,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.dom.PictoFactory;
 import org.eclipse.epsilon.picto.source.EglPictoSource;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.xtext.nodemodel.ICompositeNode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.workspace.WorkspaceLockAccess.Result;
@@ -52,6 +56,17 @@ public class DmodelPictoSource extends EglPictoSource {
 	}
 	
 	@Override
-	public void showElement(String id, String uri, IEditorPart editor) {}
+	public void showElement(String id, String uri, IEditorPart editor) {
+		ICompositeNode node = NodeModelUtils.getNode(getResource(editor).getEObject(id));
+		if (node != null) {
+			ISourceViewer textViewer = ((XtextEditor) editor).getInternalSourceViewer();
+			int offset = node.getOffset();
+			int length = node.getLength();
+			textViewer.setRangeIndication(offset, length, true);
+			textViewer.revealRange(offset, length);
+			textViewer.setSelectedRange(offset, length);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editor);
+		}
+	}
 
 }
