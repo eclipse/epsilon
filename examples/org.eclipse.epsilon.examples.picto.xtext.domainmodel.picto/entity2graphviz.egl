@@ -92,6 +92,7 @@ operation getVisibleEntities() {
 }
 
 operation Entity getColour() {
-	return "#fffcdc";
+	if (self == e) return "#fff2d2";
+	else return "#fffcdc";
 }
 %]

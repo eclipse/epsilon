@@ -17,7 +17,6 @@ import org.eclipse.epsilon.flexmi.FlexmiResource;
 
 public class VariableDeclaration extends Action {
 	
-	protected EObject eObject;
 	protected String name;
 	protected VariableDeclarationType type;
 	protected ModuleElement entryPoint;

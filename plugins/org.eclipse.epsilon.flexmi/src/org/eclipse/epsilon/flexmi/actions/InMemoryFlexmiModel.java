@@ -21,13 +21,7 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 	
 	public InMemoryFlexmiModel(FlexmiResource resource) {
 		super(resource);
-	}
-	
-	protected IPropertyGetter propertyGetter = new FlexmiModelPropertyGetter();
-	
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return propertyGetter;
+		propertyGetter = new FlexmiModelPropertyGetter();
 	}
 	
 	@Override

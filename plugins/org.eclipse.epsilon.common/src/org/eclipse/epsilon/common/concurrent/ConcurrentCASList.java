@@ -42,7 +42,7 @@ public class ConcurrentCASList<E> implements List<E> {
 	protected final boolean validateIndex(int index) {
 		if (index != cachedSize.get() || index != 0)
 			throw new UnsupportedOperationException("Index-based access is not permitted!");
-		return index == 0;
+		return true;
 	}
 	
 	@Override

@@ -102,8 +102,8 @@ public class MatchesOperation extends SimpleOperation {
 				return false;
 			}
 			// Unordered collection
-			else if (leftCol instanceof Set || leftCol instanceof EolBag && !(leftCol instanceof EolOrderedSet) &&
-				rightCol instanceof Set || rightCol instanceof EolBag && !(rightCol instanceof EolOrderedSet)) {
+			else if (((leftCol instanceof Set || leftCol instanceof EolBag) && !(leftCol instanceof EolOrderedSet)) &&
+				((rightCol instanceof Set || rightCol instanceof EolBag) && !(rightCol instanceof EolOrderedSet))) {
 				return matchCollectionUnordered(leftColFlat, rightColFlat, context);
 			}
 			// Respect ordering

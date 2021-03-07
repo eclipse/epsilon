@@ -193,6 +193,11 @@ public class PictoView extends ViewPart {
 			public void partClosed(IWorkbenchPartReference partRef) {
 				
 				IWorkbenchPart workbenchPart = partRef.getPart(false);
+				
+				if (workbenchPart == PictoView.this) {
+					getSite().getPage().removePartListener(this);
+				}
+				
 				if (!(workbenchPart instanceof IEditorPart)) return;
 				
 				IEditorPart editorPart = (IEditorPart) workbenchPart;
@@ -203,13 +208,9 @@ public class PictoView extends ViewPart {
 					return;
 				}
 				
-				if (editorPart == PictoView.this) {
-					getSite().getPage().removePartListener(this);
-				}
-				else if (editor == editorPart) {
+				if (editor == editorPart) {
 					Display.getCurrent().asyncExec(() -> render(null));
 				}
-					
 			}
 		};
 		
