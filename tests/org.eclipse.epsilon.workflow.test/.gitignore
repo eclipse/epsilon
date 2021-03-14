@@ -1,3 +1,4 @@
 *.xml
 !pom.xml
 !eunit.xml
+!sharedmodelrepository.xml
