@@ -12,13 +12,15 @@ package org.eclipse.epsilon.workflow.test;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+import org.eclipse.epsilon.workflow.tasks.SharedModelRepositoryTests;
 import org.eclipse.epsilon.workflow.tasks.eunit.EUnitModelComparisonTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({EUnitModelComparisonTests.class})
+@SuiteClasses({EUnitModelComparisonTests.class, 
+			   SharedModelRepositoryTests.class})
 public class WorkflowPluggedInTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(WorkflowPluggedInTestSuite.class);

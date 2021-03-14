@@ -12,18 +12,17 @@
 package org.eclipse.epsilon.workflow.tasks.emf;
 
 import java.io.File;
+
 import org.apache.tools.ant.BuildException;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
-import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.workflow.tasks.AbstractLoadModelTask;
 
-public class LoadEmfModelTask extends EpsilonTask {
+public class LoadEmfModelTask extends AbstractLoadModelTask {
 
-	protected String name;
 	protected String alias;
 	protected File modelFile;
 	protected String modelUri;
@@ -37,7 +36,8 @@ public class LoadEmfModelTask extends EpsilonTask {
 	protected boolean concurrent = false;
 	
 	@Override
-	public void executeImpl() throws BuildException {
+	public IModel loadModel() throws BuildException {
+		
 		ResourceFactoryRegistryManager.configure();
 		final EmfModel model = createEmfModel();
 		
@@ -69,7 +69,7 @@ public class LoadEmfModelTask extends EpsilonTask {
 		
 		try {
 			model.load(properties);
-			getProjectRepository().addModel(model);
+			return model;
 		}
 		catch (EolModelLoadingException e) {
 			e.printStackTrace();
@@ -89,15 +89,7 @@ public class LoadEmfModelTask extends EpsilonTask {
 	public void setExpand(boolean expand) {
 		this.expand = expand;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
 	public String getAlias() {
 		return alias;
 	}

@@ -10,22 +10,24 @@
 package org.eclipse.epsilon.workflow.tasks.xml;
 
 import java.io.File;
+
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
-import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.workflow.tasks.AbstractLoadModelTask;
 
-public class LoadXmlModel extends EpsilonTask {
+public class LoadXmlModel extends AbstractLoadModelTask {
 	
-	protected String name;
 	protected String alias;
 	protected File file;
 	protected String uri;
 	protected boolean read = true;
 	protected boolean store = false;
 	protected boolean cached = true;
+	protected String xml;
 	
 	@Override
-	public void executeImpl() throws BuildException {
+	public IModel loadModel() throws BuildException {
 		PlainXmlModel model = new PlainXmlModel();
 		
 		model.setName(name);
@@ -35,25 +37,25 @@ public class LoadXmlModel extends EpsilonTask {
 		model.setCachingEnabled(cached);
 		if (file != null) model.setFile(file);
 		if (uri != null) model.setUri(uri);
+		if (xml != null && !xml.trim().isEmpty()) model.setXml(xml.trim());
 		
 		try {
 			model.load();
+			return model;
 		}
 		catch (Exception ex) {
 			throw new BuildException(ex);
 		}
 		
-		getProjectRepository().addModel(model);
 	}
-
-	public String getName() {
-		return name;
+	
+	public void addText(String msg) {
+		if ((msg != null)) {
+			if (xml == null) xml = "";
+			xml += getProject().replaceProperties(msg);
+		}
 	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
 	public String getAlias() {
 		return alias;
 	}

@@ -10,17 +10,18 @@
 package org.eclipse.epsilon.workflow.tasks.emf;
 
 import java.io.File;
+
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.xml.XmlModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.workflow.tasks.AbstractLoadModelTask;
 
-public class LoadXmlModelTask extends EpsilonTask {
+public class LoadXmlModelTask extends AbstractLoadModelTask {
 
-	protected String name;
 	protected String aliases;
 	protected File modelFile;
 	protected File xsdFile;
@@ -31,7 +32,7 @@ public class LoadXmlModelTask extends EpsilonTask {
 	protected boolean concurrent = false;
 	
 	@Override
-	public void executeImpl() throws BuildException {
+	public IModel loadModel() throws BuildException {
 		
 		final StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
@@ -47,20 +48,12 @@ public class LoadXmlModelTask extends EpsilonTask {
 		try {
 			XmlModel model = new XmlModel();
 			model.load(properties);
-			getProjectRepository().addModel(model);
+			return model;
 		}
 		catch (EolModelLoadingException e) {
 			throw new BuildException(e);
 		}
 		
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getAliases() {

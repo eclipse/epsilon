@@ -18,14 +18,13 @@ import org.eclipse.epsilon.emc.composite.CompositeModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 
-public class LoadCompositeModelTask extends EpsilonTask {
+public class LoadCompositeModelTask extends AbstractLoadModelTask {
 	
 	protected List<ModelNestedElement> modelNestedElements = new ArrayList<>();
 	protected String matchTrace = null;
-	protected String name = null;
 	
 	@Override
-	public void executeImpl() throws BuildException {
+	public IModel loadModel() throws BuildException {
 		
 		ArrayList<IModel> models = new ArrayList<>();
 		
@@ -50,7 +49,7 @@ public class LoadCompositeModelTask extends EpsilonTask {
 		
 		CompositeModel composite = new CompositeModel(models, matchTrace);
 		composite.setName(name);
-		getProjectRepository().addModel(composite);
+		return composite;
 		
 		
 	}
@@ -59,10 +58,6 @@ public class LoadCompositeModelTask extends EpsilonTask {
 		ModelNestedElement model = new ModelNestedElement();
 		modelNestedElements.add(model);
 		return model;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	public void setMatchTrace(String matchTrace) {

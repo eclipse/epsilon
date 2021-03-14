@@ -12,20 +12,18 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
 
-public class LoadModelTask extends EpsilonTask {
+public class LoadModelTask extends AbstractLoadModelTask {
 
-	protected String name, type, impl, config;
+	protected String type, impl, config;
 	protected ArrayList<ParameterNestedElement> parameterNestedElements = new ArrayList<>();
 	
 	@Override
-	public void executeImpl() throws BuildException {
-		if (profile) Profiler.INSTANCE.start("Load model : " + name);
+	public IModel loadModel() throws BuildException {
 		
 		IModel model = createModel(type);
 		
@@ -49,14 +47,10 @@ public class LoadModelTask extends EpsilonTask {
 		try {
 			model.load(getStringProperties());
 			model.setName(name);
-			getProjectRepository().addModel(model);
+			return model;
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 			throw new BuildException(e);
-		}
-		finally {
-			if (profile) Profiler.INSTANCE.stop("Load model : " + name);
 		}
 	}
 	

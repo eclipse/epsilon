@@ -16,16 +16,14 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.csv.CsvModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.Model;
-import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
+import org.eclipse.epsilon.workflow.tasks.AbstractLoadModelTask;
 
 /**
  * The Ant task to load Csv Models.
  */
-public class LoadCsvModelTask extends EpsilonTask {
-	
-	/** The name. */
-	protected String name;
+public class LoadCsvModelTask extends AbstractLoadModelTask {
 	
 	/** The field separator. */
 	protected String fieldSeparator = ",";
@@ -57,11 +55,9 @@ public class LoadCsvModelTask extends EpsilonTask {
 	/** The store on disposal. */
 	protected boolean store = false;
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.epsilon.workflow.tasks.EpsilonTask#executeImpl()
-	 */
+	
 	@Override
-	public void executeImpl() throws BuildException {
+	public IModel loadModel() throws BuildException {
 		final CsvModel model = createCsvModel();
 
 		final StringProperties properties = new StringProperties();
@@ -82,7 +78,7 @@ public class LoadCsvModelTask extends EpsilonTask {
 		
 		try {
 			model.load(properties);
-			getProjectRepository().addModel(model);
+			return model;
 		} catch (EolModelLoadingException e) {
 			throw new BuildException(e);
 		}
@@ -97,24 +93,6 @@ public class LoadCsvModelTask extends EpsilonTask {
 	 */
 	protected CsvModel createCsvModel() {
 		return new CsvModel();
-	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * Sets the name.
-	 *
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	/**

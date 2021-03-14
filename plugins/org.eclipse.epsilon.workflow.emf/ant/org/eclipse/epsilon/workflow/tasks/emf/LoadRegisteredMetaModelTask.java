@@ -14,17 +14,17 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
+import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.workflow.tasks.AbstractLoadModelTask;
 
-public class LoadRegisteredMetaModelTask extends EpsilonTask {
+public class LoadRegisteredMetaModelTask extends AbstractLoadModelTask {
 
-	protected String name;
 	protected String aliases;
 	protected String metamodelUri;
 	protected boolean cached;
 	
 	@Override
-	public void executeImpl() throws BuildException {
+	public IModel loadModel() throws BuildException {
 		EmfMetaModel model = new EmfMetaModel();
 		StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");
@@ -35,20 +35,11 @@ public class LoadRegisteredMetaModelTask extends EpsilonTask {
 		
 		try {
 			model.load(properties);
-			getProjectRepository().addModel(model);
+			return model;
 		}
 		catch (EolModelLoadingException e) {
-			e.printStackTrace();
 			throw new BuildException(e);
 		}
-	}
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getAliases() {

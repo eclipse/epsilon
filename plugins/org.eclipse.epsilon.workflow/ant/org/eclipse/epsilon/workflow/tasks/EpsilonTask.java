@@ -11,6 +11,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
@@ -21,6 +22,7 @@ import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.SingleFrame;
 import org.eclipse.epsilon.eol.models.ModelRepository;
+import org.eclipse.epsilon.eol.models.ModelRepositoryManager;
 import org.eclipse.epsilon.workflow.tasks.transactions.NamedTransactionSupport;
 
 public abstract class EpsilonTask extends Task {
@@ -85,9 +87,15 @@ public abstract class EpsilonTask extends Task {
 			(ModelRepository) getProject().getReference(EpsilonTask.EPSILON_REPOSITORY);
 		
 		if (repository == null) {
-			repository = new ModelRepository();
+			
+			if (usesSharedModelRepository(getProject())) {
+				repository = getModelRepository(getProject());
+			}
+			else {
+				repository = new ModelRepository();
+				ShutdownProjectRepositoryListener.activate(getProject(), repository);
+			}
 			setProjectRepository(repository);
-			ShutdownProjectRepositoryListener.activate(getProject(), repository);
 		}
 		
 		return repository;
@@ -161,5 +169,20 @@ public abstract class EpsilonTask extends Task {
 	public void setFailOnWarnings(boolean failOnWarnings) {
 		this.failOnWarnings = failOnWarnings;
 	}
-
+	
+	public boolean usesSharedModelRepository(Project project) {
+		return project.getUserProperty(EpsilonTask.EPSILON_REPOSITORY) != null;
+	}
+	
+	public ModelRepository getModelRepository(Project project) {
+		String repositoryName = project.getUserProperty(EpsilonTask.EPSILON_REPOSITORY);
+		HashMap<String, ModelRepository> repositories = ModelRepositoryManager.getInstance().getRepositories();
+		if (repositoryName == null) return null;
+		ModelRepository repository = repositories.get(repositoryName);
+		if (repository == null) {
+			repository = new ModelRepository();
+			repositories.put(repositoryName, repository);
+		}
+		return repository;
+	}
 }
