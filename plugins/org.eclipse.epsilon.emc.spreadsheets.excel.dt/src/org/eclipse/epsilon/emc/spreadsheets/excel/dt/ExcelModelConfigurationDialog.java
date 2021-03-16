@@ -10,6 +10,7 @@ package org.eclipse.epsilon.emc.spreadsheets.excel.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.util.DialogUtil;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
@@ -100,6 +101,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 		groupContent.pack();
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	protected void loadProperties() {
 		super.loadProperties();
@@ -107,15 +109,14 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 		if (properties != null) {
 			this.spreadsheetFileText.setText(properties.getProperty(ExcelModel.SPREADSHEET_FILE));
 			this.configurationFileText.setText(properties.getProperty(ExcelModel.CONFIGURATION_FILE));
-
-			final SecureExcelModel secureModel = new SecureExcelModel();
-			try {
-				this.passwordText.setText(secureModel.loadPassword(properties));
-			}
-			catch (StorageException e) {
-				final String message = "Unable to retrieve the password from Equinox Security vault";
-				//LOGGER.error(message);
-				throw new RuntimeException(message);
+			
+			if (properties.hasProperty(ExcelModel.SPREADSHEET_PASSWORD)) {
+				try {
+					this.passwordText.setText(new SecureExcelModel().loadPassword(properties));
+				}
+				catch (StorageException e) {
+					LogUtil.log(e);
+				}
 			}
 		}
 	}
@@ -126,16 +127,20 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 
 		super.properties.put(ExcelModel.SPREADSHEET_FILE, this.spreadsheetFileText.getText());
 		super.properties.put(ExcelModel.CONFIGURATION_FILE, this.configurationFileText.getText());
-
-		final ISecurePreferences preferences = SecurePreferencesFactory.getDefault();
-		final ISecurePreferences node = preferences.node(this.spreadsheetFileText.getText());
-		try {
-			node.put(ExcelModel.SPREADSHEET_PASSWORD, this.passwordText.getText(), true);
+		
+		if (!this.passwordText.getText().isEmpty()) {
+			final ISecurePreferences preferences = SecurePreferencesFactory.getDefault();
+			final ISecurePreferences node = preferences.node(this.spreadsheetFileText.getText());
+			try {
+				node.put(ExcelModel.SPREADSHEET_PASSWORD, this.passwordText.getText(), true);
+			}
+			catch (StorageException e) {
+				final String message = "Equinox Security was unable to store the Microsoft Excel File password";
+				throw new RuntimeException(message);
+			}
 		}
-		catch (StorageException e) {
-			final String message = "Equinox Security was unable to store the Microsoft Excel File password";
-			//LOGGER.error(message);
-			throw new RuntimeException(message);
+		else {
+			super.properties.remove(ExcelModel.SPREADSHEET_PASSWORD);
 		}
 	}
 
