@@ -165,11 +165,16 @@ public class ExcelModel extends SpreadsheetModel {
 	}
 
 	private Workbook getWorkbook() throws IOException {
-		if (this.getIsXlsxFile()) {
-			return new XSSFWorkbook(this.getFileInputStream());
+		if (readOnLoad) {
+			if (this.getIsXlsxFile()) {
+				return new XSSFWorkbook(this.getFileInputStream());
+			}
+			else {
+				return new HSSFWorkbook(this.getFileInputStream());
+			}
 		}
 		else {
-			return new HSSFWorkbook(this.getFileInputStream());
+			return new XSSFWorkbook();
 		}
 	}
 

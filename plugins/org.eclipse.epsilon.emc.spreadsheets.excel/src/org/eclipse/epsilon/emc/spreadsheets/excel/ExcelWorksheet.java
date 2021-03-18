@@ -93,7 +93,8 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 
 	@Override
 	public SpreadsheetRow insertRow(final Map<SpreadsheetColumn, String> values) {
-		final int newRowIndex = this.sheet.getPhysicalNumberOfRows() + 1;
+		
+		final int newRowIndex = this.sheet.getPhysicalNumberOfRows();
 		final Row row = sheet.createRow(newRowIndex);
 		for (final Map.Entry<SpreadsheetColumn, String> entry : values.entrySet()) {
 			final Cell cell = row.createCell(entry.getKey().getIndex());
