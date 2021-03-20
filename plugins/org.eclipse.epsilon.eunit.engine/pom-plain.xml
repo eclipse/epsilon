@@ -20,12 +20,6 @@
       <artifactId>org.eclipse.epsilon.eol.engine</artifactId>
       <version>${project.version}</version>
     </dependency>
-     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.epsilon.common.dt</artifactId>
-      <version>${project.version}</version>
-      <optional>true</optional>
-    </dependency>
   </dependencies>
 
 </project>

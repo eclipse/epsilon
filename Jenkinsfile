@@ -130,6 +130,7 @@ pipeline {
               }
             }
             steps {
+              sh plugins/org.eclipse.epsilon.eunit.cmp.emf/download-emf-compare.sh
               sh 'mvn -B -T 1C -f pom-plain.xml compile'
             }
           }
