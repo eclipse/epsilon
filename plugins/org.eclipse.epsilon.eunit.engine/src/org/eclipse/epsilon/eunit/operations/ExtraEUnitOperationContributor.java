@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
+
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
@@ -27,6 +29,7 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eunit.IEUnitModule;
 import org.eclipse.epsilon.eunit.extensions.IModelComparator;
 
 /**
@@ -244,6 +247,17 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 
 	private IModelComparator getComparator(IModel expectedCModel, IModel actualCModel) throws EolInternalException {
 		try {
+			// Try to use first the custom comparators
+			final IModule module = this.getContext().getModule();
+			if (module instanceof IEUnitModule) {
+				IEUnitModule eunitModule = (IEUnitModule) module;
+				for (IModelComparator comparator : eunitModule.getCustomComparators()) {
+					if (comparator.canCompare(expectedCModel, actualCModel)) {
+						return comparator;
+					}
+				}
+			}
+
 			// Use reflection to avoid static dependency on ClassBasedExtension (we can't use HostManager in epsilon.workflow from here)
 			Class<?> klazz = Class.forName("org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension");
 			Method getImpl = klazz.getMethod("getImplementations", String.class, Class.class);

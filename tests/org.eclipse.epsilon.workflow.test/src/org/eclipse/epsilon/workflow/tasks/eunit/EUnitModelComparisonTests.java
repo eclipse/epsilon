@@ -69,6 +69,11 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 	}
 
 	@Test
+	public void compareEMFInMemoryModelsWithCustomComparator() throws Exception {
+		runTarget(ANT_BUILD_FILE, "emf-emf-memory-customComparator");
+	}
+
+	@Test
 	public void leftModelIsEmpty() throws Exception {
 		try {
 			runTarget(ANT_BUILD_FILE, "emf-emf-empty-left");

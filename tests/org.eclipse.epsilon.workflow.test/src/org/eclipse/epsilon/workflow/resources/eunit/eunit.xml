@@ -307,6 +307,19 @@
 		</epsilon.eunit>
 	</target>
 
+	<target name="emf-emf-memory-customComparator">
+		<epsilon.emf.register file="${graph.metamodel.location}"/>
+		<epsilon.eunit src="model-comparison/emf-emf-memory-caseIgnore.eunit">
+			<modelTasks>
+				<epsilon.emf.loadModel name="A" metamodeluri="${graph.metamodel.uri}" read="false" store="false" modelfile="dummyA.model"/>
+				<epsilon.emf.loadModel name="B" metamodeluri="${graph.metamodel.uri}" read="false" store="false" modelfile="dummyB.model"/>
+			</modelTasks>
+			<comparators>
+				<comparator classname="org.eclipse.epsilon.eunit.engine.test.comparators.IgnoreCaseComparator" />
+			</comparators>
+		</epsilon.eunit>
+	</target>
+
 	<target name="emf-emf-empty-left">
 		<epsilon.emf.register file="${graph.metamodel.location}"/>
 		<epsilon.eunit src="model-comparison/emf-emf-empty.eunit">

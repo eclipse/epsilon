@@ -16,6 +16,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -33,6 +34,7 @@ import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eunit.EUnitTestResultType;
+import org.eclipse.epsilon.eunit.extensions.IModelComparator;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 
 /**
@@ -65,6 +67,36 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			for (Task task : tasks) {
 				task.perform();
 			}
+		}
+	}
+
+	public class ComparatorReference {
+		private String className;
+
+		public String getClassname() {
+			return className;
+		}
+
+		public void setClassname(String klass) {
+			this.className = klass;
+		}
+	}
+
+	/**
+	 * Class for a nested element which allows to specify a list of custom comparators,
+	 * which take precedence over any registered OSGi extensions.
+	 */
+	public class ComparatorReferenceList {
+		private final List<ComparatorReference> entries = new ArrayList<>();
+		
+		public ComparatorReference createComparator() {
+			ComparatorReference ref = new ComparatorReference();
+			entries.add(ref);
+			return ref;
+		}
+
+		public List<ComparatorReference> getEntries() {
+			return entries;
 		}
 	}
 
@@ -126,6 +158,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	private String fPackage = EUnitModule.DEFAULT_PACKAGE;
 	private boolean fGenerateReport = true;
 	private TaskCollection modelLoadingTasks;
+	private ComparatorReferenceList comparatorRefs;
 	private ModelRepository oldProjectRepository;
 
 	public EUnitTask() {
@@ -173,7 +206,8 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		// register itself as a listener, and then let EUnitTask configure
 		// it as usual
 		if (module == null) {
-			module = new EUnitModule();
+			EUnitModule eunitModule = new EUnitModule();
+			module = eunitModule;
 			final IEolContext context = module.getContext();
 			context.getOperationContributorRegistry().add(new RunTargetOperationContributor());
 			context.getFrameStack().put(new Variable("antProject", getProject(), new EolAnyType(), true));
@@ -183,6 +217,19 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			final ClassLoader classLoaderAnt = getProject().createClassLoader(org.apache.tools.ant.types.Path.systemClasspath);
 			context.getNativeTypeDelegates().clear();
 			context.getNativeTypeDelegates().add(new EolClasspathNativeTypeDelegate(classLoaderAnt));
+
+			// Add any custom comparators
+			if (comparatorRefs != null) {
+				for (ComparatorReference cmpRef : comparatorRefs.getEntries()) {
+					try {
+						final Class<?> klass = Class.forName(cmpRef.getClassname());
+						IModelComparator comparator = (IModelComparator) klass.newInstance();
+						eunitModule.getCustomComparators().add(comparator);
+					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+						throw new BuildException("Could not load custom comparator " + cmpRef.getClassname(), e);
+					}
+				}
+			}
 		}
 		return module;
 	}
@@ -256,6 +303,13 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			modelLoadingTasks = new TaskCollection();
 		}
 		return modelLoadingTasks;
+	}
+
+	public ComparatorReferenceList createComparators() {
+		if (comparatorRefs == null) {
+			comparatorRefs = new ComparatorReferenceList();
+		}
+		return comparatorRefs;
 	}
 
 	// TEST REPORT METHODS

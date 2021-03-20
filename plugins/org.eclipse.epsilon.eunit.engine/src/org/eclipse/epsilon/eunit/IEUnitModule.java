@@ -15,6 +15,7 @@ import java.util.List;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eunit.extensions.IModelComparator;
 import org.eclipse.epsilon.internal.eunit.util.Pair;
 
 public interface IEUnitModule extends IEolModule {
@@ -38,6 +39,8 @@ public interface IEUnitModule extends IEolModule {
 	List<Operation> getInlineModelOperations();
 
 	List<Operation> getTests();
+
+	List<IModelComparator> getCustomComparators();
 
 	String getQualifiedName();
 
