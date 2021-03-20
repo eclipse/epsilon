@@ -68,32 +68,32 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 	}
 
 	@Override
-	public ArrayList<Operation> getTests() {
+	public List<Operation> getTests() {
 		return collectOperationsAnnotatedWith("Test", getOperationsAnnotatedWith("test"));
 	}
 
 	@Override
-	public ArrayList<Operation> getInlineModelOperations() {
+	public List<Operation> getInlineModelOperations() {
 		return collectOperationsAnnotatedWith("Model", getOperationsAnnotatedWith("model"));
 	}
 
 	@Override
-	public ArrayList<Operation> getSetups() {
+	public List<Operation> getSetups() {
 		return collectOperationsAnnotatedWith("Before", getOperationsAnnotatedWith("setup"));
 	}
 	
 	@Override
-	public ArrayList<Operation> getTeardowns() {
+	public List<Operation> getTeardowns() {
 		return collectOperationsAnnotatedWith("After", getOperationsAnnotatedWith("teardown"));
 	}
 
 	@Override
-	public ArrayList<Operation> getSuiteSetups() {
+	public List<Operation> getSuiteSetups() {
 		return collectOperationsAnnotatedWith("BeforeClass", getOperationsAnnotatedWith("suitesetup"));
 	}
 
 	@Override
-	public ArrayList<Operation> getSuiteTeardowns() {
+	public List<Operation> getSuiteTeardowns() {
 		return collectOperationsAnnotatedWith("AfterClass", getOperationsAnnotatedWith("suiteteardown"));
 	}
 
