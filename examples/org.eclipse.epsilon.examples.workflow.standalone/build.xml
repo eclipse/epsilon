@@ -2,13 +2,15 @@
 
     <!-- This part of the build file runs our Epsilon tasks -->
     <target name="run-epsilon" depends="setup-epsilon">
+        <!-- Load the library.model EMF model -->
         <epsilon.emf.loadModel name="Library" modelfile="library.model" metamodelfile="library.ecore"/>
         
+        <!-- Run library.eol against it -->
         <epsilon.eol src="library.eol">
             <model ref="Library"/>
         </epsilon.eol>
 
-        <!-- Run library.eunit against it -->
+        <!-- Run library.eunit -->
         <epsilon.eunit src="library.eunit">
           <modelTasks>
             <epsilon.emf.loadModel name="A" metamodelfile="library.ecore" read="false" store="false" modelfile="dummyA.model"/>

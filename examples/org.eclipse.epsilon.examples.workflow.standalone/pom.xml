@@ -38,7 +38,7 @@
                     <model ref="Library"/>
                 </epsilon.eol>
 
-                <!-- Run library.eunit against it -->
+                <!-- Run library.eunit -->
                 <epsilon.eunit src="library.eunit">
                   <modelTasks>
                     <epsilon.emf.loadModel name="A" metamodelfile="library.ecore" read="false" store="false" modelfile="dummyA.model"/>
