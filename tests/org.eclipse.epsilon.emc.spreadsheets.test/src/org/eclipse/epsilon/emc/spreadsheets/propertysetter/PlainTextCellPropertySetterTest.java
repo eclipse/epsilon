@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.spreadsheets.propertysetter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -172,7 +173,7 @@ public class PlainTextCellPropertySetterTest {
 		final SpreadsheetPropertySetter setter = (SpreadsheetPropertySetter) model.getPropertySetter();
 		setter.invoke(row, column.getPrefixedIndex(), "v1, v2", null);
 
-		assertTrue(row.getVisibleCellValue(column).equals(SpreadsheetConstants.DEFAULT_DT_INTEGER));
+		assertEquals(SpreadsheetConstants.DEFAULT_DT_INTEGER, row.getVisibleCellValue(column));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 	}
 
@@ -190,7 +191,9 @@ public class PlainTextCellPropertySetterTest {
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 		setter.invoke(row, column.getPrefixedIndex(), "v1", null);
 
-		assertTrue(row.getVisibleCellValue(column).equals(SpreadsheetConstants.DEFAULT_DT_INTEGER));
+		System.out.println(row.getVisibleCellValue(column).getClass() + "/" + row.getVisibleCellValue(column));
+		
+		assertEquals(SpreadsheetConstants.DEFAULT_DT_INTEGER, row.getVisibleCellValue(column));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 	}
 

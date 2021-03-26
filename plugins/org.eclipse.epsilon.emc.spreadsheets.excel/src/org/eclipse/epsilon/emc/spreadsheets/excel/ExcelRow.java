@@ -11,6 +11,7 @@ package org.eclipse.epsilon.emc.spreadsheets.excel;
 
 import org.apache.poi.ss.usermodel.*;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
+import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetDataType;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 
 public class ExcelRow extends SpreadsheetRow {
@@ -35,14 +36,24 @@ public class ExcelRow extends SpreadsheetRow {
 			if (cellValue != null) {
 				switch (cellValue.getCellType()) {
 					case NUMERIC:
-						visibleCellValue += cell.getNumericCellValue();
+						double numericValue = cellValue.getNumberValue();
+						if (column.getDataType() == SpreadsheetDataType.INTEGER) {
+							visibleCellValue += Math.round(numericValue);
+						}
+						else if (column.getDataType() == SpreadsheetDataType.FLOAT) {
+							visibleCellValue += new Float(numericValue);
+						}
+						else {
+							visibleCellValue += numericValue;
+						}
 						break;
 					case STRING:
-						visibleCellValue = cell.getStringCellValue();
+						visibleCellValue = cellValue.getStringValue();
 						break;
 					case BOOLEAN:
-						visibleCellValue += cell.getBooleanCellValue();
+						visibleCellValue += cellValue.getBooleanValue();
 						break;
+					default: visibleCellValue = cellValue.getStringValue();
 				}
 			}
 			else {
@@ -56,9 +67,35 @@ public class ExcelRow extends SpreadsheetRow {
 	public void overwriteCellValue(final SpreadsheetColumn column, final String value) {
 		super.validateColumn(column);
 		final Cell cell = this.row.getCell(column.getIndex());
-		cell.setCellValue(value);
+		
+		if (this.row.getRowNum() == 0) {
+			cell.setCellValue(value);
+		}
+		else {
+			if (value != null && value.startsWith("=")) {
+				cell.setCellFormula(value.substring(1));
+			}
+			else {
+				if (column.isMany()) {
+					cell.setCellValue(value);
+				}
+				else {
+					switch (column.getDataType()) {
+					case BOOLEAN: cell.setCellValue(Boolean.parseBoolean(value)); break;
+					case INTEGER: cell.setCellValue(Integer.parseInt(value)); break;
+					case FLOAT: cell.setCellValue(Float.parseFloat(value)); break;
+					case DOUBLE: cell.setCellValue(Float.parseFloat(value)); break;
+					default: cell.setCellValue(value);
+					}
+				}
+			}
+		}
 	}
-
+	
+	public Row getRow() {
+		return row;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
