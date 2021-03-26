@@ -43,8 +43,8 @@ public class ExcelEolTests {
 	
 	protected void assertEval(String expression, Object result) throws Exception {
 		ExcelModel model = new ExcelModel();
-		model.setSpreadsheetFile(SharedTestMethods.getBasePath() + "resources/excel/teams.xlsx");
-		model.setConfigurationFile(SharedTestMethods.getBasePath() + "resources/excel/teams.config.xml");
+		model.setSpreadsheetFile(SharedTestMethods.getBasePath() + "resources/excel/Teams.xlsx");
+		model.setConfigurationFile(SharedTestMethods.getBasePath() + "resources/excel/Teams.config.xml");
 		model.load();
 		
 		EolModule module = new EolModule();
