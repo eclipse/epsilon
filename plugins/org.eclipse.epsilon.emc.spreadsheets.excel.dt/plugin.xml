@@ -8,7 +8,7 @@
             dialog="org.eclipse.epsilon.emc.spreadsheets.excel.dt.ExcelModelConfigurationDialog"
             icon="images/spreadsheet.png"
             label="Microsoft Excel Spreadsheet"
-            stable="false"
+            stable="true"
             type="ExcelModel">
       </modelType>
    </extension>
