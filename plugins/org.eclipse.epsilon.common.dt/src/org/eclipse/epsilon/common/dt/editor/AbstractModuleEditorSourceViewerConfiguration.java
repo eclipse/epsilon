@@ -33,10 +33,9 @@ import org.eclipse.swt.graphics.RGB;
 public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerConfiguration {
 	
 	protected AbstractModuleEditor editor = null;
-	
 	protected AbstractModuleEditorScanner scanner;
 	protected AbstractModuleEditorNormalFontScanner commentScanner;
-	//protected AbstractModuleEditorNormalFontScanner stringScanner;
+	protected String[] defaultPrefixes = new String[] {"//"};
 	
 	public AbstractModuleEditorSourceViewerConfiguration(AbstractModuleEditor editor) {
 		this.editor = editor;
@@ -139,5 +138,10 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 	
 	public AbstractModuleEditorNormalFontScanner getCommentScanner() {
 		return commentScanner;
+	}
+	
+	@Override
+	public String[] getDefaultPrefixes(ISourceViewer sourceViewer, String contentType) {
+		return defaultPrefixes;
 	}
 }

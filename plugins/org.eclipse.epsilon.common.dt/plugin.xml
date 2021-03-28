@@ -78,4 +78,21 @@
                defaultName="modelTypeExtension">
          </tool>
       </extension>
+      <extension
+            point="org.eclipse.ui.bindings">
+         <key
+               commandId="org.eclipse.epsilon.common.dt.editor.AbsractModuleEditor.ToggleComment"
+               contextId="org.eclipse.ui.textEditorScope"
+               schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+               sequence="M1+/">
+         </key>
+      </extension>
+      <extension
+            point="org.eclipse.ui.commands">
+         <command
+               categoryId="org.eclipse.ui.category.textEditor"
+               id="org.eclipse.epsilon.common.dt.editor.AbsractModuleEditor.ToggleComment"
+               name="Toggle Comment">
+         </command>
+      </extension>
 </plugin>
