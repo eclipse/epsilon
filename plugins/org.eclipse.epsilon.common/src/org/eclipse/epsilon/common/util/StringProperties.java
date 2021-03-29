@@ -104,6 +104,7 @@ public class StringProperties extends Properties {
 	public String getProperty(String key) {
 		String value = super.getProperty(key);
 		if (value == null && key != null) value = super.getProperty(key.toUpperCase());
+		if (value == null && key != null) value = super.getProperty(key.toLowerCase());
 		return value == null ? "" : value;
 	}
 	
