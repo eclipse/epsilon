@@ -38,12 +38,13 @@ task setupEpsilonTasks {
 task run {
 	dependsOn tasks.setupEpsilonTasks
 
-	// Load a UML model from model.uml
+	// Load a UML model straight from GenMyModel
 	ant.'epsilon.loadModel'(name: 'UML', impl: 'org.eclipse.epsilon.emc.uml.UmlModel'){
-		parameter(name: 'modelFile', file: 'model.uml')
+		parameter(name: 'modelUri', value: 'https://app.genmymodel.com/api/projects/_in3dgJiMEeuzROqeHhotPw/custom-xmi')
 	}
 
 	// Run library.eol against it
-	ant.'epsilon.eol'(src: 'uml.eol'){ model(ref: 'UML') }
+	ant.'epsilon.eol'(src: '../uml.eol'){ model(ref: 'UML') }
 
+	
 }
