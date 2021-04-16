@@ -1,6 +1,6 @@
 context EClass {
 	
-	-- Dummy constraint to demonstrate the capabilities of EVL
+	// Dummy constraint to demonstrate the capabilities of EVL
 	constraint Unamed {
 	
 		check : self.name.isDefined()

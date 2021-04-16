@@ -40,7 +40,7 @@ operation String normalize() {
 	else {
 		normalized = normalized.replace('<', '&lt;');
 		normalized = normalized.replace('>', '&gt;');
-		-- etc
+		// etc
 	}
 	return normalized;
 }
