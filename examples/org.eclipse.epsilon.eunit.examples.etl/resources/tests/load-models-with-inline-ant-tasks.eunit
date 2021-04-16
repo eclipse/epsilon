@@ -1,6 +1,6 @@
--*
+/*
  antProject is Ant's Project object, and is supplied by EUnit.
-*-
+*/
 operation createEmfLoadTask(modelName : String, modelFilename : String, metamodelFilename : String) {
   var task = antProject.createTask("epsilon.emf.loadModel");
   var basedir = antProject.getBaseDir();

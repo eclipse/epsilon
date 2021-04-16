@@ -30,7 +30,7 @@ Model {
 }
 ');
 
-  -- use empty placeholder model as destination for the ETL transformation
+  /* use empty placeholder model as destination for the ETL transformation */
   loadHutn("Graph", '@Spec { Metamodel { nsUri: "Graph" } }');
 }
 
