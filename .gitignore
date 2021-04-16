@@ -102,3 +102,6 @@ target-plain
 
 # Backup files from Emacs
 *~
+
+# EUnit test files in examples
+/examples/**/TEST-*.xml
