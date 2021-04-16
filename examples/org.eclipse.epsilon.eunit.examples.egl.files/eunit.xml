@@ -8,7 +8,7 @@
 	</target>
 
 	<target name="tree2text">
-		<epsilon.egl src="tree2text.egl" target="${basedir}/tree.txt">
+		<epsilon.egl src="tree2text.egl" target="tree.txt">
 			<model ref="Tree"/>
 		</epsilon.egl>
 	</target>

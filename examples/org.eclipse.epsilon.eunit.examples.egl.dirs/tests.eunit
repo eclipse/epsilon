@@ -11,7 +11,7 @@ operation createDestDir() {
 operation deleteDestDir() {
   var destdir = new Native('java.io.File')(DESTDIR_PATH);
   for (f in destdir.listFiles()) {
-    -- We need to protect delete so it is not interpreted as the Epsilon reserved word
+    // We need to protect delete so it is not interpreted as the Epsilon reserved word
     f.`delete`();
   }
   destdir.`delete`();

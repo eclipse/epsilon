@@ -34,7 +34,7 @@
 		<tempfile property="atl.temp.dstfile" />
 
 		<!-- Save input model to a file -->
-		<epsilon.storeModel model="Tree" target="${atl.temp.srcfile}" />
+		<epsilon.storeModel model="Tree" targetfile="${atl.temp.srcfile}" />
 
 		<!-- Load the metamodels and the source model -->
 		<atl.loadModel name="TreeMM"  metamodel="MOF" path="metamodels/tree.ecore" />
