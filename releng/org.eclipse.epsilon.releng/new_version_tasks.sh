@@ -27,10 +27,8 @@ mkdir -p $NewVersion/$JavadocsName &&
 cp -r $InterimJavadocs/* $NewVersion/$JavadocsName &&
 rm -rf $NewVersion/$JavadocsName/$InterimJavadocs &&
 echo "Adding $NewVersion to composite..." &&
-ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion &&
-echo "Removing additional composite..." &&
-rm $Downloads/compositeContent.jar &&
-rm $Downloads/compositeArtifacts.jar
+cd $Downloads/$UpdatesName &&
+ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
 
 #cd /home/data/httpd/download.eclipse.org/epsilon/temp
 #curl -o epsilon-${NewVersion}-signed.zip -F file=@epsilon-${NewVersion}-unsigned.zip http://build.eclipse.org:31338/macsign.php
