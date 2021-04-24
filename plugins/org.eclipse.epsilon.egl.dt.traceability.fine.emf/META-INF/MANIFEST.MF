@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: EGL Traceability EMF model
 Bundle-SymbolicName: org.eclipse.epsilon.egl.dt.traceability.fine.emf;singleton:=true
 Automatic-Module-Name: org.eclipse.epsilon.egl.dt.traceability.fine.emf
-Bundle-Version: 2.3.0.qualifier
+Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse Modeling Project
 Bundle-Localization: plugin

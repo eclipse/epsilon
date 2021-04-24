@@ -6,8 +6,8 @@ UpdatesName=updates
 JavadocsName=javadoc
 InterimVersion=interim
 InterimJavadocs=$InterimVersion-$JavadocsName
-NewVersion=2.3
-OldVersion=2.2
+NewVersion=2.4
+OldVersion=2.3
 
 echo "Moving $OldVersion..." &&
 mkdir -p $Archives/$OldVersion &&
