@@ -28,7 +28,6 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -39,7 +38,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelectionChangedListener {
 	
@@ -184,10 +182,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 				modelType.setType(configurationElement.getAttribute("type"));
 				modelType.setLabel(configurationElement.getAttribute("label"));
 				modelType.setStable(Boolean.parseBoolean(configurationElement.getAttribute("stable")));
-	
-				String contributingPlugin = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
-				Image image = AbstractUIPlugin.imageDescriptorFromPlugin(contributingPlugin,configurationElement.getAttribute("icon")).createImage();
-				modelType.setImage(image);
+				modelType.setContributingPlugin(configurationElement.getDeclaringExtension().getNamespaceIdentifier());
 				modelType.setConfigurationElement(configurationElement);
 				modelTypes.add(modelType);
 			}

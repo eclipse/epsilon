@@ -27,6 +27,7 @@ public class ModelTypeExtension {
 	protected String clazz;
 	protected IConfigurationElement configurationElement;
 	protected boolean stable;
+	protected String contributingPlugin;
 	
 	public ModelTypeExtension() {
 		
@@ -46,13 +47,30 @@ public class ModelTypeExtension {
 	public boolean isStable() {
 		return stable;
 	}
-
-	public Image getImage() {
-		return image;
+	
+	public void setContributingPlugin(String contributingPlugin) {
+		this.contributingPlugin = contributingPlugin;
 	}
-
-	public void setImage(Image icon) {
-		this.image = icon;
+	
+	public String getContributingPlugin() {
+		return contributingPlugin;
+	}
+	
+	/**
+	 * @deprecated
+	 * Use setContributingPlugin() instead 
+	 * for lazy image initialisation
+	 * @param image
+	 */
+	public void setImage(Image image) {
+		this.image = image;
+	}
+	
+	public Image getImage() {
+		if (image == null) {
+			image = AbstractUIPlugin.imageDescriptorFromPlugin(contributingPlugin,configurationElement.getAttribute("icon")).createImage();
+		}
+		return image;
 	}
 
 	public String getLabel() {
@@ -100,10 +118,7 @@ public class ModelTypeExtension {
 				modelType.setClazz(configurationElement.getAttribute("class"));
 				modelType.setType(configurationElement.getAttribute("type"));
 				modelType.setLabel(configurationElement.getAttribute("label"));
-				String contributingPlugin = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
-				//URL iconUrl = Platform.getBundle(contributingPlugin).getResource(configurationElement.getAttribute("icon"));
-				Image image = AbstractUIPlugin.imageDescriptorFromPlugin(contributingPlugin,configurationElement.getAttribute("icon")).createImage();
-				modelType.setImage(image);
+				modelType.setContributingPlugin(configurationElement.getDeclaringExtension().getNamespaceIdentifier());
 				return modelType;
 			}
 		}
