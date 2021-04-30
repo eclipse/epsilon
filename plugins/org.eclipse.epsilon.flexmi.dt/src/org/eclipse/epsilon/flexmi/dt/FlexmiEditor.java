@@ -12,7 +12,9 @@ package org.eclipse.epsilon.flexmi.dt;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -230,47 +232,66 @@ public class FlexmiEditor extends TextEditor {
 		
 		// Update problem markers
 		try {
-			file.deleteMarkers(markerType, true, IResource.DEPTH_INFINITE);
 			
-			for (URI uri : resource.getParsedFragmentURIs()) {
+			List<FlexmiResource> flexmiResources = new ArrayList<FlexmiResource>();
+			for (Resource resourceSetResource : resource.getResourceSet().getResources()) {
+				if (resourceSetResource instanceof FlexmiResource) flexmiResources.add((FlexmiResource) resourceSetResource);
+			}
+			
+			for (FlexmiResource flexmiResource : flexmiResources) {
+				// Delete existing markers from all imported Flexmi resources
 				try {
-					for (IFile parsedFragmentFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(uri.toString()))) {
-						parsedFragmentFile.deleteMarkers(markerType, true, IResource.DEPTH_INFINITE);
+					for (IFile flexmiFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(flexmiResource.getURI().toString()))) {
+						flexmiFile.deleteMarkers(markerType, true, IResource.DEPTH_INFINITE);
 					}
+				} catch (URISyntaxException e) {}		
+			
+				// Delete existing markers from all included Flexmi resources
+				for (URI uri : flexmiResource.getParsedFragmentURIs()) {
+					try {
+						for (IFile parsedFragmentFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(uri.toString()))) {
+							parsedFragmentFile.deleteMarkers(markerType, true, IResource.DEPTH_INFINITE);
+						}
+					}
+					catch (Exception ex) {}
 				}
-				catch (Exception ex) {}
 			}
 			
 			if (parseException != null) {
 				createMarker(parseException.getMessage(), parseException.getLineNumber(), true, file, markerType);
 			}
 			else {
-				for (Resource.Diagnostic warning : resource.getWarnings()) {
-					try {
-						for (IFile markerFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(warning.getLocation()))) {
-							createMarker(warning.getMessage(), warning.getLine(), false, markerFile, markerType);
-						}
-					} catch (URISyntaxException e) {}
-				}
 				
-				for (Diagnostic diagnostic : EmfUtil.validate(resource).getChildren()) {
+				for (FlexmiResource flexmiResource : flexmiResources) {
 					
-					if (diagnostic.getSeverity() == Diagnostic.INFO) continue;
+					// Create warnings for e.g. unresolvable references, incompatible attribute types
+					for (Resource.Diagnostic warning : flexmiResource.getWarnings()) {
+						try {
+							for (IFile markerFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(warning.getLocation()))) {
+								createMarker(warning.getMessage(), warning.getLine(), false, markerFile, markerType);
+							}
+						} catch (URISyntaxException e) {}
+					}
 					
-					for (Object data : diagnostic.getData()) {
-						if (data instanceof EObject) {
-							EObjectLocation location = resource.getEObjectTraceManager().getLine((EObject) data);
-							if (location != null) {
-								try {
-									for (IFile markerFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(location.getUri().toString()))) {
-										createMarker(diagnostic.getMessage(), location.getLine(), diagnostic.getSeverity() == Diagnostic.ERROR, markerFile, markerType);
-									}
-								} catch (URISyntaxException e) {}
+					// Create markers for metamodel conformance issues
+					for (Diagnostic diagnostic : EmfUtil.validate(flexmiResource).getChildren()) {
+						
+						if (diagnostic.getSeverity() == Diagnostic.INFO) continue;
+						
+						for (Object data : diagnostic.getData()) {
+							if (data instanceof EObject) {
+								EObjectLocation location = flexmiResource.getEObjectTraceManager().getLine((EObject) data);
+								if (location != null) {
+									try {
+										for (IFile markerFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(location.getUri().toString()))) {
+											createMarker(diagnostic.getMessage(), location.getLine(), diagnostic.getSeverity() == Diagnostic.ERROR, markerFile, markerType);
+										}
+									} catch (URISyntaxException e) {}
+								}
 							}
 						}
 					}
 				}
-				
 				outlinePage.setResourceSet(resourceSet);
 			}
 			
