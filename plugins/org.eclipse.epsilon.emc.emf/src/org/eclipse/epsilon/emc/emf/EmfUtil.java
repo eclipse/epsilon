@@ -18,6 +18,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -33,6 +37,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
@@ -455,4 +460,25 @@ public class EmfUtil {
 		if (useUriForResource)
 			metamodel.setURI(URI.createURI(p.getNsURI()));
 	}
+	
+	public static Diagnostic validate(Resource resource) {
+		return validate(resource, new BasicDiagnostic());
+	}
+	
+	public static Diagnostic validate(ResourceSet resourceSet) {
+		BasicDiagnostic diagnostic = new BasicDiagnostic();
+		for (Resource resource : resourceSet.getResources()) {
+			validate(resource, diagnostic);
+		}
+		return diagnostic;
+	}
+	
+	protected static Diagnostic validate(Resource resource, BasicDiagnostic diagnostic) {
+		Diagnostician diagnostician = new Diagnostician();
+		for (EObject o : resource.getContents()) {
+			diagnostician.validate(o, diagnostic);
+		}
+		return diagnostic;
+	}
+	
 }

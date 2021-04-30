@@ -24,13 +24,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
+import org.eclipse.epsilon.flexmi.EObjectLocation;
 import org.eclipse.epsilon.flexmi.FlexmiParseException;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
@@ -241,13 +245,32 @@ public class FlexmiEditor extends TextEditor {
 				createMarker(parseException.getMessage(), parseException.getLineNumber(), true, file, markerType);
 			}
 			else {
-				for (Diagnostic warning : resource.getWarnings()) {
+				for (Resource.Diagnostic warning : resource.getWarnings()) {
 					try {
-						for (IFile warningFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(warning.getLocation()))) {
-							createMarker(warning.getMessage(), warning.getLine(), false, warningFile, markerType);
+						for (IFile markerFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(warning.getLocation()))) {
+							createMarker(warning.getMessage(), warning.getLine(), false, markerFile, markerType);
 						}
 					} catch (URISyntaxException e) {}
 				}
+				
+				for (Diagnostic diagnostic : EmfUtil.validate(resource).getChildren()) {
+					
+					if (diagnostic.getSeverity() == Diagnostic.INFO) continue;
+					
+					for (Object data : diagnostic.getData()) {
+						if (data instanceof EObject) {
+							EObjectLocation location = resource.getEObjectTraceManager().getLine((EObject) data);
+							if (location != null) {
+								try {
+									for (IFile markerFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(location.getUri().toString()))) {
+										createMarker(diagnostic.getMessage(), location.getLine(), diagnostic.getSeverity() == Diagnostic.ERROR, markerFile, markerType);
+									}
+								} catch (URISyntaxException e) {}
+							}
+						}
+					}
+				}
+				
 				outlinePage.setResourceSet(resourceSet);
 			}
 			
