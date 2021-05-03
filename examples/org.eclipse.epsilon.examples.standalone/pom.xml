@@ -70,6 +70,12 @@
   		<version>${epsilon.version}</version>
   		<scope>${epsilon.scope}</scope>
   	</dependency>
+  	<dependency>
+  		<groupId>org.eclipse.epsilon</groupId>
+  		<artifactId>org.eclipse.epsilon.flock.engine</artifactId>
+  		<version>${epsilon.version}</version>
+  		<scope>${epsilon.scope}</scope>
+  	</dependency>
   </dependencies>
 
 </project>
