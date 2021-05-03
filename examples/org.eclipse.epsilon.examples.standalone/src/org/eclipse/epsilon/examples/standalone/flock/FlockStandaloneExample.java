@@ -31,8 +31,7 @@ public class FlockStandaloneExample {
 		migrated.setModelFile(modelsRoot.resolve("Tree.migrated.xmi").toAbsolutePath().toString().replace("/target/classes/", "/src/"));
 		migrated.load();
 		
-		System.out.println(migrated.getModelFile());
-		
+		// Run the migration transformation
 		FlockModule module = new FlockModule();
 		module.parse(root.resolve("tree2tree.mig"));
 		module.getContext().getModelRepository().addModel(original);
