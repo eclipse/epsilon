@@ -284,7 +284,7 @@ public class FlexmiEditor extends TextEditor {
 								if (location != null) {
 									try {
 										for (IFile markerFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(location.getUri().toString()))) {
-											createMarker(diagnostic.getMessage(), location.getLine(), diagnostic.getSeverity() == Diagnostic.ERROR, markerFile, markerType);
+											createMarker(diagnostic.getMessage(), location.getLine(), false /*diagnostic.getSeverity() == Diagnostic.ERROR*/, markerFile, markerType);
 										}
 									} catch (URISyntaxException e) {}
 								}
