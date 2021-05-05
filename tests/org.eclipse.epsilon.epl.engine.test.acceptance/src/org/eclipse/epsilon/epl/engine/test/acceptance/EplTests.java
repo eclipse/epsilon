@@ -13,15 +13,16 @@ package org.eclipse.epsilon.epl.engine.test.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
@@ -29,7 +30,6 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.dom.NoMatch;
 import org.eclipse.epsilon.epl.execute.PatternMatch;
@@ -203,6 +203,7 @@ public class EplTests {
 	public void testCountMatches() throws Exception {
 		PatternMatchModel m = testRepeatWhileMatches("pattern P t : t_tree { onmatch { counter.increment(); } }", "<tree><tree/></tree>", 1, 2);
 		assertEquals(2, m.getAllOfType("P").size());
+		assertEquals(2, m.getMatches().size());
 	}
 	
 	public PatternMatchModel testRepeatWhileMatches(String epl, int maxLoops, int expectedLoops) throws Exception {
