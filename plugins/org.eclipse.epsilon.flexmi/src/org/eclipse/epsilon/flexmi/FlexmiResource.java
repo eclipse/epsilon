@@ -599,6 +599,15 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			}
 		}
 		
+		// If the EObject's EClass has a "text" String attribute and the attribute is unset
+		EStructuralFeature textFeature = eObject.eClass().getEStructuralFeature("text");
+		if (textFeature instanceof EAttribute && !eObject.eIsSet(textFeature)) {
+			if (element.getChildNodes().getLength() == 1 && element.getFirstChild() instanceof Text) {
+				eObject.eSet(textFeature, element.getTextContent().trim());
+				eObjectTraceManager.trace(eObject, getCurrentURI(), getLineNumber(element));
+			}
+		}
+		
 	}
 	
 	public URI getCurrentURI() {

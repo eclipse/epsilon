@@ -43,6 +43,11 @@ public class CompsTests extends FlexmiTests {
 		assertEval("Component.all.first().outPorts.first().eClass().name", "Port", "comps/in-out.flexmi");
 	}
 	
+	@Test
+	public void testText() throws Exception {
+		assertEval("Component.all.first().text", "text", "comps/text.flexmi");
+	}
+	
 	@Before
 	public void setup() throws Exception {
 		super.setup();
