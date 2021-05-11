@@ -23,8 +23,8 @@ public class TemplateTests extends FlexmiTests {
 		FlexmiResource resource = loadResource("templates/model-with-template.flexmi");
 		assertEquals(0, resource.getWarnings().size());
 		assertEquals(3, resource.getTemplates().size());
-		assertEquals("t1", resource.getTemplates().get(0).getName());
-		assertEquals("p", resource.getTemplates().get(0).getParameters().get(0).getName());
+		assertTrue(resource.getTemplate("t1") != null);
+		assertEquals("p", resource.getTemplate("t1").getParameters().get(0).getName());
 	}
 	
 	@Test

@@ -63,7 +63,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected StringSimilarityProvider stringSimilarityProvider = new CachedStringSimilarityProvider(new DefaultStringSimilarityProvider());
 	protected Stack<URI> parsedFragmentURIStack = new Stack<>();
 	protected Set<URI> parsedFragmentURIs = new HashSet<>();
-	protected List<Template> templates = new ArrayList<>();
+	protected Map<String, Template> templates = new HashMap<>();
 	protected BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
 	protected Map<EObject, String> localIDs = new HashMap<>();
 	protected FrameStack frameStack = new FrameStack();
@@ -86,19 +86,18 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		return parsedFragmentURIs;
 	}
 	
-	public List<Template> getTemplates() {
-		return templates;
+	public void addTemplate(Template template) {
+		templates.put(template.getName(), template);
 	}
 	
-	public Template getTemplate(String name) {
-		for (Template template : templates) {
-			if (template.getName().equals(name)) {
-				return template;
-			}
-		}
-		return null;
+	public Template getTemplate(String templateName) {
+		return templates.get(templateName);
 	}
 	
+	public Collection<Template> getTemplates() {
+		return templates.values();
+	}
+
 	public static void main(String[] args) throws Exception {
 		
 		// Load the metamodel
@@ -799,5 +798,5 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		if (importedFrom == null) return this;
 		else return importedFrom.getRootResource();
 	}
-	
+
 }
