@@ -9,13 +9,13 @@ InterimVersion=interim
 NewVersion=2.4
 OldVersion=2.3
 InterimJavadocs=$InterimVersion-$JavadocsName
-Javadocs=$StableName/$JavadocsName
+StableJavadocs=$StableName-$JavadocsName
 
 echo "Moving $OldVersion..." &&
-mkdir -p $Archives/$OldVersion &&
+mkdir -p $Archives/$OldVersion/$JavadocsName &&
 cp -r $Downloads/$UpdatesName/$OldVersion/* $Archives/$OldVersion &&
-mv $Downloads/$Stable/* $Archives/$OldVersion &&
-rm -rf $Downloads/$Javadocs &&
+mv $Downloads/$StableJavadocs/* $Archives/$OldVersion/$JavadocsName &&
+rm -rf $Downloads/$StableJavadocs &&
 cd $Downloads &&
 echo "Copying update site..." &&
 mkdir -p $UpdatesName/$NewVersion &&
@@ -25,9 +25,9 @@ if [ -e $UpdatesName/$NewVersion/epsilon-${InterimVersion}-site.zip ]; then
   mv $UpdatesName/$NewVersion/epsilon-${InterimVersion}-site.zip $UpdatesName/$NewVersion/epsilon-${NewVersion}-site.zip
 fi &&
 echo "Copying $JavadocsName..." &&
-mkdir -p $Javadocs &&
-cp -r $InterimJavadocs/* $Javadocs &&
-rm -rf $Javadocs/$InterimJavadocs &&
+mkdir -p $StableJavadocs &&
+cp -r $InterimJavadocs/* $StableJavadocs &&
+rm -rf $StableJavadocs/$InterimJavadocs &&
 echo "Adding $NewVersion to composite..." &&
 cd $Downloads/$UpdatesName &&
 ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
