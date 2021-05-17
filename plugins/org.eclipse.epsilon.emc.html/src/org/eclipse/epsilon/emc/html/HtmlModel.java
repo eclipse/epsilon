@@ -70,6 +70,14 @@ public class HtmlModel extends CachedModel<Element> {
 		this.uri = uri;
 	}
 	
+	public void setFile(File file) {
+		this.file = file;
+	}
+	
+	public File getFile() {
+		return file;
+	}
+	
 	@Override
 	public boolean isLoaded() {
 		return file != null;
