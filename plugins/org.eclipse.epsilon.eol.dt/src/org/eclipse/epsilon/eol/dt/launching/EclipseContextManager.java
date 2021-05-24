@@ -77,16 +77,17 @@ public class EclipseContextManager {
 		setup(context);
 	}
 	
-	public static void setup(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor, ILaunch launch) throws EolRuntimeException {
+	public static void setup(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor, ILaunch launch) throws Exception {
 		setup(context, configuration, progressMonitor, launch, true);
 	}
 	
-	public static void setup(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor, ILaunch launch, boolean loadModels) throws EolRuntimeException {
+	public static void setup(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor, ILaunch launch, boolean loadModels) throws Exception {
+		loadParameters(context, configuration);
+		setup(context, progressMonitor);
 		if (loadModels) {
 			loadModels(context,configuration,progressMonitor);
 		}
-		loadParameters(context, configuration);
-		setup(context, progressMonitor);
+		
 	}
 	
 	private static void loadIo(IEolContext context) {
@@ -149,7 +150,7 @@ public class EclipseContextManager {
 		
 	}
 	
-	private static void loadModels(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor) {
+	private static void loadModels(IEolContext context, ILaunchConfiguration configuration, IProgressMonitor progressMonitor) throws Exception {
 		String subtask = "Loading models";
 		progressMonitor.subTask(subtask);
 		progressMonitor.beginTask(subtask, 100);
@@ -168,27 +169,22 @@ public class EclipseContextManager {
 			properties.load(modelDescriptor);
 			
 			IModel model = null;
-
-			try {
-				model = ModelTypeExtension.forType(properties.getProperty("type")).createModel();
-				model.load(properties, relativePath -> {
-					try {
-						IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(relativePath));
-						if (file != null) { 
-							return file.getLocation().toOSString(); 
-						}
+			
+			model = ModelTypeExtension.forType(properties.getProperty("type")).createModel();
+			model.load(properties, relativePath -> {
+				try {
+					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(relativePath));
+					if (file != null) { 
+						return file.getLocation().toOSString(); 
 					}
-					catch (Exception ex) { LogUtil.log("Error while resolving absolute path for " + relativePath, ex); }
-					
-					return EclipseUtil.getWorkspacePath() + relativePath;
-				});
+				}
+				catch (Exception ex) { LogUtil.log("Error while resolving absolute path for " + relativePath, ex); }
 				
-				context.getModelRepository().addModel(model);
-			}
-			catch (Exception e) {
-				EpsilonConsole.getInstance().getErrorStream().print(e.toString());
-				LogUtil.log(e);
-			}
+				return EclipseUtil.getWorkspacePath() + relativePath;
+			});
+			
+			context.getModelRepository().addModel(model);
+			
 		}
 		
 		progressMonitor.done();		

@@ -20,5 +20,10 @@ public class EolModelLoadingException extends EolInternalException {
 		super(internal);
 		this.model = model;
 	}
-
+	
+	@Override
+	public String getReason() {
+		return "Error whilst loading model " + model.getName() + ": " + super.getReason();
+	}
+	
 }

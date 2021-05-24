@@ -20,6 +20,8 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -594,6 +596,32 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		}
 		
 		return null;
+	}
+	
+	public void validate() throws EolModelLoadingException {
+		List<Resource> resources = new ArrayList<>();
+		if (modelImpl != null) {
+			if (modelImpl.getResourceSet() != null) resources.addAll(modelImpl.getResourceSet().getResources());
+			else resources.add(modelImpl);
+		}
+		
+		for (Resource resource : modelImpl.getResourceSet().getResources()) {
+			// Report errors/warnings in the resources' getErrors() / getWarnings()
+			if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
+				List<Resource.Diagnostic> resourceDiagnostics = new ArrayList<>();
+				resourceDiagnostics.addAll(resource.getErrors());
+				resourceDiagnostics.addAll(resource.getWarnings());
+				Resource.Diagnostic diagnostic = resourceDiagnostics.get(0);
+				throw new EolModelLoadingException(new Exception(diagnostic.getMessage() + " (" + diagnostic.getLocation() + "@" + diagnostic.getLine() + ")"), this);
+			}
+		
+			// Validate using EMF's validators
+			List<Diagnostic> diagnostics = EmfUtil.validate(resource).getChildren().stream().filter(d -> d.getSeverity() != Diagnostic.INFO).collect(Collectors.toList());
+			if (!diagnostics.isEmpty()) {
+				Diagnostic diagnostic = diagnostics.get(0);
+				throw new EolModelLoadingException(new Exception(diagnostic.getMessage()), this);
+			}
+		}
 	}
 	
 	public boolean isExpand() {

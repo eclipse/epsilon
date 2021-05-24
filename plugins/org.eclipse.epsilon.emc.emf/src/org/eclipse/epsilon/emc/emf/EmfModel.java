@@ -102,6 +102,15 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	 */
 	public static final String PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS = "reuseUnmodifiedFileBasedMetamodels";
 
+	/**
+	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
+	 * 
+	 * This key is a Boolean value that if set to <code>true</code>
+	 * it triggers validation of all the resources in the model's
+	 * resource set after loading (default is <code>false</code>)
+	 */
+	public static final String PROPERTY_VALIDATE = "validate";
+	
 	protected List<URI> metamodelUris = new ArrayList<>();
 	protected List<EPackage> packages;
 	
@@ -114,7 +123,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	protected URI modelUri;
 	protected List<URI> metamodelFileUris = new ArrayList<>();
 	protected boolean useExtendedMetadata = false;
-
+	protected boolean validate = false;
+	
 	protected boolean reuseUnmodifiedFileBasedMetamodels = true;
 	protected static Map<String, List<EPackage>> fileBasedMetamodels = new HashMap<>();
 	protected static Map<String, Long> fileBasedMetamodelTimestamps = new HashMap<>();
@@ -169,6 +179,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		this.metamodelUris = toURIList(properties.getProperty(PROPERTY_METAMODEL_URI));
 		setMetamodelFileUris(toURIList(properties.getProperty(PROPERTY_FILE_BASED_METAMODEL_URI)));
 		setReuseUnmodifiedFileBasedMetamodels(properties.getBooleanProperty(PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, reuseUnmodifiedFileBasedMetamodels));
+		setValidate(properties.getBooleanProperty(PROPERTY_VALIDATE, false));
 		
 		load();
 	}
@@ -176,6 +187,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
 		loadModelFromUri();
+		if (validate) validate();
 		setupContainmentChangeListeners();
 	}
 
@@ -688,5 +700,13 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public boolean isValidate() {
+		return validate;
+	}
+	
+	public void setValidate(boolean validate) {
+		this.validate = validate;
 	}
 }

@@ -111,6 +111,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	private final static String PROPERTY_METAMODEL_FILE = EmfModel.PROPERTY_METAMODEL_FILE;
 
 	protected Button expandButton;
+	protected Button validateButton;
 	private Text modelFileText;
 	private TableViewer metamodelList;
 
@@ -161,6 +162,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			}
 		}
 		expandButton.setSelection(new Boolean(properties.getProperty(EmfModel.PROPERTY_EXPAND)).booleanValue());
+		validateButton.setSelection(new Boolean(properties.getProperty(EmfModel.PROPERTY_VALIDATE, "false")).booleanValue());
 
 		metamodelList.refresh();
 	}
@@ -206,6 +208,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		// Persist values that are used directly to construct an instance of EmfModel (legacy - only one metamodel was supported)
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, sbURIMetamodels.toString());
 		properties.put(EmfModel.PROPERTY_EXPAND, expandButton.getSelection() + "");
+		properties.put(EmfModel.PROPERTY_VALIDATE, validateButton.getSelection() + "");
 		properties.put(PROPERTY_IS_METAMODEL_FILE_BASED, "".equals(sbURIMetamodels.toString()));
 
 		// Create and persist URI values that are needed to construct an instance of EmfModel
@@ -221,7 +224,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		expandButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandButton.setText("Include external references");
 		expandButton.setSelection(true);
-	
+		
 		GridData expandButtonData = new GridData();
 		expandButtonData.horizontalSpan = 2;
 		expandButton.setLayoutData(expandButtonData);
@@ -234,6 +237,15 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		GridData reuseUnmodifiedFileBasedMetamodelsButtonData = new GridData();
 		reuseUnmodifiedFileBasedMetamodelsButtonData.horizontalSpan = 2;
 		reuseUnmodifiedFileBasedMetamodelsButton.setLayoutData(reuseUnmodifiedFileBasedMetamodelsButtonData);
+
+		validateButton = new Button(groupContent, SWT.CHECK);
+		validateButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		validateButton.setText("Validate model");
+		validateButton.setSelection(false);
+		
+		GridData validateButtonData = new GridData();
+		validateButtonData.horizontalSpan = 2;
+		validateButton.setLayoutData(validateButtonData);
 		
 		groupContent.layout();
 		groupContent.pack();

@@ -34,6 +34,7 @@ public class LoadEmfModelTask extends AbstractLoadModelTask {
 	protected boolean reuseUnmodifiedMetamodelFile = true;
 	protected boolean cached = true;
 	protected boolean concurrent = false;
+	protected boolean validate = false;
 	
 	@Override
 	public IModel loadModel() throws BuildException {
@@ -50,6 +51,7 @@ public class LoadEmfModelTask extends AbstractLoadModelTask {
 		properties.put(EmfModel.PROPERTY_CACHED, cached + "");
 		properties.put(EmfModel.PROPERTY_CONCURRENT, concurrent + "");
 		properties.put(EmfModel.PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, reuseUnmodifiedMetamodelFile + "");
+		properties.put(EmfModel.PROPERTY_VALIDATE, validate + "");
 		
 		if (metamodelUri != null) {
 			properties.put(EmfModel.PROPERTY_METAMODEL_URI, EmfUtil.createUri(metamodelUri));
@@ -187,6 +189,14 @@ public class LoadEmfModelTask extends AbstractLoadModelTask {
 	 */
 	public void setConcurrent(boolean concurrent) {
 		this.concurrent = concurrent;
+	}
+	
+	public void setValidate(boolean validate) {
+		this.validate = validate;
+	}
+	
+	public boolean isValidate() {
+		return validate;
 	}
 }
  
