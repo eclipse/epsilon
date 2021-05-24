@@ -260,6 +260,11 @@ public class TransformationRule extends ExtensibleNamedRule {
 			&& appliesTo(instance, context, false);
 	}
 	
+	public void accept(IEtlVisitor visitor) {
+		visitor.visit(this);
+	}
+
+	
 	public void dispose() {
 		rejected = null;
 		transformedElements = null;
