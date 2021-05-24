@@ -14,7 +14,6 @@ import java.util.Collection;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -57,11 +56,6 @@ public class DeleteStatement extends Statement {
 	
 	public void setExpression(Expression expression) {
 		this.expression = expression;
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		expression.compile(context);
 	}
 	
 	public void accept(IEolVisitor visitor) {

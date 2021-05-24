@@ -32,11 +32,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
+import org.eclipse.epsilon.eol.m3.Metamodel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 

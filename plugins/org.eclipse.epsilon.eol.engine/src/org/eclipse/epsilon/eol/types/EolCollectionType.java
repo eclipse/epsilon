@@ -222,5 +222,22 @@ public class EolCollectionType extends EolType {
 	@Override
 	public String toString() {
 		return this.getName() + "<" + this.getContentType() + ">";
-	}	
+	}
+	
+	/*
+	If A is a sub-type of B, then the parent types of Sequence(A) are:
+		- Collection(A)
+		- Sequence(B) [This is not supported yet by the implementation below]
+	 */
+	@Override
+	public EolType getParentType() {
+		if (this.isBag() || this.isSet() || this.isOrderedSet() || this.isSequence())
+			return new EolCollectionType("Collection", this.getContentType());
+		else {
+			if (!(this.getContentType() instanceof EolAnyType))
+				return new EolCollectionType("Collection", EolAnyType.Instance);
+			else
+				return EolAnyType.Instance;
+		}
+	}
 }

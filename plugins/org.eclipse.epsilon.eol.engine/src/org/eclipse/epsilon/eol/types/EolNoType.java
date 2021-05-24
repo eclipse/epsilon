@@ -45,5 +45,10 @@ public class EolNoType extends EolType {
 	}
 	
 	public static class EolNoTypeInstance{}
+
+	@Override
+	public EolType getParentType() {
+		return null;
+	}
 	
 }

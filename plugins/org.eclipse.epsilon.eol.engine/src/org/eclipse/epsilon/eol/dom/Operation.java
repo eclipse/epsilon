@@ -12,12 +12,12 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.WeakHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -31,7 +31,7 @@ import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class Operation extends AnnotatableModuleElement implements ICompilableModuleElement {
+public class Operation extends AnnotatableModuleElement {
 	
 	protected NameExpression nameExpression;
 	protected TypeExpression contextTypeExpression;
@@ -108,22 +108,6 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		if ((isCached = hasAnnotation("cached") && formalParameters.isEmpty()) == true) {
 			this.cache = Collections.synchronizedMap(new WeakHashMap<>());
 		}
-	}
-
-	@Override
-	public void compile(IEolCompilationContext context) {
-		EolType contextType = EolNoType.Instance;
-		if (contextTypeExpression != null) {
-			contextTypeExpression.compile(context);
-			contextType = contextTypeExpression.getCompilationType();
-		}
-		
-		context.getFrameStack().enterLocal(FrameType.PROTECTED, this, new Variable("self", contextType));
-		for (Parameter parameter : formalParameters) {
-			parameter.compile(context);
-		}
-		body.compile(context);
-		context.getFrameStack().leaveLocal(this);
 	}
 	
 	public void clearCache() {

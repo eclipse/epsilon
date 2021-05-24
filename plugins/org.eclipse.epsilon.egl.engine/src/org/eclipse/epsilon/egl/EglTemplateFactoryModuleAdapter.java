@@ -23,14 +23,12 @@ import java.util.Set;
 import org.eclipse.epsilon.common.module.Comment;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.OperationList;
@@ -123,12 +121,6 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	}
 	
 	@Override
-	public List<ModuleMarker> compile() {
-		if (current == null) return null;
-		return current.module.compile();
-	}
-	
-	@Override
 	public void reset() {
 		current = null;
 	}
@@ -196,12 +188,6 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 			templateFactory.setContext((IEglContext) context);
 			if (current != null) current.module.setContext(context);
 		}
-	}
-
-	@Override
-	public IEolCompilationContext getCompilationContext() {
-		if (current == null) return null;
-		return current.module.getCompilationContext();
 	}
 
 	@Override

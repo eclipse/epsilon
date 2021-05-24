@@ -10,10 +10,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.module.ModuleMarker;
-import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
@@ -24,7 +21,6 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public class WhileStatement extends Statement {
 	
@@ -94,20 +90,6 @@ public class WhileStatement extends Statement {
 		}
 		
 		return null;
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		FrameStack frameStack = context.getFrameStack();
-		conditionExpression.compile(context);
-		
-		frameStack.enterLocal(FrameType.UNPROTECTED, bodyStatementBlock);
-		bodyStatementBlock.compile(context);
-		frameStack.leaveLocal(bodyStatementBlock);
-		
-		if (conditionExpression.hasResolvedType() && conditionExpression.getResolvedType() != EolPrimitiveType.Boolean) {
-			context.getMarkers().add(new ModuleMarker(conditionExpression, "Condition must be a Boolean", Severity.Error));
-		}		
 	}
 
 	public Expression getConditionExpression() {

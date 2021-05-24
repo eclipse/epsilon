@@ -14,15 +14,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.compile.m3.MetaClass;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.m3.MetaClass;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.models.ModelRepository.AmbiguityCheckResult;
@@ -257,5 +259,14 @@ public class EolModelElementType extends EolType {
 		eq = eq && Objects.equals(this.module, eme.module);
 		
 		return eq;
+	}
+
+	@Override
+	public List<EolType> getParentTypes() {
+		if (this.metaClass != null && !this.metaClass.getSuperTypes().isEmpty()) {
+			return this.metaClass.getSuperTypes().stream().map(s -> new EolModelElementType(s)).collect(Collectors.toList());
+		} else {
+			return super.getParentTypes();
+		}
 	}
 }

@@ -14,9 +14,6 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
-import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public abstract class OperatorExpression extends Expression {
 
@@ -37,36 +34,6 @@ public abstract class OperatorExpression extends Expression {
 		this.firstOperand = (Expression) module.createAst(cst.getFirstChild(), this);
 		this.secondOperand = (Expression) module.createAst(cst.getSecondChild(), this);
 		this.operator = cst.getText();
-	}
-		
-	@Override
-	public void compile(IEolCompilationContext context) {
-		firstOperand.compile(context);
-		if (secondOperand != null) secondOperand.compile(context);
-		
-		if (StringUtil.isOneOf(operator, "and", "or", "xor", "not", "implies")) {
-			for (Expression operand : getOperands()) {
-				if (operand.hasResolvedType() && operand.getResolvedType() != EolPrimitiveType.Boolean) {
-					context.addErrorMarker(operand, "Boolean expected instead of " + operand.getResolvedType());
-				}
-			}
-			resolvedType = EolPrimitiveType.Boolean;
-		}
-		
-		if (StringUtil.isOneOf(operator, "<", ">", ">=", "<=", "*", "/", "-")) {
-			for (Expression operand : getOperands()) {
-				if (operand.hasResolvedType() && 
-						operand.getResolvedType() != EolPrimitiveType.Integer 
-						&& operand.getResolvedType() != EolPrimitiveType.Real) {
-					
-					context.addErrorMarker(operand, "Number expected instead of " + operand.getResolvedType());
-				}
-			}
-		}
-		
-		if (StringUtil.isOneOf(operator, "==", "=", "<>", "<", ">", ">=", "<=")) {
-			resolvedType = EolPrimitiveType.Boolean;
-		}	
 	}
 	
 	public List<Expression> getOperands() {

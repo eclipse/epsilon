@@ -13,7 +13,7 @@ import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public abstract class Annotation extends AbstractModuleElement implements ICompilableModuleElement {
+public abstract class Annotation extends AbstractModuleElement {
 	
 	protected String name;
 	

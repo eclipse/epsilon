@@ -9,14 +9,14 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.dom;
 
-import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -97,11 +97,6 @@ public class MapLiteralExpression<K, V> extends LiteralExpression<Map<K, V>> {
 	 */
 	public boolean isTuple() {
 		return "Tuple".equals(mapName);
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub
 	}
 	
 	public String getMapName() {

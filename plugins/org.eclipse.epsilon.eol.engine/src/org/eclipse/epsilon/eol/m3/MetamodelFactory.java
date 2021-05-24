@@ -7,9 +7,8 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.eol.compile.m3;
+package org.eclipse.epsilon.eol.m3;
 
+public class MetamodelFactory {
 
-public class Reference extends StructuralFeature {
-	
 }

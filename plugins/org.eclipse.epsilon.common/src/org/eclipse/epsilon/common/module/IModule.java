@@ -53,9 +53,7 @@ public interface IModule extends ModuleElement {
 	boolean parse(String code, File file) throws Exception;
 	
 	boolean parse(URI uri) throws Exception;
-	
-	List<ModuleMarker> compile();
-	
+		
 	URI getSourceUri();
 
 	List<ParseProblem> getParseProblems();

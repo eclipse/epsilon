@@ -11,10 +11,10 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -76,51 +76,10 @@ public class TypeExpression extends Expression {
 		}
 	}
 	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		
-		for (TypeExpression typeExpression : parameterTypeExpressions) {
-			typeExpression.compile(context);
-		}
-		
-		if (type instanceof EolCollectionType) {
-			if (parameterTypeExpressions.size() == 1) {
-				((EolCollectionType) type).setContentType(parameterTypeExpressions.get(0).getCompilationType());
-			}
-			else if (parameterTypeExpressions.size() > 1) {
-				context.addErrorMarker(this, "Collection types can have at most one content type");
-			}
-		}
-		
-		if (type instanceof EolMapType) {
-			if (parameterTypeExpressions.size() == 2) {
-				((EolMapType) type).setKeyType(parameterTypeExpressions.get(0).getCompilationType());
-				((EolMapType) type).setValueType(parameterTypeExpressions.get(1).getCompilationType());
-			}
-			else if (parameterTypeExpressions.size() > 0) {
-				context.addErrorMarker(this, "Maps need two types: key-type and value-type");
-			}
-		}
-		
-		if (type == null) {
-			//TODO: Remove duplication between this and NameExpression
-			EolModelElementType modelElementType = context.getModelElementType(name);
-			if (modelElementType != null) {
-				type = modelElementType;
-				if (modelElementType.getMetaClass() == null && !context.getModelDeclarations().isEmpty()) {
-					context.addErrorMarker(this, "Unknown type " + name);
-				}
-			}
-			else {
-				context.addErrorMarker(this, "Undefined variable or type " + name);
-			}
-		}
-	}
-	
 	public String getName() {
 		return name;
 	}
-	
+		
 	/**
 	 * 
 	 * @param name
@@ -157,10 +116,6 @@ public class TypeExpression extends Expression {
 	
 	public void setName(String name) {
 		this.type = getType(this.name = name);
-	}
-	
-	public EolType getCompilationType() {
-		return type;
 	}
 	
 	@Override

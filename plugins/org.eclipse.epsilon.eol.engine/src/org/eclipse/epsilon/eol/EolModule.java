@@ -9,21 +9,69 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
-import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
-import org.eclipse.epsilon.eol.dom.*;
+import org.eclipse.epsilon.eol.dom.AbortStatement;
+import org.eclipse.epsilon.eol.dom.AnnotationBlock;
+import org.eclipse.epsilon.eol.dom.AssignmentStatement;
+import org.eclipse.epsilon.eol.dom.BooleanLiteral;
+import org.eclipse.epsilon.eol.dom.BreakStatement;
+import org.eclipse.epsilon.eol.dom.Case;
+import org.eclipse.epsilon.eol.dom.CollectionLiteralExpression;
+import org.eclipse.epsilon.eol.dom.ComplexOperationCallExpression;
+import org.eclipse.epsilon.eol.dom.ContinueStatement;
+import org.eclipse.epsilon.eol.dom.DeleteStatement;
+import org.eclipse.epsilon.eol.dom.EnumerationLiteralExpression;
+import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
+import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.ExpressionInBrackets;
+import org.eclipse.epsilon.eol.dom.ExpressionStatement;
+import org.eclipse.epsilon.eol.dom.FirstOrderOperationCallExpression;
+import org.eclipse.epsilon.eol.dom.ForStatement;
+import org.eclipse.epsilon.eol.dom.IfStatement;
+import org.eclipse.epsilon.eol.dom.Import;
+import org.eclipse.epsilon.eol.dom.IntegerLiteral;
+import org.eclipse.epsilon.eol.dom.ItemSelectorExpression;
+import org.eclipse.epsilon.eol.dom.MapLiteralExpression;
+import org.eclipse.epsilon.eol.dom.ModelDeclaration;
+import org.eclipse.epsilon.eol.dom.ModelDeclarationParameter;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.NewInstanceExpression;
+import org.eclipse.epsilon.eol.dom.Operation;
+import org.eclipse.epsilon.eol.dom.OperationCallExpression;
+import org.eclipse.epsilon.eol.dom.OperationList;
+import org.eclipse.epsilon.eol.dom.OperatorExpressionFactory;
+import org.eclipse.epsilon.eol.dom.Parameter;
+import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
+import org.eclipse.epsilon.eol.dom.RealLiteral;
+import org.eclipse.epsilon.eol.dom.ReturnStatement;
+import org.eclipse.epsilon.eol.dom.SimpleAnnotation;
+import org.eclipse.epsilon.eol.dom.SpecialAssignmentStatement;
+import org.eclipse.epsilon.eol.dom.Statement;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
+import org.eclipse.epsilon.eol.dom.StringLiteral;
+import org.eclipse.epsilon.eol.dom.SwitchStatement;
+import org.eclipse.epsilon.eol.dom.TernaryExpression;
+import org.eclipse.epsilon.eol.dom.ThrowStatement;
+import org.eclipse.epsilon.eol.dom.TransactionStatement;
+import org.eclipse.epsilon.eol.dom.TypeExpression;
+import org.eclipse.epsilon.eol.dom.VariableDeclaration;
+import org.eclipse.epsilon.eol.dom.WhileStatement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
@@ -43,7 +91,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 	protected OperationList operations = new OperationList();
 	protected List<ModelDeclaration> declaredModelDeclarations;
 	protected Set<ModelDeclaration> modelDeclarations;
-	protected IEolCompilationContext compilationContext;
 	private IEolModule parent;
 	
 	/**
@@ -287,16 +334,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 		importConfiguration.put("eol", EolModule.class);
 		return importConfiguration;
 	}
-	
-	@Override
-	public IEolCompilationContext getCompilationContext() {
-		if (compilationContext == null) {
-			compilationContext = new EolCompilationContext();
-			compilationContext.setModelDeclarations(getDeclaredModelDeclarations());
-		}
-		compilationContext.setRuntimeContext(getContext());
-		return compilationContext;
-	}
 
 	protected void prepareContext() throws EolRuntimeException {
 		IEolContext context = getContext();
@@ -437,21 +474,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 	public Object executeImpl() throws EolRuntimeException {
 		IEolContext context = getContext();
 		return Return.getValue(context.getExecutorFactory().execute(main, context));
-	}
-	
-	@Override
-	public List<ModuleMarker> compile() {
-		IEolCompilationContext context = getCompilationContext();
-		for (ModelDeclaration modelDeclaration : getDeclaredModelDeclarations()) {
-			modelDeclaration.compile(context);
-		}
-		for (Operation operation : getDeclaredOperations()) {
-			operation.compile(context);
-		}
-		if (main != null) {
-			main.compile(context);
-		}
-		return context.getMarkers();
 	}
 	
 	@Override

@@ -9,8 +9,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public abstract class EolType {
@@ -47,5 +50,15 @@ public abstract class EolType {
 		EolType eolType = (EolType) other;
 		
 		return Objects.equals(this.getName(), eolType.getName());
+	}
+	
+	public List<EolType> getParentTypes() {
+		EolType parentType = getParentType();
+		if (parentType == null) return Collections.emptyList();
+		else return Arrays.asList(parentType);
+	}
+	
+	protected EolType getParentType() {
+		return EolAnyType.Instance;
 	}
 }

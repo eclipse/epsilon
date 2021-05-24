@@ -12,10 +12,10 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -108,12 +108,6 @@ public class SwitchStatement extends Statement {
 		if (c == null) return null;
 		Object result = executorFactory.execute(c.getBody(), context);
 		return result instanceof Return ? (Return) result : null;
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public void accept(IEolVisitor visitor) {

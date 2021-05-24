@@ -7,10 +7,9 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.eol.compile.context;
+package org.eclipse.epsilon.eol.m3;
 
-public class MetamodelRepository {
-	
-	// protected HashMap<String, List<Metamodel>> cache = new HashMap<String, List<Metamodel>>();
+
+public class Reference extends StructuralFeature {
 	
 }

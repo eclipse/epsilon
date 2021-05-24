@@ -49,4 +49,9 @@ public class EolAnyType extends EolType {
 	public String toString() {
 		return getName();
 	}
+	
+	@Override
+	protected EolType getParentType() {
+		return null;
+	}
 }

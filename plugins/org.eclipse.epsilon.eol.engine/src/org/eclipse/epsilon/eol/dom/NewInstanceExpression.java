@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -42,15 +41,6 @@ public class NewInstanceExpression extends TypeInitialiser {
 			throw new EolRuntimeException("Expected type, found " + result, typeExpression);
 		}
 		return initialiseType((EolType) result, parameterExpressions, context, true);
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		typeExpression.compile(context);
-		for (Expression parameterExpression : parameterExpressions) {
-			parameterExpression.compile(context);
-		}
-		resolvedType = typeExpression.getResolvedType();
 	}
 	
 	public TypeExpression getTypeExpression() {

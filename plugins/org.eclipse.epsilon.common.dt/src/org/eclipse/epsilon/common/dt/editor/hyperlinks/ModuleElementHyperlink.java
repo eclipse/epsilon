@@ -14,15 +14,15 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 
-public class ASTHyperlink implements IHyperlink {
+public class ModuleElementHyperlink implements IHyperlink {
 
 	protected IRegion region;
-	protected ModuleElement targetAST;
+	protected ModuleElement target;
 	protected String label;
 	
-	public ASTHyperlink(IRegion region, ModuleElement targetAST, String label) {
+	public ModuleElementHyperlink(IRegion region, ModuleElement target, String label) {
 		this.region = region;
-		this.targetAST = targetAST;
+		this.target = target;
 		this.label = label;
 	}
 	
@@ -43,7 +43,7 @@ public class ASTHyperlink implements IHyperlink {
 
 	@Override
 	public void open() {
-		EclipseUtil.openEditorAt(targetAST);
+		EclipseUtil.openEditorAt(target);
 	}
 	
 

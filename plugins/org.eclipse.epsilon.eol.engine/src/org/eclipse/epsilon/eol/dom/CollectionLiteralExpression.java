@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -141,10 +140,7 @@ public class CollectionLiteralExpression<T> extends LiteralExpression<Collection
 
 		return collection;
 	}
-
-	@Override
-	public void compile(IEolCompilationContext context) {}
-
+	
 	public String getCollectionType() {
 		return collectionType;
 	}

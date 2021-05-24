@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
@@ -94,27 +93,6 @@ public class NameExpression extends Expression {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		return execute(context, false);
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		Variable variable = context.getFrameStack().get(name);
-		if (variable != null) {
-			resolvedType = variable.getType();
-		}
-		else {
-			EolModelElementType modelElementType = context.getModelElementType(name);
-			if (modelElementType != null) {
-				resolvedType = modelElementType;
-				isTypeName = true;
-				if (modelElementType.getMetaClass() == null && !context.getModelDeclarations().isEmpty()) {
-					context.addErrorMarker(this, "Unknown type " + name);
-				}
-			}
-			else {
-				context.addErrorMarker(this, "Undefined variable or type " + name);
-			}
-		}
 	}
 	
 	public Variable getModelElementType(String name, IEolContext context) {

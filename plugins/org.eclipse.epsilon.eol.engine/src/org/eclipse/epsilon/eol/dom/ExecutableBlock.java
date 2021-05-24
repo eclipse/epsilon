@@ -10,10 +10,10 @@
 package org.eclipse.epsilon.eol.dom;
 
 import java.util.Collection;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -170,11 +170,6 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	
 	protected Class<? extends T> getExpectedResultClass() {
 		return expectedResultClass;
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		// TODO Auto-generated method stub
 	}
 	
 	public void accept(IEolVisitor visitor) {

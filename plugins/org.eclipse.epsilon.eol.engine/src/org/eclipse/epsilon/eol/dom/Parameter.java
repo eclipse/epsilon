@@ -12,14 +12,12 @@ package org.eclipse.epsilon.eol.dom;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class Parameter extends AbstractModuleElement implements ICompilableModuleElement {
+public class Parameter extends AbstractModuleElement {
 	
 	protected NameExpression nameExpression;
 	protected TypeExpression typeExpression;
@@ -95,21 +93,6 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	 */
 	public void clearCache() {
 		type = null;
-	}
-
-	@Override
-	public void compile(IEolCompilationContext context) {
-		compile(context, true);
-	}
-	
-	public void compile(IEolCompilationContext context, boolean createVariable) {
-		if (typeExpression != null) typeExpression.compile(context);
-		if (createVariable) context.getFrameStack().put(new Variable(getName(), getCompilationType()));
-	}
-	
-	public EolType getCompilationType() {
-		if (typeExpression != null) return typeExpression.getCompilationType();
-		else return EolAnyType.Instance;
 	}
 	
 	public boolean isExplicitlyTyped() {

@@ -43,8 +43,6 @@ import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
@@ -174,11 +172,17 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		// The list returned by Arrays.asList cannot be changed in size,
 		// as it is just a wrapper over the Java array. Therefore, any
 		// calls to add/remove will return an UnsupportedOperationException.
-		return new ArrayList<>(Arrays.asList("String", "Boolean", "Integer", "Real", "Any", "Map", "Collection", "Bag",
-				"Sequence", "Set", "OrderedSet", "Native", "List", "Tuple", "ConcurrentSet", "ConcurrentBag",
-				"ConcurrentMap"));
-	}
 
+		return new ArrayList<>(Arrays.asList(
+			"String", "Boolean", "Integer", "Real",
+			"Any", "Map", "Collection", "Bag", "Sequence",
+			"Set", "OrderedSet", "Native", "List", "Tuple",
+			"ConcurrentSet", "ConcurrentBag", "ConcurrentMap", 
+			"EolSelf", "EolSelfContentType", "EolSelfExpressionType", 
+			"EolSelfCollectionType")
+		);
+	}
+	
 	public abstract List<String> getKeywords();
 
 	public abstract List<String> getBuiltinVariables();
@@ -417,19 +421,12 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 				try {
 					if (EpsilonCommonsPlugin.getDefault().getPreferenceStore()
 							.getBoolean(EpsilonPreferencePage.ENABLE_STATIC_ANALYSIS)) {
-						if (module instanceof IEolModule) {
-							IEolCompilationContext compilationContext = ((IEolModule) module).getCompilationContext();
-							if (compilationContext != null)
-								compilationContext.setModelFactory(new ModelTypeExtensionFactory());
+						for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault()
+								.getExtensions()) {
+							String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEM_MARKER
+									: validator.getMarkerType());
+							createMarkers(validator.validate(module), doc, file, markerType);
 						}
-						createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEM_MARKER);
-					}
-
-					for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault()
-							.getExtensions()) {
-						String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEM_MARKER
-								: validator.getMarkerType());
-						createMarkers(validator.validate(module), doc, file, markerType);
 					}
 				} catch (Exception ex) {
 					LogUtil.log(ex);

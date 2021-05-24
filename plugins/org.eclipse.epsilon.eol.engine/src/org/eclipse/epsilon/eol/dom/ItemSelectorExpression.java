@@ -14,13 +14,9 @@ import java.util.Collection;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolType;
 
 public class ItemSelectorExpression extends Expression {
 
@@ -49,23 +45,6 @@ public class ItemSelectorExpression extends Expression {
 		//}
 		
 		throw new EolRuntimeException(expression + " is not a collection or a map.", targetExpression);
-		
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		targetExpression.compile(context);
-		indexExpression.compile(context);
-		
-		EolType targetExpressionType = targetExpression.getResolvedType();
-		if (targetExpressionType != EolAnyType.Instance) {
-			if (targetExpressionType instanceof EolCollectionType) {
-				resolvedType = ((EolCollectionType) targetExpressionType).getContentType();
-			}
-			else {
-				context.addErrorMarker(indexExpression, "[...] only applies to collections");
-			}
-		}
 		
 	}
 	

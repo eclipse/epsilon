@@ -11,21 +11,27 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolNullPointerException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.*;
+import org.eclipse.epsilon.eol.execute.operations.declarative.CollectBasedOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.DelegateBasedOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.FirstOrderOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectBasedOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.eol.types.*;
+import org.eclipse.epsilon.eol.types.EolModelElementType;
+import org.eclipse.epsilon.eol.types.EolNoType;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	
@@ -160,79 +166,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 			}
 		}
 	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		targetExpression.compile(context);
-		EolType contextType = null;
-		if (targetExpression.getResolvedType() instanceof EolCollectionType) {
-			contextType = ((EolCollectionType) targetExpression.getResolvedType()).getContentType();
-		}
-		else if (targetExpression.getResolvedType() == EolAnyType.Instance) {
-			contextType = targetExpression.getResolvedType();
-		}
 		
-		String name = nameExpression.getName();
-		if (name.startsWith("sequential")) name = name.substring(10);
-		else if (name.startsWith("parallel")) name = name.substring(8);
-		
-		if (contextType != null) {
-			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
-			Parameter parameter = parameters.get(0);
-			parameter.compile(context, false);
-			if (parameter.isExplicitlyTyped()) {
-				//TODO: Check that the type of the parameter is a subtype of the type of the collection
-				contextType = parameter.getCompilationType();
-			}
-			context.getFrameStack().put(parameter.getName(), contextType);
-			
-			Expression expression = expressions.get(0);
-			expression.compile(context);
-			
-			context.getFrameStack().leaveLocal(this);
-			
-			if (StringUtil.isOneOf(name, "select", "reject", "rejectOne", "closure", "sortBy")) {
-				resolvedType = new EolCollectionType("Sequence", contextType);
-			}
-			else if (name.equals("selectOne")) {
-				resolvedType = contextType;
-			}
-			else if (name.equals("collect")) {
-				resolvedType = new EolCollectionType("Sequence", expression.getResolvedType());
-			}
-			else if (StringUtil.isOneOf(name, "exists", "forAll", "one", "none", "nMatch, atLeastNMatch, atMostNMatch")) {
-				resolvedType = EolPrimitiveType.Boolean;
-			}
-			else if (name.equals("aggregate")) {
-				if (expressions.size() == 2) {
-					Expression valueExpression = expressions.get(1);
-					valueExpression.compile(context);
-					resolvedType = new EolMapType(expression.getResolvedType(), valueExpression.getResolvedType());
-				}
-				else {
-					context.addErrorMarker(nameExpression, "Aggregate requires a key and a value expression");
-				}
-			}
-			else if (name.equals("mapBy")) {
-				resolvedType = new EolMapType(expression.getResolvedType(), new EolCollectionType("Sequence", contextType));
-			}
-			else if (name.equals("sortBy")) {
-				resolvedType = new EolCollectionType("Sequence", contextType);
-			}
-			
-			if (StringUtil.isOneOf(name,
-				"select", "selectOne", "reject", "rejectOne", "exists", "one", "none", "forAll", "closure") &&
-				expression.getResolvedType().isNot(EolPrimitiveType.Boolean)) {
-					
-				context.addErrorMarker(expression, "Expression should return a Boolean but returns a " + expression.getResolvedType().getName() + " instead");
-			}
-			
-		}
-		else {
-			context.addErrorMarker(nameExpression, "Operation " + name + " only applies to collections");
-		}
-	}
-	
 	public List<Parameter> getParameters() {
 		return parameters;
 	}

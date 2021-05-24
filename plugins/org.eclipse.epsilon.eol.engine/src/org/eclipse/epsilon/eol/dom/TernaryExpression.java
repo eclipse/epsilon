@@ -11,12 +11,10 @@ package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTernaryException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 /**
  * Ternary operator, similar to Java's.
@@ -39,12 +37,6 @@ public class TernaryExpression extends OperatorExpression {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		this.thirdOperand = (Expression) module.createAst(cst.getFourthChild(), this);
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		super.compile(context);
-		firstOperand.resolvedType = EolPrimitiveType.Boolean;
 	}
 
 	@Override

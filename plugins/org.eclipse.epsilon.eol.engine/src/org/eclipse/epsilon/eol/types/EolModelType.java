@@ -18,18 +18,15 @@ public class EolModelType extends EolType {
 
 	public EolModelType() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean isType(Object o) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isKind(Object o) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -45,7 +42,6 @@ public class EolModelType extends EolType {
 	
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

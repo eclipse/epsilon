@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolAbortTransactionException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -20,9 +19,6 @@ public class AbortStatement extends Statement {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		throw new EolAbortTransactionException();
 	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {}
 	
 	public void accept(IEolVisitor visitor) {
 		visitor.visit(this);

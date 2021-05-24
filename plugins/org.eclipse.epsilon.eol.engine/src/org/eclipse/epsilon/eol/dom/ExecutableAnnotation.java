@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -47,11 +46,6 @@ public class ExecutableAnnotation extends Annotation implements IExecutableModul
 	
 	public void setExpression(Expression expression) {
 		this.expression = expression;
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		expression.compile(context);
 	}
 	
 	public void accept(IEolVisitor visitor) {

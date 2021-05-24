@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -38,10 +37,7 @@ public class SimpleAnnotation extends Annotation {
 			name = text;
 		}
 	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {}
-	
+		
 	@Override
 	public boolean hasValue() {
 		return getValue() != null;

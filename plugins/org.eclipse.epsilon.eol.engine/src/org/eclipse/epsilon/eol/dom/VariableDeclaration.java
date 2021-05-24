@@ -11,9 +11,9 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRedefinedVariableException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -81,26 +81,6 @@ public class VariableDeclaration extends TypeInitialiser {
 		variable = new Variable(getName(), newInstance, variableType);
 		frameStack.put(variable);
 		return variable;
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		EolType type;
-		
-		if (typeExpression != null) {
-			typeExpression.compile(context);
-			type = typeExpression.getCompilationType();
-		}
-		else {
-			type = EolAnyType.Instance;
-		}
-
-		if (context.getFrameStack().getTopFrame().contains(getName())) {
-			context.addErrorMarker(this, "Variable " + getName() + " has already been defined");
-		}
-		else {
-			context.getFrameStack().put(new Variable(getName(), type));
-		}
 	}
 	
 	public String getName() {

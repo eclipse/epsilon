@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -26,6 +25,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IWrapper;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
+import org.eclipse.epsilon.eol.m3.Metamodel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public class ModelReference implements IAdaptableModel, IWrapper, IOperationContributorProvider {

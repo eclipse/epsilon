@@ -11,8 +11,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
-import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public class StringLiteral extends LiteralExpression<String> {
 		
@@ -28,11 +26,6 @@ public class StringLiteral extends LiteralExpression<String> {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		value = unescape(cst.getText());
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		resolvedType = EolPrimitiveType.String;
 	}
 	
 	public String unescape(String str) {

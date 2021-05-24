@@ -11,8 +11,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
-import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public class BooleanLiteral extends LiteralExpression<Boolean> {
 	
@@ -33,11 +31,6 @@ public class BooleanLiteral extends LiteralExpression<Boolean> {
 		catch (Exception ex) {
 			value = false;
 		}
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		resolvedType = EolPrimitiveType.Boolean;
 	}
 	
 	public void accept(IEolVisitor visitor) {

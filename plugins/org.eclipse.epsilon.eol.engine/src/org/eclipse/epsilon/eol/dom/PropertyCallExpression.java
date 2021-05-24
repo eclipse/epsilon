@@ -13,18 +13,11 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
-import org.eclipse.epsilon.eol.compile.m3.MetaClass;
-import org.eclipse.epsilon.eol.compile.m3.StructuralFeature;
 import org.eclipse.epsilon.eol.exceptions.EolNullPointerException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolType;
 
 public class PropertyCallExpression extends FeatureCallExpression {
 	
@@ -80,68 +73,6 @@ public class PropertyCallExpression extends FeatureCallExpression {
 				eox.setAst(this);
 			}
 			throw eox;
-		}
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		targetExpression.compile(context);
-		
-		// Extended properties
-		if (nameExpression.getName().startsWith("~")) {
-			resolvedType = EolAnyType.Instance;
-		}
-		// e.g. EPackage.all
-		else if (targetExpression instanceof NameExpression && ((NameExpression) targetExpression).isTypeName()) {
-			if (((NameExpression) targetExpression).getResolvedType() instanceof EolModelElementType) {
-				if (nameExpression.getName().equals("all") || nameExpression.getName().equals("allInstances")) {
-					resolvedType = new EolCollectionType("Sequence", targetExpression.getResolvedType());
-				}
-			}
-		}
-		// Regular properties
-		else {
-			EolType type = targetExpression.getResolvedType();
-			
-			boolean many = false;
-			MetaClass metaClass = null;
-			if (type instanceof EolModelElementType && ((EolModelElementType) type).getMetaClass() != null) {
-				metaClass = ((EolModelElementType) type).getMetaClass();
-			}
-			else if (type instanceof EolCollectionType && ((EolCollectionType) type).getContentType() instanceof EolModelElementType) {
-				metaClass = ((EolModelElementType)((EolCollectionType) type).getContentType()).getMetaClass();
-				many = true;
-			}
-			
-			if (metaClass != null) {
-				StructuralFeature structuralFeature = metaClass.getStructuralFeature(nameExpression.getName());
-				if (structuralFeature != null) {
-					if (structuralFeature.isMany()) {
-						String collectionTypeName;
-						if (structuralFeature.isOrdered()) {
-							collectionTypeName = structuralFeature.isUnique() ? "OrderedSet" : "Sequence";
-						}
-						else {
-							collectionTypeName = structuralFeature.isUnique() ? "Set" : "Bag";
-							if (structuralFeature.isConcurrent()) {
-								collectionTypeName = "Concurrent"+collectionTypeName;
-							}
-						}
-						resolvedType = new EolCollectionType(collectionTypeName);
-						((EolCollectionType) resolvedType).setContentType(structuralFeature.getType());
-					}
-					else {
-						resolvedType = structuralFeature.getType();
-					}
-					if (many) {
-						resolvedType = new EolCollectionType("Sequence", resolvedType);
-					}
-				}
-				else {
-					context.addWarningMarker(nameExpression, "Structural feature " + nameExpression.getName() + " not found in type " + metaClass.getName());
-				}
-			}
-			
 		}
 	}
 	

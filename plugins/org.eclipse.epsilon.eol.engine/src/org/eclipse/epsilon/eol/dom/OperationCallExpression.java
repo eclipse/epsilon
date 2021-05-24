@@ -11,10 +11,10 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.compile.context.IEolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -203,14 +203,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 			if (objectMethod != null) {
 				objectMethod.close();
 			}
-		}
-	}
-	
-	@Override
-	public void compile(IEolCompilationContext context) {
-		if (targetExpression != null) targetExpression.compile(context);
-		for (Expression parameterExpression : parameterExpressions) {
-			parameterExpression.compile(context);
 		}
 	}
 	
