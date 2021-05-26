@@ -45,6 +45,8 @@ public abstract class EolType {
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) return true;
+		if (other == null) return false;
+		
 		if (this.getClass() != other.getClass()) return false;
 		
 		EolType eolType = (EolType) other;
