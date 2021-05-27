@@ -528,7 +528,7 @@ public class PictoView extends ViewPart {
 	
 	class ToggleVerbatimSourcesAction extends Action {
 		public ToggleVerbatimSourcesAction() {
-			super("Render verbatim sources", Action.AS_CHECK_BOX);
+			super("Render verbatim sources", AS_CHECK_BOX);
 			renderVerbatimSources = EpsilonCommonsPlugin.getDefault().getPreferenceStore().getBoolean(PictoPreferencePage.PROPERTY_RENDER_VERBATIM);
 			setChecked(renderVerbatimSources);
 		}
