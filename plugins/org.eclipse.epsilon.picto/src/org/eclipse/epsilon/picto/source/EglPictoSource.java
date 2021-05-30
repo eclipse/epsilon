@@ -90,8 +90,11 @@ public abstract class EglPictoSource implements PictoSource {
 			//}
 			//else {
 			if (resource != null) {
-				model = new InMemoryEmfModel("M", resource);
-				((InMemoryEmfModel) model).setExpand(true);
+				// synchronization prevents races when using multiple Picto views
+				synchronized (resource) {
+					model = new InMemoryEmfModel("M", resource);
+					((InMemoryEmfModel) model).setExpand(true);
+				}
 			}
 			//}
 			

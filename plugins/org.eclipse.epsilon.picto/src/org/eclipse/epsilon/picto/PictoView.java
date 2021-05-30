@@ -65,6 +65,7 @@ public class PictoView extends ViewPart {
 	protected int[] sashFormWeights = null;
 	protected IEditorPart renderedEditor = null;
 	protected boolean locked = false;
+	protected boolean pinned = false;
 	protected ToggleTreeViewerAction hideTreeAction;
 	protected HashMap<IEditorPart, ViewTree> activeViewHistory = new HashMap<>();
 	protected ViewTree activeView = null;
@@ -175,7 +176,7 @@ public class PictoView extends ViewPart {
 			
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
-				if (locked) return;
+				if (locked || pinned) return;
 				Display.getCurrent().asyncExec(() -> {
 					IWorkbenchPart part = partRef.getPart(false);
 					
@@ -203,7 +204,7 @@ public class PictoView extends ViewPart {
 				IEditorPart editorPart = (IEditorPart) workbenchPart;
 				activeViewHistory.remove(editorPart);
 				
-				if (locked) {
+				if (locked || pinned) {
 					if (editor == editorPart) editor = null;
 					return;
 				}
@@ -229,11 +230,14 @@ public class PictoView extends ViewPart {
 		toolbar.add(new RefreshAction(this));
 		toolbar.add(new LockAction(this));
 		toolbar.add(new Separator());
+		toolbar.add(new PinAction(this));
+		toolbar.add(new NewPictoViewAction());
+		toolbar.add(new Separator());
 		toolbar.add(hideTreeAction);
 		toolbar.add(new MoveTreeAction());
 		toolbar.add(new Separator());
 		toolbar.add(new ViewContentsMenuAction(this));
-		
+
 		IMenuManager dropDownMenu = getViewSite().getActionBars().getMenuManager();
 		dropDownMenu.add(new ClearViewTreeLabelProviderIconCacheAction());
 		dropDownMenu.add(new ToggleVerbatimSourcesAction());
@@ -601,6 +605,14 @@ public class PictoView extends ViewPart {
 	
 	public ViewTreeSelectionHistory getViewTreeSelectionHistory() {
 		return viewTreeSelectionHistory;
+	}
+
+	public boolean isPinned() {
+		return pinned;
+	}
+
+	public void setPinned(boolean pinned) {
+		this.pinned = pinned;
 	}
 
 }
