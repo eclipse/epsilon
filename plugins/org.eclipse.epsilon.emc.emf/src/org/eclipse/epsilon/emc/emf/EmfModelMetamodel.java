@@ -88,6 +88,7 @@ public class EmfModelMetamodel extends Metamodel {
 						reference.setOrdered(eReference.isOrdered());
 						reference.setUnique(eReference.isUnique());
 						reference.setMany(eReference.isMany());
+						reference.setContainment(eReference.isContainment());
 						
 						EClass referenceType = eReference.getEReferenceType();
 						MetaClass referenceMetaClass = eClassMetaClassMap.get(referenceType);

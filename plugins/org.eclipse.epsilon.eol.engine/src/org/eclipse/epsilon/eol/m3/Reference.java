@@ -9,7 +9,13 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.m3;
 
-
 public class Reference extends StructuralFeature {
+	protected boolean isContainment = false;
 	
+	public void setContainment(boolean contaiment) {
+		isContainment = contaiment;
+	}
+	public boolean isContainment() {
+		return isContainment;
+	}
 }
