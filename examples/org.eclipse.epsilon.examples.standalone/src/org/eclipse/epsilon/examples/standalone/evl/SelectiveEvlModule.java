@@ -2,6 +2,7 @@ package org.eclipse.epsilon.examples.standalone.evl;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,15 @@ public class SelectiveEvlModule extends EvlModule {
 			return super.getAllOfSourceKind(context).stream().
 					filter(e -> shouldCheck(e)).collect(Collectors.toList());
 		}
+	}
+	
+	@Override
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		// Override getImportConfiguration so that the same
+		// module implementation is also used for imported EVL files
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("evl", SelectiveEvlModule.class);
+		return importConfiguration;
 	}
 	
 	protected boolean shouldCheck(Object object) {
