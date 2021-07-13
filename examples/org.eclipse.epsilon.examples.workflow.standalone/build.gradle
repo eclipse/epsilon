@@ -10,9 +10,9 @@ repositories {
 }
 
 dependencies {
-	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.workflow:2.3.0-SNAPSHOT'
-	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.workflow.emf:2.3.0-SNAPSHOT'
-	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.eunit.cmp.emf:2.3.0-SNAPSHOT'
+	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.workflow:2.3.0'
+	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.workflow.emf:2.3.0'
+	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.eunit.cmp.emf:2.3.0'
 }
 
 task setupEpsilonTasks {
