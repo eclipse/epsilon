@@ -208,7 +208,6 @@ public class FlexmiEditor extends TextEditor {
 			Display.getDefault().asyncExec(() -> refreshText());
 		}
 		
-		code = code.replaceAll("\t", "  ");
 		FlexmiParseException parseException = null;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
