@@ -61,6 +61,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
@@ -146,6 +147,18 @@ public class FlexmiEditor extends TextEditor {
 		viewer.configure(getSourceViewerConfiguration());
 	}
 	
+	@Override
+	protected boolean isTabsToSpacesConversionEnabled() {
+		if (flexmiFlavour == FlexmiFlavour.YAML) return true;
+		else return super.isTabsToSpacesConversionEnabled();
+	}
+	
+	@Override
+	protected boolean isSpacesAsTabsDeletionEnabled() {
+		if (flexmiFlavour == FlexmiFlavour.YAML) return true;
+		else return super.isSpacesAsTabsDeletionEnabled();
+	}
+	
 	protected SourceViewerConfiguration createSourceViewerConfiguration(FlexmiHighlightingManager highlightingManager) {
 		if (flexmiFlavour == FlexmiFlavour.XML) return new XMLConfiguration(highlightingManager);
 		else return new YamlConfiguration(highlightingManager);
@@ -205,6 +218,7 @@ public class FlexmiEditor extends TextEditor {
 		FlexmiFlavour detectedFlavour = FlexmiResource.isXml(new BufferedInputStream(new ByteArrayInputStream(code.getBytes()))) ? FlexmiFlavour.XML : FlexmiFlavour.YAML;
 		if ((detectedFlavour != flexmiFlavour)) {
 			flexmiFlavour = detectedFlavour;
+			handlePreferenceStoreChanged(new PropertyChangeEvent(doc, AbstractDecoratedTextEditorPreferenceConstants.EDITOR_SPACES_FOR_TABS, null, null));
 			Display.getDefault().asyncExec(() -> refreshText());
 		}
 		
