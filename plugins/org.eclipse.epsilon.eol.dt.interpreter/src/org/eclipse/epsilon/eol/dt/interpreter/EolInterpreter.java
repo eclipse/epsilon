@@ -11,6 +11,7 @@ package org.eclipse.epsilon.eol.dt.interpreter;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import org.eclipse.acceleo.ui.interpreter.language.AbstractLanguageInterpreter;
 import org.eclipse.acceleo.ui.interpreter.language.CompilationResult;
 import org.eclipse.acceleo.ui.interpreter.language.EvaluationContext;
@@ -19,11 +20,13 @@ import org.eclipse.acceleo.ui.interpreter.language.InterpreterContext;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditorSourceViewerConfiguration;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
@@ -83,6 +86,12 @@ public class EolInterpreter extends AbstractLanguageInterpreter {
 				frameStack.put(variable.getName(), variable.getValue());
 			}
 			
+			IEolContext eolContext = module.getContext();
+
+			eolContext.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+			eolContext.setErrorStream(EpsilonConsole.getInstance().getErrorStream());
+			eolContext.setWarningStream(EpsilonConsole.getInstance().getWarningStream());
+
 			Object result = module.execute();
 			return new EvaluationResult(result);
 		};
