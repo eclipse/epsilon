@@ -2,9 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sirius Embedded Editor Widget
 Bundle-SymbolicName: org.eclipse.epsilon.sirius.widget;singleton:=true
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 2.4.0.qualifier
+Bundle-ClassPath: .
 Automatic-Module-Name: org.eclipse.epsilon.sirius.widget
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.eef;visibility:=reexport,
  org.eclipse.sirius.common.interpreter;visibility:=reexport,
  org.eclipse.xtext.ui;visibility:=reexport,
@@ -22,3 +23,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.sirius.widget,
  org.eclipse.epsilon.sirius.widget.eol,
  org.eclipse.epsilon.sirius.widget.xtext
+Bundle-Vendor: Eclipse Modeling Project
