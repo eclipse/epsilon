@@ -23,6 +23,9 @@ location "http://download.eclipse.org/releases/2020-06" {
 	org.eclipse.ocl.all.sdk.feature.group lazy
 	org.eclipse.sirius.runtime.feature.group lazy
 	org.eclipse.sirius.runtime.ide.ui.feature.group lazy
+	org.eclipse.sirius.runtime.ide.eef.feature.group lazy
+	org.eclipse.sirius.properties.feature.feature.group lazy
+	org.eclipse.eef.sdk.feature.feature.group lazy
 	org.eclipse.xsd.sdk.feature.group lazy
 	org.eclipse.xtext.sdk.feature.group lazy
 	org.eclipse.xtext.runtime.feature.group lazy
