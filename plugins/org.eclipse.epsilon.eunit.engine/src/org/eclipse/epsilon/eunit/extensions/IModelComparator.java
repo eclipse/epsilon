@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.extensions;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.epsilon.eol.models.IModel;
@@ -56,4 +58,19 @@ public interface IModelComparator {
 	 *             One of the options has an invalid value is or not available.
 	 */
 	void configure(Map<String, Object> options);
+
+	/**
+	 * Saves the provided delta (as produced by {@link #compare(IModel, IModel)}
+	 * to a file with the provided basename. The actual extension will be picked
+	 * by this component.
+	 *
+	 * @param delta Detected model difference (e.g. a Comparison when using EMF Compare).
+	 * @param basename File with the desired basename (extension to be picked by comparator).
+	 * @throws IOException There was a problem writing to the file.
+	 * @return File where the delta has been saved, after adding the extension.
+	 */
+	default File saveDeltaToFile(Object delta, File basename) throws IOException {
+		throw new UnsupportedOperationException(getClass().getSimpleName() + " does not support saving deltas yet");
+	}
+
 }
