@@ -38,7 +38,7 @@
 			read="false" store="false"/>
 
 		<!-- EUnit will dispose and reload the referred models as needed -->
-		<epsilon.eunit src="${antmodels.eunit.location}">
+		<epsilon.eunit src="${antmodels.eunit.location}" savemodeldeltas="true">
 			<model ref="Tree"/>
 			<model ref="Graph"/>
 			<model ref="GraphExpected"/>
