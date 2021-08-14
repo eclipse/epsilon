@@ -238,10 +238,10 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		}
 
 		if (mustBeEqual) {
-			throw new EolAssertionException(message.toString(), getContext().getFrameStack().getCurrentStatement(), expectedCModel, actualCModel, delta);
+			throw new EUnitFailedModelComparisonException(message.toString(), getContext().getFrameStack().getCurrentStatement(), expectedCModel, actualCModel, delta, comparator);
 		}
 		else {
-			throw new EolAssertionException(message.toString(), getContext().getFrameStack().getCurrentStatement(), null, null, null);
+			throw new EUnitFailedModelComparisonException(message.toString(), getContext().getFrameStack().getCurrentStatement(), null, null, null, comparator);
 		}
 	}
 
