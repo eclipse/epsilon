@@ -194,7 +194,7 @@ public class EMFModelComparator implements IModelComparator {
 				 * all these temporary clones.
 				 */
 				File tmpFile = File.createTempFile("emf-model-comparator-clone-" + res.getURI().lastSegment() + ".", ".model");
-				res.setURI(URI.createFileURI(tmpFile.getAbsolutePath()));
+				res.setURI(URI.createFileURI(tmpFile.getCanonicalPath()));
 			}
 
 			// Save all the non-platform resources and add them to the new resource set.
