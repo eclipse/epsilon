@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -23,7 +24,6 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.common.dt.extensions.IllegalExtensionException;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
-import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -161,8 +161,8 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 			}
 			EUnitTest currentTest = (EUnitTest)currentElement;
 
-			// This action only works on test which have failed due to a violated assertion
-			final Throwable currentEx = unwrapInternalExceptionFrom(currentTest);
+			// This action only works on tests which have failed due to a violated assertion
+			final Throwable currentEx = currentTest.getUnwrappedInternalException();
 			if (!(currentEx instanceof EolAssertionException)) {
 				return null;
 			}
@@ -176,17 +176,6 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 			else {
 				return null;
 			}
-		}
-
-		private Throwable unwrapInternalExceptionFrom(EUnitTest currentTest) {
-			Throwable currentEx = currentTest.getException();
-			while (currentEx instanceof EolInternalException) {
-				// PointExecutor likes to wrap everything in EolInternalExceptions:
-				// remove all those wrapping exceptions
-				final EolInternalException iex = (EolInternalException)currentTest.getException();
-				currentEx = iex.getInternal();
-			}
-			return currentEx;
 		}
 
 	}

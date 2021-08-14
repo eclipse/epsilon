@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.epsilon.eol.dom.Operation;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 
@@ -77,6 +78,18 @@ public class EUnitTest {
 
 	public void setException(Exception exception) {
 		this.exception = exception;
+	}
+
+	/**
+	 * Returns the exception for this test case, removing all wrapping
+	 * EolInternalExceptions that the Epsilon PointExecutor may have added.
+	 */
+	public Throwable getUnwrappedInternalException() {
+		Throwable currentEx = getException();
+		while (currentEx instanceof EolInternalException) {
+			currentEx = ((EolInternalException) currentEx).getInternal();
+		}
+		return currentEx;
 	}
 
 	public EUnitTest getParent() {
