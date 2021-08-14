@@ -42,6 +42,9 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelResourceSet;
 import org.eclipse.epsilon.eol.models.IAdaptableModel;
@@ -148,6 +151,33 @@ public class EMFModelComparator implements IModelComparator {
 		final Comparison cmp = emfCompare.compare(scope);
 
 		return cmp.getDifferences().isEmpty() ? null : cmp;
+	}
+
+	@Override
+	public File saveDeltaToFile(Object delta, File basename) throws IOException {
+		// Our compare() method returns Comparison objects
+		Comparison cmp = (Comparison) delta;
+
+		final File targetFile = new File(basename.getCanonicalPath() + ".xmi");
+		Resource r = new XMIResourceImpl(URI.createFileURI(targetFile.getCanonicalPath()));
+		r.getContents().add(cmp);
+		r.save(Collections.singletonMap(XMLResource.OPTION_URI_HANDLER, new URIHandlerImpl() {
+			@Override
+			public URI deresolve(URI uri) {
+				/*
+				 * Disable the automated conversion from absolute to relative paths in EMF -
+				 * this breaks the Exeed/reflective model view, and results in brittle paths
+				 * anyway as the delta model is linking to files in the /tmp directory anyway.
+				 *
+				 * This does mean that the delta files are only valid up to the next reboot
+				 * in Linux/Mac, though. At some point, it may be needed to allow users to
+				 * customize the "temp" folder that stores the model clones used for comparisons.
+				 */
+				return uri;
+			}
+		}));
+
+		return targetFile;
 	}
 
 	private static final AbstractEmfModel adaptToEMF(IModel model) {
