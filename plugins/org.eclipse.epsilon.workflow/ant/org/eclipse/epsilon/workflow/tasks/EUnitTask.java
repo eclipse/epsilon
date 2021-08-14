@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.eunit.EUnitTestResultType;
 import org.eclipse.epsilon.eunit.extensions.IModelComparator;
+import org.eclipse.epsilon.eunit.operations.EUnitFailedModelComparisonException;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 
 /**
@@ -157,6 +159,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	private File fReportDirectory;
 	private String fPackage = EUnitModule.DEFAULT_PACKAGE;
 	private boolean fGenerateReport = true;
+	private boolean fSaveModelDeltas = false;
 	private TaskCollection modelLoadingTasks;
 	private ComparatorReferenceList comparatorRefs;
 	private ModelRepository oldProjectRepository;
@@ -286,12 +289,30 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		}
 		else {
 			err.print(testDescription + " failed with status " + test.getResult());
-			final Exception testException = test.getException();
+			final Throwable testException = test.getUnwrappedInternalException();
 			if (testException != null) {
+				if (isSaveModelDeltas() && test.isLeafTest() && testException instanceof EUnitFailedModelComparisonException) {
+					saveModelDeltas(module, test, err, testException);
+				}
 				err.println(": " + testException.getMessage());
 			}
 			else {
 				err.println();
+			}
+		}
+	}
+
+	protected void saveModelDeltas(EUnitModule module, EUnitTest test, final PrintStream err,
+			final Throwable testException) {
+		EUnitFailedModelComparisonException ex = (EUnitFailedModelComparisonException) testException;
+		if (ex.getComparator() != null && ex.getDelta() != null) {
+			File fBasename = new File(getToDir() != null ? getToDir() : getProject().getBaseDir(),
+				String.format("DELTA-%s.%s.%s", module.getPackage(), module.getClassName(), test.getCaseName())
+			);
+			try {
+				ex.getComparator().saveDeltaToFile(ex.getDelta(), fBasename);
+			} catch (IOException e) {
+				e.printStackTrace(err);
 			}
 		}
 	}
@@ -358,6 +379,23 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	 */
 	public void setReport(boolean generate) {
 		this.fGenerateReport = generate;
+	}
+
+	/**
+	 * Returns <code>true</code> if any detected model differences will be saved to a file, named after the
+	 * test suite package, test suite class, and test name. The extension will depend on the comparator being
+	 * used.
+	 */
+	public boolean isSaveModelDeltas() {
+		return fSaveModelDeltas;
+	}
+
+	/**
+	 * Changes whether model differences will be saved to a file (when set to <code>true</code>) or not (when
+	 * set to <code>false</code>).
+	 */
+	public void setSaveModelDeltas(boolean save) {
+		this.fSaveModelDeltas = save;
 	}
 
 }
