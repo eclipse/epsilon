@@ -56,6 +56,24 @@ import org.eclipse.epsilon.eunit.extensions.IModelComparator;
  */
 public class EMFModelComparator implements IModelComparator {
 
+	/**
+	 * If {@link #configure(Map)} is called with this key set to "ignore",
+	 * whitespace changes will be ignored.
+	 */
+	public static final String OPTION_WHITESPACE = "whitespace";
+
+	/**
+	 * If {@link #configure(Map)} is called with this key set to "ignore", MOVE
+	 * changes in unordered references will be ignored.
+	 */
+	public static final String OPTION_UNORDERED_MOVES = "unorderedMoves";
+
+	/**
+	 * If {@link #configure(Map)} is called with this key set to "ignore", changes
+	 * in attributes will be ignored.
+	 */
+	public static final String OPTION_ATTRIBUTE_CHANGES = "ignoreAttributeValueChanges";
+
 	private final class OptionBasedDiffBuilder extends DiffBuilder {
 		@Override
 		public void attributeChange(Match match,
@@ -262,13 +280,13 @@ public class EMFModelComparator implements IModelComparator {
 		if (options != null) {
 			for (Map.Entry<String, Object> entry : options.entrySet()) {
 				String name = entry.getKey();
-				if ("whitespace".equals(name)) {
+				if (OPTION_WHITESPACE.equals(name)) {
 					ignoreWhitespace = "ignore".equals(entry.getValue());
 				}
-				else if ("unorderedMoves".equals(name)) {
+				else if (OPTION_UNORDERED_MOVES.equals(name)) {
 					ignoreUnorderedMoves = "ignore".equals(entry.getValue());
 				}
-				else if ("ignoreAttributeValueChanges".equals(name)) {
+				else if (OPTION_ATTRIBUTE_CHANGES.equals(name)) {
 					if (entry.getValue() instanceof Collection) {
 						final Collection<?> col = (Collection<?>)entry.getValue();
 						for (Object o : col) {
