@@ -22,6 +22,12 @@ import org.eclipse.epsilon.eol.models.IModel;
  */
 public interface IModelComparator {
 
+	/**
+	 * If {@link #configure(Map)} is called with this key set to a File or a String,
+	 * the model clones needed by the comparator should be created in that directory.
+	 */
+	public static final String OPTION_MODEL_CLONE_DIRECTORY = "modelCloneDirectory";
+
 	String EXTENSION_POINT_ID = "org.eclipse.epsilon.eunit.engine.comparator";
 
 	/**
@@ -52,7 +58,9 @@ public interface IModelComparator {
 	Object compare(IModel expectedModel, IModel obtainedModel) throws Exception;
 
 	/**
-	 * Configures the model comparator with the specified options.
+	 * Configures the model comparator with the specified options. At least
+	 * the {@link #OPTION_MODEL_CLONE_DIRECTORY} option should be honored, if
+	 * models are being frozen into clones before performing the comparison.
 	 * 
 	 * @throws IllegalArgumentException
 	 *             One of the options has an invalid value is or not available.

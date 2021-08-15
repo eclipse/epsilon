@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.IEUnitModule;
 import org.eclipse.epsilon.eunit.extensions.IModelComparator;
 
@@ -190,12 +192,25 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		return getContext().getModelRepository().getModelByName(name);
 	}
 
+	private File getModelCloneDirectory() {
+		if (getContext().getModule() instanceof EUnitModule) {
+			EUnitModule module = (EUnitModule) getContext().getModule();
+			return module.getModelCloneDirectory();
+		}
+		return null;
+	}
+
 	private void compareModels(String message, String expectedModelName, String actualModelName, boolean mustBeEqual, Map<String, Object> options) throws EolModelNotFoundException, EolAssertionException, EolInternalException {
 		final IModel expectedCModel = getModel(expectedModelName);
 		final IModel actualCModel = getModel(actualModelName);
 		final IModelComparator comparator = getComparator(expectedCModel, actualCModel);
 		if (comparator == null) {
 			throw new IllegalArgumentException("No matching comparator has been found for " + expectedCModel + " and " + actualCModel);
+		}
+		if (options == null) {
+			options = Collections.singletonMap(IModelComparator.OPTION_MODEL_CLONE_DIRECTORY, getModelCloneDirectory());
+		} else {
+			options.put(IModelComparator.OPTION_MODEL_CLONE_DIRECTORY, getModelCloneDirectory());
 		}
 		comparator.configure(options);
 

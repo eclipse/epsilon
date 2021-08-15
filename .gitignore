@@ -106,3 +106,4 @@ target-plain
 # EUnit test files in examples
 /examples/**/TEST-*.xml
 /examples/**/DELTA-*.xmi
+/examples/**/eunit-temp/

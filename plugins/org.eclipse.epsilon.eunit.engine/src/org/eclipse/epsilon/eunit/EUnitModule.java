@@ -59,6 +59,9 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 	// Destination directory for the JUnit XML report, or null if the report is to be suppressed
 	private File reportDirectory = null;
 
+	// Destination directory for the model clones, or null if the OS temp folder is to be used
+	private File modelCloneDirectory = null;
+
 	@SuppressWarnings("rawtypes")
 	private List selectedOperations;
 
@@ -665,12 +668,24 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 	public String getQualifiedName() {
 		return getPackage() + "." + getClassName();
 	}
-	
+
+	/* MODEL CLONE DIRECTORY */
+
+	@Override
+	public File getModelCloneDirectory() {
+		return modelCloneDirectory;
+	}
+
+	@Override
+	public void setModelCloneDirectory(File modelCloneDirectory) {
+		this.modelCloneDirectory = modelCloneDirectory;
+	}
+
 	public static String getBasename(ModuleElement moduleElement) {
 		final String uriPath = moduleElement.getUri().getPath();
 		final int lastSlash = uriPath.lastIndexOf("/");
 		final String filename = lastSlash == -1 ? uriPath : uriPath.substring(lastSlash + 1);
 		return filename;
 	}
-	
+
 }

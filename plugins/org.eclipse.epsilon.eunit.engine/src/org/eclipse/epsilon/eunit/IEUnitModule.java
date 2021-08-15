@@ -62,4 +62,18 @@ public interface IEUnitModule extends IEolModule {
 
 	String getClassName();
 
+	/**
+	 * Returns the path to the directory which will store the clones used to freeze models
+	 * during comparisons. By default, this will be {@link #DEFAULT_EUNIT_MODEL_CLONE_DIR}
+	 * in the current directory. If set to {@code null}, the operating system's system-wide
+	 * temporary folder will be used.
+	 */
+	File getModelCloneDirectory();
+
+	/**
+	 * Changes the model clone directory.
+	 * @see #getModelCloneDirectory()
+	 */
+	void setModelCloneDirectory(File modelCloneDirectory);
+
 }

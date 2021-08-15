@@ -11,6 +11,7 @@ package org.eclipse.epsilon.eunit.cmp.emf;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -73,6 +74,22 @@ public class EMFModelComparator implements IModelComparator {
 	 * in attributes will be ignored.
 	 */
 	public static final String OPTION_ATTRIBUTE_CHANGES = "ignoreAttributeValueChanges";
+
+	private static final class AbsolutePathPreservingURIHandler extends URIHandlerImpl {
+		@Override
+		public URI deresolve(URI uri) {
+			/*
+			 * Disable the automated conversion from absolute to relative paths in EMF -
+			 * this breaks the Exeed/reflective model view, and results in brittle paths
+			 * anyway as the delta model is linking to files in the /tmp directory anyway.
+			 *
+			 * This does mean that the delta files are only valid up to the next reboot
+			 * in Linux/Mac, though. At some point, it may be needed to allow users to
+			 * customize the "temp" folder that stores the model clones used for comparisons.
+			 */
+			return uri;
+		}
+	}
 
 	private final class OptionBasedDiffBuilder extends DiffBuilder {
 		@Override
@@ -138,6 +155,12 @@ public class EMFModelComparator implements IModelComparator {
 	private boolean ignoreWhitespace = false, ignoreUnorderedMoves = true;	
 	private Set<String> ignoreAttributes = Collections.emptySet();
 
+	/**
+	 * Directory where the model clones used in comparisons should be stored.
+	 * By default, the system temporary folder will be used.
+	 */
+	private File modelCloneDirectory = null;
+
 	@Override
 	public boolean canCompare(IModel m1, IModel m2) {
 		return adaptToEMF(m1) != null && adaptToEMF(m2) != null;
@@ -179,21 +202,20 @@ public class EMFModelComparator implements IModelComparator {
 		final File targetFile = new File(basename.getCanonicalPath() + ".xmi");
 		Resource r = new XMIResourceImpl(URI.createFileURI(targetFile.getCanonicalPath()));
 		r.getContents().add(cmp);
-		r.save(Collections.singletonMap(XMLResource.OPTION_URI_HANDLER, new URIHandlerImpl() {
-			@Override
-			public URI deresolve(URI uri) {
-				/*
-				 * Disable the automated conversion from absolute to relative paths in EMF -
-				 * this breaks the Exeed/reflective model view, and results in brittle paths
-				 * anyway as the delta model is linking to files in the /tmp directory anyway.
-				 *
-				 * This does mean that the delta files are only valid up to the next reboot
-				 * in Linux/Mac, though. At some point, it may be needed to allow users to
-				 * customize the "temp" folder that stores the model clones used for comparisons.
-				 */
-				return uri;
-			}
-		}));
+
+		Path pathParent = targetFile.getParentFile().toPath();
+		if (modelCloneDirectory == null || !modelCloneDirectory.toPath().startsWith(pathParent)) {
+			/*
+			 * The model clone directory is not a subdirectory of the folder of the delta
+			 * file: we need to preserve absolute paths for the cross-model references so
+			 * the delta file will be openable from Eclipse.
+			 */
+			r.save(Collections.singletonMap(
+				XMLResource.OPTION_URI_HANDLER,
+				new AbsolutePathPreservingURIHandler()));
+		} else {
+			r.save(null);
+		}
 
 		return targetFile;
 	}
@@ -215,7 +237,7 @@ public class EMFModelComparator implements IModelComparator {
 	 * do not have platform:// URIs are saved into temporary files. Cross-references are
 	 * preserved: all non-platform:// URIs are rewritten to the proper temporary files.
 	 */
-	private static final ResourceSet cloneToTmpFiles(ResourceSet resourceSet) throws IOException {
+	private final ResourceSet cloneToTmpFiles(ResourceSet resourceSet) throws IOException {
 		EcoreUtil.resolveAll(resourceSet);
 		ResourceSet newResourceSet = new EmfModelResourceSet();
 
@@ -233,6 +255,10 @@ public class EMFModelComparator implements IModelComparator {
 		try {
 			// Map each non-platform resource to a new temporary file
 			for (Resource res : originalURIMap.keySet()) {
+				if (modelCloneDirectory != null && !modelCloneDirectory.exists()) {
+					modelCloneDirectory.mkdirs();
+				}
+
 				/*
 				 * It is important to build the file names for the temporary files in a way
 				 * that ensures that the 70% URI minimum similarity threshold for the default
@@ -241,7 +267,9 @@ public class EMFModelComparator implements IModelComparator {
 				 * negative is produced. For this reason, we will add a long common prefix to
 				 * all these temporary clones.
 				 */
-				File tmpFile = File.createTempFile("emf-model-comparator-clone-" + res.getURI().lastSegment() + ".", ".model");
+				File tmpFile = File.createTempFile(
+					"emf-model-comparator-clone-" + res.getURI().lastSegment() + ".",
+					".model", modelCloneDirectory);
 				res.setURI(URI.createFileURI(tmpFile.getCanonicalPath()));
 			}
 
@@ -300,6 +328,13 @@ public class EMFModelComparator implements IModelComparator {
 					else {
 						throw new IllegalArgumentException(String.format(
 							"Invalid value for '%s': expected a collection of strings", name));
+					}
+				}
+				else if (OPTION_MODEL_CLONE_DIRECTORY.equals(name)) {
+					if (entry.getValue() instanceof File) {
+						modelCloneDirectory = (File) entry.getValue();
+					} else if (entry.getValue() != null) {
+						modelCloneDirectory = new File(entry.getValue() + "");
 					}
 				}
 				else {

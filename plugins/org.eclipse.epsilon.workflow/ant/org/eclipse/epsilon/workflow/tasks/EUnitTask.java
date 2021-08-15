@@ -47,6 +47,8 @@ import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
  */
 public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener {
 
+	private static final String DEFAULT_EUNIT_MODEL_CLONE_DIR = "eunit-temp";
+
 	/**
 	 * Class for a nested element which simply contains tasks.
 	 */
@@ -183,6 +185,18 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		} else {
 			// Do not generate an XML file
 			eunitModule.setReportDirectory(null);
+		}
+
+		if (isSaveModelDeltas()) {
+			// Keep model clones in a subdirectory of the directory that will have the DELTA-* files
+			// (Eclipse-based model browsers require DELTA and all model clones to belong to the workspace)
+			final File baseDir = getToDir() == null ? getProject().getBaseDir() : getToDir();
+			final File modelCloneDirectory = new File(baseDir, DEFAULT_EUNIT_MODEL_CLONE_DIR);
+			eunitModule.setModelCloneDirectory(modelCloneDirectory);
+		} else {
+			// Use the OS temp folder (throwaway files) for model clones, as long as delta files
+			// are not required (system will automatically clean them up in the next reboot).
+			eunitModule.setModelCloneDirectory(null);
 		}
 
 		HostManager.getHost().addNativeTypeDelegates(eunitModule);
