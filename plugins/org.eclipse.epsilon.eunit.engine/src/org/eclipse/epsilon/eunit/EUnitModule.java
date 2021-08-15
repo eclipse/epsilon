@@ -57,7 +57,7 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 	private List<IModelComparator> customComparators = new ArrayList<>();
 
 	// Destination directory for the JUnit XML report, or null if the report is to be suppressed
-	private File reportDirectory = new File(".");
+	private File reportDirectory = null;
 
 	@SuppressWarnings("rawtypes")
 	private List selectedOperations;
@@ -607,9 +607,8 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 	/* JUNIT-LIKE REPORTS */
 
 	/**
-	 * Changes the destination directory for the JUnit-style XML report.
-	 * By default, it is the current directory. If <code>null</code>,
-	 * no report will be written.
+	 * If not null, a JUnit-style XML report will be saved to the specific destination directory.
+	 * By default, it is not generated.
 	 */
 	@Override
 	public void setReportDirectory(File reportFile) {
