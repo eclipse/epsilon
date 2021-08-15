@@ -175,13 +175,13 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 		final EUnitModule eunitModule = (EUnitModule)module;
 		eunitModule.addTestListener(this);
 		eunitModule.setPackage(getPackage());
-		if (getToDir() != null) {
-			eunitModule.setReportDirectory(getToDir());
-		}
-		else if (isReport()) {
-			eunitModule.setReportDirectory(getProject().getBaseDir());
-		}
-		else {
+
+		if (isReport()) {
+			// Generate an XML file, honoring the toDir setting and defaulting to the project basedir
+			File reportDir = getToDir() == null ? getProject().getBaseDir() : getToDir();
+			eunitModule.setReportDirectory(reportDir);
+		} else {
+			// Do not generate an XML file
 			eunitModule.setReportDirectory(null);
 		}
 
