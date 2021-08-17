@@ -47,12 +47,17 @@ public class InMemoryEmfModel extends EmfModel {
 	public InMemoryEmfModel(String name, Resource modelImpl, boolean isContainerListenerEnabled) {
 		init(name, modelImpl, Collections.<EPackage> emptyList(), isContainerListenerEnabled);
 	}
-
+	
 	public InMemoryEmfModel(String name, Resource modelImpl, Collection<EPackage> ePackages) {
 		this(name, modelImpl, ePackages, true);
 	}
 	
 	public InMemoryEmfModel(String name, Resource modelImpl, Collection<EPackage> ePackages, boolean isContainerListenerEnabled) {
+		init(name, modelImpl, ePackages, isContainerListenerEnabled);
+	}
+	
+	public InMemoryEmfModel(String name, Resource modelImpl, Collection<EPackage> ePackages, boolean isContainerListenerEnabled, boolean expand) {
+		setExpand(expand);
 		init(name, modelImpl, ePackages, isContainerListenerEnabled);
 	}
 	
