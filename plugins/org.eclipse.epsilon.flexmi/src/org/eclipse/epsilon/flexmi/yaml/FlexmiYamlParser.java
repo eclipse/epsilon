@@ -31,7 +31,6 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.flexmi.FlexmiFlavour;
 import org.eclipse.epsilon.flexmi.FlexmiParseException;
-import org.eclipse.epsilon.flexmi.FlexmiParser;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.epsilon.flexmi.templates.Template;
@@ -56,28 +55,18 @@ public class FlexmiYamlParser extends FlexmiXmlParser {
 		EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory() {
-			@Override
-			public FlexmiResource createResource(URI uri) {
-				return new FlexmiResource(uri) {
-					protected FlexmiParser createParser() {
-						return new FlexmiYamlParser();
-					};
-				};
-			}
-		});
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
 		
-		FlexmiResource resource = (FlexmiResource) resourceSet.createResource(URI.createURI(FlexmiYamlParser.class.getResource("ecore.yaml").toURI().toString()));
+		FlexmiResource resource =
+				(FlexmiResource) resourceSet.createResource(URI.createURI(FlexmiYamlParser.class.getResource("ecore.yaml").toURI().toString()));
 		resource.load(null);
 		
 		EolModule module = new EolModule();
 		module.parse(FlexmiYamlParser.class.getResource("ecore.eol").toURI());
 		module.getContext().getModelRepository().addModel(new InMemoryEmfModel(resource));
 		module.execute();
-		
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public Document parse(InputStream inputStream) throws Exception {
 		Yaml yaml = new Yaml();
