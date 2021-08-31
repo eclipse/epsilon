@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.xml;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
@@ -124,8 +125,12 @@ public class FlexmiXmlParser implements FlexmiParser {
 				try {
 					URI includedURI = URI.createURI(value).resolve(uri);
 					InputStream includedInputStream = resource.getResourceSet().getURIConverter().createInputStream(includedURI);
+
+					BufferedInputStream bufferedInputStream = new BufferedInputStream(includedInputStream);
+					FlexmiParser parser = resource.createParser(bufferedInputStream);
+
 					resource.startProcessingFragment(includedURI);
-					new FlexmiXmlParser().parse(resource, includedURI, includedInputStream, handler, false);
+					parser.parse(resource, includedURI, bufferedInputStream, handler, false);
 					resource.endProcessingFragment();
 				}
 				catch (Exception ex) {
