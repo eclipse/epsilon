@@ -79,13 +79,15 @@ public class FlexmiXmlParser implements FlexmiParser {
 		
 		if (isFlexmiRootNode(document.getDocumentElement())) {
 			for (Element templateElement : Xml.getChildren(document.getDocumentElement(), Template.NODE_NAME)) {
-				resource.addTemplate(TemplateFactory.getInstance().createTemplate(templateElement, resource, new java.net.URI(uri.toString())));
+				resource.addTemplate(TemplateFactory.getInstance().createTemplate(
+						templateElement, resource, new java.net.URI(uri.toString()), getFlavour()));
 				document.getDocumentElement().removeChild(templateElement);
 			}
 		}
 		else {
 			if (isTemplate(document.getDocumentElement())) {
-				resource.addTemplate(TemplateFactory.getInstance().createTemplate(document.getDocumentElement(), resource, new java.net.URI(uri.toString())));
+				resource.addTemplate(TemplateFactory.getInstance().createTemplate(
+						document.getDocumentElement(), resource, new java.net.URI(uri.toString()), getFlavour()));
 				document.removeChild(document.getDocumentElement());
 				return;
 			}

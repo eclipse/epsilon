@@ -11,6 +11,7 @@ package org.eclipse.epsilon.flexmi.templates;
 
 import java.net.URI;
 
+import org.eclipse.epsilon.flexmi.FlexmiFlavour;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Element;
@@ -30,9 +31,9 @@ public class TemplateFactory {
 		
 	}
 	
-	public Template createTemplate(Element element, FlexmiResource resource, URI uri) {
+	public Template createTemplate(Element element, FlexmiResource resource, URI uri, FlexmiFlavour parserFlavour) {
 		if ("EGL".contentEquals(Xml.getChild(element, "content").getAttribute("language"))) {
-			return new EglTemplate(element, resource, uri);
+			return new EglTemplate(element, resource, uri, parserFlavour);
 		}
 		else if ("EOL".contentEquals(Xml.getChild(element, "content").getAttribute("language"))) {
 			return new EolTemplate(element, resource, uri);

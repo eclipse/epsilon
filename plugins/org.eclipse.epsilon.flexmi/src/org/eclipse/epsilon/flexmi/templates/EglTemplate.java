@@ -30,9 +30,12 @@ import org.w3c.dom.Element;
 public class EglTemplate extends DynamicTemplate {
 
 	protected EglTemplateFactoryModuleAdapter module;
+	protected FlexmiFlavour parserFlavour;
 
-	public EglTemplate(Element element, FlexmiResource resource, URI uri) {
+	public EglTemplate(Element element, FlexmiResource resource, URI uri, FlexmiFlavour parserFlavour) {
 		super(element, resource, uri);
+
+		this.parserFlavour = parserFlavour;
 	}
 
 	@Override
@@ -52,7 +55,7 @@ public class EglTemplate extends DynamicTemplate {
 			String generated = (module.execute() + "").trim();
 			FlexmiParser parser;
 			
-			if (resource.getFlavour() == FlexmiFlavour.XML) {
+			if (parserFlavour == FlexmiFlavour.XML) {
 				generated = "<?xml version=\"1.0\"?><root>" + generated + "</root>";
 				parser = new FlexmiXmlParser();
 			}
