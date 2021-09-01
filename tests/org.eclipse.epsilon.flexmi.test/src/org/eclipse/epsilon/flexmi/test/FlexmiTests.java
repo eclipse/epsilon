@@ -33,8 +33,11 @@ public abstract class FlexmiTests {
 		// Load imported files
 		FileUtil.getFileStandalone("models/templates/subdir/template-importing-eol.flexmi", FlexmiTests.class);
 		FileUtil.getFileStandalone("models/templates/imported-template.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/templates/imported-template.yaml", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/templates/imported-egl-templates.flexmi", FlexmiTests.class);
+		FileUtil.getFileStandalone("models/templates/imported-egl-templates.yaml", FlexmiTests.class);
 		FileUtil.getFileStandalone("models/templates/imported-templates.flexmi", FlexmiTests.class);
-		FileUtil.getFileStandalone("models/templates/library.eol", FlexmiTests.class);	
+		FileUtil.getFileStandalone("models/templates/library.eol", FlexmiTests.class);
 	}
 	
 	protected FlexmiResource loadResource(String filename) throws Exception {
