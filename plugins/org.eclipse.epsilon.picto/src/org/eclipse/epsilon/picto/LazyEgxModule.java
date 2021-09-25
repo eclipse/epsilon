@@ -190,7 +190,7 @@ public class LazyEgxModule extends EgxModule {
 
 				context.getFrameStack().leaveLocal(module);
 
-				String content = rule.getDataset().toString(module.getSeparator());
+				String content = rule.getDataset().toString();
 				rule.dispose();
 
 				return content;

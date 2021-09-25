@@ -71,15 +71,14 @@ public class Dataset {
 		}
 	}
 
-	public String toString(String separator) {
+	@Override
+	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.join(separator, getColumnNames())).append("\n");
+		sb.append(String.join(CSVFile.CSV_DELIMITER, getColumnNames())).append("\n");
 		for (List<ValueWrapper> wrappers : getRows()) {
-			sb.append(
-				wrappers.stream()
-					.map(Object::toString)
-					.collect(Collectors.joining(separator))
-			)
+			sb.append(wrappers.stream()
+					.map(wrapper -> CSVFile.escapeCSV(wrapper.toString()))
+					.collect(Collectors.joining(CSVFile.CSV_DELIMITER)))
 			.append("\n");
 		}
 		return sb.toString();

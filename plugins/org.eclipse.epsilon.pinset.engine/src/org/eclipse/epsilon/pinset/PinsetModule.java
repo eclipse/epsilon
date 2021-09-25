@@ -9,6 +9,7 @@
  *********************************************************************/
 package org.eclipse.epsilon.pinset;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +30,6 @@ import org.eclipse.epsilon.pinset.columnGenerators.Grid;
 import org.eclipse.epsilon.pinset.columnGenerators.NestedFrom;
 import org.eclipse.epsilon.pinset.columnGenerators.Properties;
 import org.eclipse.epsilon.pinset.columnGenerators.Reference;
-import org.eclipse.epsilon.pinset.output.Persistence;
 import org.eclipse.epsilon.pinset.parse.PinsetLexer;
 import org.eclipse.epsilon.pinset.parse.PinsetParser;
 
@@ -49,7 +49,6 @@ public class PinsetModule extends ErlModule {
 
 	protected List<DatasetRule> datasetRules = new ArrayList<>();
 	protected String outputFolder = "";
-	protected String separator = ",";
 	protected String extension = ".csv";
 	protected String prefix = "";
 	protected boolean silent = false;
@@ -112,7 +111,12 @@ public class PinsetModule extends ErlModule {
 		for (DatasetRule datasetRule : datasetRules) {
 			datasetRule.execute(context);
 			if (persistDatasets) {
-				Persistence.persist(datasetRule.getDataset(), getFilePath(datasetRule), getSeparator());
+				try {
+					new CSVFile(getFilePath(datasetRule), datasetRule.getDataset()).save();
+				}
+				catch (FileNotFoundException e) {
+					throw new EolRuntimeException(e);
+				}
 				datasetRule.dispose();
 			}
 		}
@@ -157,20 +161,12 @@ public class PinsetModule extends ErlModule {
 				getPrefix(), rule.getName(), getExtension());
 	}
 
-	public String getSeparator() {
-		return separator;
-	}
-
 	public String getPrefix() {
 		return prefix;
 	}
 
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
-	}
-
-	public void setSeparator(String separator) {
-		this.separator = separator;
 	}
 
 	public String getExtension() {

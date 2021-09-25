@@ -56,7 +56,7 @@ public class PinsetTests {
 			String generatedFile = module.getFileName(datasetRule);
 			String expectedDataset = FileUtil.getFileContents(
 					getFile(String.format("expected/%s", generatedFile)));
-			String resultDataset = datasetRule.getDataset().toString(module.getSeparator());
+			String resultDataset = datasetRule.getDataset().toString();
 			resultDataset = resultDataset.replace("\r\n", "\n");
 			expectedDataset = expectedDataset.replace("\r\n", "\n");
 			assertEquals(generatedFile, expectedDataset, resultDataset);
