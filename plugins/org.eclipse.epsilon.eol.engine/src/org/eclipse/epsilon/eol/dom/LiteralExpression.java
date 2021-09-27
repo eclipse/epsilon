@@ -14,9 +14,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public abstract class LiteralExpression<T> extends Expression {
 	
-	public LiteralExpression() {
-		super();
-	}
+	public LiteralExpression() {}
 	
 	public LiteralExpression(T value) {
 		setValue(value);

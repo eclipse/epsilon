@@ -16,12 +16,10 @@ public class IntegerLiteral extends LiteralExpression<Number> {
 	
 	protected String text = "";
 	
-	public IntegerLiteral() {
-		super();
-	}
+	public IntegerLiteral() {}
 	
 	public IntegerLiteral(Number value) {
-		super(value);
+		setValue(value);
 	}
 	
 	@Override
@@ -40,7 +38,9 @@ public class IntegerLiteral extends LiteralExpression<Number> {
 		 * clearly a long value.
 		 */
 		if (text.endsWith("l") || text.length() > 10) {
-			text = text.substring(0, text.length() - 1);
+			if (text.endsWith("l")) {
+				text = text.substring(0, text.length() - 1);
+			}
 			value = Long.parseLong(text);
 		}
 		else {
@@ -55,6 +55,12 @@ public class IntegerLiteral extends LiteralExpression<Number> {
 				value = Long.parseLong(text);
 			}
 		}
+	}
+	
+	@Override
+	public void setValue(Number value) {
+		if (value instanceof Long) text = value + "l";
+		else text = value + "";
 	}
 	
 	public String getText() {

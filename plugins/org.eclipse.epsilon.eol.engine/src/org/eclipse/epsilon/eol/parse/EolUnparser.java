@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.dom.*;
 
 public class EolUnparser implements IEolVisitor {
 	
-	protected StringBuffer buffer = null;
+	protected StringBuffer buffer = new StringBuffer();
 	protected EolModule module = null;
 	protected int indentation = 0;
 	
@@ -30,6 +30,10 @@ public class EolUnparser implements IEolVisitor {
 		unparseMain();
 		module.getDeclaredOperations().stream().forEach(o -> {newline(); o.accept(this);});
 		
+		return buffer.toString();
+	}
+	
+	public String getCode() {
 		return buffer.toString();
 	}
 	
@@ -309,7 +313,7 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(MapLiteralExpression<?, ?> mapLiteralExpression) {
-		buffer.append(mapLiteralExpression.getMapName()).append(" {");
+		buffer.append(mapLiteralExpression.getMapName()).append("{");
 		Iterator<Entry<Expression, Expression>> li = mapLiteralExpression.getKeyValueExpressionPairs().iterator();
 		while (li.hasNext()) {
 			Entry<Expression, Expression> next = li.next();
@@ -504,13 +508,13 @@ public class EolUnparser implements IEolVisitor {
 
 	@Override
 	public void visit(StatementBlock statementBlock) {
-		if (statementBlock != module.getMain()) {
+		if (module == null || statementBlock != module.getMain()) {
 			buffer.append("{");
 			newline();
 			indentation++;
 		}
 		statementBlock.getStatements().forEach(s -> {indent(); s.accept(this); newline();});
-		if (statementBlock != module.getMain()) {
+		if (module == null || statementBlock != module.getMain()) {
 			indentation--;
 			indent();
 			buffer.append("}");

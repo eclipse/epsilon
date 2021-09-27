@@ -16,14 +16,12 @@ import org.eclipse.epsilon.common.parse.AST;
 public class RealLiteral extends LiteralExpression<Number> {
 	
 	protected boolean doublePrecision = false;
-	protected String text = "";
+	private String text = null;
 	
-	public RealLiteral() {
-		super();
-	}
+	public RealLiteral() {}
 	
 	public RealLiteral(Number value) {
-		super(value);
+		setValue(value);
 	}
 	
 	@Override
@@ -33,7 +31,6 @@ public class RealLiteral extends LiteralExpression<Number> {
 	}
 	
 	public void setText(String text) {
-		
 		this.text = text;
 		
 		if (text.endsWith("f")) {
@@ -54,6 +51,13 @@ public class RealLiteral extends LiteralExpression<Number> {
 		else {
 			value = Float.valueOf(text);
 		}
+	}
+	
+	@Override
+	public void setValue(Number value) {
+		super.setValue(value);
+		if (value instanceof Double) this.text = value + "d";
+		else this.text = value + "";
 	}
 	
 	public String getText() {
