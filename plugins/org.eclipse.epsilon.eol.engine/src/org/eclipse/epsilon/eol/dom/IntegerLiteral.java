@@ -59,6 +59,7 @@ public class IntegerLiteral extends LiteralExpression<Number> {
 	
 	@Override
 	public void setValue(Number value) {
+		super.setValue(value);
 		if (value instanceof Long) text = value + "l";
 		else text = value + "";
 	}
