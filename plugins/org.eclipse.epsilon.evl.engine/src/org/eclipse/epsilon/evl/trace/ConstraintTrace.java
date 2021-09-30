@@ -28,9 +28,7 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 
 	protected final Set<Constraint> storageOptimised;
-	// The primary storage of the constraint trace items
-	protected final Set<ConstraintTraceItem> items;
-	// Map of constraint trace items per object, to speed up look ups
+	// Map of constraint trace items per object
 	protected final Map<Object, Set<ConstraintTraceItem>> objectItemsMap;
 	protected boolean concurrent = false;
 	
@@ -45,7 +43,6 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	public ConstraintTrace(boolean concurrent) {
 		this.concurrent = concurrent;
 		storageOptimised = concurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
-		items = concurrent ? ConcurrencyUtils.concurrentSet(): new HashSet<>();
 		objectItemsMap = concurrent ? ConcurrencyUtils.concurrentMap(): new HashMap<Object, Set<ConstraintTraceItem>>();
 	}
 	
@@ -57,7 +54,7 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	public void addAll(Collection<? extends ConstraintTrace> others) {
 		for (ConstraintTrace ct : others) {
 			storageOptimised.addAll(ct.storageOptimised);
-			ct.items.stream().forEach(cti -> { 
+			ct.getItems().stream().forEach(cti -> { 
 				addChecked(cti.getConstraint(), cti.getInstance(), cti.getResult());});
 		}
 	}
@@ -79,9 +76,8 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 		storageOptimised.add(constraint);
 	}
 
-	public void addChecked(Constraint constraint, Object object, boolean result) {
+	public synchronized void addChecked(Constraint constraint, Object object, boolean result) {
 		ConstraintTraceItem cti = new ConstraintTraceItem(object, constraint, result);
-		items.add(cti);
 		Set<ConstraintTraceItem> items = objectItemsMap.get(object);
 		if (items == null) {
 			items = concurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
@@ -115,8 +111,15 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	 */
 	public void clear() {
 		if (storageOptimised != null) storageOptimised.clear();
-		if (items != null) items.clear();
 		if (objectItemsMap != null) objectItemsMap.clear();
+	}
+	
+	public Set<ConstraintTraceItem> getItems() {
+		Set<ConstraintTraceItem> items = new HashSet<>();
+		for (Set<ConstraintTraceItem> objectItems : objectItemsMap.values()) {
+			items.addAll(objectItems);
+		}
+		return items;
 	}
 	
 	/**
@@ -125,12 +128,12 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	 * @since 1.6
 	 */
 	public Stream<ConstraintTraceItem> stream() {
-		return items.stream();
+		return getItems().stream();
 	}
 	
 	@Override
 	public Iterator<ConstraintTraceItem> iterator() {
-		return items.iterator();
+		return getItems().iterator();
 	}
 	
 	/**
@@ -138,7 +141,7 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(items, storageOptimised, objectItemsMap);
+		return Objects.hash(storageOptimised, objectItemsMap);
 	}
 	
 	/**
@@ -153,7 +156,6 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 		ConstraintTrace ct = (ConstraintTrace) other;
 		return
 			Objects.equals(this.storageOptimised, ct.storageOptimised) &&
-			Objects.equals(this.items, ct.items) &&
 			Objects.equals(this.objectItemsMap, ct.objectItemsMap);
 	}
 }

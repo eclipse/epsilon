@@ -143,9 +143,7 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 			return;
 		// Uses Set instead of List for performance reasons when calling containsAll.
 		Function<EvlRunConfiguration, Collection<?>> ctContents = cfg ->
-			cfg.getModule().getContext().getConstraintTrace()
-			.stream()//.map(Object::toString)
-			.collect(Collectors.toSet());
+			cfg.getModule().getContext().getConstraintTrace().getItems();
 		
 		onFail(testCollectionsHaveSameElements(
 			ctContents.apply(expectedConfig),
