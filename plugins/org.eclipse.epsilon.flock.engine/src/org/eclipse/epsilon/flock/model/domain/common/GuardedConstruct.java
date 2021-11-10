@@ -47,7 +47,7 @@ public abstract class GuardedConstruct extends FlockConstruct {
 		final GuardedConstruct other = (GuardedConstruct)object;
 		
 		return super.equals(other) &&
-		       guard.equals(other.guard);
+				guard != null && guard.equals(other.guard);
 	}
 	
 	@Override
