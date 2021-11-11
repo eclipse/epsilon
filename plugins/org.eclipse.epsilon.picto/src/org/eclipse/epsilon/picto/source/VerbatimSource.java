@@ -21,7 +21,12 @@ public abstract class VerbatimSource extends SimpleSource {
 	public ViewTree getViewTree(IEditorPart editor) throws Exception {
 		IPath iPath = waitForPath(editor);
 		if (iPath == null) return createEmptyViewTree();
-		return new ViewTree(new File(iPath.toOSString()), getFormat());
+		else {
+			// If the filename ends with .picto.svg, treat the file as an EGL template
+			if (iPath.toOSString().endsWith(".picto." + getFileExtension())) return super.getViewTree(editor);
+			// else use its verbatim contents
+			else return new ViewTree(new File(iPath.toOSString()), getFormat());
+		}
 	}
 	
 }
