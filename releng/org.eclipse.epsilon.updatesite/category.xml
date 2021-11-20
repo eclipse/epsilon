@@ -87,6 +87,12 @@
    <feature id="org.eclipse.epsilon.emc.html.feature">
       <category name="Epsilon HTML Integration"/>
    </feature>
+   <feature id="org.eclipse.epsilon.emc.jdt.dt.feature">
+      <category name="Epsilon JDT Integration"/>
+   </feature>
+   <feature id="org.eclipse.epsilon.emc.jdt.feature">
+      <category name="Epsilon JDT Integration"/>
+   </feature>   
    <feature id="org.eclipse.epsilon.sirius.widget.feature">
       <category name="Epsilon Sirius Integration"/>
    </feature>
@@ -135,6 +141,11 @@
          Support for managing HTML models with languages of the Epsilon platform.
       </description>
    </category-def>
+   <category-def name="Epsilon JDT Integration" label="Epsilon JDT Integration">
+      <description>
+         Support for managing Java source code with languages of the Epsilon platform.
+      </description>
+   </category-def>   
    <category-def name="Epsilon Sirius Integration" label="Epsilon Sirius Integration">
       <description>
          Support for embedding Epsilon based editors into Sirius properties views.

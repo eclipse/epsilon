@@ -19,6 +19,8 @@
     <module>org.eclipse.epsilon.emc.graphml.feature</module>
     <module>org.eclipse.epsilon.emc.html.feature</module>
     <module>org.eclipse.epsilon.emc.html.dt.feature</module>
+    <module>org.eclipse.epsilon.emc.jdt.feature</module>
+    <module>org.eclipse.epsilon.emc.jdt.dt.feature</module>    
     <module>org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature</module>
     <module>org.eclipse.epsilon.emc.spreadsheets.excel.feature</module>
     <module>org.eclipse.epsilon.emc.spreadsheets.feature</module>
