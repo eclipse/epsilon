@@ -381,7 +381,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 			@Override
 			public Object[] getElements(Object parent) {
 				IEolContext context = Profiler.INSTANCE.getContext();
-				if (context == null) return new Object[0];
+				if (context == null || ! (context.getExecutorFactory().getExecutionController() instanceof RuleProfiler)) return new Object[0];
 				
 				return ((RuleProfiler) context.getExecutorFactory().getExecutionController())
 					.getExecutionTimes().entrySet().stream()
