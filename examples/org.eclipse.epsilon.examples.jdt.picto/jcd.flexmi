@@ -1,0 +1,33 @@
+<?nsuri jcd?>
+<!--
+<project name="org.eclipse.epsilon.examples.jdt.picto"/>
+-->
+<_>
+	<diagram name="Kitchen Sink">
+		<type name="Employee"/>
+		<type name="Person"/>
+		<type name="Product"/>
+		<type name="Order"/>
+		<type name="OrderItem"/>
+		<type name="Address"/>
+		<type name="Shippable"/>
+	</diagram>
+	
+	<diagram name="Employee and Person">
+		<type name="Employee"/>
+		<type name="Person"/>
+	</diagram>
+	
+	<diagram name="Employee but not Person">
+		<type name="Employee"/>
+	</diagram>
+	
+	<diagram name="Order and Shippable">
+		<type name="Order"/>
+		<type name="Shippable"/>
+	</diagram>
+	
+	<diagram name="Order but not Shippable">
+		<type name="Product"/>
+	</diagram>
+</_>

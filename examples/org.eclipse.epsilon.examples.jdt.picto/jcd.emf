@@ -1,0 +1,10 @@
+package jcd;
+
+class Diagram {
+	attr String name;
+	val Type[*] types;
+}
+
+class Type {
+	attr String name;
+}

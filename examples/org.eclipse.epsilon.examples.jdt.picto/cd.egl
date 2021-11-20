@@ -1,0 +1,59 @@
+@startuml
+hide circle
+[%var typeDeclarations = getTypeDeclarations();%]
+[%for (type in diagram.types){%]
+[%var td = typeDeclarations.select(td|td.name.identifier = type.name).first();%]
+[%if (td.isDefined()){%]
+class [%=td.name%] {
+	[%for (field in td.fields.select(f|not f.type.isVisible())){%]
+	[%=field.getName()%] : [%=field.type.getLabel()%]
+	[%}%]
+}
+
+[%for (field in td.fields.select(f|f.type.isVisible())){%]
+[%=td.name%] -- "[%=field.getName()%]" [%=field.type.name.identifier%]
+[%}%]
+
+[%if (td.getSuperclassType().isDefined() and td.getSuperclassType().isVisible()){%]
+[%=td.getSuperclassType().name%] <|-- [%=td.name%]
+[%}%]
+
+[%for (interfaceType in td.superInterfaceTypes().select(type|type.isVisible())){%]
+[%=interfaceType.name%] <|-- [%=td.name%]
+[%}%]
+
+[%}%]
+[%}%]
+@enduml
+
+[%
+operation JDT!FieldDeclaration getName() {
+	return self.fragments.at(0)/*VariableDeclarationFragment*/.name;
+}
+
+operation JDT!ParameterizedType getLabel() {
+	return self.type.name + "<" + self.typeArguments.collect(ta|ta.getLabel()).concat(", ") + ">";
+}
+
+operation JDT!SimpleType getLabel() {
+	return self.name;
+}
+
+operation JDT!PrimitiveType getLabel() {
+	return self.toString();
+}
+
+operation getTypeDeclarations() {
+	var typeDeclarations : Sequence;
+	for (name in diagram.types.name) {
+		typeDeclarations.addAll(JDT!TypeDeclaration.all.select(td|td.name = name));
+	}
+	return typeDeclarations;
+}
+
+operation JDT!Type isVisible() {
+	if (not self.isTypeOf(JDT!SimpleType)) return false;
+	return typeDeclarations.name.identifier.flatten().includes(self.name.identifier);
+}
+
+%]
