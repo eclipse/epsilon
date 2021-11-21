@@ -2,9 +2,54 @@ package jcd;
 
 class Diagram {
 	attr String name;
+	attr String preamble;
+	attr String postamble;
+	val Include[*] includes;
 	val Type[*] types;
+	val Association[*] associations;
+	val Constraint[*] constraints;
 }
 
-class Type {
-	attr String name;
+class Constraint {
+	attr String above;
+	attr String below;
+	attr String left;
+	attr String right;
 }
+
+class Include {
+	attr String name;
+	ref Type#include type;
+}
+
+abstract class Type {
+	attr String name;
+	ref Include#type include;
+}
+
+class Enumeration extends Type {
+	
+}
+
+class Class extends Type {
+	val Attribute[*] attributes;
+	val Reference[*] references;
+	ref Class[*] superTypes;
+}
+
+class Attribute  {
+	attr String name;
+	attr String type;
+	attr boolean many;
+}
+
+class Association {
+	val Reference[*] references;
+}
+
+class Reference {
+	attr String name;
+	attr boolean many;
+	ref Class type;
+}
+

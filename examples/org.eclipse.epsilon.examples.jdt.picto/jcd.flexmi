@@ -1,33 +1,46 @@
 <?nsuri jcd?>
-<!--
-<project name="org.eclipse.epsilon.examples.jdt.picto"/>
--->
 <_>
 	<diagram name="Kitchen Sink">
-		<type name="Employee"/>
-		<type name="Person"/>
-		<type name="Product"/>
-		<type name="Order"/>
-		<type name="OrderItem"/>
-		<type name="Address"/>
-		<type name="Shippable"/>
+		<include name="Employee"/>
+		<include name="Product"/>
+		<include name="Order"/>
+		<include name="OrderItem"/>
+		<include name="Person"/>
+		<include name="Shippable"/>
+		<include name="Address"/>
+		<include name="Customer"/>
+		<constraint below="Order" above="Employee"/>
+		<constraint below="OrderItem" above="Product"/>
+		<constraint above="Customer" below="Order"/>
+		<constraint right="Customer" left="Address"/>
 	</diagram>
 	
 	<diagram name="Employee and Person">
-		<type name="Employee"/>
-		<type name="Person"/>
+		<preamble>
+		skinparam monochrome true
+		skinparam handwritten true
+		</preamble>
+		<postamble>
+		note left of Employee: People working for our company
+		note right of Person::"lastName : String"
+		The person's last name
+		end note
+		</postamble>
+		<include name="Employee"/>
+		<include name="Person"/>
 	</diagram>
 	
 	<diagram name="Employee but not Person">
-		<type name="Employee"/>
+		<include name="Employee"/>
 	</diagram>
 	
 	<diagram name="Order and Shippable">
-		<type name="Order"/>
-		<type name="Shippable"/>
+		<include name="Order"/>
+		<include name="Shippable"/>
+		<constraint right="Order" left="Shippable"/>
 	</diagram>
 	
 	<diagram name="Order but not Shippable">
-		<type name="Product"/>
+		<include name="Product"/>
 	</diagram>
 </_>
