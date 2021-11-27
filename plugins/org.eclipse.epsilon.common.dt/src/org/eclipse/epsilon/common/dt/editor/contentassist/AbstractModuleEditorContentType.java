@@ -36,6 +36,7 @@ public class AbstractModuleEditorContentType extends TemplateContextType {
 		addResolver(new GlobalTemplateVariables.Year());
 		addResolver(new GlobalTemplateVariables.Time());
 		addResolver(new GlobalTemplateVariables.User());
+		addResolver(new PreceedingWordTemplateVariableResolver());
 	}
 
 }
