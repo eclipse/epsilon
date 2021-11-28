@@ -21,6 +21,7 @@ import org.eclipse.epsilon.egl.test.acceptance.extensibility.Extensibility;
 import org.eclipse.epsilon.egl.test.acceptance.formatters.Formatters;
 import org.eclipse.epsilon.egl.test.acceptance.merge.Merge;
 import org.eclipse.epsilon.egl.test.acceptance.operations.template.TemplateOperations;
+import org.eclipse.epsilon.egl.test.acceptance.outdentation.OutdentationTests;
 import org.eclipse.epsilon.egl.test.acceptance.output.Output;
 import org.eclipse.epsilon.egl.test.acceptance.output.lineNumbers.CurrentLineNumber;
 import org.eclipse.epsilon.egl.test.acceptance.output.newlines.OutputNewlines;
@@ -45,7 +46,8 @@ import org.junit.runners.Suite.SuiteClasses;
                TemplateOperations.class,
                CurrentLineNumber.class,
                Formatters.class,
-               PatchTestSuite.class})
+               PatchTestSuite.class,
+               OutdentationTests.class})
 public class EglAcceptanceTestSuite {
 
 	public static Test suite() {

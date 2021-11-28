@@ -77,6 +77,9 @@ public class EglLexer {
 		else if (program.startsWith("[%")) {
 			return tokenise(TokenType.START_TAG, "[%");
 		}
+		else if (program.startsWith("-%]")) {
+			return tokenise(TokenType.END_OUTDENT_TAG, "-%]");
+		}
 		else if (program.startsWith("%]")) {
 			return tokenise(TokenType.END_TAG, "%]");
 		}
@@ -84,7 +87,7 @@ public class EglLexer {
 			for (index = 0; index < program.length(); index++) {
 				// Check if any other token is next
 				if (programMatches("\n") || programMatches("\r\n") ||
-					programMatches("[%") || programMatches("%]")   ||
+					programMatches("[%") || programMatches("%]") || programMatches("-%]")   ||
 					programMatches("[*") || programMatches("*]")) {
 					
 					return tokenise(TokenType.PLAIN_TEXT, program.substring(0, index));

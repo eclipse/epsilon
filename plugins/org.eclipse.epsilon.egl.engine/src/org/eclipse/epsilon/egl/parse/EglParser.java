@@ -147,13 +147,13 @@ public class EglParser {
 		do {
 			next = parseText();
 			if (next != null) textAsts.add(next);
-		} while(next != null && current.getTokenType() != TokenType.END_TAG);
+		} while(next != null && current.getTokenType() != TokenType.END_TAG && current.getTokenType() != TokenType.END_OUTDENT_TAG);
 			
 		// A tagged section must contain at least one text section
 		if (textAsts.size() == 0) return null;
 		
 		// Ensure end tag is present
-		if (current.getTokenType() == TokenType.END_TAG) {
+		if (current.getTokenType() == TokenType.END_TAG || current.getTokenType() == TokenType.END_OUTDENT_TAG) {
 			final AST endTag = createAST(current);
 			
 			final AST taggedAst = createAST(startTagToken);

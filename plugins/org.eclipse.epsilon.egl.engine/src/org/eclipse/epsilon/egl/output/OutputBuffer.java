@@ -18,6 +18,7 @@ import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.merge.output.RegionType;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
@@ -37,6 +38,8 @@ public class OutputBuffer implements IOutputBuffer {
 	
 	protected boolean hasProtectedRegions = false;
 	protected boolean hasControlledRegions = false;
+	protected OutdentationFormatter outdentationFormatter = new OutdentationFormatter(this);
+	protected String indentation = "\t";
 	
 	public OutputBuffer(IEglContext context) {
 		this(context, null);
@@ -237,7 +240,8 @@ public class OutputBuffer implements IOutputBuffer {
 	
 	@Override
 	public void formatWith(Formatter formatter) {
-		replaceContentsWith(formatter.format(buffer.toString()));
+		CompositeFormatter composite = new CompositeFormatter(outdentationFormatter, formatter);
+		replaceContentsWith(composite.format(buffer.toString()));
 	}
 
 	protected void replaceContentsWith(String newContents) {
@@ -248,5 +252,17 @@ public class OutputBuffer implements IOutputBuffer {
 	@Override
 	public String toString() {
 		return buffer.toString();
+	}
+	
+	public OutdentationFormatter getOutdentationFormatter() {
+		return outdentationFormatter;
+	}
+	
+	public void setIndentation(String indentation) {
+		this.indentation = indentation;
+	}
+	
+	public String getIndentation() {
+		return indentation;
 	}
 }

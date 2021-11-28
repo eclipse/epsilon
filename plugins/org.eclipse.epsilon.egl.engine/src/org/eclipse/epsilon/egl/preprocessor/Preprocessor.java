@@ -14,6 +14,8 @@ import static org.eclipse.epsilon.egl.util.StringUtil.isWhitespace;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
+
 import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
@@ -136,6 +138,10 @@ public class Preprocessor {
 				case START_TAG:
 				case START_OUTPUT_TAG:
 					
+					boolean outdent = child.getSecondChild() != null ? 
+						TokenType.typeOf(child.getSecondChild().getType()) == TokenType.END_OUTDENT_TAG
+						: false;
+					
 					// Ensure that this section generates a new line of EOL
 					if (!eolEndsWith(NEWLINE)) {
 						appendNewLineToEol(child.getLine());
@@ -147,11 +153,11 @@ public class Preprocessor {
 						AST textAst = child.getFirstChild();
 						boolean firstLine = true;
 						
-						while (textAst != null && TokenType.typeOf(textAst.getType()) != TokenType.END_TAG) {
+						while (textAst != null && TokenType.typeOf(textAst.getType()) != TokenType.END_TAG && TokenType.typeOf(textAst.getType()) != TokenType.END_OUTDENT_TAG) {
 							
 							if (TokenType.typeOf(textAst.getType()) == TokenType.NEW_LINE) {
 								
-								if (TokenType.typeOf(textAst.getNextSibling().getType()) != TokenType.END_TAG) {
+								if (TokenType.typeOf(textAst.getNextSibling().getType()) != TokenType.END_TAG && TokenType.typeOf(textAst.getNextSibling().getType()) != TokenType.END_OUTDENT_TAG) {
 									appendNewLineToEol(textAst.getLine()+1, true);
 									firstLine = false;
 								}
@@ -182,8 +188,11 @@ public class Preprocessor {
 						eol.append(printCall + child.getFirstChild().getText() + ");");
 					}
 					
-					break;
+					if (outdent) {
+						eol.append("_outdent('" + UUID.randomUUID().toString() + "');");
+					}
 					
+					break;
 				default:
 					// ignore
 					break;

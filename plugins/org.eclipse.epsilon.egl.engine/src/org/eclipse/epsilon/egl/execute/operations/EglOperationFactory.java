@@ -15,6 +15,7 @@ public class EglOperationFactory extends EolOperationFactory {
 	
 	public EglOperationFactory() {
 		operationCache.put("include", new IncludeOperation());
+		operationCache.put("_outdent", new OutdentOperation());
 	}
 	
 }

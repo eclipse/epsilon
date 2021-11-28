@@ -221,7 +221,12 @@ public interface IOutputBuffer {
 	 * Reformats the contents of the buffer with the given {@link Formatter}.
 	 */
 	public void formatWith(Formatter formatter);
-
+	
+	/**
+	 * Returns the outdentation formatter
+	 */
+	public OutdentationFormatter getOutdentationFormatter();
+	
 	/**
 	 * Converts the contents of the buffer to a string.
 	 */
