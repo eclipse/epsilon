@@ -17,7 +17,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
+import org.eclipse.epsilon.eol.execute.Continue;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -75,7 +75,7 @@ public class SwitchStatement extends Statement {
 	}
 	
 	@Override
-	public Return execute(IEolContext context) throws EolRuntimeException {
+	public Object execute(IEolContext context) throws EolRuntimeException {
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		FrameStack frameStack = context.getFrameStack();
 		Object switchValue = executorFactory.execute(conditionExpression, context);
@@ -88,12 +88,14 @@ public class SwitchStatement extends Statement {
 				Object caseValue = executorFactory.execute(c.getCondition(), context);
 				
 				if (continue_ || Objects.equals(switchValue, caseValue)) {
-					try {
-						return executeCaseBody(c, context, executorFactory);
-					}
-					catch (EolContinueException ex) {
+					Object result = executeCaseBody(c, context, executorFactory);
+					if (result instanceof Continue) {
 						continue_ = true;
 					}
+					else {
+						return result;
+					}
+				
 				}
 			}
 			finally {
@@ -104,10 +106,10 @@ public class SwitchStatement extends Statement {
 		return executeCaseBody(getDefault(), context, executorFactory);
 	}
 	
-	private Return executeCaseBody(Case c, IEolContext context, ExecutorFactory executorFactory) throws EolRuntimeException {
+	private Object executeCaseBody(Case c, IEolContext context, ExecutorFactory executorFactory) throws EolRuntimeException {
 		if (c == null) return null;
 		Object result = executorFactory.execute(c.getBody(), context);
-		return result instanceof Return ? (Return) result : null;
+		return result instanceof Return || result instanceof Continue ? result : null;
 	}
 	
 	public void accept(IEolVisitor visitor) {

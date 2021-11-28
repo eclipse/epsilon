@@ -13,8 +13,8 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
+import org.eclipse.epsilon.eol.execute.Break;
+import org.eclipse.epsilon.eol.execute.Continue;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -61,20 +61,8 @@ public class WhileStatement extends Statement {
 			if ((boolean) condition) {
 				frameStack.put(Variable.createReadOnlyVariable("loopCount", loop));
 				
-				try {
-					result = executorFactory.execute(bodyStatementBlock, context);
-				}
-				catch (EolBreakException bex) {
-					if (bex.isBreaksAll() && frameStack.isInLoop()) {
-						throw bex;
-					}
-					frameStack.leaveLocal(this);
-					break;
-				}
-				catch (EolContinueException cex){
-					frameStack.leaveLocal(this);
-					continue;
-				}
+				result = executorFactory.execute(bodyStatementBlock, context);
+				frameStack.leaveLocal(this);
 
 			}
 			else {
@@ -82,10 +70,19 @@ public class WhileStatement extends Statement {
 				break;
 			}
 			
-			frameStack.leaveLocal(this);
-		
 			if (result instanceof Return) {
 				return result;
+			}
+			else if (result instanceof Break) {
+				if (frameStack.isInLoop() && ((Break) result).isAll()) {
+					return result;
+				}
+				else {
+					break;
+				}
+			}
+			else if (result instanceof Continue) {
+				continue;
 			}
 		}
 		

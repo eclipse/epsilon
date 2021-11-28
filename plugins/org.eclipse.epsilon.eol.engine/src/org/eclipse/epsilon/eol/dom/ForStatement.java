@@ -16,8 +16,8 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
+import org.eclipse.epsilon.eol.execute.Break;
+import org.eclipse.epsilon.eol.execute.Continue;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -52,7 +52,7 @@ public class ForStatement extends Statement {
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
-	public Return execute(IEolContext context) throws EolRuntimeException {
+	public Object execute(IEolContext context) throws EolRuntimeException {
 		
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		Object iteratedObject = executorFactory.execute(this.iteratedExpression, context);
@@ -98,23 +98,22 @@ public class ForStatement extends Statement {
 			
 			Object result = null; 
 			
-			try {
-				result = executorFactory.execute(bodyStatementBlock, context);
-				frameStack.leaveLocal(this);
-			}
-			catch (EolBreakException ex) {
-				loopBroken = true;
-				frameStack.leaveLocal(this);
-				if (ex.isBreaksAll() && frameStack.isInLoop()) {
-					throw ex;
-				}
-			}
-			catch (EolContinueException cex) {
-				frameStack.leaveLocal(this);
-			}
+			result = executorFactory.execute(bodyStatementBlock, context);
+			frameStack.leaveLocal(this);
 			
 			if (result instanceof Return) {
 				return (Return) result;
+			}
+			else if (result instanceof Break) {
+				if (frameStack.isInLoop() && ((Break) result).isAll()) {
+					return result;
+				}
+				else {
+					break;
+				}
+			}
+			else if (result instanceof Continue) {
+				continue;
 			}
 			
 		}

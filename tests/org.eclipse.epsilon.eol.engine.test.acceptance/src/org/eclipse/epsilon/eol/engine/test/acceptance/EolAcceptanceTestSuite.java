@@ -72,7 +72,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	LambdaExpressionExceptionTest.class,
 	ParallelStreamTests.class,
 	CommentsTests.class,
-	EolUnparserTests.class
+	EolUnparserTests.class,
+	BreakAndContinueTests.class
 })
 public class EolAcceptanceTestSuite {
 

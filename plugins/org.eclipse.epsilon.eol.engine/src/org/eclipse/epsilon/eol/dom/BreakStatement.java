@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
+import org.eclipse.epsilon.eol.execute.Break;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class BreakStatement extends Statement {
@@ -23,7 +23,7 @@ public class BreakStatement extends Statement {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		throw new EolBreakException(this, all);
+		return new Break(all);
 	};
 		
 	public void accept(IEolVisitor visitor) {
