@@ -28,8 +28,8 @@ public class TemplateOperation extends Operation {
 		final FrameStack frameStack = context.getFrameStack();
 		frameStack.put(Variable.createReadOnlyVariable(outName, out));
 		super.executeBody(context);
-		//frameStack.remove(outName);	
-		return new Return(out.toString());
+		//frameStack.remove(outName);
+		return new Return(out.getOutdentationFormatter().format(out.toString()));
 	}
 	
 }

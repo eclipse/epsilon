@@ -255,6 +255,13 @@ public class AST extends CommonTree {
 		}		
 	}
 	
+	public AST getLastChild() {
+		if (this.getChildCount() > 0) {
+			return cast(this.getChild(this.getChildCount() - 1));
+		} else {
+			return null;
+		}
+	}
 	
 	public Region getRegion() {
 		if (region == null) {

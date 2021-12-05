@@ -138,9 +138,9 @@ public class Preprocessor {
 				case START_TAG:
 				case START_OUTPUT_TAG:
 					
-					boolean outdent = child.getSecondChild() != null ? 
-						TokenType.typeOf(child.getSecondChild().getType()) == TokenType.END_OUTDENT_TAG
-						: false;
+					boolean outdent = child.hasChildren() ?
+							TokenType.typeOf(child.getLastChild().getType()) == TokenType.END_OUTDENT_TAG 
+							: false;
 					
 					// Ensure that this section generates a new line of EOL
 					if (!eolEndsWith(NEWLINE)) {

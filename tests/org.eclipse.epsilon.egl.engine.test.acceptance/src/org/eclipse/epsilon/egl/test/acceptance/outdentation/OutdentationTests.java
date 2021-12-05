@@ -28,6 +28,21 @@ public class OutdentationTests {
 	}
 	
 	@Test
+	public void testIfElseIf() throws Exception {
+		test("IfElseIf");
+	}
+	
+	@Test
+	public void testSwitch() throws Exception {
+		test("Switch");
+	}
+	
+	@Test
+	public void testTemplateOperation() throws Exception {
+		test("TemplateOperation");
+	}
+	
+	@Test
 	public void testForIfDoubleOutdentation() throws Exception {
 		test("ForIfDoubleOutdentation");
 	}

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -23,7 +22,7 @@ public class OutdentOperation extends SimpleOperation {
 		String id = String.valueOf(parameters.get(0));
 		
 		if (!ids.contains(id)) {
-			IOutputBuffer buffer = ((IEglContext) context).getOutputBuffer();
+			IOutputBuffer buffer = (IOutputBuffer) context.getFrameStack().get("out").getValue();
 			buffer.getOutdentationFormatter().outdent(buffer.getOffset());
 			ids.add(id);
 			final ModuleElement moduleElement = context.getFrameStack().getCurrentStatement().getParent();
