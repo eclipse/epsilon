@@ -77,6 +77,7 @@ public class PictoView extends ViewPart {
 	protected FilteredViewTree filteredTree;
 	protected boolean renderVerbatimSources = false;
 	protected ViewTreeSelectionHistory viewTreeSelectionHistory = new ViewTreeSelectionHistory();
+	protected int treePosition = SWT.LEFT;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -287,7 +288,8 @@ public class PictoView extends ViewPart {
 		if (isTreeViewerVisible() && !visible) { // Hide
 			sashFormWeights = sashForm.getWeights();
 			sashForm.setSashWidth(0);
-			sashForm.setWeights(new int[] {0, 100});
+			if (treePosition == SWT.LEFT) sashForm.setWeights(new int[] {0, 100});
+			else sashForm.setWeights(new int[] {100, 0});
 		}
 		else if (!isTreeViewerVisible() && visible) { // Show
 			sashForm.setSashWidth(2);
@@ -486,16 +488,14 @@ public class PictoView extends ViewPart {
 	
 	class MoveTreeAction extends Action {
 		
-		protected String position = "left";
-		
 		public MoveTreeAction() {
-			setText(getText("right"));
-			setImageDescriptor(getImageDescriptor("right"));
+			setText(getText(SWT.RIGHT));
+			setImageDescriptor(getImageDescriptor(SWT.RIGHT));
 		}
 		
 		@Override
 		public void run() {
-			if ("left".equals(position)) {
+			if (treePosition == SWT.LEFT) {
 				browserContainer.moveAbove(filteredTree);
 			}
 			else {
@@ -504,18 +504,17 @@ public class PictoView extends ViewPart {
 			
 			sashForm.layout(true);
 			
-			setText(getText(position));
-			setImageDescriptor(getImageDescriptor(position));
-			position = position.equalsIgnoreCase("left") ? "right" : "left";
-			
+			setText(getText(treePosition));
+			setImageDescriptor(getImageDescriptor(treePosition));
+			treePosition = treePosition == SWT.LEFT ? SWT.RIGHT : SWT.LEFT;
 		}
 		
-		protected String getText(String position) {
-			return "Move tree to the " + position;
+		protected String getText(int position) {
+			return "Move tree to the " + (position == SWT.LEFT ? "left" : "right");
 		}
 		
-		protected ImageDescriptor getImageDescriptor(String position) {
-			return PictoPlugin.getDefault().getImageDescriptor("icons/tree_" + position + ".png");
+		protected ImageDescriptor getImageDescriptor(int position) {
+			return PictoPlugin.getDefault().getImageDescriptor("icons/tree_" + (position == SWT.LEFT ? "left" : "right") + ".png");
 		}
 	}
 	
