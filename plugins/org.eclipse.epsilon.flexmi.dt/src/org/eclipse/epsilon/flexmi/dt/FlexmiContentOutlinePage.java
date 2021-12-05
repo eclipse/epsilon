@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.dt;
 
+import java.io.File;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -27,6 +28,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider;
 import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.flexmi.EObjectLocation;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextSelection;
@@ -97,7 +99,8 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
     						String text = super.getText(object);
     						if (object instanceof EObject && ((EObject) object).eContainingFeature() != null) {
     							text += " (" + ((EObject) object).eContainingFeature().getName() + ")";
-    						}
+        					}
+    						
     						return text;
     					}
     				  }, new DiagnosticDecorator(new ResourceSetImpl(), contentOutlineViewer)));
@@ -153,32 +156,10 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
 				if (file == null) return;
 				
 				final EObjectLocation location = editor.getResource().getEObjectTraceManager().getLine((EObject) selected);
-				if (!file.getLocation().toOSString().equals(location.getUri().toFileString())) return;
 				
-				final int line = location.getLine();
-					
+				int line = location.getLine() != 0 ? location.getLine() : 1;
 				
-				
-				final FileEditorInput fileinput=new FileEditorInput(file);
-				final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
-				
-				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							int realLine = line;
-							if (realLine == 0) realLine = 1;
-							
-							AbstractTextEditor editor = (AbstractTextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(fileinput,desc.getId(), false);		
-							IDocument doc = editor.getDocumentProvider().getDocument(fileinput);
-							editor.selectAndReveal(doc.getLineOffset(realLine - 1), 0);
-						}
-						catch (Exception ex) {
-							ex.printStackTrace();
-						}				
-					}
-				});
-				
+				EclipseUtil.openEditorAt(new File(new java.net.URI(location.getUri().toString())), line, 0, false);
 			}
 			catch (Exception ex) {
 				// Ignore
