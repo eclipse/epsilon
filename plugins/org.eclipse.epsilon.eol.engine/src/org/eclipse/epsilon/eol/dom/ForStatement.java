@@ -50,49 +50,43 @@ public class ForStatement extends Statement {
 		bodyStatementBlock = toStatementBlock(module.createAst(cst.getThirdChild(), this));
 	}
 	
-	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		Object iteratedObject = executorFactory.execute(this.iteratedExpression, context);
 		
-		Collection<Object> iteratedCol = null;
-		Iterator<?> it = null;
+		Iterator<?> iterator = null;
 		
-		if (iteratedObject instanceof Collection<?>) {
-			iteratedCol = (Collection<Object>) iteratedObject;
+		if (iteratedObject instanceof Iterator) {
+			iterator = (Iterator<?>) iteratedObject;
 		}
-		//TODO: Reduce duplication between here and EolCollection.asCollection
 		else if (iteratedObject instanceof Iterable) {
-			iteratedCol = CollectionUtil.iterate((Iterable) iteratedObject);
+			iterator = ((Iterable<?>) iteratedObject).iterator();
 		}
 		else if (iteratedObject instanceof EolModelElementType) {
-			iteratedCol = CollectionUtil.createDefaultList(); 
-			iteratedCol.addAll(((EolModelElementType) iteratedObject).all());
-		}
-		else if (iteratedObject instanceof Iterator) {
-			it = (Iterator<?>) iteratedObject;
+			Collection<Object> col = CollectionUtil.createDefaultList(); 
+			col.addAll(((EolModelElementType) iteratedObject).all());
+			iterator = col.iterator();
 		}
 		else {
-			iteratedCol = CollectionUtil.createDefaultList();
-			iteratedCol.add(iteratedObject);
+			Collection<Object> col = CollectionUtil.createDefaultList();
+			col.add(iteratedObject);
+			iterator = col.iterator();
 		}
 		
 		EolType iteratorType = iteratorParameter.getType(context);
-		if (it == null) it = iteratedCol.iterator();
-
-		boolean loopBroken = false;
 		
 		FrameStack frameStack = context.getFrameStack();
 		
-		for (int loop = 1; it.hasNext() && !loopBroken;) {
-			Object next = it.next();
+		for (int loop = 1; iterator.hasNext();) {
+			Object next = iterator.next();
 			
 			if (!iteratorType.isKind(next)) continue;
+			
 			frameStack.enterLocal(FrameType.UNPROTECTED, this,
 				new Variable(iteratorParameter.getName(), next, iteratorType),
-				new Variable("hasMore", it.hasNext(), EolPrimitiveType.Boolean, true),
+				new Variable("hasMore", iterator.hasNext(), EolPrimitiveType.Boolean, true),
 				new Variable("loopCount", loop++, EolPrimitiveType.Integer, true)
 			);
 			

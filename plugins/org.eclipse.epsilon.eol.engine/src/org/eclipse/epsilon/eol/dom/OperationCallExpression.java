@@ -79,7 +79,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 	}
 	
-	@SuppressWarnings("resource")
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object targetObject;

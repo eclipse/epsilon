@@ -13,7 +13,6 @@ import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import static org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestUtil.*;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.*;

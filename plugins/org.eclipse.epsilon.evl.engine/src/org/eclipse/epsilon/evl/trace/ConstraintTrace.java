@@ -54,8 +54,9 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	public void addAll(Collection<? extends ConstraintTrace> others) {
 		for (ConstraintTrace ct : others) {
 			storageOptimised.addAll(ct.storageOptimised);
-			ct.getItems().stream().forEach(cti -> { 
-				addChecked(cti.getConstraint(), cti.getInstance(), cti.getResult());});
+			for (ConstraintTraceItem cti : ct.getItems()) {
+				addChecked(cti.getConstraint(), cti.getInstance(), cti.getResult());
+			}
 		}
 	}
 	
