@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.output;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +41,7 @@ public class OutputBuffer implements IOutputBuffer {
 	protected boolean hasProtectedRegions = false;
 	protected boolean hasControlledRegions = false;
 	protected OutdentationFormatter outdentationFormatter = new OutdentationFormatter(this);
-	protected String indentation = "\t";
+	protected Collection<String> indenters = Arrays.asList("\t", "    ");
 	
 	public OutputBuffer(IEglContext context) {
 		this(context, null);
@@ -258,11 +260,11 @@ public class OutputBuffer implements IOutputBuffer {
 		return outdentationFormatter;
 	}
 	
-	public void setIndentation(String indentation) {
-		this.indentation = indentation;
+	public void setIndenters(Collection<String> indentation) {
+		this.indenters = indentation;
 	}
 	
-	public String getIndentation() {
-		return indentation;
+	public Collection<String> getIndenters() {
+		return indenters;
 	}
 }

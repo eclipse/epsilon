@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.output;
 
+import java.util.Collection;
+
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.formatter.Formatter;
@@ -240,4 +242,9 @@ public interface IOutputBuffer {
 	public default String getNewline() {
 		return org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 	}
+	
+	public void setIndenters(Collection<String> indentation);
+	
+	public Collection<String> getIndenters();
+	
 }

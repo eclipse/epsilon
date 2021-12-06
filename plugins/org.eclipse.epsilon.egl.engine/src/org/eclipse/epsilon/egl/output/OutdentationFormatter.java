@@ -74,10 +74,15 @@ public class OutdentationFormatter implements Formatter {
 	}
 
 	protected String outdent(String line, int outdentation) {
-		String indentation = outputBuffer.getIndentation();
+		
 		for (int i = 0; i < outdentation; i++) {
-			if (line.startsWith(indentation)) {
-				line = line.substring(indentation.length(), line.length());
+			
+			final String l = line;
+			String indenter = outputBuffer.getIndenters().stream().
+					filter(in -> l.startsWith(in)).findAny().orElse(null);
+			
+			if (indenter != null) {
+				line = line.substring(indenter.length(), line.length());
 			}
 		}
 		return line;

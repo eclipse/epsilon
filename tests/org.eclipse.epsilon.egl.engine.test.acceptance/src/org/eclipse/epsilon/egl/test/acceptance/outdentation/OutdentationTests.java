@@ -52,6 +52,11 @@ public class OutdentationTests {
 		test("Break");
 	}
 	
+	@Test
+	public void testSpaces() throws Exception {
+		test("Spaces");
+	}
+	
 	protected void test(String name) throws Exception {
 		AcceptanceTestUtil.test(
 				getFileStandalone(name + ".egl", OutdentationTests.class),

@@ -24,6 +24,7 @@ public class TemplateOperation extends Operation {
 	protected Return executeBody(IEolContext context) throws EolRuntimeException {
 		final IEglContext eglContext = (IEglContext) context;
 		final IOutputBuffer out = eglContext.newOutputBuffer();
+		out.setIndenters(eglContext.getOutputBuffer().getIndenters());
 		final String outName = "out";
 		final FrameStack frameStack = context.getFrameStack();
 		frameStack.put(Variable.createReadOnlyVariable(outName, out));
