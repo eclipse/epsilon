@@ -66,8 +66,7 @@ public class VirtualEmfModel extends AbstractEmfModel {
 	@Override
 	public boolean hasType(String type) {
 		String firstChar = type.substring(0,1);
-		return firstChar == firstChar.toUpperCase();
-
+		return firstChar.equals(firstChar.toUpperCase());
 	}
 	
 	@Override
