@@ -7,6 +7,9 @@ class [%=class.name%] {
 	[%for (attribute in class.attributes){%]
 	[%=attribute.name%] : [%=attribute.type%]
 	[%}%]
+	[%for (method in class.methods) { %]
+	[%=method.getLabel()%]
+	[%}%]
 }
 
 [%for (reference in class.references){%]
@@ -38,7 +41,7 @@ operation JCD!Diagram populate() {
 	// Populate supertypes
 	for (class in self.types.select(t|t.isTypeOf(JCD!Class))) {
 		if (class.~typeDeclaration.getSuperclassType().isDefined()) {
-			class.superTypes.addAll(self.types.select(c:JCD!Class|c.name = class.~typeDeclaration.getSuperclassType().name.identifier));
+			class.superTypes.addAll(self.types.select(c:JCD!Class|c.name = class.~typeDeclaration.getSuperclassType().toString()/*name.identifier*/));
 		}
 		
 		for (interface in class.~typeDeclaration.superInterfaceTypes()) {
@@ -46,7 +49,7 @@ operation JCD!Diagram populate() {
 		}
 	}
 	
-	// Populate class attributes and references
+	// Populate class attributes, references and methods
 	for (class in self.types.select(t|t.isTypeOf(JCD!Class))) {
 		for (field in class.~typeDeclaration.fields) {
 			if (not field.getType().isVisible(diagram)) {
@@ -64,7 +67,23 @@ operation JCD!Diagram populate() {
 				class.references.add(reference);
 			}
 		}
+		
+		// Populate class methods
+		for (methodDeclaration in class.~typeDeclaration.methods) {
+			var method = new JCD!Method;
+			method.name = methodDeclaration.name.identifier;
+			for (formalParameter in methodDeclaration.parameters()) {
+				var parameter : new JCD!Parameter;
+				parameter.name = formalParameter.name.identifier;
+				parameter.type = formalParameter.type.getLabel();
+				method.parameters.add(parameter);
+			}
+			//method.type = methodDeclaration.returnType2.getLabel();
+			class.methods.add(method);
+		}
+		
 	}
+	
 	
 }
 
@@ -117,6 +136,10 @@ operation JDT!ParameterizedType getLabel() {
 	return self.type.name + "<" + self.typeArguments.collect(ta|ta.getLabel()).concat(", ") + ">";
 }
 
+operation JDT!WildcardType getLabel() {
+	return self.toString();
+}
+
 operation JDT!SimpleType getLabel() {
 	return self.name.identifier;
 }
@@ -143,6 +166,12 @@ operation JDT!FieldDeclaration isCollection() {
 operation JDT!Type isVisible(diagram : JCD!Diagram) {
 	if (not self.isTypeOf(JDT!SimpleType)) return false;
 	return diagram.types.name.includes(self.name.identifier);
+}
+
+operation JCD!Method getLabel() {
+	var label = self.name + "(" + self.parameters.collect(p|p.name + ":" + p.type).concat(", ") + ")";
+	if (self.type.isDefined() and self.type != "void") label += " : " + self.type;
+	return label;
 }
 
 %]

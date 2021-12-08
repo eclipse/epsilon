@@ -35,6 +35,7 @@ class Class extends Type {
 	val Attribute[*] attributes;
 	val Reference[*] references;
 	ref Class[*] superTypes;
+	val Method[*] methods;
 }
 
 class Attribute  {
@@ -45,6 +46,18 @@ class Attribute  {
 
 class Association {
 	val Reference[*] references;
+}
+
+class Method {
+	attr String name;
+	attr String type;
+	val Parameter[*] parameters;
+	attr String[*] exceptions;
+}
+
+class Parameter {
+	attr String name;
+	attr String type;
 }
 
 class Reference {
