@@ -41,6 +41,6 @@
 	</diagram>
 	
 	<diagram name="Order but not Shippable">
-		<include name="Product"/>
+		<include name="Order"/>
 	</diagram>
 </_>
