@@ -6,4 +6,4 @@ TypeDeclaration.all
 
 TypeDeclaration.all
 	.select(td|td.name = 'Coin')
-	.first.class.println('Found instances of Coin: ');
+	.size().println('Found classes named Coin: ');
