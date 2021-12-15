@@ -78,7 +78,6 @@
       <unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.math3" version="3.6.1.v20200817-1830"/>
-      <unit id="org.apache.logging.log4j" version="2.8.2.v20200818-1118"/>
       <unit id="org.apache.poi" version="4.1.1.v20200604-1524"/>
       <unit id="org.apache.poi.ooxml" version="4.1.1.v20200820-1148"/>
       <unit id="org.apache.poi.ooxml.schemas" version="4.1.1.v20200922-2105"/>
