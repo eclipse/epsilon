@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.common.dt.editor;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
@@ -12,7 +13,7 @@ public class EmptyResourceBundle extends ResourceBundle {
 
 	@Override
 	public Enumeration<String> getKeys() {
-		return null;
+		return Collections.enumeration(Collections.emptyList());
 	}
 
 }
