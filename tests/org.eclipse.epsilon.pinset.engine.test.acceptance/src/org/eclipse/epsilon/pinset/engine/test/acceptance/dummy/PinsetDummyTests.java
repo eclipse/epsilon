@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.pinset.engine.test.acceptance.dummy;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.pinset.PinsetModule;
 import org.eclipse.epsilon.pinset.engine.test.acceptance.PinsetTests;
 import org.junit.BeforeClass;
@@ -24,6 +25,8 @@ public class PinsetDummyTests extends PinsetTests {
 
 	@Test
 	public void testDummy() throws Exception {
+		FileUtil.copyToTemp(getFile("operations.eol"));
+
 		PinsetModule module = new PinsetModule();
 		module.persistDatasets(false);
 		module.parse(getFile("dummy.pinset"));

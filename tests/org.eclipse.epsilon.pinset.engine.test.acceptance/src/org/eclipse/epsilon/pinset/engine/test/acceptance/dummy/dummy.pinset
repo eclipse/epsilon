@@ -1,6 +1,22 @@
+import "operations.eol";
+
 dataset Dummy01_As over a : A {
   properties [x, en]
   column twiceX : a.x * 2
+}
+
+operation twice(number) {
+	return number * 2;
+}
+
+dataset Dummy01_As_ExternalOperation over a : A {
+  properties [x, en]
+  column twiceX : twice(a.x)
+}
+
+dataset Dummy01_As_ImportedOperation over a : A {
+  properties [x, en]
+  column tripleX : triple(a.x)
 }
 
 dataset Dummy02_AsAndPartialBs over a : A {
