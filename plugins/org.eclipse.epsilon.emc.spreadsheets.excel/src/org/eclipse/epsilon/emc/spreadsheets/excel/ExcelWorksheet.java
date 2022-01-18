@@ -15,9 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.eclipse.epsilon.common.util.StringUtil;
+import org.eclipse.epsilon.common.util.Wrapper;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
@@ -85,7 +87,16 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 		for (int i = this.getFirstRowIndex(); i <= numOfRows; i++) {
 			final Row row = this.sheet.getRow(i);
 			if (row != null) {
-				rows.add(new ExcelRow(this, row));
+				
+				// Only consider rows with at least one non-blank cell
+				final Wrapper<Boolean> emptyRow = new Wrapper<Boolean>(true);
+				row.cellIterator().forEachRemaining(cell -> {
+					if (!(cell.getCellType() == CellType.BLANK)) { 
+						emptyRow.setValue(false); 
+					}
+				});
+				
+				if (!emptyRow.getValue()) rows.add(new ExcelRow(this, row));
 			}
 		}
 		return rows;
@@ -132,5 +143,4 @@ public class ExcelWorksheet extends SpreadsheetWorksheet {
 	public int getFirstRowIndex() {
 		return 1;
 	}
-
 }
