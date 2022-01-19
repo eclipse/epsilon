@@ -1,0 +1,40 @@
+configurations {
+	epsilon
+}
+
+repositories {
+	maven {
+		url "https://oss.sonatype.org/content/repositories/snapshots"
+	}
+	mavenCentral()
+}
+
+dependencies {
+	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.workflow:2.4.0-SNAPSHOT'
+	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.emc.spreadsheets.excel:2.4.0-SNAPSHOT'
+}
+
+task setupEpsilonTasks {
+	// Set up the core Epsilon tasks
+	ant.taskdef(resource: 'org/eclipse/epsilon/workflow/tasks/tasks.xml', 
+		classpath: configurations.epsilon.asPath, loaderref: 'epsilon')
+	// Set logging level to info so that EOL's println() is not suppressed
+	ant.lifecycleLogLevel = 'INFO'
+}
+
+task run {
+	dependsOn tasks.setupEpsilonTasks
+	
+	// Download the library.xlsx spreadsheet from Google Drive
+	// https://docs.google.com/spreadsheets/d/10Mv-H6nR6mBIEC_koKDcw4e8VfE0Jaxq
+	def f = new File('library.xlsx')
+	new URL('https://docs.google.com/spreadsheets/d/10Mv-H6nR6mBIEC_koKDcw4e8VfE0Jaxq/export?format=xlsx').withInputStream{ i -> f.withOutputStream{ it << i }}
+
+	ant.'epsilon.loadModel'(name: 'Library', impl: 'org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel'){
+		parameter(name: 'SPREADSHEET_FILE', file: 'library.xlsx')
+		parameter(name: 'CONFIGURATION_FILE', file: '../excel/mapping.xml')
+	}
+
+	// Run library.eol against it
+	ant.'epsilon.eol'(src: '../library.eol'){ model(ref: 'Library') }
+}
