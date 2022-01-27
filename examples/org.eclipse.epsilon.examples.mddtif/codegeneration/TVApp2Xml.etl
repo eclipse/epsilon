@@ -1,8 +1,3 @@
-pre {
-	var doc : new Xml!Document;
-	doc.rootElement = TVApp!Application.allInstances.first().equivalent();
-}
-
 @abstract
 rule NamedElement2Element
 	transform ne : TVApp!NamedElement
@@ -14,6 +9,9 @@ rule NamedElement2Element
 rule Application2Element
 	transform a : TVApp!Application
 	to n : Xml!Element extends NamedElement2Element{
+	
+	var doc : new Xml!Document;
+	doc.rootElement = n;
 	
 	n.name = "Application";
 	n.contents = a.contents.equivalent();
