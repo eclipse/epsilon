@@ -71,7 +71,14 @@ class FileEditorInputConverter {
 	
 	private IFile resourceToFile(String path) {
 		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		return root.getFileForLocation(new Path(new File(textlinkModel.getFile().getParentFile(), path).getAbsolutePath()));
+
+		// Resolve path from the .textlink model folder
+		final File textlinkFolder = textlinkModel.getFile().getParentFile();
+		final String resolvedPath = textlinkFolder.toPath().resolve(path)
+			.toAbsolutePath().toString();
+
+		final IFile file = root.getFileForLocation(new Path(resolvedPath));
+		return file;
 	}
 	
 	private String getModelEditorIdFor(IFile file) {
