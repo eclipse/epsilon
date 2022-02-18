@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
@@ -69,7 +70,8 @@ public class TextLinkEditorStarter extends EditorPart {
 			public void run() {
 				EmfModel textlinkModel = null;
 				
-				getSite().getPage().closeEditor(starter, false);
+				final IWorkbenchPage page = getSite().getPage();
+				page.closeEditor(starter, false);
 				try {
 					final FileEditorInput editorInput = (FileEditorInput)starter.getEditorInput();
 					textlinkModel = EmfModelFactory.getInstance().loadEmfModel("Textlink",
@@ -77,15 +79,12 @@ public class TextLinkEditorStarter extends EditorPart {
 					                                                           TextlinkPackage.eINSTANCE);
 					
 					final TextLinkEditorInput convertedInput = new FileEditorInputConverter(new TextLinkModel(textlinkModel, new File(editorInput.getPath().toOSString()))).convert();
-					
-					getSite().getPage().openEditor(convertedInput, "org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceAwareEditor");
-
+					page.openEditor(convertedInput, "org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceAwareEditor");
 				} catch (Exception e) {
 					if (textlinkModel != null) textlinkModel.dispose();
 					throw new IllegalArgumentException("Error encountered whilst loading TextLink model at: " + starter.getEditorInput(), e);
 				}
 			}
-
 		});
 	}
 
