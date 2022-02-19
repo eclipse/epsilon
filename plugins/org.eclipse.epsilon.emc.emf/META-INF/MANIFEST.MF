@@ -17,5 +17,6 @@ Export-Package: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.emc.emf.tools,
  org.eclipse.epsilon.emc.emf.transactions,
  org.eclipse.epsilon.emc.emf.util,
+ org.eclipse.epsilon.emc.emf.xmi,
  org.eclipse.epsilon.emc.emf.xml
 Automatic-Module-Name: org.eclipse.epsilon.emc.emf
