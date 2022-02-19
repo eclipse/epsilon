@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2022 The University of York, Antonio García-Domínguez.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio García-Domínguez - fix issues when opening an already opened file
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.traceability.editor;
 
@@ -19,6 +20,7 @@ import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -79,7 +81,18 @@ public class TextLinkEditorStarter extends EditorPart {
 					                                                           TextlinkPackage.eINSTANCE);
 					
 					final TextLinkEditorInput convertedInput = new FileEditorInputConverter(new TextLinkModel(textlinkModel, new File(editorInput.getPath().toOSString()))).convert();
-					page.openEditor(convertedInput, "org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceAwareEditor");
+					IEditorPart existingEditor = page.findEditor(convertedInput);
+					if (existingEditor == null) {
+						page.openEditor(convertedInput, "org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceAwareEditor");
+					} else {
+						/*
+						 * This is already open: unload the .textlink model so we do not end up caching
+						 * an old copy forever.
+						 */
+						textlinkModel.dispose();
+						page.activate(existingEditor);
+					}
+
 				} catch (Exception e) {
 					if (textlinkModel != null) textlinkModel.dispose();
 					throw new IllegalArgumentException("Error encountered whilst loading TextLink model at: " + starter.getEditorInput(), e);
