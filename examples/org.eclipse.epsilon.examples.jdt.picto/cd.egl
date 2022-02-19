@@ -39,7 +39,7 @@ operation JCD!Diagram populate() {
 	}
 	
 	// Populate supertypes
-	for (class in self.types.select(t|t.isTypeOf(JCD!Class))) {
+	for (class in self.types.select(t|t.isTypeOf(JCD!Class) and t.~typeDeclaration.isDefined())) {
 		if (class.~typeDeclaration.getSuperclassType().isDefined()) {
 			class.superTypes.addAll(self.types.select(c:JCD!Class|c.name = class.~typeDeclaration.getSuperclassType().toString()/*name.identifier*/));
 		}
@@ -50,7 +50,7 @@ operation JCD!Diagram populate() {
 	}
 	
 	// Populate class attributes, references and methods
-	for (class in self.types.select(t|t.isTypeOf(JCD!Class))) {
+	for (class in self.types.select(t|t.isTypeOf(JCD!Class) and t.~typeDeclaration.isDefined())) {
 		for (field in class.~typeDeclaration.fields) {
 			if (not field.getType().isVisible(diagram)) {
 				var attribute = new JCD!Attribute;
@@ -100,7 +100,7 @@ operation getEdge(class:JCD!Class, superClass:JCD!Class) {
 		return class.name + " -|> " + superClass.name;
 	}
 	else if (diagram.constraints.exists(c|c.left = superClass.name and c.right = class.name)) {
-		return class.name + " <|- " + superClass.name;
+		return superClass.name + " <|- " + class.name;
 	}
 	else {
 		return superClass.name + " <|-- " + class.name;
