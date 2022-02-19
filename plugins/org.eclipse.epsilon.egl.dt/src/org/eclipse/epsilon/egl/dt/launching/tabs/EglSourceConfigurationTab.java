@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2022 The University of York, Antonio García-Domínguez.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Antonio García-Domínguez - detect invalid trace configuration
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.launching.tabs;
 
@@ -34,6 +35,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab implements SelectionListener {
+
+	protected static final String ERROR_TRACE_CONSOLE = "Cannot generate a trace when printing output to the console";
 
 	protected Text outputFilePath;
 	protected Text outputDirPath;
@@ -162,8 +165,8 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 			
 			produceTrace = new Button(traceGroup, SWT.CHECK);
 			produceTrace.setText("Produce a trace model?");
+			produceTrace.addSelectionListener(this);
 			produceTrace.addSelectionListener(new SelectionListener() {
-				
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					updateEnabledStateOfTraceWidgets();
@@ -211,7 +214,20 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		if (traceDestination != null) traceDestination.setEnabled(produceTrace.getSelection());
 		if (browseForTraceDestination != null) browseForTraceDestination.setEnabled(produceTrace.getSelection());
 	}
-	
+
+	@Override
+	public boolean canSave() {
+		if (eglTargetGroup != null && eglTargetGroup.isVisible()
+				&& generateToConsole != null && generateToConsole.getSelection()
+				&& produceTrace != null && produceTrace.getSelection()) {
+			setErrorMessage(ERROR_TRACE_CONSOLE);
+			return false;
+		} else {
+			setErrorMessage(null);
+			return super.canSave();
+		}
+	}
+
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		super.setDefaults(configuration);
 		
