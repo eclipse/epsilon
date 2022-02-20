@@ -1,0 +1,3 @@
+# Eclipse Epsilon
+
+[Epsilon](https://eclipse.org/epsilon) is a family of Java-based scripting languages for automating common model-based software engineering tasks, such as code generation, model-to-model transformation and model validation, that work out of the box with EMF (including Xtext and Sirius), UML, Simulink, XML and other types of models. Epsilon also includes Eclipse-based editors and debuggers, convenient reflective tools for textual modelling and model visualisation, and Apache Ant tasks.
