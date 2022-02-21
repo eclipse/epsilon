@@ -28,6 +28,7 @@ import org.eclipse.epsilon.emc.emf.test.*;
 import org.eclipse.epsilon.emc.graphml.tests.*;
 import org.eclipse.epsilon.emc.hutn.test.*;
 import org.eclipse.epsilon.emc.plainxml.test.*;
+import org.eclipse.epsilon.emc.yaml.test.*;
 import org.eclipse.epsilon.emc.spreadsheets.test.*;
 import org.eclipse.epsilon.eml.engine.test.acceptance.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.*;
@@ -83,6 +84,7 @@ import junit.framework.Test;
 	EwlAcceptanceTestSuite.class,
 	EplAcceptanceTestSuite.class,
 	PlainXmlTestSuite.class,
+	YamlTestSuite.class,
 	BibtexModelTestSuite.class,
 	GraphmlTestSuite.class,
 	EmfTestSuite.class,
