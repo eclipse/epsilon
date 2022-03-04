@@ -10,8 +10,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tycho.version>2.3.0</tycho.version>
-    <java.version>1.8</java.version>
+    <tycho.version>2.7.0</tycho.version>
+    <java.version>11</java.version>
     <javadoc.opts>-Xdoclint:none</javadoc.opts>
     <epsilon.version>2.4.0-SNAPSHOT</epsilon.version>
   </properties>
@@ -78,7 +78,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.10.0</version>
         <configuration>
           <encoding>UTF-8</encoding>
           <source>${java.version}</source>
@@ -160,7 +160,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.2</version>
         <configuration>
           <doclint>none</doclint>
           <failOnError>false</failOnError>
@@ -181,12 +181,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.9.0</version>
+        <version>3.11.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.2</version>
         <configuration>
           <doclint>none</doclint>
           <failOnError>false</failOnError>
