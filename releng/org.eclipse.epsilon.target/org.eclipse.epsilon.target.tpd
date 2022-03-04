@@ -4,7 +4,7 @@ location "http://download.eclipse.org/cbi/updates/license" {
 	org.eclipse.license.feature.group lazy
 }
 
-location "http://download.eclipse.org/releases/2020-06" {
+location "http://download.eclipse.org/releases/2021-12" {
 	org.eclipse.e4.core.tools.feature.feature.group lazy
 	org.eclipse.emf.sdk.feature.group lazy
 	org.eclipse.emf.validation.sdk.feature.group lazy
@@ -50,7 +50,7 @@ location "http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"
 	org.eclipse.gmf.tooling.runtime.feature.group [3.2.1,3.2.2)
 }
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/R20210223232630/repository" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository" {
 	com.atlassian.commonmark [0.15.1,0.15.2)
 	com.atlassian.commonmark-gfm-strikethrough [0.15.1,0.15.2)
 	com.atlassian.commonmark-gfm-tables [0.15.1,0.15.2)
@@ -70,7 +70,7 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2021022323263
 	org.apache.commons.codec  [1.14.0,1.14.1)
 	org.apache.commons.collections [3.2.2,3.2.3)
 	org.apache.commons.collections4 [4.4.0,4.4.1)
-	org.apache.commons.compress [1.19.0,1.19.1)
+	org.apache.commons.compress [1.19.0,1.21.1)
 	org.apache.commons.csv [1.8.0,1.8.1)
 	org.apache.commons.lang3 [3.1.0,3.1.1)
 	org.apache.commons.logging [1.2.0,1.2.1)

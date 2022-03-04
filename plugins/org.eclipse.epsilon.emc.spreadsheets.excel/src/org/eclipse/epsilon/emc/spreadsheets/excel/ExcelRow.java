@@ -15,6 +15,7 @@ import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetDataType;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 
 public class ExcelRow extends SpreadsheetRow {
+	
 	protected ExcelWorksheet worksheet;
 	protected Row row;
 
@@ -41,7 +42,7 @@ public class ExcelRow extends SpreadsheetRow {
 							visibleCellValue += Math.round(numericValue);
 						}
 						else if (column.getDataType() == SpreadsheetDataType.FLOAT) {
-							visibleCellValue += new Float(numericValue);
+							visibleCellValue += (float) numericValue;
 						}
 						else {
 							visibleCellValue += numericValue;
