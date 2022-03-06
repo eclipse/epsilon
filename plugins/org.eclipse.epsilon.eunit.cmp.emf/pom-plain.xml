@@ -72,13 +72,12 @@
     </dependency>
 
     <!--
-        Use the download-emf-compare.sh script at the root of the repository to
-        download EMF Compare and install it in the local Maven repository.
+        Use the download-emf-compare.sh script to install EMF Compare in the local Maven repository.
     -->
     <dependency>
       <groupId>org.eclipse.emf</groupId>
       <artifactId>org.eclipse.emf.compare</artifactId>
-      <version>3.5.3.202011201248</version>
+      <version>3.5.3.202111290942</version>
     </dependency>
 
     <!-- From EMF Compare -->

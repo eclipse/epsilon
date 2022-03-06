@@ -30,8 +30,10 @@ cp -r $InterimJavadocs/* $StableJavadocs &&
 rm -rf $StableJavadocs/$InterimJavadocs &&
 echo "Adding $NewVersion to composite..." &&
 cd $Downloads/$UpdatesName &&
-ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
+export JAVA_HOME=/shared/common/jdk1.8.0_x64-latest
+/shared/common/apache-ant-latest/bin/ant -f /shared/modeling/tools/promotion/manage-composite.xml add -Dchild.repository=$NewVersion
 
 #cd /home/data/httpd/download.eclipse.org/epsilon/temp
 #curl -o epsilon-${NewVersion}-signed.zip -F file=@epsilon-${NewVersion}-unsigned.zip http://build.eclipse.org:31338/macsign.php
 #curl -o epsilon-${NewVersion}-signed.dmg -F sign=true -F source=@epsilon-${NewVersion}-signed.zip http://build.eclipse.org:31338/dmg-packager
+#du -sh $Downloads
