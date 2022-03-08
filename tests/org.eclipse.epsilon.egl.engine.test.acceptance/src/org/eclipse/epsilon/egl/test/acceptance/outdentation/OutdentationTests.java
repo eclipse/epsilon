@@ -28,6 +28,11 @@ public class OutdentationTests {
 	}
 	
 	@Test
+	public void testIfIndented() throws Exception {
+		test("IfIndented");
+	}
+	
+	@Test
 	public void testIfElseIf() throws Exception {
 		test("IfElseIf");
 	}

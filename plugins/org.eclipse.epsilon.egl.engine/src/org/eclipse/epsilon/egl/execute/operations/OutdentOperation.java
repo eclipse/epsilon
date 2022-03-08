@@ -29,14 +29,23 @@ public class OutdentOperation extends SimpleOperation {
 			
 			context.getExecutorFactory().addExecutionListener(new IExecutionListener() {
 				
+				// Ideally we should remove the execution listener 
+				// after its first successful execution but as this would cause a 
+				// concurrent modification exception, we deactivate it instead
+				boolean active = true;
+				
 				@Override
 				public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {}
 				
 				@Override
 				public void finishedExecuting(ModuleElement ast, Object result, IEolContext context) {
+				
+					if (!active) return;
+					
 					if (ast == moduleElement && ids.contains(id)) {
 						buffer.getOutdentationFormatter().indent(buffer.getOffset());
 						ids.remove(id);
+						active = false;
 					}
 				}
 				
