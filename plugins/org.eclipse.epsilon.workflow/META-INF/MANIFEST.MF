@@ -4,8 +4,7 @@ Bundle-Name: Epsilon ANT Workflow
 Bundle-SymbolicName: org.eclipse.epsilon.workflow;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.apache.ant;visibility:=reexport,
- org.eclipse.ant.core;visibility:=reexport,
+Require-Bundle: org.eclipse.ant.core;visibility:=reexport,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.etl.dt,
