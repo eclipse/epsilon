@@ -161,6 +161,7 @@ public class EUnitModule extends EolModule implements IEUnitModule {
 		// Run the EUnit script as a regular EOL script first,
 		// so global variables are properly assigned and user
 		// operations are defined
+		prepareContext();
 		super.executeImpl();
 
 		if (suiteRoot != null) {

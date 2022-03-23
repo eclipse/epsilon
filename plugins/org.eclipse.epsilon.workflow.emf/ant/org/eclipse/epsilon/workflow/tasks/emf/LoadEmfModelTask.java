@@ -74,6 +74,13 @@ public class LoadEmfModelTask extends AbstractLoadModelTask {
 			return model;
 		}
 		catch (EolModelLoadingException e) {
+			/*
+			 * We should release the model that did not load properly, as the user may want
+			 * to fix the model and try again. Otherwise, this model may be cached
+			 * indefinitely in the CachedResourceSet (see bug #445967).
+			 */
+			model.dispose();
+
 			e.printStackTrace();
 			throw new BuildException(e);
 		}

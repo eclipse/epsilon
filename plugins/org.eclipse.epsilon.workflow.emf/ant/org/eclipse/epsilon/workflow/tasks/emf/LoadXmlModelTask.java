@@ -45,12 +45,19 @@ public class LoadXmlModelTask extends AbstractLoadModelTask {
 		properties.put(EmfModel.PROPERTY_CACHED, cached + "");
 		properties.put(EmfModel.PROPERTY_CONCURRENT, concurrent + "");
 		
+		XmlModel model = new XmlModel();
 		try {
-			XmlModel model = new XmlModel();
 			model.load(properties);
 			return model;
 		}
 		catch (EolModelLoadingException e) {
+			/*
+			 * We should release the model that did not load properly, as the user may want
+			 * to fix the model and try again. Otherwise, this model may be cached
+			 * indefinitely in the CachedResourceSet (see bug #445967).
+			 */
+			model.dispose();
+
 			throw new BuildException(e);
 		}
 		
