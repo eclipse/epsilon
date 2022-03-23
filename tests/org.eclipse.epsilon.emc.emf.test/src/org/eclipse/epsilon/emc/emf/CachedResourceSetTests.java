@@ -9,7 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 
@@ -54,6 +57,23 @@ public class CachedResourceSetTests {
 		assertFalse(CachedResourceSet.getCache().isCached(model1.getModelFileUri()));
 		
 		assertEquals(0, CachedResourceSet.getCache().size());
+	}
+
+	@Test
+	public void testDisposeBadModel() throws Exception {
+		EmfModel badModel = getSimpleEcore();
+		badModel.setModelFile("i-do-not-exist.ecore");
+
+		try {
+			badModel.load();
+			fail("should throw an exception");
+		} catch (Exception e) {
+			// do nothing - this is expected
+		}
+
+		badModel.dispose();
+		assertEquals("Disposing a model which failed to load should result in an empty cache",
+				0, CachedResourceSet.getCache().size());		
 	}
 
 	@Test
