@@ -272,7 +272,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					EStructuralFeature eStructuralFeature = (EStructuralFeature) eNamedElementForName(name, parent.eClass().getEAllStructuralFeatures());
 					
 					if (eStructuralFeature instanceof EAttribute) {
-						setEAttributeValue(parent, (EAttribute) eStructuralFeature, name, element.getTextContent().trim());
+						setEAttributeValue(parent, (EAttribute) eStructuralFeature, name, element.getTextContent().trim(), false);
 						eObjectTraceManager.trace(parent, getCurrentURI(), getLineNumber(element));
 						objectStack.push(null);
 						return;
@@ -582,7 +582,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			}
 			else {
 				if (sf instanceof EAttribute) {
-					setEAttributeValue(eObject, (EAttribute) sf, name, value);
+					setEAttributeValue(eObject, (EAttribute) sf, name, value, true);
 				}
 				else if (sf instanceof EReference) {
 					EReference eReference = (EReference) sf;
@@ -614,9 +614,12 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected void setEAttributeValue(EObject eObject, EAttribute eAttribute, String attributeName, String value) {
+	protected void setEAttributeValue(EObject eObject, EAttribute eAttribute, String attributeName, String value, boolean split) {
 		if (eAttribute.isMany()) {
-			for (String valuePart : value.split(",")) {
+			
+			String[] values = split ? value.split(",") : new String[] {value};
+			
+			for (String valuePart : values) {
 				Object eValue = getEValue(eAttribute, attributeName, valuePart.trim());
 				if (eValue == null) continue;
 				((List<Object>) eObject.eGet(eAttribute)).add(eValue);
