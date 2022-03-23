@@ -23,6 +23,9 @@
 				<artifactId>tycho-compiler-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
+					<!-- Needed to allow compilation against Ant if we use extra.lib/jars.extra.classpath -->
+					<compilerArgument>-err:-forbidden</compilerArgument>
+
 					<extraClasspathElements>
 						<extraClasspathElement>
 							<groupId>${project.groupId}</groupId>
