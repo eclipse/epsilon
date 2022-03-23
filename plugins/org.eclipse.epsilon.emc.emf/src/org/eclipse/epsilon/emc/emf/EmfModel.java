@@ -391,18 +391,17 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}
 		resourceSet.getPackageRegistry().put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 		
-		Resource model = resourceSet.createResource(modelUri);
+		modelImpl = resourceSet.createResource(modelUri);
 		if (this.readOnLoad) {
 			try {
-				model.load(getResourceLoadOptions());
+				modelImpl.load(getResourceLoadOptions());
 				if (expand) {
-					EcoreUtil.resolveAll(model);
+					EcoreUtil.resolveAll(modelImpl);
 				}
 			} catch (IOException e) {
 				throw new EolModelLoadingException(e, this);
 			}
 		}
-		modelImpl = model;
 		if (isCachingEnabled()) {
 			modelImpl.eAdapters().add(new CachedContentsAdapter());
 		}
