@@ -134,7 +134,7 @@ public class HutnModule extends EolModule implements IHutnModule {
 		try {
 			translateAst(cst);
 		} catch (HutnException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
