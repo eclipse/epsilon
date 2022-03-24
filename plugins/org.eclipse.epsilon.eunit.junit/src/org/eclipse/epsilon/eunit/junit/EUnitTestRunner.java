@@ -15,6 +15,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -119,6 +120,14 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 			suiteInstance = testClass.newInstance();
 			module = new EUnitModule();
 			module.parse(suiteInstance.getModuleURI());
+			if (!module.getParseProblems().isEmpty()) {
+				StringBuffer sb = new StringBuffer("Module " + suiteInstance.getModuleURI() + " has parse problems:");
+				for (ParseProblem problem : module.getParseProblems()) {
+					sb.append(System.lineSeparator());
+					sb.append(problem.toString());
+				}
+				throw new InitializationError(sb.toString());
+			}
 
 			final OperationContributor contrib = suiteInstance.getOperationContributor();
 			if (contrib != null) {
