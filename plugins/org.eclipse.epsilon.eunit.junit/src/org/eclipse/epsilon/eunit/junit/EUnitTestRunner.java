@@ -118,9 +118,9 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 		super(testClass);
 
 		try {
-			final URI moduleURI = suiteInstance.getModuleURI();
-
 			suiteInstance = testClass.newInstance();
+
+			final URI moduleURI = suiteInstance.getModuleURI();
 			module = new EUnitModule();
 			module.parse(moduleURI);
 			if (!module.getParseProblems().isEmpty()) {
