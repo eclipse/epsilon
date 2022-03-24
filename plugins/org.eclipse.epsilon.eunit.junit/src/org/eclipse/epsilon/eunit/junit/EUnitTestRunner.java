@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eunit.junit;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IdentityHashMap;
@@ -118,16 +119,15 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 		super(testClass);
 
 		try {
+			final URI moduleURI = suiteInstance.getModuleURI();
+
 			suiteInstance = testClass.newInstance();
 			module = new EUnitModule();
-			module.parse(suiteInstance.getModuleURI());
+			module.parse(moduleURI);
 			if (!module.getParseProblems().isEmpty()) {
-				StringBuffer sb = new StringBuffer("Module " + suiteInstance.getModuleURI() + " has parse problems:");
-				for (ParseProblem problem : module.getParseProblems()) {
-					sb.append(System.lineSeparator());
-					sb.append(problem.toString());
-				}
-				throw new EolParseException(module.getParseProblems());
+				throw new EolParseException(
+					String.format("Module %s has parse problems", moduleURI),
+					module.getParseProblems());
 			}
 
 			final OperationContributor contrib = suiteInstance.getOperationContributor();
