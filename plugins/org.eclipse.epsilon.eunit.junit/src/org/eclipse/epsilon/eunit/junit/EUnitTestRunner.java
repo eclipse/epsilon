@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.eol.exceptions.EolParseException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -126,7 +127,7 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 					sb.append(System.lineSeparator());
 					sb.append(problem.toString());
 				}
-				throw new InitializationError(sb.toString());
+				throw new EolParseException(module.getParseProblems());
 			}
 
 			final OperationContributor contrib = suiteInstance.getOperationContributor();
