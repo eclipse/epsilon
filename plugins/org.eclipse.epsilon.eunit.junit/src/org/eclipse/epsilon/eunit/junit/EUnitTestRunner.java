@@ -123,11 +123,6 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 			final URI moduleURI = suiteInstance.getModuleURI();
 			module = new EUnitModule();
 			module.parse(moduleURI);
-			if (!module.getParseProblems().isEmpty()) {
-				throw new EolParseException(
-					String.format("Module %s has parse problems", moduleURI),
-					module.getParseProblems());
-			}
 
 			final OperationContributor contrib = suiteInstance.getOperationContributor();
 			if (contrib != null) {
