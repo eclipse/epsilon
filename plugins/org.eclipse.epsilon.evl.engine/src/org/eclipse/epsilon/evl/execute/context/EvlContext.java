@@ -10,8 +10,10 @@
 package org.eclipse.epsilon.evl.execute.context;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.SortedSet;
+
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
@@ -29,7 +31,7 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	
 	public EvlContext() {
 		constraintTrace = new ConstraintTrace();
-		unsatisfiedConstraints = new HashSet<>();
+		unsatisfiedConstraints = new LinkedHashSet<>();
 	}
 	
 	/**
@@ -53,8 +55,8 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	
 	@Override
 	public Set<UnsatisfiedConstraint> uniqueUnsatisfiedConstraints() {
-		if (!(unsatisfiedConstraints instanceof Set)) {
-			unsatisfiedConstraints = new HashSet<>(unsatisfiedConstraints);
+		if (!(unsatisfiedConstraints instanceof LinkedHashSet || unsatisfiedConstraints instanceof SortedSet)) {
+			unsatisfiedConstraints = new LinkedHashSet<>(unsatisfiedConstraints);
 		}
 		return (Set<UnsatisfiedConstraint>) unsatisfiedConstraints;
 	}
@@ -100,10 +102,12 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (unsatisfiedConstraints != null)
+		if (unsatisfiedConstraints != null) {
 			unsatisfiedConstraints.clear();
-		if (constraintTrace != null)
+		}
+		if (constraintTrace != null) {
 			constraintTrace.clear();
+		}
 		terminate = false;
 	}
 }
