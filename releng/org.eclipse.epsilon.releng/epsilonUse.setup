@@ -292,6 +292,20 @@
           name="org.eclipse.epsilon.flexmi.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.flexmi.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.jdt.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.jdt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.html.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.html.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.csv.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.csv.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.sirius.widget.feature.feature.group"/>
       <repository
           url="http://download.eclipse.org/releases/latest"/>
       <repository
@@ -460,6 +474,20 @@
           name="org.eclipse.epsilon.flexmi.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.flexmi.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.jdt.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.jdt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.html.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.html.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.csv.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emc.csv.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.sirius.widget.feature.feature.group"/>
       <repository
           url="http://download.eclipse.org/releases/latest"/>
       <repository
