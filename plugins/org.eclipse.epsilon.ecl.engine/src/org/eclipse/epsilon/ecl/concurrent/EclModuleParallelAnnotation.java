@@ -9,8 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.concurrent;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.*;
@@ -52,7 +52,7 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 						Variable.createReadOnlyVariable("THREADS", context.getParallelism())
 					})
 				) {
-					final Collection<Callable<?>> jobs = new LinkedList<>();
+					final Collection<Callable<?>> jobs = new ArrayList<>(leftInstances.size() * rightInstances.size());
 					for (Object left : leftInstances) {
 						for (Object right : rightInstances) {
 							jobs.add(() -> matchRule.matchPair(context.getShadow(), ofTypeOnly, left, right));

@@ -25,7 +25,6 @@ import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dom.PlusOperatorExpression;
-import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.dom.VariableDeclaration;
@@ -64,7 +63,7 @@ public class DomTests {
 				/*var x = Sequence{2..4}.select(x | x > 2);*/
 				new AssignmentStatement(new VariableDeclaration(new NameExpression("x"), null, false), 
 						new FirstOrderOperationCallExpression(
-								new CollectionLiteralExpression("Sequence", true, new IntegerLiteral(2), new IntegerLiteral(4)),
+								new CollectionLiteralExpression<>("Sequence", true, new IntegerLiteral(2), new IntegerLiteral(4)),
 								new NameExpression("select"), 
 								new Parameter(new NameExpression("x"), null), 
 								new GreaterThanOperatorExpression(new NameExpression("x"), new IntegerLiteral(2)))),
