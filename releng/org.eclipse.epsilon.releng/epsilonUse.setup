@@ -189,8 +189,6 @@
       <requirement
           name="org.eclipse.emf.compare.feature.group"/>
       <requirement
-          name="org.eclipse.emf.compare.diagram.gmf.feature.group"/>
-      <requirement
           name="org.eclipse.emf.compare.egit.feature.group"/>
       <requirement
           name="org.eclipse.emf.compare.ide.ui.feature.group"/>
@@ -204,28 +202,6 @@
           name="org.eclipse.emf.mapping.ecore.editor.feature.group"/>
       <requirement
           name="org.eclipse.xsd.feature.group"/>
-      <requirement
-          name="org.eclipse.gmf.feature.group"/>
-      <requirement
-          name="org.eclipse.gmf.runtime.notation.feature.group"/>
-      <requirement
-          name="org.eclipse.gmf.tooling.feature.group"/>
-      <requirement
-          name="org.eclipse.gmf.tooling.runtime.feature.group"/>
-      <requirement
-          name="org.eclipse.gmf.runtime.sdk.feature.group"/>
-      <requirement
-          name="org.eclipse.gmf.sdk.feature.group"/>
-      <requirement
-          name="org.eclipse.gef.feature.group"/>
-      <requirement
-          name="org.eclipse.gef.sdk.feature.group"/>
-      <requirement
-          name="org.eclipse.m2m.qvt.oml.feature.group"/>
-      <requirement
-          name="org.eclipse.m2m.qvt.oml.runtime.feature.group"/>
-      <requirement
-          name="org.eclipse.m2m.qvt.oml.editor.feature.group"/>
       <requirement
           name="org.eclipse.uml2.feature.group"/>
       <requirement
@@ -256,8 +232,6 @@
           name="org.eclipse.epsilon.uml.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.uml.dt.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.eugenia.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.hutn.feature.feature.group"/>
       <requirement
@@ -316,8 +290,6 @@
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
           url="http://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository"/>
-      <repository
-          url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
     </setupTask>
     <description>Epsilon v2.4</description>
   </version>
