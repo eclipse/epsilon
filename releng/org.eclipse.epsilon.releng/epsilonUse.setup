@@ -489,7 +489,7 @@
       <requirement
           name="org.eclipse.epsilon.sirius.widget.feature.feature.group"/>
       <repository
-          url="http://download.eclipse.org/releases/latest"/>
+          url="http://download.eclipse.org/releases/2021-12"/>
       <repository
           url="http://download.eclipse.org/oomph/updates/milestone"/>
       <repository
