@@ -189,6 +189,8 @@
       <requirement
           name="org.eclipse.emf.compare.feature.group"/>
       <requirement
+          name="org.eclipse.emf.compare.diagram.gmf.feature.group"/>
+      <requirement
           name="org.eclipse.emf.compare.egit.feature.group"/>
       <requirement
           name="org.eclipse.emf.compare.ide.ui.feature.group"/>
@@ -202,6 +204,28 @@
           name="org.eclipse.emf.mapping.ecore.editor.feature.group"/>
       <requirement
           name="org.eclipse.xsd.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.runtime.notation.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.tooling.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.tooling.runtime.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.runtime.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.gef.feature.group"/>
+      <requirement
+          name="org.eclipse.gef.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.m2m.qvt.oml.feature.group"/>
+      <requirement
+          name="org.eclipse.m2m.qvt.oml.runtime.feature.group"/>
+      <requirement
+          name="org.eclipse.m2m.qvt.oml.editor.feature.group"/>
       <requirement
           name="org.eclipse.uml2.feature.group"/>
       <requirement
@@ -232,6 +256,8 @@
           name="org.eclipse.epsilon.uml.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.uml.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.eugenia.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.hutn.feature.feature.group"/>
       <requirement
@@ -281,7 +307,7 @@
       <requirement
           name="org.eclipse.epsilon.sirius.widget.feature.feature.group"/>
       <repository
-          url="http://download.eclipse.org/releases/latest"/>
+          url="http://download.eclipse.org/releases/2021-12"/>
       <repository
           url="http://download.eclipse.org/oomph/updates/milestone"/>
       <repository
@@ -290,6 +316,8 @@
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
           url="http://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository"/>
+      <repository
+          url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
     </setupTask>
     <description>Epsilon v2.4</description>
   </version>
@@ -343,6 +371,8 @@
       <requirement
           name="org.eclipse.emf.compare.feature.group"/>
       <requirement
+          name="org.eclipse.emf.compare.diagram.gmf.feature.group"/>
+      <requirement
           name="org.eclipse.emf.compare.egit.feature.group"/>
       <requirement
           name="org.eclipse.emf.compare.ide.ui.feature.group"/>
@@ -356,6 +386,28 @@
           name="org.eclipse.emf.mapping.ecore.editor.feature.group"/>
       <requirement
           name="org.eclipse.xsd.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.runtime.notation.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.tooling.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.tooling.runtime.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.runtime.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.gmf.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.gef.feature.group"/>
+      <requirement
+          name="org.eclipse.gef.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.m2m.qvt.oml.feature.group"/>
+      <requirement
+          name="org.eclipse.m2m.qvt.oml.runtime.feature.group"/>
+      <requirement
+          name="org.eclipse.m2m.qvt.oml.editor.feature.group"/>
       <requirement
           name="org.eclipse.uml2.feature.group"/>
       <requirement
@@ -387,6 +439,8 @@
       <requirement
           name="org.eclipse.epsilon.uml.dt.feature.feature.group"/>
       <requirement
+          name="org.eclipse.epsilon.eugenia.feature.feature.group"/>
+      <requirement
           name="org.eclipse.epsilon.hutn.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.hutn.dt.feature.feature.group"/>
@@ -396,6 +450,8 @@
           name="org.eclipse.epsilon.evl.emf.validation.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.ewl.emf.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.ewl.gmf.feature.feature.group"/>
       <requirement
           name="org.eclipse.epsilon.emc.graphml.feature.feature.group"/>
       <requirement
@@ -442,6 +498,8 @@
           url="http://download.eclipse.org/emfatic/update"/>
       <repository
           url="http://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository"/>
+      <repository
+          url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
     </setupTask>
     <description>Latest version of Epsilon</description>
   </version>
