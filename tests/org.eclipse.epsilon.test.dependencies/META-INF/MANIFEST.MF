@@ -14,8 +14,7 @@ Require-Bundle: javax.annotation;visibility:=reexport,
  org.eclipse.epsilon.eunit.engine;visibility:=reexport,
  org.eclipse.epsilon.emc.emf;visibility:=reexport,
  org.eclipse.epsilon.hutn.engine;visibility:=reexport,
- org.eclipse.epsilon.emc.plainxml;visibility:=reexport,
- org.eclipse.epsilon.emc.yaml;visibility:=reexport
+ org.eclipse.epsilon.emc.plainxml;visibility:=reexport
 Bundle-Vendor: Eclipse.org
 Export-Package: org,
  org.antlr,

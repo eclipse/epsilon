@@ -66,11 +66,6 @@
       <roles><role>Committer</role></roles>
     </developer>
     <developer>
-      <id>ionutpredoaia</id>
-      <name>Ionut Predoaia</name>
-      <roles><role>Committer</role></roles>
-    </developer>
-    <developer>
       <id>jonco</id>
       <name>Jonathan Co</name>
       <roles><role>Committer</role></roles>
@@ -138,7 +133,6 @@
     <module>plugins/org.eclipse.epsilon.emc.composite/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.emc.csv/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.emc.plainxml/pom-plain.xml</module>
-    <module>plugins/org.eclipse.epsilon.emc.yaml/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.eml.engine/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.emg.engine/pom-plain.xml</module>
     <module>plugins/org.eclipse.epsilon.eol.engine/pom-plain.xml</module>

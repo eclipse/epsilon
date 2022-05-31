@@ -36,7 +36,6 @@ import org.eclipse.epsilon.etl.engine.test.acceptance.EtlAcceptanceTestSuite;
 import org.eclipse.epsilon.eunit.junit.test.EUnitJUnitTestSuite;
 import org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestSuite;
 import org.eclipse.epsilon.ewl.engine.test.acceptance.EwlAcceptanceTestSuite;
-import org.eclipse.epsilon.emc.yaml.test.YamlTestSuite;
 import org.eclipse.epsilon.flexmi.test.FlexmiTestSuite;
 import org.eclipse.epsilon.flock.engine.test.acceptance.FlockEngineAcceptanceTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
@@ -84,7 +83,6 @@ import junit.framework.Test;
 	EwlAcceptanceTestSuite.class,
 	EplAcceptanceTestSuite.class,
 	PlainXmlTestSuite.class,
-	YamlTestSuite.class,
 	BibtexModelTestSuite.class,
 	GraphmlTestSuite.class,
 	EmfTestSuite.class,
