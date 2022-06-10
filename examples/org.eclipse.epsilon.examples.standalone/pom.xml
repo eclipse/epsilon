@@ -21,7 +21,7 @@
   </repositories>
   
   <properties>
-    <epsilon.version>2.3.0</epsilon.version>
+    <epsilon.version>2.4.0</epsilon.version>
     <epsilon.scope>compile</epsilon.scope>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -76,6 +76,17 @@
   		<version>${epsilon.version}</version>
   		<scope>${epsilon.scope}</scope>
   	</dependency>
+   	<dependency>
+  		<groupId>org.eclipse.epsilon</groupId>
+  		<artifactId>org.eclipse.epsilon.flexmi</artifactId>
+  		<version>${epsilon.version}</version>
+  		<scope>${epsilon.scope}</scope>
+  	</dependency>
+   	<dependency>
+	    <groupId>org.eclipse.emfatic</groupId>
+	    <artifactId>org.eclipse.emfatic.core</artifactId>
+	    <version>1.1.0-SNAPSHOT</version>
+	</dependency>	
   </dependencies>
 
 </project>
