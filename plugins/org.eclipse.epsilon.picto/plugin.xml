@@ -108,6 +108,9 @@
       <viewContentTransformer
             class="org.eclipse.epsilon.picto.transformers.CsvContentTransformer">
       </viewContentTransformer>
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.KrokiContentTransformer">
+      </viewContentTransformer>
    </extension>
    <extension
          point="org.eclipse.epsilon.picto.browserFunction">
