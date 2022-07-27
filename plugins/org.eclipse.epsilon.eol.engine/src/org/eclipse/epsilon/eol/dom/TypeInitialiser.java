@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -51,23 +52,19 @@ public abstract class TypeInitialiser extends Expression {
 			
 			instance = parameterValues.isEmpty() ? type.createInstance() : type.createInstance(parameterValues);
 			
+			IPropertySetter setter = null;
+			LinkedHashMap<String, Object> properties = new LinkedHashMap<String, Object>();
+			
 			for (Expression parameter : parameters) {
 				if (parameter.getClass() == EqualsOperatorExpression.class) {
 					EqualsOperatorExpression equalsOperatorExpression = (EqualsOperatorExpression) parameter;
 					if (equalsOperatorExpression.getFirstOperand() instanceof NameExpression) {
 						String property = ((NameExpression) equalsOperatorExpression.getFirstOperand()).getName();
-						IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(instance, property, context);
+						if (setter == null) setter = context.getIntrospectionManager().getPropertySetterFor(instance, property, context);
+						
 						if (setter != null) {
 							Object value = executorFactory.execute(equalsOperatorExpression.getSecondOperand(), context);
-							try {
-								setter.invoke(instance, property, value, context);
-							}
-							catch (EolRuntimeException eox) {
-								if (eox.getAst() == null) {
-									eox.setAst(this);
-								}
-								throw eox;
-							}
+							properties.put(property, value);
 						}
 						else throw new EolIllegalPropertyException(instance, property, equalsOperatorExpression.getFirstOperand(), context);
 					}
@@ -76,6 +73,19 @@ public abstract class TypeInitialiser extends Expression {
 					}
 				}
 			}
+			
+			if (setter != null) {
+				try {
+					setter.invoke(instance, properties, context);
+				}
+				catch (EolRuntimeException eox) {
+					if (eox.getAst() == null) {
+						eox.setAst(this);
+					}
+					throw eox;
+				}
+			}
+			
 			return instance;
 		}
 		else if (type instanceof EolTupleType) {

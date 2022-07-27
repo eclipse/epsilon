@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
+import java.util.Map;
+
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -39,4 +41,18 @@ public interface IPropertySetter {
 	default void invoke(Object target, String property, Object value) throws EolRuntimeException {
 		invoke(value, property, value, null);
 	}
+	
+	/**
+	 * Supports batch property setting through 
+	 * e.g. new Person(name="John", surname="Brown")
+	 * @param target
+	 * @param properties
+	 * @since 2.5
+	 */
+	default void invoke(Object target, Map<String, Object> properties, IEolContext context) throws EolRuntimeException {
+		for (String property : properties.keySet()) {
+			invoke(target, property, properties.get(property), context);
+		}
+	}
+	
 }
