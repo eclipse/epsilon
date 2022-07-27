@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.simulink.exception;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.emc.simulink.engine.MatlabClassLoader;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class MatlabException extends Exception {
@@ -45,7 +46,7 @@ public class MatlabException extends Exception {
 	
 	@SuppressWarnings("unused")
 	private static Class<?> load(String className) throws ClassNotFoundException {
-		return ClassLoader.getSystemClassLoader().loadClass(className);
+		return MatlabClassLoader.getInstance().loadMatlabClass(className);
 	}
 	
 	public static Boolean isEngineException(Throwable e) {

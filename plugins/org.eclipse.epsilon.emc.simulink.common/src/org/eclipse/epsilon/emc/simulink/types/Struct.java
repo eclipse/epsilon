@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.epsilon.emc.simulink.engine.MatlabClassLoader;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -51,7 +52,7 @@ public class Struct extends AbstractType {
 	protected static Class<?> getMatlabClass() {
 		if (struct_class == null) {
 			try {
-				struct_class = ClassLoader.getSystemClassLoader().loadClass(STRUCT_MATLAB_CLASS);
+				struct_class = MatlabClassLoader.getInstance().loadMatlabClass(STRUCT_MATLAB_CLASS);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

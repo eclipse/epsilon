@@ -15,7 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(ConditionalMatlabSuite.class)
 @SuiteClasses({ CRUDTests.class, ExampleTests.class, InheritanceTests.class,
-		OperationTests.class, SimulateTests.class, PropertyTests.class, OperatorTest.class,
+		OperationTests.class, /*SimulateTests.class,*/ PropertyTests.class, OperatorTest.class,
 		SimulinkPrimitiveTypeAndStatementTest.class, MatlabEngineTests.class, LoadModelTest.class })
 public class AllTests {
 

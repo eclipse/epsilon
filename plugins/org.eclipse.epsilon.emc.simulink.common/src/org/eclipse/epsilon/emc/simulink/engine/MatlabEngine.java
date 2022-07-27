@@ -74,6 +74,7 @@ public class MatlabEngine {
 	
 	/* ERRORS AND LOGS */
 	private static final String ERROR_INVALID_PARAMETER_NUMBER = "%d parameters were expected but %d were provided";
+
 	
 	/* VARIABLES */
 	protected Object engine;
@@ -130,7 +131,6 @@ public class MatlabEngine {
 	
 	public void setProject(String project) throws MatlabException {
 		this.project = project;
-		//System.out.println(this.project);
 		if (project.equals("current")) {
 			eval("currentProject;");
 		} else {			
@@ -143,7 +143,6 @@ public class MatlabEngine {
 	
 	public void addModel(IGenericSimulinkModel model) {
 		this.models.add(model);
-		//System.out.println("adding model " + model.getName());
 	}
 	
 	
@@ -153,12 +152,10 @@ public class MatlabEngine {
 	
 	public void release(IGenericSimulinkModel model) throws MatlabRuntimeException {
 		if (project != null && !models.isEmpty()) {
-			//System.out.println("Removing model");
 			models.remove(model);
 		}
 		if (models.isEmpty()) {
 			this.project = null;
-			//System.out.println("Releasing to pool");
 			MatlabEnginePool.getInstance().release(this);
 		}
 	}
@@ -232,7 +229,7 @@ public class MatlabEngine {
 	protected static Class<?> getMatlabClass() {
 		if (engine_class == null) {
 			try {
-				engine_class = ClassLoader.getSystemClassLoader().loadClass(MATLAB_ENGINE_CLASS);
+				engine_class = MatlabClassLoader.getInstance().loadMatlabClass(MATLAB_ENGINE_CLASS);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

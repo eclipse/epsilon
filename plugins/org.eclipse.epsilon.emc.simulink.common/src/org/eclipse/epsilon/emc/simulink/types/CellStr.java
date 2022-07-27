@@ -12,6 +12,8 @@ package org.eclipse.epsilon.emc.simulink.types;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import org.eclipse.epsilon.emc.simulink.engine.MatlabClassLoader;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -31,7 +33,7 @@ public class CellStr extends AbstractType {
 	protected static Class<?> getMatlabClass() {
 		if (cell_str_class == null) {
 			try {
-				cell_str_class = ClassLoader.getSystemClassLoader().loadClass(CELL_STR_MATLAB_CLASS);
+				cell_str_class = MatlabClassLoader.getInstance().loadMatlabClass(CELL_STR_MATLAB_CLASS);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

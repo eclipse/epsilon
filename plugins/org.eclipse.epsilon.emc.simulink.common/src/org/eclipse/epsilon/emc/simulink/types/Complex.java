@@ -11,6 +11,8 @@ package org.eclipse.epsilon.emc.simulink.types;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.epsilon.emc.simulink.engine.MatlabClassLoader;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.util.ReflectionLocalUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -27,7 +29,7 @@ public class Complex extends AbstractType {
 	private static Class<?> getMatlabClass() {
 		if (complex_class == null) {
 			try {
-				complex_class = ClassLoader.getSystemClassLoader().loadClass(COMPLEX_MATLAB_CLASS);
+				complex_class = MatlabClassLoader.getInstance().loadMatlabClass(COMPLEX_MATLAB_CLASS);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

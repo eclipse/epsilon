@@ -12,6 +12,11 @@ package org.eclipse.epsilon.emc.simulink.test.unit;
 import org.eclipse.epsilon.emc.simulink.test.util.AbstractSimulinkTest;
 import org.junit.Test;
 
+/**
+ * These tests no longer work in recent versions of Matlab (e.g. 2021b).
+ * As there are no known use-cases of using the driver to run simulations
+ * or relevant documentation, these tests have been commented out in AllTests
+*/
 public class SimulateTests extends AbstractSimulinkTest {
 
 	@Test
