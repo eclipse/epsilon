@@ -11,11 +11,14 @@ package org.eclipse.epsilon.emc.simulink.engine;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
@@ -40,12 +43,16 @@ public class MatlabEnginePool {
 		MatlabEnginePool.engineJarPath = engineJarPath;
 		
 		try {
-			final String SEP = System.getProperty("path.separator");
-            System.setProperty(JAVA_LIBRARY_PATH, libraryPath + SEP + System.getProperty(JAVA_LIBRARY_PATH));
-			final Field sysPathsField = ClassLoader.class.getDeclaredField(SYS_PATHS);
+			// Updating the library path in Java 11 onwards on Windows causes an exception. 
+			// Only do this for older Java versions or when not on Windows.
+			if ((!OperatingSystem.isWindows() || (ClassLoader.getSystemClassLoader() instanceof URLClassLoader))) {
+				final String SEP = System.getProperty("path.separator");
+	            System.setProperty(JAVA_LIBRARY_PATH, libraryPath + SEP + System.getProperty(JAVA_LIBRARY_PATH));
+				final Field sysPathsField = ClassLoader.class.getDeclaredField(SYS_PATHS);
 
-			sysPathsField.setAccessible(true);
-			sysPathsField.set(null, null);
+				sysPathsField.setAccessible(true);
+				sysPathsField.set(null, null);
+			}
 
 			matlabEngineClass = matlabClassLoader.loadMatlabClass(MATLAB_ENGINE_CLASS);
 			MatlabEngine.setEngineClass(matlabEngineClass);

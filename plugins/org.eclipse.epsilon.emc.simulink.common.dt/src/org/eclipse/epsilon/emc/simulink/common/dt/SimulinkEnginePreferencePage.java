@@ -16,6 +16,7 @@ import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.PROPE
 import java.util.ArrayList;
 
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -69,6 +70,7 @@ public class SimulinkEnginePreferencePage extends PreferencePage implements IWor
 					MessageDialog.openInformation(composite.getShell(), "Success", "Engine well configured!");
 				}
 				catch (Exception ex) {
+					LogUtil.log(ex);
 					MessageDialog.openError(composite.getShell(), "Error", "Engine location misconfigured");
 				}
 			}
