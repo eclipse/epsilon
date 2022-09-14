@@ -47,7 +47,7 @@ public class MatlabEnginePool {
 			// Only do this for older Java versions or when not on Windows.
 			if ((!OperatingSystem.isWindows() || (ClassLoader.getSystemClassLoader() instanceof URLClassLoader))) {
 				final String SEP = System.getProperty("path.separator");
-	            System.setProperty(JAVA_LIBRARY_PATH, libraryPath + SEP + System.getProperty(JAVA_LIBRARY_PATH));
+				System.setProperty(JAVA_LIBRARY_PATH, libraryPath + SEP + System.getProperty(JAVA_LIBRARY_PATH));
 				final Field sysPathsField = ClassLoader.class.getDeclaredField(SYS_PATHS);
 
 				sysPathsField.setAccessible(true);
