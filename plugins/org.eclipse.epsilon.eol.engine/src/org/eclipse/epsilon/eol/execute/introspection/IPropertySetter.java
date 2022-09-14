@@ -39,7 +39,7 @@ public interface IPropertySetter {
 	 * @throws EolRuntimeException
 	 */
 	default void invoke(Object target, String property, Object value) throws EolRuntimeException {
-		invoke(value, property, value, null);
+		invoke(target, property, value, null);
 	}
 	
 	/**
