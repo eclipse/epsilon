@@ -10,8 +10,8 @@ repositories {
 }
 
 dependencies {
-	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.workflow:2.3.0'
-	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.emc.spreadsheets.excel:2.3.0'
+	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.workflow:2.4.0'
+	epsilon 'org.eclipse.epsilon:org.eclipse.epsilon.emc.spreadsheets.excel:2.4.0'
 }
 
 task setupEpsilonTasks {
