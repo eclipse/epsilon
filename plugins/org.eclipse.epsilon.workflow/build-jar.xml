@@ -2,7 +2,10 @@
 	<target name="default">
 		
 		<xslt style="pluginxml2tasksxml.xslt" in="plugin.xml" out="ant/org/eclipse/epsilon/workflow/tasks/tasks.xml"/>
-		
+		<xslt style="pluginxml2antlibxml.xslt" in="plugin.xml" out="ant/org/eclipse/epsilon/workflow/tasks/antlib.xml">
+			<param name="removePrefix" expression="epsilon."/>
+		</xslt>
+				
 		<echo>Building ANT jar</echo>
 		<mkdir dir="lib"/>
 		<jar destfile="lib/org.eclipse.epsilon.workflow.jar" basedir="bin"></jar>
