@@ -114,6 +114,10 @@ public class ExternalContentTransformation implements Runnable, Callable<byte[]>
 		if (resultFile != null) {
 			result = Files.readAllBytes(resultFile);
 		}
+		if (exception != null && result.length == 0) {
+			// This can happen when the program fails to run, e.g. not being installed
+			result = exception.getLocalizedMessage().getBytes();
+		}
 		return result;
 	}
 	
