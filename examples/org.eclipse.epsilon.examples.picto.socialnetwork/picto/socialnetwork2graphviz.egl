@@ -1,5 +1,5 @@
 digraph G {
-	node[shape=rectangle, fontname=Tahoma, fontsize=10, style="filled", gradientangle="270", fillcolor="bisque:floralwhite"]
+	node[shape=rectangle, fontname=Tahoma, fontsize=10, style="filled", gradientangle="270", fillcolor="bisque"]
 	edge[penwidth=3, style=tapered, arrowhead=none]
 	
 [%for (p in people){%]
@@ -12,7 +12,7 @@ digraph G {
 				+ p.name
 				+ "</td></tr></table>";
 	%]
-		[%=p.name%] [label=<[%=elementLabel%]>, fillcolor="azure2:ghostwhite"]
+		[%=p.name%] [label=<[%=elementLabel%]>, fillcolor="azure2"]
 	[%} else {
 		addPersonWithViewEvent(p);
 	}%]
