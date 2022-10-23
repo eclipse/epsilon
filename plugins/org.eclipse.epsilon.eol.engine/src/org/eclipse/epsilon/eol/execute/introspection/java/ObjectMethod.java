@@ -9,13 +9,16 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.stream.BaseStream;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class ObjectMethod extends DisposableObject {
@@ -64,6 +67,22 @@ public class ObjectMethod extends DisposableObject {
 	}
 	
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
+		if (method.isVarArgs()) {
+			int varargIndex = method.getParameterCount() - 1;
+			Object[] adjustedParams = new Object[method.getParameterCount()];
+			Class<?> varargType = method.getParameterTypes()[varargIndex].getComponentType();
+			for (int i = 0; i < varargIndex; i++) {
+				adjustedParams[i] = parameters[i];
+			}
+			int numberOfVarargs = parameters.length - varargIndex;
+			if (numberOfVarargs < 0) numberOfVarargs = 0;
+			Object varargParams = Array.newInstance(varargType, numberOfVarargs);
+			for (int i = 0; i < numberOfVarargs; i++) {
+				Array.set(varargParams, i, parameters[varargIndex + i]);
+			}
+			adjustedParams[adjustedParams.length-1] = varargParams;
+			parameters = adjustedParams;
+		}
 		return ReflectionUtil.executeMethod(object, method, ast, parameters);
 	}
 	

@@ -51,7 +51,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	ContextlessFirstOrderOperationTests.class,
 	DomTests.class,
 	VariableTests.class,
-	OperationOrderTests.class,
+	OperationTests.class,
 	PostfixOperatorTests.class,
 	CompositeAssignmentTests.class,
 	SwitchTests.class,

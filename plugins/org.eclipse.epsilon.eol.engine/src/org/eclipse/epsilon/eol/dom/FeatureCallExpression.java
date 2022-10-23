@@ -80,12 +80,13 @@ public abstract class FeatureCallExpression extends Expression {
 	}
 	
 	/**
+	 * Looks for the operation in the EolContext EolOperationFactory.
 	 * 
-	 * @param target 
-	 * @param name The requested operation name
-	 * @param owningModel 
+	 * @param target The object this feature is called on.
+	 * @param name The requested operation name.
+	 * @param owningModel The model (optional).
 	 * @param context The context from which the EolOperationFactory is derived.
-	 * @return The operation
+	 * @return The operation.
 	 * @throws EolIllegalOperationException 
 	 * @since 1.6
 	 */

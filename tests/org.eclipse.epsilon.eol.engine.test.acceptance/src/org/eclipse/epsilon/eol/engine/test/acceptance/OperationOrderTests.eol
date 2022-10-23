@@ -1,4 +1,0 @@
-@test
-operation testSplit() {
-	"foo,bar".split(",").first().println();
-}

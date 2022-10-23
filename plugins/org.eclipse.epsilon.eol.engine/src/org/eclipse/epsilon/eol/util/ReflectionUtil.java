@@ -197,12 +197,18 @@ public class ReflectionUtil {
 		for (int stage = 0; stage < 2; ++stage) {
 			for (Method method : methods) {
 				if (getMethodName(method).equalsIgnoreCase(methodName)) {
-					
 					Class<?>[] parameterTypes = method.getParameterTypes();
-					boolean parametersMatch = parameterTypes.length == parameters.length;
+					boolean isVarargs = method.isVarArgs(),
+							parametersMatch = parameterTypes.length == parameters.length || isVarargs;
+					
 					if (parametersMatch) {
 						//TODO: See why parameter type checking does not work with EolSequence
-						for (int j = 0; j < parameterTypes.length && parametersMatch; j++) {
+						int varargIndex = method.getParameterCount() - 1;
+						int endIndex = isVarargs ? varargIndex : parameterTypes.length;
+						if (parameters.length < endIndex) {
+							continue;
+						}
+						for (int j = 0; j < endIndex && parametersMatch; j++) {
 							Class<?> parameterType = parameterTypes[j];
 							Object parameter = parameters[j];
 							if (allowContravariantConversionForParameters) {
@@ -212,9 +218,16 @@ public class ReflectionUtil {
 								parametersMatch = parametersMatch && parameterType.equals(parameter.getClass());
 							}
 						}
-						if (parametersMatch) {
-							return method;
+						if (isVarargs) {
+							Class<?> varargType = parameterTypes[varargIndex].getComponentType();
+							for (int va = varargIndex; va < parameters.length && parametersMatch; va++) {
+								Object parameter = parameters[va];
+								parametersMatch = (stage == 0 ? varargType.isInstance(parameter) : isInstance(varargType, parameter));
+							}
 						}
+					}
+					if (parametersMatch) {
+						return method;
 					}
 				}
 			}

@@ -142,8 +142,8 @@ public class OperationCallExpression extends FeatureCallExpression {
 				return wrap(objectMethod.execute(nameExpression, context, nameExpression)); 
 			}
 	
+			// Evaluate the parameters
 			ArrayList<Object> parameterValues = new ArrayList<>(parameterExpressions.size());
-			
 			for (Expression parameter : parameterExpressions) {
 				parameterValues.add(executorFactory.execute(parameter, context));
 			}
