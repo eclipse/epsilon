@@ -79,7 +79,7 @@ pipeline {
           stage('Update site') {
             when {
               allOf {
-                branch 'master'
+                branch 'main'
                 anyOf {
                   changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
                   expression { return currentBuild.number == 1 }
@@ -138,7 +138,7 @@ pipeline {
             when {
               anyOf {
                 allOf {
-                   branch 'master'
+                   branch 'main'
                    anyOf {
                      changeset comparator: 'REGEXP', pattern: "${plainTriggers}"
                      expression { return currentBuild.number == 1 }
@@ -174,7 +174,7 @@ pipeline {
       failure {
         slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: getSlackMessage())
         script {
-          if (env.BRANCH_NAME == "master")
+          if (env.BRANCH_NAME == "main")
             emailext(
               to: 'epsilon-dev@eclipse.org',
               subject: 'Epsilon Interim build failed!',
