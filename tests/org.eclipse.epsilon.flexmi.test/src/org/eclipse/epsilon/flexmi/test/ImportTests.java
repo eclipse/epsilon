@@ -20,6 +20,8 @@ public class ImportTests extends FlexmiTests {
 	public void setup()  throws Exception {
 		super.setup();
 		FileUtil.getFileStandalone("models/include/valid-included.flexmi", FlexmiTests.class);	
+		FileUtil.getFileStandalone("models/import/circular1.flexmi", FlexmiTests.class);	
+		FileUtil.getFileStandalone("models/import/circular2.flexmi", FlexmiTests.class);	
 	}
 	
 	@Test
@@ -35,6 +37,14 @@ public class ImportTests extends FlexmiTests {
 	@Test
 	public void testImportEcore() throws Exception {
 		assertEval("EAttribute.all.selectOne(a|a.name='a').eType.name", "EString", "include/import-ecore.flexmi");
+	}
+	
+	@Test
+	public void testCircularImport() throws Exception {
+		assertEval("EClass.all.first().eSuperTypes.first().name", "C2", "import/circular1.flexmi");
+		assertEval("EClass.all.second().eSuperTypes.first().name", "C1", "import/circular1.flexmi");
+		assertEval("EClass.all.first().eSuperTypes.first().name", "C1", "import/circular2.flexmi");
+		assertEval("EClass.all.second().eSuperTypes.first().name", "C2", "import/circular2.flexmi");
 	}
 	
 	@Test

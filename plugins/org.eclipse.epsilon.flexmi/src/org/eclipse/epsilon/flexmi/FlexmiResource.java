@@ -13,6 +13,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Documented;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,6 +73,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Collection<Operation> operations = new ArrayList<>();
 	protected FlexmiResource importedFrom = null;
 	protected FlexmiFlavour flavour = FlexmiFlavour.XML;
+	protected boolean documentEnded = false;
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -126,6 +128,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	@Override
 	protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException {
+		documentEnded = false;
 		getContents().clear();
 		unresolvedReferences.clear();
 		objectStack.clear();
@@ -434,9 +437,18 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		return processingInstructions;
 	}
 	
+	public boolean isDocumentEnded() {
+		return documentEnded;
+	}
+	
 	@Override
 	public void endDocument(Document document) {
-		resolveReferences();
+		documentEnded = true;
+		
+		// Attempt to resolve references for all Flexmi resources in the resource set only when all of them have been loaded
+		if (!getResourceSet().getResources().stream().anyMatch(r -> r instanceof FlexmiResource && !((FlexmiResource) r).isDocumentEnded())) {
+			getResourceSet().getResources().stream().filter(r -> r instanceof FlexmiResource).forEach(r -> { ((FlexmiResource) r).resolveReferences(); });
+		}
 
 		for (EObject content : getContents()) {
 			performActions(content);
