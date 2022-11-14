@@ -59,6 +59,10 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 				else return null;
 			}
 			
+			if ((object instanceof Element) && "tagName".equals(property)) {
+				return e.getTagName();
+			}
+			
 			PlainXmlProperty p = PlainXmlProperty.parse(property);
 			
 			if (p != null) {
