@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -39,11 +40,11 @@ public abstract class OperationContributor implements AutoCloseable {
 		return createObjectMethodFor(target, name, new Object[]{new AST()}, context, false);
 	}
 
-	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
+	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) throws EolRuntimeException {
 		return findContributedMethodForEvaluatedParameters(target, name, parameters, context, true);
 	}
 	
-	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context, boolean overrideContextOperationContributorRegistry) {
+	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context, boolean overrideContextOperationContributorRegistry) throws EolRuntimeException {
 		return createObjectMethodFor(target, name, parameters, context, !overrideContextOperationContributorRegistry);
 	}
 

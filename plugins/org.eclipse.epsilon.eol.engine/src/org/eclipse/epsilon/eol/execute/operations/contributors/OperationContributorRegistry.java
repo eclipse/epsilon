@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.contributors.compatibility.StringCompatibilityOperationContributor;
@@ -90,7 +91,12 @@ public class OperationContributorRegistry {
 	 */
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
 		for (OperationContributor c : getOperationContributorsFor(target, context)) {
-			ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
+			ObjectMethod objectMethod = null;
+			try {
+				objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
+			} catch (EolRuntimeException e) {
+				// Can still be found
+			}
 			if (objectMethod != null) {
 				return objectMethod;
 			}

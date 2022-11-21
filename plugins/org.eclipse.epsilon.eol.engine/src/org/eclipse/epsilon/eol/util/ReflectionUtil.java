@@ -251,8 +251,8 @@ public class ReflectionUtil {
 
 	public static Object executeMethod(Object obj, Method method, ModuleElement ast, Object... parameters) throws EolRuntimeException {
 		try {
-			if (!method.isAccessible()) {
-				method.setAccessible(true);
+			if (!method.canAccess(obj) ) {
+				throw new EolInternalException(new IllegalAccessException("Method " + method.getName() + " is not accesible."), ast);
 			}
 			return method.invoke(obj, parameters);
 		}

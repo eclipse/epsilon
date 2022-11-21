@@ -35,6 +35,8 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.w3c.dom.Document;
@@ -42,7 +44,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class PlainXmlModel extends CachedModel<Element> {
+public class PlainXmlModel extends CachedModel<Element> implements IOperationContributorProvider {
 	
 	protected String idAttributeName = "id";
 	
@@ -53,6 +55,8 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	protected ArrayList<Element> createdElements = new ArrayList<>();
 	protected ArrayList<Binding> bindings = new ArrayList<>();
+
+	private OperationContributor operationContributor;
 	protected static final String ELEMENT_TYPE = "Element";
 	protected static final String DEFAULT_NEW_TAG_NAME = "element";
 	public static final String PROPERTY_FILE = "file";
@@ -381,6 +385,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 			else {
 				document = documentBuilder.newDocument();
 			}
+			this.operationContributor = new PlainXMLOperationContributor();
 		}
 		catch (Exception ex) {
 			throw new EolModelLoadingException(ex, this);
@@ -461,4 +466,11 @@ public class PlainXmlModel extends CachedModel<Element> {
 			return store(uri);
 		}
 	}
+
+	@Override
+	public OperationContributor getOperationContributor() {
+		return this.operationContributor;
+	}
+	
+	
 }
