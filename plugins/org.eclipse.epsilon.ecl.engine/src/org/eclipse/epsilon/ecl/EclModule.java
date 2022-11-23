@@ -90,6 +90,8 @@ public class EclModule extends ErlModule implements IEclModule {
 			case EclParser.COMPARE:
 				return new ExecutableBlock<Boolean>(Boolean.class);
 			case EclParser.DO: return new ExecutableBlock<Void>(Void.class);
+			case EclParser.LEFTDOMAIN: return new ExecutableBlock<>(Collection.class);
+			case EclParser.RIGHTDOMAIN: return new ExecutableBlock<>(Collection.class);
 			default: return super.adapt(cst, parentAst);
 		}
 	}

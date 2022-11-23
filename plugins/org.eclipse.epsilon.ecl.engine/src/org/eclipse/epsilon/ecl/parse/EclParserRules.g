@@ -42,6 +42,8 @@ tokens {
 	MATCH;
 	COMPARE;
 	DO;
+	LEFTDOMAIN;
+	RIGHTDOMAIN;
 }
 
 eclModuleContent
@@ -53,7 +55,7 @@ matchRule
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	} 
-	:	r='rule'^ rule=NAME 'match'! formalParameter 'with'! formalParameter
+	:	r='rule'^ rule=NAME 'match'! formalParameter leftDomain? 'with'! formalParameter rightDomain?
 	extendz? ob='{'! guard? compareBlock? doBlock? cb='}'!
 	{$r.setType(MATCH);}
 	;
@@ -67,3 +69,14 @@ doBlock
 	:	d='do'^ statementBlock
 	{$d.setType(DO);}
 	;
+	
+leftDomain 
+	:	(c='in'^) expressionOrStatementBlock
+	{$c.setType(LEFTDOMAIN);}
+	;
+	
+rightDomain 
+	:	(c='in'^) expressionOrStatementBlock
+	{$c.setType(RIGHTDOMAIN);}
+	;
+	

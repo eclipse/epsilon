@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance;
 
 import org.eclipse.epsilon.ecl.engine.test.acceptance.builtins.*;
+import org.eclipse.epsilon.ecl.engine.test.acceptance.domain.DomainTests;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.matches.*;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.trees.*;
 import org.junit.runner.RunWith;
@@ -19,7 +20,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	EclCanAccessBuiltinsTests.class, TestXmlTreeComparison.class,
-	MatchesOperationTest.class
+	MatchesOperationTest.class, DomainTests.class
 })
 public class EclAcceptanceTestSuite {
 

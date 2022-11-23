@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ecl.parse;
 
-// $ANTLR 3.1b1 EclParserRules.g 2020-08-12 13:05:37
+// $ANTLR 3.1b1 EclParserRules.g 2022-11-22 09:41:37
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -95,6 +95,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__127=127;
     public static final int T__166=166;
     public static final int T__165=165;
+    public static final int T__168=168;
     public static final int T__167=167;
     public static final int T__162=162;
     public static final int T__161=161;
@@ -113,6 +114,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int DELETE=57;
     public static final int ARROW=11;
     public static final int MapTypeName=18;
+    public static final int RIGHTDOMAIN=91;
     public static final int T__159=159;
     public static final int T__158=158;
     public static final int T__155=155;
@@ -124,6 +126,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__150=150;
     public static final int T__153=153;
     public static final int T__152=152;
+    public static final int LEFTDOMAIN=90;
     public static final int Annotation=27;
     public static final int CONTINUE=45;
     public static final int ENUMERATION_VALUE=71;
@@ -133,10 +136,8 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__149=149;
-    public static final int T__91=91;
     public static final int T__100=100;
     public static final int NAMESPACE=74;
-    public static final int T__92=92;
     public static final int COLLECTION=47;
     public static final int NEW=54;
     public static final int EXTENDS=85;
@@ -169,12 +170,13 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int NAME=23;
     public static final int COMPARE=88;
     public static final int SWITCH=39;
+    public static final int T__169=169;
     public static final int FeatureCall=65;
     public static final int T__122=122;
     public static final int T__121=121;
     public static final int T__124=124;
     public static final int FLOAT=4;
-    public static final int ECLMODULE=90;
+    public static final int ECLMODULE=92;
     public static final int T__123=123;
     public static final int T__120=120;
     public static final int NativeType=61;
@@ -247,7 +249,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start eclModuleContent
-    // EclParserRules.g:47:1: eclModuleContent : ( matchRule | erlModuleContent );
+    // EclParserRules.g:49:1: eclModuleContent : ( matchRule | erlModuleContent );
     public final Ecl_EclParserRules.eclModuleContent_return eclModuleContent() throws RecognitionException {
         Ecl_EclParserRules.eclModuleContent_return retval = new Ecl_EclParserRules.eclModuleContent_return();
         retval.start = input.LT(1);
@@ -261,14 +263,14 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
 
         try {
-            // EclParserRules.g:48:2: ( matchRule | erlModuleContent )
+            // EclParserRules.g:50:2: ( matchRule | erlModuleContent )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==163) ) {
+            if ( (LA1_0==165) ) {
                 alt1=1;
             }
-            else if ( (LA1_0==Annotation||(LA1_0>=99 && LA1_0<=100)||LA1_0==105||(LA1_0>=159 && LA1_0<=160)) ) {
+            else if ( (LA1_0==Annotation||(LA1_0>=101 && LA1_0<=102)||LA1_0==107||(LA1_0>=161 && LA1_0<=162)) ) {
                 alt1=2;
             }
             else {
@@ -280,11 +282,11 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             }
             switch (alt1) {
                 case 1 :
-                    // EclParserRules.g:48:4: matchRule
+                    // EclParserRules.g:50:4: matchRule
                     {
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-                    pushFollow(FOLLOW_matchRule_in_eclModuleContent44);
+                    pushFollow(FOLLOW_matchRule_in_eclModuleContent52);
                     matchRule1=matchRule();
 
                     state._fsp--;
@@ -294,11 +296,11 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                     }
                     break;
                 case 2 :
-                    // EclParserRules.g:48:16: erlModuleContent
+                    // EclParserRules.g:50:16: erlModuleContent
                     {
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-                    pushFollow(FOLLOW_erlModuleContent_in_eclModuleContent48);
+                    pushFollow(FOLLOW_erlModuleContent_in_eclModuleContent56);
                     erlModuleContent2=gEcl.erlModuleContent();
 
                     state._fsp--;
@@ -335,7 +337,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start matchRule
-    // EclParserRules.g:51:1: matchRule : r= 'rule' rule= NAME 'match' formalParameter 'with' formalParameter ( extendz )? ob= '{' ( guard )? ( compareBlock )? ( doBlock )? cb= '}' ;
+    // EclParserRules.g:53:1: matchRule : r= 'rule' rule= NAME 'match' formalParameter ( leftDomain )? 'with' formalParameter ( rightDomain )? ( extendz )? ob= '{' ( guard )? ( compareBlock )? ( doBlock )? cb= '}' ;
     public final Ecl_EclParserRules.matchRule_return matchRule() throws RecognitionException {
         Ecl_EclParserRules.matchRule_return retval = new Ecl_EclParserRules.matchRule_return();
         retval.start = input.LT(1);
@@ -347,18 +349,22 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         Token ob=null;
         Token cb=null;
         Token string_literal3=null;
-        Token string_literal5=null;
+        Token string_literal6=null;
         Ecl_EolParserRules.formalParameter_return formalParameter4 = null;
 
-        Ecl_EolParserRules.formalParameter_return formalParameter6 = null;
+        Ecl_EclParserRules.leftDomain_return leftDomain5 = null;
 
-        Ecl_ErlParserRules.extendz_return extendz7 = null;
+        Ecl_EolParserRules.formalParameter_return formalParameter7 = null;
 
-        Ecl_ErlParserRules.guard_return guard8 = null;
+        Ecl_EclParserRules.rightDomain_return rightDomain8 = null;
 
-        Ecl_EclParserRules.compareBlock_return compareBlock9 = null;
+        Ecl_ErlParserRules.extendz_return extendz9 = null;
 
-        Ecl_EclParserRules.doBlock_return doBlock10 = null;
+        Ecl_ErlParserRules.guard_return guard10 = null;
+
+        Ecl_EclParserRules.compareBlock_return compareBlock11 = null;
+
+        Ecl_EclParserRules.doBlock_return doBlock12 = null;
 
 
         org.eclipse.epsilon.common.parse.AST r_tree=null;
@@ -366,132 +372,178 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST ob_tree=null;
         org.eclipse.epsilon.common.parse.AST cb_tree=null;
         org.eclipse.epsilon.common.parse.AST string_literal3_tree=null;
-        org.eclipse.epsilon.common.parse.AST string_literal5_tree=null;
+        org.eclipse.epsilon.common.parse.AST string_literal6_tree=null;
 
         try {
-            // EclParserRules.g:56:2: (r= 'rule' rule= NAME 'match' formalParameter 'with' formalParameter ( extendz )? ob= '{' ( guard )? ( compareBlock )? ( doBlock )? cb= '}' )
-            // EclParserRules.g:56:4: r= 'rule' rule= NAME 'match' formalParameter 'with' formalParameter ( extendz )? ob= '{' ( guard )? ( compareBlock )? ( doBlock )? cb= '}'
+            // EclParserRules.g:58:2: (r= 'rule' rule= NAME 'match' formalParameter ( leftDomain )? 'with' formalParameter ( rightDomain )? ( extendz )? ob= '{' ( guard )? ( compareBlock )? ( doBlock )? cb= '}' )
+            // EclParserRules.g:58:4: r= 'rule' rule= NAME 'match' formalParameter ( leftDomain )? 'with' formalParameter ( rightDomain )? ( extendz )? ob= '{' ( guard )? ( compareBlock )? ( doBlock )? cb= '}'
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            r=(Token)match(input,163,FOLLOW_163_in_matchRule68); if (state.failed) return retval;
+            r=(Token)match(input,165,FOLLOW_165_in_matchRule76); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             r_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(r);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(r_tree, root_0);
             }
-            rule=(Token)match(input,NAME,FOLLOW_NAME_in_matchRule73); if (state.failed) return retval;
+            rule=(Token)match(input,NAME,FOLLOW_NAME_in_matchRule81); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             rule_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(rule);
             adaptor.addChild(root_0, rule_tree);
             }
-            string_literal3=(Token)match(input,164,FOLLOW_164_in_matchRule75); if (state.failed) return retval;
-            pushFollow(FOLLOW_formalParameter_in_matchRule78);
+            string_literal3=(Token)match(input,166,FOLLOW_166_in_matchRule83); if (state.failed) return retval;
+            pushFollow(FOLLOW_formalParameter_in_matchRule86);
             formalParameter4=gEcl.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter4.getTree());
-            string_literal5=(Token)match(input,165,FOLLOW_165_in_matchRule80); if (state.failed) return retval;
-            pushFollow(FOLLOW_formalParameter_in_matchRule83);
-            formalParameter6=gEcl.formalParameter();
-
-            state._fsp--;
-            if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter6.getTree());
-            // EclParserRules.g:57:2: ( extendz )?
+            // EclParserRules.g:58:49: ( leftDomain )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==162) ) {
+            if ( (LA2_0==119) ) {
                 alt2=1;
             }
             switch (alt2) {
                 case 1 :
-                    // EclParserRules.g:0:0: extendz
+                    // EclParserRules.g:0:0: leftDomain
                     {
-                    pushFollow(FOLLOW_extendz_in_matchRule86);
-                    extendz7=gEcl.extendz();
+                    pushFollow(FOLLOW_leftDomain_in_matchRule88);
+                    leftDomain5=leftDomain();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, extendz7.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, leftDomain5.getTree());
 
                     }
                     break;
 
             }
 
-            ob=(Token)match(input,96,FOLLOW_96_in_matchRule91); if (state.failed) return retval;
-            // EclParserRules.g:57:19: ( guard )?
+            string_literal6=(Token)match(input,167,FOLLOW_167_in_matchRule91); if (state.failed) return retval;
+            pushFollow(FOLLOW_formalParameter_in_matchRule94);
+            formalParameter7=gEcl.formalParameter();
+
+            state._fsp--;
+            if (state.failed) return retval;
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter7.getTree());
+            // EclParserRules.g:58:85: ( rightDomain )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
-            if ( (LA3_0==161) ) {
+            if ( (LA3_0==119) ) {
                 alt3=1;
             }
             switch (alt3) {
                 case 1 :
-                    // EclParserRules.g:0:0: guard
+                    // EclParserRules.g:0:0: rightDomain
                     {
-                    pushFollow(FOLLOW_guard_in_matchRule94);
-                    guard8=gEcl.guard();
+                    pushFollow(FOLLOW_rightDomain_in_matchRule96);
+                    rightDomain8=rightDomain();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, guard8.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, rightDomain8.getTree());
 
                     }
                     break;
 
             }
 
-            // EclParserRules.g:57:26: ( compareBlock )?
+            // EclParserRules.g:59:2: ( extendz )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==166) ) {
+            if ( (LA4_0==164) ) {
                 alt4=1;
             }
             switch (alt4) {
                 case 1 :
-                    // EclParserRules.g:0:0: compareBlock
+                    // EclParserRules.g:0:0: extendz
                     {
-                    pushFollow(FOLLOW_compareBlock_in_matchRule97);
-                    compareBlock9=compareBlock();
+                    pushFollow(FOLLOW_extendz_in_matchRule100);
+                    extendz9=gEcl.extendz();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, compareBlock9.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, extendz9.getTree());
 
                     }
                     break;
 
             }
 
-            // EclParserRules.g:57:40: ( doBlock )?
+            ob=(Token)match(input,98,FOLLOW_98_in_matchRule105); if (state.failed) return retval;
+            // EclParserRules.g:59:19: ( guard )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
-            if ( (LA5_0==167) ) {
+            if ( (LA5_0==163) ) {
                 alt5=1;
             }
             switch (alt5) {
                 case 1 :
-                    // EclParserRules.g:0:0: doBlock
+                    // EclParserRules.g:0:0: guard
                     {
-                    pushFollow(FOLLOW_doBlock_in_matchRule100);
-                    doBlock10=doBlock();
+                    pushFollow(FOLLOW_guard_in_matchRule108);
+                    guard10=gEcl.guard();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, doBlock10.getTree());
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, guard10.getTree());
 
                     }
                     break;
 
             }
 
-            cb=(Token)match(input,97,FOLLOW_97_in_matchRule105); if (state.failed) return retval;
+            // EclParserRules.g:59:26: ( compareBlock )?
+            int alt6=2;
+            int LA6_0 = input.LA(1);
+
+            if ( (LA6_0==168) ) {
+                alt6=1;
+            }
+            switch (alt6) {
+                case 1 :
+                    // EclParserRules.g:0:0: compareBlock
+                    {
+                    pushFollow(FOLLOW_compareBlock_in_matchRule111);
+                    compareBlock11=compareBlock();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, compareBlock11.getTree());
+
+                    }
+                    break;
+
+            }
+
+            // EclParserRules.g:59:40: ( doBlock )?
+            int alt7=2;
+            int LA7_0 = input.LA(1);
+
+            if ( (LA7_0==169) ) {
+                alt7=1;
+            }
+            switch (alt7) {
+                case 1 :
+                    // EclParserRules.g:0:0: doBlock
+                    {
+                    pushFollow(FOLLOW_doBlock_in_matchRule114);
+                    doBlock12=doBlock();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, doBlock12.getTree());
+
+                    }
+                    break;
+
+            }
+
+            cb=(Token)match(input,99,FOLLOW_99_in_matchRule119); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               r.setType(MATCH);
             }
@@ -530,7 +582,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start compareBlock
-    // EclParserRules.g:61:1: compareBlock : c= 'compare' expressionOrStatementBlock ;
+    // EclParserRules.g:63:1: compareBlock : c= 'compare' expressionOrStatementBlock ;
     public final Ecl_EclParserRules.compareBlock_return compareBlock() throws RecognitionException {
         Ecl_EclParserRules.compareBlock_return retval = new Ecl_EclParserRules.compareBlock_return();
         retval.start = input.LT(1);
@@ -538,28 +590,28 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token c=null;
-        Ecl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock11 = null;
+        Ecl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock13 = null;
 
 
         org.eclipse.epsilon.common.parse.AST c_tree=null;
 
         try {
-            // EclParserRules.g:62:2: (c= 'compare' expressionOrStatementBlock )
-            // EclParserRules.g:62:4: c= 'compare' expressionOrStatementBlock
+            // EclParserRules.g:64:2: (c= 'compare' expressionOrStatementBlock )
+            // EclParserRules.g:64:4: c= 'compare' expressionOrStatementBlock
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,166,FOLLOW_166_in_compareBlock122); if (state.failed) return retval;
+            c=(Token)match(input,168,FOLLOW_168_in_compareBlock136); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
             }
-            pushFollow(FOLLOW_expressionOrStatementBlock_in_compareBlock125);
-            expressionOrStatementBlock11=gEcl.expressionOrStatementBlock();
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_compareBlock139);
+            expressionOrStatementBlock13=gEcl.expressionOrStatementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock11.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock13.getTree());
             if ( state.backtracking==0 ) {
               c.setType(COMPARE);
             }
@@ -592,7 +644,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start doBlock
-    // EclParserRules.g:66:1: doBlock : d= 'do' statementBlock ;
+    // EclParserRules.g:68:1: doBlock : d= 'do' statementBlock ;
     public final Ecl_EclParserRules.doBlock_return doBlock() throws RecognitionException {
         Ecl_EclParserRules.doBlock_return retval = new Ecl_EclParserRules.doBlock_return();
         retval.start = input.LT(1);
@@ -600,28 +652,28 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token d=null;
-        Ecl_EolParserRules.statementBlock_return statementBlock12 = null;
+        Ecl_EolParserRules.statementBlock_return statementBlock14 = null;
 
 
         org.eclipse.epsilon.common.parse.AST d_tree=null;
 
         try {
-            // EclParserRules.g:67:2: (d= 'do' statementBlock )
-            // EclParserRules.g:67:4: d= 'do' statementBlock
+            // EclParserRules.g:69:2: (d= 'do' statementBlock )
+            // EclParserRules.g:69:4: d= 'do' statementBlock
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            d=(Token)match(input,167,FOLLOW_167_in_doBlock141); if (state.failed) return retval;
+            d=(Token)match(input,169,FOLLOW_169_in_doBlock155); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             d_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(d);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(d_tree, root_0);
             }
-            pushFollow(FOLLOW_statementBlock_in_doBlock144);
-            statementBlock12=gEcl.statementBlock();
+            pushFollow(FOLLOW_statementBlock_in_doBlock158);
+            statementBlock14=gEcl.statementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, statementBlock12.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, statementBlock14.getTree());
             if ( state.backtracking==0 ) {
               d.setType(DO);
             }
@@ -648,28 +700,170 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     }
     // $ANTLR end doBlock
 
+    public static class leftDomain_return extends ParserRuleReturnScope {
+        org.eclipse.epsilon.common.parse.AST tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start leftDomain
+    // EclParserRules.g:73:1: leftDomain : (c= 'in' ) expressionOrStatementBlock ;
+    public final Ecl_EclParserRules.leftDomain_return leftDomain() throws RecognitionException {
+        Ecl_EclParserRules.leftDomain_return retval = new Ecl_EclParserRules.leftDomain_return();
+        retval.start = input.LT(1);
+
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
+
+        Token c=null;
+        Ecl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock15 = null;
+
+
+        org.eclipse.epsilon.common.parse.AST c_tree=null;
+
+        try {
+            // EclParserRules.g:74:2: ( (c= 'in' ) expressionOrStatementBlock )
+            // EclParserRules.g:74:4: (c= 'in' ) expressionOrStatementBlock
+            {
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
+
+            // EclParserRules.g:74:4: (c= 'in' )
+            // EclParserRules.g:74:5: c= 'in'
+            {
+            c=(Token)match(input,119,FOLLOW_119_in_leftDomain177); if (state.failed) return retval;
+            if ( state.backtracking==0 ) {
+            c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
+            }
+
+            }
+
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_leftDomain181);
+            expressionOrStatementBlock15=gEcl.expressionOrStatementBlock();
+
+            state._fsp--;
+            if (state.failed) return retval;
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock15.getTree());
+            if ( state.backtracking==0 ) {
+              c.setType(LEFTDOMAIN);
+            }
+
+            }
+
+            retval.stop = input.LT(-1);
+
+            if ( state.backtracking==0 ) {
+
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+            }
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end leftDomain
+
+    public static class rightDomain_return extends ParserRuleReturnScope {
+        org.eclipse.epsilon.common.parse.AST tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start rightDomain
+    // EclParserRules.g:78:1: rightDomain : (c= 'in' ) expressionOrStatementBlock ;
+    public final Ecl_EclParserRules.rightDomain_return rightDomain() throws RecognitionException {
+        Ecl_EclParserRules.rightDomain_return retval = new Ecl_EclParserRules.rightDomain_return();
+        retval.start = input.LT(1);
+
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
+
+        Token c=null;
+        Ecl_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock16 = null;
+
+
+        org.eclipse.epsilon.common.parse.AST c_tree=null;
+
+        try {
+            // EclParserRules.g:79:2: ( (c= 'in' ) expressionOrStatementBlock )
+            // EclParserRules.g:79:4: (c= 'in' ) expressionOrStatementBlock
+            {
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
+
+            // EclParserRules.g:79:4: (c= 'in' )
+            // EclParserRules.g:79:5: c= 'in'
+            {
+            c=(Token)match(input,119,FOLLOW_119_in_rightDomain200); if (state.failed) return retval;
+            if ( state.backtracking==0 ) {
+            c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
+            }
+
+            }
+
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_rightDomain204);
+            expressionOrStatementBlock16=gEcl.expressionOrStatementBlock();
+
+            state._fsp--;
+            if (state.failed) return retval;
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock16.getTree());
+            if ( state.backtracking==0 ) {
+              c.setType(RIGHTDOMAIN);
+            }
+
+            }
+
+            retval.stop = input.LT(-1);
+
+            if ( state.backtracking==0 ) {
+
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+            }
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end rightDomain
+
     // Delegated rules
 
 
  
 
-    public static final BitSet FOLLOW_matchRule_in_eclModuleContent44 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_erlModuleContent_in_eclModuleContent48 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_163_in_matchRule68 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_NAME_in_matchRule73 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_164_in_matchRule75 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_formalParameter_in_matchRule78 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000002000000000L});
-    public static final BitSet FOLLOW_165_in_matchRule80 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_formalParameter_in_matchRule83 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L,0x0000000400000000L});
-    public static final BitSet FOLLOW_extendz_in_matchRule86 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_96_in_matchRule91 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x000000C200000000L});
-    public static final BitSet FOLLOW_guard_in_matchRule94 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x000000C000000000L});
-    public static final BitSet FOLLOW_compareBlock_in_matchRule97 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000008000000000L});
-    public static final BitSet FOLLOW_doBlock_in_matchRule100 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
-    public static final BitSet FOLLOW_97_in_matchRule105 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_166_in_compareBlock122 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_compareBlock125 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_167_in_doBlock141 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
-    public static final BitSet FOLLOW_statementBlock_in_doBlock144 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_matchRule_in_eclModuleContent52 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_erlModuleContent_in_eclModuleContent56 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_165_in_matchRule76 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_NAME_in_matchRule81 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000004000000000L});
+    public static final BitSet FOLLOW_166_in_matchRule83 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_formalParameter_in_matchRule86 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L,0x0000008000000000L});
+    public static final BitSet FOLLOW_leftDomain_in_matchRule88 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000008000000000L});
+    public static final BitSet FOLLOW_167_in_matchRule91 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_formalParameter_in_matchRule94 = new BitSet(new long[]{0x0000000000000000L,0x0080000400000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_rightDomain_in_matchRule96 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_extendz_in_matchRule100 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_98_in_matchRule105 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0000030800000000L});
+    public static final BitSet FOLLOW_guard_in_matchRule108 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0000030000000000L});
+    public static final BitSet FOLLOW_compareBlock_in_matchRule111 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0000020000000000L});
+    public static final BitSet FOLLOW_doBlock_in_matchRule114 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L});
+    public static final BitSet FOLLOW_99_in_matchRule119 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_168_in_compareBlock136 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_compareBlock139 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_169_in_doBlock155 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_statementBlock_in_doBlock158 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_119_in_leftDomain177 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_leftDomain181 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_119_in_rightDomain200 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_rightDomain204 = new BitSet(new long[]{0x0000000000000002L});
 
 }
