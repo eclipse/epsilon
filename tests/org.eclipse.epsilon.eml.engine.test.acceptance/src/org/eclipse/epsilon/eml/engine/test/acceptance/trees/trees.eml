@@ -19,7 +19,7 @@ rule TreeWithTree
 		t.appendChild(unmatched);
 	}
 	else {
-		l.parentNode.equivalent().appendChild(t);
+		l.getParentNode().equivalent().appendChild(t);
 	}
 	
 	t.a_label = l.a_label;
