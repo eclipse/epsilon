@@ -28,34 +28,53 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 	
 	protected void replace(Element element, ViewContent viewContent, boolean iframe) {
 		Document owner = element.getOwnerDocument();
-		if (iframe) try {
-			Path tmp = ExternalContentTransformation.createTempFile("html", viewContent.getText().getBytes());
-			owner.renameNode(element, element.getNamespaceURI(), "iframe");
-			element.setAttribute("src", tmp.toAbsolutePath().toString());
-		}
-		catch (Exception ex) {
-			// Ignore
-		}
-		else try {
-			Document document = xmlHelper.parse(viewContent.getText());
-			Element svg = document.getDocumentElement();
-			owner.importNode(svg, true);
-			owner.adoptNode(svg);
-			element.getParentNode().replaceChild(svg, element);
-			
-			NamedNodeMap attributes = element.getAttributes();
-			for (int i = 0, length = attributes.getLength(); i < length; i++) {
-				Node node = attributes.item(i);
-				svg.setAttribute(node.getNodeName(), node.getNodeValue());
+
+		if (!iframe) {
+			try {
+				Document document = xmlHelper.parse(viewContent.getText());
+				Element docElem = document.getDocumentElement();
+				owner.importNode(docElem, true);
+				owner.adoptNode(docElem);
+				element.getParentNode().replaceChild(docElem, element);
+
+				NamedNodeMap attributes = element.getAttributes();
+				for (int i = 0, length = attributes.getLength(); i < length; i++) {
+					Node node = attributes.item(i);
+					docElem.setAttribute(node.getNodeName(), node.getNodeValue());
+				}
+
+				return;
 			}
-			
-			return;
+			catch (Exception e) {
+				iframe = true; // try again below within an iframe
+			}
 		}
-		catch (Exception e) {
-			owner.renameNode(element, element.getNamespaceURI(), "b");
-			element.setTextContent(e.getMessage());
-			return;
+
+		if (iframe) {
+			try {
+				Path tmp = ExternalContentTransformation.createTempFile("html", viewContent.getText().getBytes());
+
+				owner.renameNode(element, element.getNamespaceURI(), "div");
+
+				// outer resize library (inner must be present in the iframe contents)
+				Element resizeLibrary = owner.createElement("script");
+				resizeLibrary.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.min.js");
+				element.appendChild(resizeLibrary);
+
+				Element iframeElem = owner.createElement("iframe");
+				iframeElem.setAttribute("src", tmp.toAbsolutePath().toString());
+				iframeElem.setAttribute("style", "border:none;");
+				iframeElem.setAttribute("scrolling", "no");
+				iframeElem.setAttribute("width", "100%");
+				element.appendChild(iframeElem);
+
+				Element resizeScript = owner.createElement("script");
+				resizeScript.setTextContent("iFrameResize();");
+				element.appendChild(resizeScript);
+			}
+			catch (Exception ex) {
+				// Ignore
+			}
 		}
 	}
-	
 }
