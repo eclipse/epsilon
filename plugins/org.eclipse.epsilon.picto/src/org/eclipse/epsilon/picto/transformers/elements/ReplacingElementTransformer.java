@@ -29,6 +29,10 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 	protected void replace(Element element, ViewContent viewContent, boolean iframe) {
 		Document owner = element.getOwnerDocument();
 
+		if (element.hasAttribute("iframe")) {
+			iframe = true;
+		}
+
 		if (!iframe) {
 			try {
 				Document document = xmlHelper.parse(viewContent.getText());
