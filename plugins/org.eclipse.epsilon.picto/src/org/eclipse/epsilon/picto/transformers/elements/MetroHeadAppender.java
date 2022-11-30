@@ -34,6 +34,11 @@ public class MetroHeadAppender extends AppendingElementTransformer {
 		css.setAttribute("href", cdn + "css/metro-all.min.css");
 		root.appendChild(css);
 		
+		// disable min body height (for correct iframe shrinking)
+		Element style = document.createElement("style");
+		style.setTextContent("body {min-height: 1px;}");
+		root.appendChild(style);
+
 		Element js = document.createElement("script");
 		js.setAttribute("defer", "defer");
 		js.setAttribute("src", cdn + "js/metro.min.js");
