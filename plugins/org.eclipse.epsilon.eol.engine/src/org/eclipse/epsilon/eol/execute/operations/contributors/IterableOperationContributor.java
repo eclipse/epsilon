@@ -434,6 +434,25 @@ public class IterableOperationContributor extends OperationContributor {
 		);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 2.5
+	 */
+	public String join() {
+		return concat("");
+	}
+	
+	/**
+	 * 
+	 * @param delimiter
+	 * @return
+	 * @since 2.5
+	 */
+	public String join(String delimiter) {
+		return concat(delimiter);
+	}
+	
 	public Number max() {
 		return max(0);
 	}
