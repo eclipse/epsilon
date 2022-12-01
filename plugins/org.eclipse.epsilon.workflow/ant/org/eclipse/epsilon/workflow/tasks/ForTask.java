@@ -32,8 +32,8 @@ public class ForTask extends EolTask implements TaskContainer {
 	}
 
 	protected String[] getFiles() {
-		if (fileset == null) return new String[]{};
-		return fileset.getDirectoryScanner().getIncludedFiles();
+		if (fileset == null || fileset.isEmpty()) return new String[]{};
+		return fileset.toString().split(";");
 	}
 
 	@Override
