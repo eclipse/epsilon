@@ -18,5 +18,6 @@
     <taskdef name="loadCompositeModel" classname="org.eclipse.epsilon.workflow.tasks.LoadCompositeModelTask"/>
     <taskdef name="xml.loadModel" classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel"/>
     <taskdef name="epl" classname="org.eclipse.epsilon.workflow.tasks.EplTask"/>
+    <taskdef name="emg" classname="org.eclipse.epsilon.workflow.tasks.EmgTask"/>
     <taskdef name="java.executeStaticMethod" classname="org.eclipse.epsilon.workflow.tasks.ExecuteStaticMethodTask"/>
 </antlib>
