@@ -5,12 +5,16 @@ import org.eclipse.epsilon.epl.IEplModule;
 
 public class EmgTask extends EplTask {
 	
-	protected long seed;
-	protected boolean useSeed;
+	protected Long seed;
 	
 	@Override
 	protected IEplModule createDefaultModule() {
-		return new EmgModule();
+		EmgModule module = new EmgModule();
+		if (seed != null) {
+			module.setUseSeed(true);
+			module.setSeed(seed);
+		}
+		return module;
 	}
 	
 	public void setSeed(long seed) {
@@ -19,14 +23,6 @@ public class EmgTask extends EplTask {
 	
 	public long getSeed() {
 		return seed;
-	}
-	
-	public void setUseSeed(boolean useSeed) {
-		this.useSeed = useSeed;
-	}
-	
-	public boolean isUseSeed() {
-		return useSeed;
 	}
 	
 }
