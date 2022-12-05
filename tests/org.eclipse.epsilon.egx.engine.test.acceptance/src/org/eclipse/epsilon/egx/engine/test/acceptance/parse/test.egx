@@ -33,6 +33,9 @@ rule Lib2XML transform lib : Library {
   post {
     libFileSizes.put(generated.getName(), generated.length());
   }
+  formatter {
+    return new Native('org.eclipse.epsilon.egl.formatter.language.XmlFormatter');
+  }
 }
 
 rule AuthorsAndBooks {
