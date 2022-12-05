@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2021-03-04 19:03:33
+// $ANTLR 3.1b1 EolLexerRules.g 2022-12-05 18:57:59
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -59,7 +59,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int T__141=141;
     public static final int THROW=58;
     public static final int SpecialTypeName=19;
-    public static final int EGXMODULE=95;
+    public static final int EGXMODULE=96;
     public static final int PARAMLIST=29;
     public static final int EXPRLIST=59;
     public static final int EXPRRANGE=60;
@@ -73,7 +73,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=177;
+    public static final int Tokens=179;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -154,11 +154,12 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int T__99=99;
     public static final int TEMPLATE=89;
     public static final int HELPERMETHOD=32;
-    public static final int T__96=96;
     public static final int T__97=97;
     public static final int StatementBlock=33;
     public static final int T__98=98;
+    public static final int T__177=177;
     public static final int T__176=176;
+    public static final int T__178=178;
     public static final int ABORT=48;
     public static final int T__173=173;
     public static final int StrangeNameLiteral=16;
@@ -174,6 +175,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int BOOLEAN=13;
     public static final int PATCH=93;
     public static final int NAME=23;
+    public static final int FORMATTER=95;
     public static final int SWITCH=39;
     public static final int T__169=169;
     public static final int FeatureCall=65;
