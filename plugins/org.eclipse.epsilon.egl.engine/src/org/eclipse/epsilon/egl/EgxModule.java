@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012-2019 The University of York.
+ * Copyright (c) 2012-2022 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -7,6 +7,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Sina Madani - refactoring
+ *     Antonio Garcia-Dominguez - Add support for customising the formatter
  ******************************************************************************/
 package org.eclipse.epsilon.egl;
 
@@ -14,7 +15,11 @@ import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -25,7 +30,9 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.*;
+import org.eclipse.epsilon.egl.execute.context.EgxContext;
+import org.eclipse.epsilon.egl.execute.context.IEgxContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
@@ -139,8 +146,10 @@ public class EgxModule extends ErlModule implements IEgxModule {
 			case EgxParser.GUARD:
 			case EgxParser.MERGE:
 			case EgxParser.APPEND:
-			case EgxParser.PATCH:	
+			case EgxParser.PATCH:
 				return new ExecutableBlock<>(Boolean.class);
+			case EgxParser.FORMATTER:
+				return new ExecutableBlock<>(Formatter.class);
 			case EgxParser.PRE:
 			case EgxParser.POST: {
 				if (parentAst instanceof GenerationRule) {
