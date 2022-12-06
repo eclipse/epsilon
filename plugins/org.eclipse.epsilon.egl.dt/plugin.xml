@@ -152,6 +152,22 @@
             class="org.eclipse.epsilon.egl.EgxModule"
             defaultName="module">
       </tool>
+      <tool
+            class="org.eclipse.epsilon.egl.formatter.language.XmlFormatter"
+            defaultName="xmlFormatter">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.egl.formatter.language.JavaFormatter"
+            defaultName="javaFormatter">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.egl.formatter.language.LanguageFormatter"
+            defaultName="languageFormatter">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.egl.formatter.language.PromelaFormatter"
+            defaultName="promelaFormatter">
+      </tool>
    </extension>
    <!--extension
          point="org.eclipse.ui.preferencePages">
