@@ -41,6 +41,7 @@ public class EgxUnparser extends ErlUnparser implements IEgxVisitor {
 		print("parameters", rule.getParametersBlock());
 		print("target", rule.getTargetBlock());
 		print("post", rule.getPostBlock());
+		print("formatter", rule.getFormatterBlock());
 		
 		newlineUnindentCurlybrace();
 	}

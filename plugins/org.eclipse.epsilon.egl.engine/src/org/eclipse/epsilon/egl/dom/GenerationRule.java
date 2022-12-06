@@ -23,6 +23,7 @@ import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
+import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
@@ -49,7 +50,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	protected ExecutableBlock<Boolean> guardBlock, overwriteBlock, mergeBlock, appendBlock, patchBlock;
 	protected ExecutableBlock<?> preBlock, postBlock;
 	protected ExecutableBlock<EolMap<String, ?>> parametersBlock;
-	
+	protected ExecutableBlock<Formatter> formatterBlock;
+
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
@@ -70,6 +72,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		parametersBlock = (ExecutableBlock<EolMap<String, ?>>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
 		targetBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TARGET), this);
 		postBlock = (ExecutableBlock<?>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
+		formatterBlock = (ExecutableBlock<Formatter>) module.createAst(AstUtil.getChild(cst, EgxParser.FORMATTER), this);
 	}
 	
 	/**
@@ -183,7 +186,12 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		}
 		
 		final String target = targetBlock != null ? targetBlock.execute(context, false) : null;
-		
+
+		if (formatterBlock != null) {
+			final Formatter formatter = formatterBlock.execute(context, false);
+			eglTemplate.setFormatter(formatter);
+		}
+
 		Object generated;
 		if (eglTemplate instanceof EglPersistentTemplate && target != null) {
 			if ((getBooleanAnnotationValue("patch", context) || patch) && eglTemplate instanceof EglFileGeneratingTemplate) {
@@ -356,5 +364,14 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	 */
 	public ExecutableBlock<EolMap<String, ?>> getParametersBlock() {
 		return parametersBlock;
+	}
+
+	/**
+	 *
+	 * @return
+	 * @since 2.5
+	 */
+	public ExecutableBlock<Formatter> getFormatterBlock() {
+		return formatterBlock;
 	}
 }
