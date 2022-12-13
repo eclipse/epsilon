@@ -8,7 +8,7 @@ This is a simple way to represent network connections.
 
 ## Embedded "stats" table view
 
-<picto-view path="Stats"/>
+<picto-view path="Stats" autoresize="true"/>
 
 
 ## Embedded PlantUML

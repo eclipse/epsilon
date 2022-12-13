@@ -29,8 +29,15 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 	protected void replace(Element element, ViewContent viewContent, boolean iframe) {
 		Document owner = element.getOwnerDocument();
 
-		if (element.hasAttribute("iframe")) {
+		boolean autoresize = false;
+
+		if (hasAttributeValue(element, "iframe", "true")) {
 			iframe = true;
+		}
+
+		if (hasAttributeValue(element, "autoresize", "true")) {
+			autoresize = true;
+			iframe = true; // autoresize always happens inside an iframe
 		}
 
 		if (!iframe) {
@@ -60,11 +67,6 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 
 				owner.renameNode(element, element.getNamespaceURI(), "div");
 
-				// outer resize library (inner must be present in the iframe contents)
-				Element resizeLibrary = owner.createElement("script");
-				resizeLibrary.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.min.js");
-				element.appendChild(resizeLibrary);
-
 				Element iframeElem = owner.createElement("iframe");
 				iframeElem.setAttribute("src", tmp.toAbsolutePath().toString());
 				iframeElem.setAttribute("style", "border:none;");
@@ -72,13 +74,37 @@ public abstract class ReplacingElementTransformer extends AbstractHtmlElementTra
 				iframeElem.setAttribute("width", "100%");
 				element.appendChild(iframeElem);
 
-				Element resizeScript = owner.createElement("script");
-				resizeScript.setTextContent("iFrameResize();");
-				element.appendChild(resizeScript);
+				if (autoresize) {
+					// outer resize library (inner must be present in the iframe contents)
+					Element resizeLibrary = owner.createElement("script");
+					resizeLibrary.setAttribute("src", "https://cdn.jsdelivr.net/npm/iframe-resizer@4.2.11/js/iframeResizer.min.js");
+					element.appendChild(resizeLibrary);
+
+					Element resizeScript = owner.createElement("script");
+					resizeScript.setTextContent("iFrameResize();");
+					element.appendChild(resizeScript);
+				}
+				else {
+					Element resizeFunction = owner.createElement("script");
+					resizeFunction.setTextContent("function resizeIframe(obj) {\n"
+							+ "    obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';\n"
+							+ "  }");
+					element.appendChild(resizeFunction);
+
+					iframeElem.setAttribute("onload", "resizeIframe(this)");
+				}
 			}
 			catch (Exception ex) {
 				// Ignore
 			}
 		}
+	}
+
+	protected boolean hasAttributeValue(Element element, String attribute, String value) {
+		boolean result = false;
+		if (element.hasAttribute(attribute)) {
+			result = value.equalsIgnoreCase(element.getAttribute(attribute));
+		}
+		return result;
 	}
 }

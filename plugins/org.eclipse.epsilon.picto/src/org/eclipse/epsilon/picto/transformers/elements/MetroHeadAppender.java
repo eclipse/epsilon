@@ -47,7 +47,7 @@ public class MetroHeadAppender extends AppendingElementTransformer {
 		// for having correct height when shown in an iframe
 		js = document.createElement("script");
 		js.setAttribute("defer", "defer");
-		js.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.js");
+		js.setAttribute("src", "https://cdn.jsdelivr.net/npm/iframe-resizer@4.2.11/js/iframeResizer.contentWindow.min.js");
 		root.appendChild(js);
 	}
 
