@@ -6,6 +6,11 @@ This is a simple way to represent network connections.
 
 <picto-view path="Social Network, Alice"/>
 
+## Embedded "stats" table view
+
+<picto-view path="Stats" autoresize="true"/>
+
+
 ## Embedded PlantUML
 
 ```render-plantuml
