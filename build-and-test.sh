@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# Exit on first failure
+set -e
+
 # Build
 mvn -T 1C clean install
 
