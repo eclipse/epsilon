@@ -30,6 +30,8 @@
     <module>org.eclipse.epsilon.emc.bibtex</module>
     <module>org.eclipse.epsilon.emc.bibtex.dt</module>
     <module>org.eclipse.epsilon.emc.composite</module>
+    <module>org.eclipse.epsilon.emc.cdo</module>
+    <module>org.eclipse.epsilon.emc.cdo.dt</module>
     <module>org.eclipse.epsilon.emc.csv</module>
     <module>org.eclipse.epsilon.emc.csv.dt</module>
     <module>org.eclipse.epsilon.emc.emf</module>
