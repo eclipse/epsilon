@@ -42,7 +42,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
+import org.eclipse.epsilon.emc.emf.AbstractReflectiveEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -54,7 +54,7 @@ import org.eclipse.net4j.util.container.IPluginContainer;
 /**
  * CDO driver for Epsilon.
  */
-public class CDOModel extends AbstractEmfModel {
+public class CDOModel extends AbstractReflectiveEmfModel {
 
 	public static final String PROPERTY_CDO_URL = "cdo.url";
 	public static final String PROPERTY_CDO_NAME = "cdo.repo";
