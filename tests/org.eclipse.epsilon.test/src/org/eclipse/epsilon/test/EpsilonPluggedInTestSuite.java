@@ -13,6 +13,7 @@
 package org.eclipse.epsilon.test;
 
 import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
+import org.eclipse.epsilon.emc.cdo.tests.CDOPluggedInTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
 import org.eclipse.epsilon.picto.test.PictoTestSuite;
 import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaTestSuite;
@@ -34,7 +35,8 @@ import junit.framework.Test;
 	CommonDevelopmentToolsTestSuite.class,
 	EmfPluggedInTestSuite.class,
 	EugeniaTestSuite.class,
-	WorkflowPluggedInTestSuite.class/*,
+	WorkflowPluggedInTestSuite.class,
+	CDOPluggedInTestSuite.class/*,
 	PictoTestSuite.class*/
 })
 public class EpsilonPluggedInTestSuite {
