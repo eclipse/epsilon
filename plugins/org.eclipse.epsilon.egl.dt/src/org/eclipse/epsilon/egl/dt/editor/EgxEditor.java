@@ -42,6 +42,7 @@ public class EgxEditor extends EolEditor {
 		keywords.add("merge");
 		keywords.add("append");
 		keywords.add("patch");
+		keywords.add("formatter");
 		keywords.addAll(super.getKeywords());
 		return keywords;
 	}

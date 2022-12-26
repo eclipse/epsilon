@@ -53,13 +53,13 @@ public class PlainXmlModelTests {
 	
 	@Test
 	public void testAllOfKind() {
-		assertEquals(evaluator.evaluate("t_library.all.size()"), 1);
-		assertEquals(evaluator.evaluate("t_book.all.size()"), 3);
+		assertEquals(1, evaluator.evaluate("t_library.all.size()"));
+		assertEquals(3, evaluator.evaluate("t_book.all.size()"));
 	}
 	
 	@Test
 	public void testStringAttribute() {
-		assertEquals(evaluator.evaluate("t_book.all.first().a_name"), "b1");
+		assertEquals("b1", evaluator.evaluate("t_book.all.first().a_name"));
 	}
 	
 	@Test
@@ -74,40 +74,54 @@ public class PlainXmlModelTests {
 	
 	@Test
 	public void testIntegerAttribute() {
-		assertEquals(evaluator.evaluate("t_book.all.first().i_pages"), 212);
+		assertEquals(212, evaluator.evaluate("t_book.all.first().i_pages"));
 	}
 	
 	@Test
 	public void testMultipleReferenceAttribute() {
-		assertEquals(evaluator.evaluate("t_book.all.first().x_authors.size()"), 2);				
+		assertEquals(2, evaluator.evaluate("t_book.all.first().x_authors.size()"));				
 	}
 	
 	@Test
 	public void testSingleReferenceAttribute() {
-		assertEquals(evaluator.evaluate("t_book.all.first().x_editor.a_name"), "e1");				
+		assertEquals("e1", evaluator.evaluate("t_book.all.first().x_editor.a_name"));				
 	}
 	
 	@Test 
 	public void testAddRemoveToMultipleReference() {
 		evaluator.execute("t_book.all.first().x_authors.add(t_author.all.third());");
-		assertEquals(evaluator.evaluate("t_book.all.first().x_authors.size()"), 3);				
+		assertEquals(3, evaluator.evaluate("t_book.all.first().x_authors.size()"));				
 		evaluator.execute("t_book.all.first().x_authors.remove(t_author.all.third());");
-		assertEquals(evaluator.evaluate("t_book.all.first().x_authors.size()"), 2);	
+		assertEquals(2, evaluator.evaluate("t_book.all.first().x_authors.size()"));	
 	}
 	
 	@Test
 	public void testSetSingleReference() {
 		evaluator.execute("t_book.all.first().x_editor = t_editor.all.second();");		
-		assertEquals(evaluator.evaluate("t_book.all.first().x_editor.a_name"), "e2");				
+		assertEquals("e2", evaluator.evaluate("t_book.all.first().x_editor.a_name"));				
 		evaluator.execute("t_book.all.first().x_editor = t_editor.all.first();");		
 	}
 	
 	@Test
 	public void testSetMultipleReference() {
 		evaluator.execute("t_book.all.third().x_authors = Sequence{t_author.all.first(), t_author.all.second()};");
-		assertEquals(evaluator.evaluate("t_book.all.third().x_authors.collect(a|a.a_name).concat(',')"), "a1,a2");
+		assertEquals("a1,a2", evaluator.evaluate("t_book.all.third().x_authors.collect(a|a.a_name).concat(',')"));
 		evaluator.execute("t_book.all.third().x_authors = Sequence{};");
-		assertEquals(evaluator.evaluate("t_book.all.third().a_authors"), "");
+		assertEquals("", evaluator.evaluate("t_book.all.third().a_authors"));
+	}
+	
+	@Test
+	public void testAddChildren() {
+		assertEquals(9, evaluator.evaluate("t_library.all().first().children.size()"));
+		evaluator.execute("t_library.all().first().appendChild(new t_book);");
+		assertEquals(10, evaluator.evaluate("t_library.all().first().children.size()"));
+	}
+	
+	@Test
+	public void testFindByTagName() {
+		assertEquals(3, evaluator.evaluate("t_library.all().first().children.select(c|c.name=='book').size()"));
+		assertEquals(3, evaluator.evaluate("t_library.all().first().children.select(c|c.tagName=='author').size()"));
+		assertEquals(3, evaluator.evaluate("t_library.all().first().children.select(c|c.tagName=='editor').size()"));
 	}
 	
 }

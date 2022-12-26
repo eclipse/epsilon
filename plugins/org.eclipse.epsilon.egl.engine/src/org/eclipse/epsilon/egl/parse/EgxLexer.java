@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 Egx__.g 2021-03-04 19:03:32
+// $ANTLR 3.1b1 Egx__.g 2022-12-05 18:57:58
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -59,7 +59,7 @@ public class EgxLexer extends Lexer {
     public static final int T__141=141;
     public static final int THROW=58;
     public static final int SpecialTypeName=19;
-    public static final int EGXMODULE=95;
+    public static final int EGXMODULE=96;
     public static final int PARAMLIST=29;
     public static final int EXPRLIST=59;
     public static final int EXPRRANGE=60;
@@ -73,7 +73,7 @@ public class EgxLexer extends Lexer {
     public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=177;
+    public static final int Tokens=179;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -154,11 +154,12 @@ public class EgxLexer extends Lexer {
     public static final int T__99=99;
     public static final int TEMPLATE=89;
     public static final int HELPERMETHOD=32;
-    public static final int T__96=96;
     public static final int T__97=97;
     public static final int StatementBlock=33;
     public static final int T__98=98;
+    public static final int T__177=177;
     public static final int T__176=176;
+    public static final int T__178=178;
     public static final int ABORT=48;
     public static final int T__173=173;
     public static final int StrangeNameLiteral=16;
@@ -174,6 +175,7 @@ public class EgxLexer extends Lexer {
     public static final int BOOLEAN=13;
     public static final int PATCH=93;
     public static final int NAME=23;
+    public static final int FORMATTER=95;
     public static final int SWITCH=39;
     public static final int T__169=169;
     public static final int FeatureCall=65;
@@ -236,36 +238,16 @@ public class EgxLexer extends Lexer {
     }
     public String getGrammarFileName() { return "Egx__.g"; }
 
-    // $ANTLR start T__96
-    public final void mT__96() throws RecognitionException {
+    // $ANTLR start T__97
+    public final void mT__97() throws RecognitionException {
         try {
-            int _type = T__96;
+            int _type = T__97;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // Egx__.g:44:7: ( 'model' )
             // Egx__.g:44:9: 'model'
             {
             match("model"); 
 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end T__96
-
-    // $ANTLR start T__97
-    public final void mT__97() throws RecognitionException {
-        try {
-            int _type = T__97;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:45:7: ( ';' )
-            // Egx__.g:45:9: ';'
-            {
-            match(';'); 
 
             }
 
@@ -282,11 +264,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__98;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:46:7: ( 'alias' )
-            // Egx__.g:46:9: 'alias'
+            // Egx__.g:45:7: ( ';' )
+            // Egx__.g:45:9: ';'
             {
-            match("alias"); 
-
+            match(';'); 
 
             }
 
@@ -303,10 +284,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__99;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:47:7: ( ',' )
-            // Egx__.g:47:9: ','
+            // Egx__.g:46:7: ( 'alias' )
+            // Egx__.g:46:9: 'alias'
             {
-            match(','); 
+            match("alias"); 
+
 
             }
 
@@ -323,11 +305,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__100;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:48:8: ( 'driver' )
-            // Egx__.g:48:10: 'driver'
+            // Egx__.g:47:8: ( ',' )
+            // Egx__.g:47:10: ','
             {
-            match("driver"); 
-
+            match(','); 
 
             }
 
@@ -344,10 +325,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__101;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:49:8: ( '{' )
-            // Egx__.g:49:10: '{'
+            // Egx__.g:48:8: ( 'driver' )
+            // Egx__.g:48:10: 'driver'
             {
-            match('{'); 
+            match("driver"); 
+
 
             }
 
@@ -364,10 +346,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__102;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:50:8: ( '}' )
-            // Egx__.g:50:10: '}'
+            // Egx__.g:49:8: ( '{' )
+            // Egx__.g:49:10: '{'
             {
-            match('}'); 
+            match('{'); 
 
             }
 
@@ -384,10 +366,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__103;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:51:8: ( '=' )
-            // Egx__.g:51:10: '='
+            // Egx__.g:50:8: ( '}' )
+            // Egx__.g:50:10: '}'
             {
-            match('='); 
+            match('}'); 
 
             }
 
@@ -404,11 +386,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__104;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:52:8: ( 'operation' )
-            // Egx__.g:52:10: 'operation'
+            // Egx__.g:51:8: ( '=' )
+            // Egx__.g:51:10: '='
             {
-            match("operation"); 
-
+            match('='); 
 
             }
 
@@ -425,10 +406,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__105;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:53:8: ( 'function' )
-            // Egx__.g:53:10: 'function'
+            // Egx__.g:52:8: ( 'operation' )
+            // Egx__.g:52:10: 'operation'
             {
-            match("function"); 
+            match("operation"); 
 
 
             }
@@ -446,10 +427,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__106;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:54:8: ( '(' )
-            // Egx__.g:54:10: '('
+            // Egx__.g:53:8: ( 'function' )
+            // Egx__.g:53:10: 'function'
             {
-            match('('); 
+            match("function"); 
+
 
             }
 
@@ -466,10 +448,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__107;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:55:8: ( ')' )
-            // Egx__.g:55:10: ')'
+            // Egx__.g:54:8: ( '(' )
+            // Egx__.g:54:10: '('
             {
-            match(')'); 
+            match('('); 
 
             }
 
@@ -486,10 +468,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__108;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:56:8: ( ':' )
-            // Egx__.g:56:10: ':'
+            // Egx__.g:55:8: ( ')' )
+            // Egx__.g:55:10: ')'
             {
-            match(':'); 
+            match(')'); 
 
             }
 
@@ -506,11 +488,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__109;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:57:8: ( 'import' )
-            // Egx__.g:57:10: 'import'
+            // Egx__.g:56:8: ( ':' )
+            // Egx__.g:56:10: ':'
             {
-            match("import"); 
-
+            match(':'); 
 
             }
 
@@ -527,10 +508,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__110;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:58:8: ( '$' )
-            // Egx__.g:58:10: '$'
+            // Egx__.g:57:8: ( 'import' )
+            // Egx__.g:57:10: 'import'
             {
-            match('$'); 
+            match("import"); 
+
 
             }
 
@@ -547,10 +529,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__111;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:59:8: ( '!' )
-            // Egx__.g:59:10: '!'
+            // Egx__.g:58:8: ( '$' )
+            // Egx__.g:58:10: '$'
             {
-            match('!'); 
+            match('$'); 
 
             }
 
@@ -567,10 +549,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__112;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:60:8: ( '#' )
-            // Egx__.g:60:10: '#'
+            // Egx__.g:59:8: ( '!' )
+            // Egx__.g:59:10: '!'
             {
-            match('#'); 
+            match('!'); 
 
             }
 
@@ -587,11 +569,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__113;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:61:8: ( '::' )
-            // Egx__.g:61:10: '::'
+            // Egx__.g:60:8: ( '#' )
+            // Egx__.g:60:10: '#'
             {
-            match("::"); 
-
+            match('#'); 
 
             }
 
@@ -608,10 +589,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__114;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:62:8: ( '<' )
-            // Egx__.g:62:10: '<'
+            // Egx__.g:61:8: ( '::' )
+            // Egx__.g:61:10: '::'
             {
-            match('<'); 
+            match("::"); 
+
 
             }
 
@@ -628,10 +610,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__115;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:63:8: ( '>' )
-            // Egx__.g:63:10: '>'
+            // Egx__.g:62:8: ( '<' )
+            // Egx__.g:62:10: '<'
             {
-            match('>'); 
+            match('<'); 
 
             }
 
@@ -648,11 +630,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__116;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:64:8: ( 'if' )
-            // Egx__.g:64:10: 'if'
+            // Egx__.g:63:8: ( '>' )
+            // Egx__.g:63:10: '>'
             {
-            match("if"); 
-
+            match('>'); 
 
             }
 
@@ -669,10 +650,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__117;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:65:8: ( 'else' )
-            // Egx__.g:65:10: 'else'
+            // Egx__.g:64:8: ( 'if' )
+            // Egx__.g:64:10: 'if'
             {
-            match("else"); 
+            match("if"); 
 
 
             }
@@ -690,10 +671,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__118;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:66:8: ( 'switch' )
-            // Egx__.g:66:10: 'switch'
+            // Egx__.g:65:8: ( 'else' )
+            // Egx__.g:65:10: 'else'
             {
-            match("switch"); 
+            match("else"); 
 
 
             }
@@ -711,10 +692,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__119;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:67:8: ( 'case' )
-            // Egx__.g:67:10: 'case'
+            // Egx__.g:66:8: ( 'switch' )
+            // Egx__.g:66:10: 'switch'
             {
-            match("case"); 
+            match("switch"); 
 
 
             }
@@ -732,10 +713,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__120;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:68:8: ( 'default' )
-            // Egx__.g:68:10: 'default'
+            // Egx__.g:67:8: ( 'case' )
+            // Egx__.g:67:10: 'case'
             {
-            match("default"); 
+            match("case"); 
 
 
             }
@@ -753,10 +734,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__121;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:69:8: ( 'for' )
-            // Egx__.g:69:10: 'for'
+            // Egx__.g:68:8: ( 'default' )
+            // Egx__.g:68:10: 'default'
             {
-            match("for"); 
+            match("default"); 
 
 
             }
@@ -774,10 +755,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__122;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:70:8: ( 'in' )
-            // Egx__.g:70:10: 'in'
+            // Egx__.g:69:8: ( 'for' )
+            // Egx__.g:69:10: 'for'
             {
-            match("in"); 
+            match("for"); 
 
 
             }
@@ -795,10 +776,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__123;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:71:8: ( 'while' )
-            // Egx__.g:71:10: 'while'
+            // Egx__.g:70:8: ( 'in' )
+            // Egx__.g:70:10: 'in'
             {
-            match("while"); 
+            match("in"); 
 
 
             }
@@ -816,10 +797,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__124;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:72:8: ( 'return' )
-            // Egx__.g:72:10: 'return'
+            // Egx__.g:71:8: ( 'while' )
+            // Egx__.g:71:10: 'while'
             {
-            match("return"); 
+            match("while"); 
 
 
             }
@@ -837,10 +818,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__125;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:73:8: ( 'throw' )
-            // Egx__.g:73:10: 'throw'
+            // Egx__.g:72:8: ( 'return' )
+            // Egx__.g:72:10: 'return'
             {
-            match("throw"); 
+            match("return"); 
 
 
             }
@@ -858,10 +839,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__126;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:74:8: ( 'delete' )
-            // Egx__.g:74:10: 'delete'
+            // Egx__.g:73:8: ( 'throw' )
+            // Egx__.g:73:10: 'throw'
             {
-            match("delete"); 
+            match("throw"); 
 
 
             }
@@ -879,10 +860,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__127;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:75:8: ( 'break' )
-            // Egx__.g:75:10: 'break'
+            // Egx__.g:74:8: ( 'delete' )
+            // Egx__.g:74:10: 'delete'
             {
-            match("break"); 
+            match("delete"); 
 
 
             }
@@ -900,10 +881,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__128;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:76:8: ( 'breakAll' )
-            // Egx__.g:76:10: 'breakAll'
+            // Egx__.g:75:8: ( 'break' )
+            // Egx__.g:75:10: 'break'
             {
-            match("breakAll"); 
+            match("break"); 
 
 
             }
@@ -921,10 +902,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__129;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:77:8: ( 'continue' )
-            // Egx__.g:77:10: 'continue'
+            // Egx__.g:76:8: ( 'breakAll' )
+            // Egx__.g:76:10: 'breakAll'
             {
-            match("continue"); 
+            match("breakAll"); 
 
 
             }
@@ -942,10 +923,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__130;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:78:8: ( 'abort' )
-            // Egx__.g:78:10: 'abort'
+            // Egx__.g:77:8: ( 'continue' )
+            // Egx__.g:77:10: 'continue'
             {
-            match("abort"); 
+            match("continue"); 
 
 
             }
@@ -963,10 +944,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__131;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:79:8: ( 'transaction' )
-            // Egx__.g:79:10: 'transaction'
+            // Egx__.g:78:8: ( 'abort' )
+            // Egx__.g:78:10: 'abort'
             {
-            match("transaction"); 
+            match("abort"); 
 
 
             }
@@ -984,10 +965,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__132;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:80:8: ( ':=' )
-            // Egx__.g:80:10: ':='
+            // Egx__.g:79:8: ( 'transaction' )
+            // Egx__.g:79:10: 'transaction'
             {
-            match(":="); 
+            match("transaction"); 
 
 
             }
@@ -1005,10 +986,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__133;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:81:8: ( '+=' )
-            // Egx__.g:81:10: '+='
+            // Egx__.g:80:8: ( ':=' )
+            // Egx__.g:80:10: ':='
             {
-            match("+="); 
+            match(":="); 
 
 
             }
@@ -1026,10 +1007,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__134;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:82:8: ( '-=' )
-            // Egx__.g:82:10: '-='
+            // Egx__.g:81:8: ( '+=' )
+            // Egx__.g:81:10: '+='
             {
-            match("-="); 
+            match("+="); 
 
 
             }
@@ -1047,10 +1028,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__135;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:83:8: ( '*=' )
-            // Egx__.g:83:10: '*='
+            // Egx__.g:82:8: ( '-=' )
+            // Egx__.g:82:10: '-='
             {
-            match("*="); 
+            match("-="); 
 
 
             }
@@ -1068,10 +1049,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__136;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:84:8: ( '/=' )
-            // Egx__.g:84:10: '/='
+            // Egx__.g:83:8: ( '*=' )
+            // Egx__.g:83:10: '*='
             {
-            match("/="); 
+            match("*="); 
 
 
             }
@@ -1089,10 +1070,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__137;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:85:8: ( '?=' )
-            // Egx__.g:85:10: '?='
+            // Egx__.g:84:8: ( '/=' )
+            // Egx__.g:84:10: '/='
             {
-            match("?="); 
+            match("/="); 
 
 
             }
@@ -1110,10 +1091,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__138;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:86:8: ( '::=' )
-            // Egx__.g:86:10: '::='
+            // Egx__.g:85:8: ( '?=' )
+            // Egx__.g:85:10: '?='
             {
-            match("::="); 
+            match("?="); 
 
 
             }
@@ -1131,10 +1112,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__139;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:87:8: ( 'or' )
-            // Egx__.g:87:10: 'or'
+            // Egx__.g:86:8: ( '::=' )
+            // Egx__.g:86:10: '::='
             {
-            match("or"); 
+            match("::="); 
 
 
             }
@@ -1152,10 +1133,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__140;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:88:8: ( 'and' )
-            // Egx__.g:88:10: 'and'
+            // Egx__.g:87:8: ( 'or' )
+            // Egx__.g:87:10: 'or'
             {
-            match("and"); 
+            match("or"); 
 
 
             }
@@ -1173,10 +1154,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__141;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:89:8: ( 'xor' )
-            // Egx__.g:89:10: 'xor'
+            // Egx__.g:88:8: ( 'and' )
+            // Egx__.g:88:10: 'and'
             {
-            match("xor"); 
+            match("and"); 
 
 
             }
@@ -1194,10 +1175,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__142;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:90:8: ( 'implies' )
-            // Egx__.g:90:10: 'implies'
+            // Egx__.g:89:8: ( 'xor' )
+            // Egx__.g:89:10: 'xor'
             {
-            match("implies"); 
+            match("xor"); 
 
 
             }
@@ -1215,10 +1196,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__143;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:91:8: ( '?' )
-            // Egx__.g:91:10: '?'
+            // Egx__.g:90:8: ( 'implies' )
+            // Egx__.g:90:10: 'implies'
             {
-            match('?'); 
+            match("implies"); 
+
 
             }
 
@@ -1235,11 +1217,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__144;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:92:8: ( '==' )
-            // Egx__.g:92:10: '=='
+            // Egx__.g:91:8: ( '?' )
+            // Egx__.g:91:10: '?'
             {
-            match("=="); 
-
+            match('?'); 
 
             }
 
@@ -1256,10 +1237,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__145;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:93:8: ( '!=' )
-            // Egx__.g:93:10: '!='
+            // Egx__.g:92:8: ( '==' )
+            // Egx__.g:92:10: '=='
             {
-            match("!="); 
+            match("=="); 
 
 
             }
@@ -1277,10 +1258,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__146;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:94:8: ( '?:' )
-            // Egx__.g:94:10: '?:'
+            // Egx__.g:93:8: ( '!=' )
+            // Egx__.g:93:10: '!='
             {
-            match("?:"); 
+            match("!="); 
 
 
             }
@@ -1298,10 +1279,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__147;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:95:8: ( '>=' )
-            // Egx__.g:95:10: '>='
+            // Egx__.g:94:8: ( '?:' )
+            // Egx__.g:94:10: '?:'
             {
-            match(">="); 
+            match("?:"); 
 
 
             }
@@ -1319,10 +1300,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__148;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:96:8: ( '<=' )
-            // Egx__.g:96:10: '<='
+            // Egx__.g:95:8: ( '>=' )
+            // Egx__.g:95:10: '>='
             {
-            match("<="); 
+            match(">="); 
 
 
             }
@@ -1340,10 +1321,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__149;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:97:8: ( '<>' )
-            // Egx__.g:97:10: '<>'
+            // Egx__.g:96:8: ( '<=' )
+            // Egx__.g:96:10: '<='
             {
-            match("<>"); 
+            match("<="); 
 
 
             }
@@ -1361,10 +1342,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__150;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:98:8: ( '+' )
-            // Egx__.g:98:10: '+'
+            // Egx__.g:97:8: ( '<>' )
+            // Egx__.g:97:10: '<>'
             {
-            match('+'); 
+            match("<>"); 
+
 
             }
 
@@ -1381,10 +1363,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__151;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:99:8: ( '-' )
-            // Egx__.g:99:10: '-'
+            // Egx__.g:98:8: ( '+' )
+            // Egx__.g:98:10: '+'
             {
-            match('-'); 
+            match('+'); 
 
             }
 
@@ -1401,10 +1383,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__152;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:100:8: ( '*' )
-            // Egx__.g:100:10: '*'
+            // Egx__.g:99:8: ( '-' )
+            // Egx__.g:99:10: '-'
             {
-            match('*'); 
+            match('-'); 
 
             }
 
@@ -1421,10 +1403,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__153;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:101:8: ( '/' )
-            // Egx__.g:101:10: '/'
+            // Egx__.g:100:8: ( '*' )
+            // Egx__.g:100:10: '*'
             {
-            match('/'); 
+            match('*'); 
 
             }
 
@@ -1441,11 +1423,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__154;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:102:8: ( 'not' )
-            // Egx__.g:102:10: 'not'
+            // Egx__.g:101:8: ( '/' )
+            // Egx__.g:101:10: '/'
             {
-            match("not"); 
-
+            match('/'); 
 
             }
 
@@ -1462,10 +1443,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__155;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:103:8: ( '++' )
-            // Egx__.g:103:10: '++'
+            // Egx__.g:102:8: ( 'not' )
+            // Egx__.g:102:10: 'not'
             {
-            match("++"); 
+            match("not"); 
 
 
             }
@@ -1483,10 +1464,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__156;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:104:8: ( '--' )
-            // Egx__.g:104:10: '--'
+            // Egx__.g:103:8: ( '++' )
+            // Egx__.g:103:10: '++'
             {
-            match("--"); 
+            match("++"); 
 
 
             }
@@ -1504,10 +1485,11 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__157;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:105:8: ( '[' )
-            // Egx__.g:105:10: '['
+            // Egx__.g:104:8: ( '--' )
+            // Egx__.g:104:10: '--'
             {
-            match('['); 
+            match("--"); 
+
 
             }
 
@@ -1524,10 +1506,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__158;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:106:8: ( ']' )
-            // Egx__.g:106:10: ']'
+            // Egx__.g:105:8: ( '[' )
+            // Egx__.g:105:10: '['
             {
-            match(']'); 
+            match('['); 
 
             }
 
@@ -1544,10 +1526,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__159;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:107:8: ( '|' )
-            // Egx__.g:107:10: '|'
+            // Egx__.g:106:8: ( ']' )
+            // Egx__.g:106:10: ']'
             {
-            match('|'); 
+            match(']'); 
 
             }
 
@@ -1564,11 +1546,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__160;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:108:8: ( '=>' )
-            // Egx__.g:108:10: '=>'
+            // Egx__.g:107:8: ( '|' )
+            // Egx__.g:107:10: '|'
             {
-            match("=>"); 
-
+            match('|'); 
 
             }
 
@@ -1585,10 +1566,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__161;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:109:8: ( 'new' )
-            // Egx__.g:109:10: 'new'
+            // Egx__.g:108:8: ( '=>' )
+            // Egx__.g:108:10: '=>'
             {
-            match("new"); 
+            match("=>"); 
 
 
             }
@@ -1606,10 +1587,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__162;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:110:8: ( 'var' )
-            // Egx__.g:110:10: 'var'
+            // Egx__.g:109:8: ( 'new' )
+            // Egx__.g:109:10: 'new'
             {
-            match("var"); 
+            match("new"); 
 
 
             }
@@ -1627,10 +1608,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__163;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:111:8: ( 'ext' )
-            // Egx__.g:111:10: 'ext'
+            // Egx__.g:110:8: ( 'var' )
+            // Egx__.g:110:10: 'var'
             {
-            match("ext"); 
+            match("var"); 
 
 
             }
@@ -1648,10 +1629,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__164;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:112:8: ( 'pre' )
-            // Egx__.g:112:10: 'pre'
+            // Egx__.g:111:8: ( 'ext' )
+            // Egx__.g:111:10: 'ext'
             {
-            match("pre"); 
+            match("ext"); 
 
 
             }
@@ -1669,10 +1650,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__165;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:113:8: ( 'post' )
-            // Egx__.g:113:10: 'post'
+            // Egx__.g:112:8: ( 'pre' )
+            // Egx__.g:112:10: 'pre'
             {
-            match("post"); 
+            match("pre"); 
 
 
             }
@@ -1690,10 +1671,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__166;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:114:8: ( 'guard' )
-            // Egx__.g:114:10: 'guard'
+            // Egx__.g:113:8: ( 'post' )
+            // Egx__.g:113:10: 'post'
             {
-            match("guard"); 
+            match("post"); 
 
 
             }
@@ -1711,10 +1692,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__167;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:115:8: ( 'extends' )
-            // Egx__.g:115:10: 'extends'
+            // Egx__.g:114:8: ( 'guard' )
+            // Egx__.g:114:10: 'guard'
             {
-            match("extends"); 
+            match("guard"); 
 
 
             }
@@ -1732,10 +1713,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__168;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:116:8: ( 'rule' )
-            // Egx__.g:116:10: 'rule'
+            // Egx__.g:115:8: ( 'extends' )
+            // Egx__.g:115:10: 'extends'
             {
-            match("rule"); 
+            match("extends"); 
 
 
             }
@@ -1753,10 +1734,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__169;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:117:8: ( 'transform' )
-            // Egx__.g:117:10: 'transform'
+            // Egx__.g:116:8: ( 'rule' )
+            // Egx__.g:116:10: 'rule'
             {
-            match("transform"); 
+            match("rule"); 
 
 
             }
@@ -1774,10 +1755,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__170;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:118:8: ( 'target' )
-            // Egx__.g:118:10: 'target'
+            // Egx__.g:117:8: ( 'transform' )
+            // Egx__.g:117:10: 'transform'
             {
-            match("target"); 
+            match("transform"); 
 
 
             }
@@ -1795,10 +1776,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__171;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:119:8: ( 'template' )
-            // Egx__.g:119:10: 'template'
+            // Egx__.g:118:8: ( 'target' )
+            // Egx__.g:118:10: 'target'
             {
-            match("template"); 
+            match("target"); 
 
 
             }
@@ -1816,10 +1797,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__172;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:120:8: ( 'parameters' )
-            // Egx__.g:120:10: 'parameters'
+            // Egx__.g:119:8: ( 'template' )
+            // Egx__.g:119:10: 'template'
             {
-            match("parameters"); 
+            match("template"); 
 
 
             }
@@ -1837,10 +1818,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__173;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:121:8: ( 'overwrite' )
-            // Egx__.g:121:10: 'overwrite'
+            // Egx__.g:120:8: ( 'parameters' )
+            // Egx__.g:120:10: 'parameters'
             {
-            match("overwrite"); 
+            match("parameters"); 
 
 
             }
@@ -1858,10 +1839,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__174;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:122:8: ( 'merge' )
-            // Egx__.g:122:10: 'merge'
+            // Egx__.g:121:8: ( 'overwrite' )
+            // Egx__.g:121:10: 'overwrite'
             {
-            match("merge"); 
+            match("overwrite"); 
 
 
             }
@@ -1879,10 +1860,10 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__175;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Egx__.g:123:8: ( 'patch' )
-            // Egx__.g:123:10: 'patch'
+            // Egx__.g:122:8: ( 'merge' )
+            // Egx__.g:122:10: 'merge'
             {
-            match("patch"); 
+            match("merge"); 
 
 
             }
@@ -1900,6 +1881,27 @@ public class EgxLexer extends Lexer {
         try {
             int _type = T__176;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Egx__.g:123:8: ( 'patch' )
+            // Egx__.g:123:10: 'patch'
+            {
+            match("patch"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__176
+
+    // $ANTLR start T__177
+    public final void mT__177() throws RecognitionException {
+        try {
+            int _type = T__177;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
             // Egx__.g:124:8: ( 'append' )
             // Egx__.g:124:10: 'append'
             {
@@ -1914,582 +1916,610 @@ public class EgxLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end T__176
+    // $ANTLR end T__177
+
+    // $ANTLR start T__178
+    public final void mT__178() throws RecognitionException {
+        try {
+            int _type = T__178;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Egx__.g:125:8: ( 'formatter' )
+            // Egx__.g:125:10: 'formatter'
+            {
+            match("formatter"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T__178
 
     public void mTokens() throws RecognitionException {
-        // Egx__.g:1:8: ( T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | EolLexerRules. Tokens )
-        int alt1=82;
+        // Egx__.g:1:8: ( T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | T__177 | T__178 | EolLexerRules. Tokens )
+        int alt1=83;
         alt1 = dfa1.predict(input);
         switch (alt1) {
             case 1 :
-                // Egx__.g:1:10: T__96
-                {
-                mT__96(); 
-
-                }
-                break;
-            case 2 :
-                // Egx__.g:1:16: T__97
+                // Egx__.g:1:10: T__97
                 {
                 mT__97(); 
 
                 }
                 break;
-            case 3 :
-                // Egx__.g:1:22: T__98
+            case 2 :
+                // Egx__.g:1:16: T__98
                 {
                 mT__98(); 
 
                 }
                 break;
-            case 4 :
-                // Egx__.g:1:28: T__99
+            case 3 :
+                // Egx__.g:1:22: T__99
                 {
                 mT__99(); 
 
                 }
                 break;
-            case 5 :
-                // Egx__.g:1:34: T__100
+            case 4 :
+                // Egx__.g:1:28: T__100
                 {
                 mT__100(); 
 
                 }
                 break;
-            case 6 :
-                // Egx__.g:1:41: T__101
+            case 5 :
+                // Egx__.g:1:35: T__101
                 {
                 mT__101(); 
 
                 }
                 break;
-            case 7 :
-                // Egx__.g:1:48: T__102
+            case 6 :
+                // Egx__.g:1:42: T__102
                 {
                 mT__102(); 
 
                 }
                 break;
-            case 8 :
-                // Egx__.g:1:55: T__103
+            case 7 :
+                // Egx__.g:1:49: T__103
                 {
                 mT__103(); 
 
                 }
                 break;
-            case 9 :
-                // Egx__.g:1:62: T__104
+            case 8 :
+                // Egx__.g:1:56: T__104
                 {
                 mT__104(); 
 
                 }
                 break;
-            case 10 :
-                // Egx__.g:1:69: T__105
+            case 9 :
+                // Egx__.g:1:63: T__105
                 {
                 mT__105(); 
 
                 }
                 break;
-            case 11 :
-                // Egx__.g:1:76: T__106
+            case 10 :
+                // Egx__.g:1:70: T__106
                 {
                 mT__106(); 
 
                 }
                 break;
-            case 12 :
-                // Egx__.g:1:83: T__107
+            case 11 :
+                // Egx__.g:1:77: T__107
                 {
                 mT__107(); 
 
                 }
                 break;
-            case 13 :
-                // Egx__.g:1:90: T__108
+            case 12 :
+                // Egx__.g:1:84: T__108
                 {
                 mT__108(); 
 
                 }
                 break;
-            case 14 :
-                // Egx__.g:1:97: T__109
+            case 13 :
+                // Egx__.g:1:91: T__109
                 {
                 mT__109(); 
 
                 }
                 break;
-            case 15 :
-                // Egx__.g:1:104: T__110
+            case 14 :
+                // Egx__.g:1:98: T__110
                 {
                 mT__110(); 
 
                 }
                 break;
-            case 16 :
-                // Egx__.g:1:111: T__111
+            case 15 :
+                // Egx__.g:1:105: T__111
                 {
                 mT__111(); 
 
                 }
                 break;
-            case 17 :
-                // Egx__.g:1:118: T__112
+            case 16 :
+                // Egx__.g:1:112: T__112
                 {
                 mT__112(); 
 
                 }
                 break;
-            case 18 :
-                // Egx__.g:1:125: T__113
+            case 17 :
+                // Egx__.g:1:119: T__113
                 {
                 mT__113(); 
 
                 }
                 break;
-            case 19 :
-                // Egx__.g:1:132: T__114
+            case 18 :
+                // Egx__.g:1:126: T__114
                 {
                 mT__114(); 
 
                 }
                 break;
-            case 20 :
-                // Egx__.g:1:139: T__115
+            case 19 :
+                // Egx__.g:1:133: T__115
                 {
                 mT__115(); 
 
                 }
                 break;
-            case 21 :
-                // Egx__.g:1:146: T__116
+            case 20 :
+                // Egx__.g:1:140: T__116
                 {
                 mT__116(); 
 
                 }
                 break;
-            case 22 :
-                // Egx__.g:1:153: T__117
+            case 21 :
+                // Egx__.g:1:147: T__117
                 {
                 mT__117(); 
 
                 }
                 break;
-            case 23 :
-                // Egx__.g:1:160: T__118
+            case 22 :
+                // Egx__.g:1:154: T__118
                 {
                 mT__118(); 
 
                 }
                 break;
-            case 24 :
-                // Egx__.g:1:167: T__119
+            case 23 :
+                // Egx__.g:1:161: T__119
                 {
                 mT__119(); 
 
                 }
                 break;
-            case 25 :
-                // Egx__.g:1:174: T__120
+            case 24 :
+                // Egx__.g:1:168: T__120
                 {
                 mT__120(); 
 
                 }
                 break;
-            case 26 :
-                // Egx__.g:1:181: T__121
+            case 25 :
+                // Egx__.g:1:175: T__121
                 {
                 mT__121(); 
 
                 }
                 break;
-            case 27 :
-                // Egx__.g:1:188: T__122
+            case 26 :
+                // Egx__.g:1:182: T__122
                 {
                 mT__122(); 
 
                 }
                 break;
-            case 28 :
-                // Egx__.g:1:195: T__123
+            case 27 :
+                // Egx__.g:1:189: T__123
                 {
                 mT__123(); 
 
                 }
                 break;
-            case 29 :
-                // Egx__.g:1:202: T__124
+            case 28 :
+                // Egx__.g:1:196: T__124
                 {
                 mT__124(); 
 
                 }
                 break;
-            case 30 :
-                // Egx__.g:1:209: T__125
+            case 29 :
+                // Egx__.g:1:203: T__125
                 {
                 mT__125(); 
 
                 }
                 break;
-            case 31 :
-                // Egx__.g:1:216: T__126
+            case 30 :
+                // Egx__.g:1:210: T__126
                 {
                 mT__126(); 
 
                 }
                 break;
-            case 32 :
-                // Egx__.g:1:223: T__127
+            case 31 :
+                // Egx__.g:1:217: T__127
                 {
                 mT__127(); 
 
                 }
                 break;
-            case 33 :
-                // Egx__.g:1:230: T__128
+            case 32 :
+                // Egx__.g:1:224: T__128
                 {
                 mT__128(); 
 
                 }
                 break;
-            case 34 :
-                // Egx__.g:1:237: T__129
+            case 33 :
+                // Egx__.g:1:231: T__129
                 {
                 mT__129(); 
 
                 }
                 break;
-            case 35 :
-                // Egx__.g:1:244: T__130
+            case 34 :
+                // Egx__.g:1:238: T__130
                 {
                 mT__130(); 
 
                 }
                 break;
-            case 36 :
-                // Egx__.g:1:251: T__131
+            case 35 :
+                // Egx__.g:1:245: T__131
                 {
                 mT__131(); 
 
                 }
                 break;
-            case 37 :
-                // Egx__.g:1:258: T__132
+            case 36 :
+                // Egx__.g:1:252: T__132
                 {
                 mT__132(); 
 
                 }
                 break;
-            case 38 :
-                // Egx__.g:1:265: T__133
+            case 37 :
+                // Egx__.g:1:259: T__133
                 {
                 mT__133(); 
 
                 }
                 break;
-            case 39 :
-                // Egx__.g:1:272: T__134
+            case 38 :
+                // Egx__.g:1:266: T__134
                 {
                 mT__134(); 
 
                 }
                 break;
-            case 40 :
-                // Egx__.g:1:279: T__135
+            case 39 :
+                // Egx__.g:1:273: T__135
                 {
                 mT__135(); 
 
                 }
                 break;
-            case 41 :
-                // Egx__.g:1:286: T__136
+            case 40 :
+                // Egx__.g:1:280: T__136
                 {
                 mT__136(); 
 
                 }
                 break;
-            case 42 :
-                // Egx__.g:1:293: T__137
+            case 41 :
+                // Egx__.g:1:287: T__137
                 {
                 mT__137(); 
 
                 }
                 break;
-            case 43 :
-                // Egx__.g:1:300: T__138
+            case 42 :
+                // Egx__.g:1:294: T__138
                 {
                 mT__138(); 
 
                 }
                 break;
-            case 44 :
-                // Egx__.g:1:307: T__139
+            case 43 :
+                // Egx__.g:1:301: T__139
                 {
                 mT__139(); 
 
                 }
                 break;
-            case 45 :
-                // Egx__.g:1:314: T__140
+            case 44 :
+                // Egx__.g:1:308: T__140
                 {
                 mT__140(); 
 
                 }
                 break;
-            case 46 :
-                // Egx__.g:1:321: T__141
+            case 45 :
+                // Egx__.g:1:315: T__141
                 {
                 mT__141(); 
 
                 }
                 break;
-            case 47 :
-                // Egx__.g:1:328: T__142
+            case 46 :
+                // Egx__.g:1:322: T__142
                 {
                 mT__142(); 
 
                 }
                 break;
-            case 48 :
-                // Egx__.g:1:335: T__143
+            case 47 :
+                // Egx__.g:1:329: T__143
                 {
                 mT__143(); 
 
                 }
                 break;
-            case 49 :
-                // Egx__.g:1:342: T__144
+            case 48 :
+                // Egx__.g:1:336: T__144
                 {
                 mT__144(); 
 
                 }
                 break;
-            case 50 :
-                // Egx__.g:1:349: T__145
+            case 49 :
+                // Egx__.g:1:343: T__145
                 {
                 mT__145(); 
 
                 }
                 break;
-            case 51 :
-                // Egx__.g:1:356: T__146
+            case 50 :
+                // Egx__.g:1:350: T__146
                 {
                 mT__146(); 
 
                 }
                 break;
-            case 52 :
-                // Egx__.g:1:363: T__147
+            case 51 :
+                // Egx__.g:1:357: T__147
                 {
                 mT__147(); 
 
                 }
                 break;
-            case 53 :
-                // Egx__.g:1:370: T__148
+            case 52 :
+                // Egx__.g:1:364: T__148
                 {
                 mT__148(); 
 
                 }
                 break;
-            case 54 :
-                // Egx__.g:1:377: T__149
+            case 53 :
+                // Egx__.g:1:371: T__149
                 {
                 mT__149(); 
 
                 }
                 break;
-            case 55 :
-                // Egx__.g:1:384: T__150
+            case 54 :
+                // Egx__.g:1:378: T__150
                 {
                 mT__150(); 
 
                 }
                 break;
-            case 56 :
-                // Egx__.g:1:391: T__151
+            case 55 :
+                // Egx__.g:1:385: T__151
                 {
                 mT__151(); 
 
                 }
                 break;
-            case 57 :
-                // Egx__.g:1:398: T__152
+            case 56 :
+                // Egx__.g:1:392: T__152
                 {
                 mT__152(); 
 
                 }
                 break;
-            case 58 :
-                // Egx__.g:1:405: T__153
+            case 57 :
+                // Egx__.g:1:399: T__153
                 {
                 mT__153(); 
 
                 }
                 break;
-            case 59 :
-                // Egx__.g:1:412: T__154
+            case 58 :
+                // Egx__.g:1:406: T__154
                 {
                 mT__154(); 
 
                 }
                 break;
-            case 60 :
-                // Egx__.g:1:419: T__155
+            case 59 :
+                // Egx__.g:1:413: T__155
                 {
                 mT__155(); 
 
                 }
                 break;
-            case 61 :
-                // Egx__.g:1:426: T__156
+            case 60 :
+                // Egx__.g:1:420: T__156
                 {
                 mT__156(); 
 
                 }
                 break;
-            case 62 :
-                // Egx__.g:1:433: T__157
+            case 61 :
+                // Egx__.g:1:427: T__157
                 {
                 mT__157(); 
 
                 }
                 break;
-            case 63 :
-                // Egx__.g:1:440: T__158
+            case 62 :
+                // Egx__.g:1:434: T__158
                 {
                 mT__158(); 
 
                 }
                 break;
-            case 64 :
-                // Egx__.g:1:447: T__159
+            case 63 :
+                // Egx__.g:1:441: T__159
                 {
                 mT__159(); 
 
                 }
                 break;
-            case 65 :
-                // Egx__.g:1:454: T__160
+            case 64 :
+                // Egx__.g:1:448: T__160
                 {
                 mT__160(); 
 
                 }
                 break;
-            case 66 :
-                // Egx__.g:1:461: T__161
+            case 65 :
+                // Egx__.g:1:455: T__161
                 {
                 mT__161(); 
 
                 }
                 break;
-            case 67 :
-                // Egx__.g:1:468: T__162
+            case 66 :
+                // Egx__.g:1:462: T__162
                 {
                 mT__162(); 
 
                 }
                 break;
-            case 68 :
-                // Egx__.g:1:475: T__163
+            case 67 :
+                // Egx__.g:1:469: T__163
                 {
                 mT__163(); 
 
                 }
                 break;
-            case 69 :
-                // Egx__.g:1:482: T__164
+            case 68 :
+                // Egx__.g:1:476: T__164
                 {
                 mT__164(); 
 
                 }
                 break;
-            case 70 :
-                // Egx__.g:1:489: T__165
+            case 69 :
+                // Egx__.g:1:483: T__165
                 {
                 mT__165(); 
 
                 }
                 break;
-            case 71 :
-                // Egx__.g:1:496: T__166
+            case 70 :
+                // Egx__.g:1:490: T__166
                 {
                 mT__166(); 
 
                 }
                 break;
-            case 72 :
-                // Egx__.g:1:503: T__167
+            case 71 :
+                // Egx__.g:1:497: T__167
                 {
                 mT__167(); 
 
                 }
                 break;
-            case 73 :
-                // Egx__.g:1:510: T__168
+            case 72 :
+                // Egx__.g:1:504: T__168
                 {
                 mT__168(); 
 
                 }
                 break;
-            case 74 :
-                // Egx__.g:1:517: T__169
+            case 73 :
+                // Egx__.g:1:511: T__169
                 {
                 mT__169(); 
 
                 }
                 break;
-            case 75 :
-                // Egx__.g:1:524: T__170
+            case 74 :
+                // Egx__.g:1:518: T__170
                 {
                 mT__170(); 
 
                 }
                 break;
-            case 76 :
-                // Egx__.g:1:531: T__171
+            case 75 :
+                // Egx__.g:1:525: T__171
                 {
                 mT__171(); 
 
                 }
                 break;
-            case 77 :
-                // Egx__.g:1:538: T__172
+            case 76 :
+                // Egx__.g:1:532: T__172
                 {
                 mT__172(); 
 
                 }
                 break;
-            case 78 :
-                // Egx__.g:1:545: T__173
+            case 77 :
+                // Egx__.g:1:539: T__173
                 {
                 mT__173(); 
 
                 }
                 break;
-            case 79 :
-                // Egx__.g:1:552: T__174
+            case 78 :
+                // Egx__.g:1:546: T__174
                 {
                 mT__174(); 
 
                 }
                 break;
-            case 80 :
-                // Egx__.g:1:559: T__175
+            case 79 :
+                // Egx__.g:1:553: T__175
                 {
                 mT__175(); 
 
                 }
                 break;
-            case 81 :
-                // Egx__.g:1:566: T__176
+            case 80 :
+                // Egx__.g:1:560: T__176
                 {
                 mT__176(); 
 
                 }
                 break;
+            case 81 :
+                // Egx__.g:1:567: T__177
+                {
+                mT__177(); 
+
+                }
+                break;
             case 82 :
-                // Egx__.g:1:573: EolLexerRules. Tokens
+                // Egx__.g:1:574: T__178
+                {
+                mT__178(); 
+
+                }
+                break;
+            case 83 :
+                // Egx__.g:1:581: EolLexerRules. Tokens
                 {
                 gEolLexerRules.mTokens(); 
 
@@ -2507,20 +2537,20 @@ public class EgxLexer extends Lexer {
         "\1\73\1\50\1\uffff\1\100\1\uffff\1\103\1\105\7\50\1\125\1\130\1"+
         "\132\1\134\1\137\2\50\3\uffff\3\50\1\uffff\10\50\3\uffff\1\50\1"+
         "\162\3\50\1\167\2\uffff\1\50\1\171\1\172\7\uffff\15\50\15\uffff"+
-        "\14\50\1\u0095\5\50\1\uffff\2\50\1\u009d\2\uffff\1\50\2\uffff\1"+
-        "\50\1\u00a2\13\50\1\u00ae\1\u00af\1\u00b0\1\u00b1\1\u00b2\10\50"+
-        "\1\uffff\7\50\1\uffff\2\50\1\u00c4\1\50\1\uffff\1\50\1\u00c7\3\50"+
-        "\1\u00cb\5\50\5\uffff\1\u00d1\3\50\1\u00d5\1\u00d6\1\u00d7\1\u00d8"+
-        "\11\50\1\uffff\2\50\1\uffff\1\50\1\u00e5\1\50\1\uffff\1\u00e7\3"+
-        "\50\1\u00ed\1\uffff\1\50\1\u00ef\1\u00f0\4\uffff\1\u00f1\1\u00f2"+
-        "\1\50\1\u00f4\3\50\1\u00f8\2\50\1\u00fb\1\50\1\uffff\1\u00fd\1\uffff"+
-        "\2\50\1\u0100\2\50\1\uffff\1\50\4\uffff\1\u0104\1\uffff\3\50\1\uffff"+
-        "\1\u0108\1\u0109\1\uffff\1\50\1\uffff\2\50\1\uffff\3\50\1\uffff"+
-        "\2\50\1\u0112\2\uffff\1\u0113\2\50\1\u0116\1\u0117\1\50\1\u0119"+
-        "\1\u011a\2\uffff\1\50\1\u011c\2\uffff\1\50\2\uffff\1\50\1\uffff"+
-        "\1\u011f\1\u0120\2\uffff";
+        "\14\50\1\u0095\5\50\1\uffff\2\50\1\u009e\2\uffff\1\50\2\uffff\1"+
+        "\50\1\u00a3\13\50\1\u00af\1\u00b0\1\u00b1\1\u00b2\1\u00b3\10\50"+
+        "\1\uffff\10\50\1\uffff\2\50\1\u00c6\1\50\1\uffff\1\50\1\u00c9\3"+
+        "\50\1\u00cd\5\50\5\uffff\1\u00d3\3\50\1\u00d7\1\u00d8\1\u00d9\1"+
+        "\u00da\12\50\1\uffff\2\50\1\uffff\1\50\1\u00e8\1\50\1\uffff\1\u00ea"+
+        "\3\50\1\u00f0\1\uffff\1\50\1\u00f2\1\u00f3\4\uffff\1\u00f4\1\u00f5"+
+        "\1\50\1\u00f7\4\50\1\u00fc\2\50\1\u00ff\1\50\1\uffff\1\u0101\1\uffff"+
+        "\2\50\1\u0104\2\50\1\uffff\1\50\4\uffff\1\u0108\1\uffff\4\50\1\uffff"+
+        "\1\u010d\1\u010e\1\uffff\1\50\1\uffff\2\50\1\uffff\3\50\1\uffff"+
+        "\2\50\1\u0117\1\50\2\uffff\1\u0119\2\50\1\u011c\1\u011d\1\50\1\u011f"+
+        "\1\u0120\1\uffff\1\u0121\1\uffff\1\50\1\u0123\2\uffff\1\50\3\uffff"+
+        "\1\50\1\uffff\1\u0126\1\u0127\2\uffff";
     static final String DFA1_eofS =
-        "\u0121\uffff";
+        "\u0128\uffff";
     static final String DFA1_minS =
         "\1\11\1\145\1\uffff\1\142\1\uffff\1\145\2\uffff\1\75\1\160\1\157"+
         "\2\uffff\1\72\1\146\1\uffff\1\75\1\uffff\2\75\1\154\1\167\1\141"+
@@ -2533,17 +2563,18 @@ public class EgxLexer extends Lexer {
         "\1\141\1\145\1\162\1\uffff\1\162\1\143\1\46\2\uffff\1\154\2\uffff"+
         "\1\145\1\46\1\164\1\145\1\164\1\154\1\165\1\145\1\157\1\156\1\147"+
         "\1\160\1\141\5\46\1\164\1\141\1\143\1\162\1\154\1\145\1\163\1\164"+
-        "\1\uffff\1\156\1\145\1\165\1\164\1\141\1\167\1\164\1\uffff\1\162"+
-        "\1\151\1\46\1\156\1\uffff\1\143\1\46\1\151\1\145\1\162\1\46\1\167"+
-        "\1\163\1\145\1\154\1\153\5\uffff\1\46\1\155\1\150\1\144\4\46\1\144"+
-        "\1\162\1\154\1\145\1\164\1\162\1\151\1\164\1\145\1\uffff\1\144\1"+
-        "\150\1\uffff\1\156\1\46\1\156\1\uffff\1\46\1\141\1\164\1\141\1\46"+
-        "\1\uffff\1\145\2\46\4\uffff\2\46\1\164\1\46\2\151\1\157\1\46\2\163"+
-        "\1\46\1\165\1\uffff\1\46\1\uffff\1\143\1\157\1\46\1\164\1\154\1"+
-        "\uffff\1\164\4\uffff\1\46\1\uffff\1\157\1\164\1\156\1\uffff\2\46"+
-        "\1\uffff\1\145\1\uffff\1\164\1\162\1\uffff\1\145\1\154\1\145\1\uffff"+
-        "\1\156\1\145\1\46\2\uffff\1\46\1\151\1\155\2\46\1\162\2\46\2\uffff"+
-        "\1\157\1\46\2\uffff\1\163\2\uffff\1\156\1\uffff\2\46\2\uffff";
+        "\1\uffff\1\156\1\145\1\165\1\164\1\141\1\167\1\164\1\141\1\uffff"+
+        "\1\162\1\151\1\46\1\156\1\uffff\1\143\1\46\1\151\1\145\1\162\1\46"+
+        "\1\167\1\163\1\145\1\154\1\153\5\uffff\1\46\1\155\1\150\1\144\4"+
+        "\46\1\144\1\162\1\154\1\145\1\164\1\162\1\151\2\164\1\145\1\uffff"+
+        "\1\144\1\150\1\uffff\1\156\1\46\1\156\1\uffff\1\46\1\141\1\164\1"+
+        "\141\1\46\1\uffff\1\145\2\46\4\uffff\2\46\1\164\1\46\2\151\1\157"+
+        "\1\164\1\46\2\163\1\46\1\165\1\uffff\1\46\1\uffff\1\143\1\157\1"+
+        "\46\1\164\1\154\1\uffff\1\164\4\uffff\1\46\1\uffff\1\157\1\164\1"+
+        "\156\1\145\1\uffff\2\46\1\uffff\1\145\1\uffff\1\164\1\162\1\uffff"+
+        "\1\145\1\154\1\145\1\uffff\1\156\1\145\1\46\1\162\2\uffff\1\46\1"+
+        "\151\1\155\2\46\1\162\2\46\1\uffff\1\46\1\uffff\1\157\1\46\2\uffff"+
+        "\1\163\3\uffff\1\156\1\uffff\2\46\2\uffff";
     static final String DFA1_maxS =
         "\1\ufaff\1\157\1\uffff\1\160\1\uffff\1\162\2\uffff\1\76\1\166\1"+
         "\165\2\uffff\1\75\1\156\1\uffff\1\75\1\uffff\1\76\1\75\1\170\1\167"+
@@ -2556,33 +2587,34 @@ public class EgxLexer extends Lexer {
         "\1\145\1\162\1\uffff\1\162\1\143\1\ufaff\2\uffff\1\157\2\uffff\1"+
         "\145\1\ufaff\1\164\1\145\1\164\1\154\1\165\1\145\1\157\1\156\1\147"+
         "\1\160\1\141\5\ufaff\1\164\1\141\1\143\1\162\1\154\1\145\1\163\1"+
-        "\164\1\uffff\1\156\1\145\1\165\1\164\1\141\1\167\1\164\1\uffff\1"+
-        "\162\1\151\1\ufaff\1\156\1\uffff\1\143\1\ufaff\1\151\1\145\1\162"+
+        "\164\1\uffff\1\156\1\145\1\165\1\164\1\141\1\167\1\164\1\141\1\uffff"+
+        "\1\162\1\151\1\ufaff\1\156\1\uffff\1\143\1\ufaff\1\151\1\145\1\162"+
         "\1\ufaff\1\167\1\163\1\145\1\154\1\153\5\uffff\1\ufaff\1\155\1\150"+
-        "\1\144\4\ufaff\1\144\1\162\1\154\1\145\1\164\1\162\1\151\1\164\1"+
+        "\1\144\4\ufaff\1\144\1\162\1\154\1\145\1\164\1\162\1\151\2\164\1"+
         "\145\1\uffff\1\144\1\150\1\uffff\1\156\1\ufaff\1\156\1\uffff\1\ufaff"+
         "\1\146\1\164\1\141\1\ufaff\1\uffff\1\145\2\ufaff\4\uffff\2\ufaff"+
-        "\1\164\1\ufaff\2\151\1\157\1\ufaff\2\163\1\ufaff\1\165\1\uffff\1"+
-        "\ufaff\1\uffff\1\143\1\157\1\ufaff\1\164\1\154\1\uffff\1\164\4\uffff"+
-        "\1\ufaff\1\uffff\1\157\1\164\1\156\1\uffff\2\ufaff\1\uffff\1\145"+
-        "\1\uffff\1\164\1\162\1\uffff\1\145\1\154\1\145\1\uffff\1\156\1\145"+
-        "\1\ufaff\2\uffff\1\ufaff\1\151\1\155\2\ufaff\1\162\2\ufaff\2\uffff"+
-        "\1\157\1\ufaff\2\uffff\1\163\2\uffff\1\156\1\uffff\2\ufaff\2\uffff";
+        "\1\164\1\ufaff\2\151\1\157\1\164\1\ufaff\2\163\1\ufaff\1\165\1\uffff"+
+        "\1\ufaff\1\uffff\1\143\1\157\1\ufaff\1\164\1\154\1\uffff\1\164\4"+
+        "\uffff\1\ufaff\1\uffff\1\157\1\164\1\156\1\145\1\uffff\2\ufaff\1"+
+        "\uffff\1\145\1\uffff\1\164\1\162\1\uffff\1\145\1\154\1\145\1\uffff"+
+        "\1\156\1\145\1\ufaff\1\162\2\uffff\1\ufaff\1\151\1\155\2\ufaff\1"+
+        "\162\2\ufaff\1\uffff\1\ufaff\1\uffff\1\157\1\ufaff\2\uffff\1\163"+
+        "\3\uffff\1\156\1\uffff\2\ufaff\2\uffff";
     static final String DFA1_acceptS =
         "\2\uffff\1\2\1\uffff\1\4\1\uffff\1\6\1\7\3\uffff\1\13\1\14\2\uffff"+
-        "\1\17\1\uffff\1\21\20\uffff\1\76\1\77\1\100\3\uffff\1\122\10\uffff"+
+        "\1\17\1\uffff\1\21\20\uffff\1\76\1\77\1\100\3\uffff\1\123\10\uffff"+
         "\1\61\1\101\1\10\6\uffff\1\45\1\15\3\uffff\1\62\1\20\1\65\1\66\1"+
         "\23\1\64\1\24\15\uffff\1\46\1\74\1\67\1\47\1\75\1\70\1\50\1\71\1"+
         "\51\1\72\1\52\1\63\1\60\22\uffff\1\54\3\uffff\1\53\1\22\1\uffff"+
-        "\1\25\1\33\32\uffff\1\55\7\uffff\1\32\4\uffff\1\104\13\uffff\1\56"+
-        "\1\73\1\102\1\103\1\105\21\uffff\1\26\2\uffff\1\30\3\uffff\1\111"+
-        "\5\uffff\1\106\3\uffff\1\1\1\117\1\3\1\43\14\uffff\1\34\1\uffff"+
-        "\1\36\5\uffff\1\40\1\uffff\1\120\1\107\1\121\1\5\1\uffff\1\37\3"+
+        "\1\25\1\33\32\uffff\1\55\10\uffff\1\32\4\uffff\1\104\13\uffff\1"+
+        "\56\1\73\1\102\1\103\1\105\22\uffff\1\26\2\uffff\1\30\3\uffff\1"+
+        "\111\5\uffff\1\106\3\uffff\1\1\1\117\1\3\1\43\15\uffff\1\34\1\uffff"+
+        "\1\36\5\uffff\1\40\1\uffff\1\120\1\107\1\121\1\5\1\uffff\1\37\4"+
         "\uffff\1\16\2\uffff\1\27\1\uffff\1\35\2\uffff\1\113\3\uffff\1\31"+
-        "\3\uffff\1\57\1\110\10\uffff\1\12\1\42\2\uffff\1\114\1\41\1\uffff"+
-        "\1\11\1\116\1\uffff\1\112\2\uffff\1\115\1\44";
+        "\4\uffff\1\57\1\110\10\uffff\1\12\1\uffff\1\42\2\uffff\1\114\1\41"+
+        "\1\uffff\1\11\1\116\1\122\1\uffff\1\112\2\uffff\1\115\1\44";
     static final String DFA1_specialS =
-        "\u0121\uffff}>";
+        "\u0128\uffff}>";
     static final String[] DFA1_transitionS = {
             "\2\50\1\uffff\2\50\22\uffff\1\50\1\20\1\50\1\21\1\17\1\uffff"+
             "\2\50\1\13\1\14\1\35\1\33\1\4\1\34\1\50\1\36\12\50\1\15\1\2"+
@@ -2720,21 +2752,21 @@ public class EgxLexer extends Lexer {
             "",
             "\1\u009b",
             "\1\u009c",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\14"+
+            "\50\1\u009d\15\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50"+
+            "\1\uffff\u1f08\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50"+
+            "\u0080\uffff\u092e\50\u10d2\uffff\u5200\50\u5900\uffff\u0200"+
+            "\50",
             "",
             "",
-            "\1\u009f\2\uffff\1\u009e",
+            "\1\u00a0\2\uffff\1\u009f",
             "",
             "",
-            "\1\u00a0",
+            "\1\u00a1",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\4\50"+
-            "\1\u00a1\25\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1"+
+            "\1\u00a2\25\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1"+
             "\uffff\u1f08\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080"+
             "\uffff\u092e\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u00a3",
             "\1\u00a4",
             "\1\u00a5",
             "\1\u00a6",
@@ -2745,6 +2777,7 @@ public class EgxLexer extends Lexer {
             "\1\u00ab",
             "\1\u00ac",
             "\1\u00ad",
+            "\1\u00ae",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
@@ -2765,7 +2798,6 @@ public class EgxLexer extends Lexer {
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u00b3",
             "\1\u00b4",
             "\1\u00b5",
             "\1\u00b6",
@@ -2773,52 +2805,54 @@ public class EgxLexer extends Lexer {
             "\1\u00b8",
             "\1\u00b9",
             "\1\u00ba",
-            "",
             "\1\u00bb",
+            "",
             "\1\u00bc",
             "\1\u00bd",
             "\1\u00be",
             "\1\u00bf",
             "\1\u00c0",
             "\1\u00c1",
-            "",
             "\1\u00c2",
             "\1\u00c3",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u00c5",
             "",
-            "\1\u00c6",
+            "\1\u00c4",
+            "\1\u00c5",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\u00c7",
+            "",
             "\1\u00c8",
-            "\1\u00c9",
-            "\1\u00ca",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\u00ca",
+            "\1\u00cb",
             "\1\u00cc",
-            "\1\u00cd",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
             "\1\u00ce",
             "\1\u00cf",
             "\1\u00d0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\u00d1",
             "\1\u00d2",
-            "\1\u00d3",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
             "\1\u00d4",
+            "\1\u00d5",
+            "\1\u00d6",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
@@ -2835,8 +2869,6 @@ public class EgxLexer extends Lexer {
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u00d9",
-            "\1\u00da",
             "\1\u00db",
             "\1\u00dc",
             "\1\u00dd",
@@ -2844,30 +2876,33 @@ public class EgxLexer extends Lexer {
             "\1\u00df",
             "\1\u00e0",
             "\1\u00e1",
-            "",
             "\1\u00e2",
             "\1\u00e3",
-            "",
             "\1\u00e4",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "",
+            "\1\u00e5",
             "\1\u00e6",
             "",
+            "\1\u00e7",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u00e8\4\uffff\1\u00e9",
-            "\1\u00ea",
-            "\1\u00eb",
-            "\1\50\11\uffff\12\50\7\uffff\1\u00ec\31\50\3\uffff\2\50\1\uffff"+
+            "\1\u00e9",
+            "",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\u00eb\4\uffff\1\u00ec",
+            "\1\u00ed",
+            "\1\u00ee",
+            "\1\50\11\uffff\12\50\7\uffff\1\u00ef\31\50\3\uffff\2\50\1\uffff"+
             "\32\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
             "",
-            "\1\u00ee",
+            "\1\u00f1",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
@@ -2888,116 +2923,124 @@ public class EgxLexer extends Lexer {
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u00f3",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u00f5",
             "\1\u00f6",
-            "\1\u00f7",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\u00f8",
             "\1\u00f9",
             "\1\u00fa",
+            "\1\u00fb",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u00fc",
-            "",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "",
+            "\1\u00fd",
             "\1\u00fe",
-            "\1\u00ff",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\u0101",
+            "\1\u0100",
+            "",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "",
             "\1\u0102",
-            "",
             "\1\u0103",
-            "",
-            "",
-            "",
-            "",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "",
             "\1\u0105",
             "\1\u0106",
+            "",
             "\1\u0107",
             "",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "",
+            "",
+            "",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
             "",
+            "\1\u0109",
             "\1\u010a",
-            "",
             "\1\u010b",
             "\1\u010c",
             "",
-            "\1\u010d",
-            "\1\u010e",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "",
             "\1\u010f",
             "",
             "\1\u0110",
             "\1\u0111",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
             "",
-            "",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\u0112",
+            "\1\u0113",
             "\1\u0114",
+            "",
             "\1\u0115",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\u0116",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
             "\1\u0118",
+            "",
+            "",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
-            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
-            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
-            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "",
-            "",
+            "\1\u011a",
             "\1\u011b",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
             "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
             "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
-            "",
-            "",
-            "\1\u011d",
-            "",
-            "",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
             "\1\u011e",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "",
+            "\1\u0122",
+            "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
+            "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
+            "\50\u1040\uffff\u0150\50\u0170\uffff\u0080\50\u0080\uffff\u092e"+
+            "\50\u10d2\uffff\u5200\50\u5900\uffff\u0200\50",
+            "",
+            "",
+            "\1\u0124",
+            "",
+            "",
+            "",
+            "\1\u0125",
             "",
             "\1\50\11\uffff\12\50\7\uffff\32\50\3\uffff\2\50\1\uffff\32"+
             "\50\3\uffff\1\50\101\uffff\27\50\1\uffff\37\50\1\uffff\u1f08"+
@@ -3041,7 +3084,7 @@ public class EgxLexer extends Lexer {
             this.transition = DFA1_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | EolLexerRules. Tokens );";
+            return "1:1: Tokens : ( T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | T__177 | T__178 | EolLexerRules. Tokens );";
         }
     }
  

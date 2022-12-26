@@ -2,6 +2,10 @@
 	
 	<target name="main" depends="expr, fileset, statements, target"/>
 	
+	<epsilon.epl moduleImplementation="org.eclipse.epsilon.emg.EmgModule">
+		pre { "Hello world".println(); }
+	</epsilon.epl>
+	
 	<target name="expr">
 		<!-- Evaluates the expr EOL expresssion and executes echo for every result -->
 		<epsilon.for var="it" expr="Sequence{1..2}">
@@ -12,7 +16,7 @@
 	<target name="fileset">
 		<!-- Executes echo for every file in the fileset -->
 		<epsilon.for var="it">
-			<fileset dir="."/>
+			<fileset dir="empty"/>
 			<echo message="Echoing ${it}"/>
 		</epsilon.for>
 	</target>

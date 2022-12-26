@@ -2,7 +2,7 @@ pre {
 	var id = 0;
 	var num_nets = 1;
 	// Two random numbers 0..total
-	var quant = nextAddTo(2, total).sortBy(q | q);
+	var quant = nextAddTo(2, total.asInteger()).sortBy(q | q);
 	var num_p = 1 + quant.at(0);  // Min 2 Places
 	// For each transition we need two arcs
 	var num_t = (quant.at(1)/3).ceiling();
@@ -67,5 +67,5 @@ pattern Transition
 
 
 post {
-	"GenDone".println();
+	"Model generation finished".println();
 }

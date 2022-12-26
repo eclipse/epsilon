@@ -129,7 +129,7 @@
             name="Parallel EGX (Annotations)">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms"
+            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelGenerationRuleAtoms"
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
             language="EGX"
@@ -151,6 +151,22 @@
       <tool
             class="org.eclipse.epsilon.egl.EgxModule"
             defaultName="module">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.egl.formatter.language.XmlFormatter"
+            defaultName="xmlFormatter">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.egl.formatter.language.JavaFormatter"
+            defaultName="javaFormatter">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.egl.formatter.language.LanguageFormatter"
+            defaultName="languageFormatter">
+      </tool>
+      <tool
+            class="org.eclipse.epsilon.egl.formatter.language.PromelaFormatter"
+            defaultName="promelaFormatter">
       </tool>
    </extension>
    <!--extension

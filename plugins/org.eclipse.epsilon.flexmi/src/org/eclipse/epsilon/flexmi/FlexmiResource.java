@@ -13,11 +13,30 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -35,9 +54,9 @@ import org.eclipse.epsilon.flexmi.actions.ObjectInitialization;
 import org.eclipse.epsilon.flexmi.actions.VariableDeclaration;
 import org.eclipse.epsilon.flexmi.actions.VariableDeclaration.VariableDeclarationType;
 import org.eclipse.epsilon.flexmi.templates.Template;
-import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.FlexmiXmlParser;
 import org.eclipse.epsilon.flexmi.xml.FlexmiXmlParser.Handler;
+import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.yaml.FlexmiYamlParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -45,6 +64,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
@@ -72,6 +92,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Collection<Operation> operations = new ArrayList<>();
 	protected FlexmiResource importedFrom = null;
 	protected FlexmiFlavour flavour = FlexmiFlavour.XML;
+	protected boolean documentEnded = false;
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -126,6 +147,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	@Override
 	protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException {
+		documentEnded = false;
 		getContents().clear();
 		unresolvedReferences.clear();
 		objectStack.clear();
@@ -434,9 +456,18 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		return processingInstructions;
 	}
 	
+	public boolean isDocumentEnded() {
+		return documentEnded;
+	}
+	
 	@Override
 	public void endDocument(Document document) {
-		resolveReferences();
+		documentEnded = true;
+		
+		// Attempt to resolve references for all Flexmi resources in the resource set only when all of them have been loaded
+		if (!getResourceSet().getResources().stream().anyMatch(r -> r instanceof FlexmiResource && !((FlexmiResource) r).isDocumentEnded())) {
+			getResourceSet().getResources().stream().filter(r -> r instanceof FlexmiResource).forEach(r -> { ((FlexmiResource) r).resolveReferences(); });
+		}
 
 		for (EObject content : getContents()) {
 			performActions(content);

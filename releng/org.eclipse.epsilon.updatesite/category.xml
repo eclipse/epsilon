@@ -92,9 +92,15 @@
    </feature>
    <feature id="org.eclipse.epsilon.emc.jdt.feature">
       <category name="Epsilon JDT Integration"/>
-   </feature>   
+   </feature>
    <feature id="org.eclipse.epsilon.sirius.widget.feature">
       <category name="Epsilon Sirius Integration"/>
+   </feature>
+   <feature id="org.eclipse.epsilon.emc.cdo.dt.feature">
+      <category name="Epsilon CDO Integration"/>
+   </feature>
+   <feature id="org.eclipse.epsilon.emc.cdo.feature">
+      <category name="Epsilon CDO Integration"/>
    </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
@@ -145,10 +151,15 @@
       <description>
          Support for managing Java source code with languages of the Epsilon platform.
       </description>
-   </category-def>   
+   </category-def>
    <category-def name="Epsilon Sirius Integration" label="Epsilon Sirius Integration">
       <description>
          Support for embedding Epsilon based editors into Sirius properties views.
+      </description>
+   </category-def>
+   <category-def name="Epsilon CDO Integration" label="Epsilon CDO Integration">
+      <description>
+         Support for connecting to Eclipse CDO model repositories.
       </description>
    </category-def>
    <repository-reference location="http://download.eclipse.org/emfatic/update" enabled="true" />

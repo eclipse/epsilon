@@ -48,6 +48,7 @@ tokens {
 	MERGE;
 	PATCH;
 	APPEND;
+	FORMATTER;
 }
 
 egxModuleContent
@@ -102,7 +103,13 @@ patch
 append
 	:	g='append'^ expressionOrStatementBlock
 	{$g.setType(APPEND);}
-	;	
+	;
+
+formatter
+	:	g='formatter'^ expressionOrStatementBlock
+	{$g.setType(FORMATTER);}
+	;
+
 generationRuleConstructs
-	:	(guard | pre | overwrite | merge | patch | append | template | parameters | target | post)*
+	:	(guard | pre | overwrite | merge | patch | append | template | parameters | target | post | formatter)*
 	;
