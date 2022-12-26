@@ -113,6 +113,7 @@ ABORT=48
 StrangeNameLiteral=16
 FOR=34
 BLOCK=67
+T__170=170
 PARAMETERS=51
 SpecialNameChar=21
 BOOLEAN=13
@@ -191,6 +192,7 @@ T__105=105
 '*'=149
 'compare'=168
 'switch'=115
+'from'=170
 'post'=162
 'break'=124
 '<='=145

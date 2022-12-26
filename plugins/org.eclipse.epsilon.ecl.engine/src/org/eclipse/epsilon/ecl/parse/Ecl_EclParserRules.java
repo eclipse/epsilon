@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ecl.parse;
 
-// $ANTLR 3.1b1 EclParserRules.g 2022-11-22 09:41:37
+// $ANTLR 3.1b1 EclParserRules.g 2022-12-26 11:51:51
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -164,6 +164,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int StrangeNameLiteral=16;
     public static final int FOR=34;
     public static final int BLOCK=67;
+    public static final int T__170=170;
     public static final int PARAMETERS=51;
     public static final int SpecialNameChar=21;
     public static final int BOOLEAN=13;
@@ -431,7 +432,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt3=2;
             int LA3_0 = input.LA(1);
 
-            if ( (LA3_0==119) ) {
+            if ( (LA3_0==119||LA3_0==170) ) {
                 alt3=1;
             }
             switch (alt3) {
@@ -774,7 +775,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start rightDomain
-    // EclParserRules.g:78:1: rightDomain : (c= 'in' ) expressionOrStatementBlock ;
+    // EclParserRules.g:78:1: rightDomain : (c= 'in' | c= 'from' ) expressionOrStatementBlock ;
     public final Ecl_EclParserRules.rightDomain_return rightDomain() throws RecognitionException {
         Ecl_EclParserRules.rightDomain_return retval = new Ecl_EclParserRules.rightDomain_return();
         retval.start = input.LT(1);
@@ -788,23 +789,55 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST c_tree=null;
 
         try {
-            // EclParserRules.g:79:2: ( (c= 'in' ) expressionOrStatementBlock )
-            // EclParserRules.g:79:4: (c= 'in' ) expressionOrStatementBlock
+            // EclParserRules.g:79:2: ( (c= 'in' | c= 'from' ) expressionOrStatementBlock )
+            // EclParserRules.g:79:4: (c= 'in' | c= 'from' ) expressionOrStatementBlock
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            // EclParserRules.g:79:4: (c= 'in' )
-            // EclParserRules.g:79:5: c= 'in'
-            {
-            c=(Token)match(input,119,FOLLOW_119_in_rightDomain200); if (state.failed) return retval;
-            if ( state.backtracking==0 ) {
-            c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
-            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
+            // EclParserRules.g:79:4: (c= 'in' | c= 'from' )
+            int alt8=2;
+            int LA8_0 = input.LA(1);
+
+            if ( (LA8_0==119) ) {
+                alt8=1;
             }
+            else if ( (LA8_0==170) ) {
+                alt8=2;
+            }
+            else {
+                if (state.backtracking>0) {state.failed=true; return retval;}
+                NoViableAltException nvae =
+                    new NoViableAltException("", 8, 0, input);
+
+                throw nvae;
+            }
+            switch (alt8) {
+                case 1 :
+                    // EclParserRules.g:79:5: c= 'in'
+                    {
+                    c=(Token)match(input,119,FOLLOW_119_in_rightDomain200); if (state.failed) return retval;
+                    if ( state.backtracking==0 ) {
+                    c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
+                    root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
+                    }
+
+                    }
+                    break;
+                case 2 :
+                    // EclParserRules.g:79:13: c= 'from'
+                    {
+                    c=(Token)match(input,170,FOLLOW_170_in_rightDomain205); if (state.failed) return retval;
+                    if ( state.backtracking==0 ) {
+                    c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
+                    root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
+                    }
+
+                    }
+                    break;
 
             }
 
-            pushFollow(FOLLOW_expressionOrStatementBlock_in_rightDomain204);
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_rightDomain209);
             expressionOrStatementBlock16=gEcl.expressionOrStatementBlock();
 
             state._fsp--;
@@ -849,7 +882,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final BitSet FOLLOW_formalParameter_in_matchRule86 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L,0x0000008000000000L});
     public static final BitSet FOLLOW_leftDomain_in_matchRule88 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000008000000000L});
     public static final BitSet FOLLOW_167_in_matchRule91 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_formalParameter_in_matchRule94 = new BitSet(new long[]{0x0000000000000000L,0x0080000400000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_formalParameter_in_matchRule94 = new BitSet(new long[]{0x0000000000000000L,0x0080000400000000L,0x0000041000000000L});
     public static final BitSet FOLLOW_rightDomain_in_matchRule96 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L,0x0000001000000000L});
     public static final BitSet FOLLOW_extendz_in_matchRule100 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
     public static final BitSet FOLLOW_98_in_matchRule105 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0000030800000000L});
@@ -864,6 +897,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final BitSet FOLLOW_119_in_leftDomain177 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_leftDomain181 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_119_in_rightDomain200 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_rightDomain204 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_170_in_rightDomain205 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_rightDomain209 = new BitSet(new long[]{0x0000000000000002L});
 
 }

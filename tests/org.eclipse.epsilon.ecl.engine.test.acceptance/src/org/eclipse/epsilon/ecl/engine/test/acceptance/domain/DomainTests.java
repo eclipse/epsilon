@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance.domain;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.function.Supplier;
@@ -46,8 +45,8 @@ public class DomainTests {
 	@Before
 	public void setup() throws Exception {
 		this.module = moduleGetter.get();
-		loadEmfModel("T1");
-		loadEmfModel("T2");
+		loadEmfModel("Left", "Tree.xmi");
+		loadEmfModel("Right", "Tree.xmi");
 	}
 	
 	@Test
@@ -55,7 +54,7 @@ public class DomainTests {
 		module.parse(FileUtil.getFileStandalone("noDomain.ecl", DomainTests.class));
 		module.execute();
 		MatchTrace allMatches = module.getContext().getMatchTrace();
-		assertEquals(9, allMatches.size());
+		assertEquals(3, allMatches.getReduced().size());
 	}
 	
 	@Test
@@ -63,7 +62,7 @@ public class DomainTests {
 		module.parse(FileUtil.getFileStandalone("left.ecl", DomainTests.class));
 		module.execute();
 		MatchTrace allMatches = module.getContext().getMatchTrace();
-		assertEquals(3, allMatches.size());
+		assertEquals(1, allMatches.getReduced().size());
 	}
 	
 	@Test
@@ -71,7 +70,7 @@ public class DomainTests {
 		module.parse(FileUtil.getFileStandalone("right.ecl", DomainTests.class));
 		module.execute();
 		MatchTrace allMatches = module.getContext().getMatchTrace();
-		assertEquals(3, allMatches.size());
+		assertEquals(3, allMatches.getReduced().size());
 	}
 	
 	@Test
@@ -79,16 +78,16 @@ public class DomainTests {
 		module.parse(FileUtil.getFileStandalone("both.ecl", DomainTests.class));
 		module.execute();
 		MatchTrace allMatches = module.getContext().getMatchTrace();
-		assertEquals(1, allMatches.size());
+		assertEquals(1, allMatches.getReduced().size());
 	}
 	
-	private EmfModel loadEmfModel(String modelName) throws Exception {
+	private EmfModel loadEmfModel(String modelName, String fileName) throws Exception {
 		EmfModel model = new EmfModel();
 		model.setName(modelName);
 		model.setCachingEnabled(true);
 		model.setConcurrent(true);
 		model.setMetamodelFile(FileUtil.getFileStandalone("Tree.ecore", DomainTests.class).getAbsolutePath());
-		model.setModelFile(FileUtil.getFileStandalone(modelName+".xmi", DomainTests.class).getAbsolutePath());
+		model.setModelFile(FileUtil.getFileStandalone(fileName, DomainTests.class).getAbsolutePath());
 		module.getContext().getModelRepository().addModel(model);
 		model.load();
 		return model;

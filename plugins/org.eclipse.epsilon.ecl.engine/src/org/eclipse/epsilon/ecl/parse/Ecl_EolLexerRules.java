@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ecl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2022-11-22 09:41:38
+// $ANTLR 3.1b1 EolLexerRules.g 2022-12-26 11:51:51
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -72,7 +72,7 @@ public class Ecl_EolLexerRules extends Lexer {
     public static final int TYPE=70;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=170;
+    public static final int Tokens=171;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -162,6 +162,7 @@ public class Ecl_EolLexerRules extends Lexer {
     public static final int StrangeNameLiteral=16;
     public static final int FOR=34;
     public static final int BLOCK=67;
+    public static final int T__170=170;
     public static final int PARAMETERS=51;
     public static final int SpecialNameChar=21;
     public static final int BOOLEAN=13;

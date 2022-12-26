@@ -38,6 +38,7 @@ public class EclEditor extends EolEditor{
 		eclKeywords.add("with");
 		eclKeywords.add("extends");
 		eclKeywords.add("rule");
+		eclKeywords.add("from");
 		eclKeywords.add("abstract");
 		eclKeywords.addAll(super.getKeywords());
 		return eclKeywords;

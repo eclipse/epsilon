@@ -1,8 +1,13 @@
-rule Tree2Tree 
-    match l : T1!Tree 
-    with r : T2!Tree in {return T2!Tree.all.select(a|a.label="a");} {
+rule T2T 
+	match l : Left!Tree
+	with r : Right!Tree from: Right!Tree.all.select(t|t.name = l.name) {
+	
+	compare : l.name = r.name and 
+		((l.parent == null and r.parent == null) or l.parent.matches(r.parent))
+}
 
-    compare : l.label.println() = r.label and 
-        l.parent.matches(r.parent) and
-        l.children.matches(r.children)
+post {
+	for (t in matchTrace.reduced) {
+		(t.left + " <-> " + t.right).println();
+	}
 }

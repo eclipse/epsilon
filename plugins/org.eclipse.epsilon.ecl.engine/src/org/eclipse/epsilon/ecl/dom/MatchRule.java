@@ -84,10 +84,24 @@ public class MatchRule extends ExtensibleNamedRule {
 	}
 	
 	public Collection<?> getRightInstances(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
+		if (rightDomainBlock == null) 
+			return getAllInstances(rightParameter, context, ofTypeOnly);
+		
+		else 
+			return rightDomainBlock.execute(context, true);
+	}
+	
+	public Collection<?> getRightInstances(IEclContext context, boolean ofTypeOnly, Object left) throws EolRuntimeException {
 		if (rightDomainBlock == null) {
 			return getAllInstances(rightParameter, context, ofTypeOnly);
 		}
 		else {
+			if(rightDomainBlock.getText().equals("from")) {
+				FrameStack scope = context.getFrameStack();
+				scope.enterLocal(FrameType.PROTECTED, this);
+				scope.put(
+						Variable.createReadOnlyVariable(leftParameter.getName(), left));
+			}
 			return rightDomainBlock.execute(context, true);
 		}
 	}
@@ -219,5 +233,12 @@ public class MatchRule extends ExtensibleNamedRule {
 		return getName()+ " (" +
 		leftParameter.getTypeName() + ", " +
 		rightParameter.getTypeName() + ")";
+	}
+	
+	public boolean isRightDomainDynamic() {
+		if(rightDomainBlock!=null && rightDomainBlock.getText().equals("from"))
+			return true;
+		else
+			return false;
 	}
 }

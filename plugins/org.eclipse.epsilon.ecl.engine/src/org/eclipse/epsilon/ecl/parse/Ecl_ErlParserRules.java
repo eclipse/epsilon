@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ecl.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2022-11-22 09:41:37
+// $ANTLR 3.1b1 ErlParserRules.g 2022-12-26 11:51:51
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -164,6 +164,7 @@ public class Ecl_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int StrangeNameLiteral=16;
     public static final int FOR=34;
     public static final int BLOCK=67;
+    public static final int T__170=170;
     public static final int PARAMETERS=51;
     public static final int SpecialNameChar=21;
     public static final int BOOLEAN=13;

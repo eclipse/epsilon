@@ -76,7 +76,7 @@ leftDomain
 	;
 	
 rightDomain 
-	:	(c='in'^) expressionOrStatementBlock
+	:	(c='in'^|c='from'^) expressionOrStatementBlock
 	{$c.setType(RIGHTDOMAIN);}
 	;
 	

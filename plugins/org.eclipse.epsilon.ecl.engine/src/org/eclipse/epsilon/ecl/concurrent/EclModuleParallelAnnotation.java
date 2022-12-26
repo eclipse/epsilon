@@ -42,18 +42,21 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract(context) && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy(context))) {
 				Collection<?> leftInstances = matchRule.getLeftInstances(context, ofTypeOnly);
-				Collection<?> rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
 				
 				if (matchRule.getBooleanAnnotationValue("parallel", context, () ->
 					new Variable[] {
 						Variable.createReadOnlyVariable("leftInstances", leftInstances),
-						Variable.createReadOnlyVariable("rightInstances", rightInstances),
 						Variable.createReadOnlyVariable("matchRule", matchRule),
 						Variable.createReadOnlyVariable("THREADS", context.getParallelism())
 					})
 				) {
-					final Collection<Callable<?>> jobs = new ArrayList<>(leftInstances.size() * rightInstances.size());
+					final Collection<Callable<?>> jobs = new ArrayList<>(leftInstances.size() * leftInstances.size());
 					for (Object left : leftInstances) {
+						Collection<?> rightInstances;
+						if(matchRule.isRightDomainDynamic())
+							rightInstances = matchRule.getRightInstances(context, ofTypeOnly, left);
+						else
+							rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
 						for (Object right : rightInstances) {
 							jobs.add(() -> matchRule.matchPair(context.getShadow(), ofTypeOnly, left, right));
 						}
@@ -62,6 +65,11 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 				}
 				else {
 					for (Object left : leftInstances) {
+						Collection<?> rightInstances;
+						if(matchRule.isRightDomainDynamic())
+							rightInstances = matchRule.getRightInstances(context, ofTypeOnly, left);
+						else
+							rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
 						for (Object right : rightInstances) {
 							matchRule.matchPair(context, ofTypeOnly, left, right);
 						}
