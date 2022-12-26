@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.exceptions;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 
@@ -22,24 +21,19 @@ public class EolInternalException extends EolRuntimeException {
 	
 	public EolInternalException(Throwable internal) {
 		setStackTrace(internal.getStackTrace());
-		//internal.printStackTrace();
 		this.internal = internal;
 	}
 	
 	public EolInternalException(Throwable internal, ModuleElement ast) {
 		setStackTrace(internal.getStackTrace());
-		//internal.printStackTrace();
 		this.internal = internal;
 		this.ast = ast;
 	}
 	
 	@Override
 	public String getReason() {
-		//return "Internal error: " + internal.getMessage() + " [" + internal.getClass().getName() + "]";
-		//StringOutputStream sos = new StringOutputStream();
-		//internal.printStackTrace(new PrintStream(sos));
-		//return "Internal error: " + sos.toString();
-		return internal.getMessage();
+		if (internal.getMessage() != null) return internal.getMessage();
+		else return internal.getClass().getCanonicalName();
 	}
 	
 	public Throwable getInternal() {
