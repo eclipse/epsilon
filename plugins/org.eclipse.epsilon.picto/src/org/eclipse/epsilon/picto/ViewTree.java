@@ -15,6 +15,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.swt.graphics.Point;
 
@@ -194,6 +196,7 @@ public class ViewTree {
 					File file = promise instanceof StaticContentPromise ? ((StaticContentPromise) promise).getFile() : null;
 					cachedContent = new ViewContent(format, promise.getContent(), file, getLayers(), getPatches(), getBaseUris());
 				} catch (Exception e) {
+					EpsilonConsole.getInstance().getErrorStream().print(e.getMessage());
 					cachedContent = new ViewContent("exception", e.getMessage(), null, getLayers(), getPatches(), getBaseUris());
 				}
 			}

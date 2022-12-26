@@ -14,15 +14,32 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
+import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
-import org.eclipse.epsilon.picto.actions.*;
-import org.eclipse.epsilon.picto.browser.*;
+import org.eclipse.epsilon.picto.actions.BackAction;
+import org.eclipse.epsilon.picto.actions.CopyToClipboardAction;
+import org.eclipse.epsilon.picto.actions.ForwardAction;
+import org.eclipse.epsilon.picto.actions.LayersMenuAction;
+import org.eclipse.epsilon.picto.actions.LockAction;
+import org.eclipse.epsilon.picto.actions.NewPictoViewAction;
+import org.eclipse.epsilon.picto.actions.PinAction;
+import org.eclipse.epsilon.picto.actions.PrintAction;
+import org.eclipse.epsilon.picto.actions.RefreshAction;
+import org.eclipse.epsilon.picto.actions.ViewContentsMenuAction;
+import org.eclipse.epsilon.picto.actions.ZoomAction;
+import org.eclipse.epsilon.picto.browser.BrowserContainer;
+import org.eclipse.epsilon.picto.browser.BrowserFindTarget;
+import org.eclipse.epsilon.picto.browser.BrowserFunctionExtensionPointManager;
+import org.eclipse.epsilon.picto.browser.BrowserScriptExtensionPointManager;
+import org.eclipse.epsilon.picto.browser.PictoBrowserFunction;
+import org.eclipse.epsilon.picto.browser.PictoBrowserScript;
 import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
@@ -347,6 +364,7 @@ public class PictoView extends ViewPart {
 					public void runWithException() throws Exception {
 						setTreeViewerVisible(false);
 						renderView(new ViewTree(viewRenderer.getVerbatim(ex.getMessage()), "html"));
+						EpsilonConsole.getInstance().getErrorStream().print(ex.getMessage());
 					}
 				});
 			}
