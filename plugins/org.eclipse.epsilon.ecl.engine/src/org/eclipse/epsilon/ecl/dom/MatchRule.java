@@ -241,4 +241,36 @@ public class MatchRule extends ExtensibleNamedRule {
 		else
 			return false;
 	}
+	
+	public ExecutableBlock<Boolean> getCompareBlock(){
+		return compareBlock;
+	}
+	
+	public ExecutableBlock<Collection<?>> getLeftDomainBlock(){
+		return leftDomainBlock;
+	}
+	
+	public ExecutableBlock<Collection<?>> getRightDomainBlock(){
+		return rightDomainBlock;
+	}
+	
+	public Parameter getLeftParameter(){
+		return leftParameter;
+	}
+	
+	public Parameter getRightParameter(){
+		return rightParameter;
+	}
+	
+	public ExecutableBlock<Boolean> getGuard() {
+		return guardBlock;
+	}
+	
+	public ExecutableBlock<Void> getdoBlock() {
+		return doBlock;
+	}
+	
+	public void accept(IEclVisitor visitor) {
+		visitor.visit(this);
+	}
 }

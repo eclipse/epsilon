@@ -2,9 +2,6 @@ pre {
 	prepost.put("pre", "pre");
 }
 
-post {
-	prepost.put("post", "post");
-}
 
 @parallel
 rule Root2Root 
@@ -33,4 +30,8 @@ rule Tree2Tree
 	compare: l.a_label == r.a_label 
 		and l.parent.matches(r.parent)
 	
+}
+
+post {
+	prepost.put("post", "post");
 }
