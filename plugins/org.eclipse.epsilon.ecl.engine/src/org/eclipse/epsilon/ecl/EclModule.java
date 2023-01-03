@@ -26,6 +26,7 @@ import org.eclipse.epsilon.ecl.execute.context.EclContext;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.parse.EclLexer;
 import org.eclipse.epsilon.ecl.parse.EclParser;
+import org.eclipse.epsilon.ecl.parse.Ecl_EclParserRules.rightDomain_return;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
@@ -90,6 +91,8 @@ public class EclModule extends ErlModule implements IEclModule {
 			case EclParser.COMPARE:
 				return new ExecutableBlock<Boolean>(Boolean.class);
 			case EclParser.DO: return new ExecutableBlock<Void>(Void.class);
+			case EclParser.LEFTDOMAIN: return new ExecutableBlock<>(Collection.class);
+			case EclParser.RIGHTDOMAIN: return new ExecutableBlock<>(Collection.class);
 			default: return super.adapt(cst, parentAst);
 		}
 	}
@@ -152,8 +155,15 @@ public class EclModule extends ErlModule implements IEclModule {
 		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract(context) && !matchRule.isLazy(context) && (!greedy || matchRule.isGreedy(context))) {
 				for (Object left : matchRule.getLeftInstances(context, ofTypeOnly)) {
-					for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
+					if(matchRule.isRightDomainDynamic()) {
+					for (Object right : matchRule.getRightInstances(context, ofTypeOnly, left)) {
 						matchRule.matchPair(context, ofTypeOnly, left, right);
+					}
+					}
+					else {
+						for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
+							matchRule.matchPair(context, ofTypeOnly, left, right);
+						}
 					}
 				}
 			}

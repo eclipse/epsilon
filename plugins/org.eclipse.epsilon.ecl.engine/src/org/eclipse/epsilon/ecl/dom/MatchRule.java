@@ -32,6 +32,8 @@ public class MatchRule extends ExtensibleNamedRule {
 	protected ExecutableBlock<Boolean> compareBlock;
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected ExecutableBlock<Void> doBlock;
+	protected ExecutableBlock<Collection<?>> leftDomainBlock;
+	protected ExecutableBlock<Collection<?>> rightDomainBlock;
 	protected Parameter leftParameter, rightParameter;
 
 	@Override
@@ -43,8 +45,13 @@ public class MatchRule extends ExtensibleNamedRule {
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
+		this.leftDomainBlock = (ExecutableBlock<Collection<?>>) module.createAst(AstUtil.getChild(cst, EclParser.LEFTDOMAIN), this);
+		this.rightDomainBlock = (ExecutableBlock<Collection<?>>) module.createAst(AstUtil.getChild(cst, EclParser.RIGHTDOMAIN), this);
 		leftParameter = (Parameter) module.createAst(cst.getSecondChild(), this);
-		rightParameter = (Parameter) module.createAst(cst.getThirdChild(), this);
+		if(leftDomainBlock ==null)
+			rightParameter = (Parameter) module.createAst(cst.getThirdChild(), this);
+		else
+		rightParameter = (Parameter) module.createAst(cst.getFourthChild(), this);
 		this.compareBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EclParser.COMPARE), this);
 		this.doBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EclParser.DO), this);
 		this.guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EclParser.GUARD), this);
@@ -68,11 +75,35 @@ public class MatchRule extends ExtensibleNamedRule {
 	}
 	
 	public Collection<?> getLeftInstances(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
-		return getAllInstances(leftParameter, context, ofTypeOnly);
+		if (leftDomainBlock == null) {
+			return getAllInstances(leftParameter, context, ofTypeOnly);
+		}
+		else {
+			return leftDomainBlock.execute(context, true);
+		}
 	}
 	
 	public Collection<?> getRightInstances(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
-		return getAllInstances(rightParameter, context, ofTypeOnly);
+		if (rightDomainBlock == null) 
+			return getAllInstances(rightParameter, context, ofTypeOnly);
+		
+		else 
+			return rightDomainBlock.execute(context, true);
+	}
+	
+	public Collection<?> getRightInstances(IEclContext context, boolean ofTypeOnly, Object left) throws EolRuntimeException {
+		if (rightDomainBlock == null) {
+			return getAllInstances(rightParameter, context, ofTypeOnly);
+		}
+		else {
+			if(rightDomainBlock.getText().equals("from")) {
+				FrameStack scope = context.getFrameStack();
+				scope.enterLocal(FrameType.PROTECTED, this);
+				scope.put(
+						Variable.createReadOnlyVariable(leftParameter.getName(), left));
+			}
+			return rightDomainBlock.execute(context, true);
+		}
 	}
 	
 	public Match matchPair(IEclContext context, boolean ofTypeOnly, Object leftInstance, Object rightInstance) throws EolRuntimeException {
@@ -202,5 +233,12 @@ public class MatchRule extends ExtensibleNamedRule {
 		return getName()+ " (" +
 		leftParameter.getTypeName() + ", " +
 		rightParameter.getTypeName() + ")";
+	}
+	
+	public boolean isRightDomainDynamic() {
+		if(rightDomainBlock!=null && rightDomainBlock.getText().equals("from"))
+			return true;
+		else
+			return false;
 	}
 }
