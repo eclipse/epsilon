@@ -53,10 +53,13 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 					final Collection<Callable<?>> jobs = new ArrayList<>(leftInstances.size() * leftInstances.size());
 					for (Object left : leftInstances) {
 						Collection<?> rightInstances;
-						if(matchRule.isRightDomainDynamic())
+						if(matchRule.isRightDomainDynamic()) {
 							rightInstances = matchRule.getRightInstances(context, ofTypeOnly, left);
-						else
+						}
+						else {
 							rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
+						}
+						
 						for (Object right : rightInstances) {
 							jobs.add(() -> matchRule.matchPair(context.getShadow(), ofTypeOnly, left, right));
 						}
@@ -66,10 +69,12 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 				else {
 					for (Object left : leftInstances) {
 						Collection<?> rightInstances;
-						if(matchRule.isRightDomainDynamic())
+						if(matchRule.isRightDomainDynamic()) {
 							rightInstances = matchRule.getRightInstances(context, ofTypeOnly, left);
-						else
+						}
+						else {
 							rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
+						}
 						for (Object right : rightInstances) {
 							matchRule.matchPair(context, ofTypeOnly, left, right);
 						}

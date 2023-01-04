@@ -19,8 +19,9 @@ public class EclUnparser extends ErlUnparser implements IEclVisitor {
 			while (ann.hasNext()) {
 				buffer.append("@");
 				buffer.append(ann.next().getName());
-				if (ann.hasNext())
+				if (ann.hasNext()) {
 					comma();
+				}
 			}
 		}
 		buffer.append("rule ");
@@ -28,35 +29,39 @@ public class EclUnparser extends ErlUnparser implements IEclVisitor {
 		newline();
 		buffer.append("match ");
 		matchRule.getLeftParameter().accept(this);
-		if(matchRule.getLeftDomainBlock()!=null)
+		if (matchRule.getLeftDomainBlock() != null) {
 			print("in", matchRule.getLeftDomainBlock());
+		}
 		newline();
 		buffer.append("with ");
 		matchRule.getRightParameter().accept(this);
-		if(matchRule.getRightDomainBlock()!=null) {
-			if(matchRule.isRightDomainDynamic())
-			print("from", matchRule.getRightDomainBlock());
-			else
+		if (matchRule.getRightDomainBlock() != null) {
+			if (matchRule.isRightDomainDynamic()) {
+				print("from", matchRule.getRightDomainBlock());
+			}
+			else {
 				print("in", matchRule.getRightDomainBlock());
+			}
 		}
-		
+
 		if (matchRule.getSuperRules().size() > 0) {
 			buffer.append("extends ");
 			Iterator<ExtensibleNamedRule> li = matchRule.getSuperRules().iterator();
 
 			while (li.hasNext()) {
 				buffer.append(matchRule.getName());
-				if (li.hasNext())
+				if (li.hasNext()) {
 					comma();
+				}
 			}
 
 		}
 		spaceCurlybraceNewlineIndent();
-		printGuard(matchRule.getGuard());
+		printGuard(matchRule.getGuardBlock());
 		newline();
 		print("compare", matchRule.getCompareBlock());
 		newline();
-		print("do", matchRule.getdoBlock());
+		print("do", matchRule.getDoBlock());
 		newlineUnindentCurlybrace();
 
 	}

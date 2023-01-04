@@ -48,10 +48,12 @@ public class MatchRule extends ExtensibleNamedRule {
 		this.leftDomainBlock = (ExecutableBlock<Collection<?>>) module.createAst(AstUtil.getChild(cst, EclParser.LEFTDOMAIN), this);
 		this.rightDomainBlock = (ExecutableBlock<Collection<?>>) module.createAst(AstUtil.getChild(cst, EclParser.RIGHTDOMAIN), this);
 		leftParameter = (Parameter) module.createAst(cst.getSecondChild(), this);
-		if(leftDomainBlock ==null)
+		if(leftDomainBlock == null) {
 			rightParameter = (Parameter) module.createAst(cst.getThirdChild(), this);
-		else
-		rightParameter = (Parameter) module.createAst(cst.getFourthChild(), this);
+		}
+		else {
+			rightParameter = (Parameter) module.createAst(cst.getFourthChild(), this);
+		}
 		this.compareBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EclParser.COMPARE), this);
 		this.doBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EclParser.DO), this);
 		this.guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EclParser.GUARD), this);
@@ -84,11 +86,12 @@ public class MatchRule extends ExtensibleNamedRule {
 	}
 	
 	public Collection<?> getRightInstances(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
-		if (rightDomainBlock == null) 
+		if (rightDomainBlock == null) {
 			return getAllInstances(rightParameter, context, ofTypeOnly);
-		
-		else 
+		}
+		else { 
 			return rightDomainBlock.execute(context, true);
+		}
 	}
 	
 	public Collection<?> getRightInstances(IEclContext context, boolean ofTypeOnly, Object left) throws EolRuntimeException {
@@ -99,8 +102,7 @@ public class MatchRule extends ExtensibleNamedRule {
 			if(rightDomainBlock.getText().equals("from")) {
 				FrameStack scope = context.getFrameStack();
 				scope.enterLocal(FrameType.PROTECTED, this);
-				scope.put(
-						Variable.createReadOnlyVariable(leftParameter.getName(), left));
+				scope.put(Variable.createReadOnlyVariable(leftParameter.getName(), left));
 			}
 			return rightDomainBlock.execute(context, true);
 		}
@@ -236,10 +238,7 @@ public class MatchRule extends ExtensibleNamedRule {
 	}
 	
 	public boolean isRightDomainDynamic() {
-		if(rightDomainBlock!=null && rightDomainBlock.getText().equals("from"))
-			return true;
-		else
-			return false;
+		return rightDomainBlock!=null && rightDomainBlock.getText().equals("from");
 	}
 	
 	public ExecutableBlock<Boolean> getCompareBlock(){
@@ -262,11 +261,11 @@ public class MatchRule extends ExtensibleNamedRule {
 		return rightParameter;
 	}
 	
-	public ExecutableBlock<Boolean> getGuard() {
+	public ExecutableBlock<Boolean> getGuardBlock() {
 		return guardBlock;
 	}
 	
-	public ExecutableBlock<Void> getdoBlock() {
+	public ExecutableBlock<Void> getDoBlock() {
 		return doBlock;
 	}
 	
