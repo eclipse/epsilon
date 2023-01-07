@@ -27,7 +27,7 @@ class ModelValueWrapper {
 		if (value instanceof BackedModelValue<?>) {
 			return (BackedModelValue<?>)value;
 		}
-		else if (model.isEnumeration(value)) {
+		else if (model.isEnumeration(value) && !model.owns(value)) {
 			return new EnumValue(model, value);
 		}
 		else if (model.isModelElement(value)) {
