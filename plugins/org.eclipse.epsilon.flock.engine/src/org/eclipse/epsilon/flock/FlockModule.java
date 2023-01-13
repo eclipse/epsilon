@@ -26,6 +26,7 @@ import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.flock.execute.FlockResult;
 import org.eclipse.epsilon.flock.execute.context.FlockContext;
 import org.eclipse.epsilon.flock.execute.context.IFlockContext;
+import org.eclipse.epsilon.flock.model.domain.EquivalentAssignmentStatement;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
@@ -78,6 +79,8 @@ public class FlockModule extends ErlModule implements IFlockModule {
 				return new PackageRetyping();
 			case FlockParser.DELETEPACKAGE:
 				return new PackageDeletion();
+			case FlockParser.SPECIAL_ASSIGNMENT:
+				return new EquivalentAssignmentStatement();
 			case FlockParser.BLOCK:
 				if (cst.getParent() != null && cst.getParent().getType() == FlockParser.MIGRATE)
 					return new ExecutableBlock<>(Void.class);

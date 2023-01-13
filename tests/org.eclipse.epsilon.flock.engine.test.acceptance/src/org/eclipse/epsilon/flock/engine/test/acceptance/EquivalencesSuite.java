@@ -16,6 +16,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.flock.engine.test.acceptance.equivalences.EquivalentOfCollectionOfModelElements;
+import org.eclipse.epsilon.flock.engine.test.acceptance.equivalences.EquivalentOfCollectionOfModelElementsSpecialAssignment;
 import org.eclipse.epsilon.flock.engine.test.acceptance.equivalences.EquivalentOfModelElement;
 import org.eclipse.epsilon.flock.engine.test.acceptance.equivalences.IgnoreInstancesWithUnknownMigratedClass;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({EquivalentOfModelElement.class, EquivalentOfCollectionOfModelElements.class,
-               IgnoreInstancesWithUnknownMigratedClass.class})
+	EquivalentOfCollectionOfModelElementsSpecialAssignment.class, IgnoreInstancesWithUnknownMigratedClass.class})
 public class EquivalencesSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EquivalencesSuite.class);
