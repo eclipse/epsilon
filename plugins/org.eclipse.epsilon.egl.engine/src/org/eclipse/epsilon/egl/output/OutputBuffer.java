@@ -278,4 +278,8 @@ public class OutputBuffer implements IOutputBuffer {
 	public IOutputBuffer getParent() {
 		return parent;
 	}
+
+	public int getLength() {
+		return buffer.length();
+	}
 }

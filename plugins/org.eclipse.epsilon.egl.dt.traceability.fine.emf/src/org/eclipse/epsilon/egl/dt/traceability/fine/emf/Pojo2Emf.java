@@ -76,6 +76,7 @@ public class Pojo2Emf implements IFineGrainedTracePostprocessor {
 		final Region transformed = TextlinkFactory.eINSTANCE.createRegion();
 		transformed.setOffset(original.offset);
 		transformed.setLength(original.length);
+		transformed.setText(original.text);
 		return transformed;
 	}
 }

@@ -100,7 +100,7 @@ public class EglOutputBufferPrintExecutionListenerTests {
 			afterExecutingMethodCallTest(createPropertyAccessRecorder(new PropertyAccesses(access)), ledger, buffer, context);
 			
 			// Check that the property access is associated with a region with appropriate offset and length
-			verify(ledger).associate(access, new Region(preprintOffset, postprintOffset - preprintOffset), template);
+			verify(ledger).associate(access, new Region(preprintOffset, postprintOffset - preprintOffset, null), template);
 		}
 		
 		private void afterExecutingMethodCallTest(IPropertyAccessRecorder recorder, TracedPropertyAccessLedger ledger, OutputBuffer buffer, IEolContext context) throws Exception {

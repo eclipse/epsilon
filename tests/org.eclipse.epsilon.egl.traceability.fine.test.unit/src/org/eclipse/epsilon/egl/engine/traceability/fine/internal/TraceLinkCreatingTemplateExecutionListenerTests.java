@@ -28,7 +28,7 @@ public class TraceLinkCreatingTemplateExecutionListenerTests {
 		final EglPersistentTemplate dummyTemplate = mock(EglPersistentTemplate.class);
 
 		final TracedPropertyAccessLedger ledger = new TracedPropertyAccessLedger();
-		ledger.associate(new PropertyAccess("DummyElement", "name"), new Region(10, 5), dummyTemplate);
+		ledger.associate(new PropertyAccess("DummyElement", "name"), new Region(10, 5, null), dummyTemplate);
 		
 		final Trace trace = new Trace();
 		final TraceLinkCreatingTemplateExecutionListener listener = new TraceLinkCreatingTemplateExecutionListener(trace, ledger);
@@ -36,7 +36,7 @@ public class TraceLinkCreatingTemplateExecutionListenerTests {
 		listener.finishedGenerating(dummyTemplate, "dummyPath");
 		
 		final Trace expectedTrace = new Trace();
-		expectedTrace.traceLinks.add(new TraceLink(new ModelLocation("DummyElement", "name"), new TextLocation(new Region(10, 5), "dummyPath")));
+		expectedTrace.traceLinks.add(new TraceLink(new ModelLocation("DummyElement", "name"), new TextLocation(new Region(10, 5, null), "dummyPath")));
 		
 		assertEquals(expectedTrace, trace);
 	}
