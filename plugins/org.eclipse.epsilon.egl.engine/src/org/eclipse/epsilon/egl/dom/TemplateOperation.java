@@ -59,9 +59,11 @@ public class TemplateOperation extends Operation {
 		}
 
 		frameStack.enterGlobal(FrameType.UNPROTECTED, this, Variable.createReadOnlyVariable(outName, out));
-		super.executeBody(context);
-		frameStack.leaveGlobal(this);
-
+		try {
+			super.executeBody(context);
+		} finally {
+			frameStack.leaveGlobal(this);
+		}
 		return new Return(out.getOutdentationFormatter().format(out.toString()));
 	}
 	
