@@ -22,7 +22,7 @@ public class ReusedTemplateContributesTwiceToTrace extends EglFineGrainedTraceab
 	
 	private static final String egl = "[% var template = TemplateFactory.prepare(openOutputTag + 'EClass.all.first.name' + closeTag); %]"
 	                                + "[% template.generate('Out.txt'); %]"
-	                                + "[% template.generate('Out2.txt'); %]";
+	                                + "[% template.process(); template.generate('Out2.txt'); %]";
 
 	private static final EClass   person = anEClass().named("Person").build();
 	private static final EPackage model  = aMetamodel().with(person).build();
