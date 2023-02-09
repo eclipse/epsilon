@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2023 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - fix for nested template calls
 ******************************************************************************/
 package org.eclipse.epsilon.egl.dom;
 
@@ -17,6 +18,7 @@ import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
@@ -55,9 +57,11 @@ public class TemplateOperation extends Operation {
 		if (outVariable != null && outVariable.getValue() instanceof IOutputBuffer) {
 			out.setParent((IOutputBuffer) outVariable.getValue());
 		}
-		
-		frameStack.put(Variable.createReadOnlyVariable(outName, out));
+
+		frameStack.enterGlobal(FrameType.UNPROTECTED, this, Variable.createReadOnlyVariable(outName, out));
 		super.executeBody(context);
+		frameStack.leaveGlobal(this);
+
 		return new Return(out.getOutdentationFormatter().format(out.toString()));
 	}
 	

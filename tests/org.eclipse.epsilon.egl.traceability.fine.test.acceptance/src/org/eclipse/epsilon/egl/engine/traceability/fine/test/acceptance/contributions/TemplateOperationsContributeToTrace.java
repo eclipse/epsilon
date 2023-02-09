@@ -44,13 +44,39 @@ public class TemplateOperationsContributeToTrace extends EglFineGrainedTraceabil
 		
 		EClass person = anEClass().named("Person").build();
 		EClass task = anEClass().named("Task").build();
-		
-		EPackage model  = aMetamodel().with(person).with(task).build();
+		EPackage model = aMetamodel().with(person).with(task).build();
 		generateTrace(egl, model);
 		
 		trace.assertEquals(staticText.length() + 1, "Trace.all.first.traceLinks.first().destination.region.offset");
 		trace.assertEquals(staticText.length() + 1 + person.getName().length() + 2, "Trace.all.first.traceLinks.second().destination.region.offset");
-		
 	}
-	
+
+	@Test
+	public void testNestedTemplateOperationWithIndentation() throws Exception {
+		String staticText = "Some static text\n";
+		
+		String egl = staticText +
+				"	[%=t()%] \n"
+				+ "[%@template   \n"
+				+ "operation t(){%]\n"
+				+ "[%for (c in EClass.all){%][%=t2(c)%]\n"
+				+ "[%}}\n"
+				+ "\n"
+				+ "@template\n"
+				+ "operation t2(c){%]\n"
+				+ "EClass [%=c.name%]\n"
+				+ "[%}%]\n";
+
+		EClass person = anEClass().named("Person").build();
+		EClass task = anEClass().named("Task").build();
+		EPackage model = aMetamodel().with(person).with(task).build();
+		generateTrace(egl, model);
+
+		final int startOfFirstEClassName = staticText.length() + 1 + "EClass ".length();
+		final int startOfSecondEClassName = startOfFirstEClassName + person.getName().length() + 2 + "EClass ".length();
+
+		trace.assertEquals(startOfFirstEClassName, "Trace.all.first.traceLinks.first().destination.region.offset");
+		trace.assertEquals(startOfSecondEClassName, "Trace.all.first.traceLinks.second().destination.region.offset");
+	}
+
 }
