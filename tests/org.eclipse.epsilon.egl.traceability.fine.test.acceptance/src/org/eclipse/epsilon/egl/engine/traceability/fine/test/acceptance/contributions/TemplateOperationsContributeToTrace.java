@@ -76,7 +76,9 @@ public class TemplateOperationsContributeToTrace extends EglFineGrainedTraceabil
 		final int startOfSecondEClassName = startOfFirstEClassName + person.getName().length() + 2 + "EClass ".length();
 
 		trace.assertEquals(startOfFirstEClassName, "Trace.all.first.traceLinks.first().destination.region.offset");
+		trace.assertEquals(person.getName(), "Trace.all.first.traceLinks.first().destination.region.text");
 		trace.assertEquals(startOfSecondEClassName, "Trace.all.first.traceLinks.second().destination.region.offset");
+		trace.assertEquals(task.getName(), "Trace.all.first.traceLinks.second().destination.region.text");
 	}
 
 }
