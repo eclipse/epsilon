@@ -79,6 +79,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModelLocation getSource() {
 		return source;
 	}
@@ -103,6 +104,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(ModelLocation newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -122,6 +124,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TextLocation getDestination() {
 		return destination;
 	}
@@ -146,6 +149,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDestination(TextLocation newDestination) {
 		if (newDestination != destination) {
 			NotificationChain msgs = null;

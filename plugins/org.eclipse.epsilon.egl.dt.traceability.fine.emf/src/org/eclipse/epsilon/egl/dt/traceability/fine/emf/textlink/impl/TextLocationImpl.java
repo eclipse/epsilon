@@ -87,6 +87,7 @@ public class TextLocationImpl extends TraceLinkEndImpl implements TextLocation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getResource() {
 		return resource;
 	}
@@ -96,6 +97,7 @@ public class TextLocationImpl extends TraceLinkEndImpl implements TextLocation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setResource(String newResource) {
 		String oldResource = resource;
 		resource = newResource;
@@ -108,6 +110,7 @@ public class TextLocationImpl extends TraceLinkEndImpl implements TextLocation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Region getRegion() {
 		return region;
 	}
@@ -132,6 +135,7 @@ public class TextLocationImpl extends TraceLinkEndImpl implements TextLocation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRegion(Region newRegion) {
 		if (newRegion != region) {
 			NotificationChain msgs = null;

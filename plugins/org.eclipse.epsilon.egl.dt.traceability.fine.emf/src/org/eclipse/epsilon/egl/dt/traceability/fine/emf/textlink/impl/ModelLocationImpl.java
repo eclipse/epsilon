@@ -73,6 +73,7 @@ public abstract class ModelLocationImpl extends TraceLinkEndImpl implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPropertyName() {
 		return propertyName;
 	}
@@ -82,6 +83,7 @@ public abstract class ModelLocationImpl extends TraceLinkEndImpl implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPropertyName(String newPropertyName) {
 		String oldPropertyName = propertyName;
 		propertyName = newPropertyName;

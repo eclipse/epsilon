@@ -68,6 +68,7 @@ public class EmfModelLocationImpl extends ModelLocationImpl implements EmfModelL
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getModelElement() {
 		if (modelElement != null && modelElement.eIsProxy()) {
 			InternalEObject oldModelElement = (InternalEObject)modelElement;
@@ -94,6 +95,7 @@ public class EmfModelLocationImpl extends ModelLocationImpl implements EmfModelL
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModelElement(EObject newModelElement) {
 		EObject oldModelElement = modelElement;
 		modelElement = newModelElement;

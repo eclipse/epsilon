@@ -277,13 +277,22 @@ public interface TextlinkPackage extends EPackage {
 	int REGION__LENGTH = 1;
 
 	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION__TEXT = 2;
+
+	/**
 	 * The number of structural features of the '<em>Region</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REGION_FEATURE_COUNT = 2;
+	int REGION_FEATURE_COUNT = 3;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Trace <em>Trace</em>}'.
@@ -455,6 +464,17 @@ public interface TextlinkPackage extends EPackage {
 	EAttribute getRegion_Length();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region#getText <em>Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text</em>'.
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region#getText()
+	 * @see #getRegion()
+	 * @generated
+	 */
+	EAttribute getRegion_Text();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -617,6 +637,14 @@ public interface TextlinkPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute REGION__LENGTH = eINSTANCE.getRegion_Length();
+
+		/**
+		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REGION__TEXT = eINSTANCE.getRegion_Text();
 
 	}
 

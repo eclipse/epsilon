@@ -146,6 +146,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTrace() {
 		return traceEClass;
 	}
@@ -155,6 +156,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTrace_TraceLinks() {
 		return (EReference)traceEClass.getEStructuralFeatures().get(0);
 	}
@@ -164,6 +166,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTraceLink() {
 		return traceLinkEClass;
 	}
@@ -173,6 +176,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTraceLink_Source() {
 		return (EReference)traceLinkEClass.getEStructuralFeatures().get(0);
 	}
@@ -182,6 +186,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTraceLink_Destination() {
 		return (EReference)traceLinkEClass.getEStructuralFeatures().get(1);
 	}
@@ -191,6 +196,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTraceLinkEnd() {
 		return traceLinkEndEClass;
 	}
@@ -200,6 +206,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModelLocation() {
 		return modelLocationEClass;
 	}
@@ -209,6 +216,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModelLocation_PropertyName() {
 		return (EAttribute)modelLocationEClass.getEStructuralFeatures().get(0);
 	}
@@ -218,6 +226,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEmfModelLocation() {
 		return emfModelLocationEClass;
 	}
@@ -227,6 +236,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEmfModelLocation_ModelElement() {
 		return (EReference)emfModelLocationEClass.getEStructuralFeatures().get(0);
 	}
@@ -236,6 +246,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTextLocation() {
 		return textLocationEClass;
 	}
@@ -245,6 +256,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTextLocation_Resource() {
 		return (EAttribute)textLocationEClass.getEStructuralFeatures().get(0);
 	}
@@ -254,6 +266,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTextLocation_Region() {
 		return (EReference)textLocationEClass.getEStructuralFeatures().get(1);
 	}
@@ -263,6 +276,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRegion() {
 		return regionEClass;
 	}
@@ -272,6 +286,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegion_Offset() {
 		return (EAttribute)regionEClass.getEStructuralFeatures().get(0);
 	}
@@ -281,6 +296,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRegion_Length() {
 		return (EAttribute)regionEClass.getEStructuralFeatures().get(1);
 	}
@@ -290,6 +306,17 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EAttribute getRegion_Text() {
+		return (EAttribute)regionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public TextlinkFactory getTextlinkFactory() {
 		return (TextlinkFactory)getEFactoryInstance();
 	}
@@ -335,6 +362,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 		regionEClass = createEClass(REGION);
 		createEAttribute(regionEClass, REGION__OFFSET);
 		createEAttribute(regionEClass, REGION__LENGTH);
+		createEAttribute(regionEClass, REGION__TEXT);
 	}
 
 	/**
@@ -392,6 +420,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 		initEClass(regionEClass, Region.class, "Region", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRegion_Offset(), ecorePackage.getEIntegerObject(), "offset", null, 1, 1, Region.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRegion_Length(), ecorePackage.getEIntegerObject(), "length", null, 1, 1, Region.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRegion_Text(), ecorePackage.getEString(), "text", null, 0, 1, Region.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

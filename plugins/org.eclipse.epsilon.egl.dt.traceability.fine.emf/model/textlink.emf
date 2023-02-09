@@ -29,4 +29,5 @@ class TextLocation extends TraceLinkEnd {
 class Region {
    attr Integer[1] offset;
    attr Integer[1] length;
+   attr String text;
 }

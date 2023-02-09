@@ -78,6 +78,7 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Trace createTrace() {
 		TraceImpl trace = new TraceImpl();
 		return trace;
@@ -88,6 +89,7 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TraceLink createTraceLink() {
 		TraceLinkImpl traceLink = new TraceLinkImpl();
 		return traceLink;
@@ -98,6 +100,7 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EmfModelLocation createEmfModelLocation() {
 		EmfModelLocationImpl emfModelLocation = new EmfModelLocationImpl();
 		return emfModelLocation;
@@ -108,6 +111,7 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TextLocation createTextLocation() {
 		TextLocationImpl textLocation = new TextLocationImpl();
 		return textLocation;
@@ -118,6 +122,7 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Region createRegion() {
 		RegionImpl region = new RegionImpl();
 		return region;
@@ -128,6 +133,7 @@ public class TextlinkFactoryImpl extends EFactoryImpl implements TextlinkFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TextlinkPackage getTextlinkPackage() {
 		return (TextlinkPackage)getEPackage();
 	}

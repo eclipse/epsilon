@@ -34,6 +34,7 @@
     <genClasses ecoreClass="textlink.ecore#//Region">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute textlink.ecore#//Region/offset"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute textlink.ecore#//Region/length"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute textlink.ecore#//Region/text"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

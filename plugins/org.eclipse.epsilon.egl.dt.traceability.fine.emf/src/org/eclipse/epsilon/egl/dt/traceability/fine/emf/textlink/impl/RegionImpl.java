@@ -26,6 +26,7 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.RegionImpl#getOffset <em>Offset</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.RegionImpl#getLength <em>Length</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.RegionImpl#getText <em>Text</em>}</li>
  * </ul>
  *
  * @generated
@@ -72,6 +73,26 @@ public class RegionImpl extends EObjectImpl implements Region {
 	protected Integer length = LENGTH_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getText() <em>Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getText()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TEXT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getText()
+	 * @generated
+	 * @ordered
+	 */
+	protected String text = TEXT_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -95,6 +116,7 @@ public class RegionImpl extends EObjectImpl implements Region {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Integer getOffset() {
 		return offset;
 	}
@@ -104,6 +126,7 @@ public class RegionImpl extends EObjectImpl implements Region {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOffset(Integer newOffset) {
 		Integer oldOffset = offset;
 		offset = newOffset;
@@ -116,6 +139,7 @@ public class RegionImpl extends EObjectImpl implements Region {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Integer getLength() {
 		return length;
 	}
@@ -125,11 +149,35 @@ public class RegionImpl extends EObjectImpl implements Region {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLength(Integer newLength) {
 		Integer oldLength = length;
 		length = newLength;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TextlinkPackage.REGION__LENGTH, oldLength, length));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getText() {
+		return text;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setText(String newText) {
+		String oldText = text;
+		text = newText;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TextlinkPackage.REGION__TEXT, oldText, text));
 	}
 
 	/**
@@ -144,6 +192,8 @@ public class RegionImpl extends EObjectImpl implements Region {
 				return getOffset();
 			case TextlinkPackage.REGION__LENGTH:
 				return getLength();
+			case TextlinkPackage.REGION__TEXT:
+				return getText();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -161,6 +211,9 @@ public class RegionImpl extends EObjectImpl implements Region {
 				return;
 			case TextlinkPackage.REGION__LENGTH:
 				setLength((Integer)newValue);
+				return;
+			case TextlinkPackage.REGION__TEXT:
+				setText((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -180,6 +233,9 @@ public class RegionImpl extends EObjectImpl implements Region {
 			case TextlinkPackage.REGION__LENGTH:
 				setLength(LENGTH_EDEFAULT);
 				return;
+			case TextlinkPackage.REGION__TEXT:
+				setText(TEXT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -196,6 +252,8 @@ public class RegionImpl extends EObjectImpl implements Region {
 				return OFFSET_EDEFAULT == null ? offset != null : !OFFSET_EDEFAULT.equals(offset);
 			case TextlinkPackage.REGION__LENGTH:
 				return LENGTH_EDEFAULT == null ? length != null : !LENGTH_EDEFAULT.equals(length);
+			case TextlinkPackage.REGION__TEXT:
+				return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -214,6 +272,8 @@ public class RegionImpl extends EObjectImpl implements Region {
 		result.append(offset);
 		result.append(", length: ");
 		result.append(length);
+		result.append(", text: ");
+		result.append(text);
 		result.append(')');
 		return result.toString();
 	}

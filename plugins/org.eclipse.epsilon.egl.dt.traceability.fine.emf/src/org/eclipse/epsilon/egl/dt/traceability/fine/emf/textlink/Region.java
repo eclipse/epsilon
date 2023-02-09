@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region#getOffset <em>Offset</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region#getLength <em>Length</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region#getText <em>Text</em>}</li>
  * </ul>
  *
  * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage#getRegion()
@@ -80,5 +81,27 @@ public interface Region extends EObject {
 	 * @generated
 	 */
 	void setLength(Integer value);
+
+	/**
+	 * Returns the value of the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Text</em>' attribute.
+	 * @see #setText(String)
+	 * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage#getRegion_Text()
+	 * @model
+	 * @generated
+	 */
+	String getText();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region#getText <em>Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Text</em>' attribute.
+	 * @see #getText()
+	 * @generated
+	 */
+	void setText(String value);
 
 } // Region
