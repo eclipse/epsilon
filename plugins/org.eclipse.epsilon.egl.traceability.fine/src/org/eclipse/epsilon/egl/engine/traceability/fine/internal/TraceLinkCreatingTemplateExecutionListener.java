@@ -33,6 +33,7 @@ public class TraceLinkCreatingTemplateExecutionListener extends DefaultTemplateE
 		for (TracedPropertyAccess access : ledger.retrieve(template)) {
 			trace.getTraceLinks().add(createTraceLink(path, access));
 		}
+		ledger.remove(template);
 	}
 
 	private TraceLink createTraceLink(String path, TracedPropertyAccess access) {

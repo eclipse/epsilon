@@ -42,6 +42,7 @@ public class OutputBuffer implements IOutputBuffer {
 	protected boolean hasControlledRegions = false;
 	protected OutdentationFormatter outdentationFormatter = new OutdentationFormatter(this);
 	protected Collection<String> indenters = Arrays.asList("\t", "    ");
+	protected IOutputBuffer parent = null;
 	
 	public OutputBuffer(IEglContext context) {
 		this(context, null);
@@ -82,12 +83,13 @@ public class OutputBuffer implements IOutputBuffer {
 				// placed on a newline nor indented  
 				buffer.append(lines[i]);
 			} else {
+				// TODO: Update trace links here
 				buffer.append(newLine + indentation + lines[i]);
 			}
 		}
 	}
 
-	protected String getLastLineInBuffer() {
+	public String getLastLineInBuffer() {
 		final int indexOfLastLine = buffer.lastIndexOf("\n");
 		
 		if (indexOfLastLine == -1) {
@@ -98,7 +100,7 @@ public class OutputBuffer implements IOutputBuffer {
 		}
 	}
 	
-	protected String calculateIndentationToMatch(String previousLine) {
+	public String calculateIndentationToMatch(String previousLine) {
 		final StringBuilder builder = new StringBuilder();
 		
 		for (char c : previousLine.toCharArray()) {
@@ -237,7 +239,8 @@ public class OutputBuffer implements IOutputBuffer {
 
 	@Override
 	public int getOffset() {
-		return buffer.length();
+		if (parent != null) return parent.getOffset() + buffer.length();
+		else return buffer.length();
 	}
 	
 	@Override
@@ -266,5 +269,13 @@ public class OutputBuffer implements IOutputBuffer {
 	
 	public Collection<String> getIndenters() {
 		return indenters;
+	}
+	
+	public void setParent(IOutputBuffer parent) {
+		this.parent = parent;
+	}
+	
+	public IOutputBuffer getParent() {
+		return parent;
 	}
 }

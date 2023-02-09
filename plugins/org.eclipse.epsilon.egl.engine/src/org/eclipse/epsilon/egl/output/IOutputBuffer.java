@@ -63,7 +63,7 @@ public interface IOutputBuffer {
 	}
 
 	/**
-	 * Returns a string comprised of the specificed number of spaces.
+	 * Returns a string comprised of the specified number of spaces.
 	 */
 	public default String getSpaces(int howMany) {
 		String str = "";
@@ -246,5 +246,9 @@ public interface IOutputBuffer {
 	public void setIndenters(Collection<String> indentation);
 	
 	public Collection<String> getIndenters();
+	
+	public IOutputBuffer getParent();
+	
+	public void setParent(IOutputBuffer parent);
 	
 }

@@ -27,4 +27,8 @@ public class TracedPropertyAccessLedger {
 	Collection<TracedPropertyAccess> retrieve(EglTemplate template) {
 		return accessesByTemplate.get(template);
 	}
+	
+	void remove(EglTemplate template) {
+		accessesByTemplate.remove(template);
+	}
 }

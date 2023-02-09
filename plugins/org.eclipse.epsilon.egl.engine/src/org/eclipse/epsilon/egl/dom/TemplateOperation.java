@@ -9,8 +9,10 @@
 ******************************************************************************/
 package org.eclipse.epsilon.egl.dom;
 
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
+import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -23,13 +25,39 @@ public class TemplateOperation extends Operation {
 	@Override
 	protected Return executeBody(IEolContext context) throws EolRuntimeException {
 		final IEglContext eglContext = (IEglContext) context;
-		final IOutputBuffer out = eglContext.newOutputBuffer();
+		final IOutputBuffer out = new OutputBuffer(eglContext) {
+			
+			@Override
+			public int getOffset() {
+				String noWhitespace = "no-whitespace";
+				
+				if (parent != null && parent instanceof OutputBuffer) {
+					OutputBuffer parentBuffer = (OutputBuffer) parent;
+					String indentation = parentBuffer.calculateIndentationToMatch(parentBuffer.getLastLineInBuffer());
+					String[] lines = StringUtil.toString(toString() + noWhitespace).split(getNewline());
+					int offset = super.getOffset() + Math.max(0, lines.length - 1) * indentation.length();
+					return offset;
+				}
+				else {
+					return super.getOffset();
+				}
+			}
+			
+		};
+		
 		out.setIndenters(eglContext.getOutputBuffer().getIndenters());
 		final String outName = "out";
 		final FrameStack frameStack = context.getFrameStack();
+		
+		// If there is already an out variable in the frame stack and it is 
+		// an output buffer, set it as the parent of the new output buffer
+		Variable outVariable = frameStack.get(outName);
+		if (outVariable != null && outVariable.getValue() instanceof IOutputBuffer) {
+			out.setParent((IOutputBuffer) outVariable.getValue());
+		}
+		
 		frameStack.put(Variable.createReadOnlyVariable(outName, out));
 		super.executeBody(context);
-		//frameStack.remove(outName);
 		return new Return(out.getOutdentationFormatter().format(out.toString()));
 	}
 	
