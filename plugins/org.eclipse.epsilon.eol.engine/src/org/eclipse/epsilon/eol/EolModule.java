@@ -362,12 +362,12 @@ public class EolModule extends AbstractModule implements IEolModule {
 	}
 
 	@Override
-	public Set<ModelDeclaration> getModelDelcarations() {
+	public Set<ModelDeclaration> getModelDeclarations() {
 		if (modelDeclarations == null) {
 			modelDeclarations = new ListSet<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && import_.getModule() instanceof IEolModule){
-					modelDeclarations.addAll(((IEolModule)import_.getModule()).getModelDelcarations());
+					modelDeclarations.addAll(((IEolModule)import_.getModule()).getModelDeclarations());
 				}
 			}
 			modelDeclarations.addAll(this.getDeclaredModelDeclarations());

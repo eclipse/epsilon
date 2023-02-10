@@ -42,7 +42,7 @@ public interface IEolModule extends IModule {
 	
 	List<ModelDeclaration> getDeclaredModelDeclarations();
 	
-	Set<ModelDeclaration> getModelDelcarations();
+	Set<ModelDeclaration> getModelDeclarations();
 	
 	IEolModule getParentModule();
 	

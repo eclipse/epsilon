@@ -149,9 +149,9 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	}
 
 	@Override
-	public Set<ModelDeclaration> getModelDelcarations() {
+	public Set<ModelDeclaration> getModelDeclarations() {
 		if (current == null) return null;
-		return current.module.getModelDelcarations();
+		return current.module.getModelDeclarations();
 	}
 
 	@Override

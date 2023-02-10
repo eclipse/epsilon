@@ -164,7 +164,7 @@ public class EglTemplate {
 	}
 
 	public Set<ModelDeclaration> getModelDefinitions() {
-		return module.getModelDelcarations();
+		return module.getModelDeclarations();
 	}
 
 	public OperationList getOperations() {
