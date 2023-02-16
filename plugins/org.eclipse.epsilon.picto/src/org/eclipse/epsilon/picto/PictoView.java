@@ -9,12 +9,15 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
+import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -44,6 +47,7 @@ import org.eclipse.epsilon.picto.preferences.PictoPreferencePage;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
 import org.eclipse.epsilon.picto.source.VerbatimSource;
+import org.eclipse.epsilon.profiling.Stopwatch;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -63,6 +67,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
@@ -95,6 +100,7 @@ public class PictoView extends ViewPart {
 	protected boolean renderVerbatimSources = false;
 	protected ViewTreeSelectionHistory viewTreeSelectionHistory = new ViewTreeSelectionHistory();
 	protected int treePosition = SWT.LEFT;
+	protected boolean profiling = true;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -327,6 +333,30 @@ public class PictoView extends ViewPart {
 		treeViewer.refresh();
 	}
 	
+	protected IFile getFile(IEditorPart editorPart) {
+		if (editorPart.getEditorInput() instanceof IFileEditorInput) {
+			IFileEditorInput input = (IFileEditorInput) editorPart.getEditorInput();
+			return input.getFile();
+		}
+		return null;
+	}
+
+	protected void profile(ViewTree viewTree, PrintStream profilingStream, boolean saveMeasurement) {
+		if (viewTree.getPromise() != null) {
+			Stopwatch sw = new Stopwatch();
+			sw.resume();
+			viewTree.getContent().getFinal(this);
+			sw.pause();
+			if (saveMeasurement) {
+				profilingStream.printf("\"%s\",%d\n",
+						String.join("/", viewTree.getPath()), sw.getElapsed());
+			}
+		}
+		for (ViewTree child : viewTree.getChildren()) {
+			profile(child, profilingStream, saveMeasurement);
+		}
+	}
+
 	public void renderEditorContent() {
 
 		try {
@@ -336,8 +366,38 @@ public class PictoView extends ViewPart {
 			
 			boolean rerender = renderedEditor == editor;
 			renderedEditor = editor;
+
 			if (!rerender) viewTreeSelectionHistory = new ViewTreeSelectionHistory();
 			
+			if (!rerender && profiling) {
+				int numReps = 10;
+				// add some initial executions that won't be measured
+				// avoids higher initial times due to low states of the cpu
+				int notMeasuredExecutions = 3;
+				numReps += notMeasuredExecutions;
+
+				String fileName =
+						getFile(renderedEditor).getLocation().toOSString() + ".profiling.csv";
+				PrintStream profilingStream = new PrintStream(new File(fileName));
+				profilingStream.println("Element,TimeMillis");
+
+				for (int rep = 0; rep < numReps; rep++) {
+					// measure initial tree view
+					Stopwatch sw = new Stopwatch();
+					sw.resume();
+					ViewTree viewTree = source.getViewTree(editor);
+					sw.pause();
+					if (rep >= notMeasuredExecutions) {
+						profilingStream.printf("TreeViewer, %d\n", sw.getElapsed());
+					}
+					// then, force-render all viewTrees, and measure that
+					profile(viewTree, profilingStream, rep >= notMeasuredExecutions);
+					System.out.printf("PictoProfiler: Rep %d\n", rep - notMeasuredExecutions);
+				}
+
+				profilingStream.close();
+			}
+
 			final ViewTree viewTree = source.getViewTree(editor);
 			runInUIThread(new RunnableWithException() {
 				
