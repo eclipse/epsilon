@@ -22,7 +22,7 @@ import java.util.Set;
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EglModule;
 import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelAnnotation;
@@ -66,7 +66,7 @@ public class EglTask extends ExportableModuleTask {
 			module = new EgxModuleParallelAnnotation(new EgxContextParallel(templateFactory));
 		}
 		else {		
-			module = new EglTemplateFactoryModuleAdapter(templateFactory);
+			module = new EglModule(templateFactory);
 		}
 		
 		// Turn on fine-grained traceability, and

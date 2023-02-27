@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EglModule;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.flexmi.FlexmiFlavour;
 import org.eclipse.epsilon.flexmi.FlexmiParseException;
@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 
 public class EglTemplate extends DynamicTemplate {
 
-	protected EglTemplateFactoryModuleAdapter module;
+	protected EglModule module;
 	protected FlexmiFlavour parserFlavour;
 
 	public EglTemplate(Element element, FlexmiResource resource, URI uri, FlexmiFlavour parserFlavour) {
@@ -42,7 +42,7 @@ public class EglTemplate extends DynamicTemplate {
 	public List<Element> getApplication(Element call) {
 		try {
 			if (module == null) {
-				module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
+				module = new EglModule(new EglTemplateFactory());
 				module.parse(getScript(), uri);
 				if (!module.getParseProblems().isEmpty())
 					throw new RuntimeException(module.getParseProblems().get(0).toString());

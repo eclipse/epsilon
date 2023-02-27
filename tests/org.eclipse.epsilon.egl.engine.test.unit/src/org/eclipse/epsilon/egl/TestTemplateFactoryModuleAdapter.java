@@ -51,7 +51,7 @@ public class TestTemplateFactoryModuleAdapter {
 	
 	@Before
 	public void setUp() {
-		module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
+		module = new EglModule(new EglTemplateFactory());
 	}
 	
 	@Test

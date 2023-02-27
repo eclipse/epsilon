@@ -30,7 +30,7 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EglModule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
@@ -104,7 +104,7 @@ public abstract class EglPictoSource implements PictoSource {
 				module = new LazyEgxModule();
 			}
 			else {
-				module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
+				module = new EglModule(new EglFileGeneratingTemplateFactory());
 			}
 			
 			IEolContext context = module.getContext();

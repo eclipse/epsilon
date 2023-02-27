@@ -37,7 +37,7 @@ public class EglRunConfiguration extends EolRunConfiguration {
 		
 		@Override
 		protected IEglModule createModule() {
-			if (isSequential()) return new EglTemplateFactoryModuleAdapter();
+			if (isSequential()) return new EglModule();
 			throw new IllegalStateException("Parallel EGL is not supported (yet)");
 		}
 	}

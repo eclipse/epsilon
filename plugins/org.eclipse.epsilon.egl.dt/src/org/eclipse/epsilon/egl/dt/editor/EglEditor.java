@@ -21,7 +21,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.Position;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.EglModule;
 import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleContentProvider;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
@@ -104,7 +104,7 @@ public class EglEditor extends AbstractModuleEditor {
 
 	@Override
 	public IModule createModule() {
-		return new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
+		return new EglModule(new EglTemplateFactory());
 	}
 	
 	@Override
