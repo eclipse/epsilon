@@ -17,6 +17,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.HutnModule;
 import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
@@ -32,12 +33,14 @@ public abstract class HutnAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 	
 	protected static ModelWithEolAssertions generateModel(String hutn, String path) throws Exception {
 		final IHutnModule module = new HutnModule();
-		return generateModel(module, module.parse(hutn), path);
+		module.parse(hutn);
+		return generateModel(module, parsedCorrectly(module), path);
 	}
 	
 	protected static ModelWithEolAssertions generateModel(File hutnSource) throws Exception {
 		final IHutnModule module = new HutnModule();
-		return generateModel(module, module.parse(hutnSource), null);
+		module.parse(hutnSource);
+		return generateModel(module, parsedCorrectly(module), null);
 	}
 
 	private static ModelWithEolAssertions generateModel(IHutnModule module, boolean parsedCorrectly, String outputPath) throws Exception, HutnGenerationException {
@@ -53,6 +56,10 @@ public abstract class HutnAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 		}
 		
 		return result;
+	}
+	
+	private static boolean parsedCorrectly(IHutnModule module) {
+		return !module.getParseProblems().stream().anyMatch(p -> p.getSeverity() == ParseProblem.ERROR);
 	}
 	
 	@AfterClass
