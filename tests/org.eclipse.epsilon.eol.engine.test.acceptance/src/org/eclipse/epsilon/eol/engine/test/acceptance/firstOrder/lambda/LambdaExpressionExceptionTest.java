@@ -39,7 +39,7 @@ public class LambdaExpressionExceptionTest {
 	@Test
 	public void testLazyExecution() throws Exception {
 		assertNull(executeReturnException(
-			"Native('java.util.stream.IntStream').range(0,100).filter(i | null.nullPointer)",
+			"Native('java.util.stream.IntStream').range(0,100).filter(i | null.nullPointer);",
 			new EolModule())
 		);
 	}
