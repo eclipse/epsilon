@@ -91,8 +91,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			problem.setLine(ex.line);
 			problem.setColumn(ex.charPositionInLine);
 			problem.setReason(ex.getMessage());
-			getParseProblems().add(problem);			
-			ex.printStackTrace();
+			getParseProblems().add(problem);
 		}
 		catch (Throwable ex) {
 			ParseProblem problem = new ParseProblem();
@@ -106,15 +105,11 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		parseProblems.addAll(EpsilonParseProblemManager.INSTANCE.getParseProblems());
 		EpsilonParseProblemManager.INSTANCE.reset();
 		
-		if (getParseProblems().isEmpty()) {
-			assignAnnotations(cst);
-			assignComments(cst, comments);
-			createAst(cst, null);
-			return true;
-		}
-		else {
-			return false;
-		}
+		assignAnnotations(cst);
+		assignComments(cst, comments);
+		createAst(cst, null);
+		
+		return getParseProblems().isEmpty();
 	}
 	
 	@Override

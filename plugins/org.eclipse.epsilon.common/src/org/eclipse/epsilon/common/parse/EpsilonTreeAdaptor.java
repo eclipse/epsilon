@@ -12,7 +12,9 @@ package org.eclipse.epsilon.common.parse;
 import java.io.File;
 import java.net.URI;
 
+import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.eclipse.epsilon.common.module.IModule;
 
@@ -47,4 +49,9 @@ public class EpsilonTreeAdaptor extends CommonTreeAdaptor {
     public AST create(Token token) {
         return new AST(token, uri, module);
     }
+	
+	@Override
+	public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		return new AST(start, uri, module);
+	}
 }

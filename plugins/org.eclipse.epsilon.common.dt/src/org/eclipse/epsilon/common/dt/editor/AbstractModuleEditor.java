@@ -437,7 +437,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		} catch (CoreException e1) {
 		}
 
-		if (module != null && module.getParseProblems().size() == 0) {
+		if (module != null) {
 			notifyModuleParsedListeners(module);
 		}
 
