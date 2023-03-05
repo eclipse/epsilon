@@ -16,13 +16,16 @@ import org.eclipse.epsilon.egl.internal.EglModule;
 
 public class MockContext extends EglContext {
 	
+	protected MockModule mockModule;
+	
 	public MockContext() {
 		super(new EglTemplateFactory());
+		mockModule = new MockModule(this);
 	}
 
 	@Override
 	public EglModule getModule() {
-		return new MockModule(this);
+		return mockModule;
 	}
 	
 	private static class MockModule extends EglModule {

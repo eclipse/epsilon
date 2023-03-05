@@ -14,7 +14,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({FrameStackRegionTests.class, FrameStackTests.class})
+@SuiteClasses({FrameStackRegionTests.class, FrameStackTests.class, ContextTests.class})
 public class FrameStackUnitTestSuite {
 
 }

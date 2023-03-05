@@ -505,6 +505,11 @@ public class EolModule extends AbstractModule implements IEolModule {
 		}
 		if (this.context != context) {
 			this.context = context;
+			
+			if (context.getModule() == null) {
+				context.setModule(this);
+			}
+			
 			for (Import import_ : getImports()) {
 				import_.setContext(context);
 			}
