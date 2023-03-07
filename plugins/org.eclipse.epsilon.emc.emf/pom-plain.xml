@@ -41,6 +41,7 @@
     <dependency>
       <groupId>org.eclipse.emf</groupId>
       <artifactId>org.eclipse.xsd</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>commons-logging</groupId>
