@@ -6,5 +6,13 @@ package org.eclipse.epsilon.egl;
  *
  */
 public class EglTemplateFactoryModuleAdapter extends EglModule {
-
+	
+	public EglTemplateFactoryModuleAdapter() {
+		super();
+	}
+	
+	public EglTemplateFactoryModuleAdapter(EglTemplateFactory factory) {
+		super(factory);
+	}
+	
 }
