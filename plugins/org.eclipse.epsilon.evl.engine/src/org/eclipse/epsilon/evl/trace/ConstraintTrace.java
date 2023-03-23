@@ -14,9 +14,9 @@ package org.eclipse.epsilon.evl.trace;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -42,8 +42,8 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	 */
 	public ConstraintTrace(boolean concurrent) {
 		this.concurrent = concurrent;
-		storageOptimised = concurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
-		objectItemsMap = concurrent ? ConcurrencyUtils.concurrentMap(): new HashMap<Object, Set<ConstraintTraceItem>>();
+		storageOptimised = concurrent ? ConcurrencyUtils.concurrentSet() : new LinkedHashSet<>();
+		objectItemsMap = concurrent ? ConcurrencyUtils.concurrentMap(): new LinkedHashMap<Object, Set<ConstraintTraceItem>>();
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 		ConstraintTraceItem cti = new ConstraintTraceItem(object, constraint, result);
 		Set<ConstraintTraceItem> items = objectItemsMap.get(object);
 		if (items == null) {
-			items = concurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
+			items = concurrent ? ConcurrencyUtils.concurrentSet() : new LinkedHashSet<>();
 			objectItemsMap.put(object, items);
 		}
 		items.add(cti);
@@ -116,7 +116,7 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	}
 	
 	public Set<ConstraintTraceItem> getItems() {
-		Set<ConstraintTraceItem> items = new HashSet<>();
+		Set<ConstraintTraceItem> items = new LinkedHashSet<>();
 		for (Set<ConstraintTraceItem> objectItems : objectItemsMap.values()) {
 			items.addAll(objectItems);
 		}
