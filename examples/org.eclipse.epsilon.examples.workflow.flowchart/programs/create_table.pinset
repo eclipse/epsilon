@@ -1,0 +1,3 @@
+dataset actions over a:Action {
+	properties[name]
+}

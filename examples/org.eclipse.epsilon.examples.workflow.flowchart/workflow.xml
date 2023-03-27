@@ -51,4 +51,13 @@
 		<!-- Force Eclipse to refresh our project so we can see the newly generated path.html file -->
 		<eclipse.refreshLocal resource="org.eclipse.epsilon.examples.workflow.flowchart" depth="-1" />
 	</target>
+	
+	<target name="createTable" depends="validate,loadPathModel">
+		<epsilon.pinset src="programs/create_table.pinset">
+			<model ref="FlowchartPath"/>
+		</epsilon.pinset>
+
+		<!-- Force Eclipse to refresh our project so we can see the newly generated path.html file -->
+		<eclipse.refreshLocal resource="org.eclipse.epsilon.examples.workflow.flowchart" depth="-1" />
+	</target>
 </project>

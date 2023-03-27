@@ -44,6 +44,10 @@
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.flock"/>
       <antTask
+            class="org.eclipse.epsilon.workflow.tasks.PinsetTask"
+            library="lib/org.eclipse.epsilon.workflow.jar"
+            name="epsilon.pinset"/>
+      <antTask
             class="org.eclipse.epsilon.workflow.tasks.StoreModelTask"
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.storeModel"/>
