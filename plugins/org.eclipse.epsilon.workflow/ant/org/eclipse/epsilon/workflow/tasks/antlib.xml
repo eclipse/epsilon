@@ -9,6 +9,7 @@
     <taskdef name="evl" classname="org.eclipse.epsilon.workflow.tasks.EvlTask"/>
     <taskdef name="egl" classname="org.eclipse.epsilon.workflow.tasks.EglTask"/>
     <taskdef name="flock" classname="org.eclipse.epsilon.workflow.tasks.FlockTask"/>
+    <taskdef name="pinset" classname="org.eclipse.epsilon.workflow.tasks.PinsetTask"/>
     <taskdef name="storeModel" classname="org.eclipse.epsilon.workflow.tasks.StoreModelTask"/>
     <taskdef name="disposeModel" classname="org.eclipse.epsilon.workflow.tasks.DisposeModelTask"/>
     <taskdef name="disposeModels" classname="org.eclipse.epsilon.workflow.tasks.DisposeModelsTask"/>
