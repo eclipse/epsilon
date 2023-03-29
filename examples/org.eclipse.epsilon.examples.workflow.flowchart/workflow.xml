@@ -50,7 +50,7 @@
 	</target>
 	
 	<target name="createTable" depends="showPath">
-		<epsilon.pinset src="programs/create_table.pinset">
+		<epsilon.pinset src="programs/create_table.pinset" outputfolder="tables">
 			<model ref="Flowchart"/>
 		</epsilon.pinset>
 
