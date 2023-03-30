@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
-import java.io.FileWriter;
 
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -11,7 +10,7 @@ import org.eclipse.epsilon.pinset.PinsetModule;
 
 public class PinsetTask extends ExecutableModuleTask {
 
-	private String outputFolder;
+	protected File outputFolder;
 
 	@Override
 	protected void initialize() throws Exception {
@@ -31,16 +30,15 @@ public class PinsetTask extends ExecutableModuleTask {
 		super.configureModule();
 
 		if (outputFolder != null) {
-			File baseDir = getProject().getBaseDir();
-			((PinsetModule) module).setOutputFolder(baseDir.getAbsolutePath() + "/" + outputFolder);
+			((PinsetModule) module).setOutputFolder(outputFolder.getAbsolutePath());
 		}
 	}
 
-	public String getOutputFolder() {
+	public File getOutputFolder() {
 		return outputFolder;
 	}
 
-	public void setOutputFolder(String outputFolder) {
+	public void setOutputFolder(File outputFolder) {
 		this.outputFolder = outputFolder;
 	}
 }
