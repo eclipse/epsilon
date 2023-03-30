@@ -1,4 +1,4 @@
-<project default="showPath">
+<project default="createTable">
 	
 	<!-- Prepare our flowchart model for processing with Epsilon --> 
 	<target name="loadFlowchartModel">
@@ -47,8 +47,14 @@
 		<epsilon.egl src="programs/path_to_html.egl" target="path.html">
 			<model ref="FlowchartPath" />
 		</epsilon.egl>
-		
-		<!-- Force Eclipse to refresh our project so we can see the newly generated path.html file -->
+	</target>
+	
+	<target name="createTable" depends="showPath">
+		<epsilon.pinset src="programs/create_table.pinset" outputfolder="tables">
+			<model ref="Flowchart"/>
+		</epsilon.pinset>
+
+		<!-- Force Eclipse to refresh our project so we can see the newly generated files -->
 		<eclipse.refreshLocal resource="org.eclipse.epsilon.examples.workflow.flowchart" depth="-1" />
 	</target>
 </project>
