@@ -241,15 +241,15 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	protected EClass classForName(String name, EPackage.Registry registry) {	
+		return classesForName(name, registry).findAny().orElse(null);
+	}
+
+	protected Stream<EClass> classesForName(String name, EPackage.Registry registry) {
 		boolean absolute = name.contains("::");
-		
 		return registry.values()
-			.stream()
-			.filter(pkg -> pkg instanceof EPackage)
-			.map(pkg -> classForName(name, absolute, (EPackage) pkg))
-			.filter(eClass -> eClass != null)
-			.findAny()
-			.orElse(null);
+				.stream()
+				.filter(pkg -> pkg instanceof EPackage)
+				.map(pkg -> classForName(name, absolute, (EPackage) pkg)).filter(eClass -> eClass != null);
 	}
 
 	protected EClass classForName(String name, boolean absolute, EPackage pkg) {
@@ -536,7 +536,15 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			return false;
 		}
 	}
-	
+
+	@Override
+	public AmbiguityCheckResult checkAmbiguity(String type) {
+		List<String> options = classesForName(type, getPackageRegistry())
+			.map(ec -> getFullyQualifiedName(ec)).collect(Collectors.toList());
+
+		return new AmbiguityCheckResult(this, options);
+	}
+
 	/**
 	 * Determines whether this model has an adapter matching the specified type.
 	 * 

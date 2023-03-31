@@ -36,7 +36,7 @@ public class ModelManager {
 		return EmfUtil.register(URI.createFileURI(metamodelPath), EPackage.Registry.INSTANCE);
 	}
 	
-	public EmfModel createInMemoryEmfModel(String modelName, String metamodelUri) throws EolModelLoadingException {
+	public EmfModel createInMemoryEmfModel(String modelName, String... metamodelUri) throws EolModelLoadingException {
 		return addModel(new InMemoryEmfModel(modelName, EmfUtil.createResource(), metamodelUri));
 	}
 	
