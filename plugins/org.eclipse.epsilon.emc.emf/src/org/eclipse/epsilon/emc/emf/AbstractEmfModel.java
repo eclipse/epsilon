@@ -16,9 +16,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -441,21 +448,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	@Override
 	public String getElementId(Object instance) {
 		EObject eObject = (EObject) instance;
-		
-		/*
-		if (eObject.eResource() instanceof XMIResource){
-			String id = ((XMIResource) eObject.eResource()).getID(eObject);
-			if (id != null && id.trim().length() > 0) return id;
-		}
-		
-		if (eObject.eResource() instanceof XMLResource){
-			return ((XMLResource) eObject.eResource()).getURIFragment(eObject);
-		}
-		
-		return "";*/
-		
 		return eObject.eResource().getURIFragment(eObject);
-		
 	}
 	
 	@Override
@@ -467,12 +460,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		 * fragments to be set on an XML resource. Also, we
 		 * don't want a URI fragment to be used as an XMI ID
 		 */
-		if (isUriFragment(newId))
+		if (isUriFragment(newId)) {
 			return;
-		
-		
+		}
+
 		EObject eObject = (EObject) instance;
-		
 		if (eObject.eResource() instanceof XMIResource) {
 			((XMIResource) eObject.eResource()).setID(eObject, newId);
 		}
