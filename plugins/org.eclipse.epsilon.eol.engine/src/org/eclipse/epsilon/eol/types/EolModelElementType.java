@@ -61,12 +61,12 @@ public class EolModelElementType extends EolType {
 		
 		checkAmbiguityOfType(context);
 		getModel(true);	// Eager caching, possibly prevents race conditions
+		checkAmbiguityOfTypeWithinModel(context);
 	}
 
 	private void checkAmbiguityOfType(IEolContext context) {
 		if (modelName.isEmpty()) {
 			final AmbiguityCheckResult result = context.getModelRepository().checkAmbiguity(typeName);
-
 			if (result.isAmbiguous) {
 				issueAmbiguousTypeWarning(context, result);
 			}
@@ -76,10 +76,35 @@ public class EolModelElementType extends EolType {
 	private void issueAmbiguousTypeWarning(IEolContext context, AmbiguityCheckResult result) {
 		final String potentialTypes = CollectionUtil.join(result.namesOfOwningModels, " ", element -> "'" + element + "!" + typeName+"'");
 		
-		context.getWarningStream().println("Warning: The type '" + typeName + "' " + 
-		                                   "is ambiguous and could refer to any of the following: " + potentialTypes + ". " + 
-		                                   "The type '" + result.nameOfSelectedModel + "!" + typeName + "' has been assumed. " +
-		                                   determineLocation(context.getFrameStack().getCurrentStatement()));
+		context.getWarningStream().println(String.format(
+			"Warning: The type '%s' is ambiguous and could refer to any of the following: %s. The type '%s!%s' has been assumed. %s",
+			typeName, potentialTypes, result.nameOfSelectedModel, typeName,
+			determineLocation(context.getFrameStack().getCurrentStatement())
+		));
+	}
+
+	private void checkAmbiguityOfTypeWithinModel(IEolContext context) {
+		if (cachedModelRef != null) {
+			// Owning model is not ambiguous, but type may be ambiguous within the model
+			org.eclipse.epsilon.eol.models.IModel.AmbiguityCheckResult result = cachedModelRef.checkAmbiguity(typeName);
+			if (result.isTypeAmbiguous()) {
+				issueAmbiguousTypeWithinModelWarning(context, result);
+			}
+		}
+	}
+
+	private void issueAmbiguousTypeWithinModelWarning(IEolContext context, org.eclipse.epsilon.eol.models.IModel.AmbiguityCheckResult result) {
+		final List<String> formattedOptions = result.options.stream()
+			.map(option -> String.format("'%s!%s'", cachedModelRef.getName(), option))
+			.collect(Collectors.toList());
+
+		context.getWarningStream().println(String.format(
+			"Warning: The type '%s' is ambiguous and could refer to any of the following: %s. The type '%s!%s' has been assumed. %s",
+			typeName,
+			String.join(" ", formattedOptions),
+			cachedModelRef.getName(), result.options.get(0),
+			determineLocation(context.getFrameStack().getCurrentStatement())
+		));
 	}
 
 	private static String determineLocation(ModuleElement statement) {

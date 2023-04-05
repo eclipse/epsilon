@@ -11,7 +11,9 @@
 package org.eclipse.epsilon.eol.models;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -24,7 +26,21 @@ import org.eclipse.epsilon.eol.m3.Metamodel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public interface IModel extends AutoCloseable {
-	
+
+	public static class AmbiguityCheckResult {
+		public final IModel model;
+		public final List<String> options;
+
+		public AmbiguityCheckResult(IModel model, List<String> options) {
+			this.model = model;
+			this.options = options;
+		}
+
+		public boolean isTypeAmbiguous() {
+			return options.size() > 1;
+		}
+	}
+
 	void load(StringProperties properties) throws EolModelLoadingException;
 	
 	void load(StringProperties properties, String basePath) throws EolModelLoadingException;
@@ -126,6 +142,15 @@ public interface IModel extends AutoCloseable {
 	boolean isModelElement(Object instance);
 	
 	boolean hasType(String type);
+
+	/**
+	 * Used to test if a given type name is ambiguous or not within a model. For example,
+	 * the package registry in an EMF model could include multiple EClasses with the same
+	 * name.
+	 */
+	default AmbiguityCheckResult checkAmbiguity(String type) {
+		return new AmbiguityCheckResult(this, hasType(type) ? Collections.singletonList(type) : Collections.emptyList());
+	}
 	
 	boolean store(String location);
 	
