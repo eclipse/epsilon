@@ -94,6 +94,7 @@ public class Preprocessor {
 		while (child != null) {
 			switch (TokenType.typeOf(child.getType())) {
 				case START_COMMENT_TAG:
+				case START_MARKER_TAG:
 					int commentLength = child.getText().length();
 					
 					AST current = child.getFirstChild();

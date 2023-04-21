@@ -453,4 +453,12 @@ public class TestPreprocessor {
 		assertEquals(55, preprocessor.getTrace().getEglColumnNumberFor(5, 1));
 		assertEquals(71, preprocessor.getTrace().getEglColumnNumberFor(6, 1));
 	}
+	
+	@Test
+	public void testMarker() {
+		final String egl = "[*-Marker*]\n[%var x : String;%]";
+		final String eol = "var x : String;";
+
+		assertEquals(eol, preprocess(egl));
+	}
 }
