@@ -12,6 +12,7 @@ package org.eclipse.epsilon.egl.dom;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.epsilon.common.module.IModule;
@@ -166,8 +167,11 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		if (templateCache == null || (eglTemplate = templateCache.get(templateUri)) == null) {
 			eglTemplate = templateFactory.load(templateUri);
 			
-			if (!eglTemplate.getParseProblems().isEmpty()) {
-				throw new EolRuntimeException("Parse error(s) in " + templateUri, templateBlock);
+			List<ParseProblem> problems = eglTemplate.getParseProblems();
+			if (!problems.isEmpty()) {
+				ParseProblem problem = problems.get(0);
+				String reason = "Parse error(s) in " + templateUri + ": " + problem.toString();
+				throw new EolRuntimeException(reason, templateBlock);
 			}
 				
 			if (templateCache != null) {
