@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.ecl.dom;
 
 import java.util.Collection;
+
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -232,9 +233,9 @@ public class MatchRule extends ExtensibleNamedRule {
 
 	@Override
 	public String toString() {
-		return getName()+ " (" +
-		leftParameter.getTypeName() + ", " +
-		rightParameter.getTypeName() + ")";
+		return String.format("%s (%s, %s)", getName(),
+			leftParameter == null ? "(no left)" : leftParameter.getTypeName(),
+			rightParameter == null ? "(no right)" : rightParameter.getTypeName());
 	}
 	
 	public boolean isRightDomainDynamic() {
