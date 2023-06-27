@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -75,10 +76,24 @@ public class MatchTrace implements Collection<Match> {
 
 			// Remove the left-to-right side
 			itMatches.remove();
+
+			Map<Object, Match> leftMap = leftToRight.get(prev.getLeft());
+			if (leftMap.isEmpty()) {
+				leftToRight.remove(prev.getLeft());
+			}
+
 			// Remove the right-to-left side
-			rightToLeft.get(prev.getRight()).remove(prev.getLeft());
+			Map<Object, Match> rightMap = rightToLeft.get(prev.getRight());
+			rightMap.remove(prev.getLeft());
+			if (rightMap.isEmpty()) {
+				rightToLeft.remove(prev.getRight());
+			}
+
 			// Invalidate the cached toString()
 			MatchTrace.this.toStringCached = null;
+
+			// Detect the case when remove() is called multiple times
+			prev = null;
 		}
 	}
 
@@ -309,7 +324,8 @@ public class MatchTrace implements Collection<Match> {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(leftToRight);
+		// We cannot use the hashCode of the maps as they are identity-based
+		return stream().collect(Collectors.toSet()).hashCode();
 	}
 	
 	@Override
@@ -320,8 +336,10 @@ public class MatchTrace implements Collection<Match> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+
+		// We cannot directly use equals() across maps as they are identity-based
 		MatchTrace other = (MatchTrace) obj;
-		return Objects.equals(leftToRight, other.leftToRight);
+		return stream().collect(Collectors.toSet()).equals(other.stream().collect(Collectors.toSet()));
 	}
 	
 	/**
@@ -361,8 +379,16 @@ public class MatchTrace implements Collection<Match> {
 
 		boolean result = leftMap.remove(m.getRight()) != null;
 		if (result) {
+			if (leftMap.isEmpty()) {
+				leftToRight.remove(m.getLeft());
+			}
+
 			toStringCached = null;
-			rightToLeft.get(m.getRight()).remove(m.getLeft());
+			Map<Object, Match> rightMap = rightToLeft.get(m.getRight());
+			rightMap.remove(m.getLeft());
+			if (rightMap.isEmpty()) {
+				rightToLeft.remove(m.getRight());
+			}
 		}
 		return result;
 	}

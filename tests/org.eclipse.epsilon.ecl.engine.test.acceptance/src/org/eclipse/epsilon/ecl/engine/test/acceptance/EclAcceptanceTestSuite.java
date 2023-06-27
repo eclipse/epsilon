@@ -9,10 +9,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.engine.test.acceptance;
 
-import org.eclipse.epsilon.ecl.engine.test.acceptance.builtins.*;
+import org.eclipse.epsilon.ecl.engine.test.acceptance.builtins.EclCanAccessBuiltinsTests;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.domain.DomainTests;
-import org.eclipse.epsilon.ecl.engine.test.acceptance.matches.*;
-import org.eclipse.epsilon.ecl.engine.test.acceptance.trees.*;
+import org.eclipse.epsilon.ecl.engine.test.acceptance.matches.MatchesOperationTest;
+import org.eclipse.epsilon.ecl.engine.test.acceptance.trace.MatchTraceTest;
+import org.eclipse.epsilon.ecl.engine.test.acceptance.trees.TestXmlTreeComparison;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.unparser.EclUnparserTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -22,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	EclCanAccessBuiltinsTests.class, TestXmlTreeComparison.class,
 	MatchesOperationTest.class, DomainTests.class,
-	EclUnparserTests.class
+	EclUnparserTests.class, MatchTraceTest.class
 })
 public class EclAcceptanceTestSuite {
 
