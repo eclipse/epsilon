@@ -11,11 +11,13 @@
 package org.eclipse.epsilon.ecl.trace;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -39,22 +41,32 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class MatchTrace implements Collection<Match> {
 	
 	private class MatchIterator implements Iterator<Match> {
-		Iterator<Map<Object, Match>> itMaps = leftToRight.values().iterator();
-		Iterator<Match> itMatches = null;
+		Iterator<Map<Object, Set<Match>>> itMaps = leftToRight.values().iterator();
+		Iterator<Set<Match>> itMatches = null;
+		Iterator<Match> itMatch = null;
 
 		Match prev = null, next = null;
 
 		@Override
 		public boolean hasNext() {
 			if (next == null) {
-				while (itMatches == null || !itMatches.hasNext()) {
-					if (itMaps.hasNext()) {
-						itMatches = itMaps.next().values().iterator();
+				while (itMatch == null || !itMatch.hasNext()) {
+					while (itMatches == null || !itMatches.hasNext()) {
+						if (itMaps.hasNext()) {
+							itMatches = itMaps.next().values().iterator();
+						} else {
+							return false;
+						}
+					}
+
+					if (itMatches.hasNext()) {
+						itMatch = itMatches.next().iterator();
 					} else {
 						return false;
 					}
 				}
-				next = itMatches.next();
+
+				next = itMatch.next();
 			}
 			return next != null;
 		}
@@ -75,16 +87,25 @@ public class MatchTrace implements Collection<Match> {
 			}
 
 			// Remove the left-to-right side
-			itMatches.remove();
+			itMatch.remove();
 
-			Map<Object, Match> leftMap = leftToRight.get(prev.getLeft());
+			Map<Object, Set<Match>> leftMap = leftToRight.get(prev.getLeft());
+			Set<Match> leftSet = leftMap.get(prev.getRight());
+			if (leftSet.isEmpty()) {
+				itMatches.remove();
+			}
 			if (leftMap.isEmpty()) {
 				leftToRight.remove(prev.getLeft());
 			}
 
-			// Remove the right-to-left side
-			Map<Object, Match> rightMap = rightToLeft.get(prev.getRight());
-			rightMap.remove(prev.getLeft());
+			/*
+			 * Remove the right-to-left side (note that both left->right and right->left
+			 * mappings use the same Set)
+			 */
+			Map<Object, Set<Match>> rightMap = rightToLeft.get(prev.getRight());
+			if (leftSet.isEmpty()) {
+				rightMap.remove(prev.getLeft());
+			}
 			if (rightMap.isEmpty()) {
 				rightToLeft.remove(prev.getRight());
 			}
@@ -101,33 +122,37 @@ public class MatchTrace implements Collection<Match> {
 	 * Spliterator over the entries of a map of maps of matches.
 	 */
 	private class MatchSpliterator implements Spliterator<Match> {
-		private final Spliterator<Entry<Object, Map<Object, Match>>> rawSpliterator;
-		private Iterator<Match> currentKeyIterator;
+		private final Spliterator<Entry<Object, Map<Object, Set<Match>>>> rawSpliterator;
+		private Iterator<Set<Match>> currentKeyIterator;
+		private Iterator<Match> currentPairIterator;
 	
-		public MatchSpliterator(Spliterator<Entry<Object, Map<Object, Match>>> rawSpliterator) {
+		public MatchSpliterator(Spliterator<Entry<Object, Map<Object, Set<Match>>>> rawSpliterator) {
 			this.rawSpliterator = rawSpliterator;
 		}
 	
 		@Override
 		public boolean tryAdvance(Consumer<? super Match> action) {
-			while (currentKeyIterator == null || !currentKeyIterator.hasNext()) {
-				boolean hasIterator = rawSpliterator.tryAdvance((nextEntry) -> {
-					currentKeyIterator = nextEntry.getValue().values().iterator();
-				});
-				if (!hasIterator) {
-					// No keys left
-					return false;
+			while (currentPairIterator == null || !currentPairIterator.hasNext()) {
+				while (currentKeyIterator == null || !currentKeyIterator.hasNext()) {
+					boolean hasIterator = rawSpliterator.tryAdvance((nextEntry) -> {
+						currentKeyIterator = nextEntry.getValue().values().iterator();
+					});
+					if (!hasIterator) {
+						// No keys left
+						return false;
+					}
 				}
+				currentPairIterator = currentKeyIterator.next().iterator();
 			}
-	
+
 			// We're here, so we have a match iterator with at least one entry left
-			action.accept(currentKeyIterator.next());
+			action.accept(currentPairIterator.next());
 			return true;
 		}
 	
 		@Override
 		public Spliterator<Match> trySplit() {
-			Spliterator<Entry<Object, Map<Object, Match>>> rawSplit = rawSpliterator.trySplit();
+			Spliterator<Entry<Object, Map<Object, Set<Match>>>> rawSplit = rawSpliterator.trySplit();
 			if (rawSplit != null) {
 				return new MatchSpliterator(rawSplit);
 			}
@@ -149,8 +174,8 @@ public class MatchTrace implements Collection<Match> {
 	 * All matches tried during the execution of an ECL module.
 	 * This map contains both left-to-right and right-to-left mappings.
 	 */
-	protected final Map<Object, Map<Object, Match>> leftToRight;
-	protected final Map<Object, Map<Object, Match>> rightToLeft;
+	protected final Map<Object, Map<Object, Set<Match>>> leftToRight;
+	protected final Map<Object, Map<Object, Set<Match>>> rightToLeft;
 
 	protected final boolean concurrent;
 	protected String toStringCached;
@@ -172,15 +197,17 @@ public class MatchTrace implements Collection<Match> {
 	}
 
 	/**
-	 * Returns only successful matches.
+	 * Returns a trace with only the successful matches.
 	 */
 	public MatchTrace getReduced() { 
 		MatchTrace reduced = new MatchTrace(concurrent);
 
-		for (Map<Object, Match> valMap : leftToRight.values()) {
-			for (Match match : valMap.values()) {
-				if (match.isMatching()) {
-					reduced.add(match);
+		for (Map<Object, Set<Match>> valMap : leftToRight.values()) {
+			for (Set<Match> matches : valMap.values()) {
+				for (Match match : matches) {
+					if (match.isMatching()) {
+						reduced.add(match);
+					}
 				}
 			}
 		}
@@ -194,10 +221,16 @@ public class MatchTrace implements Collection<Match> {
 		return match;
 	}
 	
+	/**
+	 * Returns the first match with a certain {@code left} and {@code right} object.
+	 */
 	public Match getMatch(Object left, Object right) {
-		Map<Object, Match> leftMap = leftToRight.get(left);
+		Map<Object, Set<Match>> leftMap = leftToRight.get(left);
 		if (leftMap != null) {
-			return leftMap.get(right);
+			Set<Match> matches = leftMap.get(right);
+			if (matches != null && !matches.isEmpty()) {
+				return matches.iterator().next();
+			}
 		}
 		return null;
 	}
@@ -211,53 +244,47 @@ public class MatchTrace implements Collection<Match> {
 		// The object may be on the left or the right side of the matches
 		final List<Match> matches = new ArrayList<>();
 
-		Map<Object, Match> leftMap = leftToRight.get(object);
-		if (leftMap != null) {
-			matches.addAll(leftMap.values());
+		for (Map<Object, Set<Match>> sideMap : Arrays.asList(leftToRight.get(object), rightToLeft.get(object))) {
+			if (sideMap != null) {
+				for (Set<Match> sideMatches : sideMap.values()) {
+					matches.addAll(sideMatches);
+				}
+			}
 		}
-
-		Map<Object, Match> rightMap = rightToLeft.get(object);
-		if (rightMap != null) {
-			matches.addAll(rightMap.values());
-		}
-
 		return matches;
 	}
-	
+
 	/**
 	 * Returns the first match for the object
 	 * @param object
 	 * @return
 	 */
 	public Match getMatch(Object object) {
-		Map<Object, Match> map = leftToRight.get(object);
-		if (map != null) {
-			for (Match match : map.values()) {
-				if (match.isMatching()) {
-					return match;
+		for (Map<Object, Set<Match>> map : Arrays.asList(leftToRight.get(object), rightToLeft.get(object))) {
+			if (map != null) {
+				for (Set<Match> matches : map.values()) {
+					for (Match match : matches) {
+						if (match.isMatching()) {
+							return match;
+						}
+					}
 				}
 			}
 		}
-
-		map = rightToLeft.get(object);
-		if (map != null) {
-			for (Match match : map.values()) {
-				if (match.isMatching()) {
-					return match;
-				}
-			}
-		}
-		
 		return null;
 	}
-	
-	public Match getMatch(Object left, MatchRule rule) {
-		Map<Object, Match> map = leftToRight.get(left);
 
+	/**
+	 * Returns the first match which has a certain object on its left side and relates to a certain rule.
+	 */
+	public Match getMatch(Object left, MatchRule rule) {
+		Map<Object, Set<Match>> map = leftToRight.get(left);
 		if (map != null) {
-			for (Match match : map.values()) {
-				if (match.isMatching() && match.getRule() == rule) {
-					return match;
+			for (Set<Match> matches : map.values()) {
+				for (Match match : matches) {
+					if (match.isMatching() && match.getRule() == rule) {
+						return match;
+					}
 				}
 			}
 		}
@@ -272,15 +299,17 @@ public class MatchTrace implements Collection<Match> {
 	public String toString(IEolContext context) {
 		StringBuilder sb = new StringBuilder();
 
-		for (Map<Object, Match> valMap : leftToRight.values()) {
-			for (Match match : valMap.values()) {
-				sb.append("[");
-				sb.append(match.isMatching());
-				sb.append("]\n");
+		for (Map<Object, Set<Match>> valMap : leftToRight.values()) {
+			for (Set<Match> matches : valMap.values()) {
+				for (Match match : matches) {
+					sb.append("[");
+					sb.append(match.isMatching());
+					sb.append("]\n");
 
-				sb.append(context.getPrettyPrinterManager().toString(match.getLeft()));
-				sb.append("\n ->");
-				sb.append(context.getPrettyPrinterManager().toString(match.getRight()));
+					sb.append(context.getPrettyPrinterManager().toString(match.getLeft()));
+					sb.append("\n ->");
+					sb.append(context.getPrettyPrinterManager().toString(match.getRight()));
+				}
 			}
 		}
 
@@ -295,8 +324,10 @@ public class MatchTrace implements Collection<Match> {
 	 */
 	public Collection<Match> getMatches() {
 		final List<Match> matches = new ArrayList<>();
-		for (Map<Object, Match> valMap : leftToRight.values()) {
-			matches.addAll(valMap.values());
+		for (Map<Object, Set<Match>> valMap : leftToRight.values()) {
+			for (Set<Match> leftMatches : valMap.values()) {
+				matches.addAll(leftMatches);
+			}
 		}
 		return matches;
 	}
@@ -308,7 +339,7 @@ public class MatchTrace implements Collection<Match> {
 	 */
 	@Override
 	public Stream<Match> stream() {
-		final Spliterator<Entry<Object, Map<Object, Match>>> keySpliterator
+		final Spliterator<Entry<Object, Map<Object, Set<Match>>>> keySpliterator
 			= leftToRight.entrySet().spliterator();
 
 		return StreamSupport.stream(new MatchSpliterator(keySpliterator), false);
@@ -347,16 +378,19 @@ public class MatchTrace implements Collection<Match> {
 	 */
 	@Override
 	public boolean add(Match match) {
-		boolean result = leftToRight
+		Set<Match> leftSet = leftToRight
 			.computeIfAbsent(match.getLeft(), (k) -> createMap())
-			.put(match.getRight(), match) != match;
+			.computeIfAbsent(match.getRight(), (k) -> createSet());
 
+		boolean result = leftSet.add(match);
 		if (result) {
 			// Change in left-to-right must be propagated
 			toStringCached = null;
+
+			// Both left and right sides use the same Set object, to save memory
 			rightToLeft
 				.computeIfAbsent(match.getRight(), (k) -> createMap())
-				.put(match.getLeft(), match);
+				.computeIfAbsent(match.getLeft(), (k) -> leftSet);
 		}
 
 		return result;
@@ -371,21 +405,33 @@ public class MatchTrace implements Collection<Match> {
 			return false;
 		}
 		Match m = (Match) o;
-
-		Map<Object, Match> leftMap = leftToRight.get(m.getLeft());
+		
+		Map<Object, Set<Match>> leftMap = leftToRight.get(m.getLeft());
 		if (leftMap == null) {
 			return false;
 		}
+		Set<Match> leftMatches = leftMap.get(m.getRight());
+		if (leftMatches == null) {
+			return false;
+		}
 
-		boolean result = leftMap.remove(m.getRight()) != null;
+		boolean result = leftMatches.remove(m);
 		if (result) {
+			if (leftMatches.isEmpty()) {
+				leftMap.remove(m.getRight());
+			}
 			if (leftMap.isEmpty()) {
 				leftToRight.remove(m.getLeft());
 			}
 
 			toStringCached = null;
-			Map<Object, Match> rightMap = rightToLeft.get(m.getRight());
-			rightMap.remove(m.getLeft());
+
+			Map<Object, Set<Match>> rightMap = rightToLeft.get(m.getRight());
+			Set<Match> rightMatches = rightMap.get(m.getLeft());
+			// Note: no need to remove here as left and right sides use same Set
+			if (rightMatches.isEmpty()) {
+				rightMap.remove(m.getLeft());
+			}
 			if (rightMap.isEmpty()) {
 				rightToLeft.remove(m.getRight());
 			}
@@ -399,8 +445,10 @@ public class MatchTrace implements Collection<Match> {
 	@Override
 	public int size() {
 		int total = 0;
-		for (Map<Object, Match> valMap : leftToRight.values()) {
-			total += valMap.size();
+		for (Map<Object, Set<Match>> valMap : leftToRight.values()) {
+			for (Set<Match> matches : valMap.values()) {
+				total += matches.size();
+			}
 		}
 		return total;
 	}
@@ -423,9 +471,12 @@ public class MatchTrace implements Collection<Match> {
 		}
 
 		Match m = (Match) o;
-		Map<Object, Match> leftMap = leftToRight.get(m.getLeft());
+		Map<Object, Set<Match>> leftMap = leftToRight.get(m.getLeft());
 		if (leftMap != null) {
-			return m.equals(leftMap.get(m.getRight()));
+			Set<Match> leftMatches = leftMap.get(m.getRight());
+			if (leftMatches != null) {
+				return leftMatches.contains(m);
+			}
 		}
 		return false;
 	}
@@ -530,7 +581,7 @@ public class MatchTrace implements Collection<Match> {
 	 */
 	@Override
 	public Stream<Match> parallelStream() {
-		final Spliterator<Entry<Object, Map<Object, Match>>> keySpliterator
+		final Spliterator<Entry<Object, Map<Object, Set<Match>>>> keySpliterator
 			= leftToRight.entrySet().spliterator();
 
 		return StreamSupport.stream(new MatchSpliterator(keySpliterator), true);
@@ -542,6 +593,14 @@ public class MatchTrace implements Collection<Match> {
 			return Collections.synchronizedMap(rawMap);
 		}
 		return rawMap;
+	}
+
+	private <E> Set<E> createSet() {
+		Set<E> rawSet = new LinkedHashSet<>();
+		if (this.concurrent) {
+			return Collections.synchronizedSet(rawSet);
+		}
+		return rawSet;
 	}
 
 	private <K, V> Map<K, Map<K, V>> copyMap(Map<K, Map<K, V>> original) {

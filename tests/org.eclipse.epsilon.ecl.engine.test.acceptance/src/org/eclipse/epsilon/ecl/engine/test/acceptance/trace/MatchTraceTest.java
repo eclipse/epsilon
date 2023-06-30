@@ -222,4 +222,20 @@ public class MatchTraceTest {
 		copy.remove(original.iterator().next());
 		assertEquals("Modifying the copy should not impact the original", backup, original);
 	}
+
+	@Test
+	public void multipleMatches() {
+		MatchTrace trace = new MatchTrace();
+
+		String a = "hello", b = "world";
+		MatchRule mr1 = new MatchRule(), mr2 = new MatchRule();
+		Match m1 = new Match(a, b, false, mr1);
+		Match m2 = new Match(a, b, true, mr2);
+		trace.add(m1);
+		trace.add(m2);
+
+		assertSame("Matching order should be preserved", m1, trace.getMatch(a, b));
+		assertEquals("All matches should be available - left side", Arrays.asList(m1, m2),  trace.getMatches(a));
+		assertEquals("All matches should be available - right side", Arrays.asList(m1, m2),  trace.getMatches(b));
+	}
 }
