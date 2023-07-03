@@ -122,8 +122,8 @@ public class EpsilonConsole {
 				infoOutputStream.setColor(display.getSystemColor(SWT.COLOR_BLUE));
 				errorOutputStream.setColor(display.getSystemColor(SWT.COLOR_RED));
 				debugOutputStream.setColor(display.getSystemColor(SWT.COLOR_BLACK));
-				warningOutputStream.setColor(display.getSystemColor(SWT.COLOR_YELLOW));
-				ioConsole.getInputStream().setColor(display.getSystemColor(SWT.COLOR_GREEN));
+				warningOutputStream.setColor(display.getSystemColor(SWT.COLOR_DARK_YELLOW));
+				ioConsole.getInputStream().setColor(display.getSystemColor(SWT.COLOR_DARK_GREEN));
 			}
 		});
 	}
