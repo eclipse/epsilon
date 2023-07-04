@@ -193,7 +193,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 	
 	public Collection<?> transform(Object source, IEtlContext context) throws EolRuntimeException {
 		if (hasTransformed(source)) {
-			return context.getTransformationTrace().getTransformationTargets(source, getName());
+			return context.getTransformationTrace().getTransformationTargets(source, this);
 		}
 		else {
 			transformedElements.add(source);

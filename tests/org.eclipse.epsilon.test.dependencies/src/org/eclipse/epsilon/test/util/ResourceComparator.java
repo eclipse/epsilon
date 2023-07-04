@@ -74,6 +74,11 @@ public class ResourceComparator {
 				if (ref.isMany()) {
 					EList<?> cv1 = (EList<?>) o1.eGet(ref);
 					EList<?> cv2 = (EList<?>) o2.eGet(ref);
+
+					assertEquals(
+						String.format("The number of elements for many-valued reference %s of objects %s and %s should match",
+								ref.getName(), EcoreUtil.getURI(o1), EcoreUtil.getURI(o2)),
+						cv1.size(), cv2.size());
 					
 					int j = 0;
 					for (Object v1 : cv1) {
