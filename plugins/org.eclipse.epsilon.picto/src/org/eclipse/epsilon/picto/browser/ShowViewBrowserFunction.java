@@ -12,7 +12,9 @@ package org.eclipse.epsilon.picto.browser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.eclipse.epsilon.picto.PictoView;
+import org.eclipse.swt.widgets.Display;
 
 public class ShowViewBrowserFunction implements PictoBrowserFunction {
 
@@ -23,7 +25,12 @@ public class ShowViewBrowserFunction implements PictoBrowserFunction {
 			String[] pathStringArray = Arrays.copyOf(pathArray, pathArray.length, String[].class);
 			List<String> path = new ArrayList<>(Arrays.asList(pathStringArray));
 			path.add(0, view.getViewTree().getName());
-			view.selectViewTree(path);
+
+			/*
+			 * Run this in a separate thread to avoid deadlocking the browser, which is in
+			 * the middle of processing an event.
+			 */
+			Display.getCurrent().asyncExec(() -> view.selectViewTree(path));
 		}
 		throw new RuntimeException();
 	}
