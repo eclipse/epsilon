@@ -258,6 +258,29 @@ public class TransformationTrace {
 		return new TransformationTargetsCollection(txList);
 	}
 
+	/**
+	 * Retrieves the transformation targets of a source by rule name. Only kept for
+	 * backwards compatibility.
+	 *
+	 * @deprecated Use {@link #getTransformationTargets(Object, TransformationRule)}
+	 *             instead, for better performance.
+	 */
+	@Deprecated
+	public Collection<?> getTransformationTargets(Object source, String rule) {
+		Map<TransformationRule, List<Transformation>> sourceMap = transformations.get(source);
+		if (sourceMap == null) {
+			return Collections.emptyList();
+		}
+
+		for (Entry<TransformationRule, List<Transformation>> entry : sourceMap.entrySet()) {
+			if (entry.getKey().getName().equals(rule)) {
+				return new TransformationTargetsCollection(entry.getValue());
+			}
+		}
+
+		return Collections.emptyList();
+	}
+
 	public boolean containsTransformedBy(TransformationRule rule) {
 		for (Entry<Object, Map<TransformationRule, List<Transformation>>> entry : transformations.entrySet()) {
 			if (entry.getValue().containsKey(rule)) {
