@@ -39,7 +39,7 @@ public class TransformationTrace {
 		@Override
 		public Iterator<Object> iterator() {
 			return new Iterator<Object>() {
-				Iterator<Transformation> itTransformation = txList.iterator();
+				final Iterator<Transformation> itTransformation = txList.iterator();
 				Iterator<Object> itTarget;
 				Object next;
 
@@ -50,6 +50,7 @@ public class TransformationTrace {
 							if (itTransformation.hasNext()) {
 								itTarget = itTransformation.next().getTargets().iterator();
 							} else {
+								itTarget = null;
 								return false;
 							}
 						}
@@ -92,7 +93,7 @@ public class TransformationTrace {
 			}
 
 			return new Iterator<Transformation>() {
-				Iterator<List<Transformation>> itList = ruleMap.values().iterator();
+				final Iterator<List<Transformation>> itList = ruleMap.values().iterator();
 				Iterator<Transformation> itTransformation;
 				Transformation next;
 
@@ -103,6 +104,7 @@ public class TransformationTrace {
 							if (itList.hasNext()) {
 								itTransformation = itList.next().iterator();
 							} else {
+								itTransformation = null;
 								return false;
 							}
 						}
@@ -145,7 +147,7 @@ public class TransformationTrace {
 		@Override
 		public Iterator<Transformation> iterator() {
 			return new Iterator<Transformation>() {
-				Iterator<Map<TransformationRule, List<Transformation>>> itObjects = transformations.values().iterator();
+				final Iterator<Map<TransformationRule, List<Transformation>>> itObjects = transformations.values().iterator();
 				Iterator<List<Transformation>> itTransformationLists;
 				Iterator<Transformation> itTransformation;
 				Transformation next;
