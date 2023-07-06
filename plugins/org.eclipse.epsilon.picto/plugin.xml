@@ -123,5 +123,8 @@
       <browserFunction
             class="org.eclipse.epsilon.picto.browser.ShowPreferencesBrowserFunction">
       </browserFunction>
+      <browserFunction
+            class="org.eclipse.epsilon.picto.watermarking.EditBrowserFunction">
+      </browserFunction>
    </extension>
 </plugin>

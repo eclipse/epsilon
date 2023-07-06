@@ -31,6 +31,7 @@ import org.eclipse.epsilon.picto.transformers.elements.MermaidRendererHeadAppend
 import org.eclipse.epsilon.picto.transformers.elements.MetroHeadAppender;
 import org.eclipse.epsilon.picto.transformers.elements.PictoViewElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.RenderCodeElementTransformer;
+import org.eclipse.epsilon.picto.watermarking.PictoToolbarAppender;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,6 +44,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	public HtmlContentTransformer() {
 		htmlElementTransformers = new ArrayList<>();
 		htmlElementTransformers.addAll(Arrays.asList(
+			new PictoToolbarAppender(),
 			new AbsolutePathElementTransformer("img",  "src"),
 			new AbsolutePathElementTransformer("link",  "href"),
 			new AbsolutePathElementTransformer("script",  "src"),

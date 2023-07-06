@@ -80,7 +80,7 @@ public class TransformationTrace {
 	 */
 	private class SourceTransformationsCollection extends AbstractCollection<Transformation> {
 		private final Object source;
-
+		
 		public SourceTransformationsCollection(Object source) {
 			this.source = source;
 		}

@@ -19,7 +19,7 @@ operation Scenario toPlantUml() {
 }
 
 operation Interaction toPlantUml() {
-	return self.from.name + "->" + self.to.name + ": " + self.message + "\n";
+	return self.from.name + "->" + self.to.name + ": " + trace(self.message) + "\n";
 }
 
 operation Alt toPlantUml() {

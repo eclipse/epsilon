@@ -1,0 +1,28 @@
+.picto-edit-toolbar {
+    display:none;
+    padding: 3px;
+    background-color: Canvas;
+    border: 1px solid ButtonFace;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.picto-edit-toolbar-button {
+    border: 0px;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: Canvas;
+    cursor: pointer;
+}
+
+.picto-toolbar-button-edit {
+	content: url(edit.png);
+}
+
+.picto-toolbar-button-delete {
+	content: url(delete.png);
+}
+
+.picto-toolbar-button-locate {
+	content: url(locate.png);
+}

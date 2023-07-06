@@ -30,6 +30,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.picto.watermarking.PictoOperationFactory;
 import org.eclipse.epsilon.pinset.DatasetRule;
 import org.eclipse.epsilon.pinset.PinsetModule;
 
@@ -199,6 +200,7 @@ public class LazyEgxModule extends EgxModule {
 			EglTemplate template = null;
 			if (templateCache == null || (template = templateCache.get(templateUri)) == null) {
 				template = templateFactory.load(templateUri);
+				template.getModule().getContext().setOperationFactory(new PictoOperationFactory());
 				if (templateCache != null) {
 					templateCache.put(templateUri, template);
 				}

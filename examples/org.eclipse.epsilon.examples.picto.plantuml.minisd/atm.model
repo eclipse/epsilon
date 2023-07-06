@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="minisd">
+  <Participant xmi:id="_UnugcBnbEe6xrqhYPiW-zw" name="Customer"/>
+  <Participant xmi:id="_UnugcRnbEe6xrqhYPiW-zw" name="ATM"/>
+  <Scenario xmi:id="_UnugchnbEe6xrqhYPiW-zw" title="Customer-ATM">
+    <steps xsi:type="Interaction" xmi:id="_UnugcxnbEe6xrqhYPiW-zw" from="_UnugcBnbEe6xrqhYPiW-zw" to="_UnugcRnbEe6xrqhYPiW-zw" message="XYZ"/>
+    <steps xsi:type="Interaction" xmi:id="_UnugdBnbEe6xrqhYPiW-zw" from="_UnugcRnbEe6xrqhYPiW-zw" to="_UnugcBnbEe6xrqhYPiW-zw" message="Ask for PIN"/>
+    <steps xsi:type="Interaction" xmi:id="_UnugdRnbEe6xrqhYPiW-zw" from="_UnugcBnbEe6xrqhYPiW-zw" to="_UnugcRnbEe6xrqhYPiW-zw" message="Enter PIN"/>
+    <steps xsi:type="Alt" xmi:id="_UnugdhnbEe6xrqhYPiW-zw" title="Check PIN">
+      <blocks xmi:id="_UnugdxnbEe6xrqhYPiW-zw" title="PIN valid">
+        <steps xsi:type="Interaction" xmi:id="_UnugeBnbEe6xrqhYPiW-zw" from="_UnugcRnbEe6xrqhYPiW-zw" to="_UnugcBnbEe6xrqhYPiW-zw" message="Display options"/>
+        <steps xsi:type="Alt" xmi:id="_UnugeRnbEe6xrqhYPiW-zw" title="Options">
+          <blocks xmi:id="_UnugehnbEe6xrqhYPiW-zw" title="Cash withdrawal">
+            <steps xsi:type="Interaction" xmi:id="_UnugexnbEe6xrqhYPiW-zw" from="_UnugcBnbEe6xrqhYPiW-zw" to="_UnugcRnbEe6xrqhYPiW-zw" message="Select cash withdrawal"/>
+            <steps xsi:type="Interaction" xmi:id="_UnugfBnbEe6xrqhYPiW-zw" from="_UnugcRnbEe6xrqhYPiW-zw" to="_UnugcBnbEe6xrqhYPiW-zw" message="Ask for amount"/>
+            <steps xsi:type="Interaction" xmi:id="_UnugfRnbEe6xrqhYPiW-zw" from="_UnugcBnbEe6xrqhYPiW-zw" to="_UnugcRnbEe6xrqhYPiW-zw" message="Enter amount"/>
+            <steps xsi:type="Alt" xmi:id="_UnugfhnbEe6xrqhYPiW-zw" title="Check funds">
+              <blocks xmi:id="_UnugfxnbEe6xrqhYPiW-zw" title="Sufficient funds">
+                <steps xsi:type="Interaction" xmi:id="_UnuggBnbEe6xrqhYPiW-zw" from="_UnugcRnbEe6xrqhYPiW-zw" to="_UnugcBnbEe6xrqhYPiW-zw" message="Produce cash"/>
+              </blocks>
+              <blocks xmi:id="_UnuggRnbEe6xrqhYPiW-zw" title="Insufficient funds">
+                <steps xsi:type="Interaction" xmi:id="_UnugghnbEe6xrqhYPiW-zw" from="_UnugcRnbEe6xrqhYPiW-zw" to="_UnugcBnbEe6xrqhYPiW-zw" message="Produce error message"/>
+              </blocks>
+            </steps>
+          </blocks>
+          <blocks xmi:id="_UnuggxnbEe6xrqhYPiW-zw" title="Balance display">
+            <steps xsi:type="Interaction" xmi:id="_UnughBnbEe6xrqhYPiW-zw" from="_UnugcBnbEe6xrqhYPiW-zw" to="_UnugcRnbEe6xrqhYPiW-zw" message="Select balance display"/>
+            <steps xsi:type="Interaction" xmi:id="_UnughRnbEe6xrqhYPiW-zw" from="_UnugcRnbEe6xrqhYPiW-zw" to="_UnugcBnbEe6xrqhYPiW-zw" message="Display balance"/>
+            <steps xsi:type="Interaction" xmi:id="_UnughhnbEe6xrqhYPiW-zw" from="_UnugcRnbEe6xrqhYPiW-zw" to="_UnugcBnbEe6xrqhYPiW-zw" message="Return card"/>
+          </blocks>
+        </steps>
+      </blocks>
+      <blocks xmi:id="_UnughxnbEe6xrqhYPiW-zw" title="PIN invalid">
+        <steps xsi:type="Interaction" xmi:id="_UnugiBnbEe6xrqhYPiW-zw" from="_UnugcRnbEe6xrqhYPiW-zw" to="_UnugcBnbEe6xrqhYPiW-zw" message="Try again"/>
+      </blocks>
+    </steps>
+  </Scenario>
+</xmi:XMI>
