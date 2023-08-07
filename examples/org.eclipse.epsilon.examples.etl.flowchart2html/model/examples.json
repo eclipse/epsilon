@@ -1,0 +1,352 @@
+{
+  "examples": [
+	{
+		"title": "Basic Examples",
+		"examples": [
+			{
+				"id": "eol",
+				"title": "Query Project Plan",
+				"language": "eol",
+				"program": "psl.eol",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf"
+			},
+			{
+				"id": "evl",
+				"title": "Validate Project Plan",
+				"language": "evl",
+				"program": "psl.evl",
+				"flexmi": "psl-evl.flexmi",
+				"emfatic": "psl.emf"
+			},
+			{
+				"id": "etl",
+				"title": "Transform to Deliverables",
+				"language": "etl",
+				"program": "psl2pdl.etl",
+				"flexmi": "psl2pdl.flexmi",
+				"emfatic": "psl.emf",
+				"secondEmfatic": "pdl.emf"
+			},
+			{
+				"id": "egl",
+				"title": "Generate Gantt Chart",
+				"language": "egl",
+				"program": "psl.egl",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf",
+				"outputType": "code"
+			},
+			{
+				"id": "egx",
+				"title": "Generate Task Lists",
+				"language": "egx",
+				"program": "task-list/task-list.egx",
+				"secondProgram": "task-list/template.egl",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf",
+				"outputType": "code"
+			},
+			{
+				"id": "epl",
+				"title": "Pattern Match Project Plan",
+				"language": "epl",
+				"program": "psl.epl",
+				"flexmi": "psl-epl.flexmi",
+				"emfatic": "psl.emf"
+			},
+			{
+				"id": "flock",
+				"title": "Migrate Project Plan",
+				"language": "flock",
+				"program": "psl.mig",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf",
+				"secondEmfatic": "pslv2.emf"
+			},
+			{
+				"id": "eml",
+				"title": "Merge Project Plans",
+				"language": "eml",
+				"program": "psl.eml",
+				"secondProgram": "psl.ecl",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf",
+				"secondEmfatic": "psl.emf",
+				"thirdFlexmi": "psl-right.flexmi",
+				"thirdEmfatic": "psl.emf"
+			}
+		]
+	},
+	{
+		"title": "Model-to-Text Examples",
+		"examples": [
+			{
+				"id": "psl2graphviz",
+				"title": "Generate Effort Graph",
+				"language": "egl",
+				"program": "psl2graphviz.egl",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf",
+				"outputType": "dot"
+			},
+			{
+				"id": "psl2html",
+				"title": "Generate Effort Table",
+				"language": "egl",
+				"program": "psl2html.egl",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf",
+				"outputType": "html"
+			},
+			{
+				"id": "psl2pie",
+				"title": "Generate Task Pie Chart",
+				"language": "egl",
+				"program": "psl2pie.egl",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf",
+				"outputType": "html"
+			},
+			{
+				"id": "wbs2puml",
+				"title": "Generate Work Breakdown",
+				"language": "egl",
+				"program": "wbs2puml.egl",
+				"flexmi": "wbs.flexmi",
+				"emfatic": "wbs.emf",
+				"outputType": "puml"
+			},
+			{
+				"id": "plt2html",
+				"title": "Generate SVG Variants",
+				"language": "egl",
+				"program": "plt/plt2html.egl",
+				"flexmi": "plt/plt.flexmi",
+				"emfatic": "plt/plt.emf",
+				"outputType": "html"
+			}
+		]
+	},
+	{
+		"title": "State Machine Examples",
+		"examples": [
+			{
+				"id": "stmvalidate",
+				"title": "Validate State Machine",
+				"language": "evl",
+				"program": "stmvalidate.evl",
+				"flexmi": "stmvalidate.flexmi",
+				"emfatic": "stm.emf"
+			},
+			{
+				"id": "stm2graphviz",
+				"title": "State Machine Graph",
+				"language": "egl",
+				"program": "stm2graphviz.egl",
+				"flexmi": "stm.flexmi",
+				"emfatic": "stm.emf",
+				"outputType": "dot"
+			},
+			{
+				"id": "stm2java",
+				"title": "State Machine to Java",
+				"language": "egl",
+				"program": "stm2java.egl",
+				"flexmi": "stm.flexmi",
+				"emfatic": "stm.emf",
+				"outputType": "code",
+				"outputLanguage": "Java"
+			}
+		]
+	},
+	{
+		"title": "Java Table Examples",
+		"examples": [
+			{
+				"id": "tdl2java",
+				"title": "Generate Java Table",
+				"language": "egx",
+				"program": "tdl/tdl2java.egx",
+				"secondProgram": "tdl/template.egl",
+				"flexmi": "tdl/tdl-yaml.flexmi",
+				"emfatic": "tdl/tdl.emf",
+				"outputType": "code"
+			},
+			{
+				"id": "validatetdl",
+				"title": "Validate Java Table Model",
+				"language": "evl",
+				"program": "tdl/validate.evl",
+				"flexmi": "tdl/tdl-with-errors-yaml.flexmi",
+				"emfatic": "tdl/tdl.emf"
+			}
+		]
+	},
+	{
+		"title": "Component Examples",
+		"examples": [
+			{
+				"id": "cclvalidate",
+				"title": "Validate Components",
+				"language": "evl",
+				"program": "ccl/ccl.evl",
+				"flexmi": "ccl/ccl.flexmi",
+				"emfatic": "ccl/ccl.emf"
+			},
+			{
+				"id": "ccl2dot",
+				"title": "Components to Graphviz",
+				"language": "egl",
+				"program": "ccl/ccl2dot.egl",
+				"flexmi": "ccl/ccl.flexmi",
+				"emfatic": "ccl/ccl.emf",
+				"outputType": "dot"
+			}
+		]
+	},
+	{
+		"title": "Model-to-Model Examples",
+		"examples": [
+			{
+				"id": "tree2graph",
+				"title": "Transform Tree to Graph",
+				"language": "etl",
+				"program": "tree2graph.etl",
+				"flexmi": "tree.flexmi",
+				"emfatic": "tree.emf",
+				"secondEmfatic": "graph.emf"
+			},
+			{
+				"id": "oo2db",
+				"title": "Transform OO 2 DB",
+				"language": "etl",
+				"program": "oo2db.etl",
+				"flexmi": "oo.yaml.flexmi",
+				"emfatic": "oo.emf",
+				"secondEmfatic": "db.emf"
+			},
+			{
+				"id": "linkedlistreversal",
+				"title": "Reverse a linked list",
+				"language": "etl",
+				"program": "LinkedListReversal/linkedlistreversal.etl",
+				"flexmi": "LinkedListReversal/sourcelinkedlist.flexmi",
+				"emfatic": "LinkedListReversal/sourcelinkedlist.emf",
+				"secondEmfatic": "LinkedListReversal/targetlinkedlist.emf"
+			},
+			{
+				"id": "base",
+				"title": "Flowchart to HTML: Base example",
+				"language": "etl",
+				"program": "Flowchart2HTML/base.etl",
+				"flexmi": "Flowchart2HTML/wakeup.flexmi",
+				"emfatic": "Flowchart2HTML/flowchart.emf",
+				"secondEmfatic": "Flowchart2HTML/html.emf"
+			},
+			{
+				"id": "equivalent",
+				"title": "Flowchart to HTML: Equivalent method example",
+				"language": "etl",
+				"program": "Flowchart2HTML/equivalent.etl",
+				"flexmi": "Flowchart2HTML/wakeup.flexmi",
+				"emfatic": "Flowchart2HTML/flowchart.emf",
+				"secondEmfatic": "Flowchart2HTML/html.emf"
+			},
+			{
+				"id": "greedy",
+				"title": "Flowchart to HTML: Greedy tag example",
+				"language": "etl",
+				"program": "Flowchart2HTML/greedy.etl",
+				"flexmi": "Flowchart2HTML/wakeup.flexmi",
+				"emfatic": "Flowchart2HTML/flowchart.emf",
+				"secondEmfatic": "Flowchart2HTML/html.emf"
+			},
+			{
+				"id": "inheritance",
+				"title": "Flowchart to HTML: Inheritance example",
+				"language": "etl",
+				"program": "Flowchart2HTML/inheritance.etl",
+				"flexmi": "Flowchart2HTML/wakeup_with_subflow.flexmi",
+				"emfatic": "Flowchart2HTML/flowchart.emf",
+				"secondEmfatic": "Flowchart2HTML/html.emf"
+			},
+			{
+				"id": "lazy",
+				"title": "Flowchart to HTML: Lazy tag example",
+				"language": "etl",
+				"program": "Flowchart2HTML/lazy.etl",
+				"flexmi": "Flowchart2HTML/wakeup.flexmi",
+				"emfatic": "Flowchart2HTML/flowchart.emf",
+				"secondEmfatic": "Flowchart2HTML/html.emf"
+			},
+			{
+				"id": "multiple_targets",
+				"title": "Flowchart to HTML: Multiple targets example",
+				"language": "etl",
+				"program": "Flowchart2HTML/multiple_targets.etl",
+				"flexmi": "Flowchart2HTML/wakeup.flexmi",
+				"emfatic": "Flowchart2HTML/flowchart.emf",
+				"secondEmfatic": "Flowchart2HTML/html.emf"
+			},
+			{
+				"id": "primary",
+				"title": "Flowchart to HTML: Primary tag example",
+				"language": "etl",
+				"program": "Flowchart2HTML/primary.etl",
+				"flexmi": "Flowchart2HTML/wakeup.flexmi",
+				"emfatic": "Flowchart2HTML/flowchart.emf",
+				"secondEmfatic": "Flowchart2HTML/html.emf"
+			}
+		]
+	},
+	{
+		"title": "Advanced EOL Examples",
+		"examples": [
+			{
+				"id": "extended-properties",
+				"title": "Extended Properties",
+				"language": "eol",
+				"program": "extended-properties.eol",
+				"flexmi": "psl.flexmi",
+				"emfatic": "psl.emf"
+			},
+			{
+				"id": "safe-navigation",
+				"title": "Safe Navigation",
+				"language": "eol",
+				"program": "safe-navigation.eol",
+				"flexmi": "psl-safe-navigation.flexmi",
+				"emfatic": "psl.emf"
+			},
+			{
+				"id": "advanced-emf",
+				"title": "Advanced EMF",
+				"language": "eol",
+				"program": "advanced-emf.eol",
+				"flexmi": "stm.flexmi",
+				"emfatic": "stm.emf"
+			}
+		]
+	},
+	{
+		"title": "Advanced Flexmi Examples",
+		"examples": [
+			{
+				"id": "executable-attributes",
+				"title": "Executable Attributes",
+				"language": "eol",
+				"program": "advanced-flexmi/executable-attributes.eol",
+				"flexmi": "advanced-flexmi/executable-attributes.flexmi",
+				"emfatic": "psl.emf"
+			},
+			{
+				"id": "flexmi-templates",
+				"title": "Reusable Templates",
+				"language": "eol",
+				"program": "advanced-flexmi/templates.eol",
+				"flexmi": "advanced-flexmi/templates.flexmi",
+				"emfatic": "psl.emf"
+			}
+		]}
+]}

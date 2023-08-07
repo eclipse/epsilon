@@ -1,0 +1,32 @@
+rule Action2Elements
+	transform a : Source!Action
+	to container : Target!DIV, title : Target!H1, link : Target!A {
+	
+	// Note that "Get up" is not transformed as it has no outgoing transitions
+	guard: a.outgoing.notEmpty() 
+	
+	title.value = a.name;
+	link.value = "Next steps";
+	link.ahref = a.outgoing.first.target.name;
+	
+	container.children.add(title);
+	container.children.add(link);
+}
+
+
+rule Decision2Elements
+	transform d : Source!Decision
+	to container : Target!DIV, title : Target!H1, links : Sequence(Target!A) {
+	
+	title.value = d.name;
+	
+	for (t in d.outgoing) {
+		var link = new Target!A;
+		link.value = t.target.name;
+		link.ahref = t.target.name;
+		links.add(link);
+	}
+	
+	container.children.add(title);
+	container.children.addAll(links);
+}

@@ -1,0 +1,15 @@
+<?nsuri flowchart?>
+<flowchart>
+    <action name="Wake up"/>
+    <action name="Get up"/>
+    <action name="Begin"/>
+    <subflow name="Snoozing">
+        <action name="Sleep"/>
+        <decision name="Is it too early?"/>
+        <transition name="Yes" source="Is it too early?" target="Sleep"/>
+    </subflow>
+    <transition source="Wake up" target="Is it too early?"/>
+    <transition name="Some time passes" source="Sleep" target="Wake up"/>
+    <transition name="No" source="Is it too early?" target="Get up"/>
+    <transition name="Start" source="Begin" target="Wake up"/>
+</flowchart>

@@ -1,0 +1,11 @@
+<?nsuri flowchart?>
+<flowchart>
+    <action name="Wake up"/>
+    <decision name="Is it too early?"/>
+    <action name="Sleep"/>
+    <action name="Get up"/>
+    <transition source="Wake up" target="Is it too early?"/>
+    <transition name="yes" source="Is it too early?" target="Sleep"/>
+    <transition name="some time passes" source="Sleep" target="Wake up"/>
+    <transition name="no" source="Is it too early?" target="Get up"/>
+</flowchart>

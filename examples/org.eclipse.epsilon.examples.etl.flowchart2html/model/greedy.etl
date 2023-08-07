@@ -1,0 +1,7 @@
+@greedy
+rule NamedElement2Heading
+	transform e : Source!NamedElement
+	to h1 : Target!H1 {
+	
+	h1.value = e.name;
+}
