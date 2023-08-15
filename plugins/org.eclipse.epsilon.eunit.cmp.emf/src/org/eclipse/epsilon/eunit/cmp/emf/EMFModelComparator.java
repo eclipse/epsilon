@@ -259,6 +259,12 @@ public class EMFModelComparator implements IModelComparator {
 					modelCloneDirectory.mkdirs();
 				}
 
+				// Preserve file extensions if possible (needed for non-XMI models)
+				String cloneExtension = res.getURI().fileExtension();
+				if (cloneExtension == null) {
+					cloneExtension = "model";
+				}
+
 				/*
 				 * It is important to build the file names for the temporary files in a way
 				 * that ensures that the 70% URI minimum similarity threshold for the default
@@ -269,7 +275,7 @@ public class EMFModelComparator implements IModelComparator {
 				 */
 				File tmpFile = File.createTempFile(
 					"emf-model-comparator-clone-" + res.getURI().lastSegment() + ".",
-					".model", modelCloneDirectory);
+					"." + cloneExtension, modelCloneDirectory);
 				res.setURI(URI.createFileURI(tmpFile.getCanonicalPath()));
 			}
 

@@ -1,5 +1,6 @@
 [%
-var top = v.wheels.sublist(0, v.wheels.size()/2);
+var top : Sequence;
+top.addAll(v.wheels.sublist(0, v.wheels.size()/2));
 var bottom = v.wheels.excludingAll(top);
 var rearWindowWidth = 35;
 var roofWidth = Sequence{top.size()*90, 150}.max();
