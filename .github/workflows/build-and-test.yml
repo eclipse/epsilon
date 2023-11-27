@@ -19,3 +19,8 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: ./build-and-test.sh
+    - name: Upload Log
+      uses: actions/upload-artifact@v3.1.3
+      with:
+        name: metadataLog
+        path: tests/org.eclipse.epsilon.test/target/work/data/.metadata/.log
