@@ -18,7 +18,13 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: ./build-and-test.sh
+      run: mvn --batch-mode -U -T 1C clean install
+    - name: Plugged-in Tests
+      run: mvn --batch-mode -f tests/org.eclipse.epsilon.test verify -P plugged
+    - name: Full Test Suite
+      run: mvn --batch-mode -f tests/org.eclipse.epsilon.test surefire:test -P unit
+    - name: Standalone Maven artifacts
+      run: mvn --batch-mode -T 1C -f pom-plain.xml compile
     - name: Upload Log
       uses: actions/upload-artifact@v3.1.3
       with:
