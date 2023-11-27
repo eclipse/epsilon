@@ -19,8 +19,10 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn --batch-mode -U -T 1C clean install
-    - name: Plugged-in Tests
-      run: mvn --batch-mode -f tests/org.eclipse.epsilon.test verify -P plugged
+    - name: Run headless test
+      uses: coactions/setup-xvfb@v1.0.1
+      with:
+        run: mvn --batch-mode -f tests/org.eclipse.epsilon.test verify -P plugged
     - name: Full Test Suite
       run: mvn --batch-mode -f tests/org.eclipse.epsilon.test surefire:test -P unit
     - name: Standalone Maven artifacts
