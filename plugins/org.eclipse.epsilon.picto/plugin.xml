@@ -124,4 +124,11 @@
             class="org.eclipse.epsilon.picto.browser.ShowPreferencesBrowserFunction">
       </browserFunction>
    </extension>
+      <extension
+         point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            class="org.eclipse.epsilon.flexmi.FlexmiResourceFactory"
+            type="picto">
+      </parser>
+   </extension>
 </plugin>
