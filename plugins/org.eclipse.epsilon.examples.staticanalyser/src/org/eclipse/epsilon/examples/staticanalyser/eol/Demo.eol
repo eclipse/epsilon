@@ -1,0 +1,9 @@
+model test driver EMF {
+nsuri = "TreeDsl"
+};
+
+for (t in test!Tree.all) {
+	t.label.println();
+}
+
+var single = test!Tree.all.select(t | t.label.println() == "a");

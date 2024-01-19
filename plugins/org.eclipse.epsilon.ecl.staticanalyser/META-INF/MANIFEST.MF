@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EclStaticanalysis
+Bundle-SymbolicName: org.eclipse.epsilon.ecl.staticanalyser
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.eclipse.epsilon.ecl.staticanalysis
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.eclipse.epsilon.eol.staticanalyser,
+ org.eclipse.epsilon.ecl.engine
+Export-Package: org.eclipse.epsilon.ecl.staticanalyser

@@ -1,0 +1,19 @@
+model test driver EMF {
+nsuri = "TreeDsl"
+};
+
+pre {
+	var finishedMsg = greeting+"post";
+	greeting+"pre".println();
+}
+
+context test!Tree {
+	constraint NotA {
+		check : self.label <> 'a'
+		message : 'A tree cannot be named a'
+	}	
+}
+
+post {
+	finishedMsg.println();
+}

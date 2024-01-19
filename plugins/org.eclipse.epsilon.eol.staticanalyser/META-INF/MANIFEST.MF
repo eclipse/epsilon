@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Eol
+Bundle-SymbolicName: org.eclipse.epsilon.eol.staticanalyser;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.eclipse.epsilon.eol.staticanalyser
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.epsilon.common.dt;bundle-version="2.3.0",
+ org.junit,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi
+Export-Package: org.eclipse.epsilon.eol.staticanalyser
+Import-Package: org.eclipse.epsilon.emc.emf,
+ org.eclipse.epsilon.evl,
+ org.eclipse.epsilon.evl.dom

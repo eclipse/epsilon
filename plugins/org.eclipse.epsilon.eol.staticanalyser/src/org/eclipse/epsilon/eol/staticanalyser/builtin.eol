@@ -1,0 +1,291 @@
+@builtin 
+operation String firstToLowerCase () : String {
+}
+//Added for Eugenia _ 25March2020
+@firstorder @builtin 
+operation Collection<Any> sortBy(a : Any) : Collection <Any> {
+}
+
+@firstorder @builtin 
+operation Collection<Any> collect(a: Any) : Collection<EolSelfExpressionType> {
+}
+@firstorder @builtin 
+operation Collection<Any> exists(a: Any) : Collection<EolSelfExpressionType> {
+}
+@builtin
+operation String toCharSequence() : List<String> {
+}
+@builtin
+operation String pad(a: Integer, b: String, c: Boolean) : String {
+}
+@builtin
+operation String isSubstringOf (a: String) : Boolean {
+}
+@builtin
+operation String startsWith (a: String) : Boolean {
+}
+@builtin
+operation String store(where: String) {
+}
+@builtin
+operation String firstToUpperCase() :String {
+}
+@builtin
+operation String ftuc() : String {
+}
+@builtin
+operation String trim() : String {
+}
+@builtin
+operation String ftlc () : String {
+}
+@builtin
+operation String characterAt(index: Integer): String {
+}
+@builtin
+operation String escapeXml() : String {
+}
+@builtin
+operation String setTarget(target: Any) {
+}
+@builtin
+operation String toEnum() : Any {
+}
+@builtin
+operation String contributesTo(target : Any) : Boolean {
+} 
+@builtin
+operation Integer mod(other: Integer) : Integer {
+}
+@builtin
+operation Integer toHex() : String {
+}
+@builtin
+operation Integer toBinary() : String {
+}
+@builtin
+operation Integer iota (i: Integer, step: Integer) : Sequence <Integer> {
+}
+@builtin
+operation Integer to (end: Integer) : Sequence<Integer> {
+}
+@builtin
+operation Any asDate (format: String) : Date {
+}
+@builtin
+operation Any asUnicode () : String {
+}
+@builtin
+operation Any asBoolean () : Boolean{
+}
+@builtin
+operation Any asLong () : Integer {
+}
+@builtin
+operation Any asFloat () : Real {
+}
+@builtin
+operation Any asDouble () : Real {
+}
+@builtin
+operation Any asReal () : Real {
+}
+@builtin
+operation Any isReal () : Boolean {
+}
+@builtin
+operation Any isInteger () : Boolean {
+}
+@builtin
+operation Any asInteger () : Integer {
+}
+@builtin
+operation Any format () : String {
+}
+@builtin
+operation Any errln (prefix: Any, suffix: Any) : EolSelf {
+}
+@builtin
+operation Any errln (prefix: Any) : EolSelf {
+}
+@builtin
+operation Any errln () : EolSelf {
+}
+@builtin
+operation Any err (prefix: Any, suffix: Any) : EolSelf {
+}
+@builtin
+operation Any err (prefix: Any) : EolSelf {
+}
+@builtin
+operation Any err () : EolSelf {
+}
+@builtin
+operation Any print (prefix: Any, suffix: Any) : EolSelf {
+}
+@builtin
+operation Any print (prefix: Any) : EolSelf {
+}
+@builtin
+operation Any print () : EolSelf {
+}
+@builtin
+operation Any println (prefix: Any, suffix: Any) : EolSelf {
+}
+@builtin
+operation Any println (prefix: Any) : EolSelf {
+}
+@builtin
+operation Any println () : EolSelf {
+
+}
+@builtin
+operation Any ifUndefined (alternative: Any) : Any {
+}
+@builtin
+operation Any isUndefined () : Boolean {
+}
+
+@firstorder
+operation String split(ab: String) : Collection<String> {
+}
+
+
+// Remove it after testing _ 31Jan2020
+@builtin
+operation Collection<Any> testCol () : EolSelf {
+}
+
+// Remove it after testing _ 31Jan2020
+@builtin
+operation Collection<Any> testContent () : EolSelfContentType {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Collection<Any> first() : EolSelfContentType {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Collection<Any> isEmpty() : Boolean {
+}
+@builtin
+operation Collection<Any> notEmpty() : Boolean {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Any isDefined() : Boolean {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Any add(item : Any) : Boolean {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Collection<Any> addAll(col : Collection) : Boolean {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Collection<Any> clone() : Collection <Any> {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Collection<Any> size() : Integer {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Any asSequence() : Sequence {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Collection<Any> asSequence() : Sequence {
+}
+// Added for Eugenia _ 18March2020
+@builtin
+operation Collection<Any> at(index : Integer) : Any {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Any isKindOf(type : Any) : Boolean {
+}
+@builtin
+operation Any allOfKind() : Collection <Any> {
+}
+@builtin
+operation Any allInstances() : Collection <EolSelf> {
+}
+@builtin
+operation Any allOfType() : Collection <EolSelf> {
+}
+// Added for Eugenia _ 17March2020
+@builtin
+operation Collection<Any> includes(item : Any) : Boolean {
+}
+// Added for Eugenia _ 18March2020
+@builtin
+operation Collection<Any> excludes(item : Any) : Boolean {
+}
+// Added for Eugenia _ 18March2020
+@builtin
+operation Any isTypeOf(type : Any) : Boolean {
+}
+// Added for Eugenia _ 18March2020
+@builtin
+operation Collection<Any> get(key : Any) : EolSelfContentType {
+}
+// Remove it after testing _ 25Feb2020
+@builtin
+operation Collection<Any> testSelfCollection() : EolSelfCollectionType{
+}
+@builtin
+operation Any asSet(): Set {
+}
+@builtin
+operation Any satisfies(invariant :String) : Boolean {
+}
+@builtin 
+operation String substring(startIndex : Integer, endIndex : Integer) : String {
+}
+@builtin 
+operation String substring(startIndex : Integer) : String {
+}
+@builtin 
+operation String toLowerCase():String {
+}
+@builtin 
+operation String toUpperCase():String {
+}
+@builtin
+operation Collection<Any> excludesAll(col : Collection<Any>) :Boolean {
+}
+@builtin
+operation Collection<Any> flatten() :Collection<Any> {
+}
+@builtin
+operation Any contains(param : Any) :Boolean {
+}
+@builtin
+operation Any equivalent() :Any {
+}
+
+@builtin
+operation Any matches(param: Any) :Boolean {
+}
+
+@builtin
+operation String compareTo(str : String) :Integer{
+}
+@builtin
+operation Collection<Any> excludingAll(a: Collection<Any>) :Collection<EolSelfContentType> {
+}
+@builtin
+operation Any asString() :String {
+}
+@builtin
+operation Any toString() :String {
+}
+@builtin
+operation String indexOf(a: String) :Integer {
+}
+@builtin
+operation Object type() :Object {
+}

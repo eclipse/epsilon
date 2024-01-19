@@ -1,0 +1,4 @@
+model M alias X driver EMF {nsuri="http://www.eclipse.org/emf/2002/Ecore"};
+
+var i:M!EClass;
+var j:X!EClass;
