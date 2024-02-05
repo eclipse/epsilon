@@ -22,7 +22,6 @@ import java.util.stream.Stream;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -378,10 +377,10 @@ public class EmfModel extends AbstractReflectiveEmfModel {
 			}
 		}
 		if (isCachingEnabled()) {
-			modelImpl.eAdapters().add(new CachedContentsAdapter());
+			addContentsAdapter();
 		}
 	}
-	
+
 	/**
 	 * @since 1.6
 	 */
@@ -392,14 +391,39 @@ public class EmfModel extends AbstractReflectiveEmfModel {
 		
 		if (modelImpl != null) {
 			if (!wasEnabled && cachingEnabled && !hasAdapter(CachedContentsAdapter.class)) {
-				modelImpl.eAdapters().add(new CachedContentsAdapter());
+				addContentsAdapter();
 			}
 			else if (wasEnabled && !cachingEnabled) {
-				modelImpl.eAdapters().removeIf(a -> a instanceof CachedContentsAdapter);
+				removeContentsAdapter();
 			}
 		}
 	}
-	
+
+	/**
+	 * Removes the contents adapter that was added by {@link #addContentsAdapter()}.
+	 */
+	protected void removeContentsAdapter() {
+		modelImpl.eAdapters().removeIf(a -> a instanceof CachedContentsAdapter);
+	}
+
+	/**
+	 * Adds an adapter which incrementally maintains {@code Type.all} queries.
+	 *
+	 * If you override this method to add a different implementation, make sure that
+	 * {@link #removeContentsAdapter()} will still remove it.
+	 */
+	protected void addContentsAdapter() {
+		modelImpl.eAdapters().add(new CachedContentsAdapter());
+	}
+
+	@Override
+	public void disposeModel() {
+		if (modelImpl != null && isCachingEnabled()) {
+			removeContentsAdapter();
+		}
+		super.disposeModel();
+	}
+
 	public List<String> getMetamodelFiles() {
 		final List<String> files = new ArrayList<>(metamodelFileUris.size());
 		for (URI metamodelFileUri : this.metamodelFileUris) {

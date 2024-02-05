@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.EglTemplate;
@@ -137,6 +139,7 @@ public class LazyEgxModule extends EgxModule {
 		protected Map<URI, EglTemplate> templateCache;
 		protected URI templateUri;
 		protected Collection<Variable> variables;
+		protected IProgressMonitor progressMonitor;
 		
 		protected LazyGenerationRuleContentPromise() {}
 		
@@ -162,6 +165,10 @@ public class LazyEgxModule extends EgxModule {
 				module.setContext(context);
 				module.persistDatasets(false);
 				module.parse(templateUri);
+				if (progressMonitor != null) {
+					// Allow Pinset job to be automatically cancelled
+					module.getContext().getExecutorFactory().setExecutionController(new EclipseExecutionController(progressMonitor));
+				}
 
 				String ruleName = null;
 				for (Variable variable : variables) {
@@ -208,10 +215,25 @@ public class LazyEgxModule extends EgxModule {
 				template.populate(variable.getName(), variable.getValue());
 			}
 
+			if (progressMonitor != null) {
+				// Allow EGL job to be automatically cancelled
+				ExecutorFactory execFactory = template.getModule().getContext().getExecutorFactory();
+				execFactory.setExecutionController(new EclipseExecutionController(progressMonitor));
+			}
+
 			String result = template.process();
 			template.reset();
-
 			return result;
+		}
+
+		@Override
+		public IProgressMonitor getProgressMonitor() {
+			return progressMonitor;
+		}
+
+		@Override
+		public void setProgressMonitor(IProgressMonitor monitor) {
+			this.progressMonitor = monitor;
 		}
 		
 	}

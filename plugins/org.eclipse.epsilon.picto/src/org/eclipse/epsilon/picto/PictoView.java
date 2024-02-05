@@ -18,7 +18,10 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
@@ -121,10 +124,9 @@ public class PictoView extends ViewPart {
 		treeViewer.addSelectionChangedListener(event -> {
 			
 			ViewTree view = ((ViewTree) event.getStructuredSelection().getFirstElement());
-			if (view != null && view.getContent() != null) {
-				
+			if (view != null) {
 				activeViewHistory.put(renderedEditor, view);
-				
+
 				// If the selection happens as a result of undo/redo 
 				// we should not execute a new command
 				if (viewTreeSelectionHistory.isAutomatedSelection()) return;
@@ -289,14 +291,7 @@ public class PictoView extends ViewPart {
 			this.editor = editor;
 			editor.addPropertyListener(listener);
 			
-			Job job = new Job("Rendering " + editor.getTitle()) {
-				
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					renderEditorContent();
-					return Status.OK_STATUS;
-				}
-			};
+			Job job = new TreeRenderingJob("Rendering tree in " + editor.getTitle());
 			job.setUser(true);
 			job.schedule();
 		}
@@ -339,54 +334,6 @@ public class PictoView extends ViewPart {
 		treeViewer.refresh();
 	}
 	
-	public void renderEditorContent() {
-
-		try {
-			PictoSource newSource = getSource(editor);
-			if (source != null) source.dispose();
-			source = newSource;
-			
-			boolean rerender = renderedEditor == editor;
-			renderedEditor = editor;
-			if (!rerender) viewTreeSelectionHistory = new ViewTreeSelectionHistory();
-			
-			final ViewTree viewTree = source.getViewTree(editor);
-			runInUIThread(new RunnableWithException() {
-				
-				@Override
-				public void runWithException() throws Exception {
-					if (viewTree.getChildren().isEmpty()) {
-						if (rerender) viewTree.setScrollPosition(viewRenderer.getScrollPosition());
-						renderView(viewTree);
-					}
-					else {
-						setViewTree(viewTree, rerender);
-					}
-					setTreeViewerVisible(!viewTree.getChildren().isEmpty());
-					
-				}
-			});
-			
-		}
-		catch (Exception ex) {
-			try { 
-				runInUIThread(new RunnableWithException() {
-					
-					@Override
-					public void runWithException() throws Exception {
-						setTreeViewerVisible(false);
-						renderView(new ViewTree(viewRenderer.getVerbatim(ex.getMessage()), "html"));
-						EpsilonConsole.getInstance().getErrorStream().print(ex.getMessage());
-					}
-				});
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			LogUtil.log(ex);
-		}
-	}
-	
 	public void runInUIThread(RunnableWithException runnable) throws Exception {
 		Display.getDefault().syncExec(runnable);
 		Exception ex = runnable.getException();
@@ -408,7 +355,7 @@ public class PictoView extends ViewPart {
 		
 		if (rerender) {
 			ViewTree selected = (ViewTree) treeViewer.getStructuredSelection().getFirstElement();
-			if (selected != null && selected.getContent() != null) {
+			if (selected != null) {
 				renderView(selected);
 			}
 			else {
@@ -418,7 +365,7 @@ public class PictoView extends ViewPart {
 		else {
 			ViewTree selection = null;
 			ViewTree historicalView = activeViewHistory.get(renderedEditor);
-			
+
 			if (historicalView != null) {
 				selection = viewTree.forPath(historicalView.getPath());
 				if (selection != null)
@@ -440,41 +387,58 @@ public class PictoView extends ViewPart {
 	}
 	
 	public void renderView(ViewTree view) throws Exception {
-		
-		Browser browser = viewRenderer.getBrowser();
-		
-		if (activeView != null) {
-			activeView.setScrollPosition(viewRenderer.getScrollPosition());
-		}
-		
-		activeView = view;
-		
-		browser.addProgressListener(new ProgressListener() {
-			
+		ViewRenderingJob job = new ViewRenderingJob(
+			String.format("Rendering view %s in %s", String.join("/", view.getPath()), editor.getTitle()),
+			view
+		);
+		job.setUser(true);
+		job.setJobGroup(viewRenderingJobs);
+
+		job.addJobChangeListener(new JobChangeAdapter() {
 			@Override
-			public void completed(ProgressEvent event) {
-				viewRenderer.setScrollPosition(activeView.getScrollPosition());
-				browser.removeProgressListener(this);
+			public void done(IJobChangeEvent event) {
+				try {
+					runInUIThread(new RunnableWithException() {
+						@Override
+						public void runWithException() throws Exception {
+							Browser browser = viewRenderer.getBrowser();
+							if (activeView != null) {
+								activeView.setScrollPosition(viewRenderer.getScrollPosition());
+							}
+							activeView = view;
+							
+							browser.addProgressListener(new ProgressListener() {
+								@Override
+								public void completed(ProgressEvent event) {
+									viewRenderer.setScrollPosition(activeView.getScrollPosition());
+									browser.removeProgressListener(this);
+								}
+
+								@Override
+								public void changed(ProgressEvent event) {}
+							});
+							
+							if (job.content == null) {
+								viewRenderer.nothingToRender();
+							} else {
+								viewRenderer.display(job.content.getText());
+							}
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-			
-			@Override
-			public void changed(ProgressEvent event) {}
 		});
-		
-		// Check if one of the source contents of the view is active
-		
-		ViewContent content = null;
-		for (Iterator<ViewContent> contentIterator = view.getContents(this).iterator(); contentIterator.hasNext() && content == null; ) {
-			ViewContent next = contentIterator.next();
-			if (next.isActive()) {
-				content = next.getSourceContent(this);
-			}
+
+		/*
+		 * Note: we want to cancel the individual jobs and not the job group itself,
+		 * as we want to continue executing future jobs.
+		 */
+		for (Job otherJob : viewRenderingJobs.getActiveJobs()) {
+			otherJob.cancel();
 		}
-		
-		// ... if not, show the final rendered result
-		if (content == null) content = view.getContent().getFinal(this);
-		viewRenderer.display(content.getText());
-		
+		job.schedule();
 	}
 	
 	@Override
@@ -493,6 +457,107 @@ public class PictoView extends ViewPart {
 		viewRenderer.getBrowser().setFocus();
 	}
 
+	/**
+	 * Runs the EGX script in the background, populates the tree, and shows the initial text.
+	 */
+	class TreeRenderingJob extends Job {
+		private TreeRenderingJob(String name) {
+			super(name);
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			try {
+				PictoSource newSource = getSource(editor);
+				if (source != null) source.dispose();
+				source = newSource;
+
+				boolean rerender = renderedEditor == editor;
+				renderedEditor = editor;
+				if (!rerender) viewTreeSelectionHistory = new ViewTreeSelectionHistory();
+
+				final ViewTree viewTree = source.getViewTree(editor);
+
+				runInUIThread(new RunnableWithException() {
+					@Override
+					public void runWithException() throws Exception {
+						if (viewTree.getChildren().isEmpty()) {
+							if (rerender) viewTree.setScrollPosition(viewRenderer.getScrollPosition());
+							renderView(viewTree);
+						}
+						else {
+							setViewTree(viewTree, rerender);
+						}
+						setTreeViewerVisible(!viewTree.getChildren().isEmpty());
+					}
+				});
+			}
+			catch (Exception ex) {
+				try { 
+					runInUIThread(new RunnableWithException() {
+						@Override
+						public void runWithException() throws Exception {
+							setTreeViewerVisible(false);
+							renderView(new ViewTree(viewRenderer.getVerbatim(ex.getMessage()), "html"));
+							EpsilonConsole.getInstance().getErrorStream().print(ex.getMessage());
+						}
+					});
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+				LogUtil.log(ex);
+			}
+
+			return Status.OK_STATUS;
+		}
+	}
+
+	/**
+	 * Renders a specific view (whether from loading Picto, or from selecting a tree item).
+	 */
+	class ViewRenderingJob extends Job {
+		private final ViewTree view;
+		private ViewContent content;
+
+		private ViewRenderingJob(String name, ViewTree view) {
+			super(name);
+			this.view = view;
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			view.getPromise().setProgressMonitor(monitor);
+
+			// Check if one of the source contents of the view is active
+			for (Iterator<ViewContent> contentIterator = view.getContents(PictoView.this).iterator(); !monitor.isCanceled() && contentIterator.hasNext() && content == null; ) {
+				ViewContent next = contentIterator.next();
+				if (next.isActive()) {
+					content = next.getSourceContent(PictoView.this);
+				}
+			}
+			
+			// ... if not, show the final rendered result
+			if (content == null && !monitor.isCanceled()) {
+				ViewContent viewContent = view.getContent();
+				if (viewContent != null && !monitor.isCanceled()) {
+					content = viewContent.getFinal(PictoView.this);
+				}
+			}
+
+			if (monitor.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			} else {
+				return Status.OK_STATUS;
+			}
+		}		
+	}
+
+	/**
+	 * Ensures we only render one view at a time, and allows us to cancel pending jobs if the selection changes.
+	 */
+	protected JobGroup viewRenderingJobs = new JobGroup("Picto view rendering jobs", 1, 0);
+
 	class EditorPropertyListener implements IPropertyListener {
 		@Override
 		public void propertyChanged(Object source, int propId) {
@@ -504,7 +569,6 @@ public class PictoView extends ViewPart {
 	}
 	
 	class ToggleTreeViewerAction extends Action {
-		
 		public ToggleTreeViewerAction() {
 			super("Toggle tree", AS_CHECK_BOX);
 			setImageDescriptor(PictoPlugin.getDefault().getImageDescriptor("icons/tree.png"));
