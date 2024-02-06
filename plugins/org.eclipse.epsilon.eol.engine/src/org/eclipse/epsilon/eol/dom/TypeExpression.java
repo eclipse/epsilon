@@ -75,7 +75,7 @@ public class TypeExpression extends Expression {
 		} else if ("Native".equals(getName())) {
 			return new EolNativeType(nativeType, context);
 		}
-		
+
 		try {
 			return new EolModelElementType(name, context);
 		}
@@ -106,12 +106,18 @@ public class TypeExpression extends Expression {
 				return EolPrimitiveType.String;
 			case "Real":
 				return EolPrimitiveType.Real;
-			case "Map": case "ConcurrentMap":
+			case "Map":
+			case "ConcurrentMap":
 				return new EolMapType(name);
-			case "List": name = "Sequence";
-			case "Bag": case "Sequence": case "Collection":
-			case "Set": case "OrderedSet":
-			case "ConcurrentSet": case "ConcurrentBag":
+			case "List":
+				name = "Sequence";
+			case "Bag":
+			case "Collection":
+			case "ConcurrentBag":
+			case "ConcurrentSet":
+			case "OrderedSet":
+			case "Sequence":
+			case "Set":
 				return new EolCollectionType(name);
 			case "Nothing": case "None":
 				return EolNoType.Instance;
@@ -123,12 +129,13 @@ public class TypeExpression extends Expression {
 	}
 	
 	public void setName(String name) {
-		this.type = getType(this.name = name);
+		this.name = name;
+		this.type = getType(this.name);
 	}
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()+": "+getName();
+		return getClass().getSimpleName() + ": " + getName();
 	}
 
 	public List<TypeExpression> getParameterTypeExpressions() {
