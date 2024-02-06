@@ -46,11 +46,12 @@ public class EolCollectionType extends EolParametricType {
 	
 	public EolCollectionType(String name) {
 		this.name = name;
+		this.parameterTypes.add(EolAnyType.Instance);
 	}
 	
 	public EolCollectionType(String name, EolType contentType) {
 		this(name);
-		this.parameterTypes.set(0, contentType);
+		this.parameterTypes.add(contentType);
 	}
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
@@ -211,13 +212,7 @@ public class EolCollectionType extends EolParametricType {
 	}
 	
 	public EolType getContentType() {
-		if (this.parameterTypes.size()>0) {
-			return this.parameterTypes.get(0);
-		}
-		else {
-			return EolAnyType.Instance;
-		}
-		
+		return this.parameterTypes.get(0);
 	}
 	
 	public void setContentType(EolType contentType) {
@@ -226,7 +221,7 @@ public class EolCollectionType extends EolParametricType {
 	
 	@Override
 	public String toString() {
-		return this.getName() + "<" + this.getContentType() + ">";
+		return this.getName() + "<" + this.getContentType().getName() + ">";
 	}
 	
 	/*

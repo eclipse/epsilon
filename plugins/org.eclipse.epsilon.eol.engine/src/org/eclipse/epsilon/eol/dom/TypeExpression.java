@@ -65,8 +65,11 @@ public class TypeExpression extends Expression {
 	public EolType execute(IEolContext context) throws EolRuntimeException {	
 		if (type instanceof EolParametricType) {
 			EolParametricType parametricType = (EolParametricType) type;
-			for (TypeExpression p: parameterTypeExpressions) {
-				parametricType.parameterTypes.add(p.execute(context));
+			if (parameterTypeExpressions.size()>0) {
+				parametricType.parameterTypes.clear();
+				for (TypeExpression p: parameterTypeExpressions) {
+					parametricType.parameterTypes.add(p.execute(context));
+				}
 			}
 		}
 

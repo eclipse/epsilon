@@ -46,8 +46,8 @@ public class EolMapType extends EolParametricType {
 	 * @since 1.6
 	 */
 	public EolMapType(EolType keyType, EolType valueType, boolean concurrent) {
-		this.parameterTypes.set(0, keyType);
-		this.parameterTypes.set(1, valueType);
+		this.parameterTypes.add(keyType);
+		this.parameterTypes.add(valueType);
 		this.name = concurrent ? "ConcurrentMap" : "Map";
 	}
 
@@ -90,13 +90,7 @@ public class EolMapType extends EolParametricType {
 	}
 	
 	public EolType getKeyType() {
-		if (this.parameterTypes.size()>0) {
-			return this.parameterTypes.get(0);
-		}
-		else {
-			return EolAnyType.Instance;
-		}
-		
+		return this.parameterTypes.get(0);	
 	}
 	
 	public void setValueType(EolType valueType) {
@@ -104,12 +98,7 @@ public class EolMapType extends EolParametricType {
 	}
 	
 	public EolType getValueType() {
-		if (this.parameterTypes.size()>1) {
-			return this.parameterTypes.get(1);
-		}
-		else {
-			return EolAnyType.Instance;
-		}
+		return this.parameterTypes.get(1);
 	}
 	
 	@Override
