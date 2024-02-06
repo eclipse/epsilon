@@ -13,14 +13,12 @@ import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentMap;
 
-public class EolMapType extends EolType {
+public class EolMapType extends EolParametricType {
 	
 	public static final EolMapType
 		Map = new EolMapType("Map"),
 		ConcurrentMap = new EolMapType("ConcurrentMap");
 	
-	protected EolType keyType;
-	protected EolType valueType;
 	private final String name;
 	
 	/**
@@ -48,8 +46,8 @@ public class EolMapType extends EolType {
 	 * @since 1.6
 	 */
 	public EolMapType(EolType keyType, EolType valueType, boolean concurrent) {
-		this.keyType = keyType;
-		this.valueType = valueType;
+		this.parameterTypes.set(0, keyType);
+		this.parameterTypes.set(1, valueType);
 		this.name = concurrent ? "ConcurrentMap" : "Map";
 	}
 
@@ -88,23 +86,34 @@ public class EolMapType extends EolType {
 	}
 	
 	public void setKeyType(EolType keyType) {
-		this.keyType = keyType;
+		this.parameterTypes.set(0, keyType);
 	}
 	
 	public EolType getKeyType() {
-		return keyType;
+		if (this.parameterTypes.size()>0) {
+			return this.parameterTypes.get(0);
+		}
+		else {
+			return EolAnyType.Instance;
+		}
+		
 	}
 	
 	public void setValueType(EolType valueType) {
-		this.valueType = valueType;
+		this.parameterTypes.set(1, valueType);
 	}
 	
 	public EolType getValueType() {
-		return valueType;
+		if (this.parameterTypes.size()>1) {
+			return this.parameterTypes.get(1);
+		}
+		else {
+			return EolAnyType.Instance;
+		}
 	}
 	
 	@Override
 	public String toString() {
-		return getName()+"<" + keyType + ", " + valueType + ">";
+		return getName()+"<" + getKeyType().getName() + ", " + getValueType().getName() + ">";
 	}
 }

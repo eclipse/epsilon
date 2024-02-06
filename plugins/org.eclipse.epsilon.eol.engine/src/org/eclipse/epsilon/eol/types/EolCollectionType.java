@@ -22,10 +22,9 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentBag;
 import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentSet;
 
-public class EolCollectionType extends EolType {
+public class EolCollectionType extends EolParametricType {
 	
 	protected static Set<IEolCollectionTypeResolver> collectionTypeResolvers;
-	protected EolType contentType = EolAnyType.Instance;
 	
 	public static Set<IEolCollectionTypeResolver> getCollectionTypeResolvers() {
 		if (collectionTypeResolvers == null) {
@@ -51,7 +50,7 @@ public class EolCollectionType extends EolType {
 	
 	public EolCollectionType(String name, EolType contentType) {
 		this(name);
-		this.contentType = contentType;
+		this.parameterTypes.set(0, contentType);
 	}
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
@@ -212,11 +211,17 @@ public class EolCollectionType extends EolType {
 	}
 	
 	public EolType getContentType() {
-		return contentType;
+		if (this.parameterTypes.size()>0) {
+			return this.parameterTypes.get(0);
+		}
+		else {
+			return EolAnyType.Instance;
+		}
+		
 	}
 	
 	public void setContentType(EolType contentType) {
-		this.contentType = contentType;
+		this.parameterTypes.set(0, contentType);
 	}
 	
 	@Override

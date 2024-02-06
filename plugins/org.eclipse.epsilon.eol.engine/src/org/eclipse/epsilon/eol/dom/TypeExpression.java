@@ -26,6 +26,7 @@ import org.eclipse.epsilon.eol.types.EolMapType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 import org.eclipse.epsilon.eol.types.EolNoType;
+import org.eclipse.epsilon.eol.types.EolParametricType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolTupleType;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -61,10 +62,17 @@ public class TypeExpression extends Expression {
 	}
 	
 	@Override
-	public EolType execute(IEolContext context) throws EolRuntimeException {
-		if (type != null) return type;
-		
-		if ("Native".equals(getName())) {
+	public EolType execute(IEolContext context) throws EolRuntimeException {	
+		if (type instanceof EolParametricType) {
+			EolParametricType parametricType = (EolParametricType) type;
+			for (TypeExpression p: parameterTypeExpressions) {
+				parametricType.parameterTypes.add(p.execute(context));
+			}
+		}
+
+		if (type != null) {
+			return type;
+		} else if ("Native".equals(getName())) {
 			return new EolNativeType(nativeType, context);
 		}
 		
