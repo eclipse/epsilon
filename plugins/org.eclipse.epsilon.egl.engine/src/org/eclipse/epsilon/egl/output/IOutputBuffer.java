@@ -218,6 +218,11 @@ public interface IOutputBuffer {
 	 * Returns the size of the buffer.
 	 */
 	public int getOffset();
+	
+	/**
+	 * Returns the size of the buffer not including the parent buffer
+	 */
+	public int getLocalOffset();
 
 	/**
 	 * Reformats the contents of the buffer with the given {@link Formatter}.
