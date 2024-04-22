@@ -44,7 +44,7 @@ public class TemplateOperation extends Operation {
 					return super.getOffset();
 				}
 			}
-
+			
 		};
 		
 		out.setIndenters(eglContext.getOutputBuffer().getIndenters());
