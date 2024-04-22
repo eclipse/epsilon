@@ -244,11 +244,6 @@ public class OutputBuffer implements IOutputBuffer {
 	}
 	
 	@Override
-	public int getLocalOffset() {
-		return buffer.length();
-	}
-	
-	@Override
 	public void formatWith(Formatter formatter) {
 		CompositeFormatter composite = new CompositeFormatter(outdentationFormatter, formatter);
 		replaceContentsWith(composite.format(buffer.toString()));

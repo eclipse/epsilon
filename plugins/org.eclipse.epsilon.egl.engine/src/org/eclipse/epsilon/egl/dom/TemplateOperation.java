@@ -31,29 +31,20 @@ public class TemplateOperation extends Operation {
 			
 			@Override
 			public int getOffset() {
-				return getOffsetWithIndentation(super.getOffset());
-			}
-			
-			@Override
-			public int getLocalOffset() {
-				return getOffsetWithIndentation(super.getLocalOffset());
-			}
-			
-			private int getOffsetWithIndentation(int baseOffset) {
 				String noWhitespace = "no-whitespace";
 				
 				if (parent != null && parent instanceof OutputBuffer) {
 					OutputBuffer parentBuffer = (OutputBuffer) parent;
 					String indentation = parentBuffer.calculateIndentationToMatch(parentBuffer.getLastLineInBuffer());
 					String[] lines = StringUtil.toString(toString() + noWhitespace).split(getNewline());
-					int offset = baseOffset + Math.max(0, lines.length - 1) * indentation.length();
+					int offset = super.getOffset() + Math.max(0, lines.length - 1) * indentation.length();
 					return offset;
 				}
 				else {
-					return baseOffset;
+					return super.getOffset();
 				}
 			}
-			
+
 		};
 		
 		out.setIndenters(eglContext.getOutputBuffer().getIndenters());
