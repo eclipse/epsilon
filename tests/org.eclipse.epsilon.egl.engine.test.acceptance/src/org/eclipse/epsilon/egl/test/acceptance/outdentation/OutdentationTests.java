@@ -67,6 +67,11 @@ public class OutdentationTests {
 		test("ForAndTemplateOperation");
 	}
 	
+	@Test
+	public void testForAndNestedTemplateOperation() throws Exception {
+		test("ForAndNestedTemplateOperation");
+	}
+	
 	protected void test(String name) throws Exception {
 		AcceptanceTestUtil.test(
 				getFileStandalone(name + ".egl", OutdentationTests.class),

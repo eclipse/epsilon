@@ -41,8 +41,7 @@ public class OutdentOperation extends SimpleOperation {
 		
 		if (!ids.contains(id)) {
 			IOutputBuffer buffer = (IOutputBuffer) context.getFrameStack().get("out").getValue();
-			final int parentOffset = buffer.getParent() == null ? 0 : buffer.getParent().getOffset();
-			buffer.getOutdentationFormatter().outdent(buffer.getOffset() - parentOffset);
+			buffer.getOutdentationFormatter().outdent(buffer.toString().length());
 			ids.add(id);
 			final ModuleElement moduleElement = context.getFrameStack().getCurrentStatement().getParent();
 			
@@ -55,7 +54,7 @@ public class OutdentOperation extends SimpleOperation {
 				public void finishedExecuting(ModuleElement ast, Object result, IEolContext context) {
 					
 					if (ast == moduleElement && ids.contains(id)) {
-						buffer.getOutdentationFormatter().indent(buffer.getOffset() - parentOffset);
+						buffer.getOutdentationFormatter().indent(buffer.toString().length());
 						ids.remove(id);
 						// Mark the execution listener for removal
 						executionListenersForRemoval.add(this);
