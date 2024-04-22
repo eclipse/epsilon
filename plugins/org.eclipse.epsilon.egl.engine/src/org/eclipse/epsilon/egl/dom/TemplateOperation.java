@@ -37,7 +37,7 @@ public class TemplateOperation extends Operation {
 					OutputBuffer parentBuffer = (OutputBuffer) parent;
 					String indentation = parentBuffer.calculateIndentationToMatch(parentBuffer.getLastLineInBuffer());
 					String[] lines = StringUtil.toString(toString() + noWhitespace).split(getNewline());
-					int offset = super.getOffset() + Math.max(0, lines.length - 1) * indentation.length();
+					int offset = getLength() + Math.max(0, lines.length - 1) * indentation.length();
 					return offset;
 				}
 				else {
