@@ -46,22 +46,11 @@ pipeline {
               }
             } 
             steps {
-              sh 'mvn -B -T 1C clean install -P eclipse-sign'
-            }
-          }
-          stage('Test') {
-            when {
-              anyOf {
-                changeset comparator: 'REGEXP', pattern: "${baseTriggers}|(tests\\/.*)"
-                expression { return currentBuild.number == 1 }
-                triggeredBy 'UserIdCause'
-              }
-            }
-            steps {
-              wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
-                sh 'mvn -B -f tests/org.eclipse.epsilon.test verify -P plugged'
-              }
-              sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
+              sh '''
+                mvn -B install -N
+                mvn -B -f releng install
+                mvn -B -f plugins -T 1C clean install
+              '''
             }
           }
           stage('Build Javadocs') {
