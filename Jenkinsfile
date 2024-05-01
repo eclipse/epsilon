@@ -64,7 +64,7 @@ pipeline {
               sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
             }
           }
-          stage('Javadocs') {
+          stage('Build Javadocs') {
             when {
               anyOf {
                 changeset comparator: 'REGEXP', pattern: "${baseTriggers}"
@@ -76,10 +76,10 @@ pipeline {
               sh 'mvn -f plugins -B initialize javadoc:aggregate'
             }
           }
-          stage('Update site') {
+          stage('Upload Javadocs') {
             when {
               allOf {
-                branch 'main'
+                branch '2.5.0-javadoc'
                 anyOf {
                   changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
                   expression { return currentBuild.number == 1 }
@@ -92,34 +92,20 @@ pipeline {
               lock('download-area') {
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                   sh '''
-                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                    JAVADOC=/home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
-                    SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite/target"
-                    if [ -d "$SITEDIR" ]; then
-                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
-                      scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:$INTERIM
-                      scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:$INTERIM/epsilon-interim-site.zip
-                    fi
+                    PROJECT_VERSION=$(mvn -f pom-plain.xml help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
+                    JAVADOC=/home/data/httpd/download.eclipse.org/epsilon/stable-javadoc
+                    JAVADOC_VERSIONED=/home/data/httpd/download.eclipse.org/epsilon/${PROJECT_VERSION}-javadoc
                     JAVADOCDIR="$WORKSPACE/plugins/target/site/apidocs"
                     if [ -d "$JAVADOCDIR" ]; then
-                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $JAVADOC"
+                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $JAVADOC $JAVADOC_VERSIONED"
                       scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:$JAVADOC
+                      scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:$JAVADOC_VERSIONED
                     fi
                   '''
                 }
               }
             }
           }
-          /*stage('NEW VERSION') { 
-            // This stage should only be uncommented when creating a new release!
-            steps {
-              lock('download-area') {
-                sshagent (['projects-storage.eclipse.org-bot-ssh']) {
-                  sh 'cat "$WORKSPACE/releng/org.eclipse.epsilon.releng/new_version_tasks.sh" | ssh genie.epsilon@projects-storage.eclipse.org'
-                }
-              }
-            }
-          }*/
           stage('Plain Maven build') {
             when {
               anyOf {
