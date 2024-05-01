@@ -79,7 +79,7 @@ pipeline {
           stage('Upload Javadocs') {
             when {
               allOf {
-                branch '2.5.0-javadoc'
+                branch '*-javadoc'
                 anyOf {
                   changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
                   expression { return currentBuild.number == 1 }
@@ -92,14 +92,17 @@ pipeline {
               lock('download-area') {
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                   sh '''
-                    PROJECT_VERSION=$(mvn -f pom-plain.xml help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
+                    PROJECT_VERSION=$(grep Bundle-Version plugins/org.eclipse.epsilon.eol.engine/META-INF/MANIFEST.MF | awk '{print $2}' | sed 's/.qualifier//')
                     JAVADOC=/home/data/httpd/download.eclipse.org/epsilon/stable-javadoc
-                    JAVADOC_VERSIONED=/home/data/httpd/download.eclipse.org/epsilon/${PROJECT_VERSION}-javadoc
                     JAVADOCDIR="$WORKSPACE/plugins/target/site/apidocs"
                     if [ -d "$JAVADOCDIR" ]; then
-                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $JAVADOC $JAVADOC_VERSIONED"
+                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $JAVADOC"
                       scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:$JAVADOC
-                      scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:$JAVADOC_VERSIONED
+                      if echo "$PROJECT_VERSION" | grep -Eq "^[0-9]+.[0-9]+.[0-9]+$"; then
+                        JAVADOC_VERSIONED=/home/data/httpd/download.eclipse.org/epsilon/${PROJECT_VERSION}-javadoc
+                        ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $JAVADOC_VERSIONED"
+                        scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:$JAVADOC_VERSIONED
+                      fi
                     fi
                   '''
                 }
