@@ -92,7 +92,7 @@ pipeline {
               lock('download-area') {
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                   sh '''
-                    PROJECT_VERSION=$(grep Bundle-Version plugins/org.eclipse.epsilon.eol.engine/META-INF/MANIFEST.MF | awk '{print $2}' | sed 's/.qualifier//')
+                    PROJECT_VERSION=$(grep Bundle-Version plugins/org.eclipse.epsilon.eol.engine/META-INF/MANIFEST.MF | awk '{print $2}' | tr -d '\r' | sed 's/.qualifier//')
                     JAVADOC=/home/data/httpd/download.eclipse.org/epsilon/stable-javadoc
                     JAVADOCDIR="$WORKSPACE/plugins/target/site/apidocs"
                     if [ -d "$JAVADOCDIR" ]; then
