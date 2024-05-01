@@ -42,14 +42,7 @@
 		<unit id="org.eclipse.emf.compare.uml2.feature.group" version="0.0.0"/>
 		<repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/3.3/R201911051515"/>
 	</location>
-	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-		<unit id="org.eclipse.gmf.sdk.feature.group" version="3.2.1.201409171321"/>
-		<unit id="org.eclipse.gmf.tooling.codegen.xtend2.feature.group" version="3.2.1.201409171321"/>
-		<unit id="org.eclipse.gmf.tooling.feature.group" version="3.2.1.201409171321"/>
-		<unit id="org.eclipse.gmf.tooling.runtime.feature.group" version="3.2.1.201409171321"/>
-		<repository location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
-	</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+    <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
 		<unit id="com.atlassian.commonmark" version="0.15.1.v20200707-1444"/>
 		<unit id="com.atlassian.commonmark-gfm-strikethrough" version="0.15.1.v20200707-1444"/>
 		<unit id="com.atlassian.commonmark-gfm-tables" version="0.15.1.v20200707-1444"/>
