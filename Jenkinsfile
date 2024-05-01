@@ -1,7 +1,7 @@
 @NonCPS
 def getSlackMessage() {
     def duration = currentBuild.durationString.minus(" and counting")
-    def message = "Build <${env.BUILD_URL}|#${env.BUILD_NUMBER}> of <https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/log/?h=${env.BRANCH_NAME}|${currentBuild.fullProjectName}> "
+    def message = "Build <${env.BUILD_URL}|#${env.BUILD_NUMBER}> of <https://github.com/eclipse/epsilon/tree/${env.BRANCH_NAME}|${currentBuild.fullProjectName}> "
     
     message += (currentBuild.currentResult == "SUCCESS" ? "passed" : "failed") + " in ${duration}\n\n"
 
@@ -28,8 +28,8 @@ pipeline {
       buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '14', numToKeepStr: ''))
     }
     tools {
-        maven 'apache-maven-latest'
-        jdk 'openjdk-jdk11-latest'
+        maven 'apache-maven-3.9.5'
+        jdk 'openjdk-jdk17-latest'
     }
     triggers {
         pollSCM('H/5 * * * *')
@@ -64,7 +64,7 @@ pipeline {
               sh 'mvn -B -f tests/org.eclipse.epsilon.test surefire:test -P ci'
             }
           }
-          stage('Javadocs') {
+          stage('Build Javadocs') {
             when {
               anyOf {
                 changeset comparator: 'REGEXP', pattern: "${baseTriggers}"
@@ -73,13 +73,13 @@ pipeline {
               }
             }
             steps {
-              sh 'mvn -B javadoc:aggregate'
+              sh 'mvn -f plugins -B initialize javadoc:aggregate'
             }
           }
-          stage('Update site') {
+          stage('Upload Javadocs') {
             when {
               allOf {
-                branch 'master'
+                branch '*-javadoc'
                 anyOf {
                   changeset comparator: 'REGEXP', pattern: "${updateTriggers}"
                   expression { return currentBuild.number == 1 }
@@ -92,34 +92,20 @@ pipeline {
               lock('download-area') {
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                   sh '''
-                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                    JAVADOC=/home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
-                    SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite/target"
-                    if [ -d "$SITEDIR" ]; then
-                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
-                      scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:$INTERIM
-                      scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:$INTERIM/epsilon-interim-site.zip
-                    fi
-                    JAVADOCDIR="$WORKSPACE/target/site/apidocs"
+                    PROJECT_VERSION=$(grep Bundle-Version plugins/org.eclipse.epsilon.eol.engine/META-INF/MANIFEST.MF | awk '{print $2}' | tr -d '\r' | sed 's/.qualifier//')
+                    JAVADOCDIR="$WORKSPACE/plugins/target/site/apidocs"
                     if [ -d "$JAVADOCDIR" ]; then
-                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $JAVADOC"
-                      scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:$JAVADOC
+                      if echo "$PROJECT_VERSION" | grep -Eq "^[0-9]+.[0-9]+.[0-9]+$"; then
+                        JAVADOC_VERSIONED=/home/data/httpd/download.eclipse.org/epsilon/${PROJECT_VERSION}-javadoc
+                        ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $JAVADOC_VERSIONED"
+                        scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:$JAVADOC_VERSIONED
+                      fi
                     fi
                   '''
                 }
               }
             }
           }
-          /*stage('NEW VERSION') { 
-            // This stage should only be uncommented when creating a new release!
-            steps {
-              lock('download-area') {
-                sshagent (['projects-storage.eclipse.org-bot-ssh']) {
-                  sh 'cat "$WORKSPACE/releng/org.eclipse.epsilon.releng/new_version_tasks.sh" | ssh genie.epsilon@projects-storage.eclipse.org'
-                }
-              }
-            }
-          }*/
           stage('Plain Maven build') {
             when {
               anyOf {
@@ -138,7 +124,7 @@ pipeline {
             when {
               anyOf {
                 allOf {
-                   branch 'master'
+                   branch 'main'
                    anyOf {
                      changeset comparator: 'REGEXP', pattern: "${plainTriggers}"
                      expression { return currentBuild.number == 1 }
@@ -173,11 +159,16 @@ pipeline {
       }
       failure {
         slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: getSlackMessage())
-        mail to: 'epsilon-dev@eclipse.org',
-        subject: 'Epsilon Interim build failed!',
-        body: "${env.BUILD_TAG}. More info at ${env.BUILD_URL}",
-        charset: 'UTF-8',
-        mimeType: 'text/html'
+        script {
+          if (env.BRANCH_NAME == "main")
+            emailext(
+              to: 'epsilon-dev@eclipse.org',
+              subject: 'Epsilon Interim build failed!',
+              body: "${env.BUILD_TAG}. More info at ${env.BUILD_URL}",
+              charset: 'UTF-8',
+              mimeType: 'text/html'
+            )
+        }
       }
     }
 }
