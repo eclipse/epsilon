@@ -43,13 +43,6 @@ location "http://download.eclipse.org/modeling/emf/compare/updates/releases/3.3/
 	org.eclipse.emf.compare.uml2.feature.group lazy
 }
 
-location "http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases" {
-	org.eclipse.gmf.sdk.feature.group [3.2.1,3.2.2)
-	org.eclipse.gmf.tooling.codegen.xtend2.feature.group [3.2.1,3.2.2)
-	org.eclipse.gmf.tooling.feature.group [3.2.1,3.2.2)
-	org.eclipse.gmf.tooling.runtime.feature.group [3.2.1,3.2.2)
-}
-
 location "http://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository" {
 	com.atlassian.commonmark [0.15.1,0.15.2)
 	com.atlassian.commonmark-gfm-strikethrough [0.15.1,0.15.2)
