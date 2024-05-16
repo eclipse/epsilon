@@ -24,31 +24,34 @@ import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
 import org.eclipse.epsilon.common.dt.launching.EclipseExecutionController;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.ecl.IEclModule;
-import org.eclipse.epsilon.ecl.dt.launching.EclDebugger;
+import org.eclipse.epsilon.ecl.debug.EclDebugger;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.egl.dt.debug.EgxDebugger;
+import org.eclipse.epsilon.egl.debug.EgxDebugger;
 import org.eclipse.epsilon.eml.IEmlModule;
-import org.eclipse.epsilon.eml.dt.launching.EmlDebugger;
+import org.eclipse.epsilon.eml.debug.EmlDebugger;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.dap.EpsilonDebugServer;
+import org.eclipse.epsilon.eol.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
-import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.epl.IEplModule;
-import org.eclipse.epsilon.epl.dt.launching.EplDebugger;
+import org.eclipse.epsilon.epl.debug.EplDebugger;
 import org.eclipse.epsilon.etl.IEtlModule;
-import org.eclipse.epsilon.etl.dt.launching.EtlDebugger;
+import org.eclipse.epsilon.etl.debug.EtlDebugger;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
 import org.eclipse.epsilon.evl.IEvlModule;
-import org.eclipse.epsilon.evl.dt.launching.EvlDebugger;
+import org.eclipse.epsilon.evl.debug.EvlDebugger;
 import org.eclipse.epsilon.pinset.PinsetModule;
-import org.eclipse.epsilon.pinset.dt.launching.PinsetDebugger;
+import org.eclipse.epsilon.pinset.debug.PinsetDebugger;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IOConsole;
 
 public class EclipseHost implements Host {
+
+	private Integer debugPort;
 
 	@Override
 	public boolean isRunning() {
@@ -89,20 +92,36 @@ public class EclipseHost implements Host {
 	
 	@Override
 	public Object debug(IEolModule module, File file) throws Exception {
-		final EolDebugger debugger = (EolDebugger) createDebugger(module);
+		if (debugPort == null) {
+			// No debug port has been set: use the old debug UI
+			final EolDebugger debugger = (EolDebugger) createDebugger(module);
 
-		// HACK: we assume the only running launch is the Ant launch. There's no clear way to
-		// tell apart an Ant launch from a regular Run launch, apart from using internal classes
-		// in the Eclipse Ant internal API.
-		final ILaunch currentLaunch = DebugPlugin.getDefault().getLaunchManager().getLaunches()[0];
-		// HACK: we need to remove the Ant source locator so Eclipse can find the source file
-		currentLaunch.setSourceLocator(null);
+			/*
+			 * HACK: we assume the only running launch is the Ant launch. There's no clear
+			 * way to tell apart an Ant launch from a regular Run launch, apart from using
+			 * internal classes in the Eclipse Ant internal API.
+			 */
+			final ILaunch currentLaunch = DebugPlugin.getDefault().getLaunchManager().getLaunches()[0];
 
-		final EolDebugTarget target = new EolDebugTarget(
-			currentLaunch, module, debugger, file.getAbsolutePath());
-		debugger.setTarget(target);
-		currentLaunch.addDebugTarget(target);
-		return target.debug();
+			/*
+			 * HACK: we need to remove the Ant source locator so Eclipse can find the source
+			 * file.
+			 */
+			currentLaunch.setSourceLocator(null);
+
+			final EolDebugTarget target = new EolDebugTarget(currentLaunch, module, debugger, file.getAbsolutePath());
+			debugger.setTarget(target);
+			currentLaunch.addDebugTarget(target);
+			return target.debug();
+		} else {
+			/*
+			 * A debug port has been set: launch the DAP server and wait for attachment from
+			 * LSP4E.
+			 */
+			EpsilonDebugServer server = new EpsilonDebugServer(module, debugPort);
+			server.run();
+			return server;
+		}
 	}
 	
 	private Object createDebugger(IEolModule module) {
@@ -172,4 +191,9 @@ public class EclipseHost implements Host {
 		}
 	}
 
+	@Override
+	public void setDebugPort(int port) {
+		this.debugPort = port;
+	}
+	
 }
