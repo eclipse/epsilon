@@ -107,10 +107,12 @@ maven MavenDependencies scope=compile dependencyDepth=infinite missingManifest=g
      * Jena Uber-JAR is needed to ensure its ServiceLoader finds all it needs.
      * This is built and installed locally before loading the target platform
      * (run "mvn install" in releng/org.eclipse.epsilon.jena.uberjar project).
+     *
+     * Note: this needs to be bumped with everything else when we bump versions!
      */
     dependency {
         groupId="org.eclipse.epsilon"
         artifactId="org.eclipse.epsilon.jena.uberjar"
-        version="2.9.0-SNAPSHOT"
+        version="2.9.0"
     }
 }
