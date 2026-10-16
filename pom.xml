@@ -10,7 +10,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tycho.version>4.0.3</tycho.version>
+    <tycho.version>5.0.4</tycho.version>
     <tycho.scmUrl>scm:git:https://github.com/eclipse-epsilon/epsilon.git</tycho.scmUrl>
     <java.version>21</java.version>
     <epsilon.version>2.10.0-SNAPSHOT</epsilon.version>
@@ -110,6 +110,9 @@
         <version>${tycho.version}</version>
         <configuration>
           <targetDefinitionIncludeSource>ignore</targetDefinitionIncludeSource>
+          <!-- Tycho 5 defaults to 'include': keep Tycho 4 behaviour of not
+               resolving against repositories referenced by our target sites -->
+          <referencedRepositoryMode>ignore</referencedRepositoryMode>
           <executionEnvironment>JavaSE-${java.version}</executionEnvironment>
           <target>
             <artifact>

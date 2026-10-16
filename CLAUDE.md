@@ -70,7 +70,7 @@ Key packages across all language engines:
 
 ### Prerequisites
 
-- Java 21+, Maven 3.9.5+
+- Java 21+, Maven 3.9.9+
 - On Linux, GTK libraries for SWT: `libwebkit2gtk-4.0-dev` (or equivalent)
 
 ### Full Build
