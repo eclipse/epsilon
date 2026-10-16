@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EMC Driver for RDF-Based EMF Resource Tests
 Bundle-SymbolicName: org.eclipse.epsilon.emc.rdf.emf.test
-Bundle-Version: 2.9.0.qualifier
+Bundle-Version: 2.10.0.qualifier
 Export-Package: org.eclipse.epsilon.emc.rdf.emf.test
 Require-Bundle: org.eclipse.epsilon.emc.rdf.emf,
  org.junit;bundle-version="[4.0.0,5.0.0)",
