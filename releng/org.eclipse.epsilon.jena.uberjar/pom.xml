@@ -108,6 +108,23 @@
         </executions>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <configuration>
+            <!--
+              While we build the uber-JAR from plain Maven, we only need it from Eclipse:
+              we only need to include it in our Eclipse update site, and we do not need
+              to distribute it via Maven Central. The plain Maven versions of the RDF
+              components depend directly on Apache Jena's Maven Central artifacts.
+            -->
+            <skipPublishing>true</skipPublishing>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
 </project>
