@@ -34,10 +34,10 @@ jobs:
     - name: Install Webkit + GTK bindings
       run: sudo apt update -yq && sudo apt-get install -yq libwebkit2gtk-4.0-dev
       if: runner.os == 'Linux'
-    - name: Set up Maven 3.9.5
+    - name: Set up Maven 3.9.9
       uses: stCarolas/setup-maven@12eb41b233df95d49b0c11fc1b5bc8312e5d4ce0
       with:
-        maven-version: 3.9.5
+        maven-version: 3.9.9
     - name: Set up JDK ${{ matrix.jdk }}
       uses: actions/setup-java@v6.0.0
       with:

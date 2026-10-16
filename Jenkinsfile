@@ -28,7 +28,7 @@ pipeline {
       buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '14', numToKeepStr: ''))
     }
     tools {
-        maven 'apache-maven-3.9.5'
+        maven 'apache-maven-3.9.9'
         jdk 'openjdk-jdk21-latest'
     }
     triggers {
